@@ -1,0 +1,51 @@
+﻿<div ng-controller="userOverviewController">
+   <tokng-loading-wrap loading="loading">
+      <div class="col-lg-12" style="padding-bottom:15px;">
+         <select class='form-control' ng-model="selectedProduct" ng-options="product.name for product in ::products" ng-change="GetData(selectedProduct.id)">
+            <option value="">-- All products --</option>
+         </select>
+         <label class="checkbox pull-right">
+            <input type="checkbox" ng-model="showHiddenUsers">
+            Show hidden users
+         </label>
+      </div>
+      <div class="col-lg-3" ng-repeat="user in users track by user.id" ng-show="!user.complete || showHiddenUsers">
+         <div class="panel panel-default">
+            <div class="panel-content" style="padding: 0px 10px 10px 10px" >
+               <h4 style="padding: 15px 0 0 10px; margin:0 0 -2px 0"><tokng-user-hyperlink-popup user-id="::user.id" format="::nameFormat"></tokng-user-hyperlink-popup></h4>
+               <table class="table table-backlog" style="margin-bottom: 0px">
+                  <thead>
+                     <tr>
+                        <th>&nbsp;</th>
+                        <th>TLOG</th>
+                        <th>PSREF</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr style="height:32px">
+                        <td>To be fixed: </td>
+                        <td><tokng-backlog count="user.tlog.codeAssignedCount" link=""></tokng-backlog></td>
+                        <td><tokng-backlog count="user.project.codeAssignedCount" link=""></tokng-backlog></td>
+	                  </tr>
+                     <tr>
+                        <td>To be reviewed: </td>
+                        <td><tokng-backlog count="user.tlog.reviewAssignedCount" link=""></tokng-backlog></td>
+                        <td><tokng-backlog count="user.project.reviewAssignedCount" link=""></tokng-backlog></td>
+	                  </tr>
+                     <tr>
+                        <td>To be tested (integration): </td>
+                        <td class="disabled">&nbsp;</td>
+                        <td><tokng-backlog count="user.project.testIntAssignedCount" link=""></tokng-backlog></td>
+	                  </tr>
+                     <tr>
+                        <td>To be tested (final): </td>
+                        <td><tokng-backlog count="user.tlog.testAssignedCount" link=""></tokng-backlog></td>
+                        <td><tokng-backlog count="user.project.testAssignedCount" link=""></tokng-backlog></td>
+	                  </tr>
+                  </tbody>
+               </table>
+         </div>
+      </div>
+   </tokng-loading-wrap>
+</div>
+            

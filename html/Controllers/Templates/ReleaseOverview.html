@@ -1,0 +1,46 @@
+﻿<div ng-controller="releaseOverviewController">
+   <tokng-collapsible-panel panel-title="Upcoming Releases" collapsed="true" on-open="GetData()">
+      <div class="form-inline">
+         <div class="panel">
+            <select class='form-control' ng-model="selectedProduct" ng-options="product.name for product in ::user.products | filter:productOptionFilter">
+               <option value="">All products</option>
+            </select>
+         </div>
+         <div ng-repeat="overview in ::swVersions" ng-show="productFilter(overview)">
+            <div class="col-lg-4">
+               <div ng-controller="backlogOverviewProductController" class="panel panel-default alert" ng-class="{'alert-danger': overview.patch == 1}">
+                  <h4>
+                     <span ng-show="::overview.patch == 1" class="glyphicon glyphicon-warning-sign" title="Patchpack, high priority!" style="line-height: 0.8"></span>
+                     {{::overview.productName}} {{::overview.majorVersion}}.{{::overview.minorVersion}}<span ng-show="::overview.subversion1">.{{::overview.subversion1}}</span>
+                  </h4>
+                  <h5>
+                     <span><a href="/FuelPos/Search.php?DetectedInSWVersion={{::overview.id}}&IncludeDevelopmentVersions=1" class="label label-primary" ng-class="{'label-danger': overview.patch == 1}">{{::overview.totalTlogs}}&nbsp;TLOG</a></span> 
+                     <span><a href="/Projects/Search.php?VersionsSWVersion={{::overview.id}}"                               class="label label-primary" ng-class="{'label-danger': overview.patch == 1}">{{::overview.totalProjects}}&nbsp;PSREF</a></span>
+                  </h5>
+                  <table ng-if="::overview.patch == 0">
+                     <tbody>
+                        <tr>
+                           <td style="width: 32%">Close TLOGs: </td>
+                           <td>{{::overview.closeTlogDeadline}}&nbsp;({{::GetWorkingDays(overview.closeTlogDeadline)}}&nbsp;working&nbsp;days)</td>
+                        </tr>
+                        <tr>
+                           <td>Finish TLOGs: </td>
+                           <td>{{::overview.finishTlogDeadline}}&nbsp;({{::GetWorkingDays(overview.finishTlogDeadline)}}&nbsp;working&nbsp;days)</td>
+                        </tr>
+                        <tr>
+                           <td>Release:</td>
+                           <td>{{::overview.releaseDate}}&nbsp;({{::GetWorkingDays(overview.releaseDate)}}&nbsp;working&nbsp;days)</td>
+                           <td></td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <center ng-if="::overview.patch == 1"><h4 style="padding-top:15px">To be released ASAP</h4></center>
+
+                  <div ng-controller="backlogOverviewSwVersionController" ng-include="'/Include/tokdev/html/Controllers/Templates/BacklogOverview.html'"></div>
+
+               </div>
+            </div>
+         </div>
+      </div>
+   </tokng-collapsible-panel>
+</div>

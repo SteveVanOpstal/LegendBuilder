@@ -1,0 +1,97 @@
+/* champions */
+
+.champions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.champion
+{
+    width: 75px;
+    background-color: #333;
+    padding: 10px;
+    margin: 10px;
+    /* border: 1px solid; */
+}
+
+.champion:hover {
+    background-color: #222;
+}
+
+.champion img {
+    width: 75px;
+}
+
+.champion p {
+    margin: 0px;
+    font-size: 0.7em;
+    text-align: center;
+    font-family: verdana, sans-serif;
+}
+
+
+/* filters */
+
+.filters {
+    display: flex;
+}
+
+.filters > div
+{
+    width: 33%;
+}
+
+.filters label {
+    margin: 8px;
+    text-align: initial;
+    display: inline-block;
+}
+
+.filter-center {
+    max-width: 260px;
+}
+
+.filter-center input[type="text"] {
+    width: 100%;
+}
+
+.filter-center label {
+    margin: 20px 10px 0 10px;
+    width: 4em;
+    text-align: center;
+}
+
+.filter-left > .center,
+.filter-right > .center {
+    width: 80%;
+    text-align: center;
+    padding: 20px;
+}
+
+.filter-left label,
+.filter-right label {
+    width: 102px;
+}
+
+
+/* @media */
+
+@media (max-width: 850px) {
+    .filter-center
+    {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-left,
+    .filter-right
+    {
+        display: none;
+    }
+    .filter-center
+    {
+        width: 100% !important;
+    }
+}

@@ -1,0 +1,111 @@
+body {
+    background-color: #EEE;
+    margin: 0;
+    font-family: 'Buxton Sketch', gabriola, 'MS outlook', meiryo, 'Orator Std', Pericles, 'Sketchflow Print';      
+}
+
+h1 {
+    font-size: 2.8em;
+    margin: 0 auto;
+    margin-left: 80px;
+}
+
+p {
+    font-size: 2em;
+    margin: 10px;
+}
+
+
+/* header */
+
+.header {
+    height: 4em;
+    margin: 15px;
+}
+
+.header img {
+    width: 60px;
+    float: left;
+}
+
+.header .center {
+    max-width: 333px;
+}
+
+
+/* content */
+
+.content {
+    background-color: rgba(0,255,255,0.5);
+    margin: 0 10%;
+    background-color: #FFF;
+}
+
+
+/* input */
+
+input[type="text"] {
+    font-size: 0.9em;
+    padding: 6px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+label {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    -o-user-select: none;
+    user-select: none;
+
+    cursor: pointer;
+    font-size: 1.4em;
+    display: block;
+}
+
+
+/* @media */
+
+@media (max-width: 1200px) {
+    .content
+    {
+        margin: 0;
+    }
+}
+
+
+/* helper classes */
+
+.unselectable {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    height: 30px;
+}

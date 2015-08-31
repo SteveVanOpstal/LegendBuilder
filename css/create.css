@@ -1,0 +1,138 @@
+body {      
+}
+
+.filters {
+}
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    height: 430px;
+    border: 1px solid #CCC;
+    padding: 5px 0;
+    background-color: cadetblue;
+    margin: 5px 0;
+}
+
+.item {
+    height: 45px;
+    width: 24%;
+    display: flex;
+    margin: 3px;
+    background-color: #EEE;
+    border-radius: 5px;
+}
+
+.item img {
+    width: 39px;
+    height: 39px;
+    border: 3px solid #B3B321;
+    border-radius: 5px;
+    display: inline-block;
+    border: 3px solid #026561;
+}
+
+.item p {
+    margin: 0px;
+    font-size: 1em;
+    display: inline;
+    font-family: sans-serif;
+}
+
+.item.disabled::before {
+}
+
+.item .name {
+    width: 100%;
+}
+
+.item .gold {
+    min-width: 70px;
+    display: block;
+    font-size: 0.8em;
+}
+
+.search input[type="text"] {
+    width: 100%;
+}
+
+.shop-left {
+    display: inline-block;
+    min-width: 210px;
+    margin: 5px;
+}
+
+.shop-right {
+    display: inline-block;
+}
+
+.glyphicon-eye-closed::before {
+    content: "\e106";
+}
+
+.shop {
+    height: 500px;
+    display: flex;
+}
+
+.search {
+    height: 30px;
+    padding: 5px 0;
+    display: flex;
+}
+
+@media (max-width: 1700px) {
+    .item {
+        width: 32%;
+    }
+}
+
+@media (max-width: 1350px) {
+    .item {
+        width: 48%;
+    }
+}
+
+@media (max-width: 800px) {
+    .item {
+        width: 100%;
+    }
+    .item .gold {
+        float: right;
+        display: inline-block;
+        text-align: right;
+    }
+    .items p {
+        line-height: 45px;
+        font-size: 1.2em;
+    }
+}
+
+.item div {
+    margin: 4px 10px;
+    display: inline-block;
+    height: 45px;
+    width: 100%;
+}
+
+.search button {      width: 30px;
+    margin: 0 5px;
+}
+
+.shop-left label {
+    font-size: 1em;
+}
+
+.shop-left button {
+    width: 100%;
+}
+
+.category p {
+    font-size: 1.5em;
+    margin: 10px 3px 0 3px;
+}
+
+.category hr {
+    margin: 0 0 10px 0;
+}
