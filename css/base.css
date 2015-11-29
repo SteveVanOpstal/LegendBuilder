@@ -53,13 +53,15 @@ p {
     background-color: rgba(0,255,255,0.5);
     margin: 0 10%;
     background-color: #FFF;
+    padding: 10px;
 }
 
 /* misc */
 
 .error
 {
-    color:#C00000;
+    color:#900000;
+    fill: #900000;
 }
 
 .noselect {
@@ -81,12 +83,18 @@ p {
 
 /* icons */
 
-img.icon-load,
-img.icon-error
-{
-  width: 32px;
-  height: 32px;
-  padding: 10px;
+.icon {
+    height: 32px;
+}
+
+.icon.icon-load {
+    padding: 10px;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.icon-eye::before {
+    content: "\e106";
 }
 
 /* input */
@@ -105,9 +113,9 @@ input[type="checkbox"] {
 }
 
 label {
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
 
@@ -128,8 +136,7 @@ input[name="minutes"] {
 /* @media */
 
 @media (max-width: 1200px) {
-    .content
-    {
+    .content {
         margin: 0;
     }
 }
@@ -138,9 +145,9 @@ input[name="minutes"] {
 /* helper classes */
 
 .unselectable {
-    -webkit-user-select: none;/* Chrome/Safari */
-    -moz-user-select: none;/* Firefox */
-    -ms-user-select: none;/* IE10+ */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
 }
@@ -161,16 +168,22 @@ input[name="minutes"] {
 }
 
 button {
+    display: inline-flex;
     background-color: #FFF;
     border: 1px solid #CCC;
     border-radius: 5px;
-    height: 30px;
+    padding: 7px;
     cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background-color: cadetblue;
     color: #FFF;
+    fill: #FFF;
+}
+
+button:disabled {
+    background-color: #BBB;
 }
 
 /* tabs */
@@ -227,24 +240,37 @@ button:hover {
     display: none;
 }
 
-/* icons */
-
-.icon-eye::before {
-    content: "\e106";
-}
-
 /* gold */
-
-.gold:before {
-    content: " ";
-    background: url(../images/icons/gold.png);
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 13px;
-    display: inline-block;
-    padding-right: 4px;
-}
 
 .gold {
     color: #866B00;
+}
+
+/* error-item */
+
+.error-item {
+    display: flex;
+    width: 440px;
+    justify-content: space-between;
+    background-color: #FFF;
+    padding: 10px;
+    font-size: 1.5em;
+}
+
+.error-item .error-text {
+    line-height: 54px;
+}
+
+.error-item button {
+    padding: 5px;
+    margin-left: 20px;
+    font-size: 0.8em;
+}
+
+.error-item button .icon {
+    padding: 5px 5px 5px 0;
+}
+
+.error-item .error .icon {
+    padding-top: 10px;
 }

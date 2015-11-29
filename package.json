@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "license": "GPL-3.0",
   "dependencies": {
-    "angular2": "2.0.0-alpha.45",
+    "angular2": "2.0.0-alpha.46",
     "lru-cache": "2.7.0",
-    "systemjs": "0.19.4"
+    "systemjs": "0.19.4",
+    "chalk": "1.1.1"
   }
 }

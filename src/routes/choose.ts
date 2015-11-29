@@ -3,6 +3,7 @@
 import {Component, View, NgIf, EventEmitter} from 'angular2/angular2';
 import {Router} from 'angular2/router';
 
+
 import {FiltersComponent} from 'choose/filters';
 import {ChampionsComponent} from 'choose/champions';
 
@@ -15,12 +16,12 @@ import {ChampionsComponent} from 'choose/champions';
 })
 
 export class ChooseComponent {
-  constructor(private router: Router) {
+  constructor() {
   }
-  
-  private championChanged(event: EventEmitter)
-  {
-    //this.router.navigate('/build');
-    console.log(event);
-  }
+  // 
+  // private championChanged(event: EventEmitter)
+  // {
+  //   //this.router.navigate('/build');
+  //   console.log(event);
+  // }
 }

@@ -1,10 +1,11 @@
 /// <reference path="typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, EventEmitter, NgFor, NgIf} from 'angular2/angular2';
+import {Component, View, Output, EventEmitter, NgFor, NgIf, Inject} from 'angular2/angular2';
 import {Response, ResponseOptions} from 'angular2/http';
 import {RouterLink} from 'angular2/router';
 
 import {LolApi} from 'lolApi';
+import {ErrorComponent} from 'error';
 
 interface Champions
 {
@@ -18,8 +19,8 @@ interface Champions
   providers: [LolApi]
 })
 @View({
-  templateUrl: 'html/champions.html',
-  directives: [NgFor, NgIf, RouterLink]
+  templateUrl: 'html/choose/champions.html',
+  directives: [NgFor, NgIf, RouterLink, ErrorComponent]
 })
 
 export class ChampionsComponent {
@@ -29,14 +30,9 @@ export class ChampionsComponent {
   
   private champions : Champions;
 
-  constructor(lolApi: LolApi) {
+  constructor(public lolApi: LolApi) {
     this.champions = {data: [], loading: true, ok: true};
-    lolApi.getChampions()
-      .subscribe(
-        res => this.champions.data = res.json(),
-        error => {this.champions.ok = false; this.champions.loading = false;},
-        () => this.champions.loading = false
-      );
+    this.getData();
     // lolApi.getChampions()
     //   .subscribe(res => this.champions = res);
   }
@@ -44,5 +40,16 @@ export class ChampionsComponent {
   test(championKey: string)
   {
     this.championChanged.next(championKey);
+  }
+  
+  getData()
+  {
+    this.champions = {data: [], loading: true, ok: true};
+    this.lolApi.getChampions()
+      .subscribe(
+        res => this.champions.data = res.json(),
+        error => {this.champions.ok = false; this.champions.loading = false;},
+        () => this.champions.loading = false
+      );
   }
 }

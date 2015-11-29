@@ -1,0 +1,142 @@
+/* champions */
+
+.champions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.champion
+{
+    width: 150px;
+    height: 275px;
+    margin: -2px;
+    -webkit-filter: grayscale(0.8);
+    filter: grayscale(0.8);
+}
+
+.champion:hover {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2);
+}
+
+.champion img {
+    width: 150px;
+    height: 273px;
+    -webkit-clip-path: inset(8px 8px 8px 8px round 10px);
+    clip-path: inset(8px 8px 8px 8px round 10px);
+}
+
+.champion p {
+    position: absolute;
+    font-size: 0.9em;
+    text-align: center;
+    font-family: verdana, sans-serif;
+    margin: -42px 0 0 8px;
+    padding: 7px;
+    color: #FFF;
+    z-index: 10;
+    
+    background-color: rgba(0,0,0,0.5);
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+/* filters */
+
+.filters {
+    display: flex;
+}
+
+.filters > div
+{
+    width: 33%;
+}
+
+.filters label {
+    margin: 8px;
+    text-align: initial;
+    display: inline-block;
+}
+
+.filter-center {
+    max-width: 250px;
+}
+
+.filter-center input[type="text"] {
+    width: 100%;
+}
+
+.filter-center label {
+    margin: 20px 10px 0 10px;
+    width: 5em;
+    text-align: center;
+}
+
+.filter-left > .center,
+.filter-right > .center {
+    width: 80%;
+    text-align: center;
+    padding: 20px;
+}
+
+.filter-left label,
+.filter-right label {
+    width: 120px;
+}
+
+
+/* @media */
+
+@media (max-width: 1200px) {
+    .champion
+    {
+        width: 100px;
+        height: 181px;
+        margin: initial;
+        padding: 5px;
+    }
+
+    .champion img {
+        width: 100px;
+        height: 181px;
+        -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
+        clip-path: inset(3px 3px 3px 3px round 5px);
+    }
+
+    .champion p {
+        font-size: 0.8em;
+        
+        margin: -29px 0 0 3px;
+        padding: 3px;
+        
+        border-bottom-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+}
+
+@media (max-width: 850px) {
+    .filter-center
+    {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-left,
+    .filter-right {
+        display: none;
+    }
+    .filter-center {
+        width: 100% !important;
+    }
+    .filter-center div {
+        width: 100% !important;
+    }
+    .filter-center .melee-ranged {
+        display: none;
+    }
+}

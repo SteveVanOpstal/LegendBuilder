@@ -7,8 +7,8 @@
   <!-- style -->
   <link rel="shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/index.css" />
-  <link rel="stylesheet" href="/css/create.css" />
+  <link rel="stylesheet" href="/css/build.css" />
+  <link rel="stylesheet" href="/css/choose.css" />
   
   <!-- fonts -->
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
@@ -43,18 +43,22 @@
   <script>
     System.config({
       map: {
-        lolApi: '/src/lolApi.js',
+        '*': '/build/*.js',
+        lolApi: '/build/lolApi.js',
+        error: '/build/error.js',
+        loading: '/build/loading.js',
         
-        choose: '/src/routes/choose.js',
-        build: '/src/routes/build.js',
+        choose: '/build/choose.js',
+        build: '/build/build.js',
         
-        'choose/champions': '/src/choose/champions.js',
-        'choose/filters': '/src/choose/filters.js',
+        'choose/champions': '/build/champions.js',
+        'choose/filters': '/build/filters.js',
         
-        'build/filters': '/src/build/filters.js'
+        'build/shop': '/build/shop.js',
+        'build/abilities': '/build/abilities.js'
       }
     });
-    System.import('/src/app.js');
+    System.import('/build/app.js');
   </script>
 </body>
 
