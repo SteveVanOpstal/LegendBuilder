@@ -8,15 +8,30 @@ import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 export class LolApi {
   constructor(public http: Http) {
   }
-  
+
   public getChampions() {
     return this.http.get('http://127.0.0.1:12345/champion?champData=image')
+      .map(res => res = this.HandleResponse(res))
+  }
+
+  public getChampion(championKey) {
+    return this.http.get('http://127.0.0.1:12345/champion/' + championKey + '?champData=all')
+      .map(res => res = this.HandleResponse(res))
+  }
+
+  public getItems() {
+    return this.http.get('http://127.0.0.1:12345/item?itemListData=all')
       .map(res => res = this.HandleResponse(res))
   }
   
   private HandleResponse(res: Response): Response {
     var options = new BaseResponseOptions();
-    return new Response(options.merge({body: this.ObjectToArray(res.json()['data'])}));
+    if(res.json()['data']) {
+      return new Response(options.merge({body: this.ObjectToArray(res.json()['data'])}));
+    }
+    else {
+      return new Response(options.merge({body: res.json()}));
+    }
   }
 
   private ObjectToArray(obj: Object): Array<Object> {
