@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="logo" width="60" height="60" viewBox="0 0 60 60" fill="none" stroke="#000" stroke-width="6">
+	<rect x="3" y="3" width="54" height="54"></rect>
+	<rect x="22" y="3" width="36" height="36"></rect>
+	<line x1="45" y1="22" x2="55" y2="22"></line>
+</svg>

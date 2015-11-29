@@ -1,27 +1,28 @@
-body {      
-}
+/* items */
 
-.filters {
-}
 .items {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    overflow-y: scroll;
-    height: 430px;
     border: 1px solid #CCC;
     padding: 5px 0;
     background-color: cadetblue;
-    margin: 5px 0;
+    margin: 5px 5px 5px 0;
 }
 
 .item {
+    -webkit-user-select: none;/* Chrome/Safari */
+    -moz-user-select: none;/* Firefox */
+    -ms-user-select: none;/* IE10+ */
+    -o-user-select: none;
+    user-select: none;
     height: 45px;
     width: 24%;
     display: flex;
     margin: 3px;
     background-color: #EEE;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .item img {
@@ -40,9 +41,6 @@ body {
     font-family: sans-serif;
 }
 
-.item.disabled::before {
-}
-
 .item .name {
     width: 100%;
 }
@@ -53,34 +51,97 @@ body {
     font-size: 0.8em;
 }
 
-.search input[type="text"] {
+.item div {
+    margin: 4px 10px;
+    display: inline-block;
     width: 100%;
+}
+
+/* shop */
+
+.shop {
+    /* height: 750px; */
+    display: flex;
 }
 
 .shop-left {
     display: inline-block;
-    min-width: 210px;
-    margin: 5px;
+    min-width: 170px;
+    padding: 5px;
+    top: 0;
 }
 
-.shop-right {
-    display: inline-block;
+.shop-left button {
+    width: 100%;
 }
 
-.glyphicon-eye-closed::before {
-    content: "\e106";
+.shop-left input[type="checkbox"] {
+    float: right;
 }
 
-.shop {
-    height: 500px;
-    display: flex;
+.shop-left label {
+    font-size: 1em;
+    background-color: #F3F3F3;
+    margin: 2px;
 }
 
-.search {
+.shop-left label:hover {
+    background-color: cadetblue;
+}
+
+.shop .category p {
+    font-size: 1.5em;
+    margin: 10px 3px 0 3px;
+}
+
+.shop .category hr {
+    margin: 0 0 10px 0;
+}
+
+.shop .search input[type="text"] {
+    width: 100%;
+}
+
+.shop .search {
     height: 30px;
     padding: 5px 0;
     display: flex;
+    top: 0;
 }
+
+.shop .search button {      width: 30px;
+    margin: 0 5px;
+}
+
+/* tiers */
+
+.tier img {
+    height: 140px;
+    vertical-align: middle;
+}
+
+.tier div {}
+
+.tier {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #EEE;
+    margin: 10px;
+    border-radius: 10px;
+    height: 170px;
+}
+
+.tier p {
+    font-size: 1.2em;
+    text-align: center;
+    margin: 0;
+}
+
+.tier:hover, .tier:focus {
+    background-color: #CCC;
+}
+
+/* media */
 
 @media (max-width: 1700px) {
     .item {
@@ -95,6 +156,12 @@ body {
 }
 
 @media (max-width: 800px) {
+    .shop-left {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
     .item {
         width: 100%;
     }
@@ -109,30 +176,213 @@ body {
     }
 }
 
-.item div {
-    margin: 4px 10px;
+.config > div > p {
     display: inline-block;
-    height: 45px;
+}
+
+.config > div > p:first-child {
+    min-width: 150px;
+    text-align: right;
+}
+
+.config {
+    width: 340px;
+}
+
+#radio-link:checked ~ label.unchecked {
+    display: none;
+}
+
+#radio-link:not(:checked) ~ label.checked {
+    display: none;
+}
+
+#radio-link {
+    display: none;
+}
+
+.link {
+    /* margin-top: 6px; */
+    width: 30px;
+    display: none;
+}
+
+.link label {
+    width: 30px;
+    height: 30px;
+}
+
+.link label img {
+padding: 8px;}
+
+.masteries {
+    display: flex;
+    /* background-image: url(../images/masteries/mastery_background.jpg); */
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 825px;
+    height: 480px;
+    justify-content: center;
+}
+
+.item:hover {
+    background-color: #CCC;
+}
+
+.wealth {
+    color: #008000;
+    margin: 0;
+    /* display: none !important; */
+    position: absolute;
+    padding-top: 10px;
+}
+
+.icon-small {
+    width: 20px;
+    margin: 0 4px;
+}
+
+.masteries .offense, .masteries .defense, .masteries .utility {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 33%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    background-repeat: no-repeat;
+    /* background-size: contain; */
+    /* border: 3px solid #DCB000; */
+}
+
+.mastery:not(:empty):before {
+    content: " ";
+    background-image: url(../images/masteries/border-used.png);
+    position: absolute;
+    width: 50px;
+    height: 54px;
+    z-index: 10;
+}
+
+.mastery.disabled img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+.mastery.disabled p.rank {
+    color: #7e7e7e;
+    cursor: default;
+}
+
+.mastery p.rank {
+    font-family: sans-serif Arial;
+    font-size: 0.8em;
+    position: absolute;
+    margin: -14px 0 0 23px;
+    width: 24px;
+    text-align: center;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.mastery {
+    /* height: 28px; */
+    width: 48px;
+    margin: 6px;
+}
+
+.mastery.disabled:before {
+    background-image: url(../images/masteries/border-disabled.png);
+}
+
+.mastery p.rank {
+    color: #00f300;
+}
+
+.mastery.complete:before {
+    background-image: url(../images/masteries/border-complete.png);
+}
+
+.mastery.complete p {
+    color: #fdf300;
+}
+
+.masteries .total {
+    color: #FFF;
+    font-size: 2em;
+    font-variant: small-caps;
     width: 100%;
+    margin: 0 10px;
+    /* height: 20px; */
 }
 
-.search button {      width: 30px;
-    margin: 0 5px;
+.mastery:not(.disabled):not(:empty) {
+    cursor: pointer;
 }
 
-.shop-left label {
-    font-size: 1em;
+.masteries p {
+    cursor: default;
 }
 
-.shop-left button {
-    width: 100%;
+.mastery > div {
+    display: none;
+    z-index: 30;
+    padding: 10px;
+    margin: 5px;
+    position: absolute;
+    background-color: #000;
+    border-radius: 5px;
+    border: 3px solid #aa7625;
+    transition: opacity 0.25s ease-in;
+    -webkit-transition: opacity 0.25s ease-in;
 }
 
-.category p {
-    font-size: 1.5em;
-    margin: 10px 3px 0 3px;
+.mastery:hover > div {
+    display: inherit;
 }
 
-.category hr {
-    margin: 0 0 10px 0;
+.mastery > div:hover {
+    opacity: 0;
+    z-index: 0;
+}
+
+.mastery > div p {
+    font-size: 1.2em;
+    color: #FFF;
+}
+
+.mastery > div ul {
+    margin: 0 0 8px 0;
+    color: #FFF;
+}
+
+.mastery > div h2 {
+    margin: 0;
+}
+
+.masteries .offense .mastery > div h2 {
+    color: #b51c00;
+}
+
+.masteries .defense .mastery > div h2 {
+    color: #46a1eb;
+}
+
+.masteries .utility .mastery > div h2 {
+    color: #329832;
+}
+
+.masteries .offense {
+    /* border: 3px solid #b51c00; */
+    background-image: url(../images/masteries/mastery_background_offense.png);
+}
+
+.masteries .defense {
+    /* border: 3px solid #46a1eb; */
+    background-image: url(../images/masteries/mastery_background_defense.png);
+}
+
+.masteries .utility {
+    /* border: 3px solid #329832; */
+    background-image: url(../images/masteries/mastery_background_utility.png);
 }

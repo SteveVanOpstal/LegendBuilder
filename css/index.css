@@ -8,26 +8,36 @@
 
 .champion
 {
-    width: 75px;
-    background-color: #333;
-    padding: 10px;
-    margin: 10px;
-    /* border: 1px solid; */
+    width: 150px;
+    height: 275px;
+    margin: -2px;
+    -webkit-filter: grayscale(0.8);
 }
 
 .champion:hover {
-    background-color: #222;
+    -webkit-filter: grayscale(0);
+    -webkit-filter: brightness(1.2);
 }
 
 .champion img {
-    width: 75px;
+    width: 150px;
+    height: 273px;
+    -webkit-clip-path: inset(8px 8px 8px 8px round 10px);
 }
 
 .champion p {
-    margin: 0px;
-    font-size: 0.7em;
+    position: absolute;
+    font-size: 0.9em;
     text-align: center;
     font-family: verdana, sans-serif;
+    margin: -42px 0 0 8px;
+    padding: 7px;
+    color: #FFF;
+    z-index: 10;
+    
+    background-color: rgba(0,0,0,0.5);
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 
@@ -49,7 +59,7 @@
 }
 
 .filter-center {
-    max-width: 260px;
+    max-width: 250px;
 }
 
 .filter-center input[type="text"] {
@@ -58,7 +68,7 @@
 
 .filter-center label {
     margin: 20px 10px 0 10px;
-    width: 4em;
+    width: 5em;
     text-align: center;
 }
 
@@ -71,11 +81,37 @@
 
 .filter-left label,
 .filter-right label {
-    width: 102px;
+    width: 120px;
 }
 
 
 /* @media */
+
+@media (max-width: 1200px) {
+    .champion
+    {
+        width: 100px;
+        height: 181px;
+        margin: initial;
+        padding: 5px;
+    }
+
+    .champion img {
+        width: 100px;
+        height: 181px;
+        -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
+    }
+
+    .champion p {
+        font-size: 0.8em;
+        
+        margin: -29px 0 0 3px;
+        padding: 3px;
+        
+        border-bottom-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+}
 
 @media (max-width: 850px) {
     .filter-center
@@ -86,12 +122,16 @@
 
 @media (max-width: 600px) {
     .filter-left,
-    .filter-right
-    {
+    .filter-right {
         display: none;
     }
-    .filter-center
-    {
+    .filter-center {
         width: 100% !important;
+    }
+    .filter-center div {
+        width: 100% !important;
+    }
+    .filter-center .melee-ranged {
+        display: none;
     }
 }

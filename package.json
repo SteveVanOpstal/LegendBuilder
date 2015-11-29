@@ -1,0 +1,11 @@
+{
+  "name": "Legend-Builder",
+  "description": "An advanced League Of Legends champion builder.",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "angular2": "2.0.0-alpha.45",
+    "lru-cache": "2.7.0",
+    "systemjs": "0.19.4"
+  }
+}

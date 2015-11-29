@@ -1,0 +1,11 @@
+<div class="champions">
+      <div class="champion" *ng-for="#champion of champions.data">
+            <a [router-link]="['../Build']"><!--(click)="test(champion.key)"-->
+                  <img class="nodrag" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champion.key}}_0.jpg">
+                  <p class="nodrag noselect">{{champion.name}}</p>
+            </a>
+      </div>
+      <img *ng-if="champions.loading" class="icon-load" src="images/icons/loading.svg" />
+      <img *ng-if="!champions.ok" class="icon-error" src="images/icons/warning.svg" />
+      <p *ng-if="!champions.ok" class="error">Well this is awkward..</p>
+</div>

@@ -1,0 +1,8 @@
+{
+	"version": "0.1.0",
+	"command": "tsc",
+	"isShellCommand": true,
+	"showOutput": "silent",
+	"args": ["-m", "commonjs", "-t", "es5", "--experimentalDecorators", "--emitDecoratorMetadata", "--sourceMap", "${file}"],
+	"problemMatcher": "$tsc"
+}
