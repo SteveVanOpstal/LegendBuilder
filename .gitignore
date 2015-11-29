@@ -1,3 +1,4 @@
+.vscode/
 build/
 node_modules/
 src/typings/
@@ -7,6 +8,3 @@ api.key
 
 *.d.ts
 *.js.map
-
-.vscode/launch.json
-.vscode/settings.json
