@@ -3,6 +3,6 @@
 	"command": "tsc",
 	"isShellCommand": true,
 	"showOutput": "silent",
-	"args": ["-m", "commonjs", "-t", "es5", "--experimentalDecorators", "--emitDecoratorMetadata", "--sourceMap", "${file}"],
+	"args": ["-m", "commonjs", "-t", "es5", "--experimentalDecorators", "--emitDecoratorMetadata", "--sourceMap", "--outDir", "build/", "${file}"],
 	"problemMatcher": "$tsc"
 }
