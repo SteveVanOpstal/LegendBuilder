@@ -1,1 +1,12 @@
+build/
 node_modules/
+src/typings/
+src/tsd.json
+
+api.key
+
+*.d.ts
+*.js.map
+
+.vscode/launch.json
+.vscode/settings.json
