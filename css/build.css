@@ -6,7 +6,7 @@ p {
 
 .abilities
 {
-    /*background-color: #EEE;*/
+    min-height: 450px;
 }
 
 .abilities-title

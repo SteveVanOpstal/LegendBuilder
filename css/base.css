@@ -90,6 +90,7 @@ p {
 .icon.icon-load {
     padding: 10px;
     animation: spin 0.8s linear infinite;
+    fill:#AAA;
 }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
