@@ -35,30 +35,21 @@
         <line x1="45" y1="22" x2="55" y2="22" />
       </svg>
       <h1>Legend Builder</h1>
+      <span class="beta">Beta</span>
     </div>
   </div>
   <div class="content">
     <app>Loading..</app>
   </div>
   <script>
+    System.defaultJSExtensions = true;
     System.config({
-      map: {
-        '*': '/build/*.js',
-        lolApi: '/build/lolApi.js',
-        error: '/build/error.js',
-        loading: '/build/loading.js',
-        
-        choose: '/build/choose.js',
-        build: '/build/build.js',
-        
-        'choose/champions': '/build/champions.js',
-        'choose/filters': '/build/filters.js',
-        
-        'build/shop': '/build/shop.js',
-        'build/abilities': '/build/abilities.js'
+      paths: {
+        '*': 'node_modules/*',
+        'app/*': 'app/*'
       }
     });
-    System.import('/build/app.js');
+    System.import('app/app.js');
   </script>
 </body>
 

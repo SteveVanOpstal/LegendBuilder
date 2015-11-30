@@ -1,0 +1,123 @@
+
+<div class="shop">
+	<div class="shop-left">
+		<button type="button" name="all-items">All Items</button>
+		<div class="category">
+			<p>Tools</p>
+			<hr>
+			<label>
+				<input type="checkbox" name="consumable">
+				<span>Consumable</span>
+			</label>
+			<label>
+				<input type="checkbox" name="gold">
+				<span>Gold Income</span>
+			</label>
+			<label>
+				<input type="checkbox" name="vision">
+				<span>Vision &amp; Trinkets</span>
+			</label>
+		</div>
+		<div class="category">
+			<p>Defense</p>
+			<hr>
+			<label>
+				<input type="checkbox" name="health">
+				<span>Health</span>
+			</label>
+			<label>
+				<input type="checkbox" name="armor">
+				<span>Armor</span>
+			</label>
+			<label>
+				<input type="checkbox" name="magic-resist">
+				<span>Magic Resist</span>
+			</label>
+			<label>
+				<input type="checkbox" name="health-regen">
+				<span>Health Regen</span>
+			</label>
+			<label>
+				<input type="checkbox" name="tenacity">
+				<span>Tenacity</span>
+			</label>
+		</div>
+		<div class="category">
+			<p>Attack</p>
+			<hr>
+			<label>
+				<input type="checkbox" name="damage">
+				<span>Damage</span>
+			</label>
+			<label>
+				<input type="checkbox" name="critical-strike">
+				<span>Critical Strike</span>
+			</label>
+			<label>
+				<input type="checkbox" name="attack-speed">
+				<span>Attack Speed</span>
+			</label>
+			<label>
+				<input type="checkbox" name="life-steal">
+				<span>Life Steal</span>
+			</label>
+		</div>
+		<div class="category">
+			<p>Magic</p>
+			<hr>
+			<label>
+				<input type="checkbox" name="ability-power">
+				<span>Ability Power</span>
+			</label>
+			<label>
+				<input type="checkbox" name="cooldown-reduction">
+				<span>Cooldown Reduction</span>
+			</label>
+			<label>
+				<input type="checkbox" name="spell-vamp">
+				<span>Spell Vamp</span>
+			</label>
+			<label>
+				<input type="checkbox" name="mana">
+				<span>Mana</span>
+			</label>
+			<label>
+				<input type="checkbox" name="mana-regen">
+				<span>Mana Regen</span>
+			</label>
+		</div>
+		<div class="category">
+			<p>Movement</p>
+			<hr>
+			<label>
+				<input type="checkbox" name="boots">
+				<span>Boots</span>
+			</label>
+			<label>
+				<input type="checkbox" name="other">
+				<span>Other</span>
+			</label>
+		</div>
+	</div>
+	<div class="shop-right">
+		<div class="search">
+			<input type="text" name="name" placeholder="Name">
+			<button type="button" name="show-disabled" title="Display hidden items">
+				<span class="icon-eye" aria-hidden="true"></span>
+			</button>
+		</div>
+		<div class="items">
+      		<div class="item" *ng-for="#item of items.data" [ng-class]="{disabled: item.disabled}" title="{{item.description}}">
+				<img class="item-image" src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/item/{{item.image.full}}">
+				<div>
+					<p class="name">{{item.name}}</p>
+					<div class="gold">
+						<img src="http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png">
+						<p>{{item.gold.total}}</p>
+					<div>
+				</div>
+			</div>
+			<error [loading]="items.loading" [ok]="items.ok" (retry)="getData()"></error>
+		</div>
+	</div>
+</div>

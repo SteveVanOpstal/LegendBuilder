@@ -4,8 +4,8 @@ import {Component, View, NgIf, EventEmitter} from 'angular2/angular2';
 import {Router} from 'angular2/router';
 
 
-import {FiltersComponent} from 'choose/filters';
-import {ChampionsComponent} from 'choose/champions';
+import {FiltersComponent} from 'app/filters';
+import {ChampionsComponent} from 'app/champions';
 
 @Component({
   selector: 'choose'

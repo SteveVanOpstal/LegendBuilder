@@ -4,8 +4,8 @@ import {Component, View, Output, EventEmitter, NgFor, NgIf, Inject} from 'angula
 import {Response, ResponseOptions} from 'angular2/http';
 import {RouterLink} from 'angular2/router';
 
-import {LolApi} from 'lolApi';
-import {ErrorComponent} from 'error';
+import {LolApi} from 'app/lolApi';
+import {ErrorComponent} from 'app/error';
 
 interface Champions
 {

@@ -4,14 +4,14 @@ import {Component, View, bootstrap, provide} from 'angular2/angular2';
 import {HTTP_BINDINGS} from 'angular2/http';
 import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, APP_BASE_HREF, RouteConfig} from 'angular2/router';
 
-import {ChooseComponent} from 'choose';
-import {BuildComponent} from 'build';
+import {ChooseComponent} from 'app/choose';
+import {BuildComponent} from 'app/build';
 
-import {FiltersComponent} from 'choose/filters';
-import {ChampionsComponent} from 'choose/champions';
+import {FiltersComponent} from 'app/filters';
+import {ChampionsComponent} from 'app/champions';
 
-import {ShopComponent} from 'build/shop';
-import {AbilitiesComponent} from 'build/abilities'
+import {ShopComponent} from 'app/shop';
+import {AbilitiesComponent} from 'app/abilities'
 
 @Component({
   selector: 'app'

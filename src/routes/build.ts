@@ -2,8 +2,8 @@
 
 import {Component, View} from 'angular2/angular2';
 
-import {ShopComponent} from 'build/shop'
-import {AbilitiesComponent} from 'build/abilities'
+import {ShopComponent} from 'app/shop'
+import {AbilitiesComponent} from 'app/abilities'
 
 @Component({
   selector: 'build'
