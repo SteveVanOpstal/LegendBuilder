@@ -13,10 +13,7 @@ var cache = Lru({ max: 1048000,
 var serverHostname = '127.0.0.1';
 var serverPort = 12345;
 
-var region  = 'euw';
-var version = 'v1.2';
-
-var baseUrl = 'https://global.api.pvp.net/api/lol/static-data/' + region + '/' + version;
+var baseUrl = 'https://global.api.pvp.net/api/lol';
 var apiKeyFile = 'api.key';
 var apiKey = fs.readFileSync(apiKeyFile, 'utf8');
 
@@ -47,7 +44,7 @@ function totalTime() {
 var champions = '';
 {
   timeStart = process.hrtime();
-  var path = baseUrl + '/champion';
+  var path = baseUrl + '/static-data/euw/v1.2/champion';
   options.path = url.format({ pathname: path, query: {api_key: apiKey} });
   
   var req = https.request(options, function(res) {
@@ -87,10 +84,11 @@ var server = http.createServer(function (request, response) {
   
   var requestUrl = url.parse(request.url, true);
   
-  if(request.url.indexOf('/champion/') > -1 && champions.data) {
-    var championKey = requestUrl.pathname.substr(10);
+  var urlChampionIndex = request.url.indexOf('/champion/');
+  if(urlChampionIndex > -1 && champions.data) {
+    var championKey = requestUrl.pathname.substr(urlChampionIndex + 10);
     var championId = findChampionId(championKey);
-    requestUrl.pathname = '/champion/' + championId;
+    requestUrl.pathname = requestUrl.pathname.replace(championKey, championId);
     request.url = url.format({ pathname: requestUrl.pathname, query: requestUrl.query });
     
     if(!championId) {
@@ -110,43 +108,43 @@ var server = http.createServer(function (request, response) {
     response.write(cachedResponseData);
     response.end();
     console.log('CACHED %s (200) %dms [%jMB/%dMB]', request.url, totalTime(), cache.length / 1000000, cache.max / 1000000);
+    return;
   }
-  else {
-    var requestQuery = requestUrl.query;
-    requestQuery.api_key = apiKey;
-    
-    options.path = url.format({ pathname: baseUrl + requestUrl.pathname, query: requestQuery });
-    
-    var req = https.request(options, function(res) {
-      var data = '';
-      res.on('data', function(d) {
-        data += d;
-        response.write(d);
-      })
-      .on('end', function(d) {
-        response.end();
-        
-        if(res.statusCode != 200) {
-          console.log(chalk.red('%s %s (%d) %dms'), options.method, request.url, res.statusCode, totalTime());
-        }
-        else {
-          cache.set(request.url, data);
-          console.log('%s %s (%d) %dms', options.method, request.url, res.statusCode, totalTime());
-        }
-      });
-    
-      response.writeHead(res.statusCode, headers);
-    });
-    req.end();
   
-    req.on('error', function(e) {
-      response.writeHead(e.statusCode, headers);
-      response.write(e + '\n');
-
+  var requestQuery = requestUrl.query;
+  requestQuery.api_key = apiKey;
+  
+  options.path = url.format({ pathname: baseUrl + requestUrl.pathname, query: requestQuery });
+  
+  var req = https.request(options, function(res) {
+    var data = '';
+    res.on('data', function(d) {
+      data += d;
+      response.write(d);
+    })
+    .on('end', function(d) {
       response.end();
-      console.log(chalk.red('%s %s (%d) %dms [%s]'), options.method, request.url, e.statusCode, totalTime(), e);
+      
+      if(res.statusCode != 200) {
+        console.log(chalk.red('%s %s (%d) %dms'), options.method, request.url, res.statusCode, totalTime());
+      }
+      else {
+        cache.set(request.url, data);
+        console.log('%s %s (%d) %dms', options.method, request.url, res.statusCode, totalTime());
+      }
     });
-  }
+  
+    response.writeHead(res.statusCode, headers);
+  });
+  req.end();
+
+  req.on('error', function(e) {
+    response.writeHead(e.statusCode, headers);
+    response.write(e + '\n');
+
+    response.end();
+    console.log(chalk.red('%s %s (%d) %dms [%s]'), options.method, request.url, e.statusCode, totalTime(), e);
+  });
 })
 .listen(serverPort, serverHostname);
 

@@ -5,7 +5,7 @@
 	</div>
 	
 	<div class="ability" [ng-class]="{ult : i == 3}" *ng-for="#spell of champion.data.spells; #i = index">
-		<img title="{{spell.name}}" src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/spell/{{spell.image.full}}">
+		<ddragonimage title="{{spell.name}}" [type]="spell" [image-name]="spell.image.full"></ddragonimage>
 		<h3>{{spell.name}}<h3>
 	</div>
 	<error [loading]="champion.loading" [ok]="champion.ok" (retry)="getData()"></error>

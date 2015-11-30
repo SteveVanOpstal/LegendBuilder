@@ -3,24 +3,27 @@
 
 import {Injectable, bind} from 'angular2/angular2';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
+import {RouteParams} from 'angular2/router';
 
-@Injectable()
+import {Regions} from 'app/region';
+
+@Injectable()  
 export class LolApi {
-  constructor(public http: Http) {
+  constructor(private params: RouteParams, private http: Http) {
   }
 
   public getChampions() {
-    return this.http.get('http://127.0.0.1:12345/champion?champData=image')
+    return this.http.get(this.LinkStaticData() + '/champion?champData=image')
       .map(res => res = this.HandleResponse(res))
   }
 
   public getChampion(championKey) {
-    return this.http.get('http://127.0.0.1:12345/champion/' + championKey + '?champData=all')
+    return this.http.get(this.LinkStaticData() + '/champion/' + championKey + '?champData=all')
       .map(res => res = this.HandleResponse(res))
   }
 
   public getItems() {
-    return this.http.get('http://127.0.0.1:12345/item?itemListData=all')
+    return this.http.get(this.LinkStaticData() + '/item?itemListData=all')
       .map(res => res = this.HandleResponse(res))
   }
   
@@ -40,5 +43,25 @@ export class LolApi {
       arr.push(obj[property]);
     }
     return arr;
+  }
+  
+  private LinkStaticData()
+  {
+    return "http://127.0.0.1:12345/static-data/" + this.getRegion() + '/v1.2';
+  }
+  
+  private LinkSummoner()
+  {
+    return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.4/summoner';
+  }
+  
+  private LinkGame()
+  {
+    return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.3/game';
+  }
+  
+  private getRegion()
+  {
+    return this.params.get('region').toLowerCase();
   }
 }

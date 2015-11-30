@@ -3,6 +3,7 @@ app/
 node_modules/
 src/typings/
 src/tsd.json
+src/tsconfig.json
 
 api.key
 
