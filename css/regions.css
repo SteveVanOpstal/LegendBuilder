@@ -1,4 +1,24 @@
 .regions
 {
-	display: flex;
+	width: 190px;
+}
+
+.regions button
+{
+	width: 190px;
+	margin: 5px 0;
+	padding: 0;
+}
+
+.regions span
+{
+	padding: 7px;
+	display: inline-block;
+	text-align: left;
+}
+
+.regions button > span:first-child
+{
+	width: 40px;
+	border-right: 1px dotted #CCC;
 }

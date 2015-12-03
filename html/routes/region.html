@@ -1,12 +1,43 @@
 <div class="regions center">
-	<button [router-link]="['../Choose', {region: 'br'}]">Brazil</button>
-	<button [router-link]="['../Choose', {region: 'eune'}]">EU Nordic &amp; East</button>
-	<button [router-link]="['../Choose', {region: 'euw'}]">EU West</button>
-	<button [router-link]="['../Choose', {region: 'kr'}]">Korea</button>
-	<button [router-link]="['../Choose', {region: 'lan'}]">Latin America North</button>
-	<button [router-link]="['../Choose', {region: 'las'}]">Latin America South</button>
-	<button [router-link]="['../Choose', {region: 'na'}]">North America</button>
-	<button [router-link]="['../Choose', {region: 'oce'}]">Oceania</button>
-	<button [router-link]="['../Choose', {region: 'ru'}]">Russia</button>
-	<button [router-link]="['../Choose', {region: 'tr'}]">Turkey</button>
+	<p>Select your region:</p>
+	<button [router-link]="['../Choose', {region: 'br'}]">
+		<span>BR</span>
+		<span>Brazil</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'eune'}]">
+		<span>EUNE</span>
+		<span>EU Nordic &amp; East</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'euw'}]">
+		<span>EUW</span>
+		<span>EU West</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'kr'}]">
+		<span>KR</span>
+		<span>Korea</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'lan'}]">
+		<span>LAN</span>
+		<span>Latin America North</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'las'}]">
+		<span>LAS</span>
+		<span>Latin America South</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'na'}]">
+		<span>NA</span>
+		<span>North America</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'oce'}]">
+		<span>OCE</span>
+		<span>Oceania</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'ru'}]">
+		<span>RU</span>
+		<span>Russia</span>
+	</button>
+	<button [router-link]="['../Choose', {region: 'tr'}]">
+		<span>TR</span>
+		<span>Turkey</span>
+	</button>
 </div>
