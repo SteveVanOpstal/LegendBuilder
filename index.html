@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/build.css" />
   <link rel="stylesheet" href="/css/choose.css" />
-  <link rel="stylesheet" href="/css/region.css" />
+  <link rel="stylesheet" href="/css/regions.css" />
   
   <!-- fonts -->
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
@@ -22,9 +22,6 @@
   
   <!-- googleApis -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
-  <!-- custom js -->
-  <script src="/src/layout.js"></script>
 </head>
 
 <body>
@@ -46,11 +43,11 @@
     System.defaultJSExtensions = true;
     System.config({
       paths: {
-        '*': 'node_modules/*',
-        'app/*': 'app/*'
+        '*': '/node_modules/*',
+        'app/*': '/app/*'
       }
     });
-    System.import('app/app.js');
+    System.import('/app/app.js');
   </script>
 </body>
 

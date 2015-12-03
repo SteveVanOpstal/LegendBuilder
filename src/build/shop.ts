@@ -20,7 +20,7 @@ interface Items
   providers: [LolApi]
 })
 @View({
-  templateUrl: 'html/build/shop.html',
+  templateUrl: '/html/build/shop.html',
   directives: [NgFor, NgIf, NgClass, ErrorComponent]
 })
 

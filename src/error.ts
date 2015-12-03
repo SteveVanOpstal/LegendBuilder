@@ -6,7 +6,7 @@ import {Component, View, Input, Output, NgIf, EventEmitter} from 'angular2/angul
   selector: 'error'
 })
 @View({
-  templateUrl: 'html/error.html',
+  templateUrl: '/html/error.html',
   directives: [NgIf]
 })
 

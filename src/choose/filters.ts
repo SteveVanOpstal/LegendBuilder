@@ -6,7 +6,7 @@ import {Component, View} from 'angular2/angular2';
   selector: 'filters'
 })
 @View({
-  templateUrl: 'html/choose/filters.html'
+  templateUrl: '/html/choose/filters.html'
 })
 
 export class FiltersComponent {

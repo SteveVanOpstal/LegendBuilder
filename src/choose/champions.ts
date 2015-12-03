@@ -20,7 +20,7 @@ interface Champions
   providers: [LolApi]
 })
 @View({
-  templateUrl: 'html/choose/champions.html',
+  templateUrl: '/html/choose/champions.html',
   directives: [NgFor, NgIf, RouterLink, ErrorComponent]
 })
 
