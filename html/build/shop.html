@@ -108,11 +108,11 @@
 		</div>
 		<div class="items">
       		<div class="item" *ng-for="#item of items.data" [ng-class]="{disabled: item.disabled}" title="{{item.description}}">
-				<img class="item-image" src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/item/{{item.image.full}}">
+				<ddragonimage [image]="'item/' + item.image.full"></ddragonimage>
 				<div>
 					<p class="name">{{item.name}}</p>
 					<div class="gold">
-						<img src="http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png">
+						<ddragonimage [image]="'ui/gold.png'"></ddragonimage>
 						<p>{{item.gold.total}}</p>
 					<div>
 				</div>

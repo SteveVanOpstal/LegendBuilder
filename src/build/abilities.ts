@@ -4,6 +4,7 @@ import {Component, View, NgFor, NgClass, Input, DynamicComponentLoader, ElementR
 import {RouteParams} from 'angular2/router';
 
 import {ErrorComponent} from 'app/error';
+import {DDragonImageComponent} from 'app/ddragonImage';
 
 import {LolApi} from 'app/lolApi';
 
@@ -20,7 +21,7 @@ interface Champion
 })
 @View({
   templateUrl: '/html/build/abilities.html',
-  directives: [NgFor, NgClass, ErrorComponent]
+  directives: [NgFor, NgClass, ErrorComponent, DDragonImageComponent]
 })
 
 export class AbilitiesComponent {

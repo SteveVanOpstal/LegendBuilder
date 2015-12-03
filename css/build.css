@@ -72,7 +72,7 @@ p {
     cursor: pointer;
 }
 
-.item-image {
+.item > ddragonimage > img {
     width: 39px;
     height: 39px;
     border: 3px solid #B3B321;

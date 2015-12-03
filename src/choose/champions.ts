@@ -8,6 +8,8 @@ import {Regions} from 'app/region';
 import {LolApi} from 'app/lolApi';
 import {ErrorComponent} from 'app/error';
 
+import {DDragonImageComponent} from 'app/ddragonimage'
+
 interface Champions
 {
   data: Array<Object>,
@@ -21,7 +23,7 @@ interface Champions
 })
 @View({
   templateUrl: '/html/choose/champions.html',
-  directives: [NgFor, NgIf, RouterLink, ErrorComponent]
+  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonImageComponent]
 })
 
 export class ChampionsComponent {

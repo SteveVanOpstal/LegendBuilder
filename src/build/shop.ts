@@ -7,6 +7,7 @@ import {RouterLink} from 'angular2/router';
 import {LolApi} from 'app/lolApi';
 
 import {ErrorComponent} from 'app/error';
+import {DDragonImageComponent} from 'app/ddragonimage'
 
 interface Items
 {
@@ -21,7 +22,7 @@ interface Items
 })
 @View({
   templateUrl: '/html/build/shop.html',
-  directives: [NgFor, NgIf, NgClass, ErrorComponent]
+  directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonImageComponent]
 })
 
 export class ShopComponent {
