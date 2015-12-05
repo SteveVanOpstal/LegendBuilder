@@ -2,7 +2,7 @@
       <div class="champion" *ng-for="#champion of champions.data">
             <a [router-link]="['../Build', {region: region, champion: champion.key}]">
                   <p class="nodrag noselect">{{champion.name}}</p>
-                  <img class="nodrag" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champion.key}}_0.jpg">
+                  <ddragonimage class="nodrag" [image]="'champion/loading/' + champion.key + '_0.jpg'"/>
             </a>
       </div>
       <error [loading]="champions.loading" [ok]="champions.ok" (retry)="getData()"></error>

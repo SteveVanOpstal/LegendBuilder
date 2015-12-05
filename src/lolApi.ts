@@ -9,22 +9,31 @@ import {Regions} from 'app/region';
 
 @Injectable()  
 export class LolApi {
+  realm: any;
+  
   constructor(private params: RouteParams, private http: Http) {
+    this.http.get(this.LinkStaticData() + '/realm')
+      .map(res => res = this.HandleResponse(res))
+      .subscribe(res => this.realm = res.json());
+  }
+
+  public getRealm() {
+    return this.realm;
   }
 
   public getChampions() {
     return this.http.get(this.LinkStaticData() + '/champion?champData=image')
-      .map(res => res = this.HandleResponse(res))
+      .map(res => res = this.HandleResponse(res));
   }
 
   public getChampion(championKey) {
     return this.http.get(this.LinkStaticData() + '/champion/' + championKey + '?champData=all')
-      .map(res => res = this.HandleResponse(res))
+      .map(res => res = this.HandleResponse(res));
   }
 
   public getItems() {
     return this.http.get(this.LinkStaticData() + '/item?itemListData=all')
-      .map(res => res = this.HandleResponse(res))
+      .map(res => res = this.HandleResponse(res));
   }
   
   private HandleResponse(res: Response): Response {
