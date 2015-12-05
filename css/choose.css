@@ -15,6 +15,12 @@
     filter: grayscale(0.8);
 }
 
+.champion a
+{
+    display: block;
+    text-decoration: none;
+}
+
 .champion:hover {
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
