@@ -2,8 +2,14 @@ var http = require('http');
 var https = require('https');
 var url = require('url');
 var fs = require('fs');
-var console = require('console');
-var chalk = require('chalk');
+var console = require('tracer').colorConsole(
+                {
+                    format : "{{timestamp}} {{title}}: {{message}}",
+                    dateformat : "HH:MM:ss.L",
+                    preprocess :  function(data){
+                        data.title = padRight(data.title, 5);
+                    }
+                });
 
 var Lru = require("lru-cache");
 var cache = Lru({ max: 1048000,
@@ -40,6 +46,40 @@ function totalTime() {
   return diffMs;
 }
 
+function padLeft(str, length) {
+  if(str.length > length - 3) {
+    length -= 3;
+    return '.. ' + str.slice(-length);
+  }
+  else {
+    return (str + ' '.repeat(length)).substring(0, length);
+  }
+};
+
+function padRight(str, length) {
+  return (str + ' '.repeat(length)).substring(0, length);
+};
+
+function log(error, method, path, statusCode, extra) {
+  method = padRight(method, 6);
+  path = padLeft(path, 52);
+  var time = padRight(totalTime() + 'ms', 13);
+  if(error) {
+    console.error('%s %s (%d) %s [%s]', method, path, statusCode, time, extra);
+  }
+  else {
+    console.info('%s %s (%d) %s [%s]', method, path, statusCode, time, extra);
+  }
+}
+
+function info(method, path, statusCode, extra) {
+  log(false, method, path, statusCode, extra);
+}
+
+function error(method, path, statusCode, extra) {
+  log(true, method, path, statusCode, extra);
+}
+
 // get all champions
 var champions = '';
 {
@@ -53,11 +93,11 @@ var champions = '';
     })
     .on('end', function() {
         if (res.statusCode == 200) {
-          console.log('%s %s (%d) %dms', options.method, path, res.statusCode, totalTime());
+          info(options.method, path, res.statusCode);
           champions = JSON.parse(champions);
         }
         else {
-          console.log(chalk.red('%s %s (%d) %dms'), options.method, path, res.statusCode, totalTime());
+          error(options.method, path, res.statusCode);
           process.exit(1);
         }
     });
@@ -65,7 +105,7 @@ var champions = '';
   req.end();
   
   req.on('error', function(e) {
-    console.log(chalk.red('%s %s (%d) %dms [%s]'), options.method, path, e.statusCode, totalTime(), e);
+    error(options.method, path, e.statusCode, e);
     process.exit(1);
   });
 }
@@ -96,7 +136,7 @@ var server = http.createServer(function (request, response) {
       response.write('Champion key does not exist.\n');
 
       response.end();
-      console.log(chalk.red('%s %s (500) %dms'), options.method, request.url, totalTime());
+      error(options.method, request.url, 500);
       return;
     }
   }
@@ -107,7 +147,7 @@ var server = http.createServer(function (request, response) {
     response.writeHead(200, headers);
     response.write(cachedResponseData);
     response.end();
-    console.log('CACHED %s (200) %dms [%jMB/%dMB]', request.url, totalTime(), cache.length / 1000000, cache.max / 1000000);
+    info("CACHED", request.url, 200, cache.length / 1000000 + 'MB/' + cache.max / 1000000 + 'MB');
     return;
   }
   
@@ -126,11 +166,11 @@ var server = http.createServer(function (request, response) {
       response.end();
       
       if(res.statusCode != 200) {
-        console.log(chalk.red('%s %s (%d) %dms'), options.method, request.url, res.statusCode, totalTime());
+        error(options.method, request.url, res.statusCode);
       }
       else {
         cache.set(request.url, data);
-        console.log('%s %s (%d) %dms', options.method, request.url, res.statusCode, totalTime());
+        info(options.method, request.url, res.statusCode);
       }
     });
   
@@ -143,7 +183,7 @@ var server = http.createServer(function (request, response) {
     response.write(e + '\n');
 
     response.end();
-    console.log(chalk.red('%s %s (%d) %dms [%s]'), options.method, request.url, e.statusCode, totalTime(), e);
+    error(options.method, request.url, e.statusCode, e);
   });
 })
 .listen(serverPort, serverHostname);
