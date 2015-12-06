@@ -9,3 +9,4 @@ api.key
 
 *.d.ts
 *.js.map
+*.bat
