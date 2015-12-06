@@ -25,20 +25,24 @@ interface Champion
 })
 
 export class AbilitiesComponent {
-  private champion: Champion;
+  private champion: Object;
+  private loading: boolean = true;
+  private ok: boolean = true;
   
   constructor(params: RouteParams, private lolApi: LolApi) {
-    this.champion = {data: [], loading: true, ok: true};
     this.getData(params.get('champion'));
   }
   
   getData(championName: string) {
-    this.champion = {data: [], loading: true, ok: true};
+    this.champion = { spells: null, key: null, name:null };
+    this.loading = true;
+    this.ok = true;
+    
     this.lolApi.getChampion(championName)
       .subscribe(
-        res => this.champion.data = res.json(),
-        error => {this.champion.ok = false; this.champion.loading = false;},
-        () => this.champion.loading = false
+        res => this.champion = res.json(),
+        error => {this.ok = false; this.loading = false;},
+        () => this.loading = false
       );
   }
 }

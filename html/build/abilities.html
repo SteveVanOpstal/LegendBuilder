@@ -1,12 +1,12 @@
 <div class="abilities">
 	<div class="abilities-title">
-		<ddragonimage [image]="'champion/' + champion.data.key + '.png'"></ddragonimage>
-		<h2>{{champion.data.name}}</h2>
+		<ddragonimage [image]="'champion/' + champion.key + '.png'"></ddragonimage>
+		<h2>{{champion.name}}</h2>
 	</div>
 	
-	<div class="ability" [ng-class]="{ult : i == 3}" *ng-for="#spell of champion.data.spells; #i = index">
+	<div class="ability" [ng-class]="{ult : i == 3}" *ng-for="#spell of champion.spells; #i = index">
 		<ddragonimage title="{{spell.name}}" [image]="'spell/' + spell.image.full"></ddragonimage>
 		<h3>{{spell.name}}</h3>
 	</div>
-	<error [loading]="champion.loading" [ok]="champion.ok" (retry)="getData()"></error>
+	<error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
 </div>

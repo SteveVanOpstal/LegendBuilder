@@ -38,8 +38,10 @@ export class LolApi {
   
   private HandleResponse(res: Response): Response {
     var options = new BaseResponseOptions();
-    if(res.json()['data']) {
-      return new Response(options.merge({body: this.ObjectToArray(res.json()['data'])}));
+    var resData = res.json();
+    if (resData['data']) {
+      resData['data'] = this.ObjectToArray(res.json()['data'])
+      return new Response(options.merge({body: resData}));
     }
     else {
       return new Response(options.merge({body: res.json()}));
