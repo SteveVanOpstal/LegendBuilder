@@ -9,6 +9,7 @@ import {LolApi} from 'app/lolApi';
 import {ErrorComponent} from 'app/error';
 
 import {DDragonImageComponent} from 'app/ddragonimage'
+import {BarComponent} from 'app/bar'
 
 @Component({
   selector: 'champions',
@@ -16,7 +17,7 @@ import {DDragonImageComponent} from 'app/ddragonimage'
 })
 @View({
   templateUrl: '/html/choose/champions.html',
-  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonImageComponent]
+  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonImageComponent, BarComponent]
 })
 
 export class ChampionsComponent {
@@ -40,7 +41,7 @@ export class ChampionsComponent {
   
   getData()
   {
-    this.champions = { data: null };
+    this.champions = { data: [{ info: {attack: null, defense: null, magic: null, difficulty: null} }] };
     this.loading = true;
     this.ok = true;
     

@@ -4,6 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding-top: 20px;
 }
 
 .champion
@@ -11,8 +12,16 @@
     width: 150px;
     height: 275px;
     margin: -2px;
-    -webkit-filter: grayscale(0.8);
-    filter: grayscale(0.8);
+}
+
+.champion:hover {
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2);
+}
+
+.champion:hover img {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
 }
 
 .champion a
@@ -21,33 +30,58 @@
     text-decoration: none;
 }
 
-.champion:hover {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
-    -webkit-filter: brightness(1.2);
-    filter: brightness(1.2);
-}
-
 .champion img {
     width: 150px;
     height: 273px;
-    -webkit-clip-path: inset(8px 8px 8px 8px round 10px);
-    clip-path: inset(8px 8px 8px 8px round 10px);
+    -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
+    clip-path: inset(8px 8px 0px 8px round 10px);
+    
+    -webkit-filter: grayscale(0.8);
+    filter: grayscale(0.8);
 }
 
-.champion p {
+.champion .info p {
+    z-index: 10;
+    margin: 5px;
+}
+
+.champion .info {
     position: absolute;
+    width: 134px;
+    height: 72px;
+    margin-top: -76px;
+    margin-left: 7px;
     font-size: 0.9em;
     text-align: center;
     font-family: verdana, sans-serif;
-    margin: 234px 0 0 8px;
-    padding: 7px;
     color: #FFF;
-    z-index: 10;
-    
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.7);
     border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.champion .info bar {
+    padding-left: 5px;
+}
+
+.champion .info bar > div:not(:nth-child(n-1)) {
+    border-left: none;
+}
+
+.champion .info bar.attack > div {
+    background-color: #5C1F1F;
+}
+
+.champion .info bar.defense > div {
+    background-color: #163A16;
+}
+
+.champion .info bar.magic > div {
+    background-color: #1B3556;
+}
+
+.champion .info bar.difficulty > div {
+    background-color: #411A52;
 }
 
 
@@ -113,14 +147,19 @@
         clip-path: inset(3px 3px 3px 3px round 5px);
     }
 
-    .champion p {
+    .champion .info {
         font-size: 0.8em;
-        
-        margin: 156px 0 0 3px;
-        padding: 3px;
+        width: inherit;
+        height: inherit;
+        margin: -33px 0 0 3px;
         
         border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 0;
         border-top-right-radius: 5px;
+    }
+    
+    .champion .info bar {
+        display: none;
     }
 }
 

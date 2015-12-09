@@ -81,6 +81,18 @@ p {
     user-drag: none;
 }
 
+bar {
+    display: flex;
+    height: 10px;
+}
+
+bar > div {
+    display: inline-block;
+    width: 10px;
+    height: 8px;
+    margin-left: 2px;
+}
+
 /* icons */
 
 .icon {
