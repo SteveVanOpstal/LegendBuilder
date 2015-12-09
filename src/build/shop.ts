@@ -90,7 +90,7 @@ export class ShopComponent {
         res => { 
           this.items = res.json(); 
           this.items['data'] = this.items['data'].filter(this.filter).sort(this.sort);
-          this.items['tree'] = this.organize(this.items['tree']);
+          this.items['tree'] = this.removeSortIndex(this.items['tree']);
         },
         error => { this.ok = false; this.loading = false; },
         () => this.loading = false
@@ -106,7 +106,7 @@ export class ShopComponent {
     return obj.maps[11] && !obj.requiredChampion && !obj.hideFromAll;
   }
   
-  organize(tree: Object) {
+  removeSortIndex(tree: Object) {
     for (var category in tree) {
       tree[category].tags.splice(tree[category].tags.indexOf("_SORTINDEX"), 1);
     }
