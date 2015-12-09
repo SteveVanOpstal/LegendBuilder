@@ -34,7 +34,7 @@ export class AbilitiesComponent {
   }
   
   getData(championName: string) {
-    this.champion = { spells: null, key: null, name:null };
+    this.champion = { image: {full: null}, spells: null, name:null };
     this.loading = true;
     this.ok = true;
     
