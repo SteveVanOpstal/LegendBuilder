@@ -22,12 +22,12 @@ export class LolApi {
   }
 
   public getChampions() {
-    return this.http.get(this.LinkStaticData() + '/champion?champData=image')
+    return this.http.get(this.LinkStaticData() + '/champion?champData=info')
       .map(res => res = this.HandleResponse(res));
   }
 
   public getChampion(championKey) {
-    return this.http.get(this.LinkStaticData() + '/champion/' + championKey + '?champData=all')
+    return this.http.get(this.LinkStaticData() + '/champion/' + championKey + '?champData=allytips,altimages,image,partype,passive,spells,stats,tags')
       .map(res => res = this.HandleResponse(res));
   }
 
