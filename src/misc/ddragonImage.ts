@@ -1,4 +1,4 @@
-/// <reference path="typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, View, Input, NgIf, ChangeDetectionStrategy} from 'angular2/angular2';
 
@@ -9,7 +9,7 @@ import {LolApi} from 'app/lolApi';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @View({
-    template: '<img src="{{getUrlPart(image)}}/img/{{image}}">',
+    template: '<img src="{{getUrlPart()}}/img/{{image}}">',
     directives: [NgIf]
 })
 

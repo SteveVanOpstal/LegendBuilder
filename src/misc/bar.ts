@@ -1,10 +1,9 @@
-/// <reference path="typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, View, Input, NgFor, ChangeDetectionStrategy} from 'angular2/angular2';
 
 @Component({
-  selector: 'bar'//,
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'bar'
 })
 @View({
     template: '<div *ng-for="#val of repeat()"></div>',

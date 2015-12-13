@@ -1,4 +1,4 @@
-/// <reference path="typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, View, Output, Pipe, EventEmitter, NgFor, NgIf, NgClass, Inject} from 'angular2/angular2';
 import {Response, ResponseOptions} from 'angular2/http';

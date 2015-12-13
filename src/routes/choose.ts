@@ -1,4 +1,4 @@
-/// <reference path="typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, View, NgIf, EventEmitter} from 'angular2/angular2';
 import {Router} from 'angular2/router';
