@@ -13,7 +13,4 @@ import {ChampionComponent} from 'app/champion.component'
   directives: [ShopComponent, ChampionComponent]
 })
 
-export class BuildRoute {
-  constructor() {
-  }
-}
+export class BuildRoute {}

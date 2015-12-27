@@ -27,5 +27,4 @@ export enum Regions
   directives: [NgFor, RouterLink]
 })
 
-export class RegionRoute {  
-}
+export class RegionRoute {}

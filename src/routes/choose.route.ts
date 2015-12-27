@@ -16,7 +16,4 @@ import {ChampionsComponent} from 'app/champions.component';
   directives: [FiltersComponent, ChampionsComponent]
 })
 
-export class ChooseRoute {
-  constructor() {
-  }
-}
+export class ChooseRoute {}
