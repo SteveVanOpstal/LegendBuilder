@@ -1,13 +1,14 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, Pipe, EventEmitter, NgFor, NgIf, NgClass, Inject} from 'angular2/angular2';
+import {Component, View, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
+import {NgFor, NgIf, NgClass} from 'angular2/common';
 import {Response, ResponseOptions} from 'angular2/http';
 import {RouterLink} from 'angular2/router';
 
-import {LolApi} from 'app/lolApi';
+import {LolApiService} from 'app/lolapi.service';
 
-import {ErrorComponent} from 'app/error';
-import {DDragonImageComponent} from 'app/ddragonimage'
+import {ErrorComponent} from 'app/error.component';
+import {DDragonImageComponent} from 'app/ddragonimage.component'
 
 
 @Pipe({
@@ -55,10 +56,10 @@ interface Items
 
 @Component({
   selector: 'shop',
-  providers: [LolApi]
+  providers: [LolApiService]
 })
 @View({
-  templateUrl: '/html/build/shop.html',
+  templateUrl: '/html/build/shop.component.html',
   directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonImageComponent],
   pipes: [TranslatePipe]
 })
@@ -70,7 +71,7 @@ export class ShopComponent {
   private loading: boolean = true;
   private ok: boolean = true;
   
-  constructor(private lolApi: LolApi) {
+  constructor(private lolApi: LolApiService) {
     this.getData();
   }
   

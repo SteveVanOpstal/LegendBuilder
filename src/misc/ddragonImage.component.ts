@@ -1,8 +1,9 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Input, NgIf, ChangeDetectionStrategy} from 'angular2/angular2';
+import {Component, View, Input, ChangeDetectionStrategy} from 'angular2/core';
+import {NgIf} from 'angular2/common';
 
-import {LolApi} from 'app/lolApi';
+import {LolApiService} from 'app/lolapi.service';
 
 @Component({
   selector: 'ddragonimage',
@@ -19,7 +20,7 @@ export class DDragonImageComponent {
   private realm: any;
   private cdn: string;
   
-  constructor(public lolApi: LolApi) {
+  constructor(public lolApi: LolApiService) {
   }
   
   public getUrl() {

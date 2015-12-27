@@ -1,12 +1,13 @@
 /// <reference path="typings/angular2/angular2.d.ts" />
 
-import {Component, View, Input, Output, NgIf, EventEmitter} from 'angular2/angular2';
+import {Component, View, Input, Output, EventEmitter} from 'angular2/core';
+import {NgIf} from 'angular2/common';
 
 @Component({
   selector: 'error'
 })
 @View({
-  templateUrl: '/html/error.html',
+  templateUrl: '/html/error.component.html',
   directives: [NgIf]
 })
 

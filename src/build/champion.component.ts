@@ -1,20 +1,20 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, EventEmitter} from 'angular2/angular2';
+import {Component, View, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
-import {AbilitiesComponent} from 'app/abilities';
-import {StatsComponent} from 'app/stats';
+import {AbilitiesComponent} from 'app/abilities.component';
+import {StatsComponent} from 'app/stats.component';
+import {ErrorComponent} from 'app/error.component';
 
-import {LolApi} from 'app/lolApi';
-import {ErrorComponent} from 'app/error';
+import {LolApiService} from 'app/lolapi.service';
 
 @Component({
   selector: 'champion',
-  providers: [LolApi]
+  providers: [LolApiService]
 })
 @View({
-  templateUrl: '/html/build/champion.html',
+  templateUrl: '/html/build/champion.component.html',
   directives: [AbilitiesComponent, StatsComponent, ErrorComponent]
 })
 
@@ -24,7 +24,7 @@ export class ChampionComponent {
   private loading: boolean = true;
   private ok: boolean = true;
   
-  constructor(params: RouteParams, private lolApi: LolApi) {
+  constructor(params: RouteParams, private lolApi: LolApiService) {
     this.getData(params.get('champion'));
   }
   

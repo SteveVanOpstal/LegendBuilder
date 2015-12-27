@@ -1,14 +1,14 @@
 ///<reference path="typings/angular2/angular2.d.ts"/>
 ///<reference path="typings/angular2/http.d.ts"/>
 
-import {Injectable, bind} from 'angular2/angular2';
+import {Injectable, bind} from 'angular2/core';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
 
-import {Regions} from 'app/region';
+import 'rxjs/rx';
 
 @Injectable()
-export class LolApi {
+export class LolApiService {
   realm: any;
   
   constructor(private params: RouteParams, private http: Http) {

@@ -1,16 +1,17 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, NgFor, NgClass, Input} from 'angular2/angular2';
+import {Component, View, Input} from 'angular2/core';
+import {NgFor, NgClass} from 'angular2/common';
 
 import {tim} from 'tinytim/lib/tinytim';
 
-import {DDragonImageComponent} from 'app/ddragonImage';
+import {DDragonImageComponent} from 'app/ddragonImage.component';
 
 @Component({
   selector: 'abilities'
 })
 @View({
-  templateUrl: '/html/build/abilities.html',
+  templateUrl: '/html/build/abilities.component.html',
   directives: [NgFor, NgClass, DDragonImageComponent]
 })
 

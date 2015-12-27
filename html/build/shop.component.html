@@ -2,10 +2,10 @@
 <div class="shop">
 	<div class="shop-left">
 		<button type="button" name="all-items">All Items</button>
-		<div class="category" *ng-for="#category of items.tree">
+		<div class="category" *ngFor="#category of items.tree">
 			<p class="noselect">{{category.header | translate}}</p>
 			<hr>
-			<label *ng-for="#tag of category.tags">
+			<label *ngFor="#tag of category.tags">
 				<input type="checkbox" name="{{tag}}">
 				<span>{{tag | translate}}</span>
 			</label>
@@ -19,7 +19,7 @@
 			</button>
 		</div>
 		<div class="items">
-      		<div class="item" *ng-for="#item of items.data" [ng-class]="{disabled: item.disabled}" title="{{item.description}}">
+      		<div class="item" *ngFor="#item of items.data" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
 				<ddragonimage [image]="'item/' + item.image.full"></ddragonimage>
 				<div>
 					<p class="name">{{item.name}}</p>

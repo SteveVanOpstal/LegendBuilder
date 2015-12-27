@@ -1,17 +1,18 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, NgFor, Input} from 'angular2/angular2';
+import {Component, View, Input} from 'angular2/core';
+import {NgFor} from 'angular2/common';
 
 import {tim} from 'tinytim/lib/tinytim';
 
-import {ErrorComponent} from 'app/error';
-import {DDragonImageComponent} from 'app/ddragonImage';
+import {ErrorComponent} from 'app/error.component';
+import {DDragonImageComponent} from 'app/ddragonImage.component';
 
 @Component({
   selector: 'stats'
 })
 @View({
-  templateUrl: '/html/build/stats.html'
+  templateUrl: '/html/build/stats.component.html'
 })
 
 export class StatsComponent {
