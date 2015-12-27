@@ -9,7 +9,7 @@ import {LolApi} from 'app/lolApi';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @View({
-    template: '<img src="{{getUrlPart()}}/img/{{image}}">',
+    template: '<img src="{{getUrl()}}">',
     directives: [NgIf]
 })
 
@@ -22,7 +22,7 @@ export class DDragonImageComponent {
   constructor(public lolApi: LolApi) {
   }
   
-  public getUrlPart() {
+  public getUrl() {
     this.realm = this.lolApi.getRealm();
     
     if (this.realm) {
@@ -33,26 +33,26 @@ export class DDragonImageComponent {
     }
     
     if (!this.needsVersion(this.image)) {
-      return this.cdn;
+      return this.cdn + "/img/" + this.image;
     }
     
     var type = this.image.substr(0, this.image.indexOf("/"));
     
     if (type === "ui") {
-      return this.cdn +"/5.5.1";
+      return this.cdn + "/5.5.1" + "/img/" + this.image;
     }  
     
     for (var obj in this.realm.n) {
       if (obj === type) {
-        return this.cdn + "/" + this.realm.n[obj];
+        return this.cdn + "/" + this.realm.n[obj] + "/img/" + this.image;
       }
     }
     
     if (this.needsVersion(this.image)) {
-        return this.cdn + "/" + this.realm.v;
+        return this.cdn + "/" + this.realm.v + "/img/" + this.image;
     }  
     
-    return this.cdn;
+    return this.cdn + "/img/" + this.image;
   }
   
   public needsVersion(image: string)

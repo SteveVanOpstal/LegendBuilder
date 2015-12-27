@@ -18,7 +18,7 @@ export class ErrorComponent {
   constructor() {
   }
 
-  test()
+  retryClicked()
   {
     this.retry.next(null);
   }
