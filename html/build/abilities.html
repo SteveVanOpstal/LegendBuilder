@@ -7,6 +7,7 @@
 	<div class="ability" [ng-class]="{ult : i == 3}" *ng-for="#spell of champion.spells; #i = index">
 		<ddragonimage title="{{spell.name}}" [image]="'spell/' + spell.image.full"></ddragonimage>
 		<h3>{{spell.name}}</h3>
+		<p>{{spell.extendedTooltip}}</p>
 	</div>
 	<error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
 </div>

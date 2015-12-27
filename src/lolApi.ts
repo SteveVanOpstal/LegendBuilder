@@ -7,13 +7,13 @@ import {RouteParams} from 'angular2/router';
 
 import {Regions} from 'app/region';
 
-@Injectable()  
+@Injectable()
 export class LolApi {
   realm: any;
   
   constructor(private params: RouteParams, private http: Http) {
-    this.http.get(this.LinkStaticData() + '/realm')
-      .map(res => res = this.HandleResponse(res))
+    this.http.get(this.linkStaticData() + '/realm')
+      .map(res => res = this.handleResponse(res))
       .subscribe(res => this.realm = res.json());
   }
 
@@ -22,33 +22,31 @@ export class LolApi {
   }
 
   public getChampions() {
-    return this.http.get(this.LinkStaticData() + '/champion?champData=info')
-      .map(res => res = this.HandleResponse(res));
+    return this.http.get(this.linkStaticData() + '/champion?champData=info')
+      .map(res => res = this.handleResponse(res));
   }
 
   public getChampion(championKey) {
-    return this.http.get(this.LinkStaticData() + '/champion/' + championKey + '?champData=allytips,altimages,image,partype,passive,spells,stats,tags')
-      .map(res => res = this.HandleResponse(res));
+    return this.http.get(this.linkStaticData() + '/champion/' + championKey + '?champData=allytips,altimages,image,partype,passive,spells,stats,tags')
+      .map(res => res = this.handleResponse(res));
   }
 
   public getItems() {
-    return this.http.get(this.LinkStaticData() + '/item?itemListData=all')
-      .map(res => res = this.HandleResponse(res));
+    return this.http.get(this.linkStaticData() + '/item?itemListData=all')
+      .map(res => res = this.handleResponse(res));
   }
   
-  private HandleResponse(res: Response): Response {
-    var options = new BaseResponseOptions();
+  private handleResponse(res: Response): Response {
     var resData = res.json();
     if (resData['data']) {
-      resData['data'] = this.ObjectToArray(res.json()['data'])
-      return new Response(options.merge({body: resData}));
+      resData['data'] = this.objectToArray(res.json()['data'])
     }
-    else {
-      return new Response(options.merge({body: res.json()}));
-    }
+    
+    var options = new BaseResponseOptions();
+    return new Response(options.merge({ body: resData }));;
   }
 
-  private ObjectToArray(obj: Object): Array<Object> {
+  private objectToArray(obj: Object): Array<Object> {
     var arr = Array<Object>();
     for (var property in obj) {
       arr.push(obj[property]);
@@ -56,17 +54,17 @@ export class LolApi {
     return arr;
   }
   
-  private LinkStaticData()
+  private linkStaticData()
   {
     return "http://127.0.0.1:12345/static-data/" + this.getRegion() + '/v1.2';
   }
   
-  private LinkSummoner()
+  private linkSummoner()
   {
     return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.4/summoner';
   }
   
-  private LinkGame()
+  private linkGame()
   {
     return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.3/game';
   }

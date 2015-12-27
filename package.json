@@ -7,6 +7,7 @@
     "angular2": "2.0.0-alpha.47",
     "lru-cache": "2.7.0",
     "systemjs": "0.19.6",
+    "tinytim": "^0.1.1",
     "tracer": "0.8.2"
   }
 }
