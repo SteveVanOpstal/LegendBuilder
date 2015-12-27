@@ -1,56 +1,30 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, NgFor, NgClass} from 'angular2/angular2';
-import {RouteParams} from 'angular2/router';
+import {Component, View, NgFor, NgClass, Input} from 'angular2/angular2';
 
 import {tim} from 'tinytim/lib/tinytim';
 
-import {ErrorComponent} from 'app/error';
 import {DDragonImageComponent} from 'app/ddragonImage';
 
-import {LolApi} from 'app/lolApi';
-
 @Component({
-  selector: 'abilities',
-  providers: [LolApi]
+  selector: 'abilities'
 })
 @View({
   templateUrl: '/html/build/abilities.html',
-  directives: [NgFor, NgClass, ErrorComponent, DDragonImageComponent]
+  directives: [NgFor, NgClass, DDragonImageComponent]
 })
 
 export class AbilitiesComponent {
-  private champion: any;
-  private loading: boolean = true;
-  private ok: boolean = true;
+  @Input() private champion: any;
   
-  constructor(params: RouteParams, private lolApi: LolApi) {
-    this.getData(params.get('champion'));
-  }
-  
-  getData(championName: string) {
+  constructor() {
     this.champion = { image: {full: null}, spells: null, name:null };
-    this.loading = true;
-    this.ok = true;
-    
-    this.lolApi.getChampion(championName)
-      .subscribe(
-        res => this.champion = res.json(),
-        error => { this.ok = false; this.loading = false; },
-        () => { this.loading = false; this.getExtendedTooltips(); }
-      );
-  }
-  
-  getExtendedTooltips() {
-    for (var index in this.champion.spells) {
-      this.getExtendedTooltip(index);
-    }  
   }
   
   getExtendedTooltip(index: number) {
     var spell = this.champion.spells[index];
     try {
-      spell.extendedTooltip = tim(spell.sanitizedTooltip, this.getEffects(spell));
+      return tim(spell.sanitizedTooltip, this.getEffects(spell));
     }
     catch (e) { }
   }
