@@ -73,11 +73,6 @@ export class ShopComponent {
   constructor(private lolApi: LolApi) {
     this.getData();
   }
-
-  test(championKey: string)
-  {
-    this.itemPicked.next(championKey);
-  }
   
   getData()
   {
