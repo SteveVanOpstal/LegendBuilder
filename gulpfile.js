@@ -7,6 +7,8 @@ var gutil = require('gulp-util');
 var git = require('gulp-git');
 var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
+var typescript = require('gulp-tsc');
+const changed = require('gulp-changed');
 
 gulp.task('changelog', function () {
   return gulp.src('CHANGELOG.md', {
@@ -75,4 +77,18 @@ gulp.task('release', function (callback) {
       }
       callback(error);
     });
+});
+
+const DEST = 'app/';
+gulp.task('compile', function () {
+  return gulp.src(['src/**/*.ts'])
+    .pipe(typescript({
+      target: "ES5",
+      experimentalDecorators: true,
+      emitDecoratorMetadata: true,
+      sourceMap: true,
+      outDir: DEST
+    }))
+    .pipe(changed(DEST))
+    .pipe(gulp.dest(DEST))
 });
