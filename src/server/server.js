@@ -20,7 +20,7 @@ var serverHostname = '127.0.0.1';
 var serverPort = 12345;
 
 var baseUrl = 'https://global.api.pvp.net/api/lol';
-var apiKeyFile = 'api.key';
+var apiKeyFile = 'src/server/api.key';
 var apiKey = fs.readFileSync(apiKeyFile, 'utf8');
 
 var options = {
