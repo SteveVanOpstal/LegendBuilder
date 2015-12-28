@@ -9,7 +9,8 @@ All commands mentioned should be ran from the project root.
 * [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac](http://mac.github.com) or
   [Windows](http://windows.github.com)).
 
-* [Node.js](http://nodejs.org), (version `>=4.2.1 <5`). It should include [npm](https://www.npmjs.com/) (node package manager). 
+* [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager). 
+  * [TypeScript](https://www.npmjs.com/package/typescript) `npm install -g typescript`
 
 ## Getting started
 
@@ -18,25 +19,13 @@ All packages for this project are stored in the
 [package.json](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/package.json) file and can be
 retrieved by executing following command:
 ```
-  npm install
+npm install
 ```
 
-### 2. Install global packages
-
-* typescript compiler
-```
-  npm install -g tsc
-```
-
-* live-server (optional)
-```
-  npm install -g live-server
-```
-
-### 4. Compile typescript
+### 2. Compile typescript
 A gulp task has been made for this:
 ```
-  gulp compile
+gulp compile
 ```
 
 ### 3. Add your LOL API key
@@ -47,11 +36,16 @@ A gulp task has been made for this:
 ### 4. Run server
 A node server ([server.js](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/src/server/server.js)) is made to communicate with the League Of Legends API, start it by running this command:
 ```
-  npm start
+npm start
 ```
 
 ### 5. Run a HTTP server
-In development I recommend live-server as mentioned before, start it by running this command:
+In development I recommend [Live Server](https://www.npmjs.com/package/live-server).
+It can be installed by running this command:
 ```
-  npm run live-server
+npm install -g live-server
+```
+Start it by running this command:
+```
+npm run live-server
 ```
