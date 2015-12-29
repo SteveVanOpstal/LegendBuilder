@@ -36,6 +36,7 @@
     "gulp-conventional-changelog": "^0.7.0",
     "gulp-flatten": "^0.2.0",
     "gulp-git": "^1.6.0",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.10.0",
     "run-sequence": "^1.1.5"
   }

@@ -10,6 +10,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var ts = require('gulp-typescript');
 const changed = require('gulp-changed');
 var flatten = require('gulp-flatten');
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('changelog', function () {
   return gulp.src('CHANGELOG.md', {
@@ -84,9 +85,11 @@ const DEST = 'app/';
 gulp.task('compile', function () {
   var tsProject = ts.createProject('src/tsconfig.json');
   return tsProject.src(['src/**/*.ts'])
+    .pipe(sourcemaps.init()) 
     .pipe(flatten())
     .pipe(changed(DEST, {extension: '.js'}))
     .pipe(ts(tsProject))
     .js
+    .pipe(sourcemaps.write('/'))
     .pipe(gulp.dest(DEST));
 });
