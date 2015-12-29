@@ -25,7 +25,7 @@ npm install
 ### 2. Compile typescript
 A gulp task has been made for this:
 ```
-gulp compile
+gulp build
 ```
 
 ### 3. Add your LOL API key
@@ -36,7 +36,11 @@ gulp compile
 ### 4. Run server
 A node server ([server.js](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/src/server/server.js)) is made to communicate with the League Of Legends API, start it by running this command:
 ```
-npm start
+gulp start-server
+```
+or
+```
+node src/server/server.js
 ```
 
 ### 5. Run a HTTP server
@@ -47,5 +51,33 @@ npm install -g live-server
 ```
 Start it by running this command:
 ```
-npm run live-server
+gulp start-live-server
+```
+or
+```
+live-server --port=5858 --entry-file=index.html
+```
+
+## Visual Studio Code
+I highly recommend the [Visual Studio Code](https://code.visualstudio.com/) IDE. 
+
+It works well with for example gulp
+
+tasks.json:
+
+```JSON
+{
+  "version": "0.1.0",
+  "command": "gulp",
+  "isShellCommand": true,
+  "showOutput": "silent",
+  "tasks": [
+    {
+      "taskName": "build",
+      "args": [],
+      "isBuildCommand": true,
+      "problemMatcher": "$tsc"
+    }
+  ]
+}
 ```
