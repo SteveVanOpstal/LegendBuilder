@@ -4,27 +4,65 @@ import {Component, View, EventEmitter} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
 
-export enum Regions
-{
-  br,
-  eune,
-  euw,
-  kr,
-  lan,
-  las,
-  na,
-  oce,
-  pbe,
-  ru,
-  tr
-}
-
 @Component({
   selector: 'region'
 })
 @View({
-  templateUrl: '/html/routes/region.route.html',
+  template: `
+  <div class="regions center">
+    <p>Select your region:</p>
+    <button *ngFor="#region of regions" [routerLink]="['../Choose', {region: region.id}]">
+      <span>{{region.id | uppercase}}</span>
+      <span>{{region.name}}</span>
+    </button>
+  </div>`,
   directives: [NgFor, RouterLink]
 })
-
-export class RegionRoute {}
+  
+export class RegionRoute {
+  private regions = [
+  {
+    id: "br",
+    name: "Brazil"
+  },
+  {
+    id: "eune",
+    name: "EU Nordic & East"
+  },
+  {
+    id: "euw",
+    name: "EU West"
+  },
+  {
+    id: "kr",
+    name: "Korea"
+  },
+  {
+    id: "lan",
+    name: "Latin America North"
+  },
+  {
+    id: "las",
+    name: "Latin America South"
+  },
+  {
+    id: "na",
+    name: "North America"
+  },
+  {
+    id: "oce",
+    name: "Oceania"
+  },
+  // {
+  //   id: "pbe",
+  //   name: "Public Beta Environment"
+  // },
+  {
+    id: "ru",
+    name: "Russia"
+  },
+  {
+    id: "tr",
+    name: "Turkey"
+  }];
+}

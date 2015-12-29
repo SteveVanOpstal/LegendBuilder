@@ -9,7 +9,9 @@ import {ChampionComponent} from 'app/champion.component'
   selector: 'build'
 })
 @View({
-  templateUrl: '/html/routes/build.route.html',
+  template: `
+    <champion></champion>
+    <shop></shop>`,
   directives: [ShopComponent, ChampionComponent]
 })
 

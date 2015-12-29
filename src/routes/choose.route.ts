@@ -12,7 +12,9 @@ import {ChampionsComponent} from 'app/champions.component';
   selector: 'choose'
 })
 @View({
-  templateUrl: '/html/routes/choose.route.html',
+  template: `
+    <filters></filters>
+    <champions (champion-changed)="championChanged($event)"></champions>`,
   directives: [FiltersComponent, ChampionsComponent]
 })
 
