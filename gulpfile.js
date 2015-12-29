@@ -11,6 +11,9 @@ var ts = require('gulp-typescript');
 const changed = require('gulp-changed');
 var flatten = require('gulp-flatten');
 var sourcemaps = require('gulp-sourcemaps');
+var shell = require('gulp-shell');
+
+/* release */
 
 gulp.task('changelog', function () {
   return gulp.src('CHANGELOG.md', {
@@ -81,8 +84,10 @@ gulp.task('release', function (callback) {
     });
 });
 
+/* build */
+
 const DEST = 'app/';
-gulp.task('compile', function () {
+gulp.task('build', function () {
   var tsProject = ts.createProject('src/tsconfig.json');
   return tsProject.src(['src/**/*.ts'])
     .pipe(sourcemaps.init()) 
@@ -93,3 +98,19 @@ gulp.task('compile', function () {
     .pipe(sourcemaps.write('/'))
     .pipe(gulp.dest(DEST));
 });
+
+/* start-server */
+
+gulp.task('start-server',
+  shell.task([
+    'node src/server/server.js'
+  ])
+);
+
+/* start-live-server */
+
+gulp.task('start-live-server',
+  shell.task([
+    'live-server --port=5858 --entry-file=index.html'
+  ])
+);
