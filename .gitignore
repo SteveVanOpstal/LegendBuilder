@@ -5,6 +5,7 @@ src/typings/
 src/tsd.json
 
 api.key
+git.token
 
 *.d.ts
 *.js.map

@@ -1,14 +1,15 @@
 var gulp = require('gulp');
+var argv = require('minimist')(process.argv.slice(2));
 var runSequence = require('run-sequence');
+var fs = require('fs');
+
 var conventionalChangelog = require('gulp-conventional-changelog');
 var conventionalGithubReleaser = require('conventional-github-releaser');
 var bump = require('gulp-bump');
 var gutil = require('gulp-util');
 var git = require('gulp-git');
-var fs = require('fs');
-var argv = require('minimist')(process.argv.slice(2));
 var ts = require('gulp-typescript');
-const changed = require('gulp-changed');
+var changed = require('gulp-changed');
 var flatten = require('gulp-flatten');
 var sourcemaps = require('gulp-sourcemaps');
 var shell = require('gulp-shell');
@@ -28,7 +29,7 @@ gulp.task('changelog', function () {
 gulp.task('github-release', function(done) {
   conventionalGithubReleaser({
     type: "oauth",
-    token: '683abd0417d2a12d54b175bb781f4858a4db9f9a'
+    token: fs.readFileSync('./git.token', 'utf8')
   }, {
     preset: 'angular'
   }, done);
