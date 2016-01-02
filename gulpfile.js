@@ -13,6 +13,10 @@ var changed = require('gulp-changed');
 var flatten = require('gulp-flatten');
 var sourcemaps = require('gulp-sourcemaps');
 var shell = require('gulp-shell');
+var uglify = require('gulp-uglify');
+var uglifyCss = require('gulp-uglifycss');
+var rename = require("gulp-rename");
+var browserify = require('gulp-browserify');
 
 /* release */
 
@@ -38,7 +42,8 @@ gulp.task('github-release', function(done) {
 gulp.task('bump-version', function () {
   return gulp.src(['./package.json'])
     .pipe(bump({
-      type: argv.major ? "major" : argv.minor ? "minor" : "patch"
+      type: argv.major ? "major" : argv.minor ? "minor" : argv.patch ? "patch" : "prerelease",
+      preid : 'alpha'
     }).on('error', gutil.log))
     .pipe(gulp.dest('./'));
 });
@@ -87,17 +92,64 @@ gulp.task('release', function (callback) {
 
 /* build */
 
-const DEST = 'app/';
-gulp.task('build', function () {
+gulp.task('compile', function () {
+  const DEST = 'app/';
   var tsProject = ts.createProject('src/tsconfig.json');
   return tsProject.src(['src/**/*.ts'])
-    .pipe(sourcemaps.init()) 
+    .pipe(sourcemaps.init())
     .pipe(flatten())
     .pipe(changed(DEST, {extension: '.js'}))
     .pipe(ts(tsProject))
     .js
     .pipe(sourcemaps.write('/'))
     .pipe(gulp.dest(DEST));
+});
+
+gulp.task('bundle', function () {
+	return gulp.src('src/boot.js')
+		.pipe(browserify({
+		  debug: true
+		}))
+		.pipe(gulp.dest('app'))
+});
+
+gulp.task('uglify-css', function() {
+  return gulp.src('./css/*.css')
+    .pipe(rename(function (path) {
+      if (path.basename.indexOf(".min") < 0){
+        path.extname = ".min.css";
+      }
+    }))
+    .pipe(uglifyCss())
+    .pipe(gulp.dest('css'));
+});
+
+gulp.task('uglify-js', function () {
+  return gulp.src('app/*.js')
+    .pipe(rename(function (path) {
+      if (path.basename.indexOf(".min") < 0){
+        path.extname = ".min.css";
+      }
+    }))
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('/'))
+    .pipe(gulp.dest('app'));
+});
+
+gulp.task('build', function (callback) {
+  runSequence(
+    'compile',
+    'uglify-css',
+    'bundle',
+    function (error) {
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log('BUILD FINISHED SUCCESSFULLY');
+      }
+      callback(error);
+    });
 });
 
 /* start-server */

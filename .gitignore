@@ -10,3 +10,5 @@ git.token
 *.d.ts
 *.js.map
 *.bat
+*.min.css
+*.min.js
