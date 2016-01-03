@@ -1,35 +1,32 @@
-
-<div class="shop">
-	<div class="shop-left">
-		<button type="button" name="all-items">All Items</button>
-		<div class="category" *ngFor="#category of items.tree">
-			<p class="noselect">{{category.header | translate}}</p>
-			<hr>
-			<label *ngFor="#tag of category.tags">
-				<input type="checkbox" name="{{tag}}">
-				<span>{{tag | translate}}</span>
-			</label>
-		</div>
-	</div> 
-	<div class="shop-right">
-		<div class="search">
-			<input type="text" name="name" placeholder="Name">
-			<button type="button" name="show-disabled" title="Display hidden items">
-				<span class="icon-eye" aria-hidden="true"></span>
-			</button>
-		</div>
-		<div class="items">
-      		<div class="item" *ngFor="#item of items.data" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
-				<ddragonimage [image]="'item/' + item.image.full"></ddragonimage>
-				<div>
-					<p class="name">{{item.name}}</p>
-					<div class="gold">
-						<ddragonimage [image]="'ui/gold.png'"></ddragonimage>
-						<p>{{item.gold.total}}</p>
-					</div>
-				</div>
-			</div>
-			<error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
-		</div>
-	</div>
+<div class="left">
+  <button type="button" name="all-items">All Items</button>
+  <div class="category" *ngFor="#category of items.tree">
+    <p class="noselect">{{category.header | translate}}</p>
+    <hr>
+    <label *ngFor="#tag of category.tags">
+      <input type="checkbox" name="{{tag}}">
+      <span>{{tag | translate}}</span>
+    </label>
+  </div>
+</div> 
+<div class="right">
+  <div class="search">
+    <input type="text" name="name" placeholder="Name">
+    <button type="button" name="show-disabled" title="Display hidden items">
+      <span class="icon-eye" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="items">
+        <div class="item" *ngFor="#item of items.data" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
+      <ddragonimage [image]="'item/' + item.image.full"></ddragonimage>
+      <div>
+        <p class="name">{{item.name}}</p>
+        <div class="gold">
+          <ddragonimage [image]="'ui/gold.png'"></ddragonimage>
+          <p>{{item.gold.total}}</p>
+        </div>
+      </div>
+    </div>
+    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
+  </div>
 </div>

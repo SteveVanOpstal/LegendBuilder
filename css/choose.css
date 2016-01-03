@@ -1,36 +1,40 @@
 /* champions */
 
-.champions {
+champions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding-top: 20px;
 }
 
-.champion
+champions p {
+    font-size: 1em;
+}
+
+champions .champion
 {
     width: 150px;
     height: 275px;
     margin: -2px;
 }
 
-.champion:hover {
+champions .champion:hover {
     -webkit-filter: brightness(1.2);
     filter: brightness(1.2);
 }
 
-.champion:hover img {
+champions .champion:hover img {
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
 }
 
-.champion a
+champions .champion a
 {
     display: block;
     text-decoration: none;
 }
 
-.champion img {
+champions .champion img {
     width: 150px;
     height: 273px;
     -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
@@ -40,12 +44,12 @@
     filter: grayscale(0.8);
 }
 
-.champion .info p {
+champions .champion .info p {
     z-index: 10;
     margin: 5px;
 }
 
-.champion .info {
+champions .champion .info {
     position: absolute;
     width: 134px;
     height: 72px;
@@ -60,71 +64,71 @@
     border-bottom-right-radius: 10px;
 }
 
-.champion .info bar {
+champions .champion .info bar {
     padding-left: 5px;
 }
 
-.champion .info bar > div:not(:nth-child(n-1)) {
+champions .champion .info bar > div:not(:nth-child(n-1)) {
     border-left: none;
 }
 
-.champion .info bar.attack > div {
+champions .champion .info bar.attack > div {
     background-color: #5C1F1F;
 }
 
-.champion .info bar.defense > div {
+champions .champion .info bar.defense > div {
     background-color: #163A16;
 }
 
-.champion .info bar.magic > div {
+champions .champion .info bar.magic > div {
     background-color: #1B3556;
 }
 
-.champion .info bar.difficulty > div {
+champions .champion .info bar.difficulty > div {
     background-color: #411A52;
 }
 
 
 /* filters */
 
-.filters {
+filters {
     display: flex;
 }
 
-.filters > div
+filters > div
 {
     width: 33%;
 }
 
-.filters label {
+filters label {
     margin: 8px;
     text-align: initial;
     display: inline-block;
 }
 
-.filter-center {
+filters .center {
     max-width: 250px;
 }
 
-.filter-center input[type="text"] {
+filters .center input[type="text"] {
     width: 100%;
 }
 
-.filter-center label {
+filters .center label {
     margin: 20px 10px 0 10px;
     width: 5em;
     text-align: center;
 }
 
-.filter-left > .center,
-.filter-right > .center {
+filters .left > .align-center,
+filters .right > .align-center {
     width: 80%;
     text-align: center;
     padding: 20px;
 }
 
-.filter-left label,
-.filter-right label {
+filters .left label,
+filters .right label {
     width: 120px;
 }
 
@@ -132,7 +136,7 @@
 /* @media */
 
 @media (max-width: 1200px) {
-    .champion
+    champions .champion
     {
         width: 100px;
         height: 181px;
@@ -140,14 +144,14 @@
         padding: 5px;
     }
 
-    .champion img {
+    champions .champion img {
         width: 100px;
         height: 181px;
         -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
         clip-path: inset(3px 3px 3px 3px round 5px);
     }
 
-    .champion .info {
+    champions .champion .info {
         font-size: 0.8em;
         width: inherit;
         height: inherit;
@@ -158,30 +162,30 @@
         border-top-right-radius: 5px;
     }
     
-    .champion .info bar {
+    champions .champion .info bar {
         display: none;
     }
 }
 
 @media (max-width: 850px) {
-    .filter-center
+    filters .center
     {
         width: 100% !important;
     }
 }
 
 @media (max-width: 600px) {
-    .filter-left,
-    .filter-right {
+    filters .left,
+    filters .right {
         display: none;
     }
-    .filter-center {
+    filters .center {
         width: 100% !important;
     }
-    .filter-center div {
+    filters .center div {
         width: 100% !important;
     }
-    .filter-center .melee-ranged {
+    filters .center .melee-ranged {
         display: none;
     }
 }

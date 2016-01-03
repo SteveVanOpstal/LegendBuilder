@@ -9,8 +9,8 @@ import {RouterLink} from 'angular2/router';
 })
 @View({
   template: `
-  <div class="regions center">
-    <p>Select your region:</p>
+  <div class="regions align-center">
+    <h2>Select your region:</h2>
     <button *ngFor="#region of regions" [routerLink]="['../Choose', {region: region.id}]">
       <span>{{region.id | uppercase}}</span>
       <span>{{region.name}}</span>
