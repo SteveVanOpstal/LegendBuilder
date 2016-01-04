@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
+import {Component, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
 import {NgFor, NgIf, NgClass} from 'angular2/common';
 import {Response, ResponseOptions} from 'angular2/http';
 import {RouterLink} from 'angular2/router';
@@ -56,9 +56,7 @@ interface Items
 
 @Component({
   selector: 'shop',
-  providers: [LolApiService]
-})
-@View({
+  providers: [LolApiService],
   templateUrl: '/html/build/shop.component.html',
   directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonImageComponent],
   pipes: [TranslatePipe]

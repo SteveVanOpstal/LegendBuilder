@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, EventEmitter} from 'angular2/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {AbilitiesComponent} from 'app/abilities.component';
@@ -11,9 +11,7 @@ import {LolApiService} from 'app/lolapi.service';
 
 @Component({
   selector: 'champion',
-  providers: [LolApiService]
-})
-@View({
+  providers: [LolApiService],
   templateUrl: '/html/build/champion.component.html',
   directives: [AbilitiesComponent, StatsComponent, ErrorComponent]
 })

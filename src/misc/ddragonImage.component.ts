@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Input, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 
 import {LolApiService} from 'app/lolapi.service';
@@ -8,10 +8,8 @@ import {LolApiService} from 'app/lolapi.service';
 @Component({
   selector: 'ddragonimage',
   changeDetection: ChangeDetectionStrategy.OnPush
-})
-@View({
-    template: '<img src="{{getUrl()}}">',
-    directives: [NgIf]
+  template: '<img src="{{getUrl()}}">',
+  directives: [NgIf]
 })
 
 export class DDragonImageComponent {

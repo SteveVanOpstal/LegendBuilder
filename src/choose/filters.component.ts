@@ -1,11 +1,9 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 
 @Component({
-  selector: 'filters'
-})
-@View({
+  selector: 'filters',
   templateUrl: '/html/choose/filters.component.html'
 })
 

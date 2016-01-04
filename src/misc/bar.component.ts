@@ -1,13 +1,11 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Input, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 
 @Component({
   selector: 'bar',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-@View({
+  changeDetection: ChangeDetectionStrategy.OnPush,
     template: '<div *ngFor="#val of repeat()"></div>',
     directives: [NgFor]
 })

@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, View, Output, EventEmitter, Inject} from 'angular2/core';
+import {Component, Output, EventEmitter, Inject} from 'angular2/core';
 import {NgFor, NgIf} from 'angular2/common';
 import {Response} from 'angular2/http';
 import {RouterLink, RouteParams} from 'angular2/router';
@@ -13,9 +13,7 @@ import {BarComponent} from 'app/bar.component'
 
 @Component({
   selector: 'champions',
-  providers: [LolApiService]
-})
-@View({
+  providers: [LolApiService],
   templateUrl: '/html/choose/champions.component.html',
   directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonImageComponent, BarComponent]
 })
