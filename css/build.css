@@ -39,6 +39,37 @@ abilities .ability.ult img
     padding: 13px;
 }
 
+/* stats */
+
+line-graph
+{
+  display: flex;
+}
+
+line-graph svg {
+}
+
+line-graph .axis path,
+line-graph .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+line-graph .x.axis path {
+  display: none;
+}
+
+line-graph .x.axis.time line {
+  stroke: #777;
+  stroke-width: 3px;
+  opacity: 0.3;
+}
+
+line-graph .x.axis.level text {
+  display: none;
+}
+
 /* shop */
 
 shop {

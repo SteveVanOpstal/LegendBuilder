@@ -3,16 +3,14 @@
 import {Component, View, Input} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 
-import {tim} from 'tinytim/lib/tinytim';
-
-import {ErrorComponent} from 'app/error.component';
-import {DDragonImageComponent} from 'app/ddragonImage.component';
+import {LineGraphComponent} from 'app/line-graph.directive';
 
 @Component({
   selector: 'stats'
 })
 @View({
-  templateUrl: '/html/build/stats.component.html'
+  templateUrl: '/html/build/stats.component.html',
+  directives: [LineGraphComponent]  
 })
 
 export class StatsComponent {
@@ -21,6 +19,4 @@ export class StatsComponent {
   constructor() {
     this.champion = { image: {full: null}, spells: null, name:null };
   }
-    
-    
 }
