@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "conventional-github-releaser": "^0.5.1",
+    "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
     "gulp-bump": "^1.0.0",

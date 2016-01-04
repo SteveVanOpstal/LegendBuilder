@@ -11,6 +11,7 @@ var git = require('gulp-git');
 var ts = require('gulp-typescript');
 var changed = require('gulp-changed');
 var flatten = require('gulp-flatten');
+var del = require('del');
 var sourcemaps = require('gulp-sourcemaps');
 var shell = require('gulp-shell');
 var uglify = require('gulp-uglify');
@@ -97,16 +98,41 @@ gulp.task('compile', function () {
   var tsProject = ts.createProject('src/tsconfig.json');
   return tsProject.src(['src/**/*.ts'])
     .pipe(sourcemaps.init())
-    .pipe(flatten())
     .pipe(changed(DEST, {extension: '.js'}))
     .pipe(ts(tsProject))
     .js
-    .pipe(sourcemaps.write('/'))
+    .pipe(sourcemaps.write('/', {includeContent: false, sourceRoot: '/src'}))
     .pipe(gulp.dest(DEST));
 });
 
+gulp.task('app-move', function () {
+  return gulp.src(['app/**/*.js', 'app/**/*.js.map'])
+  .pipe(flatten())
+  .pipe(gulp.dest('app/'));
+});
+
+gulp.task('app-delete', function () {
+  return del([
+    'app/**/*',
+    '!app/*.js',
+    '!app/*.js.map'
+  ]);
+});
+
+gulp.task('app-flatten', function (callback) {
+  runSequence(
+    'app-move',
+    'app-delete',
+    function (error) {
+      if (error) {
+        console.log(error.message);
+      }
+      callback(error);
+    });
+});
+
 gulp.task('bundle', function () {
-	return gulp.src('src/boot.js')
+	return gulp.src('src/boot.ts')
 		.pipe(browserify({
 		  debug: true
 		}))
@@ -140,8 +166,7 @@ gulp.task('uglify-js', function () {
 gulp.task('build', function (callback) {
   runSequence(
     'compile',
-    'uglify-css',
-    'bundle',
+    'app-flatten',
     function (error) {
       if (error) {
         console.log(error.message);
