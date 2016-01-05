@@ -3,17 +3,20 @@
 import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
+import {ConfigComponent} from 'app/config.component'
 import {AbilitiesComponent} from 'app/abilities.component';
 import {StatsComponent} from 'app/stats.component';
+
 import {ErrorComponent} from 'app/error.component';
+import {DDragonImageComponent} from 'app/ddragonimage.component'
 
 import {LolApiService} from 'app/lolapi.service';
 
 @Component({
   selector: 'champion',
-  providers: [LolApiService],
   templateUrl: '/html/build/champion.component.html',
-  directives: [AbilitiesComponent, StatsComponent, ErrorComponent]
+  directives: [ConfigComponent, AbilitiesComponent, StatsComponent, ErrorComponent, DDragonImageComponent],
+  providers: [LolApiService]
 })
 
 export class ChampionComponent {

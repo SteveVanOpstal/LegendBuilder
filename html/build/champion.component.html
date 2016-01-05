@@ -1,3 +1,8 @@
-<abilities [champion]="champion"></abilities>
+<div class="title">
+  <ddragonimage [image]="'champion/' + champion?.image?.full"></ddragonimage>
+  <h2>{{champion?.name}}</h2>
+</div>
+<config></config>
 <stats [champion]="champion"></stats>
+<abilities [champion]="champion"></abilities>
 <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>

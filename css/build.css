@@ -1,25 +1,28 @@
-/* abilities */
+/* champion */
 
-abilities
-{
-    min-height: 450px;
-}
-
-abilities .title
+champion .title
 {
     display: flex;
     background-color: #DDD;
 }
 
-abilities .title img
+champion .title img
 {
     height: 90px;
 }
 
-abilities .title h2
+champion .title h2
 {
     font-size: 2em;
     padding-left: 30px;
+}
+
+
+/* abilities */
+
+abilities
+{
+    min-height: 450px;
 }
 
 abilities .ability
@@ -38,6 +41,7 @@ abilities .ability.ult img
     height: 64px;
     padding: 13px;
 }
+
 
 /* stats */
 
@@ -69,6 +73,7 @@ line-graph .x.axis.time line {
 line-graph .x.axis.level text {
   display: none;
 }
+
 
 /* shop */
 
@@ -210,6 +215,7 @@ shop .item:hover {
     background-color: #CCC;
 }
 
+
 /* media */
 
 @media (max-width: 1700px) {
@@ -243,225 +249,3 @@ shop .item:hover {
         font-size: 1.2em;
     }
 }
-
-/*
-
-.tier img {
-    height: 140px;
-    vertical-align: middle;
-}
-
-.tier {
-    display: inline-block;
-    cursor: pointer;
-    background-color: #EEE;
-    margin: 10px;
-    border-radius: 10px;
-    height: 170px;
-}
-
-.tier p {
-    font-size: 1.2em;
-    text-align: center;
-    margin: 0;
-}
-
-.tier:hover, .tier:focus {
-    background-color: #CCC;
-}
-
-.config > div > p {
-    display: inline-block;
-}
-
-.config > div > p:first-child {
-    min-width: 150px;
-    text-align: right;
-}
-
-.config {
-    width: 340px;
-}
-
-#radio-link:checked ~ label.unchecked {
-    display: none;
-}
-
-#radio-link:not(:checked) ~ label.checked {
-    display: none;
-}
-
-#radio-link {
-    display: none;
-}
-
-.link {
-    width: 30px;
-    display: none;
-}
-
-.link label {
-    width: 30px;
-    height: 30px;
-}
-
-.link label img {
-  padding: 8px;
-}
-
-.wealth {
-    color: #008000;
-    margin: 0;
-    position: absolute;
-    padding-top: 10px;
-}
-
-.icon-small {
-    width: 20px;
-    margin: 0 4px;
-}
-
-.masteries {
-    display: flex;
-    width: 825px;
-    height: 480px;
-    justify-content: center;
-}
-
-.masteries .offense, .masteries .defense, .masteries .utility {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 33%;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px;
-    background-repeat: no-repeat;
-}
-
-.mastery:not(:empty):before {
-    content: " ";
-    background-image: url(../images/masteries/border-used.png);
-    position: absolute;
-    width: 50px;
-    height: 54px;
-    z-index: 10;
-}
-
-.mastery.disabled img {
-    filter: grayscale(100%);
-    -webkit-filter: grayscale(100%);
-}
-
-.mastery.disabled p.rank {
-    color: #7e7e7e;
-    cursor: default;
-}
-
-.mastery p.rank {
-    font-family: sans-serif Arial;
-    font-size: 0.8em;
-    position: absolute;
-    margin: -14px 0 0 23px;
-    width: 24px;
-    text-align: center;
-    z-index: 20;
-    cursor: pointer;
-}
-
-.mastery {
-    width: 48px;
-    margin: 6px;
-}
-
-.mastery.disabled:before {
-    background-image: url(../images/masteries/border-disabled.png);
-}
-
-.mastery p.rank {
-    color: #00f300;
-}
-
-.mastery.complete:before {
-    background-image: url(../images/masteries/border-complete.png);
-}
-
-.mastery.complete p {
-    color: #fdf300;
-}
-
-.masteries .total {
-    color: #FFF;
-    font-size: 2em;
-    font-variant: small-caps;
-    width: 100%;
-    margin: 0 10px;
-}
-
-.mastery:not(.disabled):not(:empty) {
-    cursor: pointer;
-}
-
-.masteries p {
-    cursor: default;
-}
-
-.mastery > div {
-    display: none;
-    z-index: 30;
-    padding: 10px;
-    margin: 5px;
-    position: absolute;
-    background-color: #000;
-    border-radius: 5px;
-    border: 3px solid #aa7625;
-    transition: opacity 0.25s ease-in;
-    -webkit-transition: opacity 0.25s ease-in;
-}
-
-.mastery:hover > div {
-    display: inherit;
-}
-
-.mastery > div:hover {
-    opacity: 0;
-    z-index: 0;
-}
-
-.mastery > div p {
-    font-size: 1.2em;
-    color: #FFF;
-}
-
-.mastery > div ul {
-    margin: 0 0 8px 0;
-    color: #FFF;
-}
-
-.mastery > div h2 {
-    margin: 0;
-}
-
-.masteries .offense .mastery > div h2 {
-    color: #b51c00;
-}
-
-.masteries .defense .mastery > div h2 {
-    color: #46a1eb;
-}
-
-.masteries .utility .mastery > div h2 {
-    color: #329832;
-}
-
-.masteries .offense {
-    background-image: url(../images/masteries/mastery_background_offense.png);
-}
-
-.masteries .defense {
-    background-image: url(../images/masteries/mastery_background_defense.png);
-}
-
-.masteries .utility {
-    background-image: url(../images/masteries/mastery_background_utility.png);
-}*/
