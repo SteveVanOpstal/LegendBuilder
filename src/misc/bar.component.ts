@@ -14,9 +14,6 @@ export class BarComponent {
   @Input() value: number;
   private range: Array<any>;
   
-  constructor() {
-  }
-  
   repeat()
   {
     this.range = new Array(this.value);
