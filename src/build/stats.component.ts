@@ -13,8 +13,4 @@ import {LineGraphComponent} from 'app/line-graph.directive';
 
 export class StatsComponent {
   @Input() private champion: any;
-  
-  constructor() {
-    this.champion = { image: {full: null}, spells: null, name:null };
-  }
 }

@@ -39,7 +39,6 @@ export class ChampionsComponent {
   
   getData()
   {
-    this.champions = { data: [{ info: {attack: null, defense: null, magic: null, difficulty: null} }] };
     this.loading = true;
     this.ok = true;
     

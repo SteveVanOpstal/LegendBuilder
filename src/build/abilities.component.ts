@@ -16,10 +16,6 @@ import {DDragonImageComponent} from 'app/ddragonImage.component';
 export class AbilitiesComponent {
   @Input() private champion: any;
   
-  constructor() {
-    this.champion = { image: {full: null}, spells: null, name:null };
-  }
-  
   getExtendedTooltip(index: number) {
     var spell = this.champion.spells[index];
     try {

@@ -27,7 +27,6 @@ export class ChampionComponent {
   }
   
   getData(championName: string) {
-    this.champion = { image: {full: null}, spells: null, name:null };
     this.loading = true;
     this.ok = true;
     

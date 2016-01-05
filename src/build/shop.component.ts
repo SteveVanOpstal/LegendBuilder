@@ -75,7 +75,6 @@ export class ShopComponent {
   
   getData()
   {
-    this.items = { tree: null, data: null };
     this.loading = true;
     this.ok = true;
     

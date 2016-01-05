@@ -1,4 +1,4 @@
-<div class="champion" *ngFor="#champion of champions.data">
+<div class="champion" *ngFor="#champion of champions?.data">
   <a [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
     <ddragonimage class="nodrag" [image]="'champion/loading/' + champion.key + '_0.jpg'"></ddragonimage>
     <div class="info">
