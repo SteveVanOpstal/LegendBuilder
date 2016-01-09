@@ -28,34 +28,58 @@ A gulp task has been made for this:
 gulp build
 ```
 
-### 3. Add your LOL API key
+### 3. Setup lol-server
+A server that runs between the client and the [LOL API](https://developer.riotgames.com/).
+
+#### 3.1 .lol-server.json
+A configuration file, at the project root, for the lol-server.
+
+It should contain the following items:
+ * host
+ * port
+
+example:
+```JSON
+{
+  "host": "127.0.0.1",
+  "port": 1234
+}
+```
+
+#### 3.2 api.key
 * Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
 * Create a file containing only this key and name it `api.key`.
-* Place it in this folder: `[root]/src/server`.
+* Place it in the root folder.
 
-### 4. Run server
+#### 3.3 Start lol-server
 A node server ([server.js](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/src/server/server.js)) is made to communicate with the League Of Legends API, start it by running this command:
 ```
 gulp start-server
 ```
-or
-```
-node src/server/server.js
-```
 
-### 5. Run a HTTP server
+### 4. Run a HTTP server (live-server)
 In development I recommend [Live Server](https://www.npmjs.com/package/live-server).
-It can be installed by running this command:
+
+#### 4.1 Install
 ```
 npm install -g live-server
 ```
-Start it by running this command:
+
+#### 4.2 .live-server.json (optional)
+As specified by [live-server usage](https://github.com/tapio/live-server#usage-from-node). Placed at the root of the project
+
+example:
+```JSON
+{
+  "port": 8585,
+  "file": "index.html",
+  "ignore": "configurations,src/typings,server,.git,.vscode"
+}
+```
+
+#### 4.3 start server
 ```
 gulp start-live-server
-```
-or
-```
-live-server --port=5858 --entry-file=index.html
 ```
 
 ## Visual Studio Code
