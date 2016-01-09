@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder) 
-[![Issue Stats](http://issuestats.com/github/SteveVanOpstal/LegendBuilder/badge/pr)](http://issuestats.com/github/SteveVanOpstal/LegendBuilder)
-[![Issue Stats](http://issuestats.com/github/SteveVanOpstal/LegendBuilder/badge/issue)](http://issuestats.com/github/SteveVanOpstal/LegendBuilder)
+[![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder)
+![License](https://img.shields.io/github/license/SteveVanOpstal/LegendBuilder.svg)
+[![Test Coverage](https://codeclimate.com/github/SteveVanOpstal/LegendBuilder/badges/coverage.svg)](https://codeclimate.com/github/SteveVanOpstal/LegendBuilder/coverage)
 
 # Legend Builder
 An advanced League Of Legends champion builder.
