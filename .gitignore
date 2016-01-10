@@ -12,3 +12,6 @@ git.token
 *.bat
 *.min.css
 *.min.js
+
+.live-server.json
+.lol-server.json
