@@ -7,6 +7,8 @@ import {RouteParams} from 'angular2/router';
 
 import 'rxjs/rx';
 
+import {config} from 'app/lolServerConfig';
+
 @Injectable()
 export class LolApiService {
   realm: any;
@@ -56,17 +58,22 @@ export class LolApiService {
   
   private linkStaticData()
   {
-    return "http://127.0.0.1:12345/static-data/" + this.getRegion() + '/v1.2';
+    return this.baseUrl() + "static-data/" + this.getRegion() + '/v1.2';
   }
   
   private linkSummoner()
   {
-    return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.4/summoner';
+    return this.baseUrl() + this.getRegion() + '/v1.4/summoner';
   }
   
   private linkGame()
   {
-    return "http://127.0.0.1:12345/" + this.getRegion() + '/v1.3/game';
+    return this.baseUrl() + this.getRegion() + '/v1.3/game';
+  }
+  
+  private baseUrl()
+  {
+    return "http://" + config.host + ":" + config.port + "/";
   }
   
   private getRegion()
