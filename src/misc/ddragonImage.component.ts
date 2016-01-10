@@ -7,7 +7,7 @@ import {LolApiService} from 'app/lolapi.service';
 
 @Component({
   selector: 'ddragonimage',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<img src="{{getUrl()}}">',
   directives: [NgIf]
 })
