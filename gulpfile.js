@@ -3,6 +3,8 @@ var argv = require('minimist')(process.argv.slice(2));
 var runSequence = require('run-sequence');
 var fs = require('fs');
 
+var liveServer = require("live-server");
+
 var conventionalChangelog = require('gulp-conventional-changelog');
 var conventionalGithubReleaser = require('conventional-github-releaser');
 var bump = require('gulp-bump');
@@ -18,6 +20,7 @@ var uglify = require('gulp-uglify');
 var uglifyCss = require('gulp-uglifycss');
 var rename = require("gulp-rename");
 var browserify = require('gulp-browserify');
+var file = require('gulp-file');
 
 /* release */
 
@@ -131,12 +134,17 @@ gulp.task('app-flatten', function (callback) {
     });
 });
 
+gulp.task('create-config', function (callback) {
+  return file('lolServerConfig.js', "exports.config = " + fs.readFileSync('./.lol-server.json', 'utf8'))
+		.pipe(gulp.dest('app'));
+});
+
 gulp.task('bundle', function () {
 	return gulp.src('src/boot.ts')
 		.pipe(browserify({
 		  debug: true
 		}))
-		.pipe(gulp.dest('app'))
+		.pipe(gulp.dest('app'));
 });
 
 gulp.task('uglify-css', function() {
@@ -167,6 +175,7 @@ gulp.task('build', function (callback) {
   runSequence(
     'compile',
     'app-flatten',
+    'create-config',
     function (error) {
       if (error) {
         console.log(error.message);
@@ -185,10 +194,6 @@ gulp.task('start-server',
   ])
 );
 
-/* start-live-server */
-
-gulp.task('start-live-server',
-  shell.task([
-    'live-server --port=5858 --entry-file=index.html'
-  ])
-);
+gulp.task('start-live-server', function () {
+  liveServer.start(JSON.parse(fs.readFileSync('./.live-server.json', 'utf8')));
+});
