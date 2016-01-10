@@ -3,9 +3,9 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {RegionRoute} from 'app/region.route'
-import {ChooseRoute} from 'app/choose.route';
-import {BuildRoute} from 'app/build.route';
+import {RegionRoute} from 'app/region.component'
+import {ChooseRoute} from 'app/choose.component';
+import {BuildRoute} from 'app/build.component';
 
 @Component({
   selector: 'app',
