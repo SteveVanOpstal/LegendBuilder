@@ -34,7 +34,7 @@ export class ChampionsComponent {
 
   test(championKey: string)
   {
-    this.championChanged.next(championKey);
+    this.championChanged.emit(championKey);
   }
   
   getData()
