@@ -11,10 +11,12 @@ var cache = Lru({
   maxAge: 1000 * 60 * 60 * 24
 });
 
-var cdn = 'https://global.api.pvp.net/api/lol';
-var configLiveServer = JSON.parse(fs.readFileSync('.live-server.json', 'utf8'));
-var configLolServer = JSON.parse(fs.readFileSync('.lol-server.json', 'utf8'));
-var apiKey = fs.readFileSync('api.key', 'utf8');
+var config = {
+  cdn: 'https://global.api.pvp.net/api/lol',
+  liveServer: JSON.parse(fs.readFileSync('.live-server.json', 'utf8')),
+  server: JSON.parse(fs.readFileSync('.static-server.json', 'utf8')),
+  apiKey: fs.readFileSync('api.key', 'utf8')
+}
 
 var options = {
   hostname: 'global.api.pvp.net',
@@ -23,12 +25,12 @@ var options = {
     'User-Agent': 'Legend-Builder',
     'Accept-Language': 'en-US',
     'Accept-Charset': 'ISO-8859-1,utf-8',
-    'Origin': 'http://' + configLolServer.host + ':' + configLolServer.port
+    'Origin': 'http://' + config.server.host + ':' + config.server.port
   }
 };
 
 var headers = {
-  'Access-Control-Allow-Origin': 'http://' + (configLiveServer.host || "127.0.0.1") + ':' + (configLiveServer.port || "8080"),
+  'Access-Control-Allow-Origin': 'http://' + (config.liveServer.host || "127.0.0.1") + ':' + (config.liveServer.port || "8080"),
   'content-type': 'application/json'
 };
 
@@ -36,8 +38,8 @@ var headers = {
 var champions = '';
 {
   console.start(50);
-  var path = cdn + '/static-data/euw/v1.2/champion';
-  options.path = url.format({ pathname: path, query: {api_key: apiKey} });
+  var path = config.cdn + '/static-data/euw/v1.2/champion';
+  options.path = url.format({ pathname: path, query: {api_key: config.apiKey} });
   
   var req = https.request(options, function(res) {
     res.on('data', function(d) {
@@ -84,7 +86,7 @@ var server = http.createServer(function (request, response) {
     request.url = url.format({ pathname: requestUrl.pathname, query: requestUrl.query });
     
     if(!championId) {
-      response.writeHead(500, headers);
+      response.writeHead(500, config.response.headers);
       response.write('Champion key does not exist.\n');
 
       response.end();
@@ -96,7 +98,7 @@ var server = http.createServer(function (request, response) {
   var cachedResponseData = cache.get(request.url);
   
   if(cachedResponseData) {
-    response.writeHead(200, headers);
+    response.writeHead(200, config.response.headers);
     response.write(cachedResponseData);
     response.end();
     console.logHttp("CACHED", request.url, 200, cache.length / 1000000 + 'MB/' + cache.max / 1000000 + 'MB');
@@ -104,9 +106,9 @@ var server = http.createServer(function (request, response) {
   }
   
   var requestQuery = requestUrl.query;
-  requestQuery.api_key = apiKey;
+  requestQuery.api_key = config.apiKey;
   
-  options.path = url.format({ pathname: cdn + requestUrl.pathname, query: requestQuery });
+  options.path = url.format({ pathname: config.cdn + requestUrl.pathname, query: requestQuery });
   
   var req = https.request(options, function(res) {
     var data = '';
@@ -123,18 +125,18 @@ var server = http.createServer(function (request, response) {
       }
     });
   
-    response.writeHead(res.statusCode, headers);
+    response.writeHead(res.statusCode, config.response.headers);
   });
   req.end();
 
   req.on('error', function(e) {
-    response.writeHead(e.statusCode, headers);
+    response.writeHead(e.statusCode, config.response.headers);
     response.write(e + '\n');
 
     response.end();
     console.logHttp(options.method, request.url, e.statusCode, e);
   });
 })
-.listen(configLolServer.port, configLolServer.host);
+.listen(config.server.port, config.server.host);
 
-console.log(configLolServer.host + ':' + configLolServer.port);
+console.log(config.server.host + ':' + config.server.port);
