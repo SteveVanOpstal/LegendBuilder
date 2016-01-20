@@ -30,8 +30,11 @@ exports.logHttp = function(method, path, statusCode, extra) {
 }
 
 exports.log   = colorConsole.log;
-exports.error = colorConsole.error;
+exports.trace = colorConsole.trace;
+exports.debug = colorConsole.debug;
 exports.info  = colorConsole.info;
+exports.warn  = colorConsole.warn;
+exports.error = colorConsole.error;
 
 function padLeft(str, length) {
   if(str.length > length - 3) {
