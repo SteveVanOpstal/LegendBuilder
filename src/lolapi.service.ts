@@ -7,13 +7,16 @@ import {RouteParams} from 'angular2/router';
 
 import 'rxjs/rx';
 
-import {config} from 'app/lolServerConfig';
+import {staticServer, matchServer} from 'app/serverConfig';
 
 @Injectable()
 export class LolApiService {
+  region: string;
   realm: any;
   
-  constructor(private params: RouteParams, private http: Http) {
+  constructor(params: RouteParams, private http: Http) {
+    this.region = params.get('region').toLowerCase();
+    
     this.http.get(this.linkStaticData() + '/realm')
       .map(res => res = this.handleResponse(res))
       .subscribe(res => this.realm = res.json());
@@ -28,7 +31,7 @@ export class LolApiService {
       .map(res => res = this.handleResponse(res));
   }
 
-  public getChampion(championKey) {
+  public getChampion(championKey: string) {
     return this.http.get(this.linkStaticData() + '/champion/' + championKey + '?champData=allytips,altimages,image,partype,passive,spells,stats,tags')
       .map(res => res = this.handleResponse(res));
   }
@@ -37,6 +40,30 @@ export class LolApiService {
     return this.http.get(this.linkStaticData() + '/item?itemListData=all')
       .map(res => res = this.handleResponse(res));
   }
+
+  public getSummonerCs(summonerName: string, championKey: string, gameTime: number, samples: number) {
+    return this.http.get(this.matchServer() + '/' + summonerName + '/' + championKey + '?gametime=' + gameTime + '&samples=' + samples)
+      .map(res => res.json());
+  }
+  
+  
+  private linkStaticData() {
+    return this.staticServer() + "static-data/" + this.region + '/v1.2';
+  }
+  
+  private linkSummoner() {
+    return this.staticServer() + this.region + '/v1.4/summoner';
+  }
+  
+  
+  private staticServer() {
+    return "http://" + staticServer.host + ":" + staticServer.port + "/";
+  }
+  
+  private matchServer() {
+    return "http://" + matchServer.host + ":" + matchServer.port + "/" + this.region;
+  }
+  
   
   private handleResponse(res: Response): Response {
     var resData = res.json();
@@ -54,30 +81,5 @@ export class LolApiService {
       arr.push(obj[property]);
     }
     return arr;
-  }
-  
-  private linkStaticData()
-  {
-    return this.baseUrl() + "static-data/" + this.getRegion() + '/v1.2';
-  }
-  
-  private linkSummoner()
-  {
-    return this.baseUrl() + this.getRegion() + '/v1.4/summoner';
-  }
-  
-  private linkGame()
-  {
-    return this.baseUrl() + this.getRegion() + '/v1.3/game';
-  }
-  
-  private baseUrl()
-  {
-    return "http://" + config.host + ":" + config.port + "/";
-  }
-  
-  private getRegion()
-  {
-    return this.params.get('region').toLowerCase();
   }
 }

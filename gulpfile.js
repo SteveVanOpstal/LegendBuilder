@@ -135,8 +135,10 @@ gulp.task('app-flatten', function (callback) {
 });
 
 gulp.task('create-config', function (callback) {
-  return file('lolServerConfig.js', "exports.config = " + fs.readFileSync('./.lol-server.json', 'utf8'))
-		.pipe(gulp.dest('app'));
+  file('serverConfig.js',
+       "exports.staticServer = " + fs.readFileSync('./.static-server.json', 'utf8') + ";\n"
+       + "exports.matchServer = " + fs.readFileSync('./.match-server.json', 'utf8') + ";")
+    .pipe(gulp.dest('app'));
 });
 
 gulp.task('bundle', function () {
@@ -188,9 +190,15 @@ gulp.task('build', function (callback) {
 
 /* start-server */
 
-gulp.task('start-server',
+gulp.task('start-static-server',
   shell.task([
-    'node src/server/server.js'
+    'node src/server/staticServer.js'
+  ])
+);
+
+gulp.task('start-match-server',
+  shell.task([
+    'node src/server/matchServer.js'
   ])
 );
 
