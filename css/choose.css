@@ -1,191 +1,188 @@
 /* champions */
 
 champions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
 }
 
 champions p {
-    font-size: 1em;
+  font-size: 1em;
 }
 
-champions .champion
-{
-    width: 150px;
-    height: 275px;
-    margin: -2px;
+champions .champion {
+  width: 150px;
+  height: 275px;
+  margin: -2px;
 }
 
 champions .champion:hover {
-    -webkit-filter: brightness(1.2);
-    filter: brightness(1.2);
+  -webkit-filter: brightness(1.2);
+  filter: brightness(1.2);
 }
 
 champions .champion:hover img {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
+  -webkit-filter: grayscale(0);
+  filter: grayscale(0);
 }
 
-champions .champion a
-{
-    display: block;
-    text-decoration: none;
+champions .champion a {
+  display: block;
+  text-decoration: none;
 }
 
 champions .champion img {
-    width: 150px;
-    height: 273px;
-    -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
-    clip-path: inset(8px 8px 0px 8px round 10px);
-    
-    -webkit-filter: grayscale(0.8);
-    filter: grayscale(0.8);
+  width: 150px;
+  height: 273px;
+  -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
+  clip-path: inset(8px 8px 0px 8px round 10px);
+  
+  -webkit-filter: grayscale(0.8);
+  filter: grayscale(0.8);
 }
 
 champions .champion .info p {
-    z-index: 10;
-    margin: 5px;
+  z-index: 10;
+  margin: 5px;
 }
 
 champions .champion .info {
-    position: absolute;
-    width: 134px;
-    height: 72px;
-    margin-top: -76px;
-    margin-left: 7px;
-    font-size: 0.9em;
-    text-align: center;
-    font-family: verdana, sans-serif;
-    color: #FFF;
-    background-color: rgba(0,0,0,0.7);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+  position: absolute;
+  width: 134px;
+  height: 72px;
+  margin-top: -76px;
+  margin-left: 7px;
+  font-size: 0.9em;
+  text-align: center;
+  font-family: verdana, sans-serif;
+  color: #FFF;
+  background-color: rgba(0,0,0,0.7);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 champions .champion .info bar {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
 champions .champion .info bar > div:not(:nth-child(n-1)) {
-    border-left: none;
+  border-left: none;
 }
 
 champions .champion .info bar.attack > div {
-    background-color: #5C1F1F;
+  background-color: #5C1F1F;
 }
 
 champions .champion .info bar.defense > div {
-    background-color: #163A16;
+  background-color: #163A16;
 }
 
 champions .champion .info bar.magic > div {
-    background-color: #1B3556;
+  background-color: #1B3556;
 }
 
 champions .champion .info bar.difficulty > div {
-    background-color: #411A52;
+  background-color: #411A52;
 }
 
 
 /* filters */
 
 filters {
-    display: flex;
+  display: flex;
 }
 
-filters > div
-{
-    width: 33%;
+filters > div {
+  width: 33%;
 }
 
 filters label {
-    margin: 8px;
-    text-align: initial;
-    display: inline-block;
+  margin: 8px;
+  text-align: initial;
+  display: inline-block;
 }
 
 filters .center {
-    max-width: 250px;
+  max-width: 250px;
 }
 
 filters .center input[type="text"] {
-    width: 100%;
+  width: 100%;
 }
 
 filters .center label {
-    margin: 20px 10px 0 10px;
-    width: 5em;
-    text-align: center;
+  margin: 20px 10px 0 10px;
+  width: 5em;
+  text-align: center;
 }
 
 filters .left > .align-center,
 filters .right > .align-center {
-    width: 80%;
-    text-align: center;
-    padding: 20px;
+  width: 80%;
+  text-align: center;
+  padding: 20px;
 }
 
 filters .left label,
 filters .right label {
-    width: 120px;
+  width: 120px;
 }
 
 
 /* @media */
 
 @media (max-width: 1200px) {
-    champions .champion
-    {
-        width: 100px;
-        height: 181px;
-        margin: initial;
-        padding: 5px;
-    }
+  champions .champion
+  {
+    width: 100px;
+    height: 181px;
+    margin: initial;
+    padding: 5px;
+  }
 
-    champions .champion img {
-        width: 100px;
-        height: 181px;
-        -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
-        clip-path: inset(3px 3px 3px 3px round 5px);
-    }
+  champions .champion img {
+    width: 100px;
+    height: 181px;
+    -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
+    clip-path: inset(3px 3px 3px 3px round 5px);
+  }
 
-    champions .champion .info {
-        font-size: 0.8em;
-        width: inherit;
-        height: inherit;
-        margin: -33px 0 0 3px;
-        
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 5px;
-    }
+  champions .champion .info {
+    font-size: 0.8em;
+    width: inherit;
+    height: inherit;
+    margin: -33px 0 0 3px;
     
-    champions .champion .info bar {
-        display: none;
-    }
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 5px;
+  }
+  
+  champions .champion .info bar {
+    display: none;
+  }
 }
 
 @media (max-width: 850px) {
-    filters .center
-    {
-        width: 100% !important;
-    }
+  filters .center
+  {
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 600px) {
-    filters .left,
-    filters .right {
-        display: none;
-    }
-    filters .center {
-        width: 100% !important;
-    }
-    filters .center div {
-        width: 100% !important;
-    }
-    filters .center .melee-ranged {
-        display: none;
-    }
+  filters .left,
+  filters .right {
+    display: none;
+  }
+  filters .center {
+    width: 100% !important;
+  }
+  filters .center div {
+    width: 100% !important;
+  }
+  filters .center .melee-ranged {
+    display: none;
+  }
 }

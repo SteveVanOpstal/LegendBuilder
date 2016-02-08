@@ -1,52 +1,44 @@
 /* champion */
 
-champion .title
-{
-    display: flex;
-    background-color: #DDD;
+champion .title {
+  display: flex;
+  background-color: #DDD;
 }
 
-champion .title img
-{
-    height: 90px;
+champion .title img {
+  height: 90px;
 }
 
-champion .title h2
-{
-    font-size: 2em;
-    padding-left: 30px;
+champion .title h2 {
+  font-size: 2em;
+  padding-left: 30px;
 }
 
 
 /* abilities */
 
-abilities
-{
-    min-height: 450px;
+abilities {
+  min-height: 450px;
 }
 
-abilities .ability
-{
-    display: flex;
+abilities .ability {
+  display: flex;
 }
 
-abilities .ability img
-{
-    height: 48px;
-    padding: 21px;
+abilities .ability img {
+  height: 48px;
+  padding: 21px;
 }
 
-abilities .ability.ult img
-{
-    height: 64px;
-    padding: 13px;
+abilities .ability.ult img {
+  height: 64px;
+  padding: 13px;
 }
 
 
 /* stats */
 
-line-graph
-{
+line-graph {
   display: flex;
 }
 
@@ -78,174 +70,174 @@ line-graph .x.axis.level text {
 /* shop */
 
 shop {
-    /* height: 750px; */
-    display: flex;
+  /* height: 750px; */
+  display: flex;
 }
 
 
 shop .left {
-    display: inline-block;
-    min-width: 170px;
-    padding: 5px;
-    top: 0;
+  display: inline-block;
+  min-width: 170px;
+  padding: 5px;
+  top: 0;
 }
 
 shop .left button {
-    width: 100%;
+  width: 100%;
 }
 
 shop .left input[type="checkbox"] {
-    float: right;
+  float: right;
 }
 
 shop .left label {
-    font-size: 1em;
-    background-color: #F3F3F3;
-    margin: 2px;
+  font-size: 1em;
+  background-color: #F3F3F3;
+  margin: 2px;
 }
 
 shop .left input[type="checkbox"]:checked+span,
 shop .left label:hover {
-    background-color: cadetblue;
-    display: block;
+  background-color: cadetblue;
+  display: block;
 }
 
-shop .right
-{
-    width: 100%;
+shop .right {
+  width: 100%;
 }
 
 
 shop .category p {
-    font-size: 1.5em;
-    margin: 10px 3px 0 3px;
+  font-size: 1.5em;
+  margin: 10px 3px 0 3px;
 }
 
 shop .category hr {
-    margin: 0 0 10px 0;
+  margin: 0 0 10px 0;
 }
 
 
 shop .search input[type="text"] {
-    width: 100%;
+  width: 100%;
 }
 
 shop .search {
-    height: 30px;
-    padding: 5px 0;
-    display: flex;
-    top: 0;
+  height: 30px;
+  padding: 5px 0;
+  display: flex;
+  top: 0;
 }
 
-shop .search button {      width: 30px;
-    margin: 0 5px;
+shop .search button {
+  width: 30px;
+  margin: 0 5px;
 }
 
 
 shop .items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    border: 1px solid #CCC;
-    padding: 5px 0;
-    background-color: cadetblue;
-    margin: 5px 5px 5px 0;
-    min-height: 660px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  border: 1px solid #CCC;
+  padding: 5px 0;
+  background-color: cadetblue;
+  margin: 5px 5px 5px 0;
+  min-height: 660px;
 }
 
 shop .item {
-    -webkit-user-select: none;/* Chrome/Safari */
-    -moz-user-select: none;/* Firefox */
-    -ms-user-select: none;/* IE10+ */
-    -o-user-select: none;
-    user-select: none;
-    height: 45px;
-    width: 24%;
-    display: flex;
-    margin: 3px;
-    background-color: #EEE;
-    border-radius: 5px;
-    cursor: pointer;
+  -webkit-user-select: none;/* Chrome/Safari */
+  -moz-user-select: none;/* Firefox */
+  -ms-user-select: none;/* IE10+ */
+  -o-user-select: none;
+  user-select: none;
+  height: 45px;
+  width: 24%;
+  display: flex;
+  margin: 3px;
+  background-color: #EEE;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 shop .item > ddragonimage > img {
-    width: 39px;
-    height: 39px;
-    border: 3px solid #B3B321;
-    border-radius: 5px;
-    display: inline-block;
-    border: 3px solid #026561;
+  width: 39px;
+  height: 39px;
+  border: 3px solid #B3B321;
+  border-radius: 5px;
+  display: inline-block;
+  border: 3px solid #026561;
 }
 
 shop .item > div {
-    margin: 4px 10px;
-    display: inline-block;
-    width: 100%;
+  margin: 4px 10px;
+  display: inline-block;
+  width: 100%;
 }
 
 shop .item > div > p {
-    margin: 0px;
-    font-size: 1em;
-    display: inline;
-    font-family: sans-serif;
+  margin: 0px;
+  font-size: 1em;
+  display: inline;
+  font-family: sans-serif;
 }
 
 shop .item .name {
-    width: 100%;
+  width: 100%;
 }
 
 shop .item .gold {
-    min-width: 70px;
-    display: flex;
-    font-size: 0.8em;
+  min-width: 70px;
+  display: flex;
+  font-size: 0.8em;
 }
 
 shop .item .gold img {
-    height: 32px;
-    display: inline-block;
-    padding-right: 4px;
+  height: 32px;
+  display: inline-block;
+  padding-right: 4px;
 }
 
 shop .item .gold p {
-    margin: 2px -8px;
+  margin: 2px -8px;
 }
 
 shop .item:hover {
-    background-color: #CCC;
+  background-color: #CCC;
 }
 
 
 /* media */
 
 @media (max-width: 1700px) {
-    shop .item {
-        width: 32%;
-    }
+  shop .item {
+    width: 32%;
+  }
 }
 
 @media (max-width: 1350px) {
-    shop .item {
-        width: 48%;
-    }
+  shop .item {
+    width: 48%;
+  }
 }
 
 @media (max-width: 800px) {
-    shop .left {
-        display: none;
-    }
+  shop .left {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
-    shop .item {
-        width: 100%;
-    }
-    shop .item .gold {
-        display: inline-block;
-        text-align: right;
-    }
-    shop .items p {
-        line-height: 45px;
-        font-size: 1.2em;
-    }
+  shop .item {
+    width: 100%;
+  }
+  shop .item .gold {
+    display: inline-block;
+    text-align: right;
+  }
+  shop .items p {
+    line-height: 45px;
+    font-size: 1.2em;
+  }
 }
