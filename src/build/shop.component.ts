@@ -8,7 +8,7 @@ import {RouterLink} from 'angular2/router';
 import {LolApiService} from 'app/lolapi.service';
 
 import {ErrorComponent} from 'app/error.component';
-import {DDragonImageComponent} from 'app/ddragonimage.component'
+import {DDragonDirective} from 'app/ddragon.directive';
 
 
 @Pipe({
@@ -58,7 +58,7 @@ interface Items
   selector: 'shop',
   providers: [LolApiService],
   templateUrl: '/html/build/shop.component.html',
-  directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonImageComponent],
+  directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonDirective],
   pipes: [TranslatePipe]
 })
 

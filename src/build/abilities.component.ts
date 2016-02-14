@@ -5,12 +5,12 @@ import {NgFor, NgClass} from 'angular2/common';
 
 import {tim} from 'tinytim/lib/tinytim';
 
-import {DDragonImageComponent} from 'app/ddragonImage.component';
+import {DDragonDirective} from 'app/ddragon.directive';
 
 @Component({
   selector: 'abilities',
   templateUrl: '/html/build/abilities.component.html',
-  directives: [NgFor, NgClass, DDragonImageComponent]
+  directives: [NgFor, NgClass, DDragonDirective]
 })
 
 export class AbilitiesComponent {

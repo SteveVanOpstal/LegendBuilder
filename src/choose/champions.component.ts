@@ -8,14 +8,14 @@ import {RouterLink, RouteParams} from 'angular2/router';
 import {LolApiService} from 'app/lolapi.service';
 import {ErrorComponent} from 'app/error.component';
 
-import {DDragonImageComponent} from 'app/ddragonimage.component'
+import {DDragonDirective} from 'app/ddragon.directive';
 import {BarComponent} from 'app/bar.component'
 
 @Component({
   selector: 'champions',
   providers: [LolApiService],
   templateUrl: '/html/choose/champions.component.html',
-  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonImageComponent, BarComponent]
+  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonDirective, BarComponent]
 })
 
 export class ChampionsComponent {

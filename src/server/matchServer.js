@@ -24,6 +24,9 @@ var config = {
   default: {
     sampleSize: 8,
     gameTime: 80 * 60 * 1000
+  },
+  fill: {
+    sampleTime: 10 * 60 * 1000
   }
 }
 
@@ -111,7 +114,8 @@ function getMatches(region, summonerId, matches, callback) {
           data.timeline.frames.forEach(function (frame, frameIndex) {
             result.matches[count - 1][frameIndex] = {
               time: frame.timestamp,
-              cs: frame.participantFrames[participantId].minionsKilled
+              xp: frame.participantFrames[participantId].xp,
+              g: frame.participantFrames[participantId].totalGold
             };
           });
           
@@ -133,27 +137,34 @@ function getMatches(region, summonerId, matches, callback) {
   );
 }
 
-function fillCs(games, interval, limit, sampleSize) {
+function fill(games, interval, limit) {
   for (var i = 0; i < games.length; i++) {
     var frames = games[i];
-    var deltaCs = 0;
+    var deltaXp = 0;
+    var deltaG = 0;
+    var sampleSize = config.fill.sampleTime / interval;
+    
+    // gather samples
     for (var j = frames.length - 1; j >= frames.length - sampleSize; j--) {
       var frame = frames[j];
       var prevFrame = frames[j-1];
-      deltaCs += frame.cs - prevFrame.cs;
+      deltaXp += frame.xp - prevFrame.xp;
+      deltaG += frame.g - prevFrame.g;
     }
-    var avgDeltaCs = deltaCs / sampleSize;
+    var avgDeltaXp = Math.round(deltaXp / sampleSize);
+    var avgDeltaG = Math.round(deltaG / sampleSize);
     
+    // fill up games using the average trend of the samples
     while (games[i][games[i].length - 1].time < limit)
     {
       var lastFrame = games[i][games[i].length - 1];
-      games[i][games[i].length] = { time: lastFrame.time + interval, cs: lastFrame.cs + avgDeltaCs };
+      games[i][games[i].length] = { time: lastFrame.time + interval, xp: lastFrame.xp + avgDeltaXp, g: lastFrame.g + avgDeltaG };
     }
   }
   return games;
 }
 
-function getRelativeCs(frames, time)
+function getRelativeOf(frames, time, frameCb)
 {
   if (!frames) {
     return false;
@@ -172,25 +183,30 @@ function getRelativeCs(frames, time)
     var upperFrame = frames[index];
     
     var ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
-    var relCs = (upperFrame.cs - lowerFrame.cs) * ratio;
+    var rel = (frameCb(upperFrame) - frameCb(lowerFrame)) * ratio;
     
-    return lowerFrame.cs + relCs;
+    return frameCb(lowerFrame) + rel;
   } else {
     return false;
   }
 }
 
-function getCs(games, sampleSize, factor)
+function getSamples(games, sampleSize, factor)
 {
-  var result = [];
-  for (var i = 1; i <= sampleSize; i++) {
-    var absCs = 0;
+  var result = { xp:[], g:[] };
+  for (var i = 0; i < sampleSize; i++) {
+    var absFactor = i * factor;
+    var absXp = 0;
+    var absG = 0;
+    
     for (var j = 0; j < games.length; j++) {
       var frames = games[j];
-      absCs += getRelativeCs(frames, i * factor);
+      absXp += getRelativeOf(frames, absFactor, function (frame) { return frame.xp; });
+      absG += getRelativeOf(frames, absFactor, function (frame) { return frame.g; });
     }
     
-    result[i-1] = absCs / games.length;
+    result.xp[i] = absXp / games.length;
+    result.g[i] = absG / games.length;
   }
   
   return result;
@@ -225,7 +241,7 @@ var server = http.createServer(function (request, response) {
     sampleSize = requestUrl.query.samples;
   }
   if (!isNaN(requestUrl.query.gametime)) {
-    gameTime = requestUrl.query.gametime * 60 * 1000;
+    gameTime = requestUrl.query.gametime;
   }
   
   var stepSize = gameTime / sampleSize;
@@ -257,10 +273,11 @@ var server = http.createServer(function (request, response) {
           }
         }
         else {
-          result.matches = fillCs(result.matches, result.interval, gameTime, 10 * 60 * 1000 / result.interval);
-          result.frames = getCs(result.matches, sampleSize, stepSize);
+          var matches = fill(result.matches, result.interval, gameTime);
           
-          result = JSON.stringify(result.frames);
+          var samples = getSamples(matches, sampleSize, stepSize);
+          result = JSON.stringify(samples);
+          console.log(samples);
         
           response.writeHead(200, headers);
           response.write(result);

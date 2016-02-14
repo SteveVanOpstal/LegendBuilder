@@ -3,41 +3,54 @@
 import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
-import {ConfigComponent} from 'app/config.component'
+import {LineGraphComponent} from 'app/line-graph.component';
 import {AbilitiesComponent} from 'app/abilities.component';
-import {StatsComponent} from 'app/stats.component';
 
 import {ErrorComponent} from 'app/error.component';
-import {DDragonImageComponent} from 'app/ddragonimage.component'
+import {DDragonDirective} from 'app/ddragon.directive';
 
 import {LolApiService} from 'app/lolapi.service';
+
+import {Config} from 'app/config';
 
 @Component({
   selector: 'champion',
   templateUrl: '/html/build/champion.component.html',
-  directives: [ConfigComponent, AbilitiesComponent, StatsComponent, ErrorComponent, DDragonImageComponent],
+  directives: [LineGraphComponent, AbilitiesComponent, ErrorComponent, DDragonDirective],
   providers: [LolApiService]
 })
 
 export class ChampionComponent {
-  @Output() dataReady: EventEmitter = new EventEmitter();
+  private championKey: string;
   private champion: any;
   private loading: boolean = true;
   private ok: boolean = true;
   
+  private config: Config = new Config();
+  
   constructor(params: RouteParams, private lolApi: LolApiService) {
-    this.getData(params.get('champion'));
+    this.championKey = params.get('champion');
+    this.getData();
   }
   
-  getData(championName: string) {
+  getData() {
     this.loading = true;
     this.ok = true;
     
-    this.lolApi.getChampion(championName)
+    this.lolApi.getChampion(this.championKey)
       .subscribe(
         res => this.champion = res.json(),
         error => { this.ok = false; this.loading = false; },
-        () => { this.loading = false; this.dataReady.next(this.champion); }
+        () => { this.loading = false; }
       );
+  }
+  
+  getSummonerMatchData(value) {
+    this.lolApi.getSummonerMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
+      .subscribe(res => {
+        this.config = new Config();
+        this.config.xp = res.xp;
+        this.config.g = res.g;
+      });
   }
 }

@@ -40,9 +40,7 @@ abilities .ability.ult img {
 
 line-graph {
   display: flex;
-}
-
-line-graph svg {
+  margin-bottom: 20px;
 }
 
 line-graph .axis path,
@@ -50,6 +48,15 @@ line-graph .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+}
+
+line-graph .x.axis.level line {
+  /*fill: #e7e7e7;*/
+}
+
+line-graph .x.axis.level-line text,
+line-graph .x.axis.level-text line {
+  display: none;
 }
 
 line-graph .x.axis path {
@@ -62,8 +69,8 @@ line-graph .x.axis.time line {
   opacity: 0.3;
 }
 
-line-graph .x.axis.level text {
-  display: none;
+line-graph .x.axis.level line {
+  /*stroke: #FFF;*/
 }
 
 
@@ -161,8 +168,7 @@ shop .item {
   cursor: pointer;
 }
 
-shop .item > ddragonimage > img {
-  width: 39px;
+shop .item > img {
   height: 39px;
   border: 3px solid #B3B321;
   border-radius: 5px;

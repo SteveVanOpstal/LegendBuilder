@@ -1,5 +1,4 @@
 ///<reference path="typings/angular2/angular2.d.ts"/>
-///<reference path="typings/angular2/http.d.ts"/>
 
 import {Injectable, bind} from 'angular2/core';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
@@ -41,7 +40,7 @@ export class LolApiService {
       .map(res => res = this.handleResponse(res));
   }
 
-  public getSummonerCs(summonerName: string, championKey: string, gameTime: number, samples: number) {
+  public getSummonerMatchData(summonerName: string, championKey: string, gameTime: number, samples: number) {
     return this.http.get(this.matchServer() + '/' + summonerName + '/' + championKey + '?gametime=' + gameTime + '&samples=' + samples)
       .map(res => res.json());
   }

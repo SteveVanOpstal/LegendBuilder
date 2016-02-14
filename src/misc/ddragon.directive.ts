@@ -1,27 +1,37 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
-import {NgIf} from 'angular2/common';
+import {Directive, Input, ElementRef, OnChanges, SimpleChange} from 'angular2/core';
 
 import {LolApiService} from 'app/lolapi.service';
 
-@Component({
-  selector: 'ddragonimage',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<img src="{{getUrl()}}">',
-  directives: [NgIf]
+@Directive({
+  selector: '[ddragon]'
 })
 
-export class DDragonImageComponent {
-  @Input() image: string;
+export class DDragonDirective implements OnChanges {
+  @Input('ddragon') image: string;
   
   private realm: any;
   private cdn: string;
   
-  constructor(public lolApi: LolApiService) {
+  constructor(private el: ElementRef, private lolApi: LolApiService) {
+    this.updateElement();
   }
   
-  public getUrl() {
+  updateElement() {
+    if (this.el.nativeElement.tagName == "IMG") {
+      this.el.nativeElement.setAttribute("src", this.getUrl());
+    }
+    else {
+      this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', this.getUrl());
+    }
+  }
+  
+  getUrl() {
+    if (!this.image) {
+      return "";
+    }  
+    
     this.realm = this.lolApi.getRealm();
     
     if (this.realm) {
@@ -54,11 +64,15 @@ export class DDragonImageComponent {
     return this.cdn + "/img/" + this.image;
   }
   
-  public needsVersion(image: string)
+  needsVersion(image: string)
   {
     if (image.indexOf("champion/loading") > -1) {
       return false;
     }
     return true;
+  }
+
+  ngOnChanges(changes: { [key: string]: SimpleChange; }) {
+    this.updateElement();
   }
 }

@@ -1,6 +1,6 @@
 <div class="champion" *ngFor="#champion of champions?.data">
-  <a [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
-    <ddragonimage class="nodrag" [image]="'champion/loading/' + champion.key + '_0.jpg'"></ddragonimage>
+  <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
+    <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
     <div class="info">
       <p class="nodrag noselect">{{champion.name}}</p>
       <bar title="Attack damage"    class="attack"     [value]="champion.info.attack"></bar>

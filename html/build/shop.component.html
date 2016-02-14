@@ -18,11 +18,11 @@
   </div>
   <div class="items">
         <div class="item" *ngFor="#item of items?.data" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
-      <ddragonimage [image]="'item/' + item.image.full"></ddragonimage>
+      <img [ddragon]="'item/' + item.image.full">
       <div>
         <p class="name">{{item.name}}</p>
         <div class="gold">
-          <ddragonimage [image]="'ui/gold.png'"></ddragonimage>
+          <img [ddragon]="'ui/gold.png'">
           <p>{{item.gold.total}}</p>
         </div>
       </div>
