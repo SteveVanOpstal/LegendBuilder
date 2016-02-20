@@ -9,7 +9,12 @@ import {DDragonDirective} from 'app/ddragon.directive';
 
 @Component({
   selector: 'abilities',
-  templateUrl: '/html/build/abilities.component.html',
+  template: `
+    <div class="ability" [ngClass]="{ult : i == 3}" *ngFor="#spell of champion?.spells; #i = index">
+      <img title="{{spell.name}}" [ddragon]="'spell/' + spell.image.full">
+      <h3>{{spell.name}}</h3>
+      <p>{{getExtendedTooltip(i)}}</p>
+    </div>`,
   directives: [NgFor, NgClass, DDragonDirective]
 })
 

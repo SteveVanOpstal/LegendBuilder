@@ -14,7 +14,20 @@ import {BarComponent} from 'app/bar.component'
 @Component({
   selector: 'champions',
   providers: [LolApiService],
-  templateUrl: '/html/choose/champions.component.html',
+  template: `
+    <div class="champion" *ngFor="#champion of champions?.data">
+      <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
+        <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
+        <div class="info">
+          <p class="nodrag noselect">{{champion.name}}</p>
+          <bar title="Attack damage"    class="attack"     [value]="champion.info.attack"></bar>
+          <bar title="Health"           class="defense"    [value]="champion.info.defense"></bar>
+          <bar title="Ability Power"    class="magic"      [value]="champion.info.magic"></bar>
+          <bar title="Difficulty"       class="difficulty" [value]="champion.info.difficulty"></bar>
+        </div>
+      </a>
+    </div>
+    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`,
   directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonDirective, BarComponent]
 })
 

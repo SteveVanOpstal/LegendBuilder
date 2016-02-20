@@ -15,7 +15,16 @@ import {Config} from 'app/config';
 
 @Component({
   selector: 'champion',
-  templateUrl: '/html/build/champion.component.html',
+  template: `
+    <div class="title">
+      <img [ddragon]="'champion/' + champion?.image?.full">
+      <h2>{{champion?.name}}</h2>
+    </div>
+    <div>
+      <p>Summoner:<input type="text" name="name" #name><button (click)="getSummonerMatchData(name.value)">Get</button></p>
+    </div>
+    <line-graph [champion]="champion" [config]="config"></line-graph>
+    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`,
   directives: [LineGraphComponent, AbilitiesComponent, ErrorComponent, DDragonDirective],
   providers: [LolApiService]
 })
