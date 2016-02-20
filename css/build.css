@@ -38,38 +38,38 @@ abilities .ability.ult img {
 
 /* stats */
 
-line-graph {
+graph {
   display: flex;
   margin-bottom: 20px;
 }
 
-line-graph .axis path,
-line-graph .axis line {
+graph .axis path,
+graph .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-line-graph .x.axis.level line {
+graph .x.axis.level line {
   /*fill: #e7e7e7;*/
 }
 
-line-graph .x.axis.level-line text,
-line-graph .x.axis.level-text line {
+graph .x.axis.level-line text,
+graph .x.axis.level-text line {
   display: none;
 }
 
-line-graph .x.axis path {
+graph .x.axis path {
   display: none;
 }
 
-line-graph .x.axis.time line {
+graph .x.axis.time line {
   stroke: #777;
   stroke-width: 3px;
   opacity: 0.3;
 }
 
-line-graph .x.axis.level line {
+graph .x.axis.level line {
   /*stroke: #FFF;*/
 }
 

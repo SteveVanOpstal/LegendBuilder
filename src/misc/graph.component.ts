@@ -10,7 +10,7 @@ import {DDragonDirective} from 'app/ddragon.directive';
 import * as d3 from 'd3/d3';
 
 @Component({
-  selector: 'line-graph',
+  selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [NgClass, DDragonDirective],
   template: `
@@ -21,6 +21,7 @@ import * as d3 from 'd3/d3';
             <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"/>
           </g>
           <image [ddragon]="'spell/' + spell.image.full" [attr.x]="i == 3 ? 0 : 5" [attr.y]="(i * 50)" [attr.height]="i == 3 ? 50 : 40" [attr.width]="i == 3 ? 50 : 40"/>
+          <g>getExtendedTooltip(i)</g>
         </g>
       </g>
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
@@ -33,9 +34,8 @@ import * as d3 from 'd3/d3';
       </g>
     </svg>`
 })
-//title="{{spell.name}}"   
 
-export class LineGraphComponent implements OnChanges, OnInit {
+export class GraphComponent implements OnChanges, OnInit {
   @Input() private config: Config;
   @Input() private champion: any;
   
