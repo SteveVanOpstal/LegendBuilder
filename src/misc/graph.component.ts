@@ -1,10 +1,10 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from 'angular2/core';
-import {NgClass} from 'angular2/common';
 
 import Config from 'app/config';
 
+import {AbilitySequenceComponent} from 'app/ability-sequence.component';
 import {DDragonDirective} from 'app/ddragon.directive';
 
 import * as d3 from 'd3/d3';
@@ -12,18 +12,10 @@ import * as d3 from 'd3/d3';
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [NgClass, DDragonDirective],
+  directives: [DDragonDirective, AbilitySequenceComponent],
   template: `
     <svg [attr.width]="width" [attr.height]="height" [attr.viewBox]="'0 0 ' +  width + ' ' + height" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g [attr.transform]="'translate(0,' + (graphHeight + margin.top + margin.bottom) + ')'">
-        <g class="ability" [ngClass]="{ult : i == 3}" *ngFor="#spell of champion?.spells; #i = index">
-          <g fill="gray">
-            <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"/>
-          </g>
-          <image [ddragon]="'spell/' + spell.image.full" [attr.x]="i == 3 ? 0 : 5" [attr.y]="(i * 50)" [attr.height]="i == 3 ? 50 : 40" [attr.width]="i == 3 ? 50 : 40"/>
-          <g>getExtendedTooltip(i)</g>
-        </g>
-      </g>
+      <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (graphHeight + margin.top + margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
         <path class="line xp" clip-path="url(#clip)"></path>
         <path class="line g" clip-path="url(#clip)"></path>

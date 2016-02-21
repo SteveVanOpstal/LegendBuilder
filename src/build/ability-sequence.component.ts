@@ -8,18 +8,26 @@ import {tim} from 'tinytim/lib/tinytim';
 import {DDragonDirective} from 'app/ddragon.directive';
 
 @Component({
-  selector: 'abilities',
+  selector: 'g[ability-sequence]',
+  directives: [NgFor, NgClass, DDragonDirective],
   template: `
-    <div class="ability" [ngClass]="{ult : i == 3}" *ngFor="#spell of champion?.spells; #i = index">
-      <img title="{{spell.name}}" [ddragon]="'spell/' + spell.image.full">
-      <h3>{{spell.name}}</h3>
-      <p>{{getExtendedTooltip(i)}}</p>
-    </div>`,
-  directives: [NgFor, NgClass, DDragonDirective]
+    <svg:g class="ability" [ngClass]="{ult : i == 3}" *ngFor="#spell of champion?.spells; #i = index">
+      <g fill="gray">
+        <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"></rect>
+      </g>
+      <image [id]="spell.image.full" [ddragon]="'spell/' + spell.image.full" [attr.x]="i == 3 ? 0 : 5" [attr.y]="(i * 50)" [attr.height]="i == 3 ? 50 : 40" [attr.width]="i == 3 ? 50 : 40">
+        <title>{{getExtendedTooltip(i)}}</title>
+      </image>
+    </svg:g>`
 })
 
-export class AbilitiesComponent {
+export class AbilitySequenceComponent {
   @Input() private champion: any;
+  
+  private margin: any = { top: 20, right: 20, bottom: 20, left: 60 };
+  
+  private width: number = 1500;
+  private height: number = 250;
   
   getExtendedTooltip(index: number) {
     var spell = this.champion.spells[index];
