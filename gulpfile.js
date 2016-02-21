@@ -63,17 +63,13 @@ gulp.task('push-changes', function (cb) {
 });
 
 gulp.task('create-new-tag', function (cb) {
-  var version = getPackageJsonVersion();
+  var version = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
   git.tag(version, 'Created Tag for version: ' + version, function (error) {
     if (error) {
       return cb(error);
     }
     git.push('origin', 'master', {args: '--tags'}, cb);
   });
-
-  function getPackageJsonVersion () {
-    return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-  };
 });
 
 gulp.task('release', function (callback) {
