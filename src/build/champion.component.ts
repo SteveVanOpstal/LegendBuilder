@@ -3,7 +3,7 @@
 import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
-import {LineGraphComponent} from 'app/line-graph.component';
+import {GraphComponent} from 'app/graph.component';
 import {AbilitiesComponent} from 'app/abilities.component';
 
 import {ErrorComponent} from 'app/error.component';
@@ -23,9 +23,9 @@ import {Config} from 'app/config';
     <div>
       <p>Summoner:<input type="text" name="name" #name><button (click)="getSummonerMatchData(name.value)">Get</button></p>
     </div>
-    <line-graph [champion]="champion" [config]="config"></line-graph>
+    <graph [champion]="champion" [config]="config"></graph>
     <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`,
-  directives: [LineGraphComponent, AbilitiesComponent, ErrorComponent, DDragonDirective],
+  directives: [GraphComponent, AbilitiesComponent, ErrorComponent, DDragonDirective],
   providers: [LolApiService]
 })
 
