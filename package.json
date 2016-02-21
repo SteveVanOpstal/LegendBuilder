@@ -15,17 +15,17 @@
     "url": "https://github.com/SteveVanOpstal/LegendBuilder.git"
   },
   "dependencies": {
-    "angular2": "^2.0.0-beta.3",
+    "angular2": "^2.0.0-beta.7",
     "d3": "^3.5.12",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "lru-cache": "2.7.0",
     "reflect-metadata": "0.1.2",
-    "rxjs": "^5.0.0-beta.0",
+    "rxjs": "^5.0.0-beta.2",
     "systemjs": "0.19.6",
     "tinytim": "^0.1.1",
     "tracer": "0.8.2",
-    "zone.js": "0.5.11"
+    "zone.js": "0.5.15"
   },
   "devDependencies": {
     "conventional-github-releaser": "^0.5.1",
