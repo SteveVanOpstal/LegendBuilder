@@ -1,3 +1,13 @@
+<a name="1.0.0-alpha.2"></a>
+# [1.0.0-alpha.2](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.1...v1.0.0-alpha.2) (2016-02-21)
+
+
+### Features
+
+* **angular:** update to angular 2.0.0-beta.7 ([5dacb35](https://github.com/SteveVanOpstal/LegendBuilder/commit/5dacb35))
+
+
+
 <a name="1.0.0-alpha.1"></a>
 # [1.0.0-alpha.1](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.0...v1.0.0-alpha.1) (2016-02-14)
 
