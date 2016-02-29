@@ -2,8 +2,6 @@
 
 import {Component, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
 import {NgFor, NgIf, NgClass} from 'angular2/common';
-import {Response, ResponseOptions} from 'angular2/http';
-import {RouterLink} from 'angular2/router';
 
 import {LolApiService} from 'app/lolapi.service';
 
@@ -28,7 +26,7 @@ class TranslatePipe {
     "MANAREGEN": "Mana regen",
     "NONBOOTSMOVEMENT": "Other",
     "ARMORPENETRATION": "Armor penetration",
-    "AURA": "(AOE) Area Of Effect",
+    "AURA": "Area Of Effect",
     "MAGICPENETRATION": "Magic penetration",
     "ONHIT": "On hit effect",
     "SPELLVAMP": "Spell vamp",
@@ -47,11 +45,6 @@ class TranslatePipe {
   private capitalize(value: string) {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
-}
-
-interface Items
-{
-  data: Array<Object>,
 }
 
 @Component({
@@ -97,7 +90,7 @@ interface Items
 export class ShopComponent {
   @Output() itemPicked: EventEmitter = new EventEmitter();
   
-  private items : Object;
+  private items: Object;
   private loading: boolean = true;
   private ok: boolean = true;
   
@@ -105,21 +98,27 @@ export class ShopComponent {
     this.getData();
   }
   
-  getData()
-  {
+  getData() {
     this.loading = true;
     this.ok = true;
     
     this.lolApi.getItems()
       .subscribe(
         res => { 
-          this.items = res.json(); 
-          this.items['data'] = this.items['data'].filter(this.filter).sort(this.sort);
-          this.items['tree'] = this.removeSortIndex(this.items['tree']);
+          this.items = this.alterData(res.json());
         },
         error => { this.ok = false; this.loading = false; },
         () => this.loading = false
       );
+  }
+  
+  alterData(newItems: Object): Object
+  {
+    var alteredItems = { data: null, tree: null };
+    alteredItems.data = newItems['data'].filter(this.filter).sort(this.sort);
+    alteredItems.tree = this.removeSortIndex(newItems['tree']);
+    return alteredItems;
+    
   }
   
   sort(objA, objB) {
@@ -127,7 +126,7 @@ export class ShopComponent {
   }
   
   filter(obj) {
-    // currently fixed: SummonersRiftNew && no specific champions && no hide from all
+    //TODO: currently fixed: SummonersRiftNew && no specific champions && no hide from all
     return obj.maps[11] && !obj.requiredChampion && !obj.hideFromAll;
   }
   
