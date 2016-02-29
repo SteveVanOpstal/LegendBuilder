@@ -40,6 +40,11 @@ export class LolApiService {
       .map(res => res = this.handleResponse(res));
   }
 
+  public getMasteries() {
+    return this.http.get(this.linkStaticData() + '/mastery?masteryListData=all')
+      .map(res => res = res.json());
+  }
+
   public getSummonerMatchData(summonerName: string, championKey: string, gameTime: number, samples: number) {
     return this.http.get(this.matchServer() + '/' + summonerName + '/' + championKey + '?gametime=' + gameTime + '&samples=' + samples)
       .map(res => res.json());

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg *ngIf="mastery" class="rank" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+	<radialGradient cy="10%" fy="0%" id="radialGradient">
+	  <stop offset="0%" stop-color="yellow"/>
+	  <stop offset="100%" stop-color="#000"/>
+	</radialGradient>
+	<filter id="glow">
+	<feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+	  <feMerge>
+		<feMergeNode in="coloredBlur"/>
+		<feMergeNode in="SourceGraphic"/>
+	  </feMerge>
+	</filter>
+  </defs>
+  <rect x="1" y="1" width="27" height="14"/>
+  <rect x="7" y="2" width="15" height="12" fill="url(#radialGradient)"/>
+  <rect x="2" y="2" width="25" height="12" stroke="yellow" style="filter:url(#glow)" fill="none" stroke-width="0.5"/>
+  <text x="15" y="12" fill="yellow" text-anchor="middle" font-size="12">{{'0/' + mastery.ranks}}</text>
+</svg>

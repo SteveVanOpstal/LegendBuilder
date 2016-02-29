@@ -74,6 +74,138 @@ graph .x.axis.level line {
 }
 
 
+/* masteries */
+
+mastery {
+    display: flex;
+    width: 825px;
+    height: 480px;
+    justify-content: center;
+}
+
+mastery > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 33%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    background-repeat: no-repeat;
+}
+
+.mastery.disabled img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+.mastery .rank {
+  position: absolute;
+  padding: 40px 0 0 24px;
+}
+
+.mastery img {
+  border: 2px solid gray;
+}
+
+.mastery.disabled .rank {
+    color: #7e7e7e;
+    cursor: default;
+}
+
+.mastery p.rank {
+    font-family: sans-serif Arial;
+    font-size: 0.8em;
+    position: absolute;
+    margin: -14px 0 0 23px;
+    width: 24px;
+    text-align: center;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.mastery {
+    width: 48px;
+    margin: 6px;
+}
+
+.mastery p.rank {
+    color: #00f300;
+}
+
+.mastery.complete p {
+    color: #fdf300;
+}
+
+mastery .total {
+    color: #FFF;
+    font-size: 2em;
+    font-variant: small-caps;
+    width: 100%;
+    margin: 0 10px;
+}
+
+.mastery:not(.disabled):not(:empty) {
+    cursor: pointer;
+}
+
+mastery p {
+    cursor: default;
+}
+
+.mastery > div {
+    display: none;
+    z-index: 30;
+    padding: 10px;
+    margin: 5px;
+    position: absolute;
+    background-color: #000;
+    border-radius: 5px;
+    border: 3px solid #aa7625;
+    transition: opacity 0.25s ease-in;
+    -webkit-transition: opacity 0.25s ease-in;
+}
+
+.mastery:hover > div {
+    display: inherit;
+}
+
+.mastery > div:hover {
+    opacity: 0;
+    z-index: 0;
+}
+
+.mastery > div p {
+    font-size: 1.2em;
+    color: #FFF;
+}
+
+.mastery > div ul {
+    margin: 0 0 8px 0;
+    color: #FFF;
+}
+
+.mastery > div h2 {
+    margin: 0;
+}
+
+mastery .mastery > div h2 {
+    color: #46a1eb;
+}
+
+mastery .Ferocity .mastery > div h2 {
+    color: #b51c00;
+}
+
+mastery .Cunning .mastery > div h2 {
+    color: #7B3BD4;
+}
+
+mastery .Resolve .mastery > div h2 {
+    color: #46a1eb;
+}
+
+
 /* shop */
 
 shop {

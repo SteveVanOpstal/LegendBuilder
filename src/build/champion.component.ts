@@ -4,7 +4,7 @@ import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {GraphComponent} from 'app/graph.component';
-import {AbilitiesComponent} from 'app/abilities.component';
+import {MasteryComponent} from 'app/mastery.component';
 
 import {ErrorComponent} from 'app/error.component';
 import {DDragonDirective} from 'app/ddragon.directive';
@@ -24,8 +24,9 @@ import {Config} from 'app/config';
       <p>Summoner:<input type="text" name="name" #name><button (click)="getSummonerMatchData(name.value)">Get</button></p>
     </div>
     <graph [champion]="champion" [config]="config"></graph>
+    <mastery></mastery>
     <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`,
-  directives: [GraphComponent, AbilitiesComponent, ErrorComponent, DDragonDirective],
+  directives: [GraphComponent, MasteryComponent, ErrorComponent, DDragonDirective],
   providers: [LolApiService]
 })
 
