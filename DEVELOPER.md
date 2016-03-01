@@ -23,7 +23,6 @@ npm install
 ```
 
 ### 2. Compile typescript
-A gulp task has been made for this:
 ```
 gulp build
 ```
@@ -31,12 +30,12 @@ gulp build
 ### 3. Setup node servers
 In this project a few servers are made that run between the client and the [LOL API](https://developer.riotgames.com/).
 
-#### 3.1 Create configuration files
+#### 3.1 Create config files
 There are two node servers available, each requires a configuration file. Placed at the root of the project.
- * staticServer.js: .static-server.json
- * matchServer.js: .match-server.json
+ * static server: `.static-server.json`
+ * match server: `.match-server.json`
 
-It should contain the following items:
+They should contain the following items:
  * host
  * port
 
@@ -48,13 +47,11 @@ example:
 }
 ```
 
-#### 3.2 .api.key
-* Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
-* Create a file named `.api.key` and add the key to it.
-* Place it at the root of the project.
+#### 3.2 Create `.api.key`
+Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
+Create a file named `.api.key` and add the key to it. Place it at the root of the project.
 
 #### 3.3 Run
-Start the node servers by running these commands:
 ```
 gulp start-static-server
 gulp start-match-server
@@ -68,7 +65,7 @@ In development I recommend [Live Server](https://www.npmjs.com/package/live-serv
 npm install -g live-server
 ```
 
-#### 4.2 .live-server.json (optional)
+#### 4.2 Create `.live-server.json` (optional)
 As specified by [live-server usage](https://github.com/tapio/live-server#usage-from-node). Placed at the root of the project.
 
 example:
@@ -80,7 +77,7 @@ example:
 }
 ```
 
-#### 4.3 start server
+#### 4.3 Run
 ```
 gulp start-live-server
 ```
@@ -88,9 +85,7 @@ gulp start-live-server
 ## Visual Studio Code
 I highly recommend the [Visual Studio Code](https://code.visualstudio.com/) IDE. 
 
-It works well with for example gulp
-
-tasks.json:
+It works well with for example gulp, by adding following `tasks.json` you can call the gulp `build` task via `Ctrl+Shift+B`:
 
 ```JSON
 {
