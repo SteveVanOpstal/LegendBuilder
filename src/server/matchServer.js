@@ -56,13 +56,13 @@ function getSummonerId(region, name, callback) {
   var path = url.format({ pathname: host.createUrl(region, 'summoner') + 'by-name/' + name });
   host.sendRequest(region, path, function (data, error, statusCode) {
     if (data[name]) {
-      callback(null, data[name].id);
+      return callback(null, data[name].id);
     }
     else if(error) {
-      callback({ code: statusCode, text: error });
+      return callback({ code: statusCode, text: error });
     }
     else {
-      callback(errors.summoner);
+      return callback(errors.summoner);
     }
   }, host.jsonFormatter);
 }
@@ -71,13 +71,13 @@ function getMatchList(region, championId, summonerId, callback) {
   var path = url.format({ pathname: host.createUrl(region, 'matchlist') + 'by-summoner/' + summonerId, query: { championIds: championId } });
   host.sendRequest(region, path, function (data, error, statusCode) {
     if (data.totalGames >= config.games.min) {
-      callback(null, summonerId, data.matches);
+      return callback(null, summonerId, data.matches);
     }
     else if(error) {
-      callback({ code: statusCode, text: error });
+      return callback({ code: statusCode, text: error });
     }
     else {
-      callback(errors.matchlist);
+      return callback(errors.matchlist);
     }
   }, host.jsonFormatter);
 }
@@ -101,13 +101,13 @@ function getMatches(region, summonerId, matches, callback) {
           
           var participantId = -1;
           data.participantIdentities.forEach(function (participant) {
-            if (participant.player.summonerId == summonerId) {
+            if (participant.player.summonerId === summonerId) {
               participantId = participant.participantId;
             }
           });
           
           if (participantId <= -1) {
-            cb("Unable to resolve participant");
+            return cb("Unable to resolve participant");
           }
           
           result.matches[count - 1] = new Array();
@@ -119,20 +119,20 @@ function getMatches(region, summonerId, matches, callback) {
             };
           });
           
-          cb();
+          return cb();
         }
         else if(error) {
-          cb({ code: statusCode, text: error });
+          return cb({ code: statusCode, text: error });
         }
         else {
-          cb(errors.matches);
+          return cb(errors.matches);
         }
       }, host.jsonFormatter);
       
       count++;
     },
     function (err) {
-      err ? callback(err): callback(null, result);
+      return err ? callback(err): callback(null, result);
     }
   );
 }
