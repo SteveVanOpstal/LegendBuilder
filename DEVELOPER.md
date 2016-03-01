@@ -28,11 +28,13 @@ A gulp task has been made for this:
 gulp build
 ```
 
-### 3. Setup lol-server
-A server that runs between the client and the [LOL API](https://developer.riotgames.com/).
+### 3. Setup node servers
+In this project a few servers are made that run between the client and the [LOL API](https://developer.riotgames.com/).
 
-#### 3.1 .lol-server.json
-A configuration file, at the project root, for the lol-server.
+#### 3.1 Create configuration files
+There are two node servers available, each requires a configuration file. Placed at the root of the project.
+ * staticServer.js: .static-server.json
+ * matchServer.js: .match-server.json
 
 It should contain the following items:
  * host
@@ -46,15 +48,16 @@ example:
 }
 ```
 
-#### 3.2 api.key
+#### 3.2 .api.key
 * Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
-* Create a file containing only this key and name it `api.key`.
-* Place it in the root folder.
+* Create a file named `.api.key` and add the key to it.
+* Place it at the root of the project.
 
-#### 3.3 Start lol-server
-A node server ([server.js](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/src/server/server.js)) is made to communicate with the League Of Legends API, start it by running this command:
+#### 3.3 Run
+Start the node servers by running these commands:
 ```
-gulp start-server
+gulp start-static-server
+gulp start-match-server
 ```
 
 ### 4. Run a HTTP server (live-server)
@@ -66,14 +69,14 @@ npm install -g live-server
 ```
 
 #### 4.2 .live-server.json (optional)
-As specified by [live-server usage](https://github.com/tapio/live-server#usage-from-node). Placed at the root of the project
+As specified by [live-server usage](https://github.com/tapio/live-server#usage-from-node). Placed at the root of the project.
 
 example:
 ```JSON
 {
   "port": 8585,
   "file": "index.html",
-  "ignore": "configurations,src/typings,server,.git,.vscode"
+  "ignore": "src/typings,src/server,.git,.vscode"
 }
 ```
 
