@@ -160,7 +160,7 @@ gulp.task('uglify-js', function () {
   return gulp.src('app/*.js')
     .pipe(rename(function (path) {
       if (path.basename.indexOf(".min") < 0){
-        path.extname = ".min.css";
+        path.extname = ".min.js";
       }
     }))
     .pipe(sourcemaps.init())
