@@ -1,3 +1,20 @@
+<a name="1.0.0-alpha.3"></a>
+# [1.0.0-alpha.3](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.2...v1.0.0-alpha.3) (2016-03-02)
+
+
+### Bug Fixes
+
+* **config:** change file names ([6a20512](https://github.com/SteveVanOpstal/LegendBuilder/commit/6a20512))
+* **gulp:** use correct extension for uglify-js ([5649dcc](https://github.com/SteveVanOpstal/LegendBuilder/commit/5649dcc))
+
+### Features
+
+* **abilities:** remodel ([592f533](https://github.com/SteveVanOpstal/LegendBuilder/commit/592f533))
+* **angular:** update to angular 2.0.0-beta.8 ([26a2a04](https://github.com/SteveVanOpstal/LegendBuilder/commit/26a2a04))
+* **MasteryComponent:** Initial masteries implementation ([671e6ff](https://github.com/SteveVanOpstal/LegendBuilder/commit/671e6ff))
+
+
+
 <a name="1.0.0-alpha.2"></a>
 # [1.0.0-alpha.2](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.1...v1.0.0-alpha.2) (2016-02-21)
 
