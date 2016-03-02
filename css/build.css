@@ -76,133 +76,124 @@ graph .x.axis.level line {
 
 /* masteries */
 
+masteries {
+  display: flex;
+  width: 825px;
+  height: 480px;
+  justify-content: center;
+}
+
+masteries > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 33%;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px;
+  background-repeat: no-repeat;
+}
+
+masteries > div > div {
+display: flex;
+}
+
+masteries mastery > div h2 {
+  color: #46a1eb;
+}
+
+masteries .Ferocity mastery > div h2 {
+  color: #b51c00;
+}
+
+masteries .Cunning mastery > div h2 {
+  color: #7B3BD4;
+}
+
+masteries .Resolve mastery > div h2 {
+  color: #46a1eb;
+}
+
+masteries .total {
+  color: #FFF;
+  font-size: 2em;
+  font-variant: small-caps;
+  width: 100%;
+  margin: 0 10px;
+}
+
+masteries p {
+  cursor: default;
+}
+
+/* mastery */
+
 mastery {
-    display: flex;
-    width: 825px;
-    height: 480px;
-    justify-content: center;
+  width: 48px;
+  margin: 6px;
 }
 
-mastery > div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 33%;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px;
-    background-repeat: no-repeat;
+mastery > div.disabled img {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 
-.mastery.disabled img {
-    filter: grayscale(100%);
-    -webkit-filter: grayscale(100%);
+mastery > div:not(.disabled):not(:empty) {
+  cursor: pointer;
 }
 
-.mastery .rank {
+mastery .rank {
   position: absolute;
   padding: 40px 0 0 24px;
+  cursor: pointer;
+  z-index: 20;
 }
 
-.mastery img {
+mastery > div.disabled .rank {
+  cursor: default;
+}
+
+mastery img {
   border: 2px solid gray;
 }
 
-.mastery.disabled .rank {
-    color: #7e7e7e;
-    cursor: default;
+mastery .description {
+  display: none;
+  z-index: 30;
+  padding: 10px;
+  margin: 5px;
+  position: absolute;
+  background-color: #000;
+  border-radius: 5px;
+  border: 3px solid #aa7625;
+  transition: opacity 0.25s ease-in;
+  -webkit-transition: opacity 0.25s ease-in;
+  font-size: 12px;
+  max-width: 500px;
 }
 
-.mastery p.rank {
-    font-family: sans-serif Arial;
-    font-size: 0.8em;
-    position: absolute;
-    margin: -14px 0 0 23px;
-    width: 24px;
-    text-align: center;
-    z-index: 20;
-    cursor: pointer;
+mastery:hover .description {
+  display: inherit;
 }
 
-.mastery {
-    width: 48px;
-    margin: 6px;
+mastery .description:hover {
+  opacity: 0;
+  z-index: 0;
 }
 
-.mastery p.rank {
-    color: #00f300;
+mastery .description p {
+  font-size: 1.2em;
+  color: #FFF;
 }
 
-.mastery.complete p {
-    color: #fdf300;
+mastery .description ul {
+  margin: 0 0 8px 0;
+  color: #FFF;
 }
 
-mastery .total {
-    color: #FFF;
-    font-size: 2em;
-    font-variant: small-caps;
-    width: 100%;
-    margin: 0 10px;
-}
-
-.mastery:not(.disabled):not(:empty) {
-    cursor: pointer;
-}
-
-mastery p {
-    cursor: default;
-}
-
-.mastery > div {
-    display: none;
-    z-index: 30;
-    padding: 10px;
-    margin: 5px;
-    position: absolute;
-    background-color: #000;
-    border-radius: 5px;
-    border: 3px solid #aa7625;
-    transition: opacity 0.25s ease-in;
-    -webkit-transition: opacity 0.25s ease-in;
-}
-
-.mastery:hover > div {
-    display: inherit;
-}
-
-.mastery > div:hover {
-    opacity: 0;
-    z-index: 0;
-}
-
-.mastery > div p {
-    font-size: 1.2em;
-    color: #FFF;
-}
-
-.mastery > div ul {
-    margin: 0 0 8px 0;
-    color: #FFF;
-}
-
-.mastery > div h2 {
-    margin: 0;
-}
-
-mastery .mastery > div h2 {
-    color: #46a1eb;
-}
-
-mastery .Ferocity .mastery > div h2 {
-    color: #b51c00;
-}
-
-mastery .Cunning .mastery > div h2 {
-    color: #7B3BD4;
-}
-
-mastery .Resolve .mastery > div h2 {
-    color: #46a1eb;
+mastery .description h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
 
