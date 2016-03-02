@@ -1,7 +1,7 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
 import {Component, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
-import {NgFor, NgIf, NgClass} from 'angular2/common';
+import {NgFor, NgClass} from 'angular2/common';
 
 import {LolApiService} from 'app/lolapi.service';
 
@@ -50,6 +50,8 @@ class TranslatePipe {
 @Component({
   selector: 'shop',
   providers: [LolApiService],
+  directives: [NgFor, NgClass, ErrorComponent, DDragonDirective],
+  pipes: [TranslatePipe],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -82,9 +84,7 @@ class TranslatePipe {
         </div>
         <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
       </div>
-    </div>`,
-  directives: [NgFor, NgIf, NgClass, ErrorComponent, DDragonDirective],
-  pipes: [TranslatePipe]
+    </div>`
 })
 
 export class ShopComponent {

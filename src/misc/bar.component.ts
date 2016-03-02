@@ -6,8 +6,8 @@ import {NgFor} from 'angular2/common';
 @Component({
   selector: 'bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div *ngFor="#val of repeat()"></div>`,
-  directives: [NgFor]
+  directives: [NgFor],
+  template: `<div *ngFor="#val of repeat()"></div>`
 })
 
 export class BarComponent {

@@ -7,10 +7,10 @@ import {ChampionComponent} from 'app/champion.component'
 
 @Component({
   selector: 'build',
+  directives: [ShopComponent, ChampionComponent],
   template: `
     <champion></champion>
-    <shop></shop>`,
-  directives: [ShopComponent, ChampionComponent]
+    <shop></shop>`
 })
 
 export class BuildRoute {}

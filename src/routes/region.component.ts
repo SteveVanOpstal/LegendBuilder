@@ -6,6 +6,7 @@ import {RouterLink} from 'angular2/router';
 
 @Component({
   selector: 'region',
+  directives: [NgFor, RouterLink],
   template: `
   <div class="regions align-center">
     <h2>Select your region:</h2>
@@ -13,8 +14,7 @@ import {RouterLink} from 'angular2/router';
       <span>{{region.id | uppercase}}</span>
       <span>{{region.name}}</span>
     </button>
-  </div>`,
-  directives: [NgFor, RouterLink]
+  </div>`
 })
   
 export class RegionRoute {

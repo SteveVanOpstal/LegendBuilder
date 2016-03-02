@@ -5,6 +5,7 @@ import {NgIf} from 'angular2/common';
 
 @Component({
   selector: 'error',
+  directives: [NgIf],
   template: `
   <svg *ngIf="loading" class="icon icon-load" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
     <path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/>
@@ -23,8 +24,7 @@ import {NgIf} from 'angular2/common';
         <path d="M4 0c-1.65 0-3 1.35-3 3h-1l1.5 2 1.5-2h-1c0-1.11.89-2 2-2v-1zm2.5 1l-1.5 2h1c0 1.11-.89 2-2 2v1c1.65 0 3-1.35 3-3h1l-1.5-2z" transform="translate(0 1)" />
       </svg>
     </button>
-  </p>`,
-  directives: [NgIf]
+  </p>`
 })
 
 export class ErrorComponent {

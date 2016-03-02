@@ -14,6 +14,7 @@ import {BarComponent} from 'app/bar.component'
 @Component({
   selector: 'champions',
   providers: [LolApiService],
+  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonDirective, BarComponent],
   template: `
     <div class="champion" *ngFor="#champion of champions?.data">
       <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
@@ -27,8 +28,7 @@ import {BarComponent} from 'app/bar.component'
         </div>
       </a>
     </div>
-    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`,
-  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonDirective, BarComponent]
+    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
 })
 
 export class ChampionsComponent {
