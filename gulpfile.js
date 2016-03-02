@@ -37,7 +37,7 @@ gulp.task('changelog', function () {
 gulp.task('github-release', function(done) {
   conventionalGithubReleaser({
     type: "oauth",
-    token: fs.readFileSync('./git.token', 'utf8')
+    token: fs.readFileSync('./.git.token', 'utf8')
   }, {
     preset: 'angular'
   }, done);

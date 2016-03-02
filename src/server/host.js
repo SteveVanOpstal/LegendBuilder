@@ -10,7 +10,7 @@ var config = {
   matchlist: '/api/lol/{{region}}/v2.2/matchlist/',
   match: '/api/lol/{{region}}/v2.2/match/',
   'static-data': '/api/lol/static-data/{{region}}/v1.2/',
-  apiKey: fs.readFileSync('api.key', 'utf8')
+  apiKey: fs.readFileSync('.api.key', 'utf8')
 };
 
 var options = {

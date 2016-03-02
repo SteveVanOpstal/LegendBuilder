@@ -16,7 +16,7 @@ var cache = Lru({
 var config = {
   httpServer: JSON.parse(fs.readFileSync('.live-server.json', 'utf8')),
   server: JSON.parse(fs.readFileSync('.match-server.json', 'utf8')),
-  apiKey: fs.readFileSync('api.key', 'utf8'),
+  apiKey: fs.readFileSync('.api.key', 'utf8'),
   games: {
     min: 2,
     max: 5
