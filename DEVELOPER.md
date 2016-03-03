@@ -71,9 +71,9 @@ As specified by [live-server usage](https://github.com/tapio/live-server#usage-f
 example:
 ```JSON
 {
-  "port": 8585,
+  "port": 3210,
   "file": "index.html",
-  "ignore": "src/typings,src/server,.git,.vscode"
+  "watch": ["app", "css"]
 }
 ```
 
