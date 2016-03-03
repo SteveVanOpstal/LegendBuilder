@@ -81,6 +81,7 @@ masteries {
   width: 825px;
   height: 480px;
   justify-content: center;
+  margin: 0 auto;
 }
 
 masteries > div {
@@ -95,7 +96,7 @@ masteries > div {
 }
 
 masteries > div > div {
-display: flex;
+  display: flex;
 }
 
 masteries mastery > div h2 {
@@ -134,8 +135,8 @@ mastery {
 }
 
 mastery > div.disabled img {
-  filter: grayscale(100%);
-  -webkit-filter: grayscale(100%);
+  filter: grayscale(90%);
+  -webkit-filter: grayscale(90%);
 }
 
 mastery > div:not(.disabled):not(:empty) {

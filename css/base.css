@@ -94,6 +94,18 @@ bar > div {
   margin-left: 2px;
 }
 
+help svg:hover ~ div.content {
+  display: inherit;
+}
+
+help .content {
+  display: none;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  color: #555;
+}
+
 /* icons */
 
 .icon {
