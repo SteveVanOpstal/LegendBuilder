@@ -1,13 +1,13 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, Input, Inject, forwardRef/*, Attribute*/} from 'angular2/core';
+import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
 import {NgIf, NgClass} from 'angular2/common';
 
 import {DDragonDirective} from 'app/ddragon.directive';
 import {MasteriesComponent} from 'app/masteries.component';
 
 class Colors {
-  public static green: string = "#00f300";
+  public static blue: string = "#4C99FC";
   public static yellow: string = "#fdf300";
   public static gray: string = "#7e7e7e";
 }
@@ -16,27 +16,20 @@ class Colors {
   selector: 'mastery',
   directives: [NgIf, NgClass, DDragonDirective],
   template: `
-    <div *ngIf="data" [ngClass]="{disabled: disabled}" (click)="clicked()" (contextmenu)="rightClicked()">
-      <svg class="rank" width="30" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <div *ngIf="data" [ngClass]="{disabled: disabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()">
+      <svg *ngIf="data.ranks > 1" class="rank" width="30" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient cy="10%" fy="0%" id="radialGradient">
             <stop offset="0%" [attr.stop-color]="color"/>
             <stop offset="100%" stop-color="#000"/>
           </radialGradient>
-          <filter id="glow">
-          <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
         </defs>
         <rect x="0" y="0" width="30" height="16"/>
         <rect x="7" y="1" width="16" height="14" opacity="0.7" fill="url(#radialGradient)"/>
-        <rect x="1" y="1" width="28" height="14" [attr.stroke]="color" fill="none" stroke-width="0.5" style="filter:url(#glow)"/>
+        <rect x="1" y="1" width="28" height="14" [attr.stroke]="color" fill="none" stroke-width="1"/>
         <text x="15" y="12" [attr.fill]="color" text-anchor="middle" font-size="12">{{rank + '/' + data.ranks}}</text>
       </svg>
-      <img [attr.alt]="data.name" width="45px" [ddragon]="'mastery/' + data.image.full">
+      <img [attr.alt]="data.name" height="45px" width="45px" [ddragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>
         <p>{{data.description[0]}}</p>
@@ -44,69 +37,111 @@ class Colors {
     </div>`
 })
 
-export class MasteryComponent {
+export class MasteryComponent implements OnInit {
   @Input() data: Object;
+  @Input() category: number = 0;
   @Input() tier: number = 0;
   
-  private rank: number = 0;
+  public rank: number = 0;
   private color: string = Colors.gray;
   
   public disabled: boolean = true;
+  public active: boolean = false;
 
-  constructor(@Inject(forwardRef(() => MasteriesComponent)) private masteries: MasteriesComponent/*, @Attribute('class') classy: string*/) {
+  constructor(@Inject(forwardRef(() => MasteriesComponent)) private masteries: MasteriesComponent) {
     this.masteries.addMastery(this);
-    this.setDisabled();
+  }
+  
+  ngOnInit() {
+    this.tier == 0 ? this.setEnabled() : this.setDisabled();
+  }
+  
+  private changed() {
+    if (this.disabled) {
+      this.active = false;
+    } else {
+      this.active = this.rank != 0;
+    }
+    
+    if (this.disabled && !this.active) {
+      this.color = Colors.gray;
+      return;
+    }
+    this.color = this.active ? Colors.yellow : Colors.blue;
+  }
+  
+  public setDisabled() {
+    if(this.disabled) {
+      return;
+    }
+    this.color = Colors.gray;
+    this.disabled = true;
+    this.changed();
+  }
+  
+  public setEnabled() {
+    if(!this.disabled) {
+      return;
+    }
+    if (!this.data) {
+      this.setDisabled();
+      return;
+    }
+    this.disabled = false;
+    this.changed();
   }
   
   public hasTier(tiers: Array<number>) : boolean {
     return tiers.indexOf(this.tier) >= 0;
   }
   
-  setDisabled() {
+  public getRank() {
+    return this.rank;
+  }
+  
+  public setRank(rank: number) {
     if(this.disabled) {
       return;
     }
-    
-    //this.classy = "disabled";
-    this.color = Colors.gray;
-    this.disabled = true;
+    this.rank = rank;
+    this.changed();
   }
   
-  setEnabled() {
-    if(!this.disabled) {
-      return;
+  private getMaxRank() {
+    if (!this.data || !this.data['ranks']){
+      return 0;
     }
-    
-    if (!this.data || !this.data['ranks']) {
-      this.setDisabled();
-      return;
-    }
-    
-    //this.classy = "";
-    this.color = this.data['ranks'] == this.rank ? Colors.green : Colors.yellow;
-    this.disabled = false;
+    return this.data['ranks'];
   }
   
-  addRank() {
-    if(this.rank < this.data['ranks']) {
-      this.rank++;
-    }
-    this.masteries.changed();
-  }
-  
-  removeRank() {
-    if(this.rank > 0) {
-      this.rank--;
-    }
-    this.masteries.changed();
-  }
-  
-  clicked() {
+  private clicked() {
     this.addRank();
   }
   
-  rightClicked() {
+  private rightClicked() {
     this.removeRank();
     return false; // stop context menu from appearing
+  }
+  
+  private addRank() {
+    if(this.disabled) {
+      return;
+    }
+    if (this.rank < this.getMaxRank()) {
+      this.rank++;
+    }
+    this.changed();
+    this.masteries.changed(this);
+  }
+  
+  private removeRank() {
+    if(this.disabled) {
+      return;
+    }
+    if(this.rank > 0) {
+      this.rank--;
+    }
+    this.changed();
+    this.masteries.changed(this);
   }
 }

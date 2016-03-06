@@ -6,7 +6,6 @@ import {NgFor, NgIf} from 'angular2/common';
 import {LolApiService} from 'app/lolapi.service';
 
 import {MasteryComponent} from 'app/mastery.component';
-import {HelpComponent} from 'app/help.component';
 import {ErrorComponent} from 'app/error.component';
 
 class MasteryList extends Array<MasteryComponent> {
@@ -17,6 +16,13 @@ class MasteryList extends Array<MasteryComponent> {
       }
     });
   }
+  setEnabledTier(mastery: MasteryComponent, tier: number) {
+    this.forEach(function(m: MasteryComponent) {
+      if(tier == m.tier && mastery.category == m.category) {
+        m.setEnabled();
+      }
+    });
+  }
   setDisabled(callback?: (mastery: MasteryComponent) => boolean) {
     this.forEach(function(mastery: MasteryComponent) {
       if(callback(mastery)) {
@@ -24,20 +30,35 @@ class MasteryList extends Array<MasteryComponent> {
       }
     });
   }
+  setTierRank(mastery: MasteryComponent, rank: number) {
+    this.forEach(function(m: MasteryComponent) {
+      if(mastery !== m && mastery.tier == m.tier && mastery.category == m.category) {
+        m.setRank(rank);
+      }
+    });
+  }
+  getTierRank(mastery: MasteryComponent): number {
+    var rank = 0;
+    this.forEach(function(m: MasteryComponent) {
+      if(mastery.tier == m.tier && mastery.category == m.category) {
+        rank += m.getRank();
+      }
+    });
+    return rank;
+  }
 }
 
 @Component({
   selector: 'masteries',
   providers: [LolApiService],
-  directives: [NgFor, NgIf, MasteryComponent, HelpComponent, ErrorComponent],
+  directives: [NgFor, NgIf, MasteryComponent, ErrorComponent],
   template: `
-    <div [class]="category.name + ' unselectable'" *ngFor="#category of data">
-      <div *ngFor="#lines of category.lines; #i = index">
-        <mastery [data]="mastery" [tier]="i" *ngFor="#mastery of lines"></mastery>
+    <div [class]="category.name + ' unselectable'" *ngFor="#category of data; #c = index">
+      <div *ngFor="#lines of category.lines; #t = index">
+        <mastery [data]="mastery" [category]="c" [tier]="t" *ngFor="#mastery of lines"></mastery>
       </div>
       <p class="total">{{category.name + ': 0'}}</p>
     </div>
-    <help *ngIf="ok && !loading" [content]="['Left click to add ranks','Right click to remove ranks']"></help>
     <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
 })
 
@@ -58,7 +79,7 @@ export class MasteriesComponent {
     
     this.lolApi.getMasteries()
       .subscribe(
-        res => this.data = this.alterData(res),
+        res => this.data = this.alterData(res.json()),
         error => { this.ok = false; this.loading = false; },
         () => this.loading = false
       );
@@ -93,13 +114,22 @@ export class MasteriesComponent {
   
   public addMastery(mastery: MasteryComponent) {
     this.masteries.push(mastery);
-    //this.changed();
+    //this.changed(mastery);
   }
   
-  private changed()
+  private changed(mastery: MasteryComponent)
   {
-    this.masteries.setEnabled(function(mastery: MasteryComponent) {
-      return mastery.hasTier([0]);
-    });
+    if (!mastery) {
+      return;
+    }  
+    
+    var tierRank = this.masteries.getTierRank(mastery);
+    if (tierRank == 1) {
+      mastery.setRank(mastery.getMaxRank())
+      this.masteries.setEnabledTier(mastery, mastery.tier + 1);
+    }
+    else if (tierRank > mastery.getMaxRank()) {
+      this.masteries.setTierRank(mastery, mastery.getMaxRank() - mastery.getRank());
+    }
   }
 }

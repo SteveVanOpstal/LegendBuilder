@@ -134,7 +134,7 @@ mastery {
   margin: 6px;
 }
 
-mastery > div.disabled img {
+mastery > div:not(.active) img {
   filter: grayscale(90%);
   -webkit-filter: grayscale(90%);
 }
@@ -158,11 +158,15 @@ mastery img {
   border: 2px solid gray;
 }
 
+/*mastery > div.active img {
+  border: 2px solid #fdf300;
+}*/
+
 mastery .description {
   display: none;
   z-index: 30;
   padding: 10px;
-  margin: 5px;
+  margin: 5px 55px;
   position: absolute;
   background-color: #000;
   border-radius: 5px;
