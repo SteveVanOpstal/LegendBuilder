@@ -1,3 +1,24 @@
+<a name="1.0.0-alpha.4"></a>
+# [1.0.0-alpha.4](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.3...v1.0.0-alpha.4) (2016-03-07)
+
+
+### Bug Fixes
+
+* **npm:** add missing async dependency ([b1c0088](https://github.com/SteveVanOpstal/LegendBuilder/commit/b1c0088))
+
+### Features
+
+* **live-server:** update to live-server 0.9.2 ([11ac1ca](https://github.com/SteveVanOpstal/LegendBuilder/commit/11ac1ca))
+* **masteries:** add categories and tiers ([5f8f6e5](https://github.com/SteveVanOpstal/LegendBuilder/commit/5f8f6e5))
+* **masteries:** add mastery logic ([6582336](https://github.com/SteveVanOpstal/LegendBuilder/commit/6582336))
+* **masteries:** MasteryComponent handling ([c50f4ca](https://github.com/SteveVanOpstal/LegendBuilder/commit/c50f4ca))
+
+### Performance Improvements
+
+* **jquery:** remove jquery ([7dea9cd](https://github.com/SteveVanOpstal/LegendBuilder/commit/7dea9cd))
+
+
+
 <a name="1.0.0-alpha.3"></a>
 # [1.0.0-alpha.3](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.2...v1.0.0-alpha.3) (2016-03-02)
 
