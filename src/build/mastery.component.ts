@@ -4,7 +4,7 @@ import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
 import {NgIf, NgClass} from 'angular2/common';
 
 import {DDragonDirective} from 'app/ddragon.directive';
-import {MasteriesComponent} from 'app/masteries.component';
+import {MasteryTierComponent} from 'app/mastery-tier.component';
 
 class Colors {
   public static blue: string = "#4C99FC";
@@ -39,21 +39,19 @@ class Colors {
 
 export class MasteryComponent implements OnInit {
   @Input() data: Object;
-  @Input() category: number = 0;
-  @Input() tier: number = 0;
   
   public rank: number = 0;
   private color: string = Colors.gray;
   
-  public disabled: boolean = true;
-  public active: boolean = false;
+  private disabled: boolean = true;
+  private active: boolean = false;
+  private locked: boolean = false;
 
-  constructor(@Inject(forwardRef(() => MasteriesComponent)) private masteries: MasteriesComponent) {
-    this.masteries.addMastery(this);
+  constructor(@Inject(forwardRef(() => MasteryTierComponent)) private tier: MasteryTierComponent) {
   }
   
-  ngOnInit() {
-    this.tier == 0 ? this.setEnabled() : this.setDisabled();
+  public ngOnInit() {
+    this.tier.addMastery(this);
   }
   
   private changed() {
@@ -70,7 +68,7 @@ export class MasteryComponent implements OnInit {
     this.color = this.active ? Colors.yellow : Colors.blue;
   }
   
-  public setDisabled() {
+  public disable() {
     if(this.disabled) {
       return;
     }
@@ -79,20 +77,24 @@ export class MasteryComponent implements OnInit {
     this.changed();
   }
   
-  public setEnabled() {
+  public enable() {
     if(!this.disabled) {
       return;
     }
     if (!this.data) {
-      this.setDisabled();
+      this.disable();
       return;
     }
     this.disabled = false;
     this.changed();
   }
   
-  public hasTier(tiers: Array<number>) : boolean {
-    return tiers.indexOf(this.tier) >= 0;
+  public lock() {
+    this.locked = true;
+  }
+  
+  public unlock() {
+    this.locked = false;
   }
   
   public getRank() {
@@ -131,17 +133,17 @@ export class MasteryComponent implements OnInit {
       this.rank++;
     }
     this.changed();
-    this.masteries.changed(this);
+    this.tier.addRank(this);
   }
   
   private removeRank() {
-    if(this.disabled) {
+    if(this.disabled || this.locked) {
       return;
     }
     if(this.rank > 0) {
       this.rank--;
     }
     this.changed();
-    this.masteries.changed(this);
+    this.tier.removeRank(this);
   }
 }

@@ -84,21 +84,6 @@ masteries {
   margin: 0 auto;
 }
 
-masteries > div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 33%;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 5px;
-  background-repeat: no-repeat;
-}
-
-masteries > div > div {
-  display: flex;
-}
-
 masteries mastery > div h2 {
   color: #46a1eb;
 }
@@ -127,6 +112,25 @@ masteries p {
   cursor: default;
 }
 
+/* mastery-category */
+
+mastery-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 33%;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px;
+  background-repeat: no-repeat;
+}
+
+/* mastery-tier */
+
+mastery-tier {
+  display: flex;
+}
+
 /* mastery */
 
 mastery {
@@ -135,8 +139,8 @@ mastery {
 }
 
 mastery > div:not(.active) img {
-  filter: grayscale(90%);
-  -webkit-filter: grayscale(90%);
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 
 mastery > div:not(.disabled):not(:empty) {
