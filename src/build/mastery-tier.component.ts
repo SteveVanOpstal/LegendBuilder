@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Component, Input, Inject, forwardRef} from 'angular2/core';
+import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 
 import {MasteryComponent} from 'app/mastery.component';
@@ -32,41 +32,40 @@ export class MasteryTierComponent implements OnInit {
       mastery.enable()
     }
   }
-  
-  public enable() {
-    this.masteries.forEach(function(mastery: MasteryComponent) {
-      mastery.enable();
-    });
-  }
-  public disable() {
-    this.masteries.forEach(function(mastery: MasteryComponent) {
-      mastery.disable();
-    });
-  }
-  
-  public lock() {
-    this.masteries.forEach(function(mastery: MasteryComponent) {
-      mastery.lock();
-    });
-  }
-  public unlock() {
-    this.masteries.forEach(function(mastery: MasteryComponent) {
-      mastery.unlock();
-    });
-  }
-  
-  public setRank(mastery: MasteryComponent, rank: number) {
+
+  private forMastery(mastery: MasteryComponent, callback: (MasteryComponent) => void) {
     this.masteries.forEach(function(m: MasteryComponent) {
-      if(mastery !== m) {
-        m.setRank(rank);
+      if (mastery !== m) {
+        callback(m);
       }
     });
   }
+  private forEachMastery(callback: (MasteryComponent) => void) {
+    this.masteries.forEach(function(mastery: MasteryComponent) {
+      callback(mastery);
+    });
+  }
+  
+  public enable() {
+    this.forEachMastery((m) => m.enable());
+  }
+  public disable() {
+    this.forEachMastery((m) => m.disable());
+  }
+  
+  public lock() {
+    this.forEachMastery((m) => m.lock());
+  }
+  public unlock() {
+    this.forEachMastery((m) => m.unlock());
+  }
+  
+  public setRank(mastery: MasteryComponent, rank: number) {
+    this.forMastery(mastery, (m) => m.setRank(rank));
+  }
   public getRank(): number {
     var rank = 0;
-    this.masteries.forEach(function(m: MasteryComponent) {
-      rank += m.getRank();
-    });
+    this.forEachMastery((m) => rank += m.getRank());
     return rank;
   }
   

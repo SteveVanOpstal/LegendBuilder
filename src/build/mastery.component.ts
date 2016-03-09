@@ -39,46 +39,46 @@ class Colors {
 
 export class MasteryComponent implements OnInit {
   @Input() data: Object;
-  
+
   public rank: number = 0;
   private color: string = Colors.gray;
-  
+
   private disabled: boolean = true;
   private active: boolean = false;
   private locked: boolean = false;
 
-  constructor(@Inject(forwardRef(() => MasteryTierComponent)) private tier: MasteryTierComponent) {
+  constructor( @Inject(forwardRef(() => MasteryTierComponent)) private tier: MasteryTierComponent) {
   }
-  
+
   public ngOnInit() {
     this.tier.addMastery(this);
   }
-  
+
   private changed() {
     if (this.disabled) {
       this.active = false;
     } else {
       this.active = this.rank != 0;
     }
-    
+
     if (this.disabled && !this.active) {
       this.color = Colors.gray;
       return;
     }
     this.color = this.active ? Colors.yellow : Colors.blue;
   }
-  
+
   public disable() {
-    if(this.disabled) {
+    if (this.disabled || this.rank > 0) {
       return;
     }
     this.color = Colors.gray;
     this.disabled = true;
     this.changed();
   }
-  
+
   public enable() {
-    if(!this.disabled) {
+    if (!this.disabled) {
       return;
     }
     if (!this.data) {
@@ -88,62 +88,65 @@ export class MasteryComponent implements OnInit {
     this.disabled = false;
     this.changed();
   }
-  
+
   public lock() {
     this.locked = true;
   }
-  
+
   public unlock() {
     this.locked = false;
   }
-  
+
   public getRank() {
     return this.rank;
   }
-  
+
   public setRank(rank: number) {
-    if(this.disabled) {
+    if (this.disabled) {
       return;
     }
     this.rank = rank;
     this.changed();
   }
-  
+
   private getMaxRank() {
-    if (!this.data || !this.data['ranks']){
+    if (!this.data || !this.data['ranks']) {
       return 0;
     }
     return this.data['ranks'];
   }
-  
+
   private clicked() {
     this.addRank();
   }
-  
+
   private rightClicked() {
     this.removeRank();
     return false; // stop context menu from appearing
   }
-  
+
   private addRank() {
-    if(this.disabled) {
+    if (this.disabled) {
       return;
     }
-    if (this.rank < this.getMaxRank()) {
+    if (this.tier.getRank() == 0) {
+      this.rank = this.getMaxRank();
+    }
+    else if (this.rank < this.getMaxRank()) {
       this.rank++;
     }
-    this.changed();
     this.tier.addRank(this);
+    this.changed();
   }
-  
+
   private removeRank() {
-    if(this.disabled || this.locked) {
+    if (this.disabled || this.locked) {
       return;
     }
-    if(this.rank > 0) {
+    if (this.rank > 0) {
       this.rank--;
     }
-    this.changed();
     this.tier.removeRank(this);
+    this.changed();
   }
 }

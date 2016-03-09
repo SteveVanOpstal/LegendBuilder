@@ -21,6 +21,9 @@ export class MasteriesComponent {
   private data: Object;
   private loading: boolean = true;
   private ok: boolean = true;
+
+  private totalRank: number = 0;
+  private categories: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
   
   constructor(private lolApi: LolApiService) {
     this.getData();
@@ -63,5 +66,41 @@ export class MasteriesComponent {
     }
     
     return alteredMasteries;
+  }
+  
+  public addCategory(category: MasteryCategoryComponent) {
+    this.categories.push(category);
+  }
+
+  private forEachCategory(callback: (MasteryCategoryComponent) => void) {
+    this.categories.forEach(function(category: MasteryCategoryComponent) {
+      callback(category);
+    });
+  }
+  
+  public enable() {
+    this.forEachCategory((c) => c.enable());
+  }
+  public disable() {
+    this.forEachCategory((c) => c.disable());
+  }
+  
+  private getRank(): number {
+    var rank = 0;
+    this.forEachCategory((c) => rank += c.getRank());
+    return rank;
+  }
+  
+  private addRank() {
+    if (this.getRank() >= 30) {
+      this.disable();
+
+    }
+  }
+  
+  private removeRank() {
+    if (this.getRank() == 29) {
+      this.enable();
+    }
   }
 }
