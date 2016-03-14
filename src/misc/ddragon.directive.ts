@@ -11,6 +11,7 @@ import {LolApiService} from 'app/lolapi.service';
 export class DDragonDirective {
   @Input('ddragon') image: string;
 
+  private default: string = "/images/hourglass.svg";
   private realm: any;
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {
@@ -29,7 +30,7 @@ export class DDragonDirective {
 
   buildUrl(image: string, realm: any) {
     if (!this.image || !realm) {
-      return "";
+      return this.default;
     }
 
     if (!this.needsVersion(image)) {
