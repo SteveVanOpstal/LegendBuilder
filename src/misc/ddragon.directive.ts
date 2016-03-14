@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Directive, Input, ElementRef, OnChanges, SimpleChange} from 'angular2/core';
+import {Directive, Input, ElementRef, SimpleChange} from 'angular2/core';
 
 import {LolApiService} from 'app/lolapi.service';
 
@@ -8,14 +8,14 @@ import {LolApiService} from 'app/lolapi.service';
   selector: '[ddragon]'
 })
 
-export class DDragonDirective implements OnChanges {
+export class DDragonDirective {
   @Input('ddragon') image: string;
 
   private realm: any;
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {
-    this.realm = this.lolApi.getRealm();
-    this.updateElement(this.realm);
+    this.lolApi.getRealm()
+      .subscribe(res => { this.realm = res.json(); this.updateElement(this.realm); });
   }
 
   updateElement(realm: any) {
@@ -60,10 +60,5 @@ export class DDragonDirective implements OnChanges {
       return false;
     }
     return true;
-  }
-
-  ngOnChanges(changes: { [key: string]: SimpleChange; }) {
-    this.realm = this.lolApi.getRealm();
-    this.updateElement(this.realm);
   }
 }

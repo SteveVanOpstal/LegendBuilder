@@ -5,20 +5,20 @@ import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
 
 import 'rxjs/rx';
+import {Observable} from 'rxjs/Observable';
 
 import {staticServer, matchServer} from 'app/serverConfig';
 
 @Injectable()
 export class LolApiService {
   region: string;
-  realm: any;
+  realm: Observable<Response>;
   
   constructor(params: RouteParams, private http: Http) {
     this.region = params.get('region').toLowerCase();
     
-    this.http.get(this.linkStaticData() + '/realm')
-      .map(res => res = this.handleResponse(res))
-      .subscribe(res => this.realm = res.json());
+    this.realm = this.http.get(this.linkStaticData() + '/realm')
+      .map(res => res = this.handleResponse(res));
   }
 
   public getRealm() {
