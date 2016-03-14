@@ -13,9 +13,8 @@ import {NgFor} from 'angular2/common';
 export class BarComponent {
   @Input() value: number;
   private range: Array<any>;
-  
-  repeat()
-  {
+
+  repeat() {
     this.range = new Array(this.value);
     return this.range;
   }

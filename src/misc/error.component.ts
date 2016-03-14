@@ -32,8 +32,7 @@ export class ErrorComponent {
   @Input() ok: boolean;
   @Output() retry: EventEmitter = new EventEmitter();
 
-  retryClicked()
-  {
+  retryClicked() {
     this.retry.emit(null);
   }
 }

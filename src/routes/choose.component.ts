@@ -15,4 +15,4 @@ import {ChampionsComponent} from 'app/champions.component';
     <champions (champion-changed)="championChanged($event)"></champions>`
 })
 
-export class ChooseRoute {}
+export class ChooseRoute { }

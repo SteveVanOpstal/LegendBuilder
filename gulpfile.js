@@ -24,7 +24,7 @@ var file = require('gulp-file');
 
 /* release */
 
-gulp.task('changelog', function () {
+gulp.task('changelog', function() {
   return gulp.src('CHANGELOG.md', {
     buffer: false
   })
@@ -39,40 +39,40 @@ gulp.task('github-release', function(done) {
     type: "oauth",
     token: fs.readFileSync('./.git.token', 'utf8')
   }, {
-    preset: 'angular'
-  }, done);
+      preset: 'angular'
+    }, done);
 });
 
-gulp.task('bump-version', function () {
+gulp.task('bump-version', function() {
   return gulp.src(['./package.json'])
     .pipe(bump({
       type: argv.major ? "major" : argv.minor ? "minor" : argv.patch ? "patch" : "prerelease",
-      preid : 'alpha'
+      preid: 'alpha'
     }).on('error', gutil.log))
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('commit-changes', function () {
+gulp.task('commit-changes', function() {
   return gulp.src('.')
     .pipe(git.add())
     .pipe(git.commit('chore(release): Bumped version number'));
 });
 
-gulp.task('push-changes', function (cb) {
+gulp.task('push-changes', function(cb) {
   git.push('origin', 'master', cb);
 });
 
-gulp.task('create-new-tag', function (cb) {
+gulp.task('create-new-tag', function(cb) {
   var version = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-  git.tag(version, 'Created Tag for version: ' + version, function (error) {
+  git.tag(version, 'Created Tag for version: ' + version, function(error) {
     if (error) {
       return cb(error);
     }
-    git.push('origin', 'master', {args: '--tags'}, cb);
+    git.push('origin', 'master', { args: '--tags' }, cb);
   });
 });
 
-gulp.task('release', function (callback) {
+gulp.task('release', function(callback) {
   runSequence(
     'bump-version',
     'changelog',
@@ -80,7 +80,7 @@ gulp.task('release', function (callback) {
     'push-changes',
     'create-new-tag',
     'github-release',
-    function (error) {
+    function(error) {
       if (error) {
         console.log(error.message);
       } else {
@@ -92,25 +92,25 @@ gulp.task('release', function (callback) {
 
 /* build */
 
-gulp.task('compile', function () {
+gulp.task('compile', function() {
   const DEST = 'app/';
   var tsProject = ts.createProject('src/tsconfig.json');
   return tsProject.src(['src/**/*.ts'])
     .pipe(sourcemaps.init())
-    .pipe(changed(DEST, {extension: '.js'}))
+    .pipe(changed(DEST, { extension: '.js' }))
     .pipe(ts(tsProject))
     .js
-    .pipe(sourcemaps.write('/', {includeContent: false, sourceRoot: '/src'}))
+    .pipe(sourcemaps.write('/', { includeContent: false, sourceRoot: '/src' }))
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('app-move', function () {
+gulp.task('app-move', function() {
   return gulp.src(['app/**/*.js', 'app/**/*.js.map'])
-  .pipe(flatten())
-  .pipe(gulp.dest('app/'));
+    .pipe(flatten())
+    .pipe(gulp.dest('app/'));
 });
 
-gulp.task('app-delete', function () {
+gulp.task('app-delete', function() {
   return del([
     'app/**/*',
     '!app/*.js',
@@ -118,11 +118,11 @@ gulp.task('app-delete', function () {
   ]);
 });
 
-gulp.task('app-flatten', function (callback) {
+gulp.task('app-flatten', function(callback) {
   runSequence(
     'app-move',
     'app-delete',
-    function (error) {
+    function(error) {
       if (error) {
         console.log(error.message);
       }
@@ -130,25 +130,25 @@ gulp.task('app-flatten', function (callback) {
     });
 });
 
-gulp.task('create-config', function (callback) {
+gulp.task('create-config', function(callback) {
   file('serverConfig.js',
-       "exports.staticServer = " + fs.readFileSync('./.static-server.json', 'utf8') + ";\n"
-       + "exports.matchServer = " + fs.readFileSync('./.match-server.json', 'utf8') + ";")
+    "exports.staticServer = " + fs.readFileSync('./.static-server.json', 'utf8') + ";\n"
+    + "exports.matchServer = " + fs.readFileSync('./.match-server.json', 'utf8') + ";")
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('bundle', function () {
-	return gulp.src('src/boot.ts')
-		.pipe(browserify({
-		  debug: true
-		}))
-		.pipe(gulp.dest('app'));
+gulp.task('bundle', function() {
+  return gulp.src('src/boot.ts')
+    .pipe(browserify({
+      debug: true
+    }))
+    .pipe(gulp.dest('app'));
 });
 
 gulp.task('uglify-css', function() {
   return gulp.src('./css/*.css')
-    .pipe(rename(function (path) {
-      if (path.basename.indexOf(".min") < 0){
+    .pipe(rename(function(path) {
+      if (path.basename.indexOf(".min") < 0) {
         path.extname = ".min.css";
       }
     }))
@@ -156,10 +156,10 @@ gulp.task('uglify-css', function() {
     .pipe(gulp.dest('css'));
 });
 
-gulp.task('uglify-js', function () {
+gulp.task('uglify-js', function() {
   return gulp.src('app/*.js')
-    .pipe(rename(function (path) {
-      if (path.basename.indexOf(".min") < 0){
+    .pipe(rename(function(path) {
+      if (path.basename.indexOf(".min") < 0) {
         path.extname = ".min.js";
       }
     }))
@@ -169,12 +169,12 @@ gulp.task('uglify-js', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', function (callback) {
+gulp.task('build', function(callback) {
   runSequence(
     'compile',
     'app-flatten',
     'create-config',
-    function (error) {
+    function(error) {
       if (error) {
         console.log(error.message);
       } else {
@@ -198,6 +198,6 @@ gulp.task('start-match-server',
   ])
 );
 
-gulp.task('start-live-server', function () {
+gulp.task('start-live-server', function() {
   liveServer.start(JSON.parse(fs.readFileSync('./.live-server.json', 'utf8')));
 });

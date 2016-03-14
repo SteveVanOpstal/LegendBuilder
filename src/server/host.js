@@ -27,7 +27,7 @@ exports.options = function(host, port) {
   options.headers.Origin = 'http://' + host + ':' + port;
 }
 
-var createUrl = exports.createUrl = function (region, type) {
+var createUrl = exports.createUrl = function(region, type) {
   if (type) {
     return config.protocol + (type == 'static-data' ? 'global' : region) + config.hostname + tim(config[type], { region: region });
   } else {
@@ -35,45 +35,45 @@ var createUrl = exports.createUrl = function (region, type) {
   }
 }
 
-var jsonFormatter = exports.jsonFormatter = function (d) {
+var jsonFormatter = exports.jsonFormatter = function(d) {
   return JSON.parse(d);
 }
 
-var sendRequest = exports.sendRequest = function (region, url, cb, formatterCb) {
+var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
   console.start();
-  
+
   url += url.indexOf('?') < 0 ? '?api_key=' + config.apiKey : '&api_key=' + config.apiKey;
   options.path = url;
   options.hostname = region + config.hostname;
-  
+
   var req = https.request(options, function(res) {
     var data = '';
     res.on('data', function(d) {
       data += d;
     })
-    .on('end', function() {
-      console.logHttp(options.method, options.path, res.statusCode);
-      if (res.statusCode == 200) {
-        cb(formatterCb ? formatterCb(data) : data, false, res.statusCode);
-      }
-      else {
-        cb(false, data, res.statusCode);
-      }
-    });
+      .on('end', function() {
+        console.logHttp(options.method, options.path, res.statusCode);
+        if (res.statusCode == 200) {
+          cb(formatterCb ? formatterCb(data) : data, false, res.statusCode);
+        }
+        else {
+          cb(false, data, res.statusCode);
+        }
+      });
   });
 
   req.on('error', function(e) {
     cb(false, e, e.statusCode);
     console.logHttp(options.method, options.path, e.statusCode, e);
   });
-  
+
   req.end();
 }
 
 
 var champions = [];
 {
-  sendRequest('global', createUrl('euw', 'static-data') + 'champion', function (data, error) {
+  sendRequest('global', createUrl('euw', 'static-data') + 'champion', function(data, error) {
     if (data) {
       for (var championKey in data.data) {
         champions[data.data[championKey].id] = championKey;

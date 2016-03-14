@@ -13,10 +13,10 @@ import {staticServer, matchServer} from 'app/serverConfig';
 export class LolApiService {
   region: string;
   realm: Observable<Response>;
-  
+
   constructor(params: RouteParams, private http: Http) {
     this.region = params.get('region').toLowerCase();
-    
+
     this.realm = this.http.get(this.linkStaticData() + '/realm')
       .map(res => res = this.handleResponse(res));
   }
@@ -49,32 +49,32 @@ export class LolApiService {
     return this.http.get(this.matchServer() + '/' + summonerName + '/' + championKey + '?gametime=' + gameTime + '&samples=' + samples)
       .map(res => res.json());
   }
-  
-  
+
+
   private linkStaticData() {
     return this.staticServer() + "static-data/" + this.region + '/v1.2';
   }
-  
+
   private linkSummoner() {
     return this.staticServer() + this.region + '/v1.4/summoner';
   }
-  
-  
+
+
   private staticServer() {
     return "http://" + staticServer.host + ":" + staticServer.port + "/";
   }
-  
+
   private matchServer() {
     return "http://" + matchServer.host + ":" + matchServer.port + "/" + this.region;
   }
-  
-  
+
+
   private handleResponse(res: Response): Response {
     var resData = res.json();
     if (resData['data']) {
       resData['data'] = this.objectToArray(res.json()['data'])
     }
-    
+
     var options = new BaseResponseOptions();
     return new Response(options.merge({ body: resData }));;
   }

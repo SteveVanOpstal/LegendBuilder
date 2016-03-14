@@ -12,11 +12,11 @@ import {DDragonDirective} from 'app/ddragon.directive';
 @Pipe({
   name: 'translate'
 })
-  
+
 class TranslatePipe {
-  translator: Object = 
+  translator: Object =
   {
-    "GOLDPER":"Gold income",
+    "GOLDPER": "Gold income",
     "TRINKET": "Trinkets",
     "SPELLBLOCK": "Magic resist",
     "HEALTHREGEN": "Health regen",
@@ -32,7 +32,7 @@ class TranslatePipe {
     "SPELLVAMP": "Spell vamp",
     "UNCATEGORIZED": "Other"
   };
-  
+
   transform(value: string, args: any[]) {
     if (!value) {
       return false;
@@ -41,7 +41,7 @@ class TranslatePipe {
     }
     return this.capitalize(value.toLowerCase());
   }
-  
+
   private capitalize(value: string) {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
@@ -89,52 +89,51 @@ class TranslatePipe {
 
 export class ShopComponent {
   @Output() itemPicked: EventEmitter = new EventEmitter();
-  
+
   private items: Object;
   private loading: boolean = true;
   private ok: boolean = true;
-  
+
   constructor(private lolApi: LolApiService) {
     this.getData();
   }
-  
+
   getData() {
     this.loading = true;
     this.ok = true;
-    
+
     this.lolApi.getItems()
       .subscribe(
-        res => { 
-          this.items = this.alterData(res.json());
-        },
-        error => { this.ok = false; this.loading = false; },
-        () => this.loading = false
+      res => {
+        this.items = this.alterData(res.json());
+      },
+      error => { this.ok = false; this.loading = false; },
+      () => this.loading = false
       );
   }
-  
-  alterData(newItems: Object): Object
-  {
+
+  alterData(newItems: Object): Object {
     var alteredItems = { data: null, tree: null };
     alteredItems.data = newItems['data'].filter(this.filter).sort(this.sort);
     alteredItems.tree = this.removeSortIndex(newItems['tree']);
     return alteredItems;
-    
+
   }
-  
+
   sort(objA, objB) {
     return objA.gold.total > objB.gold.total ? 1 : -1;
   }
-  
+
   filter(obj) {
     //TODO: currently fixed: SummonersRiftNew && no specific champions && no hide from all
     return obj.maps[11] && !obj.requiredChampion && !obj.hideFromAll;
   }
-  
+
   removeSortIndex(tree: Object) {
     for (var category in tree) {
       tree[category].tags.splice(tree[category].tags.indexOf("_SORTINDEX"), 1);
     }
-    
+
     return tree;
   }
 }

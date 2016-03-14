@@ -93,7 +93,7 @@ export class MasteryCategoryComponent implements OnInit {
         mastery.setRank(tier.getRank() - deviation);
       }
     }
-  this.masteries.addRank();
+    this.masteries.addRank();
     this.totalRank = this.getRank();
   }
 

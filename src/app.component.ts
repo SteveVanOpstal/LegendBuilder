@@ -14,9 +14,9 @@ import {BuildRoute} from 'app/build.component';
 })
 
 @RouteConfig([
-  { path: '/', component: RegionRoute, as: 'Region'},
-  { path: '/:region/', component: ChooseRoute, as: 'Choose'},
+  { path: '/', component: RegionRoute, as: 'Region' },
+  { path: '/:region/', component: ChooseRoute, as: 'Choose' },
   { path: '/:region/:champion', component: BuildRoute, as: 'Build' }
 ])
 
-export class AppComponent {}
+export class AppComponent { }

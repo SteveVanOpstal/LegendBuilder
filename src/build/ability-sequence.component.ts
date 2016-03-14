@@ -23,12 +23,12 @@ import {DDragonDirective} from 'app/ddragon.directive';
 
 export class AbilitySequenceComponent {
   @Input() private champion: any;
-  
+
   private margin: any = { top: 20, right: 20, bottom: 20, left: 60 };
-  
+
   private width: number = 1500;
   private height: number = 250;
-  
+
   getExtendedTooltip(index: number) {
     var spell = this.champion.spells[index];
     try {
@@ -36,10 +36,10 @@ export class AbilitySequenceComponent {
     }
     catch (e) { }
   }
-  
+
   getEffects(spell: any) {
     var effects = new Object();
-    
+
     if (spell.effect) {
       spell.effect.forEach(function(value, i) {
         if (value) {
@@ -47,7 +47,7 @@ export class AbilitySequenceComponent {
         }
       });
     }
-    
+
     if (spell.vars) {
       spell.vars.forEach(function(value, i) {
         if (value.key && value.coeff) {
@@ -55,24 +55,24 @@ export class AbilitySequenceComponent {
         }
       });
     }
-    
+
     var stats = this.getStats();
-    for (var attrname in stats) { 
+    for (var attrname in stats) {
       effects[attrname] = stats[attrname];
     }
-    
+
     return effects;
   }
-  
+
   getStats() {
     var stats = new Object();
-    
+
     var i = 0;
     for (var stat in this.champion.stats) {
       i++;
       stats['f' + i] = this.champion.stats[stat];
     }
-    
+
     return stats;
   }
 }

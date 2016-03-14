@@ -35,26 +35,26 @@ export class ChampionComponent {
   private champion: any;
   private loading: boolean = true;
   private ok: boolean = true;
-  
+
   private config: Config = new Config();
-  
+
   constructor(params: RouteParams, private lolApi: LolApiService) {
     this.championKey = params.get('champion');
     this.getData();
   }
-  
+
   getData() {
     this.loading = true;
     this.ok = true;
-    
+
     this.lolApi.getChampion(this.championKey)
       .subscribe(
-        res => this.champion = res.json(),
-        error => { this.ok = false; this.loading = false; },
-        () => { this.loading = false; }
+      res => this.champion = res.json(),
+      error => { this.ok = false; this.loading = false; },
+      () => { this.loading = false; }
       );
   }
-  
+
   getSummonerMatchData(value) {
     this.lolApi.getSummonerMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
       .subscribe(res => {

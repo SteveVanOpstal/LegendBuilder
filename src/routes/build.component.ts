@@ -13,4 +13,4 @@ import {ChampionComponent} from 'app/champion.component'
     <shop></shop>`
 })
 
-export class BuildRoute {}
+export class BuildRoute { }

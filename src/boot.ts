@@ -32,5 +32,5 @@ import {AppComponent} from 'app/app.component'
 bootstrap(AppComponent, [
   HTTP_BINDINGS,
   ROUTER_PROVIDERS,
-  provide(APP_BASE_HREF, {useValue: '/'})
+  provide(APP_BASE_HREF, { useValue: '/' })
 ]);

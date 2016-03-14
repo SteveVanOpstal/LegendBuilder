@@ -17,34 +17,33 @@ import {ErrorComponent} from 'app/error.component';
     <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
 })
 
-export class MasteriesComponent {  
+export class MasteriesComponent {
   private data: Object;
   private loading: boolean = true;
   private ok: boolean = true;
 
   private totalRank: number = 0;
   private categories: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
-  
+
   constructor(private lolApi: LolApiService) {
     this.getData();
   }
-  
+
   private getData() {
     this.loading = true;
     this.ok = true;
-    
+
     this.lolApi.getMasteries()
       .subscribe(
-        res => this.data = this.alterData(res.json()),
-        error => { this.ok = false; this.loading = false; },
-        () => this.loading = false
+      res => this.data = this.alterData(res),
+      error => { this.ok = false; this.loading = false; },
+      () => this.loading = false
       );
   }
-  
-  private alterData(newMasteries: Object)
-  {
+
+  private alterData(newMasteries: Object) {
     var alteredMasteries = [];
-    
+
     for (var categoryName in newMasteries['tree']) {
       var category = newMasteries['tree'][categoryName];
       var tiers = [];
@@ -64,10 +63,10 @@ export class MasteriesComponent {
       }
       alteredMasteries.push({ name: categoryName, tiers: tiers });
     }
-    
+
     return alteredMasteries;
   }
-  
+
   public addCategory(category: MasteryCategoryComponent) {
     this.categories.push(category);
   }
@@ -77,27 +76,27 @@ export class MasteriesComponent {
       callback(category);
     });
   }
-  
+
   public enable() {
     this.forEachCategory((c) => c.enable());
   }
   public disable() {
     this.forEachCategory((c) => c.disable());
   }
-  
+
   private getRank(): number {
     var rank = 0;
     this.forEachCategory((c) => rank += c.getRank());
     return rank;
   }
-  
+
   private addRank() {
     if (this.getRank() >= 30) {
       this.disable();
 
     }
   }
-  
+
   private removeRank() {
     if (this.getRank() == 29) {
       this.enable();

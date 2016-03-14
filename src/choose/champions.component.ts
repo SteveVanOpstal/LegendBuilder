@@ -33,10 +33,10 @@ import {BarComponent} from 'app/bar.component'
 
 export class ChampionsComponent {
   @Output() championChanged: EventEmitter = new EventEmitter();
-  
-  private region : string;
-  
-  private champions : Object;
+
+  private region: string;
+
+  private champions: Object;
   private loading: boolean = true;
   private ok: boolean = true;
 
@@ -45,21 +45,19 @@ export class ChampionsComponent {
     this.getData();
   }
 
-  test(championKey: string)
-  {
+  test(championKey: string) {
     this.championChanged.emit(championKey);
   }
-  
-  getData()
-  {
+
+  getData() {
     this.loading = true;
     this.ok = true;
-    
+
     this.lolApi.getChampions()
       .subscribe(
-        res => this.champions = res.json(),
-        error => {this.ok = false; this.loading = false;},
-        () => this.loading = false
+      res => this.champions = res.json(),
+      error => { this.ok = false; this.loading = false; },
+      () => this.loading = false
       );
   }
 }

@@ -7,7 +7,7 @@ var host = require('./host.js');
 var Lru = require("lru-cache");
 var cache = Lru({
   max: 1048000,
-  length: function (n) { return n.length * 2; },
+  length: function(n) { return n.length * 2; },
   maxAge: 1000 * 60 * 60 * 24
 });
 
@@ -23,30 +23,30 @@ var headers = {
   'content-type': 'application/json'
 };
 
-var server = http.createServer(function (request, response) {
+var server = http.createServer(function(request, response) {
   console.start(50);
-  
+
   var requestUrl = url.parse(request.url, true);
   host.transformUrl(requestUrl);
-  
+
   var cachedResponseData = cache.get(request.url);
-  
-  if(cachedResponseData) {
+
+  if (cachedResponseData) {
     response.writeHead(200, headers);
     response.write(cachedResponseData);
     response.end();
     console.logHttp("CACHED", request.url, 200, cache.length / 1000000 + 'MB/' + cache.max / 1000000 + 'MB');
     return;
   }
-  
+
   var path = url.format({ pathname: host.createUrl(requestUrl.pathname), query: requestUrl.query });
-  
-  host.sendRequest('global', path, function (data, error, status) {
+
+  host.sendRequest('global', path, function(data, error, status) {
     response.writeHead(status, headers);
     if (data) {
       response.write(data);
       console.logHttp(request.method, request.url, status);
-      
+
       cache.set(request.url, data);
     } else {
       response.write(error + '\n');
@@ -56,6 +56,6 @@ var server = http.createServer(function (request, response) {
     response.end();
   });
 })
-.listen(config.server.port, config.server.host);
+  .listen(config.server.port, config.server.host);
 
 console.log(config.server.host + ':' + config.server.port);
