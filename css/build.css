@@ -143,7 +143,16 @@ mastery > div:not(.active) img {
   -webkit-filter: grayscale(100%);
 }
 
-mastery > div:not(.disabled):not(:empty) {
+mastery > div:not(.disabled):before {
+  content: '';
+  border: 2px solid #356BB0;
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  z-index: 10;
+}
+
+mastery > div:not(.disabled) {
   cursor: pointer;
 }
 
@@ -158,7 +167,7 @@ mastery > div.disabled .rank {
   cursor: default;
 }
 
-mastery img {
+mastery > div > img {
   border: 2px solid gray;
 }
 
