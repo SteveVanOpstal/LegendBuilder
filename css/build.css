@@ -149,7 +149,7 @@ mastery > div:not(.disabled):not(:empty) {
 
 mastery .rank {
   position: absolute;
-  padding: 40px 0 0 24px;
+  margin: 40px 0 0 24px;
   cursor: pointer;
   z-index: 20;
 }

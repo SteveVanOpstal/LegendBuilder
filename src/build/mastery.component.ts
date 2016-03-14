@@ -16,7 +16,7 @@ class Colors {
   selector: 'mastery',
   directives: [NgIf, NgClass, DDragonDirective],
   template: `
-    <div *ngIf="data" [ngClass]="{disabled: disabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()">
+    <div *ngIf="data" [ngClass]="{disabled: disabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()" (dragend)="dragEnd()">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" *ngIf="data.ranks > 1" class="rank" width="30" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient cy="10%" fy="0%" id="radialGradient">
@@ -117,6 +117,10 @@ export class MasteryComponent implements OnInit {
   }
 
   private clicked() {
+    this.addRank();
+  }
+
+  private dragEnd() {
     this.addRank();
   }
 
