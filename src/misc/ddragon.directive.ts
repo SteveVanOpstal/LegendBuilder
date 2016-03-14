@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 
-import {Directive, Input, ElementRef, SimpleChange} from 'angular2/core';
+import {Directive, Input, ElementRef, OnChanges, SimpleChange} from 'angular2/core';
 
 import {LolApiService} from 'app/lolapi.service';
 
@@ -8,7 +8,7 @@ import {LolApiService} from 'app/lolapi.service';
   selector: '[ddragon]'
 })
 
-export class DDragonDirective {
+export class DDragonDirective implements OnChanges {
   @Input('ddragon') image: string;
 
   private default: string = "/images/hourglass.svg";
@@ -61,5 +61,9 @@ export class DDragonDirective {
       return false;
     }
     return true;
+  }
+
+  ngOnChanges() {
+    this.updateElement(this.realm);
   }
 }
