@@ -101,7 +101,7 @@ export class MasteryCategoryComponent implements OnInit {
     if (!tier) {
       return;
     }
-    if (tier.getRank() == 0) {
+    if (tier.getRank() < mastery.getMaxRank()) {
       this.forTier(tier.index + 1, (t) => t.disable());
       this.forTier(tier.index - 1, (t) => t.unlock());
     }
