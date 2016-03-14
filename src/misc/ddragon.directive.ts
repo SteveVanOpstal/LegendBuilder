@@ -10,62 +10,52 @@ import {LolApiService} from 'app/lolapi.service';
 
 export class DDragonDirective implements OnChanges {
   @Input('ddragon') image: string;
-  
+
   private realm: any;
-  private cdn: string;
-  
+
   constructor(private el: ElementRef, private lolApi: LolApiService) {
-    this.updateElement();
-  }
-  
-  updateElement() {
-    if (this.el.nativeElement.tagName == "IMG") {
-      this.el.nativeElement.setAttribute("src", this.getUrl());
-    }
-    else {
-      this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', this.getUrl());
-    }
-  }
-  
-  getUrl() {
-    if (!this.image) {
-      return "";
-    }  
-    
     this.realm = this.lolApi.getRealm();
-    
-    if (this.realm) {
-      this.cdn = this.realm.cdn;
+    this.updateElement(this.realm);
+  }
+
+  updateElement(realm: any) {
+    if (this.el.nativeElement.tagName == "IMG") {
+      this.el.nativeElement.setAttribute("src", this.buildUrl(this.image, realm));
     }
     else {
+      this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', this.buildUrl(this.image, realm));
+    }
+  }
+
+  buildUrl(image: string, realm: any) {
+    if (!this.image || !realm) {
       return "";
     }
-    
-    if (!this.needsVersion(this.image)) {
-      return this.cdn + "/img/" + this.image;
+
+    if (!this.needsVersion(image)) {
+      return realm.cdn + "/img/" + image;
     }
-    
-    var type = this.image.substr(0, this.image.indexOf("/"));
-    
+
+    var type = image.substr(0, image.indexOf("/"));
+
     if (type === "ui") {
-      return this.cdn + "/5.5.1" + "/img/" + this.image;
-    }  
-    
-    for (var obj in this.realm.n) {
+      return realm.cdn + "/5.5.1/img/" + image;
+    }
+
+    for (var obj in realm.n) {
       if (obj === type) {
-        return this.cdn + "/" + this.realm.n[obj] + "/img/" + this.image;
+        return realm.cdn + "/" + realm.n[obj] + "/img/" + image;
       }
     }
-    
-    if (this.needsVersion(this.image)) {
-        return this.cdn + "/" + this.realm.v + "/img/" + this.image;
-    }  
-    
-    return this.cdn + "/img/" + this.image;
+
+    if (this.needsVersion(image)) {
+      return realm.cdn + "/" + realm.v + "/img/" + image;
+    }
+
+    return realm.cdn + "/img/" + image;
   }
-  
-  needsVersion(image: string)
-  {
+
+  needsVersion(image: string) {
     if (image.indexOf("champion/loading") > -1) {
       return false;
     }
@@ -73,6 +63,7 @@ export class DDragonDirective implements OnChanges {
   }
 
   ngOnChanges(changes: { [key: string]: SimpleChange; }) {
-    this.updateElement();
+    this.realm = this.lolApi.getRealm();
+    this.updateElement(this.realm);
   }
 }
