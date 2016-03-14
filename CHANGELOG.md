@@ -1,3 +1,26 @@
+<a name="1.0.0-alpha.5"></a>
+# [1.0.0-alpha.5](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.4...v1.0.0-alpha.5) (2016-03-14)
+
+
+### Bug Fixes
+
+* **ddragon:** incorrect loading of images due to timing ([183b457](https://github.com/SteveVanOpstal/LegendBuilder/commit/183b457))
+* **ddragon:** reimplement removed OnChanges ([bb19359](https://github.com/SteveVanOpstal/LegendBuilder/commit/bb19359))
+* **graph:** wide screen width issue ([ea518eb](https://github.com/SteveVanOpstal/LegendBuilder/commit/ea518eb))
+* **mastery-category:** disable rank when not max rank ([dc5c432](https://github.com/SteveVanOpstal/LegendBuilder/commit/dc5c432))
+
+### Features
+
+* **angular:** update to angular 2.0.0-beta.9 ([e75ba73](https://github.com/SteveVanOpstal/LegendBuilder/commit/e75ba73))
+* **champions:** small style change in choose page ([3e12c4e](https://github.com/SteveVanOpstal/LegendBuilder/commit/3e12c4e))
+* **ddragon:** add default icon ([c3595ac](https://github.com/SteveVanOpstal/LegendBuilder/commit/c3595ac))
+* **index:** add loading icon ([e179a35](https://github.com/SteveVanOpstal/LegendBuilder/commit/e179a35))
+* **masteries:** add maximum mastery count ([7840c14](https://github.com/SteveVanOpstal/LegendBuilder/commit/7840c14))
+* **mastery:** add dragend event ([ee845cd](https://github.com/SteveVanOpstal/LegendBuilder/commit/ee845cd))
+* **mastery:** show available masteries more clearly ([2be5d10](https://github.com/SteveVanOpstal/LegendBuilder/commit/2be5d10))
+
+
+
 <a name="1.0.0-alpha.4"></a>
 # [1.0.0-alpha.4](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.3...v1.0.0-alpha.4) (2016-03-07)
 
