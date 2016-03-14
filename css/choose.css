@@ -14,7 +14,7 @@ champions p {
 champions .champion {
   width: 150px;
   height: 275px;
-  margin: -2px;
+  margin: 0 -2px;
 }
 
 champions .champion:hover {
@@ -40,6 +40,7 @@ champions .champion img {
   
   -webkit-filter: grayscale(0.8);
   filter: grayscale(0.8);
+  background-color: #EEE;
 }
 
 champions .champion .info p {
