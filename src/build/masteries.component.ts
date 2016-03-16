@@ -13,7 +13,7 @@ import {ErrorComponent} from 'app/error.component';
   providers: [LolApiService],
   directives: [NgFor, MasteryCategoryComponent, ErrorComponent],
   template: `
-    <mastery-category [class]="category.name + ' unselectable'" [data]="category" *ngFor="#category of data"></mastery-category>
+    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="#category of data"></mastery-category>
     <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
 })
 
