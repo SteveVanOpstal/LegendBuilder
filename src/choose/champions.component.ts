@@ -32,8 +32,6 @@ import {BarComponent} from 'app/bar.component'
 })
 
 export class ChampionsComponent {
-  @Output() championChanged: EventEmitter = new EventEmitter();
-
   private region: string;
 
   private champions: Object;
@@ -43,10 +41,6 @@ export class ChampionsComponent {
   constructor(params: RouteParams, public lolApi: LolApiService) {
     this.region = params.get('region');
     this.getData();
-  }
-
-  test(championKey: string) {
-    this.championChanged.emit(championKey);
   }
 
   getData() {
