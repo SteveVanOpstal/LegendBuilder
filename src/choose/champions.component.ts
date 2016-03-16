@@ -6,15 +6,16 @@ import {Response} from 'angular2/http';
 import {RouterLink, RouteParams} from 'angular2/router';
 
 import {LolApiService} from 'app/lolapi.service';
-import {ErrorComponent} from 'app/error.component';
 
 import {DDragonDirective} from 'app/ddragon.directive';
-import {BarComponent} from 'app/bar.component'
+import {BarComponent} from 'app/bar.component';
+import {LoadingComponent} from 'app/loading.component';
+import {ErrorComponent} from 'app/error.component';
 
 @Component({
   selector: 'champions',
   providers: [LolApiService],
-  directives: [NgFor, NgIf, RouterLink, ErrorComponent, DDragonDirective, BarComponent],
+  directives: [NgFor, NgIf, RouterLink, DDragonDirective, BarComponent, LoadingComponent, ErrorComponent],
   template: `
     <div class="champion" *ngFor="#champion of champions?.data">
       <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
@@ -28,7 +29,8 @@ import {BarComponent} from 'app/bar.component'
         </div>
       </a>
     </div>
-    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
+    <loading [loading]="loading"></loading>
+    <error [error]="error" (retry)="getData()"></error>`
 })
 
 export class ChampionsComponent {
@@ -36,7 +38,7 @@ export class ChampionsComponent {
 
   private champions: Object;
   private loading: boolean = true;
-  private ok: boolean = true;
+  private error: boolean = false;
 
   constructor(params: RouteParams, public lolApi: LolApiService) {
     this.region = params.get('region');
@@ -45,12 +47,12 @@ export class ChampionsComponent {
 
   getData() {
     this.loading = true;
-    this.ok = true;
+    this.error = false;
 
     this.lolApi.getChampions()
       .subscribe(
       res => this.champions = res.json(),
-      error => { this.ok = false; this.loading = false; },
+      error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
   }

@@ -7,11 +7,7 @@ import {NgIf} from 'angular2/common';
   selector: 'error',
   directives: [NgIf],
   template: `
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" *ngIf="loading" class="icon icon-load" viewBox="0 0 32 32">
-    <path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/>
-    <path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"/>
-  </svg>
-  <p *ngIf="!ok" class="error-item">
+  <p *ngIf="error" class="error-item">
     <span class="error">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon" viewBox="0 0 8 8">
         <path d="M3.09 0c-.06 0-.1.04-.13.09l-2.94 6.81c-.02.05-.03.13-.03.19v.81c0 .05.04.09.09.09h6.81c.05 0 .09-.04.09-.09v-.81c0-.05-.01-.14-.03-.19l-2.94-6.81c-.02-.05-.07-.09-.13-.09h-.81zm-.09 3h1v2h-1v-2zm0 3h1v1h-1v-1z" />
@@ -28,8 +24,7 @@ import {NgIf} from 'angular2/common';
 })
 
 export class ErrorComponent {
-  @Input() loading: boolean;
-  @Input() ok: boolean;
+  @Input() error: boolean;
   @Output() retry: EventEmitter = new EventEmitter();
 
   retryClicked() {

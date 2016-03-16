@@ -6,8 +6,9 @@ import {RouteParams} from 'angular2/router';
 import {GraphComponent} from 'app/graph.component';
 import {MasteriesComponent} from 'app/masteries.component';
 
-import {ErrorComponent} from 'app/error.component';
 import {DDragonDirective} from 'app/ddragon.directive';
+import {LoadingComponent} from 'app/loading.component';
+import {ErrorComponent} from 'app/error.component';
 
 import {LolApiService} from 'app/lolapi.service';
 
@@ -15,7 +16,7 @@ import {Config} from 'app/config';
 
 @Component({
   selector: 'champion',
-  directives: [GraphComponent, MasteriesComponent, ErrorComponent, DDragonDirective],
+  directives: [GraphComponent, MasteriesComponent, DDragonDirective, LoadingComponent, ErrorComponent],
   providers: [LolApiService],
   template: `
     <div class="title">
@@ -27,14 +28,15 @@ import {Config} from 'app/config';
     </div>
     <graph [champion]="champion" [config]="config"></graph>
     <masteries></masteries>
-    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
+    <loading [loading]="loading"></loading>
+    <error [error]="error" (retry)="getData()"></error>`
 })
 
 export class ChampionComponent {
   private championKey: string;
   private champion: any;
   private loading: boolean = true;
-  private ok: boolean = true;
+  private error: boolean = false;
 
   private config: Config = new Config();
 
@@ -45,12 +47,12 @@ export class ChampionComponent {
 
   getData() {
     this.loading = true;
-    this.ok = true;
+    this.error = false;
 
     this.lolApi.getChampion(this.championKey)
       .subscribe(
       res => this.champion = res.json(),
-      error => { this.ok = false; this.loading = false; },
+      error => { this.error = true; this.loading = false; },
       () => { this.loading = false; }
       );
   }

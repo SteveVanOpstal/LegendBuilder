@@ -6,21 +6,23 @@ import {NgFor} from 'angular2/common';
 import {LolApiService} from 'app/lolapi.service';
 
 import {MasteryCategoryComponent} from 'app/mastery-category.component';
+import {LoadingComponent} from 'app/loading.component';
 import {ErrorComponent} from 'app/error.component';
 
 @Component({
   selector: 'masteries',
   providers: [LolApiService],
-  directives: [NgFor, MasteryCategoryComponent, ErrorComponent],
+  directives: [NgFor, MasteryCategoryComponent, LoadingComponent, ErrorComponent],
   template: `
     <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="#category of data"></mastery-category>
-    <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>`
+    <loading [loading]="loading"></loading>
+    <error [error]="error" (retry)="getData()"></error>`
 })
 
 export class MasteriesComponent {
   private data: Object;
   private loading: boolean = true;
-  private ok: boolean = true;
+  private error: boolean = false;
 
   private totalRank: number = 0;
   private categories: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
@@ -31,12 +33,12 @@ export class MasteriesComponent {
 
   private getData() {
     this.loading = true;
-    this.ok = true;
+    this.error = false;
 
     this.lolApi.getMasteries()
       .subscribe(
       res => this.data = this.alterData(res),
-      error => { this.ok = false; this.loading = false; },
+      error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
   }

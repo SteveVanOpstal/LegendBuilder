@@ -5,8 +5,9 @@ import {NgFor, NgClass} from 'angular2/common';
 
 import {LolApiService} from 'app/lolapi.service';
 
-import {ErrorComponent} from 'app/error.component';
 import {DDragonDirective} from 'app/ddragon.directive';
+import {LoadingComponent} from 'app/loading.component';
+import {ErrorComponent} from 'app/error.component';
 
 @Pipe({
   name: 'translate'
@@ -49,7 +50,7 @@ class TranslatePipe {
 @Component({
   selector: 'shop',
   providers: [LolApiService],
-  directives: [NgFor, NgClass, ErrorComponent, DDragonDirective],
+  directives: [NgFor, NgClass, DDragonDirective, LoadingComponent, ErrorComponent],
   pipes: [TranslatePipe],
   template: `
     <div class="left">
@@ -84,7 +85,8 @@ class TranslatePipe {
             </div>
           </div>
         </div>
-        <error [loading]="loading" [ok]="ok" (retry)="getData()"></error>
+        <loading [loading]="loading"></loading>
+        <error [error]="error" (retry)="getData()"></error>
       </div>
     </div>`
 })
@@ -94,7 +96,7 @@ export class ShopComponent {
 
   private items: Object;
   private loading: boolean = true;
-  private ok: boolean = true;
+  private error: boolean = false;
 
   constructor(private lolApi: LolApiService) {
     this.getData();
@@ -102,14 +104,14 @@ export class ShopComponent {
 
   getData() {
     this.loading = true;
-    this.ok = true;
+    this.error = false;
 
     this.lolApi.getItems()
       .subscribe(
       res => {
         this.items = this.alterData(res.json());
       },
-      error => { this.ok = false; this.loading = false; },
+      error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
   }
