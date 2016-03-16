@@ -29,7 +29,7 @@ class Colors {
         <rect x="1" y="1" width="28" height="14" [attr.stroke]="color" fill="none" stroke-width="1"/>
         <text x="15" y="12" [attr.fill]="color" text-anchor="middle" font-size="12">{{rank + '/' + data.ranks}}</text>
       </svg>
-      <img [attr.alt]="data.name" height="45px" width="45px" [ddragon]="'mastery/' + data.image.full">
+      <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>
         <p>{{data.description[0]}}</p>
