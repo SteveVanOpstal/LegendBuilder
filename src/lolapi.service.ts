@@ -11,17 +11,18 @@ import {staticServer, matchServer} from 'app/serverConfig';
 
 @Injectable()
 export class LolApiService {
-  region: string;
-  realm: Observable<Response>;
+  private region: string;
+  public realm: Observable<Response>;
 
   constructor(params: RouteParams, private http: Http) {
     this.region = params.get('region').toLowerCase();
 
     this.realm = this.http.get(this.linkStaticData() + '/realm')
-      .map(res => res = this.handleResponse(res));
+      .map(res => res = this.handleResponse(res))
+      .cache();
   }
 
-  public getRealm() {
+  public getRealm(): Observable<Response> {
     return this.realm;
   }
 
