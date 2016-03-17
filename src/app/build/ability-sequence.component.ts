@@ -31,8 +31,7 @@ export class AbilitySequenceComponent {
     var spell = this.champion.spells[index];
     try {
       return tim(spell.sanitizedTooltip, this.getEffects(spell));
-    }
-    catch (e) { }
+    } catch (e) { }
   }
 
   getEffects(spell: any) {

@@ -8,8 +8,8 @@ import {staticServer, matchServer} from '../../server/.settings';
 
 @Injectable()
 export class LolApiService {
-  private region: string;
   public realm: Observable<Response>;
+  private region: string;
 
   constructor(params: RouteParams, private http: Http) {
     this.region = params.get('region').toLowerCase();
@@ -18,6 +18,7 @@ export class LolApiService {
       .map(res => res = this.handleResponse(res))
       .cache();
   }
+
 
   public getRealm(): Observable<Response> {
     return this.realm;
@@ -50,7 +51,7 @@ export class LolApiService {
 
 
   private linkStaticData() {
-    return this.staticServer() + "static-data/" + this.region + '/v1.2';
+    return this.staticServer() + 'static-data/' + this.region + '/v1.2';
   }
 
   private linkSummoner() {
@@ -59,22 +60,22 @@ export class LolApiService {
 
 
   private staticServer() {
-    return "http://" + (staticServer.host || "localhost") + ":" + (staticServer.port || 8081) + "/";
+    return 'http://' + (staticServer.host || 'localhost') + ':' + (staticServer.port || 8081) + '/';
   }
 
   private matchServer() {
-    return "http://" + (matchServer.host || "localhost") + ":" + (matchServer.port || 8082) + "/" + this.region;
+    return 'http://' + (matchServer.host || 'localhost') + ':' + (matchServer.port || 8082) + '/' + this.region;
   }
 
 
   private handleResponse(res: Response): Response {
     var resData = res.json();
     if (resData['data']) {
-      resData['data'] = this.objectToArray(res.json()['data'])
+      resData['data'] = this.objectToArray(res.json()['data']);
     }
 
     var options = new BaseResponseOptions();
-    return new Response(options.merge({ body: resData }));;
+    return new Response(options.merge({ body: resData }));
   }
 
   private objectToArray(obj: Object): Array<Object> {

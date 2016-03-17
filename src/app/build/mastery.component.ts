@@ -6,9 +6,9 @@ import {MasteryTierComponent} from './mastery-tier.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
 
 class Colors {
-  public static blue: string = "#4C99FC";
-  public static yellow: string = "#fdf300";
-  public static gray: string = "#7e7e7e";
+  public static blue: string = '#4C99FC';
+  public static yellow: string = '#fdf300';
+  public static gray: string = '#7e7e7e';
 }
 
 @Component({
@@ -51,20 +51,6 @@ export class MasteryComponent implements OnInit {
 
   public ngOnInit() {
     this.tier.addMastery(this);
-  }
-
-  private changed() {
-    if (this.disabled) {
-      this.active = false;
-    } else {
-      this.active = this.rank != 0;
-    }
-
-    if (this.disabled && !this.active) {
-      this.color = Colors.gray;
-      return;
-    }
-    this.color = this.active ? Colors.yellow : Colors.blue;
   }
 
   public disable() {
@@ -132,10 +118,9 @@ export class MasteryComponent implements OnInit {
     if (this.disabled) {
       return;
     }
-    if (this.tier.getRank() == 0) {
+    if (this.tier.getRank() === 0) {
       this.rank = this.getMaxRank();
-    }
-    else if (this.rank < this.getMaxRank()) {
+    } else if (this.rank < this.getMaxRank()) {
       this.rank++;
     }
     this.tier.addRank(this);
@@ -151,5 +136,19 @@ export class MasteryComponent implements OnInit {
     }
     this.tier.removeRank(this);
     this.changed();
+  }
+
+  private changed() {
+    if (this.disabled) {
+      this.active = false;
+    } else {
+      this.active = this.rank !== 0;
+    }
+
+    if (this.disabled && !this.active) {
+      this.color = Colors.gray;
+      return;
+    }
+    this.color = this.active ? Colors.yellow : Colors.blue;
   }
 }

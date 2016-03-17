@@ -4,7 +4,6 @@
   ],
   "rules": {
     "component-selector-name": [true, "kebab-case"],
-    "component-selector-type": [true, "element"],
     "host-parameter-decorator": true,
     "input-parameter-decorator": true,
     "output-parameter-decorator": true,
@@ -21,7 +20,7 @@
     ],
     "max-line-length": [
       true,
-      100
+      200
     ],
     "member-ordering": [
       true,

@@ -30,52 +30,28 @@ export class MasteryCategoryComponent implements OnInit {
     this.tiers[tier.index] = tier;
   }
 
-  private forTier(index: number, callback: (MasteryTierComponent) => void) {
-    if (!this.tiers[index]) {
-      return;
-    }
-    callback(this.tiers[index]);
-  }
-  private forEachTier(callback: (MasteryTierComponent) => void) {
-    this.tiers.forEach(function(tier: MasteryTierComponent) {
-      callback(tier);
-    });
-  }
-
   public enable() {
     this.forEachTier((t) => {
-      if (t.index == 0) {
+      if (t.index === 0) {
         t.enable();
-      }
-      else if (this.tiers[t.index - 1].getRank() != 0) {
+      } else if (this.tiers[t.index - 1].getRank() !== 0) {
         t.enable();
       }
     });
   }
   public disable() {
     this.forEachTier((t) => {
-      if (t.getRank() == 0) {
+      if (t.getRank() === 0) {
         t.disable();
       }
     });
-  }
-
-  private getRank(): number {
-    var rank = 0;
-    this.forEachTier((t) => rank += t.getRank());
-    return rank;
-  }
-
-  private getMasteriesTotalRankDeviation() {
-    var deviation = this.masteries.getRank() - 30;
-    return deviation > 0 ? deviation : 0;
   }
 
   public addRank(tier: MasteryTierComponent, mastery: MasteryComponent) {
     if (!tier) {
       return;
     }
-    if (tier.getRank() == mastery.getMaxRank()) {
+    if (tier.getRank() === mastery.getMaxRank()) {
       this.forTier(tier.index + 1, (t) => t.enable());
       this.forTier(tier.index - 1, (t) => t.lock());
     }
@@ -86,8 +62,7 @@ export class MasteryCategoryComponent implements OnInit {
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
         tier.setRank(mastery, tier.getRank() - deviation - mastery.getRank());
-      }
-      else {
+      } else {
         mastery.setRank(tier.getRank() - deviation);
       }
     }
@@ -105,5 +80,28 @@ export class MasteryCategoryComponent implements OnInit {
     }
     this.masteries.removeRank();
     this.totalRank = this.getRank();
+  }
+
+  private forTier(index: number, callback: (MasteryTierComponent) => void) {
+    if (!this.tiers[index]) {
+      return;
+    }
+    callback(this.tiers[index]);
+  }
+  private forEachTier(callback: (MasteryTierComponent) => void) {
+    this.tiers.forEach(function(tier: MasteryTierComponent) {
+      callback(tier);
+    });
+  }
+
+  private getRank(): number {
+    var rank = 0;
+    this.forEachTier((t) => rank += t.getRank());
+    return rank;
+  }
+
+  private getMasteriesTotalRankDeviation() {
+    var deviation = this.masteries.getRank() - 30;
+    return deviation > 0 ? deviation : 0;
   }
 }

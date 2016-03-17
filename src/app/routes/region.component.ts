@@ -18,47 +18,47 @@ import {RouterLink} from 'angular2/router';
 export class RegionRoute {
   private regions = [
     {
-      id: "br",
-      name: "Brazil"
+      id: 'br',
+      name: 'Brazil'
     },
     {
-      id: "eune",
-      name: "EU Nordic & East"
+      id: 'eune',
+      name: 'EU Nordic & East'
     },
     {
-      id: "euw",
-      name: "EU West"
+      id: 'euw',
+      name: 'EU West'
     },
     {
-      id: "kr",
-      name: "Korea"
+      id: 'kr',
+      name: 'Korea'
     },
     {
-      id: "lan",
-      name: "Latin America North"
+      id: 'lan',
+      name: 'Latin America North'
     },
     {
-      id: "las",
-      name: "Latin America South"
+      id: 'las',
+      name: 'Latin America South'
     },
     {
-      id: "na",
-      name: "North America"
+      id: 'na',
+      name: 'North America'
     },
     {
-      id: "oce",
-      name: "Oceania"
+      id: 'oce',
+      name: 'Oceania'
     },
     // {
-    //   id: "pbe",
-    //   name: "Public Beta Environment"
+    //   id: 'pbe',
+    //   name: 'Public Beta Environment'
     // },
     {
-      id: "ru",
-      name: "Russia"
+      id: 'ru',
+      name: 'Russia'
     },
     {
-      id: "tr",
-      name: "Turkey"
+      id: 'tr',
+      name: 'Turkey'
     }];
 }

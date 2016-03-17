@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {NgIf} from 'angular2/common'
+import {NgIf} from 'angular2/common';
 import {RouteParams} from 'angular2/router';
 
 import {GraphComponent} from '../misc/graph.component';

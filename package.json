@@ -31,7 +31,7 @@
     "server:prod": "http-server dist --cors",
     "static-server": "node src/server/staticServer.js",
     "match-server": "node src/server/matchServer.js",
-    "lint": "./node_modules/.bin/tslint src/**/*.ts -e src/typings/",
+    "lint": "./node_modules/.bin/tslint src/**/*.ts -e src/typings/**",
     "typings-install": "typings install",
     "postinstall": "npm run typings-install"
   },

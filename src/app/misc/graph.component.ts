@@ -12,7 +12,7 @@ import {AbilitySequenceComponent} from '../build/ability-sequence.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [DDragonDirective, AbilitySequenceComponent],
   template: `
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" [attr.width]="width" height="100%" [attr.viewBox]="'0 0 ' +  width + ' ' + height" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" [attr.width]="width" height="100%" [attr.viewBox]="'0 0 ' +  width + ' ' + height">
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (graphHeight + margin.top + margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
         <path class="line xp" clip-path="url(#clip)"></path>
@@ -50,7 +50,7 @@ export class GraphComponent implements OnChanges, OnInit {
   private yAxis: any;
 
   private line: any = d3.svg.line()
-    .interpolate("monotone")
+    .interpolate('monotone')
     .x(function(d, i) {
       return this.xScaleTime(i * (this.config.gameTime / this.config.sampleSize));
     })
@@ -64,7 +64,7 @@ export class GraphComponent implements OnChanges, OnInit {
   constructor( @Inject(ElementRef) private elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.svg = d3.select(this.elementRef.nativeElement).select("svg");
+    this.svg = d3.select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
     this.updateLines();
   }
@@ -83,23 +83,23 @@ export class GraphComponent implements OnChanges, OnInit {
       .tickSize(this.graphHeight)
       .tickValues(this.timeMarks)
       .tickFormat(function(d) {
-        return d == 0 ? "" : Math.floor(d / 3600000) + ":" + ('00' + Math.floor((d % 3600000) / 60000)).slice(-2);
+        return d === 0 ? '' : Math.floor(d / 3600000) + ':' + ('00' + Math.floor((d % 3600000) / 60000)).slice(-2);
       })
-      .orient("top");
+      .orient('top');
 
     this.yAxis = d3.svg.axis()
       .scale(this.yScale)
-      .orient("left");
+      .orient('left');
 
-    this.svg.select(".x.axis.time").call(this.xAxisTime);
-    this.svg.select(".y.axis").call(this.yAxis);
+    this.svg.select('.x.axis.time').call(this.xAxisTime);
+    this.svg.select('.y.axis').call(this.yAxis);
   }
 
   updateLines() {
-    this.svg.select(".line.xp")
-      .attr("d", this.line(this.config.xp));
-    this.svg.select(".line.g")
-      .attr("d", this.line(this.config.g));
+    this.svg.select('.line.xp')
+      .attr('d', this.line(this.config.xp));
+    this.svg.select('.line.g')
+      .attr('d', this.line(this.config.g));
   }
 
   createLevelScale() {
@@ -132,17 +132,17 @@ export class GraphComponent implements OnChanges, OnInit {
         return i + 1;
       });
 
-    this.svg.select(".x.axis.level-line").call(this.xAxisLevelLine);
-    this.svg.select(".x.axis.level-text").call(this.xAxisLevelText);
+    this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine);
+    this.svg.select('.x.axis.level-text').call(this.xAxisLevelText);
 
     for (var i = 1; i <= 4; i++) {
-      this.svg.selectAll(".x.axis.level-text .tick")
-        .append("foreignObject")
-        .attr("y", -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.margin.bottom)
-        .attr("x", -10)
-        .append("xhtml:label")
-        .append("xhtml:input")
-        .attr("type", "checkbox");
+      this.svg.selectAll('.x.axis.level-text .tick')
+        .append('foreignObject')
+        .attr('y', -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.margin.bottom)
+        .attr('x', -10)
+        .append('xhtml:label')
+        .append('xhtml:input')
+        .attr('type', 'checkbox');
     }
   }
 
@@ -152,4 +152,4 @@ export class GraphComponent implements OnChanges, OnInit {
       this.createLevelScale();
     }
   }
-} 
+}

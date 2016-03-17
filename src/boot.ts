@@ -25,7 +25,7 @@ import {HTTP_BINDINGS} from 'angular2/http';
 import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
 import {enableProdMode, provide} from 'angular2/core';
 
-if (ENV == "production") {
+if (ENV === 'production') {
   enableProdMode();
 }
 

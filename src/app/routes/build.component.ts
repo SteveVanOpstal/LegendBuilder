@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 
-import {ShopComponent} from '../build/shop.component'
-import {ChampionComponent} from '../build/champion.component'
+import {ShopComponent} from '../build/shop.component';
+import {ChampionComponent} from '../build/champion.component';
 
 @Component({
   selector: 'build',

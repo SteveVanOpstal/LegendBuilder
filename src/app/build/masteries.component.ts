@@ -30,52 +30,8 @@ export class MasteriesComponent {
     this.getData();
   }
 
-  private getData() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getMasteries()
-      .subscribe(
-      res => this.data = this.alterData(res),
-      error => { this.error = true; this.loading = false; },
-      () => this.loading = false
-      );
-  }
-
-  private alterData(newMasteries: Object) {
-    var alteredMasteries = [];
-
-    for (var categoryName in newMasteries['tree']) {
-      var category = newMasteries['tree'][categoryName];
-      var tiers = [];
-      for (var masteryTreeItemName in category) {
-        var masteryTreeItem = category[masteryTreeItemName];
-        var item = [];
-        for (var masteryName in masteryTreeItem["masteryTreeItems"]) {
-          var mastery = masteryTreeItem["masteryTreeItems"][masteryName];
-          if (mastery !== null) {
-            item.push(newMasteries['data'][mastery.masteryId]);
-          }
-          else {
-            item.push(null);
-          }
-        }
-        tiers.push(item);
-      }
-      alteredMasteries.push({ name: categoryName, tiers: tiers });
-    }
-
-    return alteredMasteries;
-  }
-
   public addCategory(category: MasteryCategoryComponent) {
     this.categories.push(category);
-  }
-
-  private forEachCategory(callback: (MasteryCategoryComponent) => void) {
-    this.categories.forEach(function(category: MasteryCategoryComponent) {
-      callback(category);
-    });
   }
 
   public enable() {
@@ -99,8 +55,51 @@ export class MasteriesComponent {
   }
 
   public removeRank() {
-    if (this.getRank() == 29) {
+    if (this.getRank() === 29) {
       this.enable();
     }
+  }
+
+  private getData() {
+    this.loading = true;
+    this.error = false;
+
+    this.lolApi.getMasteries()
+      .subscribe(
+      res => this.data = this.alterData(res),
+      error => { this.error = true; this.loading = false; },
+      () => this.loading = false
+      );
+  }
+
+  private alterData(newMasteries: Object) {
+    var alteredMasteries = [];
+
+    for (var categoryName in newMasteries['tree']) {
+      var category = newMasteries['tree'][categoryName];
+      var tiers = [];
+      for (var masteryTreeItemName in category) {
+        var masteryTreeItem = category[masteryTreeItemName];
+        var item = [];
+        for (var masteryName in masteryTreeItem['masteryTreeItems']) {
+          var mastery = masteryTreeItem['masteryTreeItems'][masteryName];
+          if (mastery !== null) {
+            item.push(newMasteries['data'][mastery.masteryId]);
+          } else {
+            item.push(null);
+          }
+        }
+        tiers.push(item);
+      }
+      alteredMasteries.push({ name: categoryName, tiers: tiers });
+    }
+
+    return alteredMasteries;
+  }
+
+  private forEachCategory(callback: (MasteryCategoryComponent) => void) {
+    this.categories.forEach(function(category: MasteryCategoryComponent) {
+      callback(category);
+    });
   }
 }

@@ -26,22 +26,9 @@ export class MasteryTierComponent implements OnInit {
 
   public addMastery(mastery: MasteryComponent) {
     this.masteries.push(mastery);
-    if (this.index == 0) {
-      mastery.enable()
+    if (this.index === 0) {
+      mastery.enable();
     }
-  }
-
-  private forMastery(mastery: MasteryComponent, callback: (MasteryComponent) => void) {
-    this.masteries.forEach(function(m: MasteryComponent) {
-      if (mastery !== m) {
-        callback(m);
-      }
-    });
-  }
-  private forEachMastery(callback: (MasteryComponent) => void) {
-    this.masteries.forEach(function(mastery: MasteryComponent) {
-      callback(mastery);
-    });
   }
 
   public enable() {
@@ -79,5 +66,18 @@ export class MasteryTierComponent implements OnInit {
       return;
     }
     this.category.removeRank(this, mastery);
+  }
+
+  private forMastery(mastery: MasteryComponent, callback: (MasteryComponent) => void) {
+    this.masteries.forEach(function(m: MasteryComponent) {
+      if (mastery !== m) {
+        callback(m);
+      }
+    });
+  }
+  private forEachMastery(callback: (MasteryComponent) => void) {
+    this.masteries.forEach(function(mastery: MasteryComponent) {
+      callback(mastery);
+    });
   }
 }
