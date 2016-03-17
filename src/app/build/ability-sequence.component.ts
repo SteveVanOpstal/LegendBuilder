@@ -1,11 +1,9 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Input} from 'angular2/core';
 import {NgFor, NgClass} from 'angular2/common';
 
 import {tim} from 'tinytim/lib/tinytim';
 
-import {DDragonDirective} from 'app/ddragon.directive';
+import {DDragonDirective} from '../misc/ddragon.directive';
 
 @Component({
   selector: 'g[ability-sequence]',

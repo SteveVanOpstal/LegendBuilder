@@ -1,18 +1,17 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
-import {Component, Output, EventEmitter} from 'angular2/core';
+import {Component} from 'angular2/core';
+import {NgIf} from 'angular2/common'
 import {RouteParams} from 'angular2/router';
 
-import {GraphComponent} from 'app/graph.component';
-import {MasteriesComponent} from 'app/masteries.component';
+import {GraphComponent} from '../misc/graph.component';
+import {MasteriesComponent} from './masteries.component';
 
-import {DDragonDirective} from 'app/ddragon.directive';
-import {LoadingComponent} from 'app/loading.component';
-import {ErrorComponent} from 'app/error.component';
+import {DDragonDirective} from '../misc/ddragon.directive';
+import {LoadingComponent} from '../misc/loading.component';
+import {ErrorComponent} from '../misc/error.component';
 
-import {LolApiService} from 'app/lolapi.service';
+import {LolApiService} from '../misc/lolapi.service';
 
-import {Config} from 'app/config';
+import {Config} from './config';
 
 @Component({
   selector: 'champion',
@@ -20,7 +19,7 @@ import {Config} from 'app/config';
   providers: [LolApiService],
   template: `
     <div class="title">
-      <img [ddragon]="'champion/' + champion?.image?.full">
+      <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
     <div>

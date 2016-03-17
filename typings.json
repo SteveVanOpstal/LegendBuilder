@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "webpack": "registry:npm/webpack#1.12.9+20160219013405"
+  },
+  "ambientDependencies": {
+    "node": "registry:dt/node#4.0.0+20160316042000",
+    "rx": "registry:dt/rx#0.0.0+20160316171810"
+  }
+}

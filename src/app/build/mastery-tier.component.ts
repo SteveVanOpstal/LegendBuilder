@@ -1,10 +1,8 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 
-import {MasteryComponent} from 'app/mastery.component';
-import {MasteryCategoryComponent} from 'app/mastery-category.component';
+import {MasteryComponent} from './mastery.component';
+import {MasteryCategoryComponent} from './mastery-category.component';
 
 @Component({
   selector: 'mastery-tier',
@@ -69,14 +67,14 @@ export class MasteryTierComponent implements OnInit {
     return rank;
   }
 
-  private addRank(mastery: MasteryComponent) {
+  public addRank(mastery: MasteryComponent) {
     if (!mastery) {
       return;
     }
     this.category.addRank(this, mastery);
   }
 
-  private removeRank(mastery: MasteryComponent) {
+  public removeRank(mastery: MasteryComponent) {
     if (!mastery) {
       return;
     }

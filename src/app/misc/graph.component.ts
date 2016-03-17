@@ -1,13 +1,11 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from 'angular2/core';
-
-import Config from 'app/config';
-
-import {AbilitySequenceComponent} from 'app/ability-sequence.component';
-import {DDragonDirective} from 'app/ddragon.directive';
-
 import * as d3 from 'd3/d3';
+
+import {Config} from '../build/config';
+
+import {DDragonDirective} from '../misc/ddragon.directive';
+
+import {AbilitySequenceComponent} from '../build/ability-sequence.component';
 
 @Component({
   selector: 'graph',

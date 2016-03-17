@@ -13,10 +13,9 @@ var cache = Lru({
   maxAge: 1000 * 60 * 60 * 2
 });
 
+
 var config = {
-  httpServer: JSON.parse(fs.readFileSync('.live-server.json', 'utf8')),
-  server: JSON.parse(fs.readFileSync('.match-server.json', 'utf8')),
-  apiKey: fs.readFileSync('.api.key', 'utf8'),
+  server: require('./.settings.js').matchServer,
   games: {
     min: 2,
     max: 5
@@ -29,6 +28,9 @@ var config = {
     sampleTime: 10 * 60 * 1000
   }
 }
+
+config.server.host = config.server.host || "localhost";
+config.server.port = config.server.port || 8082;
 
 var errors = {
   summoner: {
@@ -46,11 +48,6 @@ var errors = {
 }
 
 host.options(config.server.host, config.server.port);
-
-var headers = {
-  'Access-Control-Allow-Origin': 'http://' + (config.httpServer.host || "127.0.0.1") + ':' + (config.httpServer.port || "8080"),
-  'content-type': 'application/json'
-};
 
 function getSummonerId(region, name, callback) {
   var path = url.format({ pathname: host.createUrl(region, 'summoner') + 'by-name/' + name });
@@ -217,7 +214,7 @@ var server = http.createServer(function(request, response) {
   var cachedResponseData = cache.get(request.url);
 
   if (cachedResponseData) {
-    response.writeHead(200, headers);
+    response.writeHead(200, host.headers);
     response.write(cachedResponseData);
     response.end();
     console.logHttp("CACHED", request.url, 200, cache.length / 1000000 + 'MB/' + cache.max / 1000000 + 'MB');
@@ -257,7 +254,7 @@ var server = http.createServer(function(request, response) {
     ],
     function(error, result) {
       if (error) {
-        response.writeHead(error.code, headers);
+        response.writeHead(error.code, host.headers);
         error.text = tim(error.text, { name: name, region: region });
         response.write(error.text);
         response.end();
@@ -276,7 +273,7 @@ var server = http.createServer(function(request, response) {
         result = JSON.stringify(samples);
         console.log(samples);
 
-        response.writeHead(200, headers);
+        response.writeHead(200, host.headers);
         response.write(result);
         response.end();
         cache.set(request.url, result);

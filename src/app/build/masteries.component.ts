@@ -1,13 +1,12 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 
-import {LolApiService} from 'app/lolapi.service';
+import {MasteryCategoryComponent} from './mastery-category.component';
 
-import {MasteryCategoryComponent} from 'app/mastery-category.component';
-import {LoadingComponent} from 'app/loading.component';
-import {ErrorComponent} from 'app/error.component';
+import {LoadingComponent} from '../misc/loading.component';
+import {ErrorComponent} from '../misc/error.component';
+
+import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
   selector: 'masteries',
@@ -86,20 +85,20 @@ export class MasteriesComponent {
     this.forEachCategory((c) => c.disable());
   }
 
-  private getRank(): number {
+  public getRank(): number {
     var rank = 0;
     this.forEachCategory((c) => rank += c.getRank());
     return rank;
   }
 
-  private addRank() {
+  public addRank() {
     if (this.getRank() >= 30) {
       this.disable();
 
     }
   }
 
-  private removeRank() {
+  public removeRank() {
     if (this.getRank() == 29) {
       this.enable();
     }

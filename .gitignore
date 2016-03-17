@@ -1,15 +1,14 @@
-.vscode/
-app/
+.*
+
+dist/
 node_modules/
 src/typings/
 src/tsd.json
 
 *.d.ts
-*.js.map
 *.bat
-*.min.css
-*.min.js
 
-.*.json
 .api.key
 .git.token
+
+npm-debug.log

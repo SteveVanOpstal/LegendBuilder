@@ -1,9 +1,7 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component} from 'angular2/core';
 
-import {ShopComponent} from 'app/shop.component'
-import {ChampionComponent} from 'app/champion.component'
+import {ShopComponent} from '../build/shop.component'
+import {ChampionComponent} from '../build/champion.component'
 
 @Component({
   selector: 'build',

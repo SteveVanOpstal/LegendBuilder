@@ -1,5 +1,3 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Input} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 

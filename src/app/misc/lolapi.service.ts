@@ -1,13 +1,10 @@
-///<reference path="typings/angular2/angular2.d.ts"/>
-
 import {Injectable, bind} from 'angular2/core';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
-
 import 'rxjs/rx';
 import {Observable} from 'rxjs/Observable';
 
-import {staticServer, matchServer} from 'app/serverConfig';
+import {staticServer, matchServer} from '../../server/.settings';
 
 @Injectable()
 export class LolApiService {
@@ -62,11 +59,11 @@ export class LolApiService {
 
 
   private staticServer() {
-    return "http://" + staticServer.host + ":" + staticServer.port + "/";
+    return "http://" + (staticServer.host || "localhost") + ":" + (staticServer.port || 8081) + "/";
   }
 
   private matchServer() {
-    return "http://" + matchServer.host + ":" + matchServer.port + "/" + this.region;
+    return "http://" + (matchServer.host || "localhost") + ":" + (matchServer.port || 8082) + "/" + this.region;
   }
 
 

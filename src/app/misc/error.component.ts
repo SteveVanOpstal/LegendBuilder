@@ -1,5 +1,3 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 
@@ -25,7 +23,7 @@ import {NgIf} from 'angular2/common';
 
 export class ErrorComponent {
   @Input() error: boolean;
-  @Output() retry: EventEmitter = new EventEmitter();
+  @Output() retry: EventEmitter<any> = new EventEmitter<any>();
 
   retryClicked() {
     this.retry.emit(null);

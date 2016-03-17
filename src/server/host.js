@@ -23,6 +23,13 @@ var options = {
   }
 };
 
+var httpServer = require('./.settings.js').httpServer;
+
+exports.headers = {
+  'Access-Control-Allow-Origin': 'http://' + (httpServer.host || "localhost") + ':' + (httpServer.port || 8080),
+  'content-type': 'application/json'
+};
+
 exports.options = function(host, port) {
   options.headers.Origin = 'http://' + host + ':' + port;
 }
@@ -42,6 +49,7 @@ var jsonFormatter = exports.jsonFormatter = function(d) {
 var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
   console.start();
 
+  var safeUrl = url;
   url += url.indexOf('?') < 0 ? '?api_key=' + config.apiKey : '&api_key=' + config.apiKey;
   options.path = url;
   options.hostname = region + config.hostname;
@@ -52,7 +60,7 @@ var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
       data += d;
     })
       .on('end', function() {
-        console.logHttp(options.method, options.path, res.statusCode);
+        console.logHttp(options.method, safeUrl, res.statusCode);
         if (res.statusCode == 200) {
           cb(formatterCb ? formatterCb(data) : data, false, res.statusCode);
         }
@@ -63,8 +71,8 @@ var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
   });
 
   req.on('error', function(e) {
+    console.logHttp(options.method, safeUrl, e.statusCode, e);
     cb(false, e, e.statusCode);
-    console.logHttp(options.method, options.path, e.statusCode, e);
   });
 
   req.end();

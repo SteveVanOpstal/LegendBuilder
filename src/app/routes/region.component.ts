@@ -1,5 +1,3 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, EventEmitter} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 import {RouterLink} from 'angular2/router';

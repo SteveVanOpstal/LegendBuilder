@@ -1,8 +1,6 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Directive, Input, ElementRef, OnChanges} from 'angular2/core';
 
-import {LolApiService} from 'app/lolapi.service';
+import {LolApiService} from '../misc/lolapi.service';
 
 @Directive({
   selector: '[ddragon]'
@@ -13,7 +11,7 @@ export class DDragonDirective implements OnChanges {
   @Input('ddragon.x') x: number = -1;
   @Input('ddragon.y') y: number = -1;
 
-  private default: string = "/images/hourglass.svg";
+  private default: string = "/assets/images/hourglass.svg";
   private realm: any;
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {

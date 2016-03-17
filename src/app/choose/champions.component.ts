@@ -1,16 +1,14 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Output, EventEmitter, Inject} from 'angular2/core';
 import {NgFor, NgIf} from 'angular2/common';
 import {Response} from 'angular2/http';
 import {RouterLink, RouteParams} from 'angular2/router';
 
-import {LolApiService} from 'app/lolapi.service';
+import {DDragonDirective} from '../misc/ddragon.directive';
+import {BarComponent} from '../misc/bar.component';
+import {LoadingComponent} from '../misc/loading.component';
+import {ErrorComponent} from '../misc/error.component';
 
-import {DDragonDirective} from 'app/ddragon.directive';
-import {BarComponent} from 'app/bar.component';
-import {LoadingComponent} from 'app/loading.component';
-import {ErrorComponent} from 'app/error.component';
+import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
   selector: 'champions',

@@ -1,11 +1,9 @@
-/// <reference path="typings/angular2/angular2.d.ts" />
-
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {RegionRoute} from 'app/region.component'
-import {ChooseRoute} from 'app/choose.component';
-import {BuildRoute} from 'app/build.component';
+import {RegionRoute} from './routes/region.component';
+import {ChooseRoute} from './routes/choose.component';
+import {BuildRoute} from './routes/build.component';
 
 @Component({
   selector: 'app',

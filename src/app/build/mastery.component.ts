@@ -1,10 +1,9 @@
-/// <reference path="../typings/angular2/angular2.d.ts" />
-
 import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
 import {NgIf, NgClass} from 'angular2/common';
 
-import {DDragonDirective} from 'app/ddragon.directive';
-import {MasteryTierComponent} from 'app/mastery-tier.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+
+import {DDragonDirective} from '../misc/ddragon.directive';
 
 class Colors {
   public static blue: string = "#4C99FC";
@@ -109,7 +108,7 @@ export class MasteryComponent implements OnInit {
     this.changed();
   }
 
-  private getMaxRank() {
+  public getMaxRank() {
     if (!this.data || !this.data['ranks']) {
       return 0;
     }

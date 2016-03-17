@@ -12,16 +12,13 @@ var cache = Lru({
 });
 
 var config = {
-  liveServer: JSON.parse(fs.readFileSync('.live-server.json', 'utf8')),
-  server: JSON.parse(fs.readFileSync('.static-server.json', 'utf8'))
+  server: require('./.settings.js').staticServer
 }
 
-host.options(config.server.host, config.server.port);
+config.server.host = config.server.host || "localhost";
+config.server.port = config.server.port || 8081;
 
-var headers = {
-  'Access-Control-Allow-Origin': 'http://' + (config.liveServer.host || "127.0.0.1") + ':' + (config.liveServer.port || "8080"),
-  'content-type': 'application/json'
-};
+host.options(config.server.host, config.server.port);
 
 var server = http.createServer(function(request, response) {
   console.start(50);
@@ -32,7 +29,7 @@ var server = http.createServer(function(request, response) {
   var cachedResponseData = cache.get(request.url);
 
   if (cachedResponseData) {
-    response.writeHead(200, headers);
+    response.writeHead(200, host.headers);
     response.write(cachedResponseData);
     response.end();
     console.logHttp("CACHED", request.url, 200, cache.length / 1000000 + 'MB/' + cache.max / 1000000 + 'MB');
@@ -42,7 +39,7 @@ var server = http.createServer(function(request, response) {
   var path = url.format({ pathname: host.createUrl(requestUrl.pathname), query: requestUrl.query });
 
   host.sendRequest('global', path, function(data, error, status) {
-    response.writeHead(status, headers);
+    response.writeHead(status, host.headers);
     if (data) {
       response.write(data);
       console.logHttp(request.method, request.url, status);
