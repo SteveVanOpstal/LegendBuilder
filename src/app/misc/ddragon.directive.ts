@@ -7,7 +7,7 @@ import {LolApiService} from '../misc/lolapi.service';
 })
 
 export class DDragonDirective implements OnChanges {
-  @Input() image: string;
+  @Input('ddragon') image: string;
   @Input() x: number = -1;
   @Input() y: number = -1;
 

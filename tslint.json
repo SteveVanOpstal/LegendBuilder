@@ -3,14 +3,24 @@
     "node_modules/ng2lint/dist/src"
   ],
   "rules": {
-    "component-selector-name": [true, "kebab-case"],
+    "directive-selector-name": [
+      true,
+      "camelCase"
+    ],
+    "component-selector-name": [
+      true,
+      "kebab-case"
+    ],
+    "directive-selector-type": [
+      true,
+      "attribute"
+    ],
     "host-parameter-decorator": true,
     "input-parameter-decorator": true,
     "output-parameter-decorator": true,
-    "attribute-parameter-decorator": false,
-    "input-property-directive": true,
-    "output-property-directive": true,
-
+    "attribute-parameter-decorator": true,
+    "input-property-directive": false,
+    "output-property-directive": false,
     "class-name": true,
     "curly": false,
     "eofline": true,
