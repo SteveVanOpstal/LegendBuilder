@@ -67,10 +67,6 @@ champions .champion .info bar {
   padding-left: 5px;
 }
 
-champions .champion .info bar > div:not(:nth-child(n-1)) {
-  border-left: none;
-}
-
 champions .champion .info bar.attack > div {
   background-color: #5C1F1F;
 }

@@ -27,11 +27,6 @@ p {
   margin: 15px;
 }
 
-.header img {
-  width: 60px;
-  float: left;
-}
-
 .header > .align-center {
   max-width: 400px;
   display: flex;
@@ -185,60 +180,6 @@ button:disabled {
   .content {
       margin: 0;
   }
-}
-
-/* tabs */
-
-.tabs {
-  display: flex;
-  position: relative;
-  min-height: 250px;
-  margin: 25px 0;
-  display: none;
-}
-
-.tab {
-margin: 5px 0 0 5px;
-/* border: 1px solid #EEE; */
-}
-
-.tab label {
-background-color: #EEE; 
-padding: 5px; 
-border: 1px solid #CCC;  
-position: relative;
-margin-left: 3px;
-width: 60px;
-text-align: center;
-}
-
-.tab .tab-content {
-position: absolute;
-top: 44px;
-left: 0;
-background-color: #FFF;
-bottom: 0;
-border: 1px solid #CCC; 
-padding: 5px;
-min-width: 200px;
-}
-
-.tab [type=radio] {
-display: none;   
-}
-
-.tab [type=radio]:checked ~ label {
-background-color: #FFF;
-border-bottom: 1px solid white;
-z-index: 2;
-}
-
-.tab [type=radio]:checked ~ label ~ .tab-content {
-z-index: 1;
-}
-
-.tab [type=radio]:not(:checked) ~ .tab-content {
-  display: none;
 }
 
 /* gold */
