@@ -1,6 +1,6 @@
 import {Directive, Input, ElementRef, OnChanges} from 'angular2/core';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from './lolapi.service';
 
 @Directive({
   selector: '[ddragon]'

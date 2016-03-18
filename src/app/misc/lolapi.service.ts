@@ -1,7 +1,7 @@
 import {Injectable, bind} from 'angular2/core';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
-import 'rxjs/rx';
+import 'rxjs/Rx'
 import {Observable} from 'rxjs/Observable';
 
 import {staticServer, matchServer} from '../../server/.settings';
