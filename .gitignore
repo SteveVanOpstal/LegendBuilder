@@ -3,12 +3,8 @@
 dist/
 node_modules/
 src/typings/
-src/tsd.json
 
 *.d.ts
 *.bat
-
-.api.key
-.git.token
 
 npm-debug.log
