@@ -13,20 +13,9 @@
   <!-- style -->
   <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/build.css" />
-  <link rel="stylesheet" href="/assets/css/choose.css" />
-  <link rel="stylesheet" href="/assets/css/region.css" />
 
   <!-- fonts -->
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
-
-  <!-- angular 
-  <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
-  <script src="../node_modules/systemjs/dist/system.src.js"></script>
-  <script src="../node_modules/rxjs/bundles/Rx.js"></script>
-  <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
-  <script src="../node_modules/angular2/bundles/http.dev.js"></script>
-  <script src="../node_modules/angular2/bundles/router.dev.js"></script>-->
 
   <!-- base url -->
   <base href="<%= webpackConfig.metadata.baseUrl %>">
@@ -53,16 +42,6 @@
       </svg>
     </app>
   </div>
-  <!--<script>
-    System.defaultJSExtensions = true;
-    System.config({
-      paths: {
-        '*': '/node_modules/*',
-        'app/*': '/app/*'
-      }
-    });
-    System.import('/app/boot');
-  </script>-->
 
   <% if (webpackConfig.metadata.ENV === 'development') { %>
   <!-- Webpack Dev Server reload -->
