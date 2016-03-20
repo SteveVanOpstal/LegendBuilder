@@ -1,7 +1,7 @@
 import {Injectable, bind} from 'angular2/core';
 import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
-import 'rxjs/Rx'
+import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
 
 import {staticServer, matchServer} from '../../server/.settings';
@@ -25,7 +25,7 @@ export class LolApiService {
   }
 
   public getChampions() {
-    return this.http.get(this.linkStaticData() + '/champion?champData=info')
+    return this.http.get(this.linkStaticData() + '/champion?champData=info,tags')
       .map(res => res = this.handleResponse(res));
   }
 

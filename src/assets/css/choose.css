@@ -12,9 +12,8 @@ champions p {
 }
 
 champions .champion {
-  width: 150px;
   height: 275px;
-  margin: 0 -2px;
+  margin: -1px -2px;
 }
 
 champions .champion:hover {
@@ -37,6 +36,7 @@ champions .champion img {
   height: 273px;
   -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
   clip-path: inset(8px 8px 0px 8px round 10px);
+  clip: rect(8px 8px 0px 8px);
   
   -webkit-filter: grayscale(0.8);
   filter: grayscale(0.8);
@@ -88,10 +88,15 @@ champions .champion .info bar.difficulty > div {
 
 filters {
   display: flex;
+  width: 100%;
 }
 
 filters > div {
-  width: 33%;
+  width: 37%;
+}
+
+filters > div.center {
+  width: 25%;
 }
 
 filters label {
@@ -109,27 +114,30 @@ filters .center input[type="text"] {
 }
 
 filters .center label {
-  margin: 20px 10px 0 10px;
+  margin: 20px 0 0 0;
   width: 5em;
   text-align: center;
 }
 
 filters .left > .align-center,
 filters .right > .align-center {
-  width: 80%;
-  text-align: center;
+  width: 85%;
   padding: 20px;
+  text-align: center;
 }
 
-filters .left label,
-filters .right label {
+filters .left label {
   width: 120px;
+}
+
+filters .right label {
+  width: 200px;
 }
 
 
 /* @media */
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   champions .champion
   {
     width: 100px;

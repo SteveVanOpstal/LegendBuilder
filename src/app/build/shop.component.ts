@@ -1,4 +1,4 @@
-import {Component, Output, Pipe, EventEmitter, Inject} from 'angular2/core';
+import {Pipe, PipeTransform, Component, Output, EventEmitter, Inject} from 'angular2/core';
 import {NgFor, NgClass} from 'angular2/common';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
@@ -11,7 +11,7 @@ import {LolApiService} from '../misc/lolapi.service';
   name: 'translate'
 })
 
-class TranslatePipe {
+class TranslatePipe implements PipeTransform {
   translator: Object =
   {
     'GOLDPER': 'Gold income',
