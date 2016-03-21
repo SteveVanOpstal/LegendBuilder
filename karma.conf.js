@@ -1,12 +1,12 @@
 module.exports = function(config) {
-  var testWebpackConfig = require('./webpack.test.js');
+  var testWebpackConfig = require('./webpack.test.config.js');
 
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     exclude: [ ],
-    files: [ { pattern: './spec-bundle.js', watched: false } ],
-    preprocessors: { './spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
+    files: [ { pattern: 'spec-bundle.js', watched: false } ],
+    preprocessors: { 'spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
     webpack: testWebpackConfig,
 
     coverageReporter: {

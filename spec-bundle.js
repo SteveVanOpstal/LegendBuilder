@@ -15,7 +15,7 @@ testing.setBaseTestProviders(
   browser.TEST_BROWSER_APPLICATION_PROVIDERS);
 
 Object.assign(global, testing);
-var testContext = require.context('../src', true, /\.spec\.ts/);
+var testContext = require.context('./src', true, /\.spec\.ts/);
 
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
