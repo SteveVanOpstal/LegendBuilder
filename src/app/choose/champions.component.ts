@@ -1,7 +1,7 @@
 import {Component, Output, EventEmitter, Inject, ViewChildren} from 'angular2/core';
 import {NgFor, NgIf} from 'angular2/common';
 import {Response} from 'angular2/http';
-import {RouterLink, RouteParams} from 'angular2/router';
+import {Router, RouterLink, RouteParams} from 'angular2/router';
 
 import {FilterPipe, FiltersComponent} from '../choose/filters.component';
 import {BarComponent} from '../misc/bar.component';
@@ -44,8 +44,8 @@ export class ChampionsComponent {
   private name: string;
   private tags: Array<string> = [];
   private sort: string;
-  
-  constructor(params: RouteParams, public lolApi: LolApiService) {
+
+  constructor(params: RouteParams, private router: Router, public lolApi: LolApiService) {
     this.region = params.get('region');
     this.getData();
   }
@@ -61,12 +61,12 @@ export class ChampionsComponent {
       () => this.loading = false
       );
   }
-  
+
   private enterHit() {
     var pipe = new FilterPipe();
     var filteredChampions = pipe.transform(this.champions['data'], [this.name, this.tags, this.sort]);
-    if(filteredChampions.length == 1) {
-      // TODO: direct to '['../Build', {region: region, champion: filteredChampions[0].key}]'
+    if (filteredChampions.length === 1) {
+      this.router.navigate(['../Build', { region: this.region, champion: filteredChampions[0]['key'] }]);
     }
   }
 }

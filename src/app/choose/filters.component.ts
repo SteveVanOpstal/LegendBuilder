@@ -83,7 +83,7 @@ export class FilterPipe implements PipeTransform {
     <div class="center align-center">
       <div>
         <h2>Choose your weapon</h2>
-        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)"/>
+        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>
     <div class="right">
@@ -133,7 +133,7 @@ export class FiltersComponent {
     if (!event || !event.code) {
       return;
     }
-    if (event.code === "Enter") {
+    if (event.code === 'Enter') {
       this.enterHit.next(null);
     }
   }
