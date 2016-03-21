@@ -7,16 +7,18 @@ import {NgIf} from 'angular2/common';
   template: `
   <p *ngIf="error" class="error-item">
     <span class="error">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon" viewBox="0 0 8 8">
-        <path d="M3.09 0c-.06 0-.1.04-.13.09l-2.94 6.81c-.02.05-.03.13-.03.19v.81c0 .05.04.09.09.09h6.81c.05 0 
-        .09-.04.09-.09v-.81c0-.05-.01-.14-.03-.19l-2.94-6.81c-.02-.05-.07-.09-.13-.09h-.81zm-.09 3h1v2h-1v-2zm0 3h1v1h-1v-1z" />
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon error" viewBox="0 0 24 24" width="32" height="32">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
       </svg>
     </span>
     <span class="error error-text">Something went wrong.. </span>
     <button (click)="retryClicked()">
       <p>Retry </p>
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon" viewBox="0 0 8 8">
-        <path d="M4 0c-1.65 0-3 1.35-3 3h-1l1.5 2 1.5-2h-1c0-1.11.89-2 2-2v-1zm2.5 1l-1.5 2h1c0 1.11-.89 2-2 2v1c1.65 0 3-1.35 3-3h1l-1.5-2z" transform="translate(0 1)" />
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon refresh" viewBox="0 0 24 24" width="32" height="32">>
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0
+        3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
       </svg>
     </button>
   </p>`
