@@ -1,10 +1,5 @@
-// @AngularClass
-
-/*
- * Helper: root(), and rootDir() are defined at the bottom
- */
 var helpers = require('./helpers');
-// Webpack Plugins
+
 var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
@@ -28,13 +23,8 @@ var metadata = {
   ENV: ENV
 };
 
-/*
- * Config
- */
 module.exports = {
-  // static data for index.html
   metadata: metadata,
-
   devtool: 'source-map',
   debug: false,
 
@@ -45,7 +35,6 @@ module.exports = {
     'main': './src/boot.ts'
   },
 
-  // Config for our build files
   output: {
     path: helpers.root('dist'),
     filename: '[name].[chunkhash].bundle.js',
@@ -78,29 +67,12 @@ module.exports = {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
         query: {
-          // remove TypeScript helpers to be injected below by DefinePlugin
           'compilerOptions': {
             'removeComments': true
           }
         },
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
-
-      // Support for *.json files.
-      { test: /\.json$/, loader: 'json-loader', },
-
-      // Support for CSS as raw text
-      { test: /\.css$/, loader: 'raw-loader', },
-
-      // support for .html as raw text
-      {
-        test: /\.html$/,
-        loader: 'raw-loader',
-        exclude: [
-          helpers.root('src/index.html')
-        ]
+        exclude: [helpers.root('src/tests')]
       }
-
     ],
     noParse: [
       helpers.root('zone.js', 'dist'),

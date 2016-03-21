@@ -12,6 +12,7 @@ All commands mentioned should be ran from the project root.
 * [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager). 
   * [TypeScript](https://www.npmjs.com/package/typescript) `npm install -g typescript`
   * [webpack](https://github.com/webpack/webpack) `npm install -g webpack`
+  * [protractor](https://github.com/angular/protractor) `npm install -g protractor`
 
 ## Getting started
 
