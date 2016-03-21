@@ -70,7 +70,7 @@ npm run match-server
 ```
 
 ### 4. Run a HTTP server (webpack-dev-server)
-In development I recommend the [webpack-dev-server](https://www.npmjs.com/package/live-server).
+In development I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server).
 
 #### 4.1 Install
 ```
