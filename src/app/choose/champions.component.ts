@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Inject} from 'angular2/core';
+import {Component, Output, EventEmitter, Inject, ViewChildren} from 'angular2/core';
 import {NgFor, NgIf} from 'angular2/common';
 import {Response} from 'angular2/http';
 import {RouterLink, RouteParams} from 'angular2/router';
@@ -17,13 +17,13 @@ import {LolApiService} from '../misc/lolapi.service';
   providers: [LolApiService],
   directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   template: `
-    <filters [tags]="tags"></filters>
-    <div class="champion" *ngFor="#champion of champions?.data | filter:name:'defense':tags">
+    <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
+    <div class="champion" *ngFor="#champion of champions?.data | filter:name:sort:tags">
       <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>
-          <bar title="Attack damage" class="attack"     [value]="champion.info.attack"></bar>
+          <bar title="Attack Damage" class="attack"     [value]="champion.info.attack"></bar>
           <bar title="Ability Power" class="magic"      [value]="champion.info.magic"></bar>
           <bar title="Defense"       class="defense"    [value]="champion.info.defense"></bar>
           <bar title="Difficulty"    class="difficulty" [value]="champion.info.difficulty"></bar>
@@ -37,13 +37,14 @@ import {LolApiService} from '../misc/lolapi.service';
 export class ChampionsComponent {
   private region: string;
 
-  private champions: Object;
+  private champions: Array<Object>;
   private loading: boolean = true;
   private error: boolean = false;
 
+  private name: string;
   private tags: Array<string> = [];
-  private sort: Object = Object();
-
+  private sort: string;
+  
   constructor(params: RouteParams, public lolApi: LolApiService) {
     this.region = params.get('region');
     this.getData();
@@ -59,5 +60,13 @@ export class ChampionsComponent {
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
+  }
+  
+  private enterHit() {
+    var pipe = new FilterPipe();
+    var filteredChampions = pipe.transform(this.champions['data'], [this.name, this.tags, this.sort]);
+    if(filteredChampions.length == 1) {
+      // TODO: direct to '['../Build', {region: region, champion: filteredChampions[0].key}]'
+    }
   }
 }

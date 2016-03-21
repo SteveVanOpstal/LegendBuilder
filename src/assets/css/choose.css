@@ -187,7 +187,4 @@ filters .right label {
   filters .center div {
     width: 100% !important;
   }
-  filters .center .melee-ranged {
-    display: none;
-  }
 }
