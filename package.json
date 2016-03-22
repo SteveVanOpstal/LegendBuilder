@@ -38,7 +38,7 @@
     "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "protractor",
     "e2e:live": "protractor --elementExplorer",
-    "test": "node --max-old-space-size=4096 ./node_modules/karma/bin/karma start",
+    "test": "node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
     "ci": "npm run e2e && npm run test",
     "typings-install": "typings install",
     "postinstall": "npm run typings-install"
