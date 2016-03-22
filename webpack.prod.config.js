@@ -61,8 +61,6 @@ module.exports = {
       }
     ],
     loaders: [
-      // Support Angular 2 async routes via .async.ts
-      // Support for .ts files.
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
@@ -123,7 +121,7 @@ module.exports = {
   tslint: {
     emitErrors: true,
     failOnHint: true,
-    resourcePath: 'src',
+    resourcePath: 'src'
   },
 
   //Needed to workaround Angular 2's html syntax => #id [bind] (event) *ngFor

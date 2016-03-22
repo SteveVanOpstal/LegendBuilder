@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-- '4.2.1'
+  - '5.4.1'
+
+env:
+  - CXX=g++-4.8
 
 cache:
   directories:
@@ -8,7 +11,12 @@ cache:
 
 install:
   - npm install
-  
+
 addons:
   code_climate:
       repo_token: 82ee60bd368831812360aab13cfe2c4530e8ccb69747a3a99f01fe659db1e009
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8

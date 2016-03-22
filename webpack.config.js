@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var helpers = require('./helpers');
-var fs = require('fs');
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,17 +15,12 @@ var metadata = {
   port: httpServer.port || 8080,
   ENV: ENV
 };
-/*
- * Config
- * with default values at webpack.default.conf
- */
+
 module.exports = {
-  // static data for index.html
   metadata: metadata,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   // cache: true,
   debug: true,
-  // devtool: 'eval' // for faster builds use 'eval'
 
   entry: {
     'polyfills': './src/polyfills.ts',
@@ -38,7 +32,6 @@ module.exports = {
     extensions: ['', '.ts', '.js']
   },
 
-  // Config for our build files
   output: {
     path: helpers.root('dist'),
     filename: '[name].bundle.js',
@@ -52,7 +45,7 @@ module.exports = {
       { test: /\.js$/, loader: 'source-map-loader' }
     ],
     loaders: [
-      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/] },
+      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [helpers.root('src/tests')] },
     ]
   },
 
