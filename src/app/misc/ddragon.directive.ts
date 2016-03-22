@@ -16,7 +16,7 @@ export class DDragonDirective implements OnChanges {
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {
     this.lolApi.getRealm()
-      .subscribe(res => { this.realm = res.json(); this.updateElement(this.realm); });
+      .subscribe(res => { this.realm = res; this.updateElement(this.realm); });
   }
 
   updateElement(realm: any) {

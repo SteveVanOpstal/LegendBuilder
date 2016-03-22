@@ -4,6 +4,7 @@ import {NgFor, NgClass} from 'angular2/common';
 import {DDragonDirective} from '../misc/ddragon.directive';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
+import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
 import {LolApiService} from '../misc/lolapi.service';
 
@@ -108,7 +109,7 @@ export class ShopComponent {
     this.lolApi.getItems()
       .subscribe(
       res => {
-        this.items = this.alterData(res.json());
+        this.items = this.alterData(res);
       },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
@@ -117,8 +118,9 @@ export class ShopComponent {
 
   alterData(newItems: Object): Object {
     var alteredItems = { data: null, tree: null };
-    alteredItems.data = newItems['data'].filter(this.filter).sort(this.sort);
-    alteredItems.tree = this.removeSortIndex(newItems['tree']);
+    var pipe = new ToIterablePipe();
+    alteredItems.data = pipe.transform(newItems['data']).filter(this.filter).sort(this.sort);
+    alteredItems.tree = this.removeSortIndex(pipe.transform(newItems['tree']));
     return alteredItems;
 
   }

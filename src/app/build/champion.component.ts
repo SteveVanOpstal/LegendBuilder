@@ -50,7 +50,7 @@ export class ChampionComponent {
 
     this.lolApi.getChampion(this.championKey)
       .subscribe(
-      res => this.champion = res.json(),
+      res => this.champion = res,
       error => { this.error = true; this.loading = false; },
       () => { this.loading = false; }
       );

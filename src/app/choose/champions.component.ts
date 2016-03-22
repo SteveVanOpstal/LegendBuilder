@@ -8,17 +8,18 @@ import {BarComponent} from '../misc/bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
+import {ToIterablePipe} from '../misc/to-iterable.pipe'
 
 import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
   selector: 'champions',
-  pipes: [FilterPipe],
+  pipes: [ToIterablePipe, FilterPipe],
   providers: [LolApiService],
   directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
-    <div class="champion" *ngFor="#champion of champions?.data | filter:name:sort:tags">
+    <div class="champion" *ngFor="#champion of champions?.data | toIterable | filter:name:sort:tags">
       <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
@@ -56,7 +57,7 @@ export class ChampionsComponent {
 
     this.lolApi.getChampions()
       .subscribe(
-      res => this.champions = res.json(),
+      res => this.champions = res,
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
