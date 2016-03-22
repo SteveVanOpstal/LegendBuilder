@@ -5,7 +5,7 @@ import {RouteParams} from 'angular2/router';
 import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
-import {LolApiService} from '../app/misc/lolapi.service';
+import {LolApiService} from '../misc/lolapi.service';
 
 describe('LolApiService', () => {
   beforeEachProviders(() => [

@@ -7,8 +7,8 @@ import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend} from 'angular2/http/testing';
 import {SpyLocation} from 'angular2/src/mock/location_mock';
 
-import {ChampionsComponent} from '../app/choose/champions.component';
-import {LolApiService} from '../app/misc/lolapi.service';
+import {ChampionsComponent} from './champions.component';
+import {LolApiService} from '../misc/lolapi.service';
 
 describe('ChampionsComponent', () => {
   beforeEachProviders(() => [
