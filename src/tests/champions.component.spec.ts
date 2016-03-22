@@ -25,7 +25,7 @@ describe('ChampionsComponent', () => {
       },
       deps: [MockBackend, BaseRequestOptions]
     }),
-    
+
     LolApiService,
     ChampionsComponent
   ]);

@@ -8,10 +8,10 @@ import * as settings from '../../server/.settings';
 @Injectable()
 export class LolApiService {
   public realm: Observable<Response>;
-  private region: string;
-  
   public staticServer = settings.staticServer;
   public matchServer = settings.matchServer;
+
+  private region: string;
 
   constructor(params: RouteParams, private http: Http) {
     this.region = params.get('region').toLowerCase();
@@ -55,7 +55,7 @@ export class LolApiService {
   private linkStaticData() {
     return this.linkStaticServer() + 'static-data/' + this.region + '/v1.2';
   }
-  
+
   private linkMatchData() {
     return this.linkMatchServer() + this.region;
   }

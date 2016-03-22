@@ -92,7 +92,7 @@ describe('LolApiService', () => {
         connection.mockRespond(mockResponse);
       });
 
-    service.getSummonerMatchData("", "", 0, 0)
+    service.getSummonerMatchData('', '', 0, 0)
       .subscribe(res => {
         expect(res).toBeDefined();
         expect(res[0].test).toBeTruthy();

@@ -8,7 +8,7 @@ import {BarComponent} from '../misc/bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
-import {ToIterablePipe} from '../misc/to-iterable.pipe'
+import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
 import {LolApiService} from '../misc/lolapi.service';
 
