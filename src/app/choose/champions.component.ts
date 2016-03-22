@@ -64,8 +64,9 @@ export class ChampionsComponent {
   }
 
   private enterHit() {
-    var pipe = new FilterPipe();
-    var filteredChampions = pipe.transform(this.champions['data'], [this.name, this.tags, this.sort]);
+    var filterPipe = new FilterPipe();
+    var toIterablePipe = new ToIterablePipe();
+    var filteredChampions = filterPipe.transform(toIterablePipe.transform(this.champions['data']), [this.name, this.tags, this.sort]);
     if (filteredChampions.length === 1) {
       this.router.navigate(['../Build', { region: this.region, champion: filteredChampions[0]['key'] }]);
     }
