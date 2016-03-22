@@ -31,7 +31,7 @@ module.exports = {
             "removeComments": true
           }
         },
-        exclude: [helpers.root('src/tests')]
+        exclude: [ /\.e2e\.ts$/ ]
       }
     ],
 
