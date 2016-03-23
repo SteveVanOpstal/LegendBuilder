@@ -1,5 +1,5 @@
 'use strict';
-describe('ChampionsComponent', () => {
+describe('ChooseRoute', () => {
 
   beforeEach(() => {
     browser.get('/euw');
