@@ -34,15 +34,11 @@ export class DDragonDirective implements OnChanges {
   }
 
   buildUrl(image: string, realm: any): string {
-    if (!this.image || !realm) {
+    if (!image || !realm) {
       return this.default;
     }
 
-    if (!this.needsVersion(image)) {
-      return realm.cdn + '/img/' + image;
-    }
-
-    var type = image.substr(0, image.indexOf('/'));
+    var type = image.substr(0, image.lastIndexOf('/'));
 
     if (type === 'ui') {
       return realm.cdn + '/5.5.1/img/' + image;
@@ -54,18 +50,7 @@ export class DDragonDirective implements OnChanges {
       }
     }
 
-    if (this.needsVersion(image)) {
-      return realm.cdn + '/' + realm.v + '/img/' + image;
-    }
-
     return realm.cdn + '/img/' + image;
-  }
-
-  needsVersion(image: string) {
-    if (image.indexOf('champion/loading') > -1) {
-      return false;
-    }
-    return true;
   }
 
   ngOnChanges() {

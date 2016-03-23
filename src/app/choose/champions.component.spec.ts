@@ -7,8 +7,8 @@ import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend} from 'angular2/http/testing';
 import {SpyLocation} from 'angular2/src/mock/location_mock';
 
-import {ChampionsComponent} from './champions.component';
 import {LolApiService} from '../misc/lolapi.service';
+import {ChampionsComponent} from './champions.component';
 
 describe('ChampionsComponent', () => {
   beforeEachProviders(() => [
@@ -32,10 +32,11 @@ describe('ChampionsComponent', () => {
 
 
   it('should call getData() on contruct', inject([RouteParams, Router, LolApiService], (routeParams, router, service) => {
-    spyOn(ChampionsComponent.prototype, 'getData');
-    expect(ChampionsComponent.prototype.getData).not.toHaveBeenCalled();
     let component = new ChampionsComponent(routeParams, router, service);
-    expect(ChampionsComponent.prototype.getData).toHaveBeenCalled();
+    expect(component.champions).not.toBeDefined();
+    setTimeout(function() {
+      expect(component.champions).toBeDefined();
+    }, 500);
   }));
 
   it('should have RouteParam region \'euw\'', inject([ChampionsComponent], (component) => {
