@@ -1,20 +1,20 @@
-.regions {
+region > div {
 	width: 190px;
 }
 
-.regions button {
+region button {
 	width: 190px;
 	margin: 5px 0;
 	padding: 0;
 }
 
-.regions span {
+region span {
 	padding: 7px;
 	display: inline-block;
 	text-align: left;
 }
 
-.regions button > span:first-child {
+region button > span:first-child {
 	width: 40px;
 	border-right: 1px dotted #CCC;
 }
