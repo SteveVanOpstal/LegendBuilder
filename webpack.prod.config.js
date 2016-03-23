@@ -12,14 +12,14 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var httpServer = require('./src/server/.settings').httpServer;
+var settings = require('./src/server/settings').settings;
 var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 var metadata = {
   title: 'Legend Builder',
   baseUrl: '/',
-  host: httpServer.host || "localhost",
-  port: httpServer.port || 8080,
+  host: settings.httpServer.host || "localhost",
+  port: settings.httpServer.port || 8080,
   ENV: ENV
 };
 
@@ -69,7 +69,7 @@ module.exports = {
             'removeComments': true
           }
         },
-        exclude: [helpers.root('src/tests')]
+        exclude: [/\.e2e\.ts$/]
       }
     ],
     noParse: [

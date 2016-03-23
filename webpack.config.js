@@ -6,13 +6,13 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-var httpServer = require('./src/server/.settings').httpServer;
+var settings = require('./src/server/settings').settings;
 
 var metadata = {
   title: 'Legend Builder',
   baseUrl: '/',
-  host: httpServer.host || "localhost",
-  port: httpServer.port || 8080,
+  host: settings.httpServer.host || "localhost",
+  port: settings.httpServer.port || 8080,
   ENV: ENV
 };
 
@@ -45,7 +45,7 @@ module.exports = {
       { test: /\.js$/, loader: 'source-map-loader' }
     ],
     loaders: [
-      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [helpers.root('src/tests')] },
+      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/] },
     ]
   },
 

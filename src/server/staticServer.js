@@ -12,7 +12,7 @@ var cache = Lru({
 });
 
 var config = {
-  server: require('./.settings.js').staticServer
+  server: require('./settings.js').staticServer
 }
 
 config.server.host = config.server.host || "localhost";

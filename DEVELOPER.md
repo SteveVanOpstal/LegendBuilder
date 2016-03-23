@@ -23,21 +23,9 @@ and can be retrieved by executing following command:
 npm install
 ```
 
-### 2. Configuration
-A few servers are set up for this project and the settings for them should be made available in the `src/server/.settings.js` file.
-It should contain at least the following:
-```
-exports.httpServer = {
-}
-
-exports.staticServer = {
-}
-
-exports.matchServer = {
-}
-```
-
-and possibly the following:
+### 2. Configuration (optional)
+A few servers are set up for this project and the settings for them are available in the `src/server/.settings.js` file.
+It could contain the following:
 ```
 exports.httpServer = {
   host: '10.10.10.10',

@@ -15,7 +15,7 @@ var cache = Lru({
 
 
 var config = {
-  server: require('./.settings.js').matchServer,
+  server: require('./settings.js').matchServer,
   games: {
     min: 2,
     max: 5

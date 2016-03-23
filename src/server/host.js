@@ -23,7 +23,7 @@ var options = {
   }
 };
 
-var httpServer = require('./.settings.js').httpServer;
+var httpServer = require('./settings.js').httpServer;
 
 exports.headers = {
   'Access-Control-Allow-Origin': 'http://' + (httpServer.host || "localhost") + ':' + (httpServer.port || 8080),

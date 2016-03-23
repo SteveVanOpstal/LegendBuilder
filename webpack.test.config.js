@@ -40,7 +40,7 @@ module.exports = {
         test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
         include: helpers.root('src'),
         exclude: [
-          helpers.root('src/tests'),
+          /\.e2e\.ts$/,
           helpers.root('node_modules')
         ]
       }
