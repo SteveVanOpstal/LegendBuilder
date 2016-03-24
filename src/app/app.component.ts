@@ -13,7 +13,7 @@ import {BuildRoute} from './routes/build.component';
 
 @RouteConfig([
   { path: '/', component: RegionRoute, as: 'Region' },
-  { path: '/:region/', component: ChooseRoute, as: 'Choose' },
+  { path: '/:region', component: ChooseRoute, as: 'Choose' },
   { path: '/:region/:champion', component: BuildRoute, as: 'Build' }
 ])
 
