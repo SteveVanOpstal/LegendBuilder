@@ -1,30 +1,29 @@
 import {Pipe, PipeTransform, Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NgModel} from 'angular2/common';
 
-
 @Pipe({
-  name: 'filter', // :[name]:[sort]:[tags]
+  name: 'filter',
   pure: false
 })
 
 export class FilterPipe implements PipeTransform {
-  transform(champions: Array<Object>, args: any[]) {
+  transform(champions: Array<Object>, [name, sort, tags]) {
     if (!champions) {
       return champions;
     }
 
     champions = champions.filter((champion) => {
       // name
-      if (args[0] && this.clean(champion['name']).indexOf(this.clean(args[0])) === -1) {
+      if (name && this.clean(champion['name']).indexOf(this.clean(name)) === -1) {
         return false;
       }
 
       // tags
       var result = true;
-      if (args[2] && args[2].length > 0) {
+      if (tags && tags.length > 0) {
         champion['tags'] = this.exclude(champion['tags'], 'Melee');
-        for (var tag in args[2]) {
-          if (champion['tags'].indexOf(args[2][tag]) === -1) {
+        for (var tag in tags) {
+          if (champion['tags'].indexOf(tags[tag]) === -1) {
             result = false;
           }
         }
@@ -32,21 +31,22 @@ export class FilterPipe implements PipeTransform {
       return result;
     });
 
-    // sort alphabetical
-    champions.sort((a: any, b: any) => {
-      return a.name < b.name ? -1 : 1;
-    });
 
-    // sort by info
-    if (args[1] && args[1].length > 0) {
-      champions = champions.sort((a: any, b: any) => {
-        if (a.info[args[1]] === b.info[args[1]]) {
+    if (sort && sort.length > 0) {
+      // sort by info
+      champions.sort((a: any, b: any) => {
+        if (a.info[sort] === b.info[sort]) {
           return 0;
         }
-        if (a.info[args[1]] < b.info[args[1]]) {
+        if (a.info[sort] < b.info[sort]) {
           return 1;
         }
         return -1;
+      });
+    } else {
+      // sort alphabetical
+      champions.sort((a: any, b: any) => {
+        return a.name < b.name ? -1 : 1;
       });
     }
 
