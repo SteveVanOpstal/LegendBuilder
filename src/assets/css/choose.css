@@ -4,7 +4,6 @@ champions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-top: 20px;
 }
 
 champions p {

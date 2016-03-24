@@ -83,7 +83,7 @@ export class FilterPipe implements PipeTransform {
     <div class="center align-center">
       <div>
         <h2>Choose your weapon</h2>
-        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)" autofocus/>
+        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (blur)="blur($event)" (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>
     <div class="right">
@@ -121,20 +121,29 @@ export class FiltersComponent {
     this.tagsChange.next(this.tags);
   }
 
-  private sortChanged(event) {
+  private sortChanged(event: Event) {
     if (!event || !event.target) {
       return;
     }
-    this.sort = event.target.value;
+    this.sort = event.target['value'];
     this.sortChange.next(this.sort);
   }
 
-  private keyup(event) {
-    if (!event || !event.code) {
+  private keyup(event: KeyboardEvent) {
+    if (!event || !event.keyCode) {
       return;
     }
-    if (event.code === 'Enter') {
+    if (event.keyCode === 13) {
       this.enterHit.next(null);
     }
+  }
+
+  private blur(event: FocusEvent) {
+    if (!event || !event.target) {
+      return;
+    }
+    setTimeout(() => {
+      event.target.focus();
+    }, 50);
   }
 }
