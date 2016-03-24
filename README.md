@@ -1,13 +1,17 @@
+<p align="center">
+  <a href="http://gulpjs.com">
+    <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg">
+  </a>
+  <p align="center">Legend Builder</p>
+  <p align="center">An advanced <a href="http://www.leagueoflegends.com/">League of Legends</a> champion builder</p>
+</p>
+
 [![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder)
 [![Dependency Status](https://img.shields.io/david/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder) [![devDependency Status](https://img.shields.io/david/dev/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder#info=devDependencies)
 [![License](https://img.shields.io/github/license/SteveVanOpstal/LegendBuilder.svg)](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/LICENSE)
 
-[![Legend Builder Logo](https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg)](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/src/assets/images/logo.svg)
 
-# Legend Builder
-An advanced League Of Legends champion builder.
-
-LegendBuilder is currently in **Alpha**.
+Legend Builder is currently in **Alpha**.
 
 ## Contributing
 
