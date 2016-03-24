@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 
 export class ToIterablePipe implements PipeTransform {
   transform(values: any): any[] {
-    if (!values) {
+    if (!values || typeof values !== 'object') {
       return values;
     }
     var dataArr = [];
