@@ -1,9 +1,12 @@
-<p align="center">
+<p align="center" style="margin-bottom: 100px;">
   <a href="http://gulpjs.com">
     <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg">
   </a>
   <p align="center">Legend Builder</p>
   <p align="center">An advanced <a href="http://www.leagueoflegends.com/">League of Legends</a> champion builder</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
 </p>
 
 [![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder)
