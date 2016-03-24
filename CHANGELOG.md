@@ -1,5 +1,43 @@
+<a name="1.0.0-alpha.6"></a>
+# [1.0.0-alpha.6](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.5...v1.0.0-alpha.6) (2016-03-24)
+
+
+### Bug Fixes
+
+* **champions:** enterHit throws an error ([ed74160](https://github.com/SteveVanOpstal/LegendBuilder/commit/ed74160))
+* **ddragon:** ability icons not loading ([190b2c4](https://github.com/SteveVanOpstal/LegendBuilder/commit/190b2c4))
+* **ddragon:** change back input name 'ddragon' ([b673a5c](https://github.com/SteveVanOpstal/LegendBuilder/commit/b673a5c))
+* **karma:** configuration errors ([e50ed5e](https://github.com/SteveVanOpstal/LegendBuilder/commit/e50ed5e))
+* **lolapi:** cache realm requests ([58ac41e](https://github.com/SteveVanOpstal/LegendBuilder/commit/58ac41e))
+* **settings:** servers are unable to get settings ([03fcaea](https://github.com/SteveVanOpstal/LegendBuilder/commit/03fcaea))
+* **travis ci:** change configurations ([d554cb0](https://github.com/SteveVanOpstal/LegendBuilder/commit/d554cb0))
+* **travis ci:** change karma config ([eb50163](https://github.com/SteveVanOpstal/LegendBuilder/commit/eb50163))
+* **travis ci:** make .settings.js optional ([239a1cc](https://github.com/SteveVanOpstal/LegendBuilder/commit/239a1cc))
+* **webpack:** test config ([06ee63c](https://github.com/SteveVanOpstal/LegendBuilder/commit/06ee63c))
+
+### Features
+
+* **angular:** update to angular 2.0.0-beta.12 ([3950e0b](https://github.com/SteveVanOpstal/LegendBuilder/commit/3950e0b))
+* **build:** add webpack and tslint ([94c0762](https://github.com/SteveVanOpstal/LegendBuilder/commit/94c0762))
+* **choose:** add sorting ([4432254](https://github.com/SteveVanOpstal/LegendBuilder/commit/4432254))
+* **choose:** create tags filter ([3680ba6](https://github.com/SteveVanOpstal/LegendBuilder/commit/3680ba6))
+* **choose:** navigate to champion on enter ([9542119](https://github.com/SteveVanOpstal/LegendBuilder/commit/9542119))
+* **ddragon:** add sprite support ([aa3003b](https://github.com/SteveVanOpstal/LegendBuilder/commit/aa3003b))
+* **filters:** keep focus on name input ([5efb790](https://github.com/SteveVanOpstal/LegendBuilder/commit/5efb790))
+* **icons:** use material design ([af37598](https://github.com/SteveVanOpstal/LegendBuilder/commit/af37598))
+* **loading:** add new loading component ([a5afc59](https://github.com/SteveVanOpstal/LegendBuilder/commit/a5afc59))
+* **mastery:** remove inline width, height ([d27983b](https://github.com/SteveVanOpstal/LegendBuilder/commit/d27983b))
+* **shop:** add eye icon ([8acfca7](https://github.com/SteveVanOpstal/LegendBuilder/commit/8acfca7))
+* **ToIterable:** add toIterable pipe ([857b713](https://github.com/SteveVanOpstal/LegendBuilder/commit/857b713))
+
+### Performance Improvements
+
+* **css:** selective loading ([0c69327](https://github.com/SteveVanOpstal/LegendBuilder/commit/0c69327))
+
+
+
 <a name="1.0.0-alpha.5"></a>
-# [1.0.0-alpha.5](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.4...v1.0.0-alpha.5) (2016-03-14)
+# [1.0.0-alpha.5](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.4...1.0.0-alpha.5) (2016-03-14)
 
 
 ### Bug Fixes
@@ -22,7 +60,7 @@
 
 
 <a name="1.0.0-alpha.4"></a>
-# [1.0.0-alpha.4](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.3...v1.0.0-alpha.4) (2016-03-07)
+# [1.0.0-alpha.4](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.3...1.0.0-alpha.4) (2016-03-07)
 
 
 ### Bug Fixes
@@ -43,7 +81,7 @@
 
 
 <a name="1.0.0-alpha.3"></a>
-# [1.0.0-alpha.3](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.2...v1.0.0-alpha.3) (2016-03-02)
+# [1.0.0-alpha.3](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.2...1.0.0-alpha.3) (2016-03-02)
 
 
 ### Bug Fixes
@@ -60,7 +98,7 @@
 
 
 <a name="1.0.0-alpha.2"></a>
-# [1.0.0-alpha.2](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.1...v1.0.0-alpha.2) (2016-02-21)
+# [1.0.0-alpha.2](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.1...1.0.0-alpha.2) (2016-02-21)
 
 
 ### Features
@@ -70,7 +108,7 @@
 
 
 <a name="1.0.0-alpha.1"></a>
-# [1.0.0-alpha.1](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.0...v1.0.0-alpha.1) (2016-02-14)
+# [1.0.0-alpha.1](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.0...1.0.0-alpha.1) (2016-02-14)
 
 
 ### Bug Fixes
@@ -85,12 +123,3 @@
 * **graph:** Added xp and gold ([5cec9ac](https://github.com/SteveVanOpstal/LegendBuilder/commit/5cec9ac))
 * **matchServer:** initial implementation ([d2755d2](https://github.com/SteveVanOpstal/LegendBuilder/commit/d2755d2))
 * **server:** use configuration files ([80e9797](https://github.com/SteveVanOpstal/LegendBuilder/commit/80e9797))
-
-
-
-<a name="1.0.0-alpha.0"></a>
-# [1.0.0-alpha.0](https://github.com/SteveVanOpstal/LegendBuilder/compare/0.0.2...v1.0.0-alpha.0) (2016-01-02)
-
-
-
-
