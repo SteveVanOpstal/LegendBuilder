@@ -1,9 +1,8 @@
-var httpServer = require('./src/server/.settings').httpServer;
-//require('ts-node/register');
+var settings = require('./src/server/settings').settings;
 var helpers = require('./helpers');
 
 exports.config = {
-  baseUrl: 'http://' + (httpServer.host || 'localhost') + ':' + (httpServer.port || 8080),
+  baseUrl: 'http://' + (settings.httpServer.host || 'localhost') + ':' + (settings.httpServer.port || 8080),
 
   specs: [
     helpers.root('src/**/*.e2e.ts')
