@@ -5,7 +5,7 @@ import {MasteryTierComponent} from './mastery-tier.component';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 
-class Colors {
+export class Colors {
   public static blue: string = '#4C99FC';
   public static yellow: string = '#fdf300';
   public static gray: string = '#7e7e7e';

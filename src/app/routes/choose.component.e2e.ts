@@ -12,6 +12,8 @@ describe('ChooseRoute', () => {
 
   it('should find Amumu', () => {
     element(by.css('choose champions filters input[type=\'text\']')).sendKeys('am\'umu');
+    element(by.css('choose champions filters input[value=\'Tank\']')).click();
+    element(by.css('choose champions filters input[value=\'Mage\']')).click();
     let championCount = element.all(by.css('choose champions .champion')).count();
     expect(championCount).toEqual(1);
   });
@@ -22,8 +24,8 @@ describe('ChooseRoute', () => {
     expect(championCount).toEqual(1);
   });
 
-  it('should find Mages', () => {
-    element(by.css('choose champions filters input[value=\'Mage\']')).click();
+  it('should find Marksmen', () => {
+    element(by.css('choose champions filters input[value=\'Marksman\']')).click();
     let championCount = element.all(by.css('choose champions .champion')).count();
     expect(championCount).not.toBeLessThan(1);
   });
