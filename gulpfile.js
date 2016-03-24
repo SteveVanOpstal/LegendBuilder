@@ -7,6 +7,7 @@ var conventionalChangelog = require('gulp-conventional-changelog');
 var conventionalGithubReleaser = require('conventional-github-releaser');
 var bump = require('gulp-bump');
 var gutil = require('gulp-util');
+var shell = require('gulp-shell');
 var git = require('gulp-git');
 
 /* release */
@@ -29,6 +30,8 @@ gulp.task('github-release', function(done) {
       preset: 'angular'
     }, done);
 });
+
+gulp.task('reddit-release', shell.task(['python src/reddit/release.py']));
 
 gulp.task('bump-version', function() {
   return gulp.src(['./package.json'])
@@ -67,6 +70,7 @@ gulp.task('release', function(callback) {
     'push-changes',
     'create-new-tag',
     'github-release',
+    'reddit-release',
     function(error) {
       if (error) {
         console.log(error.message);

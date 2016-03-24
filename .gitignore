@@ -4,6 +4,7 @@ dist/
 node_modules/
 coverage/
 src/typings/
+__pycache__/
 
 *.d.ts
 *.bat
