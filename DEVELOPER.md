@@ -27,19 +27,19 @@ npm install
 A few servers are set up for this project and the settings for them are available in the `src/server/.settings.js` file.
 It could contain the following:
 ```
-exports.httpServer = {
-  host: '10.10.10.10',
-  port: '8000'
-}
-
-exports.staticServer = {
-  host: '10.10.10.10',
-  port: '8001'
-}
-
-exports.matchServer = {
-  host: '10.10.10.10',
-  port: '8002'
+exports.settings = {
+  httpServer: {
+    host: '10.10.10.10',
+    port: '8000'
+  },
+  staticServer: {
+    host: '10.10.10.10',
+    port: '8001'
+  },
+  matchServer : {
+    host: '10.10.10.10',
+    port: '8002'
+  }
 }
 ```
 
@@ -89,5 +89,20 @@ It works well with for example npm, by adding following `tasks.json` you can cal
       "problemMatcher": "$tsc"
     }
   ]
+}
+```
+
+## Reddit Release
+Every release a python script will generate a post on reddit. To improve this script or to create more scripts the following software is required:
+
+* [Python](https://www.python.org/downloads/), (version `>=3.5.1`). It should include [pip](https://pypi.python.org/pypi/pip) (Pip Installs Packages). 
+  * [praw](https://praw.readthedocs.org) `pip install praw`
+
+
+```
+{
+  "SUBREDDIT": "LegendBuilder",
+  "REDDIT_USERNAME": "LookAtMeImTheRedditNow",
+  "REDDIT_PASSWORD": "12345"
 }
 ```
