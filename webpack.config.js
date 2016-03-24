@@ -61,8 +61,8 @@ module.exports = {
   ],
 
   tslint: {
-    emitErrors: false,
-    failOnHint: false,
+    emitErrors: true,
+    failOnHint: true,
     resourcePath: 'src',
   },
   devServer: {

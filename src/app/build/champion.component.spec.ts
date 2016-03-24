@@ -7,7 +7,7 @@ import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {Config} from './config'
+import {Config} from './config';
 import {ChampionComponent} from './champion.component';
 
 describe('ChampionComponent', () => {

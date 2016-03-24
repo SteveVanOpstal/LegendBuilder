@@ -1,6 +1,6 @@
 try {
   exports.settings = require('./.settings.js').settings;
-} catch (e){
+} catch (e) {
   exports.settings = {
     httpServer: {},
     staticServer: {},

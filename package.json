@@ -22,7 +22,7 @@
     "preclean:start": "npm run clean",
     "clean:start": "npm start",
     "build": "npm run build:dev",
-    "prebuild:dev": "npm run clean:dist",
+    "prebuild:dev": "npm run clean:dist && npm run lint",
     "build:dev": "webpack --progress --profile --colors --display-error-details --display-cached",
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "webpack --config webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached --bail",

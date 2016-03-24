@@ -46,7 +46,7 @@ describe('ChampionsComponent', () => {
   it('should navigate when enter is hit and one champion is available', inject([ChampionsComponent], (component) => {
     spyOn(component.router, 'navigate');
     expect(component.router.navigate).not.toHaveBeenCalled();
-    component.champions = { data: [{ key: 'Aatrox', name: 'Aatrox', tags: ["Fighter", "Tank"], info: { "defense": 4, "magic": 3, "difficulty": 4, "attack": 8 } }] };
+    component.champions = { data: [{ key: 'Aatrox', name: 'Aatrox', tags: ['Fighter', 'Tank'], info: { 'defense': 4, 'magic': 3, 'difficulty': 4, 'attack': 8 } }] };
     component.enterHit();
     expect(component.router.navigate).toHaveBeenCalled();
   }));
@@ -55,8 +55,8 @@ describe('ChampionsComponent', () => {
     spyOn(component.router, 'navigate');
     expect(component.router.navigate).not.toHaveBeenCalled();
     component.champions = { data: [
-      { key: 'Aatrox', name: 'Aatrox', tags: ["Fighter", "Tank"], info: { defense: 4, magic: 3, difficulty: 4, attack: 8 } },
-      { key: 'Thresh', name: 'Aatrox', tags: ["Fighter", "Support"], info: { defense: 6, magic: 6, difficulty: 7, attack: 5 } }
+      { key: 'Aatrox', name: 'Aatrox', tags: ['Fighter', 'Tank'], info: { defense: 4, magic: 3, difficulty: 4, attack: 8 } },
+      { key: 'Thresh', name: 'Aatrox', tags: ['Fighter', 'Support'], info: { defense: 6, magic: 6, difficulty: 7, attack: 5 } }
     ]};
     component.enterHit();
     expect(component.router.navigate).not.toHaveBeenCalled();
