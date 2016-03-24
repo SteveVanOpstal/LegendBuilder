@@ -27,14 +27,12 @@ export class AbilitySequenceComponent {
   private width: number = 1500;
   private height: number = 250;
 
-  getExtendedTooltip(index: number) {
+  getExtendedTooltip(index: number): string {
     var spell = this.champion.spells[index];
-    try {
-      return tim(spell.sanitizedTooltip, this.getEffects(spell));
-    } catch (e) { }
+    return this.applyEffects(spell);
   }
 
-  getEffects(spell: any) {
+  applyEffects(spell: any) {
     var effects = new Object();
 
     if (spell.effect) {
@@ -58,7 +56,11 @@ export class AbilitySequenceComponent {
       effects[attrname] = stats[attrname];
     }
 
-    return effects;
+    try {
+      return tim(spell.sanitizedTooltip, effects);
+    } catch (e) {
+      return 'Something went wrong..';
+    }
   }
 
   getStats() {
