@@ -2,7 +2,7 @@
 import 'core-js';
 
 // zone.js
-import 'zone.js/dist/zone-microtask';
+import 'zone.js/dist/zone';
 
 if ('production' === ENV) {
   // Production
