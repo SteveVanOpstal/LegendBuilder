@@ -39,18 +39,25 @@ export class DDragonDirective implements OnChanges {
     }
 
     var type = image.substr(0, image.lastIndexOf('/'));
+    return realm.cdn + this.getVersion(realm, type) + '/img/' + image;
+  }
 
+  getVersion(realm: any, type: string): string {
     if (type === 'ui') {
-      return realm.cdn + '/5.5.1/img/' + image;
+      return '/5.5.1';
+    }
+
+    if (type === 'champion/loading') {
+      return '';
     }
 
     for (var obj in realm.n) {
       if (obj === type) {
-        return realm.cdn + '/' + realm.n[obj] + '/img/' + image;
+        return '/' + realm.n[obj];
       }
     }
 
-    return realm.cdn + '/img/' + image;
+    return '/' + realm.v;
   }
 
   ngOnChanges() {

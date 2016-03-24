@@ -61,17 +61,17 @@ describe('DDragonDirective', () => {
 
   beforeEach(() => {
     realm = {
-      'v': '1.2.3',
+      'v': '[realm-version]',
       'cdn': 'http://ddragon.leagueoflegends.com/cdn',
       'n': {
-        'champion': '3.2.1',
-        'profileicon': '3.2.1',
-        'item': '3.2.1',
-        'map': '3.2.1',
-        'mastery': '3.2.1',
-        'language': '3.2.1',
-        'summoner': '3.2.1',
-        'rune': '3.2.1'
+        'champion': '[champion-version]',
+        'profileicon': '[profileicon-version]',
+        'item': '[item-version]',
+        'map': '[map-version]',
+        'mastery': '[mastery-version]',
+        'language': '[language-version]',
+        'summoner': '[summoner-version]',
+        'rune': '[rune-version]'
       }
     };
   });
@@ -119,7 +119,7 @@ describe('DDragonDirective', () => {
 
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
     let result = directive.buildStyle('test.png', realm, 0, 0);
-    expect(result).toBe('background:url(http://ddragon.leagueoflegends.com/cdn/img/test.png) 0px 0px;');
+    expect(result).toBe('background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 0px 0px;');
   }));
 
   it('should have a default url', inject([DDragonDirective], (directive) => {
@@ -135,7 +135,7 @@ describe('DDragonDirective', () => {
 
   it('should create a correct url', inject([DDragonDirective], (directive) => {
     let result = directive.buildUrl('test.png', realm);
-    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/img/test.png');
+    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png');
   }));
 
   it('should create a correct \'ui\' url', inject([DDragonDirective], (directive) => {
@@ -145,12 +145,17 @@ describe('DDragonDirective', () => {
 
   it('should create a correct \'champion\' url', inject([DDragonDirective], (directive) => {
     let result = directive.buildUrl('champion/test.png', realm);
-    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/3.2.1/img/champion/test.png');
+    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[champion-version]/img/champion/test.png');
+  }));
+
+  it('should create a correct \'profileicon\' url', inject([DDragonDirective], (directive) => {
+    let result = directive.buildUrl('profileicon/test.png', realm);
+    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[profileicon-version]/img/profileicon/test.png');
   }));
 
   it('should create a correct \'junk\' url', inject([DDragonDirective], (directive) => {
     let result = directive.buildUrl('junk/test.png', realm);
-    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/img/junk/test.png');
+    expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/junk/test.png');
   }));
 
   it('should create a correct \'champion/loading\' url', inject([DDragonDirective], (directive) => {
