@@ -14,6 +14,7 @@ describe('ChooseRoute', () => {
     element(by.css('choose champions filters input[type=\'text\']')).sendKeys('am\'umu');
     element(by.css('choose champions filters input[value=\'Tank\']')).click();
     element(by.css('choose champions filters input[value=\'Mage\']')).click();
+    element(by.css('choose champions filters input[name=\'type\']')).click();
     let championCount = element.all(by.css('choose champions .champion')).count();
     expect(championCount).toEqual(1);
   });
