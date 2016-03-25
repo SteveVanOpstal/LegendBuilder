@@ -11,12 +11,12 @@ describe('ToIterablePipe', () => {
   it('should transform object to array', inject([ToIterablePipe], (pipe) => {
     let test = { test: 'data', test2: 'data', test3: ['data', 'data'], test4: { test: 'data' } };
     let result = ['data', 'data', ['data', 'data'], { test: 'data' }];
-    expect(JSON.stringify(pipe.transform(test))).toBe(JSON.stringify(result));
+    expect(pipe.transform(test)).toHaveEqualContent(result);
   }));
 
   it('should not transform an array', inject([ToIterablePipe], (pipe) => {
     let test = [{ test: 'data' }, { test: 'data' }];
-    expect(JSON.stringify(pipe.transform(test))).toBe(JSON.stringify(test));
+    expect(pipe.transform(test)).toHaveEqualContent(test);
   }));
 
   it('should not transform a number', inject([ToIterablePipe], (pipe) => {
