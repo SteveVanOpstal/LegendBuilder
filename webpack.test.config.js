@@ -14,7 +14,7 @@ module.exports = {
 
   module: {
     preLoaders: [
-      {test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')]},
+      {test: /\.spec.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')]},
       {test: /\.js$/, loader: "source-map-loader", exclude: [
         // these packages have problems with their sourcemaps
         helpers.root('node_modules/rxjs')
@@ -52,8 +52,8 @@ module.exports = {
   ],
 
   tslint: {
-    emitErrors: false,
-    failOnHint: false,
+    emitErrors: true,
+    failOnHint: true,
     resourcePath: 'src'
   },
 
