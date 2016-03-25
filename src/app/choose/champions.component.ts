@@ -3,7 +3,11 @@ import {NgFor, NgIf} from 'angular2/common';
 import {Response} from 'angular2/http';
 import {Router, RouterLink, RouteParams} from 'angular2/router';
 
-import {FilterPipe, FiltersComponent} from '../choose/filters.component';
+import {NamePipe} from '../choose/name.pipe';
+import {SortPipe} from '../choose/sort.pipe';
+import {TagsPipe} from '../choose/tags.pipe';
+
+import {FiltersComponent} from '../choose/filters.component';
 import {BarComponent} from '../misc/bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
@@ -14,12 +18,12 @@ import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
   selector: 'champions',
-  pipes: [ToIterablePipe, FilterPipe],
+  pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
   directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
-    <div class="champion" *ngFor="#champion of champions?.data | toIterable | filter:name:sort:tags">
+    <div class="champion" *ngFor="#champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
       <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
@@ -43,8 +47,8 @@ export class ChampionsComponent {
   private error: boolean = false;
 
   private name: string;
-  private tags: Array<string> = [];
   private sort: string;
+  private tags: Array<string> = [];
 
   constructor(params: RouteParams, private router: Router, public lolApi: LolApiService) {
     this.region = params.get('region');
@@ -64,11 +68,22 @@ export class ChampionsComponent {
   }
 
   private enterHit() {
-    var filterPipe = new FilterPipe();
-    var toIterablePipe = new ToIterablePipe();
-    var filteredChampions = filterPipe.transform(toIterablePipe.transform(this.champions['data']), [this.name, this.tags, this.sort]);
-    if (filteredChampions.length === 1) {
+    let filteredChampions = this.filter(this.champions, this.name, this.sort, this.tags);
+    if (filteredChampions && filteredChampions.length === 1) {
       this.router.navigate(['../Build', { region: this.region, champion: filteredChampions[0]['key'] }]);
     }
+  }
+
+  private filter(champions: Array<Object>, name: string, sort: string, tags: Array<string>): Array<Object> {
+    let toIterablePipe = new ToIterablePipe();
+    let filteredChampions = toIterablePipe.transform(champions['data']);
+    let namePipe = new NamePipe();
+    filteredChampions = namePipe.transform(filteredChampions, [name]);
+    let sortPipe = new SortPipe();
+    filteredChampions = sortPipe.transform(filteredChampions, [sort]);
+    let tagsPipe = new TagsPipe();
+    filteredChampions = tagsPipe.transform(filteredChampions, [tags]);
+
+    return filteredChampions;
   }
 }
