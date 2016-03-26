@@ -9,7 +9,7 @@ export class NamePipe implements PipeTransform {
   private prevName: string;
 
   transform(champions: Array<Object>, [name]) {
-    if (!champions || !name || this.prevName === name) {
+    if (!champions || !name || typeof name !== 'string' || this.prevName === name) {
       return champions;
     }
 

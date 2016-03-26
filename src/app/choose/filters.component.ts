@@ -15,10 +15,10 @@ import {NgModel} from 'angular2/common';
         <label><input type="checkbox" value="Support"  (change)="tagChanged($event)"/>Support</label>
       </div>
     </div>
-    <div class="center align-center">
+    <div class="center align-center" (keyup)="keyup($event)">
       <div>
         <h2>Choose your weapon</h2>
-        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (blur)="blur($event)" (input)="nameChange.next($event.target.value)" autofocus/>
+        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>
     <div class="right">
@@ -65,20 +65,11 @@ export class FiltersComponent {
   }
 
   private keyup(event: KeyboardEvent) {
-    if (!event || !event.keyCode) {
+    if (!event || !event.key) {
       return;
     }
     if (event.key === 'Enter') {
       this.enterHit.next(null);
     }
-  }
-
-  private blur(event: FocusEvent) {
-    if (!event || !event.target) {
-      return;
-    }
-    setTimeout(() => {
-      event.target.focus();
-    }, 50);
   }
 }

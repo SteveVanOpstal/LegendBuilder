@@ -67,7 +67,7 @@ describe('TagsPipe', () => {
   }));
 
   it('should filter by \'Support\'', inject([TagsPipe], (pipe) => {
-    champions = pipe.transform(champions, ['Fighter']);
+    champions = pipe.transform(champions, [['support']]);
     expect(champions.length).toBe(0);
   }));
 });
