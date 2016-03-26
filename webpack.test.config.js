@@ -41,6 +41,7 @@ module.exports = {
         include: helpers.root('src'),
         exclude: [
           /\.e2e\.ts$/,
+          /\.spec\.ts$/,
           helpers.root('node_modules')
         ]
       }
