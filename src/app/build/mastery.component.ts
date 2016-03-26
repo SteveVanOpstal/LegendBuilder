@@ -42,7 +42,7 @@ export class MasteryComponent implements OnInit {
   public rank: number = 0;
   private color: string = Colors.gray;
 
-  private disabled: boolean = true;
+  private enabled: boolean = false;
   private active: boolean = false;
   private locked: boolean = false;
 
@@ -53,24 +53,23 @@ export class MasteryComponent implements OnInit {
     this.tier.addMastery(this);
   }
 
-  public disable() {
-    if (this.disabled || this.rank > 0) {
-      return;
-    }
-    this.color = Colors.gray;
-    this.disabled = true;
-    this.changed();
-  }
-
   public enable() {
-    if (!this.disabled) {
+    if (this.enabled) {
       return;
     }
     if (!this.data) {
       this.disable();
       return;
     }
-    this.disabled = false;
+    this.enabled = true;
+    this.changed();
+  }
+
+  public disable() {
+    if (!this.enabled || this.rank > 0) {
+      return;
+    }
+    this.enabled = false;
     this.changed();
   }
 
@@ -87,7 +86,7 @@ export class MasteryComponent implements OnInit {
   }
 
   public setRank(rank: number) {
-    if (this.disabled) {
+    if (!this.enabled) {
       return;
     }
     this.rank = rank;
@@ -115,7 +114,7 @@ export class MasteryComponent implements OnInit {
   }
 
   private addRank() {
-    if (this.disabled) {
+    if (!this.enabled) {
       return;
     }
     if (this.tier.getRank() === 0) {
@@ -128,7 +127,7 @@ export class MasteryComponent implements OnInit {
   }
 
   private removeRank() {
-    if (this.disabled || this.locked) {
+    if (!this.enabled || this.locked) {
       return;
     }
     if (this.rank > 0) {
@@ -139,16 +138,12 @@ export class MasteryComponent implements OnInit {
   }
 
   private changed() {
-    if (this.disabled) {
-      this.active = false;
-    } else {
+    if (this.enabled) {
       this.active = this.rank !== 0;
-    }
-
-    if (this.disabled && !this.active) {
+      this.color = this.active ? Colors.yellow : Colors.blue;
+    } else {
+      this.active = false;
       this.color = Colors.gray;
-      return;
     }
-    this.color = this.active ? Colors.yellow : Colors.blue;
   }
 }
