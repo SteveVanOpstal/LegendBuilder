@@ -7,12 +7,12 @@ import {NgModel} from 'angular2/common';
   template: `
     <div class="left">
       <div class="align-center">
-        <label><input type="checkbox" value="Marksman" (change)="tagchanged($event)"/>Marksman</label>
-        <label><input type="checkbox" value="Assassin" (change)="tagchanged($event)"/>Assassin</label>
-        <label><input type="checkbox" value="Fighter"  (change)="tagchanged($event)"/>Fighter</label>
-        <label><input type="checkbox" value="Mage"     (change)="tagchanged($event)"/>Mage</label>
-        <label><input type="checkbox" value="Tank"     (change)="tagchanged($event)"/>Tank</label>
-        <label><input type="checkbox" value="Support"  (change)="tagchanged($event)"/>Support</label>
+        <label><input type="checkbox" value="Marksman" (change)="tagChanged($event)"/>Marksman</label>
+        <label><input type="checkbox" value="Assassin" (change)="tagChanged($event)"/>Assassin</label>
+        <label><input type="checkbox" value="Fighter"  (change)="tagChanged($event)"/>Fighter</label>
+        <label><input type="checkbox" value="Mage"     (change)="tagChanged($event)"/>Mage</label>
+        <label><input type="checkbox" value="Tank"     (change)="tagChanged($event)"/>Tank</label>
+        <label><input type="checkbox" value="Support"  (change)="tagChanged($event)"/>Support</label>
       </div>
     </div>
     <div class="center align-center">
@@ -40,15 +40,15 @@ export class FiltersComponent {
   @Output() sortChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterHit: EventEmitter<any> = new EventEmitter<any>();
 
-  private tagchanged(event) {
+  private tagChanged(event: Event) {
     if (!event || !event.target) {
       return;
     }
     var input = event.target;
-    if (input.checked) {
-      this.tags.push(input.value);
+    if (input['checked']) {
+      this.tags.push(input['value']);
     } else {
-      var index: number = this.tags.indexOf(input.value);
+      var index: number = this.tags.indexOf(input['value']);
       if (index > -1) {
         this.tags.splice(index, 1);
       }
@@ -68,7 +68,7 @@ export class FiltersComponent {
     if (!event || !event.keyCode) {
       return;
     }
-    if (event.keyCode === 13) {
+    if (event.key === 'Enter') {
       this.enterHit.next(null);
     }
   }
