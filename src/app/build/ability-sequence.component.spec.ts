@@ -24,5 +24,5 @@ describe('AbilitySequenceComponent', () => {
     LolApiService,
     AbilitySequenceComponent
   ]);
-  
+
 });

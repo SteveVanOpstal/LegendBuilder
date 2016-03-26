@@ -25,7 +25,7 @@ describe('ToIterablePipe', () => {
   }));
 
   it('should not transform a string', inject([ToIterablePipe], (pipe) => {
-    let test = "test";
+    let test = 'test';
     expect(pipe.transform(test)).toBe(test);
   }));
 

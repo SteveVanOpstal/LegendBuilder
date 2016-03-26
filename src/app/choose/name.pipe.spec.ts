@@ -29,7 +29,7 @@ describe('NamePipe', () => {
     champions = pipe.transform(null, ['Amumu']);
     expect(champions).toBe(null);
   }));
-  
+
   it('should not filter on \'\'', inject([NamePipe], (pipe) => {
     champions = pipe.transform(champions, ['']);
     expect(champions.length).toBe(3);
@@ -50,7 +50,7 @@ describe('NamePipe', () => {
     expect(champions.length).toBe(1);
   }));
 
-  it('should remove [\'] from names', inject([NamePipe], (pipe) => {
+  it('should remove semicolon from names', inject([NamePipe], (pipe) => {
     expect(pipe.clean('am\'umu')).toBe('amumu');
   }));
 
