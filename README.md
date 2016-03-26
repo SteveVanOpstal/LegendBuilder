@@ -10,6 +10,7 @@
 </p>
 
 [![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder)
+[![Coverage Status](https://coveralls.io/repos/github/SteveVanOpstal/LegendBuilder/badge.svg)](https://coveralls.io/github/SteveVanOpstal/LegendBuilder)
 [![Dependency Status](https://img.shields.io/david/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder) [![devDependency Status](https://img.shields.io/david/dev/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder#info=devDependencies)
 [![License](https://img.shields.io/github/license/SteveVanOpstal/LegendBuilder.svg)](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/LICENSE)
 
