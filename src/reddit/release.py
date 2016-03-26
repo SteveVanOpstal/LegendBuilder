@@ -3,7 +3,6 @@ import json
 import re
 from settings import settings
 
-#GITHUB_URL = 'https://github.com/SteveVanOpstal/LegendBuilder'
 CHANGELOG_LOCATION = './CHANGELOG.md'
 MESSAGE_LOCATION = './src/reddit/message.md'
 
@@ -24,6 +23,7 @@ with open(CHANGELOG_LOCATION, 'r') as changelog, open(MESSAGE_LOCATION, 'r') as 
   # prefix with message
   content = str(message.read()) + content;
   
-  resp = reddit.submit(settings['SUBREDDIT'], title, text=content, send_replies=True)
+  submission = reddit.submit(settings['SUBREDDIT'], title, text=content, send_replies=True)
+  submission.sticky(bottom=False)
 
 print('finished')
