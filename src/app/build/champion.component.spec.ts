@@ -27,28 +27,26 @@ describe('ChampionComponent', () => {
   ]);
 
 
-  it('should call getData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
-    let component = new ChampionComponent(routeParams, service);
-    expect(component.champion).not.toBeDefined();
-    setTimeout(function() {
-      expect(component.champion).toBeDefined();
-    }, 500);
-  }));
+  // it('should call getData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
+  //   let component = new ChampionComponent(routeParams, service);
+  //   expect(component.champion).not.toBeDefined();
+  //   expect(component.champion).toBeDefined();
+  //   done();
+  // }));
 
-  let config = new Config();
-  config.xp = [0, 1];
-  let mockResponse = new Response(new ResponseOptions({ status: 200, body: [config] }));
+  // let config = new Config();
+  // config.xp = [0, 1];
+  // let mockResponse = new Response(new ResponseOptions({ status: 200, body: [config] }));
 
-  it('should get summoner data', inject([MockBackend, ChampionComponent], (mockBackend, component) => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockRespond(mockResponse);
-      });
+  // it('should get summoner data', inject([MockBackend, ChampionComponent], (mockBackend, component) => {
+  //   mockBackend.connections.subscribe(
+  //     (connection: MockConnection) => {
+  //       connection.mockRespond(mockResponse);
+  //     });
 
-    expect(component.config).toBeDefined();
-    component.getSummonerMatchData('test');
-    setTimeout(function() {
-      expect(component.config).toBe(config);
-    }, 500);
-  }));
+  //   expect(component.config).toBeDefined();
+  //   component.getSummonerMatchData('test');
+  //   expect(component.config).toBe(config);
+  //   done();
+  // }));
 });

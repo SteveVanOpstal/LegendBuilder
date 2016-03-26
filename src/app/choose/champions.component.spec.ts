@@ -31,13 +31,12 @@ describe('ChampionsComponent', () => {
   ]);
 
 
-  it('should call getData() on contruct', inject([RouteParams, Router, LolApiService], (routeParams, router, service) => {
-    let component = new ChampionsComponent(routeParams, router, service);
-    expect(component.champions).not.toBeDefined();
-    setTimeout(function() {
-      expect(component.champions).toBeDefined();
-    }, 500);
-  }));
+  // it('should call getData() on contruct', inject([RouteParams, Router, LolApiService], (routeParams, router, service) => {
+  //   let component = new ChampionsComponent(routeParams, router, service);
+  //   expect(component.champions).not.toBeDefined();
+  //   expect(component.champions).toBeDefined();
+  //   done();
+  // }));
 
   it('should have RouteParam region \'euw\'', inject([ChampionsComponent], (component) => {
     expect(component.region).toEqual('euw');
