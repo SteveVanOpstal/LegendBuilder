@@ -56,12 +56,12 @@ export class MasteryCategoryComponent implements OnInit {
       this.forTier(tier.index - 1, (t) => t.lock());
     }
     if (tier.getRank() > mastery.getRank()) {
-      tier.setRank(mastery, mastery.getMaxRank() - mastery.getRank());
+      mastery.setRank(mastery.getMaxRank() - mastery.getRank());
     }
-    var deviation = this.getMasteriesTotalRankDeviation();
+    var deviation = this.getTotalRankDeviation();
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
-        tier.setRank(mastery, tier.getRank() - deviation - mastery.getRank());
+        mastery.setRank(tier.getRank() - deviation - mastery.getRank());
       } else {
         mastery.setRank(tier.getRank() - deviation);
       }
@@ -100,7 +100,7 @@ export class MasteryCategoryComponent implements OnInit {
     return rank;
   }
 
-  private getMasteriesTotalRankDeviation() {
+  private getTotalRankDeviation() {
     var deviation = this.masteries.getRank() - 30;
     return deviation > 0 ? deviation : 0;
   }
