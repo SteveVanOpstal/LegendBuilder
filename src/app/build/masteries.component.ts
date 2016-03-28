@@ -23,7 +23,6 @@ export class MasteriesComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private totalRank: number = 0;
   private categories: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
 
   constructor(private lolApi: LolApiService) {
@@ -47,14 +46,13 @@ export class MasteriesComponent {
     return rank;
   }
 
-  public addRank() {
+  public rankAdded() {
     if (this.getRank() >= 30) {
       this.disable();
-
     }
   }
 
-  public removeRank() {
+  public rankRemoved() {
     if (this.getRank() === 29) {
       this.enable();
     }

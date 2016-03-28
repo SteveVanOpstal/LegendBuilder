@@ -47,7 +47,7 @@ export class MasteryCategoryComponent implements OnInit {
     });
   }
 
-  public addRank(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankAdded(tier: MasteryTierComponent, mastery: MasteryComponent) {
     if (!tier) {
       return;
     }
@@ -66,11 +66,11 @@ export class MasteryCategoryComponent implements OnInit {
         mastery.setRank(tier.getRank() - deviation);
       }
     }
-    this.masteries.addRank();
+    this.masteries.rankAdded();
     this.totalRank = this.getRank();
   }
 
-  public removeRank(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankRemoved(tier: MasteryTierComponent, mastery: MasteryComponent) {
     if (!tier) {
       return;
     }
@@ -78,7 +78,7 @@ export class MasteryCategoryComponent implements OnInit {
       this.forTier(tier.index + 1, (t) => t.disable());
       this.forTier(tier.index - 1, (t) => t.unlock());
     }
-    this.masteries.removeRank();
+    this.masteries.rankRemoved();
     this.totalRank = this.getRank();
   }
 

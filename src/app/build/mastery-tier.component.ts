@@ -46,11 +46,13 @@ export class MasteryTierComponent implements OnInit {
   }
 
   public setOtherRank(mastery: MasteryComponent, rank: number) {
-    this.masteries.forEach(function(m: MasteryComponent) {
-      if (mastery !== m) {
+    for (var index in this.masteries) {
+      var m = this.masteries[index];
+      if (mastery !== m && m.rank > 0) {
         m.setRank(rank);
+        return;
       }
-    });
+    }
   }
   public getRank(): number {
     var rank = 0;
@@ -58,12 +60,12 @@ export class MasteryTierComponent implements OnInit {
     return rank;
   }
 
-  public addRank(mastery: MasteryComponent) {
-    this.category.addRank(this, mastery);
+  public rankAdded(mastery: MasteryComponent) {
+    this.category.rankAdded(this, mastery);
   }
 
-  public removeRank(mastery: MasteryComponent) {
-    this.category.removeRank(this, mastery);
+  public rankRemoved(mastery: MasteryComponent) {
+    this.category.rankRemoved(this, mastery);
   }
 
   private forEachMastery(callback: (MasteryComponent) => void) {

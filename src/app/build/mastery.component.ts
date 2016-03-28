@@ -122,7 +122,7 @@ export class MasteryComponent implements OnInit {
     } else if (this.rank < this.getMaxRank()) {
       this.rank++;
     }
-    this.tier.addRank(this);
+    this.tier.rankAdded(this);
     this.changed();
   }
 
@@ -133,7 +133,7 @@ export class MasteryComponent implements OnInit {
     if (this.rank > 0) {
       this.rank--;
     }
-    this.tier.removeRank(this);
+    this.tier.rankRemoved(this);
     this.changed();
   }
 

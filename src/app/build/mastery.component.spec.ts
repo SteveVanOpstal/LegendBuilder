@@ -12,7 +12,7 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent, Colors} from './mastery.component';
 
-class MockTier extends MasteryTierComponent {
+class MockMasteryTierComponent extends MasteryTierComponent {
   public rank = 1;
   getRank() { return this.rank; }
   constructor(category: MasteryCategoryComponent) {
@@ -37,7 +37,7 @@ describe('MasteryComponent', () => {
     MasteryCategoryComponent,
     provide(MasteryTierComponent, {
       useFactory: function(category) {
-        return new MockTier(category);
+        return new MockMasteryTierComponent(category);
       },
       deps: [MasteryCategoryComponent]
     }),
@@ -46,7 +46,6 @@ describe('MasteryComponent', () => {
 
 
   it('should be initialised', inject([MasteryComponent], (component) => {
-    expect(component.data).not.toBeDefined();
     expect(component.rank).toBe(0);
     expect(component.color).toBe(Colors.gray);
     expect(component.enabled).toBeFalsy();
@@ -186,11 +185,11 @@ describe('MasteryComponent', () => {
   }));
 
   it('should add a tier rank when a rank is added', inject([MasteryComponent], (component) => {
-    spyOn(component.tier, 'addRank');
-    expect(component.tier.addRank).not.toHaveBeenCalled();
+    spyOn(component.tier, 'rankAdded');
+    expect(component.tier.rankAdded).not.toHaveBeenCalled();
     component.enabled = true;
     component.addRank();
-    expect(component.tier.addRank).toHaveBeenCalled();
+    expect(component.tier.rankAdded).toHaveBeenCalled();
   }));
 
   it('should add max rank when tier rank is zero', inject([MasteryComponent], (component) => {

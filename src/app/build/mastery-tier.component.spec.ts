@@ -82,15 +82,15 @@ describe('MasteryTierComponent', () => {
   }));
 
 
-  it('should add rank', inject([MasteryTierComponent], (component) => {
-    spyOn(component.category, 'addRank');
-    component.addRank();
-    expect(component.category.addRank).toHaveBeenCalled();
+  it('should trigger category rankAdded event', inject([MasteryTierComponent], (component) => {
+    spyOn(component.category, 'rankAdded');
+    component.rankAdded();
+    expect(component.category.rankAdded).toHaveBeenCalled();
   }));
 
-  it('should remove rank', inject([MasteryTierComponent], (component) => {
-    spyOn(component.category, 'removeRank');
-    component.removeRank();
-    expect(component.category.removeRank).toHaveBeenCalled();
+  it('should trigger category rankRemoved event', inject([MasteryTierComponent], (component) => {
+    spyOn(component.category, 'rankRemoved');
+    component.rankRemoved();
+    expect(component.category.rankRemoved).toHaveBeenCalled();
   }));
 });
