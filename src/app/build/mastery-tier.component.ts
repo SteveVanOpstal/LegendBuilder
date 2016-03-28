@@ -45,6 +45,13 @@ export class MasteryTierComponent implements OnInit {
     this.forEachMastery((m) => m.unlock());
   }
 
+  public setOtherRank(mastery: MasteryComponent, rank: number) {
+    this.masteries.forEach(function(m: MasteryComponent) {
+      if (mastery !== m) {
+        m.setRank(rank);
+      }
+    });
+  }
   public getRank(): number {
     var rank = 0;
     this.forEachMastery((m) => rank += m.getRank());

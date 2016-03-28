@@ -56,12 +56,12 @@ export class MasteryCategoryComponent implements OnInit {
       this.forTier(tier.index - 1, (t) => t.lock());
     }
     if (tier.getRank() > mastery.getRank()) {
-      mastery.setRank(mastery.getMaxRank() - mastery.getRank());
+      tier.setOtherRank(mastery, mastery.getMaxRank() - mastery.getRank());
     }
     var deviation = this.getTotalRankDeviation();
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
-        mastery.setRank(tier.getRank() - deviation - mastery.getRank());
+        tier.setOtherRank(mastery, tier.getRank() - deviation - mastery.getRank());
       } else {
         mastery.setRank(tier.getRank() - deviation);
       }

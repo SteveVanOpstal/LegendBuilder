@@ -153,11 +153,11 @@ mastery > div:before {
   z-index: 10;
 }
 
-mastery > div:not(.disabled):before {
+mastery > div.enabled:before {
   border: 2px solid #356BB0;
 }
 
-mastery > div:not(.disabled) {
+mastery > div.enabled {
   cursor: pointer;
 }
 
@@ -168,7 +168,7 @@ mastery .rank {
   z-index: 20;
 }
 
-mastery > div.disabled .rank {
+mastery > div:not(.enabled) .rank {
   cursor: default;
 }
 
