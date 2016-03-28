@@ -42,7 +42,8 @@ module.exports = {
         exclude: [
           /\.e2e\.ts$/,
           /\.spec\.ts$/,
-          helpers.root('node_modules')
+          helpers.root('node_modules'),
+          helpers.root('src/server')
         ]
       }
     ]
