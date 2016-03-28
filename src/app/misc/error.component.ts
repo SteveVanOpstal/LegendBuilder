@@ -25,7 +25,7 @@ import {NgIf} from 'angular2/common';
 })
 
 export class ErrorComponent {
-  @Input() error: boolean;
+  @Input() error: boolean = false;
   @Output() retry: EventEmitter<any> = new EventEmitter<any>();
 
   retryClicked() {
