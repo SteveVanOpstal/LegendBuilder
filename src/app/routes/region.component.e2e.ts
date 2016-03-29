@@ -11,14 +11,10 @@ describe('RegionsComponent', () => {
   });
 
   it('should select EUW', () => {
+    element(by.css('region button[href=\'/euw\']')).click();
+
     browser.driver.getCurrentUrl().then(function(url) {
-      expect(/\.*\/euw/.test(url)).toBeFalsy();
-
-      element(by.css('region button[href=\'/euw\']')).click();
-
-      browser.driver.getCurrentUrl().then(function(url) {
-        expect(/\.*\/euw/.test(url)).toBeTruthy();
-      });
+      expect(/\.*\/euw/.test(url)).toBeTruthy();
     });
   });
 
