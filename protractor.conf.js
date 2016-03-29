@@ -1,7 +1,7 @@
 var settings = require('./src/server/settings').settings;
 var helpers = require('./helpers');
 
-exports.config = {
+var configuration = {
   baseUrl: 'http://' + (settings.httpServer.host || 'localhost') + ':' + (settings.httpServer.port || 8080),
 
   specs: [
@@ -22,17 +22,58 @@ exports.config = {
   },
   directConnect: true,
 
-  capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': {
-      'args': ['show-fps-counter=true']
-    }
-  },
-
   onPrepare: function() {
     browser.ignoreSynchronization = true;
   },
 
   seleniumServerJar: "node_modules/protractor/selenium/selenium-server-standalone-2.52.0.jar",
-   useAllAngular2AppRoots: true
+  useAllAngular2AppRoots: true
 };
+
+
+var BROWSER_CAPS = {
+  ChromeDesktop: {
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['show-fps-counter=true', '--js-flags=--expose-gc'],
+      perfLoggingPrefs: {
+        'traceCategories': 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
+      }
+    },
+    loggingPrefs: {
+      performance: 'ALL',
+      browser: 'ALL'
+    }
+  },
+  ChromeOnTravis: {
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['show-fps-counter=true', '--no-sandbox', '--js-flags=--expose-gc'],
+      perfLoggingPrefs: {
+        'traceCategories': 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
+      },
+      binary: process.env.CHROME_BIN
+    },
+    loggingPrefs: {
+      performance: 'ALL',
+      browser: 'ALL'
+    }
+  },
+  Firefox: {
+    browserName: 'firefox'
+  }
+};
+
+if (process.env.TRAVIS) {
+  configuration.multiCapabilities = [
+    BROWSER_CAPS.ChromeOnTravis
+  ];
+} else {
+  configuration.multiCapabilities = [
+    BROWSER_CAPS.ChromeDesktop
+  ];
+}
+
+// configuration.multiCapabilities.push(BROWSER_CAPS.Firefox);
+
+exports.config = configuration;

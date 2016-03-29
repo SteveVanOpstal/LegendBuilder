@@ -4,10 +4,7 @@ node_js:
   - '5.4.1'
 
 env:
-  global:
-    - CXX=g++-4.8
-    - KARMA_JS_BROWSERS=ChromeNoSandbox
-    - E2E_BROWSERS=ChromeOnTravis
+  - CXX=g++-4.8
 
 cache:
   directories:
