@@ -51,8 +51,7 @@ var BROWSER_CAPS = {
       args: ['show-fps-counter=true', '--no-sandbox', '--js-flags=--expose-gc'],
       perfLoggingPrefs: {
         'traceCategories': 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
-      },
-      binary: process.env.CHROME_BIN
+      }
     },
     loggingPrefs: {
       performance: 'ALL',
