@@ -61,9 +61,9 @@ export class ChampionsComponent {
 
     this.lolApi.getChampions()
       .subscribe(
-      res => this.champions = res,
-      error => { this.error = true; this.loading = false; },
-      () => this.loading = false
+        res => this.champions = res,
+        error => { this.error = true; this.loading = false; },
+        () => this.loading = false
       );
   }
 

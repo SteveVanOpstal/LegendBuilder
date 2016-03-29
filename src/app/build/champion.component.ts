@@ -56,12 +56,15 @@ export class ChampionComponent {
       );
   }
 
-  getSummonerMatchData(value) {
+  getSummonerMatchData(value: string) {
     this.lolApi.getSummonerMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
-      .subscribe(res => {
-        this.config = new Config();
-        this.config.xp = res.xp;
-        this.config.g = res.g;
-      });
+      .subscribe(
+        res => {
+          this.config = new Config();
+          this.config.xp = res.xp;
+          this.config.g = res.g;
+        },
+        error => { this.error = true; }
+      );
   }
 }

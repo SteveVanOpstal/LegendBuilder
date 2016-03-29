@@ -14,7 +14,7 @@ import {Observable} from 'rxjs/Observable';
 
 describe('ChampionComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteParams, { useValue: new RouteParams({ region: 'euw', champion: 'VelKoz' }) }),
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
@@ -28,37 +28,78 @@ describe('ChampionComponent', () => {
     ChampionComponent
   ]);
 
+  it('should be initialised', inject([ChampionComponent], (component) => {
+    expect(component.championKey).toBe('VelKoz');
+    expect(component.champion).not.toBeDefined();
+    expect(component.loading).toBeTruthy();
+    expect(component.error).toBeFalsy();
+  }));
 
-  it('should call getData() on contruct', done => {
-    injectAsync([RouteParams, LolApiService], (routeParams, service) => {
-      let component = new ChampionComponent(routeParams, service);
-      expect(component.champion).not.toBeDefined();
+  it('should call getData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
+    spyOn(ChampionComponent.prototype, 'getData');
+    expect(ChampionComponent.prototype.getData).not.toHaveBeenCalled();
+    let component = new ChampionComponent(routeParams, service);
+    expect(ChampionComponent.prototype.getData).toHaveBeenCalled();
+  }));
 
-      return Observable.create().delay(20).subscribe(() => {
-        expect(component.champion).toBeDefined();
+  it('should get champion', injectAsync([MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
       });
+ 
+    expect(component.champion).not.toBeDefined();
+    component.getData();
+    return service.getChampion('VelKoz').toPromise().then(() => {
+      expect(component.champion).toBeDefined();
     });
-    done();
-  });
+  }));
+
+  it('should not get champion', injectAsync([MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError();
+      });
+
+    expect(component.champion).not.toBeDefined();
+    component.getData();
+    return service.getChampion('VelKoz').toPromise().catch(() => {
+      expect(component.champion).not.toBeDefined();
+      expect(component.error).toBeTruthy();
+    });
+  }));
 
   let config = new Config();
   config.xp = [0, 1];
-  let mockResponse = new Response(new ResponseOptions({ status: 200, body: [config] }));
+  config.g = [0, 1];
+  let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
 
-  it('should get summoner data', done => {
-    injectAsync([MockBackend, ChampionComponent], (mockBackend, component) => {
-      mockBackend.connections.subscribe(
-        (connection: MockConnection) => {
-          connection.mockRespond(mockResponse);
-        });
-
-      expect(component.config).toBeDefined();
-      component.getSummonerMatchData('test');
-
-      return Observable.create().delay(20).subscribe(() => {
-        expect(component.config).toBe(config);
+  it('should get summoner data', injectAsync([MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
       });
+
+    expect(component.config).toBeDefined();
+    component.getSummonerMatchData('');
+    return service.getSummonerMatchData('', '', 0, 0).toPromise().then(() => {
+      expect(component.config).toHaveEqualContent(config);
     });
-    done();
-  });
+  }));
+
+  it('should not get summoner data', injectAsync([MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError();
+      });
+
+    expect(component.config).toBeDefined();
+    component.getSummonerMatchData('');
+    return service.getSummonerMatchData('', '', 0, 0).toPromise().catch(() => {
+      expect(component.config).not.toHaveEqualContent(config);
+      expect(component.error).toBeTruthy();
+    });
+  }));
 });

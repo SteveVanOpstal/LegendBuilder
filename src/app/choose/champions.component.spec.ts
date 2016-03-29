@@ -1,14 +1,17 @@
 import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http} from 'angular2/http';
+import {Response, ResponseOptions, BaseRequestOptions, Http} from 'angular2/http';
 import {Router, RouteRegistry, Location, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
 import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
-import {MockBackend} from 'angular2/http/testing';
+import {MockBackend, MockConnection} from 'angular2/http/testing';
 import {SpyLocation} from 'angular2/src/mock/location_mock';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {ChampionsComponent} from './champions.component';
+
+import {Observable} from 'rxjs/Observable';
+import {Scheduler} from 'rxjs/Scheduler';
 
 describe('ChampionsComponent', () => {
   beforeEachProviders(() => [
@@ -31,17 +34,42 @@ describe('ChampionsComponent', () => {
   ]);
 
 
-  it('should call getData() on contruct', done => {
-    injectAsync([RouteParams, Router, LolApiService], (routeParams, router, service) => {
-      let component = new ChampionsComponent(routeParams, router, service);
-      expect(component.champions).not.toBeDefined();
+  it('should call getData() on contruct', inject([RouteParams, Router, LolApiService], (routeParams, router, service) => {
+    spyOn(ChampionsComponent.prototype, 'getData');
+    expect(ChampionsComponent.prototype.getData).not.toHaveBeenCalled();
+    let component = new ChampionsComponent(routeParams, router, service);
+    expect(ChampionsComponent.prototype.getData).toHaveBeenCalled();
+  }));
 
-      return Observable.create().delay(20).subscribe(() => {
-        expect(component.champion).toBeDefined();
+
+  it('should get champions', injectAsync([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
       });
-    });
-    done();
-  });
+
+    expect(component.champions).not.toBeDefined();
+    component.getData();
+    return service.getChampions().toPromise().then( () => {
+      expect(component.champions).toBeDefined();
+    } );
+  }));
+
+  it('should not get champions', injectAsync([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError();
+      });
+
+    expect(component.champions).not.toBeDefined();
+    component.getData();
+    return service.getChampions().toPromise().catch(() => {
+      expect(component.champions).not.toBeDefined();
+      expect(component.error).toBeTruthy();
+    } );
+  }));
+
 
   it('should have RouteParam region \'euw\'', inject([ChampionsComponent], (component) => {
     expect(component.region).toEqual('euw');
