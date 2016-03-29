@@ -48,7 +48,7 @@ describe('ChampionComponent', () => {
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
       });
- 
+
     expect(component.champion).not.toBeDefined();
     component.getData();
     return service.getChampion('VelKoz').toPromise().then(() => {
