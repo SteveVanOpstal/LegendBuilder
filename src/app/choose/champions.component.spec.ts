@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http} from 'angular2/http';
 import {Router, RouteRegistry, Location, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
 import {MockBackend} from 'angular2/http/testing';
 import {SpyLocation} from 'angular2/src/mock/location_mock';
 
@@ -31,12 +31,17 @@ describe('ChampionsComponent', () => {
   ]);
 
 
-  // it('should call getData() on contruct', inject([RouteParams, Router, LolApiService], (routeParams, router, service) => {
-  //   let component = new ChampionsComponent(routeParams, router, service);
-  //   expect(component.champions).not.toBeDefined();
-  //   expect(component.champions).toBeDefined();
-  //   done();
-  // }));
+  it('should call getData() on contruct', done => {
+    injectAsync([RouteParams, Router, LolApiService], (routeParams, router, service) => {
+      let component = new ChampionsComponent(routeParams, router, service);
+      expect(component.champions).not.toBeDefined();
+
+      return Observable.create().delay(20).subscribe(() => {
+        expect(component.champion).toBeDefined();
+      });
+    });
+    done();
+  });
 
   it('should have RouteParam region \'euw\'', inject([ChampionsComponent], (component) => {
     expect(component.region).toEqual('euw');
