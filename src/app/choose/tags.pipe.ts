@@ -6,14 +6,11 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 
 export class TagsPipe implements PipeTransform {
-  private prevTags: Array<string>;
 
   transform(champions: Array<Object>, [tags]) {
-    if (!champions || !tags || this.compare(this.prevTags, tags)) {
+    if (!champions || !tags) {
       return champions;
     }
-
-    this.prevTags = tags;
 
     return champions.filter((champion) => {
       if (tags && tags.length > 0) {
@@ -34,9 +31,5 @@ export class TagsPipe implements PipeTransform {
       array.splice(index, 1);
     }
     return array;
-  }
-
-  private compare(prevTags: Array<string>, tags: Array<string>): boolean {
-    return JSON.stringify(prevTags) === JSON.stringify(tags);
   }
 }
