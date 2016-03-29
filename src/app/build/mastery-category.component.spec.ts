@@ -151,7 +151,6 @@ describe('MasteryCategoryComponent', () => {
     component.tiers[1].masteries[0].rank = 2;
     component.tiers[1].masteries[1].rank = 2;
     component.masteries.addCategory(component);
-    console.log(component.getTotalRankDeviation());
     component.rankAdded(component.tiers[1], component.tiers[1].masteries[0]);
     expect(component.tiers[1].masteries[0].rank).toBe(2);
     expect(component.tiers[1].masteries[1].rank).toBe(1);
