@@ -12,7 +12,7 @@ import {AbilitySequenceComponent} from '../build/ability-sequence.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [DDragonDirective, AbilitySequenceComponent],
   template: `
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" [attr.width]="width" height="100%" [attr.viewBox]="'0 0 ' +  width + ' ' + height">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  width + ' ' + height">
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (graphHeight + margin.top + margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
         <path class="line xp" clip-path="url(#clip)"></path>
