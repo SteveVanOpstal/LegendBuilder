@@ -65,14 +65,12 @@ var BROWSER_CAPS = {
 
 if (process.env.TRAVIS) {
   configuration.multiCapabilities = [
-    BROWSER_CAPS.ChromeOnTravis
+    BROWSER_CAPS.Firefox
   ];
 } else {
   configuration.multiCapabilities = [
     BROWSER_CAPS.ChromeDesktop
   ];
 }
-
-// configuration.multiCapabilities.push(BROWSER_CAPS.Firefox);
 
 exports.config = configuration;
