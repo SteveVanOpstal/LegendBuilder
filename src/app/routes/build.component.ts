@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation} from 'angular2/core';
 
-import {ShopComponent} from '../build/shop.component';
+import {ShopComponent} from '../build/shop/shop.component';
 import {ChampionComponent} from '../build/champion.component';
 
 @Component({
