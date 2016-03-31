@@ -1,6 +1,6 @@
 import {provide} from 'angular2/core';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
 
 import {NamePipe} from './name.pipe';
 

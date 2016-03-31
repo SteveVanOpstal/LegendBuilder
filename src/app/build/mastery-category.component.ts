@@ -48,7 +48,7 @@ export class MasteryCategoryComponent implements OnInit {
   }
 
   public rankAdded(tier: MasteryTierComponent, mastery: MasteryComponent) {
-    if (!tier) {
+    if (!tier || !mastery) {
       return;
     }
     if (tier.getRank() === mastery.getMaxRank()) {
@@ -71,7 +71,7 @@ export class MasteryCategoryComponent implements OnInit {
   }
 
   public rankRemoved(tier: MasteryTierComponent, mastery: MasteryComponent) {
-    if (!tier) {
+    if (!tier || !mastery) {
       return;
     }
     if (tier.getRank() < mastery.getMaxRank()) {

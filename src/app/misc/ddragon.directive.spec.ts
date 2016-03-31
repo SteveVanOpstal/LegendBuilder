@@ -1,9 +1,9 @@
 import {provide, ElementRef} from 'angular2/core';
 import {Router, RouteRegistry, Location, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
-import {BaseRequestOptions, Http} from 'angular2/http';
+import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
-import {MockBackend} from 'angular2/http/testing';
+import {it, inject, injectAsync, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {DDragonDirective} from './ddragon.directive';
@@ -77,13 +77,22 @@ describe('DDragonDirective', () => {
   });
 
 
-  // it('should update on contruct', inject([ElementRef, LolApiService], (elementRef, service) => {
-  //   spyOn(DDragonDirective.prototype, 'updateElement');
-  //   expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
-  //   let directive = new DDragonDirective(elementRef, service);
-  //   expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();
-  //   done();
-  // }));
+  it('should update on contruct', injectAsync([MockBackend, ElementRef, RouteParams, Http], (mockBackend, elementRef, routeParams, http) => {
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
+      });
+
+    spyOn(DDragonDirective.prototype, 'updateElement');
+    expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
+
+    let service = new LolApiService(routeParams, http);
+    let directive = new DDragonDirective(elementRef, service);
+    return service.getRealm().toPromise().then(() => {
+      expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();
+    });
+  }));
 
   it('should update on change', inject([DDragonDirective], (directive) => {
     spyOn(directive, 'updateElement');
@@ -91,6 +100,7 @@ describe('DDragonDirective', () => {
     directive.ngOnChanges();
     expect(directive.updateElement).toHaveBeenCalled();
   }));
+
 
   it('should add src attribute for <img [ddragon]="">', inject([MockImageElementRef, LolApiService], (elementRef, service) => {
     let directive = new DDragonDirective(elementRef, service);
@@ -115,6 +125,7 @@ describe('DDragonDirective', () => {
     directive.updateElement(realm);
     expect(directive.el.nativeElement.getAttribute('style')).not.toBeNull();
   }));
+
 
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
     let result = directive.buildStyle('test.png', realm, 0, 0);

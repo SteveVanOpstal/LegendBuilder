@@ -43,6 +43,14 @@ describe('MasteryTierComponent', () => {
   }));
 
 
+  it('should add a mastery', inject([MasteryTierComponent], (component) => {
+    let mastery = new MasteryComponent(component);
+    component.addMastery(mastery);
+    expect(component.masteries[0]).toBeDefined();
+    expect(component.masteries[0].enabled).toBeTruthy();
+  }));
+
+
   it('should enable', inject([MasteryTierComponent], (component) => {
     component.enable();
     for (let mastery in component.masteries) {

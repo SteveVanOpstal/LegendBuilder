@@ -1,5 +1,5 @@
 import {provide} from 'angular2/core';
-import {it, inject} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from 'angular2/testing';
 
 import {BarComponent} from './bar.component';
 
