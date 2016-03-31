@@ -1,7 +1,7 @@
 body {
   background-color: #EEE;
   margin: 0;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: Roboto, 'Segoe UI', serif;
 }
 
 h1 {
@@ -28,7 +28,7 @@ p {
 }
 
 .header > .align-center {
-  max-width: 400px;
+  max-width: 410px;
   display: flex;
 }
 
@@ -151,6 +151,7 @@ input[type="textbox"]:checked {
 /* button */
 
 button {
+  font: 13.3333px Arial;
   display: inline-flex;
   background-color: #FFF;
   border: 1px solid #CCC;

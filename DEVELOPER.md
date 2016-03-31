@@ -10,9 +10,9 @@ All commands mentioned should be ran from the project root.
   [Windows](http://windows.github.com)).
 
 * [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager). 
-  * [TypeScript](https://www.npmjs.com/package/typescript) `npm install -g typescript`
-  * [webpack](https://github.com/webpack/webpack) `npm install -g webpack`
-  * [protractor](https://github.com/angular/protractor) `npm install -g protractor`
+  * [TypeScript](https://www.npmjs.com/package/typescript) (`npm install -g typescript`)
+  * [webpack](https://github.com/webpack/webpack) (`npm install -g webpack`)
+  * [Protractor](https://github.com/angular/protractor) (`npm install -g protractor`)
 
 ## Getting started
 
@@ -96,13 +96,13 @@ It works well with for example npm, by adding following `tasks.json` you can cal
 Every release a python script will generate a post on reddit. To improve this script or to create more scripts the following software is required:
 
 * [Python](https://www.python.org/downloads/), (version `>=3.5.1`). It should include [pip](https://pypi.python.org/pypi/pip) (Pip Installs Packages). 
-  * [praw](https://praw.readthedocs.org) `pip install praw`
+  * [praw](https://praw.readthedocs.org) (`pip install praw`)
 
 
 ```
 {
   "SUBREDDIT": "LegendBuilder",
-  "REDDIT_USERNAME": "LookAtMeImTheRedditNow",
-  "REDDIT_PASSWORD": "12345"
+  "REDDIT_USERNAME": "LookAtMeImRedditNow",
+  "REDDIT_PASSWORD": "LegendBuilderDaBest"
 }
 ```

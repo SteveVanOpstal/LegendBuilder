@@ -7,10 +7,10 @@ import {settings} from '../../server/settings';
 
 @Injectable()
 export class LolApiService {
-  public realm: Observable<Response>;
   public staticServer = settings.staticServer;
   public matchServer = settings.matchServer;
 
+  private realm: Observable<Response>;
   private region: string;
 
   constructor(params: RouteParams, private http: Http) {

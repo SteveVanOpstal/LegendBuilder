@@ -1,10 +1,10 @@
-import {provide, Inject, forwardRef} from 'angular2/core';
-import {BaseRequestOptions, Http} from 'angular2/http';
+import {provide} from 'angular2/core';
+import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
-import {MockBackend} from 'angular2/http/testing';
+import {it, inject, injectAsync, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -85,6 +85,37 @@ describe('MasteryCategoryComponent', () => {
     component.rankRemoved();
     expect(component.enable).toHaveBeenCalled();
   }));
+
+
+  it('should get masteries', injectAsync([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+    spyOn(component, 'alterData');
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
+      });
+
+    expect(component.alterData).not.toHaveBeenCalled();
+    component.getData();
+    return service.getMasteries().toPromise().then(() => {
+      expect(component.alterData).toHaveBeenCalled();
+    });
+  }));
+
+  it('should not get masteries', injectAsync([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+    spyOn(component, 'alterData');
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError();
+      });
+
+    expect(component.alterData).not.toHaveBeenCalled();
+    component.getData();
+    return service.getMasteries().toPromise().catch(() => {
+      expect(component.alterData).not.toHaveBeenCalled();
+    });
+  }));
+
 
   it('should alter data', inject([MasteriesComponent], (component) => {
     let newMasteries = {

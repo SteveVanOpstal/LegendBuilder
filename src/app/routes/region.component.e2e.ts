@@ -9,7 +9,7 @@ describe('RegionsComponent', () => {
     }, () => {
       //error skipped
       done();
-    })
+    });
   });
 
 

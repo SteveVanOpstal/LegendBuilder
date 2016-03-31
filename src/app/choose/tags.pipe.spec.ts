@@ -1,6 +1,6 @@
 import {provide} from 'angular2/core';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
 
 import {TagsPipe} from './tags.pipe';
 
@@ -13,9 +13,9 @@ describe('TagsPipe', () => {
 
   beforeEach(() => {
     champions = [
-      { name: 'Amumu', tags: ['tank', 'mage'] },
-      { name: 'Ahri', tags: ['mage', 'assassin'] },
-      { name: 'Tryndamere', tags: ['fighter', 'assassin'], }
+      { name: 'Amumu', tags: ['Tank', 'Mage'] },
+      { name: 'Ahri', tags: ['Mage', 'Assassin'] },
+      { name: 'Tryndamere', tags: ['Fighter', 'Melee', 'Assassin'], }
     ];
   });
 
@@ -35,12 +35,12 @@ describe('TagsPipe', () => {
   }));
 
   it('should not filter on invalid champions', inject([TagsPipe], (pipe) => {
-    champions = pipe.transform(null, [['tank']]);
+    champions = pipe.transform(null, [['Tank']]);
     expect(champions).toBe(null);
   }));
 
   it('should filter by \'Mage\'', inject([TagsPipe], (pipe) => {
-    let championes = pipe.transform(champions, [['mage']]);
+    let championes = pipe.transform(champions, [['Mage']]);
     let championNames = getChampionNames(championes);
     expect(championNames.length).toBe(2);
     expect(championNames).toContain('Amumu');
@@ -48,26 +48,26 @@ describe('TagsPipe', () => {
   }));
 
   it('should filter by \'Mage, Tank\'', inject([TagsPipe], (pipe) => {
-    let championNames = getChampionNames(pipe.transform(champions, [['mage', 'tank']]));
+    let championNames = getChampionNames(pipe.transform(champions, [['Mage', 'Tank']]));
     expect(championNames.length).toBe(1);
     expect(championNames).toContain('Amumu');
   }));
 
   it('should filter by \'Assassin\'', inject([TagsPipe], (pipe) => {
-    let championNames = getChampionNames(pipe.transform(champions, [['assassin']]));
+    let championNames = getChampionNames(pipe.transform(champions, [['Assassin']]));
     expect(championNames.length).toBe(2);
     expect(championNames).toContain('Ahri');
     expect(championNames).toContain('Tryndamere');
   }));
 
   it('should filter by \'Fighter\'', inject([TagsPipe], (pipe) => {
-    let championNames = getChampionNames(pipe.transform(champions, [['fighter']]));
+    let championNames = getChampionNames(pipe.transform(champions, [['Fighter']]));
     expect(championNames.length).toBe(1);
     expect(championNames).toContain('Tryndamere');
   }));
 
   it('should filter by \'Support\'', inject([TagsPipe], (pipe) => {
-    champions = pipe.transform(champions, [['support']]);
+    champions = pipe.transform(champions, [['Support']]);
     expect(champions.length).toBe(0);
   }));
 });

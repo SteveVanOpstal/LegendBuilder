@@ -12,7 +12,7 @@ describe('NamePipe', () => {
   let champions = [];
 
   beforeEach(() => {
-    champions = [{ name: 'Amumu' }, { name: 'Ahri' }, { name: 'Vel\'Koz' }];
+    champions = [{ name: 'Ravenous Hydra' }, { name: 'Titanic Hydra' }, { name: 'Dagger' }];
   });
 
   it('should not filter on \'null\'', inject([NamePipe], (pipe) => {
@@ -26,7 +26,7 @@ describe('NamePipe', () => {
   }));
 
   it('should not filter on invalid champions', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(null, ['Amumu']);
+    champions = pipe.transform(null, ['Dagger']);
     expect(champions).toBe(null);
   }));
 
@@ -35,26 +35,26 @@ describe('NamePipe', () => {
     expect(champions.length).toBe(3);
   }));
 
-  it('should filter out name \'a\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['a']);
+  it('should filter out name \'e\'', inject([NamePipe], (pipe) => {
+    champions = pipe.transform(champions, ['e']);
     expect(champions.length).toBe(2);
   }));
 
-  it('should filter out name \'amumu\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['amumu']);
+  it('should filter out name \'dagger\'', inject([NamePipe], (pipe) => {
+    champions = pipe.transform(champions, ['dagger']);
     expect(champions.length).toBe(1);
   }));
 
-  it('should filter out name \'VelKo\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['VelKo']);
-    expect(champions.length).toBe(1);
+  it('should filter out name \'Hydra\'', inject([NamePipe], (pipe) => {
+    champions = pipe.transform(champions, ['Hydra']);
+    expect(champions.length).toBe(2);
   }));
 
   it('should remove semicolon from names', inject([NamePipe], (pipe) => {
-    expect(pipe.clean('am\'umu')).toBe('amumu');
+    expect(pipe.clean('da\'gger')).toBe('dagger');
   }));
 
   it('should lowercase names', inject([NamePipe], (pipe) => {
-    expect(pipe.clean('AmUMu')).toBe('amumu');
+    expect(pipe.clean('DaGGer')).toBe('dagger');
   }));
 });

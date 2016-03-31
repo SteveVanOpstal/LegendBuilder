@@ -83,6 +83,13 @@ describe('MasteryCategoryComponent', () => {
   }));
 
 
+  it('should add a tier', inject([MasteryCategoryComponent], (component) => {
+    let tier = new MockMasteryTierComponent(component, 4);
+    component.addTier(tier);
+    expect(component.tiers[4]).toBeDefined();
+  }));
+
+
   it('should enable tier zero', inject([MasteryCategoryComponent], (component) => {
     component.enable();
     expect(component.tiers[0].masteries[0].enabled).toBeTruthy();
@@ -182,6 +189,23 @@ describe('MasteryCategoryComponent', () => {
     component.rankRemoved(component.tiers[0], component.tiers[0].masteries[0]);
     expect(component.masteries.rankRemoved).toHaveBeenCalled();
     expect(component.totalRank).toBe(2);
+  }));
+
+
+  it('should do nothing when tier or mastery is incorrect', inject([MasteryCategoryComponent], (component) => {
+    component.tiers[0].masteries[0].rank = 1;
+
+    spyOn(component.masteries, 'rankRemoved');
+    component.rankRemoved(null, component.tiers[0].masteries[0]);
+    expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
+    component.rankRemoved(component.tiers[0], null);
+    expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
+
+    spyOn(component.masteries, 'rankAdded');
+    component.rankAdded(null, component.tiers[0].masteries[0]);
+    expect(component.masteries.rankAdded).not.toHaveBeenCalled();
+    component.rankAdded(component.tiers[0], null);
+    expect(component.masteries.rankAdded).not.toHaveBeenCalled();
   }));
 
 

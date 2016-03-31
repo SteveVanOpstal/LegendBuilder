@@ -9,7 +9,7 @@ describe('ChooseRoute', () => {
     }, () => {
       //error skipped
       done();
-    })
+    });
   });
 
   it('should have a title', () => {

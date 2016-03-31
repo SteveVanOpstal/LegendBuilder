@@ -80,7 +80,7 @@ describe('LolApiService', () => {
         connection.mockRespond(mockResponse);
       });
 
-    service.getItems().subscribe(res => {
+    service.getMasteries().subscribe(res => {
       expect(res).toBeDefined();
       expect(res[0].test).toBeTruthy();
     });

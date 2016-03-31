@@ -1,3 +1,22 @@
+<a name="1.0.0-alpha.7"></a>
+# [1.0.0-alpha.7](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.6...1.0.0-alpha.7) (2016-03-31)
+
+
+### Bug Fixes
+
+* **masteries:** revert refactor changes ([e65c28f](https://github.com/SteveVanOpstal/LegendBuilder/commit/e65c28f))
+* **name pipe:** make pure ([ba3228f](https://github.com/SteveVanOpstal/LegendBuilder/commit/ba3228f))
+* **tag pipe:** remove compare ([06d77e2](https://github.com/SteveVanOpstal/LegendBuilder/commit/06d77e2))
+
+### Features
+
+* **angular:** update to angular 2.0.0-beta.13 ([b0b2ae8](https://github.com/SteveVanOpstal/LegendBuilder/commit/b0b2ae8))
+* **css:** support firefox ([ba0f904](https://github.com/SteveVanOpstal/LegendBuilder/commit/ba0f904))
+* **shop:** add name pipe ([117a3e2](https://github.com/SteveVanOpstal/LegendBuilder/commit/117a3e2))
+* **shop:** add tag filtering ([d388f44](https://github.com/SteveVanOpstal/LegendBuilder/commit/d388f44))
+
+
+
 <a name="1.0.0-alpha.6"></a>
 # [1.0.0-alpha.6](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.5...1.0.0-alpha.6) (2016-03-24)
 

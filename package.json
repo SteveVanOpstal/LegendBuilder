@@ -1,6 +1,6 @@
 {
   "name": "legend-builder",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "An advanced League Of Legends champion builder.",
   "bugs": {
     "url": "https://github.com/SteveVanOpstal/LegendBuilder/issues"
@@ -36,16 +36,17 @@
     "static-server": "node src/server/staticServer.js",
     "match-server": "node src/server/matchServer.js",
     "lint": "./node_modules/.bin/tslint src/**/*.ts -e src/typings/**",
-    "pree2e": "npm run webdriver:update -- --standalone",
+    "pree2e": "npm run lint && npm run webdriver:update -- --standalone",
     "e2e": "protractor",
     "e2e:live": "protractor --elementExplorer",
+    "pretest": "npm run lint",
     "test": "node_modules/.bin/karma start --single-run",
-    "ci": "npm run lint && npm run e2e && npm run test",
+    "ci": "npm run e2e && npm run test",
     "typings-install": "typings install",
     "postinstall": "npm run typings-install"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.12",
+    "angular2": "2.0.0-beta.13",
     "async": "1.5.2",
     "core-js": "2.2.1",
     "d3": "3.5.16",

@@ -3,9 +3,11 @@ region > div {
 }
 
 region button {
-	width: 190px;
+  display: block;
+	width: 200px;
 	margin: 5px 0;
 	padding: 0;
+  text-align: left;
 }
 
 region span {
