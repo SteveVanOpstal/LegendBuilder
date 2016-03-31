@@ -11,8 +11,9 @@ import {CapitalizePipe} from '../../misc/capitalize.pipe';
 import {MapPipe} from './map.pipe';
 import {ChampionPipe} from './champion.pipe';
 import {HidePipe} from './hide.pipe';
-import {SortPipe} from './sort.pipe';
 import {TagsPipe} from './tags.pipe';
+import {NamePipe} from './name.pipe';
+import {SortPipe} from './sort.pipe';
 
 import {LolApiService} from '../../misc/lolapi.service';
 
@@ -20,7 +21,7 @@ import {LolApiService} from '../../misc/lolapi.service';
   selector: 'shop',
   providers: [LolApiService],
   directives: [NgFor, NgIf, NgClass, DDragonDirective, LoadingComponent, ErrorComponent],
-  pipes: [TranslatePipe, CapitalizePipe, ToIterablePipe, MapPipe, ChampionPipe, HidePipe, SortPipe, TagsPipe],
+  pipes: [TranslatePipe, CapitalizePipe, ToIterablePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe, NamePipe, SortPipe],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -35,7 +36,7 @@ import {LolApiService} from '../../misc/lolapi.service';
     </div> 
     <div class="right">
       <div class="search">
-        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="name" placeholder="Name" (keyup)="name=$event.target.value">
         <button type="button" name="show-disabled" title="Display hidden items">
           <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon eye" width="24" height="24" viewBox="0 0 24 24">
             <path d="M0 0h24v24H0z" fill="none"/>
@@ -45,7 +46,7 @@ import {LolApiService} from '../../misc/lolapi.service';
         </button>
       </div>
       <div class="items">
-        <div class="item" *ngFor="#item of items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | sort" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
+        <div class="item" *ngFor="#item of items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
           <img [ddragon]="'item/' + item.image.full">
           <div>
             <p class="name">{{item.name}}</p>
