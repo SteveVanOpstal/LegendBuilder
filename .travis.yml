@@ -26,7 +26,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script:
-  - npm run ci
+  - npm run test
 
 after_script:
   - npm run coveralls

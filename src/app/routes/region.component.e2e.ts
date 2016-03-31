@@ -1,8 +1,15 @@
 'use strict';
 describe('RegionsComponent', () => {
 
-  beforeEach(() => {
+  // Temporary fix for zone.js issue #234 (TODO: remove)
+  beforeEach((done) => {
     browser.get('/');
+    element(by.css('body')).isPresent().then(() => {
+      done();
+    }, () => {
+      //error skipped
+      done();
+    })
   });
 
 
@@ -11,7 +18,7 @@ describe('RegionsComponent', () => {
   });
 
   it('should select EUW', () => {
-    element(by.css('region button[href=\'/euw\']')).click();
+    element(by.css('region button[href="/euw"]')).click();
 
     browser.driver.getCurrentUrl().then(function(url) {
       expect(/\.*\/euw/.test(url)).toBeTruthy();
