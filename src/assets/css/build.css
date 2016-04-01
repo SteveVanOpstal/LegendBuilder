@@ -69,8 +69,17 @@ graph .x.axis.time line {
   opacity: 0.3;
 }
 
-graph .x.axis.level line {
-  /*stroke: #FFF;*/
+graph .line {
+  stroke-width: 2px;
+  fill: none;
+}
+
+graph .line.xp {
+  stroke: #026561;
+}
+
+graph .line.g {
+  stroke: #aa7625;
 }
 
 
