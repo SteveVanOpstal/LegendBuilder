@@ -15,8 +15,8 @@ import {AbilitySequenceComponent} from '../build/ability-sequence.component';
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  width + ' ' + height">
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (graphHeight + margin.top + margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
-        <path class="line xp" clip-path="url(#clip)"></path>
-        <path class="line g" clip-path="url(#clip)"></path>
+        <path class="line xp"></path>
+        <path class="line g"></path>
         <g class="x axis time" [attr.transform]="'translate(0,' + graphHeight + ')'"></g>
         <g class="x axis level-line" [attr.transform]="'translate(0,' + (height - margin.top - margin.bottom) + ')'"></g>
         <g class="x axis level-text" [attr.transform]="'translate(0,' + (height - margin.top - margin.bottom) + ')'"></g>
@@ -51,12 +51,10 @@ export class GraphComponent implements OnChanges, OnInit {
 
   private line: any = d3.svg.line()
     .interpolate('monotone')
-    .x(function(d, i) {
-      return this.xScaleTime(i * (this.config.gameTime / this.config.sampleSize));
+    .x((d, i) => {
+      return this.xScaleTime(i * (this.config.gameTime / (this.config.sampleSize - 1)));
     })
-    .y(function(d) {
-      return this.yScale(d);
-    });
+    .y((d) => { return this.yScale(d); });
 
   private timeMarks: Array<number> = [0, 300000, 600000, 900000, 1200000, 1500000, 1800000, 2100000, 2400000, 2700000, 3000000, 3300000, 3600000];
   private levelXpMarks: Array<number> = [0, 280, 660, 1140, 1720, 2400, 3180, 4060, 5040, 6120, 7300, 8580, 9960, 11440, 13020, 14700, 16480, 18360];
