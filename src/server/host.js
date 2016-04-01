@@ -60,7 +60,7 @@ var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
       data += d;
     })
       .on('end', function() {
-        console.logHttp(options.method, safeUrl, res.statusCode);
+        console.logHttp(options.method, process.env.NODE_ENV == "development" ? url : safeUrl, res.statusCode);
         if (res.statusCode == 200) {
           cb(formatterCb ? formatterCb(data) : data, false, res.statusCode);
         }
@@ -71,7 +71,7 @@ var sendRequest = exports.sendRequest = function(region, url, cb, formatterCb) {
   });
 
   req.on('error', function(e) {
-    console.logHttp(options.method, safeUrl, e.statusCode, e);
+    console.logHttp(options.method, process.env.NODE_ENV == "development" ? url : safeUrl, e.statusCode, e);
     cb(false, e, e.statusCode);
   });
 
