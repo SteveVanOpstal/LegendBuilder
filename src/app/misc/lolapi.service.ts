@@ -37,7 +37,7 @@ export class LolApiService {
   }
 
   public getItems() {
-    return this.http.get(this.linkStaticData() + '/item?itemListData=all')
+    return this.http.get(this.linkStaticData() + '/item?itemListData=gold,hideFromAll,image,maps,requiredChampion,tags,tree')
       .map(res => res.json());
   }
 
@@ -46,25 +46,35 @@ export class LolApiService {
       .map(res => res.json());
   }
 
+  public getSummonerId(summonerName: string) {
+    return this.http.get(this.linkMatchData() + '/summoner/' + summonerName)
+      .map(res => res.json());
+  }
+
   public getSummonerMatchData(summonerName: string, championKey: string, gameTime: number, samples: number) {
-    return this.http.get(this.linkMatchData() + '/' + summonerName + '/' + championKey + '?gametime=' + gameTime + '&samples=' + samples)
+    return this.http.get(this.linkMatchData() + '/summoner-match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime + '&samples=' + samples)
+      .map(res => res.json());
+  }
+
+  public getMatchData(summonerId: number, championKey: string, gameTime: number, samples: number) {
+    return this.http.get(this.linkMatchData() + '/match/' + summonerId + '/' + championKey + '?gameTime=' + gameTime + '&samples=' + samples)
       .map(res => res.json());
   }
 
 
   private linkStaticData() {
-    return this.linkStaticServer() + 'static-data/' + this.region + '/v1.2';
+    return this.linkStaticServer() + '/static-data/' + this.region + '/v1.2';
   }
 
   private linkMatchData() {
-    return this.linkMatchServer() + this.region;
+    return this.linkMatchServer() + '/' + this.region;
   }
 
   private linkStaticServer() {
-    return 'http://' + (this.staticServer.host || 'localhost') + ':' + (this.staticServer.port || 8081) + '/';
+    return 'http://' + (this.staticServer.host || 'localhost') + ':' + (this.staticServer.port || 8081);
   }
 
   private linkMatchServer() {
-    return 'http://' + (this.matchServer.host || 'localhost') + ':' + (this.matchServer.port || 8082) + '/';
+    return 'http://' + (this.matchServer.host || 'localhost') + ':' + (this.matchServer.port || 8082);
   }
 }

@@ -4,7 +4,6 @@ var fs = require('fs');
 var async = require('async');
 var console = require('./console.js');
 var host = require('./host.js');
-var tim = require('tinytim').tim;
 
 var Lru = require("lru-cache");
 var cache = Lru({
@@ -33,9 +32,13 @@ config.server.host = config.server.host || "localhost";
 config.server.port = config.server.port || 8082;
 
 var errors = {
-  summoner: {
+  badRequest: {
+    code: 400,
+    text: "Invalid request."
+  },
+  invalidSummoner: {
     code: 404,
-    text: "Unable to find summoner {{name}} in {{region}}."
+    text: "Unable to find summoner."
   },
   matchlist: {
     code: 404,
@@ -64,11 +67,11 @@ function getSummonerId(region, name, callback) {
   }, host.jsonFormatter);
 }
 
-function getMatchList(region, championId, summonerId, callback) {
+function getMatchList(region, summonerId, championId, callback) {
   var path = url.format({ pathname: host.createUrl(region, 'matchlist') + 'by-summoner/' + summonerId, query: { championIds: championId } });
   host.sendRequest(region, path, function(data, error, statusCode) {
     if (data.totalGames >= config.games.min) {
-      return callback(null, summonerId, data.matches);
+      return callback(null, data.matches);
     }
     else if (error) {
       return callback({ code: statusCode, text: error });
@@ -90,7 +93,7 @@ function getMatches(region, summonerId, matches, callback) {
 
       var path = url.format({ pathname: host.createUrl(region, 'match') + matchId, query: { includeTimeline: true } });
       host.sendRequest(region, path, function(data, error, statusCode) {
-        if (data.timeline.frames) {
+        if (data && data.timeline && data.timeline.frames) {
 
           if (result.interval > data.timeline.frameInterval) {
             result.interval = data.timeline.frameInterval;
@@ -148,8 +151,8 @@ function fill(games, interval, limit) {
       deltaXp += frame.xp - prevFrame.xp;
       deltaG += frame.g - prevFrame.g;
     }
-    var avgDeltaXp = Math.round(deltaXp / sampleSize);
-    var avgDeltaG = Math.round(deltaG / sampleSize);
+    var avgDeltaXp = deltaXp / sampleSize;
+    var avgDeltaG = deltaG / sampleSize;
 
     // fill up games using the average trend of the samples
     while (games[i][games[i].length - 1].time < limit) {
@@ -199,11 +202,88 @@ function getSamples(games, sampleSize, factor) {
       absG += getRelativeOf(frames, absFactor, function(frame) { return frame.g; });
     }
 
-    result.xp[i] = absXp / games.length;
-    result.g[i] = absG / games.length;
+    result.xp[i] =  Math.round(absXp / games.length);
+    result.g[i] =  Math.round(absG / games.length);
   }
 
   return result;
+}
+
+
+function handleSummoner(region, pathname, query, callbackSuccess, callbackError) {
+  var name = pathname[1].toLowerCase();
+  processSummoner(region, name, callbackSuccess, callbackError);
+}
+
+function processSummoner(region, name, callbackSuccess, callbackError) {
+  getSummonerId(region, name, function(error, result) {
+    if (error) {
+      callbackError(error);
+      return;
+    }
+    callbackSuccess(result);
+  });
+}
+
+function handleMatch(region, pathname, query, callbackSuccess, callbackError) {
+  var summonerId = pathname[0];
+  var championId = pathname[1];
+  var sampleSize = isNaN(query.samples) ? config.default.sampleSize : query.samples;
+  var gameTime = isNaN(query.gameTime) ? config.default.gameTime : query.gameTime;
+
+  if (isNaN(summonerId) || isNaN(championId)) {
+    callbackError(errors.badRequest);
+  }
+
+  processMatch(region, summonerId, championId, gameTime, sampleSize, callbackSuccess, callbackError);
+}
+
+function processMatch(region, summonerId, championId, gameTime, sampleSize, callbackSuccess, callbackError) {
+  var stepSize = gameTime / (sampleSize - 1);
+
+  async.waterfall(
+    [
+      function(callback) {
+        getMatchList(region, summonerId, championId, callback);
+      },
+      function(matches, callback) {
+        getMatches(region, summonerId, matches, callback);
+      }
+    ],
+    function(error, result) {
+      if (error) {
+        callbackError(error);
+        return;
+      }
+
+      var matches = fill(result.matches, result.interval, gameTime);
+
+      var samples = getSamples(matches, sampleSize, stepSize);
+      result = JSON.stringify(samples);
+
+      callbackSuccess(result);
+    }
+  );
+}
+
+function handleError(response, error) {
+  response.writeHead(error.code, host.headers);
+  response.write(error.text);
+  response.end();
+
+  if (error.code >= 500) {
+    console.error('Response: ' + error.code);
+  }
+  else {
+    console.warn('Response: ' + error.code);
+  }
+}
+
+function handleSuccess(response, cache, result) {
+  response.writeHead(200, host.headers);
+  response.write(result);
+  response.end();
+  console.log('Response: 200');
 }
 
 var server = http.createServer(function(request, response) {
@@ -221,66 +301,43 @@ var server = http.createServer(function(request, response) {
     return;
   }
 
+  var defaultSuccess = function(result) {
+    console.log(result);
+    handleSuccess(response, cache, result);
+    cache.set(request.url, result);
+  };
+  var defaultError = function(error) {
+    handleError(response, error);
+  };
+
   var requestUrl = url.parse(request.url, true);
   host.transformUrl(requestUrl);
 
   var pathname = requestUrl.pathname.split('/');
   var region = pathname[1];
-  var name = pathname[2].toLowerCase();
-  var championId = pathname[3];
-  var sampleSize = config.default.sampleSize;
-  var gameTime = config.default.gameTime;
+  var type = pathname[2];
 
-  if (!isNaN(requestUrl.query.samples)) {
-    sampleSize = requestUrl.query.samples;
+  pathname = pathname.splice(2);
+  var query = requestUrl.query;
+
+  switch (type) {
+    case 'summoner':
+      handleSummoner(region, pathname, query, defaultSuccess, defaultError);
+      break;
+    case 'summoner-match':
+      handleSummoner(region, pathname, query,
+        function(result) {
+          handleMatch(region, [result, pathname[2]], query, defaultSuccess, defaultError);
+        },
+        defaultError);
+      break;
+    case 'match':
+      handleMatch(region, pathname, query, defaultSuccess, defaultError);
+      break;
+    default:
+      handleError(response, errors.badRequest);
+      break;
   }
-  if (!isNaN(requestUrl.query.gametime)) {
-    gameTime = requestUrl.query.gametime;
-  }
-
-  var stepSize = gameTime / sampleSize;
-
-  async.waterfall(
-    [
-      function(callback) {
-        getSummonerId(region, name, callback);
-      },
-      function(summonerId, callback) {
-        getMatchList(region, championId, summonerId, callback);
-      },
-      function(summonerId, matches, callback) {
-        getMatches(region, summonerId, matches, callback);
-      }
-    ],
-    function(error, result) {
-      if (error) {
-        response.writeHead(error.code, host.headers);
-        error.text = tim(error.text, { name: name, region: region });
-        response.write(error.text);
-        response.end();
-
-        if (error.code >= 500) {
-          console.error('Response: ' + error.code);
-        }
-        else {
-          console.warn('Response: ' + error.code);
-        }
-      }
-      else {
-        var matches = fill(result.matches, result.interval, gameTime);
-
-        var samples = getSamples(matches, sampleSize, stepSize);
-        result = JSON.stringify(samples);
-        console.log(samples);
-
-        response.writeHead(200, host.headers);
-        response.write(result);
-        response.end();
-        cache.set(request.url, result);
-        console.log('Response: 200');
-      }
-    }
-  );
 })
   .listen(config.server.port, config.server.host);
 
