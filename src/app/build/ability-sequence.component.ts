@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {NgFor, NgClass} from 'angular2/common';
 
-import {tim} from 'tinytim/lib/tinytim';
+import {tim} from '../misc/tim';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 

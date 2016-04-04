@@ -1,4 +1,8 @@
 var helpers = require('./helpers');
+var settings = require('./src/server/settings').settings;
+
+var fs = require('fs');
+var version = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 
 var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
@@ -12,7 +16,6 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var settings = require('./src/server/settings').settings;
 var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 var metadata = {
@@ -36,7 +39,7 @@ module.exports = {
   },
 
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('dist/' + version),
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'
@@ -96,23 +99,13 @@ module.exports = {
       'HMR': false
     }),
     new UglifyJsPlugin({
-      // beautify: true,
-      // mangle: false,
-      // dead_code: false,
-      // unused: false,
-      // deadCode: false,
-      // compress : { screw_ie8 : true, keep_fnames: true, drop_debugger: false, dead_code: false, unused: false, },
-      // comments: true,
-
       beautify: false,
-      mangle: {
-        screw_ie8: true
-      },
+      mangle: { screw_ie8: true },
       compress: { screw_ie8: true },
       comments: false
     }),
     new CompressionPlugin({
-      algorithm: helpers.gzipMaxLevel,
+      algorithm: 'gzip',
       regExp: /\.css$|\.html$|\.js$|\.map$/,
       threshold: 2 * 1024
     })

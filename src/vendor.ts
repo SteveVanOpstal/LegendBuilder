@@ -5,8 +5,8 @@ import 'angular2/http';
 import 'angular2/router';
 
 // RxJS
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
+import 'rxjs/Rx';
+import 'rxjs/Observable';
 
 if ('production' === ENV) {
   // Production

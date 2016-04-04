@@ -1,9 +1,11 @@
 try {
-  exports.settings = require('./.settings.js').settings;
+  var settings = require('./.settings.js');
 } catch (e) {
-  exports.settings = {
+  var settings = {
     httpServer: {},
     staticServer: {},
     matchServer: {},
   }
 }
+
+module.exports.settings = settings;

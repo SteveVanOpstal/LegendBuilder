@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from 'angular2/core';
-import * as d3 from 'd3/d3';
+import * as d3 from 'd3';
 
 import {Config} from '../build/config';
 
@@ -116,19 +116,16 @@ export class GraphComponent implements OnChanges, OnInit {
       .tickSize(-this.height + this.margin.top + this.margin.bottom)
       .tickValues(this.levelXpMarks);
 
+    var values = [];
+    this.levelXpMarks.forEach(function(v, i, a) {
+      values[i] = v + (((!a[i + 1] ? lastXpMark : a[i + 1]) - v) / 2);
+    });
+
     this.xAxisLevelText = d3.svg.axis()
       .scale(this.xScaleLevel)
       .tickSize(-this.height + this.margin.top + this.margin.bottom)
-      .tickValues(() => {
-        var result = [];
-        this.levelXpMarks.forEach(function(v, i, a) {
-          result[i] = v + (((!a[i + 1] ? lastXpMark : a[i + 1]) - v) / 2);
-        });
-        return result;
-      })
-      .tickFormat(function(d, i) {
-        return i + 1;
-      });
+      .tickValues(values)
+      .tickFormat((t) => { return (values.indexOf(t) + 1).toString(); });
 
     this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine);
     this.svg.select('.x.axis.level-text').call(this.xAxisLevelText);

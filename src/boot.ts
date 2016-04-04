@@ -20,6 +20,8 @@
 
  */
 
+/// <reference path="../node_modules/angular2/typings/browser.d.ts" />
+
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_BINDINGS} from 'angular2/http';
 import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
