@@ -1,9 +1,6 @@
 var helpers = require('./helpers');
 var settings = require('./src/server/settings').settings;
 
-var fs = require('fs');
-var version = JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-
 var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
@@ -39,7 +36,7 @@ module.exports = {
   },
 
   output: {
-    path: helpers.root('dist/' + version),
+    path: helpers.root('dist'),
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'

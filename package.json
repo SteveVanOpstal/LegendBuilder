@@ -30,6 +30,7 @@
     "start": "npm run server",
     "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
+    "server:prod": "node src/server/httpServer.js",
     "webdriver:update": "webdriver-manager update",
     "webdriver:start": "webdriver-manager start",
     "static-server": "node src/server/staticServer.js",
