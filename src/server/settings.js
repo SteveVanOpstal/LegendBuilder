@@ -1,5 +1,5 @@
 try {
-  var settings = require('./.settings.js');
+  var settings = require('./.settings.json');
 } catch (e) {
   var settings = {
     httpServer: {},

@@ -1,12 +1,12 @@
-.*
-
+.vscode/
 dist/
 node_modules/
 coverage/
-src/typings/
+typings/
 __pycache__/
 
-*.d.ts
-*.bat
+*.log
 
-npm-debug.log
+.api.key
+.git.token
+.settings.json

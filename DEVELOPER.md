@@ -24,21 +24,21 @@ npm install
 ```
 
 ### 2. Configuration (optional)
-A few servers are set up for this project and the settings for them are available in the `src/server/.settings.js` file.
+A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
 It could contain the following:
 ```
-exports.settings = {
-  httpServer: {
-    host: '10.10.10.10',
-    port: '8000'
+{
+  "httpServer": {
+    "host: "10.10.10.10",
+    "port: 8000
   },
-  staticServer: {
-    host: '10.10.10.10',
-    port: '8001'
+  "staticServer": {
+    "host": "10.10.10.10",
+    "port": 8001
   },
-  matchServer : {
-    host: '10.10.10.10',
-    port: '8002'
+  "matchServer" : {
+    "host": "10.10.10.10",
+    "port": 8002
   }
 }
 ```
@@ -98,7 +98,7 @@ Every release a python script will generate a post on reddit. To improve this sc
 * [Python](https://www.python.org/downloads/), (version `>=3.5.1`). It should include [pip](https://pypi.python.org/pypi/pip) (Pip Installs Packages). 
   * [praw](https://praw.readthedocs.org) (`pip install praw`)
 
-
+`src/reddit/.settings.json`:
 ```
 {
   "SUBREDDIT": "LegendBuilder",
