@@ -304,7 +304,10 @@ shop .items {
   min-height: 1000px;
 }
 
-shop .item {
+
+/* item */
+
+item {
   -webkit-user-select: none;/* Chrome/Safari */
   -moz-user-select: none;/* Firefox */
   -ms-user-select: none;/* IE10+ */
@@ -319,47 +322,47 @@ shop .item {
   cursor: pointer;
 }
 
-shop .item > img {
+item > img {
   height: 39px;
   border-radius: 5px;
   display: inline-block;
   border: 3px solid #026561;
 }
 
-shop .item > div {
+item > div {
   margin: 4px 10px;
   display: inline-block;
   width: 100%;
 }
 
-shop .item > div > p {
+item > div > p {
   margin: 0px;
   font-size: 1em;
   display: inline;
   font-family: sans-serif;
 }
 
-shop .item .name {
+item .name {
   width: 100%;
 }
 
-shop .item .gold {
+item .gold {
   min-width: 70px;
   display: flex;
   font-size: 0.8em;
 }
 
-shop .item .gold img {
+item .gold img {
   height: 32px;
   display: inline-block;
   padding-right: 4px;
 }
 
-shop .item .gold p {
+item .gold p {
   margin: 2px -8px;
 }
 
-shop .item:hover {
+item:hover {
   background-color: #CCC;
 }
 
@@ -367,13 +370,13 @@ shop .item:hover {
 /* media */
 
 @media (max-width: 1700px) {
-  shop .item {
+  item {
     width: 32%;
   }
 }
 
 @media (max-width: 1350px) {
-  shop .item {
+  item {
     width: 48%;
   }
 }
@@ -385,10 +388,10 @@ shop .item:hover {
 }
 
 @media (max-width: 600px) {
-  shop .item {
+  item {
     width: 100%;
   }
-  shop .item .gold {
+  item .gold {
     display: inline-block;
     text-align: right;
   }

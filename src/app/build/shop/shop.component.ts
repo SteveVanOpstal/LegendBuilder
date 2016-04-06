@@ -1,5 +1,7 @@
-import {Component, Output, EventEmitter, Inject} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NgFor, NgIf, NgClass} from 'angular2/common';
+
+import {ItemComponent} from '../items/item.component.ts';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LoadingComponent} from '../../misc/loading.component';
@@ -20,12 +22,12 @@ import {LolApiService} from '../../misc/lolapi.service';
 @Component({
   selector: 'shop',
   providers: [LolApiService],
-  directives: [NgFor, NgIf, NgClass, DDragonDirective, LoadingComponent, ErrorComponent],
-  pipes: [TranslatePipe, CapitalizePipe, ToIterablePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe, NamePipe, SortPipe],
+  directives: [NgFor, NgIf, NgClass, ItemComponent, DDragonDirective, LoadingComponent, ErrorComponent],
+  pipes: [ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe, NamePipe, SortPipe],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="#category of items?.tree | toIterable">
+      <div class="category" *ngFor="#category of data?.tree | toIterable">
         <p class="noselect">{{category.header | translate | capitalize}}</p>
         <hr>
         <label *ngFor="#tag of category.tags">
@@ -46,16 +48,9 @@ import {LolApiService} from '../../misc/lolapi.service';
         </button>
       </div>
       <div class="items">
-        <div class="item" *ngFor="#item of items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort" [ngClass]="{disabled: item.disabled}" title="{{item.description}}">
-          <img [ddragon]="'item/' + item.image.full">
-          <div>
-            <p class="name">{{item.name}}</p>
-            <div class="gold">
-              <img [ddragon]="'ui/gold.png'">
-              <p>{{item.gold.total}}</p>
-            </div>
-          </div>
-        </div>
+        <template ngFor #item [ngForOf]="data?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort">
+          <item [item]="item" [name]="item.name" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="itemPicked($event)"></item>
+        </template>
         <loading [loading]="loading"></loading>
         <error [error]="error" (retry)="getData()"></error>
       </div>
@@ -63,9 +58,10 @@ import {LolApiService} from '../../misc/lolapi.service';
 })
 
 export class ShopComponent {
-  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Input() items: Object;
+  @Output() itemsChanged: EventEmitter<any> = new EventEmitter<any>();
 
-  private items: Object;
+  private data: Object;
   private loading: boolean = true;
   private error: boolean = false;
 
@@ -81,7 +77,7 @@ export class ShopComponent {
 
     this.lolApi.getItems()
       .subscribe(
-      res => { this.items = res; },
+      res => { this.data = res; },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
@@ -100,5 +96,13 @@ export class ShopComponent {
         this.tags.splice(index, 1);
       }
     }
+  }
+
+  private itemPicked(event: Event) {
+    if (!event || !event.target) {
+      return;
+    }
+    // TODO: implement
+    this.itemsChanged.next(null);
   }
 }
