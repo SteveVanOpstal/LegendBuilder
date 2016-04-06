@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from 'angular2/core';
 import * as d3 from 'd3';
 
-import {Config} from '../build/config';
+import {Config} from './config';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 
-import {AbilitySequenceComponent} from '../build/ability-sequence.component';
+import {AbilitySequenceComponent} from './ability-sequence.component';
 
 @Component({
   selector: 'graph',

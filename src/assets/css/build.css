@@ -1,15 +1,13 @@
-/* champion */
-
-champion .title {
+.title {
   display: flex;
   background-color: #DDD;
 }
 
-champion .title img {
+.title img {
   height: 90px;
 }
 
-champion .title h2 {
+.title h2 {
   font-size: 2em;
   padding-left: 30px;
 }
@@ -303,7 +301,7 @@ shop .items {
   padding: 5px 0;
   background-color: cadetblue;
   margin: 5px 5px 5px 0;
-  min-height: 660px;
+  min-height: 1000px;
 }
 
 shop .item {

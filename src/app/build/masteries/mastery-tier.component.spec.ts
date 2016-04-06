@@ -6,7 +6,7 @@ import {RootRouter} from 'angular2/src/router/router';
 import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend} from 'angular2/http/testing';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from '../../misc/lolapi.service';
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';

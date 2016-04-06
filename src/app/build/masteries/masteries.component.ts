@@ -3,10 +3,10 @@ import {NgFor} from 'angular2/common';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 
-import {LoadingComponent} from '../misc/loading.component';
-import {ErrorComponent} from '../misc/error.component';
+import {LoadingComponent} from '../../misc/loading.component';
+import {ErrorComponent} from '../../misc/error.component';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from '../../misc/lolapi.service';
 
 @Component({
   selector: 'masteries',

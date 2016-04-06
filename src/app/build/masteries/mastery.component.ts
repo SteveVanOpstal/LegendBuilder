@@ -3,7 +3,7 @@ import {NgIf, NgClass} from 'angular2/common';
 
 import {MasteryTierComponent} from './mastery-tier.component';
 
-import {DDragonDirective} from '../misc/ddragon.directive';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 
 export class Colors {
   public static blue: string = '#4C99FC';
