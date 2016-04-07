@@ -50,7 +50,7 @@ describe('ShopComponent', () => {
     expect(component.items).not.toBeDefined();
     component.getData();
     return service.getItems().toPromise().then(() => {
-      expect(component.data).toBeDefined();
+      expect(component.items).toBeDefined();
     });
   }));
 

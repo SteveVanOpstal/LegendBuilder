@@ -1,5 +1,4 @@
 import {Component, ViewEncapsulation} from 'angular2/core';
-import {NgIf} from 'angular2/common';
 import {RouteParams} from 'angular2/router';
 
 import {GraphComponent} from '../build/graph.component';
@@ -16,8 +15,8 @@ import {LolApiService} from '../misc/lolapi.service';
 import {Config} from '../build/config';
 
 @Component({
-  directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
   providers: [LolApiService],
+  directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
   styleUrls: [
     './assets/css/build.css'
   ],
@@ -32,8 +31,8 @@ import {Config} from '../build/config';
     </div>
     <graph [champion]="champion" [config]="config"></graph>
     <masteries></masteries>
-    <items [items]="items"></items>
-    <shop [(items)]= "items"></shop>
+    <items [items]="pickedItems" [config]="config"></items>
+    <shop [(pickedItems)]="pickedItems"></shop>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
 })
@@ -45,7 +44,7 @@ export class BuildRoute {
   private error: boolean = false;
 
   private config: Config = new Config();
-  private items: Object;
+  private pickedItems: Array<Object> = new Array<Object>();
 
   constructor(params: RouteParams, private lolApi: LolApiService) {
     this.championKey = params.get('champion');

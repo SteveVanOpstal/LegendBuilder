@@ -304,6 +304,24 @@ shop .items {
   min-height: 1000px;
 }
 
+/* items */
+
+items {
+  display: flex;
+  position: relative;
+  /*height: 155px;*/
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+items item {
+  position: relative;
+  width: 46px;
+}
+
+items item .gold {
+  margin: 28px -42px;
+}
 
 /* item */
 

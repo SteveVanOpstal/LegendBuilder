@@ -27,7 +27,7 @@ import {LolApiService} from '../../misc/lolapi.service';
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="#category of data?.tree | toIterable">
+      <div class="category" *ngFor="#category of items?.tree | toIterable">
         <p class="noselect">{{category.header | translate | capitalize}}</p>
         <hr>
         <label *ngFor="#tag of category.tags">
@@ -48,8 +48,8 @@ import {LolApiService} from '../../misc/lolapi.service';
         </button>
       </div>
       <div class="items">
-        <template ngFor #item [ngForOf]="data?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort">
-          <item [item]="item" [name]="item.name" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="itemPicked($event)"></item>
+        <template ngFor #item [ngForOf]="items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort">
+          <item [item]="item" [name]="item.name" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="itemPicked(item)"></item>
         </template>
         <loading [loading]="loading"></loading>
         <error [error]="error" (retry)="getData()"></error>
@@ -58,10 +58,9 @@ import {LolApiService} from '../../misc/lolapi.service';
 })
 
 export class ShopComponent {
-  @Input() items: Object;
-  @Output() itemsChanged: EventEmitter<any> = new EventEmitter<any>();
+  @Input() pickedItems: Array<Object>;
 
-  private data: Object;
+  private items: Object;
   private loading: boolean = true;
   private error: boolean = false;
 
@@ -77,7 +76,7 @@ export class ShopComponent {
 
     this.lolApi.getItems()
       .subscribe(
-      res => { this.data = res; },
+      res => { this.items = res; },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
@@ -98,11 +97,7 @@ export class ShopComponent {
     }
   }
 
-  private itemPicked(event: Event) {
-    if (!event || !event.target) {
-      return;
-    }
-    // TODO: implement
-    this.itemsChanged.next(null);
+  private itemPicked(item: Object) {
+    this.pickedItems.push(item);
   }
 }

@@ -8,13 +8,14 @@ import {DDragonDirective} from '../../misc/ddragon.directive';
   directives: [NgIf, DDragonDirective],
   template: `
     <img [ddragon]="'item/' + item.image.full">
-    <div>
-      <p *ngIf="name" class="name">{{name}}</p>
+    <div *ngIf="name">
+      <p class="name">{{name}}</p>
       <div class="gold">
         <img [ddragon]="'ui/gold.png'">
         <p>{{item.gold.total}}</p>
       </div>
-    </div>`
+    </div>
+    <p *ngIf="!name" class="gold">{{item.gold.total}}</p>`
 })
 
 export class ItemComponent {
