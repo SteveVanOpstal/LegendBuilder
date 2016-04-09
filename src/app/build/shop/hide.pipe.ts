@@ -11,7 +11,7 @@ export class HidePipe implements PipeTransform {
       return items;
     }
     return items.filter((item) => {
-      return !item.hideFromAll;
+      return !item.hideFromAll && item.inStore !== false;
     });
   }
 }

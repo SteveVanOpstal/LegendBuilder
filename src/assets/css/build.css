@@ -309,18 +309,28 @@ shop .items {
 items {
   display: flex;
   position: relative;
-  /*height: 155px;*/
+  height: 155px;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
 items item {
   position: relative;
-  width: 46px;
+  width: 45px;
+}
+
+items item > img {
+  position: absolute;
 }
 
 items item .gold {
-  margin: 28px -42px;
+  position: absolute;
+  background-color: rgba(0,0,0,0.6);
+  margin: 30px 0px 0px 0px;
+  padding: 0px 2px;
+  min-width: 0;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 /* item */
@@ -341,10 +351,9 @@ item {
 }
 
 item > img {
-  height: 39px;
+  height: 45px;
   border-radius: 5px;
   display: inline-block;
-  border: 3px solid #026561;
 }
 
 item > div {

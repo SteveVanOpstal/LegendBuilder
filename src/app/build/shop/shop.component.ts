@@ -97,7 +97,44 @@ export class ShopComponent {
     }
   }
 
-  private itemPicked(item: Object) {
-    this.pickedItems.push(item);
+  private itemPicked(pickedItem: Object) {
+    if (this.MaxOwnableExceeded(this.pickedItems, pickedItem)) {
+      // replace the first item in the pickedGroup with the new pickedItems
+      this.pickedItems.forEach((item, index) => {
+        if (item['group'] === pickedItem['group']) {
+          this.pickedItems[index] = pickedItem;
+          return;
+        }
+      });
+    } else {
+      this.pickedItems.push(pickedItem);
+    }
+  }
+
+  private MaxOwnableExceeded(pickedItems: Array<Object>, pickedItem: Object) {
+    let pickedGroup = pickedItem['group'];
+    if (!pickedGroup) {
+      return false;
+    }
+
+    let pickedGroupCount = 0;
+    this.pickedItems.forEach((item) => {
+      if (item['group'] === pickedGroup) {
+        pickedGroupCount++;
+      }
+    });
+
+    let pickedGroupMaxOwnable = 0;
+    this.items['groups'].forEach((group) => {
+      if (pickedGroup.indexOf(group['key']) !== -1) {
+        pickedGroupMaxOwnable = group['MaxGroupOwnable'];
+      }
+    });
+
+    if (pickedGroupCount >= pickedGroupMaxOwnable) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

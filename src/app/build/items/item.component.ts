@@ -12,10 +12,10 @@ import {DDragonDirective} from '../../misc/ddragon.directive';
       <p class="name">{{name}}</p>
       <div class="gold">
         <img [ddragon]="'ui/gold.png'">
-        <p>{{item.gold.total}}</p>
+        <p>{{item.gold.total ? item.gold.total : 'Free'}}</p>
       </div>
     </div>
-    <p *ngIf="!name" class="gold">{{item.gold.total}}</p>`
+    <p *ngIf="!name" class="gold">{{item.gold.total ? item.gold.total : ''}}</p>`
 })
 
 export class ItemComponent {
