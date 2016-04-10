@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http
 import {RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
+import {it, inject, injectAsync, beforeEachProviders, beforeEach} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
@@ -29,6 +29,18 @@ describe('ShopComponent', () => {
     LolApiService,
     ShopComponent
   ]);
+
+  let pickedItem1 = { id: 1, group: 'PinkWards' };
+  let pickedItem2 = { id: 2, group: 'PinkWards' };
+  let pickedItem3 = {};
+  let items = {
+    groups: [
+      {
+        MaxGroupOwnable: 2,
+        key: 'PinkWards'
+      }
+    ]
+  };
 
 
 
@@ -102,5 +114,30 @@ describe('ShopComponent', () => {
     event.target = { checked: false, value: 'HEALTH' };
     component.tagChanged(event);
     expect(component.tags).not.toContain('HEALTH');
+  }));
+
+
+  it('should add the picked item to picked items', inject([ShopComponent], (component) => {
+    component.pickedItems = [pickedItem1];
+    component.items = items;
+    component.itemPicked(pickedItem2);
+    expect(component.pickedItems.length).toBe(2);
+    expect(component.pickedItems[0]).toHaveEqualContent(pickedItem1);
+    expect(component.pickedItems[1]).toHaveEqualContent(pickedItem2);
+  }));
+
+  it('should replace the first picked item with the new picked item', inject([ShopComponent], (component) => {
+    component.pickedItems = [pickedItem1, pickedItem1];
+    component.items = items;
+    component.itemPicked(pickedItem2);
+    expect(component.pickedItems.length).toBe(2);
+    expect(component.pickedItems[0]).toHaveEqualContent(pickedItem2);
+  }));
+
+  it('should ignore picked items without a group', inject([ShopComponent], (component) => {
+    component.pickedItems = [];
+    component.items = items;
+    component.itemPicked(pickedItem3);
+    expect(component.pickedItems[0]).toHaveEqualContent(pickedItem3);
   }));
 });

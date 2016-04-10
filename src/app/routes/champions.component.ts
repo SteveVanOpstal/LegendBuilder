@@ -1,8 +1,8 @@
-import {Component, Output, EventEmitter, Inject, ViewChildren} from 'angular2/core';
+import {Component, ViewEncapsulation} from 'angular2/core';
 import {NgFor, NgIf} from 'angular2/common';
-import {Response} from 'angular2/http';
 import {Router, RouterLink, RouteParams} from 'angular2/router';
 
+import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {NamePipe} from '../choose/name.pipe';
 import {SortPipe} from '../choose/sort.pipe';
 import {TagsPipe} from '../choose/tags.pipe';
@@ -12,7 +12,6 @@ import {BarComponent} from '../misc/bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
-import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
 import {LolApiService} from '../misc/lolapi.service';
 
@@ -21,10 +20,14 @@ import {LolApiService} from '../misc/lolapi.service';
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
   directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
+  styleUrls: [
+    './assets/css/choose.css'
+  ],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="#champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
-      <a id="{{champion.id}}" [routerLink]="['../Build', {region: region, champion: champion.key}]" *ngIf="!loading">
+      <a id="{{champion.id}}" [routerLink]="['../Features', {region: region, champion: champion.key}]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>

@@ -12,14 +12,14 @@ import {RouterLink} from 'angular2/router';
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>
-    <button *ngFor="#region of regions" [routerLink]="['../Choose', {region: region.id}]">
+    <button *ngFor="#region of regions" [routerLink]="['../Champions', {region: region.id}]">
       <span>{{region.id | uppercase}}</span>
       <span>{{region.name}}</span>
     </button>
   </div>`
 })
 
-export class RegionRoute {
+export class RegionsComponent {
   private regions = [
     {
       id: 'br',

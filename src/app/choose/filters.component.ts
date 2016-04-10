@@ -17,7 +17,7 @@ import {NgModel} from 'angular2/common';
     </div>
     <div class="center align-center" (keyup)="keyup($event)">
       <div>
-        <h2>Choose your weapon</h2>
+        <h2>Pick your champion</h2>
         <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>

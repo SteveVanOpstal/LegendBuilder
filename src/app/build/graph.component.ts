@@ -69,7 +69,7 @@ export class GraphComponent implements OnChanges, OnInit {
 
   createAxes() {
     this.xScaleTime = d3.scale.linear()
-      .domain([0, 3600000])
+      .domain([0, this.config.gameTime])
       .range([0, this.graphWidth]);
 
     this.yScale = d3.scale.linear()

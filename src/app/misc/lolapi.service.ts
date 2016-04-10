@@ -46,8 +46,8 @@ export class LolApiService {
       .map(res => res.json());
   }
 
-  public getSummonerId(summonerName: string) {
-    return this.http.get(this.linkMatchData() + '/summoner/' + summonerName)
+  public getSummonerId(summonerName: string, championKey: string) {
+    return this.http.get(this.linkMatchData() + '/summoner/' + summonerName + '/' + championKey)
       .map(res => res.json());
   }
 

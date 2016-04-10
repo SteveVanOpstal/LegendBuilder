@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, DoCheck} from 'angular2/core';
 import {NgFor, NgClass} from 'angular2/common';
 import {Observable} from 'rxjs/Observable';
 
@@ -12,53 +12,80 @@ import * as d3 from 'd3'; //TODO: remove test
   directives: [NgFor, NgClass, ItemComponent],
   template: `
     <template ngFor #item [ngForOf]="items" #i="index">
-      <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" style="left: {{getXScale(item.gold.total)}}px"></item>
+      <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" style="left: {{xScaleTime(item.time)}}px"></item>
     </template>`
 })
 
-export class ItemsComponent implements OnChanges {
+export class ItemsComponent implements DoCheck {
   @Input() items: Array<Object>;
   @Input() config: Config;
+
+  // private itemWidth = 45 ~ 50;
 
   // todo: remove test
   private xScaleTime = d3.scale.linear()
     .domain([0, 3600000])
-    .range([0, 1500]);
+    .range([0, 1460]);
 
-  ngOnChanges() {
-    // TODO: implement
+  ngDoCheck() {
+    this.calculateTime();
+    this.bundle();
   }
 
-  getXScale(g: number) {
-    return this.xScaleTime(this.getTime(this.config.g, g));
+  calculateTime() {
+    let gold = 0;
+    for (let index in this.items) {
+      let item = this.items[index];
+      gold += item['gold']['total'];
+      let time = this.getTime(this.config.g, gold);
+      item['time'] = time;
+    }
+  }
+
+  bundle() {
+    if (!this.items || this.items[0]['bundle']) {
+      return;
+    }
+    this.items.forEach((item) => {
+      item['bundle'] = 1;
+    });
+
+    for (let index = 0; index < this.items.length - 1; index++) {
+      let item = this.items[index];
+      let itemNext = this.items[index + 1];
+      if (item['id'] === itemNext['id'] && item['time'] === itemNext['time']) {
+        item['bundle']++;
+        this.items.splice(index + 1, 1);
+        index--;
+      }
+    }
   }
 
   getTime(frames: Array<number>, g: number) {
-    let index = 0;
-    if (!this.getUpperIndex(frames, g, index)) {
+    let index = this.getUpperIndex(frames, g);
+    if (index <= -1) {
       return -1;
     }
 
-    let lowerFrame = frames[index - 1];
-    let upperFrame = frames[index];
+    let lowerFrame = frames[index];
+    let upperFrame = frames[index + 1];
 
     let ratio = (g - lowerFrame) / (upperFrame - lowerFrame);
 
     let sampleTime = this.config.gameTime / this.config.sampleSize;
-    let lowerTime = (index - 1) * sampleTime;
-    let upperTime = index * sampleTime;
+    let lowerTime = index * sampleTime;
+    let upperTime = (index + 1) * sampleTime;
 
-    return (upperTime - lowerTime) * ratio;
+    let time = lowerTime + ((upperTime - lowerTime) * ratio);
+    return time > 0 && isFinite(time) ? time : 0;
   }
 
-  getUpperIndex(frames: Array<number>, g: number, index: number) {
-    index = -1;
+  getUpperIndex(frames: Array<number>, g: number) {
     for (var j = 0; j < frames.length; j++) {
       if (frames[j] > g) {
-        index = j;
-        return true;
+        return j;
       }
     }
-    return false;
+    return -1;
   }
 }

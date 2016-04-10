@@ -161,7 +161,7 @@ mastery > div:before {
 }
 
 mastery > div.enabled:before {
-  border: 2px solid #356BB0;
+  border: 2px solid #4387DE;
 }
 
 mastery > div.enabled {
@@ -307,11 +307,8 @@ shop .items {
 /* items */
 
 items {
-  display: flex;
   position: relative;
   height: 155px;
-  flex-direction: column;
-  flex-wrap: wrap;
 }
 
 items item {
@@ -323,12 +320,24 @@ items item > img {
   position: absolute;
 }
 
-items item .gold {
+items item p {
   position: absolute;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.7);
+}
+
+items item .gold {
   margin: 30px 0px 0px 0px;
   padding: 0px 2px;
   min-width: 0;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+items item .bundle {
+  font-size: 0.8em;
+  color: #866B00;
+  margin: 0px 0px 0px 27px;
+  padding: 0px 2px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
 }

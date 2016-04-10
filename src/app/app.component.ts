@@ -1,9 +1,10 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {RegionRoute} from './routes/region.component';
-import {ChooseRoute} from './routes/choose.component';
-import {BuildRoute} from './routes/build.component';
+import {RegionsComponent} from './routes/region.component';
+import {ChampionsComponent} from './routes/champions.component';
+import {FeaturesComponent} from './routes/features.component';
+import {BuildComponent} from './routes/build.component';
 
 @Component({
   selector: 'app',
@@ -12,9 +13,11 @@ import {BuildRoute} from './routes/build.component';
 })
 
 @RouteConfig([
-  { path: '/', component: RegionRoute, as: 'Region' },
-  { path: '/:region', component: ChooseRoute, as: 'Choose' },
-  { path: '/:region/:champion', component: BuildRoute, as: 'Build' }
+  { path: '/', component: RegionsComponent, as: 'Regions' },
+  { path: '/:region', component: ChampionsComponent, as: 'Champions' },
+  { path: '/:region/:champion', component: FeaturesComponent, as: 'Features' },
+  { path: '/:region/:champion/build', component: BuildComponent, as: 'Build' },
+  { path: '/:region/:champion/summoner/:summoner', component: BuildComponent, as: 'BuildSummoner' }
 ])
 
 export class AppComponent { }

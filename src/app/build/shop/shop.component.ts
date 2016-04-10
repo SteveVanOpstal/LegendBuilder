@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NgFor, NgIf, NgClass} from 'angular2/common';
 
-import {ItemComponent} from '../items/item.component.ts';
+import {ItemComponent} from './item.component.ts';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LoadingComponent} from '../../misc/loading.component';
@@ -49,7 +49,7 @@ import {LolApiService} from '../../misc/lolapi.service';
       </div>
       <div class="items">
         <template ngFor #item [ngForOf]="items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort">
-          <item [item]="item" [name]="item.name" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="itemPicked(item)"></item>
+          <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="itemPicked(item)"></item>
         </template>
         <loading [loading]="loading"></loading>
         <error [error]="error" (retry)="getData()"></error>
@@ -99,7 +99,7 @@ export class ShopComponent {
 
   private itemPicked(pickedItem: Object) {
     if (this.MaxOwnableExceeded(this.pickedItems, pickedItem)) {
-      // replace the first item in the pickedGroup with the new pickedItems
+      // replace the first item in the pickedGroup with the new pickedItem
       this.pickedItems.forEach((item, index) => {
         if (item['group'] === pickedItem['group']) {
           this.pickedItems[index] = pickedItem;
