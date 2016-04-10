@@ -1,28 +1,47 @@
-import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
-import {RootRouter} from 'angular2/src/router/router';
+import {it, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
-
-import {LolApiService} from '../misc/lolapi.service';
 import {AbilitySequenceComponent} from './ability-sequence.component';
 
 describe('AbilitySequenceComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
-    BaseRequestOptions,
-    MockBackend,
-    provide(Http, {
-      useFactory: function(backend, defaultOptions) {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
-
-    LolApiService,
     AbilitySequenceComponent
   ]);
 
+  beforeEach(inject([AbilitySequenceComponent], (component) => {
+    component.champion = {
+      stats: {
+        attackrange: 175,
+        mpperlevel: 47,
+        mp: 334,
+      },
+      spells: [{
+        effect: [
+          null,
+          [50, 75, 100, 125, 150],
+          [35, 35, 35, 35, 35],
+          [0.3, 0.35, 0.4, 0.45, 0.5],
+        ],
+        vars: [
+          {
+            link: 'spelldamage',
+            coeff: [0.6],
+            key: 'a1'
+          }
+        ],
+        sanitizedTooltip: 'Test {{ e1 }} (+{{ f1 }}) (+{{ a1 }}) e3 {{ e2 } }%.'
+      }]
+    };
+  }));
+
+
+  it('should create a tooltip', inject([AbilitySequenceComponent], (component) => {
+    let extendedTooltip = component.getExtendedTooltip(0);
+    expect(extendedTooltip).toBe('Test 50 (+175) (+0.6) e3 35%.');
+  }));
+
+  it('should handle tooltip errors', inject([AbilitySequenceComponent], (component) => {
+    component.champion.spells[0].sanitizedTooltip = 'Test {{ e1 }} (+{{ f1 }}) (+{{ a1 }}) e3 {{ e2 } }%. {{f10}} {{f2}}  {{e3}}';
+    let extendedTooltip = component.getExtendedTooltip(0);
+    expect(extendedTooltip).toBe('Test 50 (+175) (+0.6) e3 35%. [[error]] 47  0.3');
+  }));
 });

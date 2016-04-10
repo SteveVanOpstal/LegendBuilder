@@ -56,11 +56,7 @@ export class AbilitySequenceComponent {
       effects[attrname] = stats[attrname];
     }
 
-    try {
-      return tim(spell.sanitizedTooltip, effects);
-    } catch (e) {
-      return 'Something went wrong..';
-    }
+    return tim(spell.sanitizedTooltip, effects);
   }
 
   getStats() {
