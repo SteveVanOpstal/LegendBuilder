@@ -77,7 +77,8 @@ export class ItemsComponent implements DoCheck {
     let upperTime = (index + 1) * sampleTime;
 
     let time = lowerTime + ((upperTime - lowerTime) * ratio);
-    return time > 0 && isFinite(time) ? time : 0;
+    time = isFinite(time) ? time : lowerTime;
+    return time > 0 ? time : 0;
   }
 
   getUpperIndex(frames: Array<number>, g: number) {

@@ -22,6 +22,10 @@ describe('ItemsComponent', () => {
       {
         'id': 2003,
         'gold': { 'total': 50 }
+      },
+      {
+        'id': 2003,
+        'gold': { 'total': 50 }
       }
     ];
   }));
@@ -31,7 +35,7 @@ describe('ItemsComponent', () => {
     spyOn(component, 'bundle');
     expect(component.calculateTime).not.toHaveBeenCalled();
     expect(component.bundle).not.toHaveBeenCalled();
-    component.ngOnChanges();
+    component.ngDoCheck();
     expect(component.calculateTime).toHaveBeenCalled();
     expect(component.bundle).toHaveBeenCalled();
   }));
@@ -39,8 +43,9 @@ describe('ItemsComponent', () => {
   it('should calculate time', inject([ItemsComponent], (component) => {
     component.calculateTime();
     expect(component.items[0].time).toBe(0);
-    expect(component.items[1].time).toBe(5);
-    expect(component.items[2].time).toBe(5);
+    expect(component.items[1].time).toBe(0);
+    expect(component.items[2].time).toBe(0);
+    expect(component.items[3].time).toBe(5);
   }));
 
   it('should not calculate time', inject([ItemsComponent], (component) => {
@@ -58,7 +63,7 @@ describe('ItemsComponent', () => {
   it('should bundle', inject([ItemsComponent], (component) => {
     component.calculateTime();
     component.bundle();
-    expect(component.items.length).toBe(2);
+    expect(component.items.length).toBe(3);
     expect(component.items[1].bundle).toBe(2);
   }));
 
