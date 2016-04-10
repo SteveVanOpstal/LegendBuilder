@@ -53,28 +53,32 @@ describe('MasteryTierComponent', () => {
 
   it('should enable', inject([MasteryTierComponent], (component) => {
     component.enable();
-    for (let mastery in component.masteries) {
+    for (let index in component.masteries) {
+      let mastery = component.masteries[index];
       expect(mastery.enabled).toBeTruthy();
     }
   }));
 
   it('should disable', inject([MasteryTierComponent], (component) => {
     component.disable();
-    for (let mastery in component.masteries) {
+    for (let index in component.masteries) {
+      let mastery = component.masteries[index];
       expect(mastery.enabled).toBeFalsy();
     }
   }));
 
   it('should lock', inject([MasteryTierComponent], (component) => {
     component.lock();
-    for (let mastery in component.masteries) {
+    for (let index in component.masteries) {
+      let mastery = component.masteries[index];
       expect(mastery.locked).toBeTruthy();
     }
   }));
 
   it('should unlock', inject([MasteryTierComponent], (component) => {
     component.unlock();
-    for (let mastery in component.masteries) {
+    for (let index in component.masteries) {
+      let mastery = component.masteries[index];
       expect(mastery.locked).toBeFalsy();
     }
   }));
