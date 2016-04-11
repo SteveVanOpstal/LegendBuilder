@@ -31,17 +31,17 @@ describe('ItemsComponent', () => {
   }));
 
   it('should update on changes', inject([ItemsComponent], (component) => {
-    spyOn(component, 'calculateTime');
-    spyOn(component, 'bundle');
-    expect(component.calculateTime).not.toHaveBeenCalled();
-    expect(component.bundle).not.toHaveBeenCalled();
+    spyOn(component, 'addTime');
+    spyOn(component, 'addBundle');
+    expect(component.addTime).not.toHaveBeenCalled();
+    expect(component.addBundle).not.toHaveBeenCalled();
     component.ngDoCheck();
-    expect(component.calculateTime).toHaveBeenCalled();
-    expect(component.bundle).toHaveBeenCalled();
+    expect(component.addTime).toHaveBeenCalled();
+    expect(component.addBundle).toHaveBeenCalled();
   }));
 
   it('should calculate time', inject([ItemsComponent], (component) => {
-    component.calculateTime();
+    component.addTime();
     expect(component.items[0].time).toBe(0);
     expect(component.items[1].time).toBe(0);
     expect(component.items[2].time).toBe(0);
@@ -55,25 +55,25 @@ describe('ItemsComponent', () => {
         'gold': { 'total': 400 }
       }
     ];
-    component.calculateTime();
-    component.bundle();
+    component.addTime();
+    component.addBundle();
     expect(component.items[0].time).toBe(-1);
   }));
 
   it('should bundle', inject([ItemsComponent], (component) => {
-    component.calculateTime();
-    component.bundle();
+    component.addTime();
+    component.addBundle();
     expect(component.items.length).toBe(3);
     expect(component.items[1].bundle).toBe(2);
   }));
 
   it('should not bundle', inject([ItemsComponent], (component) => {
-    component.items = false;
-    component.bundle();
-    expect(component.items).toBeFalsy();
+    component.items = [];
+    component.addBundle();
+    expect(component.items).toHaveEqualContent([]);
 
     component.items = [{ id: 1, bundle: 1 }, { id: 2, bundle: 1 }];
-    component.bundle();
+    component.addBundle();
     expect(component.items[0].bundle).toBe(1);
   }));
 });
