@@ -44,7 +44,7 @@ export class BuildComponent {
   private error: boolean = false;
 
   private config: Config = new Config();
-  private pickedItems: Array<Object>;
+  private pickedItems: Array<Object> = new Array<Object>();
 
   constructor(params: RouteParams, private lolApi: LolApiService) {
     this.championKey = params.get('champion');

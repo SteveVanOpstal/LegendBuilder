@@ -28,22 +28,22 @@ export class ItemsComponent implements DoCheck {
     .range([0, 1460]);
 
   ngDoCheck() {
-    this.calculateTime();
-    this.bundle();
+    this.addTime();
+    this.addBundle();
   }
 
-  calculateTime() {
+  addTime() {
     let gold = 0;
     for (let index in this.items) {
       let item = this.items[index];
       gold += item['gold']['total'];
-      let time = this.getTime(this.config.g, gold);
+      let time = this.getTime(this.config.g, gold, this.config.gameTime, this.config.sampleSize);
       item['time'] = time;
     }
   }
 
-  bundle() {
-    if (!this.items || this.items[0]['bundle']) {
+  addBundle() {
+    if (!this.items || !this.items.length || this.items[0]['bundle']) {
       return;
     }
     this.items.forEach((item) => {
@@ -61,8 +61,8 @@ export class ItemsComponent implements DoCheck {
     }
   }
 
-  getTime(frames: Array<number>, g: number) {
-    let index = this.getUpperIndex(frames, g);
+  private getTime(frames: Array<number>, gold: number, gameTime: number, sampleSize: number) {
+    let index = this.getUpperIndex(frames, gold);
     if (index <= -1) {
       return -1;
     }
@@ -70,9 +70,9 @@ export class ItemsComponent implements DoCheck {
     let lowerFrame = frames[index];
     let upperFrame = frames[index + 1];
 
-    let ratio = (g - lowerFrame) / (upperFrame - lowerFrame);
+    let ratio = (gold - lowerFrame) / (upperFrame - lowerFrame);
 
-    let sampleTime = this.config.gameTime / this.config.sampleSize;
+    let sampleTime = gameTime / sampleSize;
     let lowerTime = index * sampleTime;
     let upperTime = (index + 1) * sampleTime;
 
@@ -81,9 +81,9 @@ export class ItemsComponent implements DoCheck {
     return time > 0 ? time : 0;
   }
 
-  getUpperIndex(frames: Array<number>, g: number) {
+  private getUpperIndex(frames: Array<number>, gold: number) {
     for (var j = 0; j < frames.length; j++) {
-      if (frames[j] > g) {
+      if (frames[j] > gold) {
         return j;
       }
     }
