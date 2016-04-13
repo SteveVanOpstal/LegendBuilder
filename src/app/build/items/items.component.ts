@@ -12,7 +12,7 @@ import * as d3 from 'd3'; //TODO: remove test
   directives: [NgFor, NgClass, ItemComponent],
   template: `
     <template ngFor #item [ngForOf]="items" #i="index">
-      <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" style="left: {{xScaleTime(item.time)}}px"></item>
+      <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" style="left: {{xScaleTime(item.time)}}px" (contextmenu)="rightClicked(item)"></item>
     </template>`
 })
 
@@ -88,5 +88,10 @@ export class ItemsComponent implements DoCheck {
       }
     }
     return -1;
+  }
+
+  private rightClicked(item: Object) {
+    this.items.splice(this.items.indexOf(item), 1);
+    return false; // stop context menu from appearing
   }
 }
