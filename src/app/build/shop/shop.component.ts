@@ -131,7 +131,7 @@ export class ShopComponent {
       }
     });
 
-    if (pickedGroupCount >= pickedGroupMaxOwnable) {
+    if (pickedGroupCount >= pickedGroupMaxOwnable && pickedGroupMaxOwnable >= 0) {
       return true;
     } else {
       return false;

@@ -33,11 +33,16 @@ describe('ShopComponent', () => {
   let pickedItem1 = { id: 1, group: 'PinkWards' };
   let pickedItem2 = { id: 2, group: 'PinkWards' };
   let pickedItem3 = {};
+  let pickedItem4 = { id: 4, group: 'DoransItems' };
   let items = {
     groups: [
       {
         MaxGroupOwnable: 2,
         key: 'PinkWards'
+      },
+      {
+        MaxGroupOwnable: -1,
+        key: 'DoransItems'
       }
     ]
   };
@@ -134,10 +139,17 @@ describe('ShopComponent', () => {
     expect(component.pickedItems[0]).toHaveEqualContent(pickedItem2);
   }));
 
-  it('should ignore picked items without a group', inject([ShopComponent], (component) => {
+  it('should not mark an item as MaxOwnableExceeded when it has no group', inject([ShopComponent], (component) => {
     component.pickedItems = [];
     component.items = items;
     component.itemPicked(pickedItem3);
     expect(component.pickedItems[0]).toHaveEqualContent(pickedItem3);
+  }));
+
+  it('should not mark an item as MaxOwnableExceeded when it has a MaxGroupOwnable of -1', inject([ShopComponent], (component) => {
+    component.pickedItems = [];
+    component.items = items;
+    component.itemPicked(pickedItem4);
+    expect(component.pickedItems[0]).toHaveEqualContent(pickedItem4);
   }));
 });
