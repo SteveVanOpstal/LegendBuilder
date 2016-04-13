@@ -26,6 +26,5 @@
     "cacheDirectory": "node_modules/.awesome-typescript-loader-cache"
   },
   "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": { "rewriteTsconfig": false }
+  "buildOnSave": false
 }
