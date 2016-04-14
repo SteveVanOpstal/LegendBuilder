@@ -14,12 +14,8 @@ module.exports = {
 
   module: {
     preLoaders: [
-      {test: /\.spec.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')]},
-      {test: /\.js$/, loader: "source-map-loader", exclude: [
-        // these packages have problems with their sourcemaps
-        helpers.root('node_modules/rxjs')
-      ]}
-
+      { test: /\.spec.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
+      { test: /\.js$/, loader: "source-map-loader", exclude: [helpers.root('node_modules/rxjs')] }
     ],
 
     loaders: [
@@ -31,7 +27,7 @@ module.exports = {
             "removeComments": true
           }
         },
-        exclude: [ /\.e2e\.ts$/ ]
+        exclude: [/\.e2e\.ts$/]
       }
     ],
 
@@ -50,7 +46,7 @@ module.exports = {
   },
 
   plugins: [
-    new DefinePlugin({'ENV': JSON.stringify(ENV), 'HMR': false})
+    new DefinePlugin({ 'ENV': JSON.stringify(ENV), 'HMR': false })
   ],
 
   tslint: {

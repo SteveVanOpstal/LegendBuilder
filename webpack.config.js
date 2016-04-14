@@ -42,7 +42,7 @@ module.exports = {
   module: {
     preLoaders: [
       { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
-      { test: /\.js$/, loader: 'source-map-loader' }
+      { test: /\.js$/, loader: 'source-map-loader', exclude: [helpers.root('node_modules/rxjs')] }
     ],
     loaders: [
       { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/] },
