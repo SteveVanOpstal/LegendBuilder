@@ -54,10 +54,10 @@ describe('MasteryComponent', () => {
   }));
 
   it('should add mastery to tier', inject([MasteryComponent], (component) => {
-    spyOn(component.tier, 'addMastery');
-    expect(component.tier.addMastery).not.toHaveBeenCalled();
+    spyOn(component.tier, 'addMasteryComponent');
+    expect(component.tier.addMasteryComponent).not.toHaveBeenCalled();
     component.ngOnInit();
-    expect(component.tier.addMastery).toHaveBeenCalled();
+    expect(component.tier.addMasteryComponent).toHaveBeenCalled();
   }));
 
 

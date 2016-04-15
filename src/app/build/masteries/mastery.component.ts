@@ -50,7 +50,7 @@ export class MasteryComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.tier.addMastery(this);
+    this.tier.addMasteryComponent(this);
   }
 
   public enable() {

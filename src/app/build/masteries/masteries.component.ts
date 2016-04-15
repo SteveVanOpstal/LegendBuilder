@@ -23,26 +23,26 @@ export class MasteriesComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private categories: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
+  private categoryComponents: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
 
   constructor(private lolApi: LolApiService) {
     this.getData();
   }
 
-  public addCategory(category: MasteryCategoryComponent) {
-    this.categories.push(category);
+  public addCategoryComponent(category: MasteryCategoryComponent) {
+    this.categoryComponents.push(category);
   }
 
   public enable() {
-    this.forEachCategory((c) => c.enable());
+    this.categoryComponents.forEach((c) => c.enable());
   }
   public disable() {
-    this.forEachCategory((c) => c.disable());
+    this.categoryComponents.forEach((c) => c.disable());
   }
 
   public getRank(): number {
     var rank = 0;
-    this.forEachCategory((c) => rank += c.getRank());
+    this.categoryComponents.forEach((c) => rank += c.getRank());
     return rank;
   }
 
@@ -93,11 +93,5 @@ export class MasteriesComponent {
     }
 
     return alteredMasteries;
-  }
-
-  private forEachCategory(callback: (MasteryCategoryComponent) => void) {
-    this.categories.forEach(function(category: MasteryCategoryComponent) {
-      callback(category);
-    });
   }
 }

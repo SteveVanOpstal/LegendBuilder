@@ -36,49 +36,49 @@ describe('MasteryTierComponent', () => {
   }));
 
   it('should add tier to category', inject([MasteryTierComponent], (component) => {
-    spyOn(component.category, 'addTier');
-    expect(component.category.addTier).not.toHaveBeenCalled();
+    spyOn(component.category, 'addTierComponent');
+    expect(component.category.addTierComponent).not.toHaveBeenCalled();
     component.ngOnInit();
-    expect(component.category.addTier).toHaveBeenCalled();
+    expect(component.category.addTierComponent).toHaveBeenCalled();
   }));
 
 
   it('should add a mastery', inject([MasteryTierComponent], (component) => {
     let mastery = new MasteryComponent(component);
-    component.addMastery(mastery);
-    expect(component.masteries[0]).toBeDefined();
-    expect(component.masteries[0].enabled).toBeTruthy();
+    component.addMasteryComponent(mastery);
+    expect(component.masteryComponents[0]).toBeDefined();
+    expect(component.masteryComponents[0].enabled).toBeTruthy();
   }));
 
 
   it('should enable', inject([MasteryTierComponent], (component) => {
     component.enable();
-    for (let index in component.masteries) {
-      let mastery = component.masteries[index];
+    for (let index in component.masteryComponents) {
+      let mastery = component.masteryComponents[index];
       expect(mastery.enabled).toBeTruthy();
     }
   }));
 
   it('should disable', inject([MasteryTierComponent], (component) => {
     component.disable();
-    for (let index in component.masteries) {
-      let mastery = component.masteries[index];
+    for (let index in component.masteryComponents) {
+      let mastery = component.masteryComponents[index];
       expect(mastery.enabled).toBeFalsy();
     }
   }));
 
   it('should lock', inject([MasteryTierComponent], (component) => {
     component.lock();
-    for (let index in component.masteries) {
-      let mastery = component.masteries[index];
+    for (let index in component.masteryComponents) {
+      let mastery = component.masteryComponents[index];
       expect(mastery.locked).toBeTruthy();
     }
   }));
 
   it('should unlock', inject([MasteryTierComponent], (component) => {
     component.unlock();
-    for (let index in component.masteries) {
-      let mastery = component.masteries[index];
+    for (let index in component.masteryComponents) {
+      let mastery = component.masteryComponents[index];
       expect(mastery.locked).toBeFalsy();
     }
   }));
@@ -89,7 +89,7 @@ describe('MasteryTierComponent', () => {
     masteryComponent1.rank = 2;
     let masteryComponent2 = new MasteryComponent(component);
     masteryComponent2.rank = 1;
-    component.masteries = [masteryComponent1, masteryComponent2];
+    component.masteryComponents = [masteryComponent1, masteryComponent2];
     expect(component.getRank()).toBe(3);
   }));
 

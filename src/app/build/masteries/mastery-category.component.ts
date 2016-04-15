@@ -17,30 +17,30 @@ export class MasteryCategoryComponent implements OnInit {
   @Input() data: Object;
 
   private totalRank: number = 0;
-  private tiers: Array<MasteryTierComponent> = new Array<MasteryTierComponent>();
+  private tierComponents: Array<MasteryTierComponent> = new Array<MasteryTierComponent>();
 
   constructor( @Inject(forwardRef(() => MasteriesComponent)) private masteries: MasteriesComponent) {
   }
 
   public ngOnInit() {
-    this.masteries.addCategory(this);
+    this.masteries.addCategoryComponent(this);
   }
 
-  public addTier(tier: MasteryTierComponent) {
-    this.tiers[tier.index] = tier;
+  public addTierComponent(tier: MasteryTierComponent) {
+    this.tierComponents[tier.index] = tier;
   }
 
   public enable() {
-    this.forEachTier((t) => {
+    this.tierComponents.forEach((t) => {
       if (t.index === 0) {
         t.enable();
-      } else if (this.tiers[t.index - 1].getRank() !== 0) {
+      } else if (this.tierComponents[t.index - 1].getRank() !== 0) {
         t.enable();
       }
     });
   }
   public disable() {
-    this.forEachTier((t) => {
+    this.tierComponents.forEach((t) => {
       if (t.getRank() === 0) {
         t.disable();
       }
@@ -82,22 +82,17 @@ export class MasteryCategoryComponent implements OnInit {
     this.totalRank = this.getRank();
   }
 
-  private forTier(index: number, callback: (MasteryTierComponent) => void) {
-    if (!this.tiers[index]) {
-      return;
-    }
-    callback(this.tiers[index]);
-  }
-  private forEachTier(callback: (MasteryTierComponent) => void) {
-    this.tiers.forEach(function(tier: MasteryTierComponent) {
-      callback(tier);
-    });
+  public getRank(): number {
+    var rank = 0;
+    this.tierComponents.forEach((t) => rank += t.getRank());
+    return rank;
   }
 
-  private getRank(): number {
-    var rank = 0;
-    this.forEachTier((t) => rank += t.getRank());
-    return rank;
+  private forTier(index: number, callback: (MasteryTierComponent) => void) {
+    if (!this.tierComponents[index]) {
+      return;
+    }
+    callback(this.tierComponents[index]);
   }
 
   private getTotalRankDeviation() {

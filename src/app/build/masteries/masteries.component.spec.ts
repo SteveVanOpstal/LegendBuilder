@@ -36,7 +36,7 @@ describe('MasteryCategoryComponent', () => {
   ]);
 
   beforeEach(inject([MasteriesComponent], (component) => {
-    component.categories = [
+    component.categoryComponents = [
       new MockMasteryCategoryComponent(component),
       new MockMasteryCategoryComponent(component),
       new MockMasteryCategoryComponent(component),
@@ -49,31 +49,31 @@ describe('MasteryCategoryComponent', () => {
     expect(component.data).not.toBeDefined();
     expect(component.loading).toBeFalsy;
     expect(component.error).toBeFalsy;
-    expect(component.categories).toBeDefined();
+    expect(component.categoryComponents).toBeDefined();
   }));
 
 
   it('should enable', inject([MasteriesComponent], (component) => {
     component.enable();
-    expect(component.categories[0].enabled).toBeTruthy();
+    expect(component.categoryComponents[0].enabled).toBeTruthy();
   }));
 
   it('should disable', inject([MasteriesComponent], (component) => {
-    component.categories[3].enabled = true;
+    component.categoryComponents[3].enabled = true;
     component.disable();
-    expect(component.categories[3].enabled).toBeFalsy();
+    expect(component.categoryComponents[3].enabled).toBeFalsy();
   }));
 
   it('should get rank', inject([MasteriesComponent], (component) => {
-    component.categories[0].rank = 2;
-    component.categories[1].rank = 2;
+    component.categoryComponents[0].rank = 2;
+    component.categoryComponents[1].rank = 2;
     expect(component.getRank()).toBe(4);
   }));
 
   it('should disable when rank is higher than 30', inject([MasteriesComponent], (component) => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
-    component.categories[0].rank = 30;
+    component.categoryComponents[0].rank = 30;
     component.rankAdded();
     expect(component.disable).toHaveBeenCalled();
   }));
@@ -81,7 +81,7 @@ describe('MasteryCategoryComponent', () => {
   it('should enable when rank is 29', inject([MasteriesComponent], (component) => {
     spyOn(component, 'enable');
     expect(component.enable).not.toHaveBeenCalled();
-    component.categories[0].rank = 29;
+    component.categoryComponents[0].rank = 29;
     component.rankRemoved();
     expect(component.enable).toHaveBeenCalled();
   }));
