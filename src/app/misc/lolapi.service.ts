@@ -37,7 +37,7 @@ export class LolApiService {
   }
 
   public getItems() {
-    return this.http.get(this.linkStaticData() + '/item?itemListData=gold,groups,hideFromAll,image,inStore,maps,requiredChampion,tags,tree')
+    return this.http.get(this.linkStaticData() + '/item?itemListData=all')
       .map(res => res.json());
   }
 

@@ -31,8 +31,8 @@ import {Config} from '../build/config';
     </div>
     <graph [champion]="champion" [config]="config"></graph>
     <masteries></masteries>
-    <items [items]="pickedItems" [config]="config"></items>
-    <shop [(pickedItems)]="pickedItems"></shop>
+    <items [config]="config" #items></items>
+    <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
 })
@@ -44,7 +44,6 @@ export class BuildComponent {
   private error: boolean = false;
 
   private config: Config = new Config();
-  private pickedItems: Array<Object> = new Array<Object>();
 
   constructor(params: RouteParams, private lolApi: LolApiService) {
     this.championKey = params.get('champion');

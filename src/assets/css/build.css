@@ -259,8 +259,16 @@ shop .left label:hover {
   display: block;
 }
 
+shop .right-container {
+  display: flex;
+}
+
+shop .middle {
+  width: 70%;
+}
+
 shop .right {
-  width: 100%;
+  width: 30%;
 }
 
 
@@ -304,40 +312,32 @@ shop .items {
   min-height: 1000px;
 }
 
+shop .items item {
+  width: 32%;
+}
+
 /* items */
 
 items {
-  position: relative;
-  height: 155px;
+  display: block;
+  height: 300px;
 }
 
 items item {
+  display: inline-block;
   position: relative;
-  width: 45px;
 }
 
 items item > img {
   position: absolute;
 }
 
-items item p {
-  position: absolute;
-  background-color: rgba(0,0,0,0.7);
-}
-
-items item .gold {
-  margin: 30px 0px 0px 0px;
-  padding: 0px 2px;
-  min-width: 0;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
 items item .bundle {
+  position: absolute;
   font-size: 0.8em;
   color: #866B00;
-  margin: 0px 0px 0px 27px;
-  padding: 0px 2px;
+  margin: 0 0 0 27px;
+  padding: 0 2px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -351,9 +351,8 @@ item {
   -o-user-select: none;
   user-select: none;
   height: 45px;
-  width: 24%;
   display: flex;
-  margin: 3px;
+  margin: 2.5px;
   background-color: #EEE;
   border-radius: 5px;
   cursor: pointer;
@@ -372,7 +371,7 @@ item > div {
 }
 
 item > div > p {
-  margin: 0px;
+  margin: 0;
   font-size: 1em;
   display: inline;
   font-family: sans-serif;
@@ -402,6 +401,87 @@ item:hover {
   background-color: #CCC;
 }
 
+preview item p.gold,
+item-slot item p.gold {
+  position: absolute;
+  margin: 30px 0 0 0;
+  padding: 0 2px;
+  background-color: rgba(0,0,0,0.7);
+  min-width: 0;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+/* item-slot */
+
+item-slot {
+  display: block;
+  height: 50px;
+}
+
+/* preview */
+
+preview {
+  display: block;
+  border: 1px solid #CCC;
+  background-color: cadetblue;
+  margin: 5px 0;
+  min-height: 1100px;
+}
+
+preview h2 {
+  text-align: center;
+}
+
+preview .into {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 70px;
+  padding: 2.5px 5px 0 5px;
+}
+
+preview .tree {
+  padding: 5px;
+}
+
+preview item {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+}
+
+preview item p.gold {
+  margin: -19px 0 0 0;
+}
+
+preview .item img {
+  display: block;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+/* items-from */
+
+items-from {
+  display: flex;
+  justify-content: center;
+}
+
+items-from div {
+  padding-top: 14px;
+}
+
+items-from item {
+  display: block;
+  margin: 0 auto;
+  padding: 0 8px;
+  background-color: cadetblue;
+}
+
+items-from item:hover {
+  background-color: cadetblue;
+}
 
 /* media */
 

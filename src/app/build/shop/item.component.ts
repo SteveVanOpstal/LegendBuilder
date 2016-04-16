@@ -1,11 +1,10 @@
 import {Component, Input} from 'angular2/core';
-import {NgIf} from 'angular2/common';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
 
 @Component({
   selector: 'item',
-  directives: [NgIf, DDragonDirective],
+  directives: [DDragonDirective],
   template: `
     <img [ddragon]="'item/' + item.image.full">
     <div>

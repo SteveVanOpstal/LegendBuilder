@@ -13,5 +13,5 @@ import {DDragonDirective} from '../../misc/ddragon.directive';
 })
 
 export class ItemComponent {
-  @Input() item;
+  @Input() item: Object;
 }
