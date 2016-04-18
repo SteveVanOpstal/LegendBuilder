@@ -3,11 +3,11 @@ import {NgFor, NgIf} from 'angular2/common';
 import {Router, RouterLink, RouteParams} from 'angular2/router';
 
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
-import {NamePipe} from '../choose/name.pipe';
-import {SortPipe} from '../choose/sort.pipe';
-import {TagsPipe} from '../choose/tags.pipe';
+import {NamePipe} from '../champions/name.pipe';
+import {SortPipe} from '../champions/sort.pipe';
+import {TagsPipe} from '../champions/tags.pipe';
 
-import {FiltersComponent} from '../choose/filters.component';
+import {FiltersComponent} from '../champions/filters.component';
 import {BarComponent} from '../misc/bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
@@ -21,7 +21,7 @@ import {LolApiService} from '../misc/lolapi.service';
   providers: [LolApiService],
   directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   styleUrls: [
-    './assets/css/choose.css'
+    './assets/css/champions.css'
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
