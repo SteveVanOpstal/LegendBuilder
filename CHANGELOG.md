@@ -1,3 +1,33 @@
+<a name="1.0.0-alpha.8"></a>
+# [1.0.0-alpha.8](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.7...v1.0.0-alpha.8) (2016-04-24)
+
+
+### Bug Fixes
+
+* **build:** remove test data ([e6f460f](https://github.com/SteveVanOpstal/LegendBuilder/commit/e6f460f))
+* **css:** firefox handles round em values better ([adfc96a](https://github.com/SteveVanOpstal/LegendBuilder/commit/adfc96a))
+* **graph:** time scale displays different sample sizes differently ([b6e576e](https://github.com/SteveVanOpstal/LegendBuilder/commit/b6e576e))
+* **items:** bundle causes error ([6e68ee5](https://github.com/SteveVanOpstal/LegendBuilder/commit/6e68ee5))
+* **shop:** cannot select doran's ([cdf7461](https://github.com/SteveVanOpstal/LegendBuilder/commit/cdf7461))
+* **typings:** webpack build produces errors ([1efe7e7](https://github.com/SteveVanOpstal/LegendBuilder/commit/1efe7e7))
+
+### Features
+
+* **build:** items component initial implementation ([db70e54](https://github.com/SteveVanOpstal/LegendBuilder/commit/db70e54))
+* **graph:** add color ([366ccd4](https://github.com/SteveVanOpstal/LegendBuilder/commit/366ccd4))
+* **items:** dynamic x-scale ([3261dec](https://github.com/SteveVanOpstal/LegendBuilder/commit/3261dec))
+* **items:** pick an item ([9018b3f](https://github.com/SteveVanOpstal/LegendBuilder/commit/9018b3f))
+* **items:** right click to remove item ([faa9a26](https://github.com/SteveVanOpstal/LegendBuilder/commit/faa9a26))
+* **items/features:** further development ([73527c3](https://github.com/SteveVanOpstal/LegendBuilder/commit/73527c3))
+* **match server:** separate summoner request ([7dc1247](https://github.com/SteveVanOpstal/LegendBuilder/commit/7dc1247))
+* **node:** create production server ([abed438](https://github.com/SteveVanOpstal/LegendBuilder/commit/abed438))
+* **preview:** initial implementation ([ead2acc](https://github.com/SteveVanOpstal/LegendBuilder/commit/ead2acc))
+* **preview:** tree structure ([195eca4](https://github.com/SteveVanOpstal/LegendBuilder/commit/195eca4))
+* **servers:** make api key visible in development ([a5b5b47](https://github.com/SteveVanOpstal/LegendBuilder/commit/a5b5b47))
+* **tim:** custom tim implementation ([a3638e0](https://github.com/SteveVanOpstal/LegendBuilder/commit/a3638e0))
+
+
+
 <a name="1.0.0-alpha.7"></a>
 # [1.0.0-alpha.7](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.6...1.0.0-alpha.7) (2016-03-31)
 
