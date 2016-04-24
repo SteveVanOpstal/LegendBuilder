@@ -3,9 +3,9 @@ import {NgFor, NgIf} from 'angular2/common';
 import {Router, RouterLink, RouteParams} from 'angular2/router';
 
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
-import {NamePipe} from '../champions/name.pipe';
-import {SortPipe} from '../champions/sort.pipe';
-import {TagsPipe} from '../champions/tags.pipe';
+import {NamePipe} from '../champions/pipes/name.pipe';
+import {SortPipe} from '../champions/pipes/sort.pipe';
+import {TagsPipe} from '../champions/pipes/tags.pipe';
 
 import {FiltersComponent} from '../champions/filters.component';
 import {BarComponent} from '../misc/bar.component';

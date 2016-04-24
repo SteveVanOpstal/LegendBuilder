@@ -11,14 +11,14 @@ import {LoadingComponent} from '../../misc/loading.component';
 import {ErrorComponent} from '../../misc/error.component';
 
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
-import {TranslatePipe} from './translate.pipe';
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
-import {MapPipe} from './map.pipe';
-import {ChampionPipe} from './champion.pipe';
-import {HidePipe} from './hide.pipe';
-import {TagsPipe} from './tags.pipe';
-import {NamePipe} from './name.pipe';
-import {SortPipe} from './sort.pipe';
+import {TranslatePipe} from './pipes/translate.pipe';
+import {ChampionPipe} from './pipes/champion.pipe';
+import {HidePipe} from './pipes/hide.pipe';
+import {TagsPipe} from './pipes/tags.pipe';
+import {NamePipe} from './pipes/name.pipe';
+import {SortPipe} from './pipes/sort.pipe';
+import {MapPipe} from './pipes/map.pipe';
 
 import {LolApiService} from '../../misc/lolapi.service';
 
