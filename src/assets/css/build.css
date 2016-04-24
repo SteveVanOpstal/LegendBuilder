@@ -4,6 +4,7 @@
 }
 
 .title img {
+  width: 90px;
   height: 90px;
 }
 
@@ -180,8 +181,9 @@ mastery > div:not(.enabled) .rank {
 }
 
 mastery > div > img {
-  border: 2px solid #777;
+  width: 48px;
   height: 48px;
+  border: 2px solid #777;
 }
 
 mastery .description {
@@ -264,11 +266,11 @@ shop .right-container {
 }
 
 shop .middle {
-  width: 70%;
+  min-width: 70%;
 }
 
 shop .right {
-  width: 30%;
+  min-width: 30%;
 }
 
 
@@ -388,6 +390,7 @@ item .gold {
 }
 
 item .gold img {
+  width: 32px;
   height: 32px;
   display: inline-block;
   padding-right: 4px;
@@ -452,13 +455,39 @@ preview item {
 }
 
 preview item p.gold {
-  margin: -19px 0 0 0;
+  margin-top: -19px;
 }
 
-preview .item img {
-  display: block;
+preview .item > item,
+preview .item > item > img {
+  width: 64px;
+  height: 64px;
   border-radius: 8px;
+}
+
+preview .item > item {
   margin: 0 auto;
+  display: block;
+}
+
+preview hr {
+  border: 1px solid;
+  height: 0;
+  margin: 6px 30px -18px 30px;
+}
+
+preview hr.up {
+  border: 1px solid;
+  width: 0;
+  height: 10px;
+  margin: 2px auto 0 auto;
+}
+
+preview hr.down {
+  border: 1px solid;
+  width: 0;
+  height: 10px;
+  margin: 0 auto -18px auto;
 }
 
 /* items-from */
@@ -476,26 +505,50 @@ items-from item {
   display: block;
   margin: 0 auto;
   padding: 0 8px;
-  background-color: cadetblue;
+  background-color: transparent;
 }
 
 items-from item:hover {
-  background-color: cadetblue;
+  background-color: transparent;
+}
+
+items-from > div> item:before {
+  content: '';
+  border: 1px solid;
+  position: absolute;
+  width: 60px;
+}
+
+items-from > div:first-of-type > item:before {
+  margin: -12px 0px 6px 22px;
+}
+
+items-from > div:last-of-type > item:before {
+  margin: -12px 0px 6px -40px;
+}
+
+items-from > div:not(:first-of-type):not(:last-of-type) > item:before {
+  margin: -12px 0 0 -40px;
+  width: 120px;
+}
+
+items-from > div:first-of-type:last-of-type > item:before {
+  display: none;
 }
 
 /* media */
 
-@media (max-width: 1700px) {
-  item {
-    width: 32%;
-  }
-}
-
-@media (max-width: 1350px) {
-  item {
+@media (max-width: 1650px) {
+  shop .items item {
     width: 48%;
   }
 }
+
+/*@media (max-width: 1350px) {
+  shop .items item {
+    width: 48%;
+  }
+}*/
 
 @media (max-width: 800px) {
   shop .left {
@@ -504,10 +557,10 @@ items-from item:hover {
 }
 
 @media (max-width: 600px) {
-  item {
+  shop .items item {
     width: 100%;
   }
-  item .gold {
+  shop .items item .gold {
     display: inline-block;
     text-align: right;
   }
