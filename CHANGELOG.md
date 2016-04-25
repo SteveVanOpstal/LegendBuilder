@@ -1,5 +1,5 @@
 <a name="1.0.0-alpha.8"></a>
-# [1.0.0-alpha.8](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.7...v1.0.0-alpha.8) (2016-04-24)
+# [1.0.0-alpha.8](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.7...1.0.0-alpha.8) (2016-04-24)
 
 
 ### Bug Fixes
