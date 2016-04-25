@@ -36,7 +36,6 @@ describe('PreviewComponent', () => {
     expect(component.getItemsFrom).not.toHaveBeenCalled();
     expect(component.getItemsInto).not.toHaveBeenCalled();
     component.item = item2;
-    console.log(component.items);
     component.ngOnChanges();
     expect(component.getItemsFrom).toHaveBeenCalled();
     expect(component.getItemsInto).toHaveBeenCalled();

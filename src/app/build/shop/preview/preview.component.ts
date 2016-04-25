@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
@@ -13,18 +13,18 @@ import {ItemBundle} from './item-bundle';
   template: `
     <div class="into">
       <template ngFor #item [ngForOf]="itemsInto">
-        <item [item]="item" [attr.title]="item.name" (click)="leftClick(item)"></item>
+        <item [item]="item" [attr.title]="item.name" (click)="selectItem(item)" (contextmenu)="pickItem(item)"></item>
       </template>
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">
         <h2>{{item.name}}</h2>
-        <img [ddragon]="'item/' + item.image.full">
+        <item [item]="item" (contextmenu)="pickItem(item)"></item>
       </div>
       <div class="from">
-        <items-from [items]="itemsFrom" (itemPicked)="leftClick($event)"></items-from>
+        <hr *ngIf="itemsFrom?.length" class="down">
+        <items-from [items]="itemsFrom" (itemSelected)="selectItem($event)" (itemPicked)="itemPicked"></items-from>
       </div>
-      <p class="gold">{{item?.gold?.total ? item?.gold?.total : ''}}</p>
       <p class="description">{{item?.description}}</p>
     </div>`
 })
@@ -32,6 +32,7 @@ import {ItemBundle} from './item-bundle';
 export class PreviewComponent implements OnChanges {
   @Input() item;
   @Input() items;
+  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
   private itemsFrom: Array<ItemBundle> = new Array<ItemBundle>();
   private itemsInto: Array<Object> = new Array<Object>();
@@ -40,60 +41,44 @@ export class PreviewComponent implements OnChanges {
     if (!this.item) {
       return;
     }
-    this.itemsFrom = new Array<ItemBundle>();
-    this.itemsInto = new Array<Object>();
-    if (this.item['from']) {
-      this.getItemsFrom();
-    }
-    if (this.item['into']) {
-      this.getItemsInto();
-    }
+    this.itemsFrom = this.getItemsFrom(this.item);
+    this.itemsInto = this.getItemsInto(this.item);
   }
 
-  private getItemsFrom() {
-    this.itemsFrom = this.getChildren(this.item);
-  }
-
-  private getChildren(item: Object): Array<ItemBundle> {
-    return this.recur(this.getItems(item, (item: Object) => {
-      return item['from'];
-    }));
-  }
-
-  private recur(items: Array<Object>): Array<ItemBundle> {
-    if (!items) {
+  private getItemsFrom(item: Object): Array<ItemBundle> {
+    let items = this.getItems(item['from']);
+    if (!items || !items.length) {
       return;
     }
     let arr = Array<ItemBundle>();
     items.forEach((item: Object) => {
       arr.push({
-        item: item, children: this.getChildren(item)
+        item: item, children: this.getItemsFrom(item)
       });
     });
     return arr;
   }
 
-  private getItemsInto() {
-    this.itemsInto = this.getItems(this.item, (item: Object) => {
-      return item['into'];
-    });
+  private getItemsInto(item: Object) {
+    return this.getItems(item['into']);
   }
 
-  private getItems(item: Object, callback: (item: Object) => Array<string>): Array<Object> {
-    if (!this.items) {
-      return;
-    }
-    let ids = callback(item);
-    if (!ids || !ids.length) {
+  private getItems(itemIds: Array<Object>): Array<Object> {
+    if (!this.items || !itemIds || !itemIds.length) {
       return;
     }
     return this.items.filter((item: Object) => {
-      return ids.indexOf(item['id'].toString()) > -1;
+      return itemIds.indexOf(item['id'].toString()) > -1;
     });
   }
 
-  private leftClick(item) {
+  private selectItem(item) {
     this.item = item;
     this.ngOnChanges();
+  }
+
+  private pickItem(item: Object) {
+    this.itemPicked.emit(item);
+    return false; // stop context menu from appearing
   }
 }
