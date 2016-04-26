@@ -49,15 +49,8 @@ describe('BuildComponent', () => {
     expect(BuildComponent.prototype.getData).toHaveBeenCalled();
   }));
 
-  it('should call getSummonerMatchData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
-    spyOn(BuildComponent.prototype, 'getSummonerMatchData');
-    expect(BuildComponent.prototype.getSummonerMatchData).not.toHaveBeenCalled();
-    let component = new BuildComponent(routeParams, service);
-    expect(BuildComponent.prototype.getSummonerMatchData).toHaveBeenCalled();
-  }));
-
   it('should call getMatchData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
-    routeParams = new RouteParams({ summonerId: '1234' });
+    routeParams = new RouteParams({ summoner: 'xXxSwagLord69xXx' });
     spyOn(BuildComponent.prototype, 'getMatchData');
     expect(BuildComponent.prototype.getMatchData).not.toHaveBeenCalled();
     let component = new BuildComponent(routeParams, service);

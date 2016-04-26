@@ -1,12 +1,12 @@
-var webpack = require('webpack');
 var helpers = require('./helpers');
+var settings = require('./src/server/settings').settings;
 
+var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-var settings = require('./src/server/settings').settings;
 
 var metadata = {
   title: 'Legend Builder',
@@ -28,15 +28,15 @@ module.exports = {
     'main': './src/boot.ts'
   },
 
-  resolve: {
-    extensions: ['', '.ts', '.js']
-  },
-
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('dist/client'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
+  },
+
+  resolve: {
+    extensions: ['', '.ts', '.js']
   },
 
   module: {
@@ -55,9 +55,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({ name: ['main', 'vendor', 'polyfills'], minChunks: Infinity }),
     new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
-    new webpack.DefinePlugin({
-      'ENV': JSON.stringify(metadata.ENV)
-    })
+    new webpack.DefinePlugin({ 'ENV': JSON.stringify(metadata.ENV) })
   ],
 
   tslint: {

@@ -35,7 +35,7 @@ export class FeaturesComponent {
       .subscribe(
         res => {
           if (res) {
-            this.router.navigate(['../BuildSummoner', { region: this.region, champion: this.champion, summoner: event.value, summonerId: res }]);
+            this.router.navigate(['../BuildSummoner', { region: this.region, champion: this.champion, summoner: event.value }]);
           } else {
             this.error = true;
           }

@@ -1,7 +1,6 @@
 var helpers = require('./helpers');
 var settings = require('./src/server/settings').settings;
 
-var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
@@ -36,7 +35,7 @@ module.exports = {
   },
 
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('dist/client'),
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'
@@ -93,8 +92,7 @@ module.exports = {
     new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     new DefinePlugin({
-      'ENV': JSON.stringify(metadata.ENV),
-      'HMR': false
+      'ENV': JSON.stringify(metadata.ENV)
     }),
     new UglifyJsPlugin({
       beautify: false,

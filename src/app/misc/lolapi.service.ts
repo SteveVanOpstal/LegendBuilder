@@ -7,8 +7,8 @@ import {settings} from '../../server/settings';
 
 @Injectable()
 export class LolApiService {
-  public staticServer = settings.staticServer;
-  public matchServer = settings.matchServer;
+  public staticServer = settings.server.staticServer;
+  public matchServer = settings.server.matchServer;
 
   private realm: Observable<Response>;
   private region: string;
@@ -51,13 +51,8 @@ export class LolApiService {
       .map(res => res.json());
   }
 
-  public getSummonerMatchData(summonerName: string, championKey: string, gameTime: number, samples: number) {
-    return this.http.get(this.linkMatchData() + '/summoner-match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime + '&samples=' + samples)
-      .map(res => res.json());
-  }
-
-  public getMatchData(summonerId: number, championKey: string, gameTime: number, samples: number) {
-    return this.http.get(this.linkMatchData() + '/match/' + summonerId + '/' + championKey + '?gameTime=' + gameTime + '&samples=' + samples)
+  public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number) {
+    return this.http.get(this.linkMatchData() + '/match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime + '&samples=' + samples)
       .map(res => res.json());
   }
 

@@ -38,15 +38,14 @@ module.exports = {
         exclude: [
           /\.e2e\.ts$/,
           /\.spec\.ts$/,
-          helpers.root('node_modules'),
-          helpers.root('src/server')
+          helpers.root('node_modules')
         ]
       }
     ]
   },
 
   plugins: [
-    new DefinePlugin({ 'ENV': JSON.stringify(ENV), 'HMR': false })
+    new DefinePlugin({ 'ENV': JSON.stringify(ENV) })
   ],
 
   tslint: {

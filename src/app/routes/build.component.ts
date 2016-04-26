@@ -50,13 +50,7 @@ export class BuildComponent {
     this.getData();
 
     let summoner: string = params.get('summoner');
-    let summonerId: any = params.get('summonerId');
-
-    if (!summonerId || isNaN(summonerId)) {
-      this.getSummonerMatchData(summoner);
-    } else {
-      this.getMatchData(parseInt(summonerId));
-    }
+    this.getMatchData(summoner);
   }
 
   getData() {
@@ -71,20 +65,8 @@ export class BuildComponent {
       );
   }
 
-  getMatchData(summonerId: number) {
-    this.lolApi.getMatchData(summonerId, this.championKey, this.config.gameTime, this.config.sampleSize)
-      .subscribe(
-      res => {
-        this.config = new Config();
-        this.config.xp = res.xp;
-        this.config.g = res.g;
-      },
-      error => { this.error = true; }
-      );
-  }
-
-  getSummonerMatchData(value: string) {
-    this.lolApi.getSummonerMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
+  getMatchData(value: string) {
+    this.lolApi.getMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
       .subscribe(
         res => {
           this.config = new Config();
