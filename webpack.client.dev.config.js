@@ -67,6 +67,7 @@ module.exports = {
     port: metadata.port,
     host: metadata.host,
     historyApiFallback: true,
+    outputPath: helpers.root('dist'),
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
