@@ -55,7 +55,7 @@
     "postinstall": "npm run typings-install"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.15",
+    "angular2": "2.0.0-beta.16",
     "async": "1.5.2",
     "colors": "1.1.2",
     "core-js": "2.2.2",
@@ -67,7 +67,7 @@
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
     "tinytim": "0.1.1",
-    "zone.js": "0.6.11"
+    "zone.js": "0.6.12"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^0.17.0-rc.2",
