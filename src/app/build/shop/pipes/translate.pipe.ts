@@ -24,7 +24,7 @@ export class TranslatePipe implements PipeTransform {
     UNCATEGORIZED: 'Other'
   };
 
-  transform(value: string, args: any[]) {
+  transform(value: string) {
     if (this.translator[value]) {
       return this.translator[value];
     }

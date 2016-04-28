@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 
 export class MapPipe implements PipeTransform {
-  transform(items: Array<any>, [map]) {
+  transform(items: Array<any>, map) {
     if (!items || !map) {
       return items;
     }

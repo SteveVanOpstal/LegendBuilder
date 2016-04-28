@@ -1,9 +1,10 @@
 import {provide} from 'angular2/core';
 import {Response, ResponseOptions, BaseRequestOptions, Http} from 'angular2/http';
-import {Router, RouteRegistry, Location, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
+import {Router, RouteRegistry, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
+import {Location} from 'angular2/platform/common';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 import {SpyLocation} from 'angular2/src/mock/location_mock';
 
@@ -42,7 +43,7 @@ describe('ChampionsComponent', () => {
   }));
 
 
-  it('should get champions', injectAsync([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get champions', inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -56,7 +57,7 @@ describe('ChampionsComponent', () => {
     } );
   }));
 
-  it('should not get champions', injectAsync([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+  it('should not get champions', inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();

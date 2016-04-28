@@ -1,12 +1,16 @@
-import {ElementRef} from 'angular2/core';
+import {provide, ElementRef} from 'angular2/core';
 
-import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from 'angular2/testing';
 
 import {GraphComponent} from './graph.component';
 
+class MockElementRef implements ElementRef {
+  nativeElement = {};
+}
+
 describe('GraphComponent', () => {
   beforeEachProviders(() => [
-    ElementRef,
+    provide(ElementRef, { useValue: new MockElementRef() }),
 
     GraphComponent
   ]);

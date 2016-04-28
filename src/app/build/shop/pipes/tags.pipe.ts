@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 
 export class TagsPipe implements PipeTransform {
-  transform(items: Array<any>, [tags]) {
+  transform(items: Array<any>, tags) {
     if (!items || !tags) {
       return items;
     }

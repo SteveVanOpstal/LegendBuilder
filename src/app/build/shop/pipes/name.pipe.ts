@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 
 export class NamePipe implements PipeTransform {
-  transform(champions: Array<Object>, [name]) {
+  transform(champions: Array<Object>, name) {
     if (!champions || !name || typeof name !== 'string') {
       return champions;
     }

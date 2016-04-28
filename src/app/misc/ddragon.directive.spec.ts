@@ -1,8 +1,8 @@
 import {provide, ElementRef} from 'angular2/core';
-import {Router, RouteRegistry, Location, ROUTER_PRIMARY_COMPONENT, RouteParams} from 'angular2/router';
+import {RouteParams} from 'angular2/router';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
 
-import {it, inject, injectAsync, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
@@ -40,12 +40,12 @@ class MockSvgImageElementRef implements ElementRef {
 
 describe('DDragonDirective', () => {
   beforeEachProviders(() => [
-    ElementRef,
+    provide(ElementRef, { useValue: new MockImageElementRef() }),
     provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
-      useFactory: function(backend, defaultOptions) {
+      useFactory: (backend, defaultOptions) => {
         return new Http(backend, defaultOptions);
       },
       deps: [MockBackend, BaseRequestOptions]
@@ -77,7 +77,7 @@ describe('DDragonDirective', () => {
   });
 
 
-  it('should update on contruct', injectAsync([MockBackend, ElementRef, RouteParams, Http], (mockBackend, elementRef, routeParams, http) => {
+  it('should update on contruct', inject([MockBackend, ElementRef, RouteParams, Http], (mockBackend, elementRef, routeParams, http) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {

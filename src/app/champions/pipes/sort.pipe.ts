@@ -8,7 +8,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 export class SortPipe implements PipeTransform {
   private prevSort: string;
 
-  transform(champions: Array<Object>, [sort]) {
+  transform(champions: Array<Object>, sort) {
     if (!champions || this.prevSort === sort) {
       return champions;
     }

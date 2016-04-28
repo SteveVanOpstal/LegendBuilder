@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http
 import {RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, injectAsync, beforeEachProviders, beforeEach} from 'angular2/testing';
+import {it, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
@@ -57,7 +57,7 @@ describe('ShopComponent', () => {
   }));
 
 
-  it('should get items', injectAsync([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get items', inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -71,7 +71,7 @@ describe('ShopComponent', () => {
     });
   }));
 
-  it('should not get items', injectAsync([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+  it('should not get items', inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
@@ -125,8 +125,8 @@ describe('ShopComponent', () => {
   it('should emit pickeditem', inject([ShopComponent], (component) => {
     spyOn(component.itemPicked, 'next');
     component.items = items;
-    component.leftClick(pickedItem2);
-    expect(component.itemPicked.next).toHaveBeenCalled();
+    component.pickItem(pickedItem2);
+    expect(component.itemPicked.emit).toHaveBeenCalled();
   }));
 
   // it('should replace the first picked item with the new picked item', inject([ShopComponent], (component) => {

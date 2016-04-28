@@ -16,37 +16,37 @@ describe('NamePipe', () => {
   });
 
   it('should not filter on \'null\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, [null]);
+    champions = pipe.transform(champions, null);
     expect(champions.length).toBe(3);
   }));
 
   it('should not filter on \'true\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, [true]);
+    champions = pipe.transform(champions, true);
     expect(champions.length).toBe(3);
   }));
 
   it('should not filter on invalid champions', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(null, ['Dagger']);
+    champions = pipe.transform(null, 'Dagger');
     expect(champions).toBe(null);
   }));
 
   it('should not filter on \'\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['']);
+    champions = pipe.transform(champions, '');
     expect(champions.length).toBe(3);
   }));
 
   it('should filter out name \'e\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['e']);
+    champions = pipe.transform(champions, 'e');
     expect(champions.length).toBe(2);
   }));
 
   it('should filter out name \'dagger\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['dagger']);
+    champions = pipe.transform(champions, 'dagger');
     expect(champions.length).toBe(1);
   }));
 
   it('should filter out name \'Hydra\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, ['Hydra']);
+    champions = pipe.transform(champions, 'Hydra');
     expect(champions.length).toBe(2);
   }));
 

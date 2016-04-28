@@ -7,7 +7,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 
 export class TagsPipe implements PipeTransform {
 
-  transform(champions: Array<Object>, [tags]) {
+  transform(champions: Array<Object>, tags) {
     if (!champions || !tags) {
       return champions;
     }

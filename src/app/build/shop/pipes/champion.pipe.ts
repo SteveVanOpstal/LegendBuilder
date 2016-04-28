@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 
 export class ChampionPipe implements PipeTransform {
-  transform(items: Array<any>, [champion]) {
+  transform(items: Array<any>, champion) {
     if (!items || !champion) {
       return items;
     }

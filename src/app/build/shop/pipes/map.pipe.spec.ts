@@ -34,12 +34,12 @@ describe('Shop MapPipe', () => {
   });
 
   it('should filter', inject([MapPipe], (pipe) => {
-    expect(pipe.transform(items, [2])).toHaveEqualContent([item2]);
-    expect(pipe.transform(items, [1])).toHaveEqualContent([item1, item2]);
+    expect(pipe.transform(items, 2)).toHaveEqualContent([item2]);
+    expect(pipe.transform(items, 1)).toHaveEqualContent([item1, item2]);
   }));
 
   it('should not filter null', inject([MapPipe], (pipe) => {
-    expect(pipe.transform(null, [1])).toBe(null);
-    expect(pipe.transform(items, [null])).toBe(items);
+    expect(pipe.transform(null, 1)).toBe(null);
+    expect(pipe.transform(items, null)).toBe(items);
   }));
 });

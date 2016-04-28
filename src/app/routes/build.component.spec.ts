@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http
 import {RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, injectAsync, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
@@ -58,7 +58,7 @@ describe('BuildComponent', () => {
   }));
 
 
-  it('sshould handle a champion request', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('sshould handle a champion request', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -72,7 +72,7 @@ describe('BuildComponent', () => {
     });
   }));
 
-  it('should handle a champion error', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a champion error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -88,35 +88,7 @@ describe('BuildComponent', () => {
   }));
 
 
-  it('should handle a summoner request', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockRespond(mockResponse);
-      });
-
-    expect(component.config).toBeDefined();
-    component.getSummonerMatchData('');
-    return service.getSummonerMatchData('', '', 0, 0).toPromise().then(() => {
-      expect(component.config).toHaveEqualContent(config);
-    });
-  }));
-
-  it('should handle a summoner error', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockError();
-      });
-
-    expect(component.config).toBeDefined();
-    component.getSummonerMatchData('');
-    return service.getSummonerMatchData('', '', 0, 0).toPromise().catch(() => {
-      expect(component.config).not.toHaveEqualContent(config);
-      expect(component.error).toBeTruthy();
-    });
-  }));
-
-
-  it('should handle a match request', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a match request', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
@@ -129,7 +101,7 @@ describe('BuildComponent', () => {
     });
   }));
 
-  it('should handle a match error', injectAsync([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a match error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();

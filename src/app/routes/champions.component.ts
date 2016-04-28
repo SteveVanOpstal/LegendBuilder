@@ -81,11 +81,11 @@ export class ChampionsComponent {
     let toIterablePipe = new ToIterablePipe();
     let filteredChampions = toIterablePipe.transform(champions['data']);
     let namePipe = new NamePipe();
-    filteredChampions = namePipe.transform(filteredChampions, [name]);
+    filteredChampions = namePipe.transform(filteredChampions, name);
     let sortPipe = new SortPipe();
-    filteredChampions = sortPipe.transform(filteredChampions, [sort]);
+    filteredChampions = sortPipe.transform(filteredChampions, sort);
     let tagsPipe = new TagsPipe();
-    filteredChampions = tagsPipe.transform(filteredChampions, [tags]);
+    filteredChampions = tagsPipe.transform(filteredChampions, tags);
 
     return filteredChampions;
   }

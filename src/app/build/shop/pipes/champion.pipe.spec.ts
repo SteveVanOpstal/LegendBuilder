@@ -29,11 +29,11 @@ describe('Shop ChampionPipe', () => {
   });
 
   it('should filter', inject([ChampionPipe], (pipe) => {
-    expect(pipe.transform(items, [3])).toHaveEqualContent([item2, item3]);
+    expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]);
   }));
 
   it('should not filter null', inject([ChampionPipe], (pipe) => {
-    expect(pipe.transform(null, [3])).toBe(null);
-    expect(pipe.transform(items, [null])).toBe(items);
+    expect(pipe.transform(null, 3)).toBe(null);
+    expect(pipe.transform(items, null)).toBe(items);
   }));
 });

@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http
 import {RouteParams} from 'angular2/router';
 import {RootRouter} from 'angular2/src/router/router';
 
-import {it, inject, injectAsync, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
@@ -18,7 +18,7 @@ class MockMasteryCategoryComponent extends MasteryCategoryComponent {
   disable() { this.enabled = false; }
 }
 
-describe('MasteryCategoryComponent', () => {
+describe('MasteriesComponent', () => {
   beforeEachProviders(() => [
     provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
     BaseRequestOptions,
@@ -87,7 +87,7 @@ describe('MasteryCategoryComponent', () => {
   }));
 
 
-  it('should get masteries', injectAsync([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
     spyOn(component, 'alterData');
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
@@ -102,7 +102,7 @@ describe('MasteryCategoryComponent', () => {
     });
   }));
 
-  it('should not get masteries', injectAsync([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+  it('should not get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
     spyOn(component, 'alterData');
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
