@@ -26,7 +26,7 @@ describe('MasteryComponent', () => {
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
-      useFactory: function(backend, defaultOptions) {
+      useFactory: (backend, defaultOptions) => {
         return new Http(backend, defaultOptions);
       },
       deps: [MockBackend, BaseRequestOptions]
@@ -36,7 +36,7 @@ describe('MasteryComponent', () => {
     MasteriesComponent,
     MasteryCategoryComponent,
     provide(MasteryTierComponent, {
-      useFactory: function(category) {
+      useFactory: (category) => {
         return new MockMasteryTierComponent(category);
       },
       deps: [MasteryCategoryComponent]

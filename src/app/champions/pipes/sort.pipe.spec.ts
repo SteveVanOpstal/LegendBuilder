@@ -45,7 +45,9 @@ describe('SortPipe', () => {
 
   it('should order by \'magic\'', inject([SortPipe], (pipe) => {
     let result = pipe.transform(champions, 'magic');
-    expect(result[0]).toBe(champion3); // 'magic' order (magic of id:1 and id:2 are equal, therefore the order is unknown)
+    expect(result).toContain(champion1); // 'magic' order (magic of id:1 and id:2 are equal, therefore the order is unknown)
+    expect(result).toContain(champion2);
+    expect(result[0]).toBe(champion3);
   }));
 
   it('should order by \'defense\'', inject([SortPipe], (pipe) => {

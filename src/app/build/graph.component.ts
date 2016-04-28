@@ -80,7 +80,7 @@ export class GraphComponent implements OnChanges, OnInit {
       .scale(this.xScaleTime)
       .tickSize(this.graphHeight)
       .tickValues(this.timeMarks)
-      .tickFormat(function(d) {
+      .tickFormat((d) => {
         return d === 0 ? '' : Math.floor(d / 3600000) + ':' + ('00' + Math.floor((d % 3600000) / 60000)).slice(-2);
       })
       .orient('top');
@@ -117,7 +117,7 @@ export class GraphComponent implements OnChanges, OnInit {
       .tickValues(this.levelXpMarks);
 
     var values = [];
-    this.levelXpMarks.forEach(function(v, i, a) {
+    this.levelXpMarks.forEach((v, i, a) => {
       values[i] = v + (((!a[i + 1] ? lastXpMark : a[i + 1]) - v) / 2);
     });
 

@@ -36,7 +36,7 @@ export class AbilitySequenceComponent {
     var effects = new Object();
 
     if (spell.effect) {
-      spell.effect.forEach(function(value, i) {
+      spell.effect.forEach((value, i) => {
         if (value) {
           effects['e' + i] = value[0];
         }
@@ -44,7 +44,7 @@ export class AbilitySequenceComponent {
     }
 
     if (spell.vars) {
-      spell.vars.forEach(function(value, i) {
+      spell.vars.forEach((value, i) => {
         if (value.key && value.coeff) {
           effects[value.key] = value.coeff[0];
         }

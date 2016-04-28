@@ -4,7 +4,7 @@ export function tim(template, data) {
   let pattern = new RegExp('{ ?{\\s*([a-z0-9_][\\.a-z0-9_]*)\\s*} ?}', 'gi');
 
   // Merge data into the template string
-  return template.replace(pattern, function(tag, token) {
+  return template.replace(pattern, (tag, token) => {
     let path = token.split('.');
     let len = path.length;
 

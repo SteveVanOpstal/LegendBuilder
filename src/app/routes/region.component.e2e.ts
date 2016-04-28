@@ -20,7 +20,7 @@ describe('RegionsComponent', () => {
   it('should select EUW', () => {
     element(by.css('region button[href="/euw"]')).click();
 
-    browser.driver.getCurrentUrl().then(function(url) {
+    browser.driver.getCurrentUrl().then((url) => {
       expect(/\.*\/euw/.test(url)).toBeTruthy();
     });
   });
