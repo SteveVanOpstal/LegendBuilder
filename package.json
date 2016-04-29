@@ -43,7 +43,7 @@
     "webdriver:start": "./node_modules/.bin/webdriver-manager start",
     "static-server": "npm run build:server:dev && node dist/server/static-server.js",
     "match-server": "npm run build:server:dev && node dist/server/match-server.js",
-    "lint": "./node_modules/.bin/tslint src/**/*.ts -e src/typings/** -e src/server/**",
+    "lint": "npm run lint:client",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts",
     "pree2e": "npm run lint && npm run webdriver:update -- --standalone",
     "e2e": "protractor",
