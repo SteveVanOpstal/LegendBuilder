@@ -44,6 +44,7 @@
     "static-server": "npm run build:server:dev && node dist/server/static-server.js",
     "match-server": "npm run build:server:dev && node dist/server/match-server.js",
     "lint": "npm run lint:client",
+    "lint:client": "./node_modules/.bin/tslint src/**/*.ts -e src/server/**",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts",
     "pree2e": "npm run lint && npm run webdriver:update -- --standalone",
     "e2e": "protractor",
