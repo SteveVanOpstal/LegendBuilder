@@ -1,4 +1,5 @@
 {
+  "allowJs": true,
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -10,7 +11,10 @@
     "noImplicitAny": false
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "typings/main",
+    "typings/main.d.ts"
   ],
   "filesGlob": [
     "./src/**/*.ts",
