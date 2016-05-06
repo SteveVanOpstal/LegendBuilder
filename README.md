@@ -2,7 +2,7 @@
   <a href="http://gulpjs.com">
     <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg">
   </a>
-  <p align="center">Legend Builder</p>
+  <h3 align="center">Legend Builder</h3>
   <p align="center">An advanced <a href="http://www.leagueoflegends.com/">League of Legends</a> champion builder</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
@@ -17,7 +17,7 @@
 
 Legend Builder is currently in **Alpha**.
 
-## Contributing
+#### Contributing
 
 Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages.
 In case of a Pull request, follow the [angular format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
