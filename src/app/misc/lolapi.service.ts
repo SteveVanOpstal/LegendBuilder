@@ -13,17 +13,23 @@ export class LolApiService {
   private realm: Observable<Response>;
   private region: string;
 
-  constructor(params: RouteParams, private http: Http) {
-    this.region = params.get('region').toLowerCase();
-
-    this.realm = this.http.get(this.linkStaticData() + '/realm')
-      .map(res => res.json())
-      .cache();
-  }
+  constructor(private params: RouteParams, private http: Http) { }
 
 
   public getRealm(): Observable<Response> {
+    this.region = this.params.get('region').toLowerCase();
+
+    if (!this.realm) {
+      this.realm = this.http.get(this.linkStaticData() + '/realm')
+        .map(res => res.json())
+        .cache();
+    }
     return this.realm;
+  }
+
+  public getRegions() {
+    return this.http.get('http://status.leagueoflegends.com/shards')
+      .map(res => res.json());
   }
 
   public getChampions() {

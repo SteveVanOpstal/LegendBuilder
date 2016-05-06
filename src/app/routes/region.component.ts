@@ -2,9 +2,14 @@ import {Component, ViewEncapsulation} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
 
+import {LolApiService} from '../misc/lolapi.service';
+import {ToIterablePipe} from '../misc/to-iterable.pipe';
+
 @Component({
   selector: 'region',
+  providers: [LolApiService],
   directives: [NgFor, RouterLink],
+  pipes: [ToIterablePipe],
   styleUrls: [
     './assets/css/region.css'
   ],
@@ -12,57 +17,35 @@ import {RouterLink} from 'angular2/router';
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>
-    <button *ngFor="#region of regions" [routerLink]="['../Champions', {region: region.id}]">
-      <span>{{region.id | uppercase}}</span>
+    <button *ngFor="#region of regions | toIterable" [routerLink]="['../Champions', {region: region.id}]">
+      <span>{{region.slug | uppercase}}</span>
       <span>{{region.name}}</span>
     </button>
   </div>`
 })
 
 export class RegionsComponent {
-  private regions = [
-    {
-      id: 'br',
-      name: 'Brazil'
-    },
-    {
-      id: 'eune',
-      name: 'EU Nordic & East'
-    },
-    {
-      id: 'euw',
-      name: 'EU West'
-    },
-    {
-      id: 'kr',
-      name: 'Korea'
-    },
-    {
-      id: 'lan',
-      name: 'Latin America North'
-    },
-    {
-      id: 'las',
-      name: 'Latin America South'
-    },
-    {
-      id: 'na',
-      name: 'North America'
-    },
-    {
-      id: 'oce',
-      name: 'Oceania'
-    },
-    // {
-    //   id: 'pbe',
-    //   name: 'Public Beta Environment'
-    // },
-    {
-      id: 'ru',
-      name: 'Russia'
-    },
-    {
-      id: 'tr',
-      name: 'Turkey'
-    }];
+  private regions: Array<Object> = [];
+
+  private loading: boolean = true;
+  private error: boolean = false;
+
+  constructor(public lolApi: LolApiService) {
+    this.getData();
+  }
+
+  private getData() {
+    this.loading = true;
+    this.error = false;
+
+    this.lolApi.getRegions()
+      .subscribe(
+      res => {
+        this.regions = res;
+        this.regions.push({ name: 'Public Beta Environment', slug: 'pbe' });
+      },
+      error => { this.error = true; this.loading = false; },
+      () => this.loading = false
+      );
+  }
 }
