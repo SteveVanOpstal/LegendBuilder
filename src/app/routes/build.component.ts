@@ -1,5 +1,5 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {RouteSegment} from '@angular/router';
 
 import {GraphComponent} from '../build/graph.component';
 import {ItemsComponent} from '../build/items/items.component';
@@ -26,9 +26,6 @@ import {Config} from '../build/config';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <div>
-      <p>Summoner:<input type="text" name="name" #name><button (click)="getSummonerMatchData(name.value)">Get</button></p>
-    </div>
     <graph [champion]="champion" [config]="config"></graph>
     <masteries></masteries>
     <items [config]="config" #items></items>
@@ -44,12 +41,13 @@ export class BuildComponent {
   private error: boolean = false;
 
   private config: Config = new Config();
+  private pickedItems: Array<Object>;
 
-  constructor(params: RouteParams, private lolApi: LolApiService) {
-    this.championKey = params.get('champion');
+  constructor(current: RouteSegment, private lolApi: LolApiService) {
+    this.championKey = current.getParam('champion');
     this.getData();
 
-    let summoner: string = params.get('summoner');
+    let summoner: string = current.getParam('summoner');
     this.getMatchData(summoner);
   }
 

@@ -1,4 +1,4 @@
-import {Directive, Input, ElementRef, OnChanges} from 'angular2/core';
+import {Directive, Input, ElementRef, OnChanges} from '@angular/core';
 
 import {LolApiService} from './lolapi.service';
 

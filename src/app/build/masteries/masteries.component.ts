@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {Component} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 
@@ -13,7 +13,7 @@ import {LolApiService} from '../../misc/lolapi.service';
   providers: [LolApiService],
   directives: [NgFor, MasteryCategoryComponent, LoadingComponent, ErrorComponent],
   template: `
-    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="#category of data"></mastery-category>
+    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="let category of data"></mastery-category>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
 })

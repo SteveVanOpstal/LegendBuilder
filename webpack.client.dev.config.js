@@ -1,5 +1,5 @@
 var helpers = require('./helpers');
-var settings = require('./src/server/settings').settings;
+var settings = require('./settings').settings;
 
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -11,7 +11,7 @@ var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 var metadata = {
   title: 'Legend Builder',
   baseUrl: '/',
-  host: settings.httpServer.host || "localhost",
+  host: settings.httpServer.host || 'localhost',
   port: settings.httpServer.port || 8080,
   ENV: ENV
 };
@@ -25,7 +25,7 @@ module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
-    'main': './src/boot.ts'
+    'app': './src/app/app.component.ts'
   },
 
   output: {
@@ -52,7 +52,7 @@ module.exports = {
   plugins: [
     new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.CommonsChunkPlugin({ name: ['main', 'vendor', 'polyfills'], minChunks: Infinity }),
+    new webpack.optimize.CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity }),
     new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     new webpack.DefinePlugin({ 'ENV': JSON.stringify(metadata.ENV) })

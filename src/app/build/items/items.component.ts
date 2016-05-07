@@ -1,5 +1,4 @@
-import {Component, Input} from 'angular2/core';
-import {NgFor, NgClass} from 'angular2/common';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ItemSlotComponent} from './item-slot.component';
@@ -7,7 +6,7 @@ import {Config} from '../config';
 
 @Component({
   selector: 'items',
-  directives: [NgFor, NgClass, ItemSlotComponent],
+  directives: [ItemSlotComponent],
   template: `
     <item-slot [id]="0" [config]="config"></item-slot>
     <item-slot [id]="1" [config]="config"></item-slot>

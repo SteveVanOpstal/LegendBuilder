@@ -1,5 +1,5 @@
-import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 import {MasteryComponent} from './mastery.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -8,7 +8,7 @@ import {MasteryCategoryComponent} from './mastery-category.component';
   selector: 'mastery-tier',
   directives: [NgFor, MasteryComponent],
   template: `
-    <mastery [data]="mastery" *ngFor="#mastery of data"></mastery>`
+    <mastery [data]="mastery" *ngFor="let mastery of data"></mastery>`
 })
 
 export class MasteryTierComponent implements OnInit {

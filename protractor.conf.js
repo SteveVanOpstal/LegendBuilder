@@ -1,8 +1,8 @@
-var settings = require('./src/server/settings').settings;
+var settings = require('./settings').settings;
 var helpers = require('./helpers');
 
 var configuration = {
-  baseUrl: 'http://' + (settings.httpServer.host || 'localhost') + ':' + (settings.httpServer.port || 8080),
+  baseUrl: 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
 
   specs: [
     helpers.root('src/**/*.e2e.ts')
@@ -37,7 +37,7 @@ var BROWSER_CAPS = {
     chromeOptions: {
       args: ['show-fps-counter=true', '--js-flags=--expose-gc'],
       perfLoggingPrefs: {
-        'traceCategories': 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
+        traceCategories: 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
       }
     },
     loggingPrefs: {
@@ -50,7 +50,7 @@ var BROWSER_CAPS = {
     chromeOptions: {
       args: ['show-fps-counter=true', '--no-sandbox', '--js-flags=--expose-gc'],
       perfLoggingPrefs: {
-        'traceCategories': 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
+        traceCategories: 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
       }
     },
     loggingPrefs: {

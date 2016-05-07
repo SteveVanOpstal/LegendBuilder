@@ -161,8 +161,19 @@ button {
   fill: #666;
 }
 
+button > a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+}
+
 button:hover:not(:disabled) {
   background-color: cadetblue;
+  color: #FFF;
+  fill: #FFF;
+}
+
+button:hover:not(:disabled) > a {
   color: #FFF;
   fill: #FFF;
 }

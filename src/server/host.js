@@ -23,10 +23,10 @@ var options = {
   }
 };
 
-var settings = require('./settings.js').settings;
+var settings = require('../../settings.js').settings;
 
 exports.headers = {
-  'Access-Control-Allow-Origin': 'http://' + (settings.httpServer.host || "localhost") + ':' + (settings.httpServer.port || 8080),
+  'Access-Control-Allow-Origin': 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
   'content-type': 'application/json'
 };
 

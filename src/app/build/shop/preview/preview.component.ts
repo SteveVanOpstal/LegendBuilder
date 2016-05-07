@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
-import {NgIf} from 'angular2/common';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {NgIf} from '@angular/common';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
 

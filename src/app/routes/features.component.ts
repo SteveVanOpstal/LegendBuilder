@@ -1,10 +1,10 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
-import {Router, RouterLink, RouteParams} from 'angular2/router';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {Router, RouteSegment} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
-  directives: [RouterLink],
+  directives: [],
   providers: [LolApiService],
   styleUrls: [
     './assets/css/summoner.css'
@@ -17,6 +17,12 @@ import {LolApiService} from '../misc/lolapi.service';
         <input type="text" name="name" #summoner>
         <button (click)="getSummonerId(summoner)">Go</button>
       </p>
+      <p>
+        Universal build
+        <button>
+          <a [routerLink]="['/Build', region.id, champion]"></a>
+        </button>
+      </p>
     </div>`
 })
 
@@ -25,17 +31,17 @@ export class FeaturesComponent {
   private champion: string;
   private error: boolean = false;
 
-  constructor(params: RouteParams, private router: Router, private lolApi: LolApiService) {
-    this.region = params.get('region');
-    this.champion = params.get('champion');
+  constructor(current: RouteSegment, private router: Router, private lolApi: LolApiService) {
+    this.region = current.getParam('region');
+    this.champion = current.getParam('champion');
   }
 
   getSummonerId(event: HTMLInputElement) {
     this.lolApi.getSummonerId(event.value, this.champion)
       .subscribe(
         res => {
-          if (res) {
-            this.router.navigate(['../BuildSummoner', { region: this.region, champion: this.champion, summoner: event.value }]);
+          if (!isNaN(res)) {
+            this.router.navigate([this.region, this.champion, 'summoner', event.value ]);
           } else {
             this.error = true;
           }

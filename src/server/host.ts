@@ -7,7 +7,7 @@ let Lru = require('lru-cache');
 import * as fs from 'fs';
 
 import {ColorConsole} from './console';
-import {settings} from './settings';
+import {settings} from '../../settings';
 import {tim} from '../app/misc/tim';
 
 export module Host {

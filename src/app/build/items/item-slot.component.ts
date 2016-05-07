@@ -1,5 +1,5 @@
-import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {NgClass} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 
 import {ItemsComponent} from './items.component';
@@ -12,7 +12,7 @@ import * as d3 from 'd3'; //TODO: remove test
   selector: 'item-slot',
   directives: [NgClass, ItemComponent],
   template: `
-    <template ngFor #item [ngForOf]="items">
+    <template ngFor let-item [ngForOf]="items">
       <item [item]="item" [ngClass]="{disabled: item.disabled}" style="left: {{xScaleTime(item.time)}}px" (contextmenu)="rightClicked(item)"></item>
     </template>`
 })

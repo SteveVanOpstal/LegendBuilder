@@ -1,5 +1,5 @@
 var helpers = require('./helpers');
-var settings = require('./src/server/settings').settings;
+var settings = require('./settings').settings;
 
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
@@ -17,7 +17,7 @@ var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 var metadata = {
   title: 'Legend Builder',
   baseUrl: '/',
-  host: settings.httpServer.host || "localhost",
+  host: settings.httpServer.host || 'localhost',
   port: settings.httpServer.port || 8080,
   ENV: ENV
 };

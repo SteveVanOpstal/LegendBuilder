@@ -1,9 +1,9 @@
-import {Injectable, bind} from 'angular2/core';
-import {Http, Headers, Response, BaseResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
+import {Injectable, bind} from '@angular/core';
+import {Http, Headers, Response, BaseResponseOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
-import {settings} from '../../server/settings';
+import {settings} from '../../../settings';
 
 @Injectable()
 export class LolApiService {
@@ -13,12 +13,10 @@ export class LolApiService {
   private realm: Observable<Response>;
   private region: string;
 
-  constructor(private params: RouteParams, private http: Http) { }
+  constructor(private current: RouteSegment, private http: Http) { }
 
 
   public getRealm(): Observable<Response> {
-    this.region = this.params.get('region').toLowerCase();
-
     if (!this.realm) {
       this.realm = this.http.get(this.linkStaticData() + '/realm')
         .map(res => res.json())
@@ -64,18 +62,25 @@ export class LolApiService {
 
 
   private linkStaticData() {
-    return this.linkStaticServer() + '/static-data/' + this.region + '/v1.2';
+    return this.linkStaticServer() + '/static-data/' + this.getCurrentRegion() + '/v1.2';
   }
 
   private linkMatchData() {
-    return this.linkMatchServer() + '/' + this.region;
+    return this.linkMatchServer() + '/' + this.getCurrentRegion();
   }
 
   private linkStaticServer() {
-    return 'http://' + (this.staticServer.host || 'localhost') + ':' + (this.staticServer.port || 8081);
+    return 'http://' + this.staticServer.host + ':' + this.staticServer.port;
   }
 
   private linkMatchServer() {
-    return 'http://' + (this.matchServer.host || 'localhost') + ':' + (this.matchServer.port || 8082);
+    return 'http://' + this.matchServer.host + ':' + this.matchServer.port;
+  }
+
+  private getCurrentRegion() {
+    if (!this.region) {
+      this.region = this.current.getParam('region').toLowerCase();
+    }
+    return this.region;
   }
 }

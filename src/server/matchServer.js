@@ -14,7 +14,7 @@ var cache = Lru({
 
 
 var config = {
-  server: require('./settings.js').settings.matchServer,
+  server: require('../../settings.js').settings.matchServer,
   games: {
     min: 2,
     max: 5
@@ -27,9 +27,6 @@ var config = {
     sampleTime: 10 * 60 * 1000
   }
 }
-
-config.server.host = config.server.host || "localhost";
-config.server.port = config.server.port || 8082;
 
 var errors = {
   badRequest: {

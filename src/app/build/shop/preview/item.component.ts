@@ -1,4 +1,4 @@
-import {Component, Input, Inject, forwardRef} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
 

@@ -1,6 +1,5 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
-import {NgFor} from 'angular2/common';
-import {RouterLink} from 'angular2/router';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
@@ -8,7 +7,7 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
 @Component({
   selector: 'region',
   providers: [LolApiService],
-  directives: [NgFor, RouterLink],
+  directives: [NgFor],
   pipes: [ToIterablePipe],
   styleUrls: [
     './assets/css/region.css'
@@ -17,9 +16,11 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>
-    <button *ngFor="#region of regions | toIterable" [routerLink]="['../Champions', {region: region.id}]">
-      <span>{{region.slug | uppercase}}</span>
-      <span>{{region.name}}</span>
+    <button *ngFor="let region of regions | toIterable">
+      <a [routerLink]="[region.slug]">
+        <span>{{region.slug | uppercase}}</span>
+        <span>{{region.name}}</span>
+      </a>
     </button>
   </div>`
 })

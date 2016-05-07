@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {NgFor, NgIf, NgClass} from 'angular2/common';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChange} from '@angular/core';
+import {NgFor, NgIf, NgClass} from '@angular/common';
 
 import {PreviewComponent} from './preview/preview.component';
 
@@ -30,10 +30,10 @@ import {LolApiService} from '../../misc/lolapi.service';
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="#category of items?.tree | toIterable">
+      <div class="category" *ngFor="let category of data?.tree | toIterable">
         <p class="noselect">{{category.header | translate | capitalize}}</p>
         <hr>
-        <label *ngFor="#tag of category.tags">
+        <label *ngFor="let tag of category.tags">
           <input *ngIf="tag != '_SORTINDEX'" type="checkbox" value="{{tag}}" (change)="tagChanged($event)">
           <span *ngIf="tag != '_SORTINDEX'">{{tag | translate | capitalize}}</span>
         </label>
@@ -52,7 +52,7 @@ import {LolApiService} from '../../misc/lolapi.service';
           </button>
         </div>
         <div class="items">
-          <template ngFor #item [ngForOf]="items?.data | toIterable | map:11 | champion:123 | hide | tags:tags | name:name | sort">
+          <template ngFor let-item [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
             <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="leftClick(item)"></item>
           </template>
           <loading [loading]="loading"></loading>
@@ -106,46 +106,12 @@ export class ShopComponent {
     }
   }
 
-  private leftClick(pickedItem: Object) {
+  private selectItem(pickedItem: Object) {
     this.pickedItem = pickedItem;
-    this.itemPicked.next(pickedItem);
-    // if (this.MaxOwnableExceeded(this.pickedItems, pickedItem)) {
-    //   // replace the first item in the pickedGroup with the new pickedItem
-    //   this.pickedItems.forEach((item, index) => {
-    //     if (item['group'] === pickedItem['group']) {
-    //       this.pickedItems[index] = pickedItem;
-    //       return;
-    //     }
-    //   });
-    // } else {
-    //   this.pickedItems.push(pickedItem);
-    // }
   }
 
-  // private MaxOwnableExceeded(pickedItems: Array<Object>, pickedItem: Object) {
-  //   let pickedGroup = pickedItem['group'];
-  //   if (!pickedGroup) {
-  //     return false;
-  //   }
-
-  //   let pickedGroupCount = 0;
-  //   this.pickedItems.forEach((item) => {
-  //     if (item['group'] === pickedGroup) {
-  //       pickedGroupCount++;
-  //     }
-  //   });
-
-  //   let pickedGroupMaxOwnable = 0;
-  //   this.items['groups'].forEach((group) => {
-  //     if (pickedGroup.indexOf(group['key']) !== -1) {
-  //       pickedGroupMaxOwnable = group['MaxGroupOwnable'];
-  //     }
-  //   });
-
-  //   if (pickedGroupCount >= pickedGroupMaxOwnable && pickedGroupMaxOwnable >= 0) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  private pickItem(pickedItem: Object) {
+    this.itemPicked.emit(pickedItem);
+    return false; // stop context menu from appearing
+  }
 }

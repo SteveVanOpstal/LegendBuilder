@@ -1,5 +1,5 @@
-import {Component, Input} from 'angular2/core';
-import {NgIf} from 'angular2/common';
+import {Component, Input} from '@angular/core';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'loading',

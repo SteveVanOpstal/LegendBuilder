@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from '@angular/core';
 import * as d3 from 'd3';
 
 import {Config} from './config';

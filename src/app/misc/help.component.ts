@@ -1,5 +1,5 @@
-import {Component, Input} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {Component, Input} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 @Component({
   selector: 'help',
@@ -11,7 +11,7 @@ import {NgFor} from 'angular2/common';
       4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
     </svg>
     <div class="content">
-      <p *ngFor="#line of content">{{line}}</p>
+      <p *ngFor="let line of content">{{line}}</p>
     </div>`
 })
 

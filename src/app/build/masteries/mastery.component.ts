@@ -1,5 +1,5 @@
-import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
-import {NgIf, NgClass} from 'angular2/common';
+import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {NgIf, NgClass} from '@angular/common';
 
 import {MasteryTierComponent} from './mastery-tier.component';
 

@@ -1,5 +1,5 @@
-import {Component, Input, Inject, forwardRef, OnInit} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 import {MasteryComponent} from './mastery.component';
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -9,7 +9,7 @@ import {MasteriesComponent} from './masteries.component';
   selector: 'mastery-category',
   directives: [NgFor, MasteryTierComponent],
   template: `
-    <mastery-tier [data]="tier" [index]="i" *ngFor="#tier of data.tiers; #i = index"></mastery-tier>
+    <mastery-tier [data]="tier" [index]="i" *ngFor="let tier of data.tiers; let i = index"></mastery-tier>
     <p class="total">{{data.name + ': ' + totalRank}}</p>`
 })
 

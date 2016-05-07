@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {NgFor, NgIf} from 'angular2/common';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {NgFor, NgIf} from '@angular/common';
 
 import {ItemComponent} from './item.component';
 import {ItemBundle} from './item-bundle';
@@ -8,7 +8,7 @@ import {ItemBundle} from './item-bundle';
   selector: 'items-from',
   directives: [NgFor, NgIf, ItemComponent, ItemsFromComponent],
   template: `
-    <div *ngFor="#bundle of items">
+    <div *ngFor="let bundle of items">
       <hr class="up">
       <item [item]="bundle.item" [attr.title]="bundle.item.name" (click)="selectItem(bundle.item)" (contextmenu)="pickItem(bundle.item)"></item>
       <hr *ngIf="bundle.children" class="down">

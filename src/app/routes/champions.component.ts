@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
-import {NgFor, NgIf} from 'angular2/common';
-import {Router, RouterLink, RouteParams} from 'angular2/router';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {NgFor, NgIf} from '@angular/common';
+import {Router, RouteSegment} from '@angular/router';
 
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {NamePipe} from '../champions/pipes/name.pipe';
@@ -19,15 +19,15 @@ import {LolApiService} from '../misc/lolapi.service';
   selector: 'champions',
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
-  directives: [NgFor, NgIf, RouterLink, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
+  directives: [NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   styleUrls: [
     './assets/css/champions.css'
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
-    <div class="champion" *ngFor="#champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
-      <a id="{{champion.id}}" [routerLink]="['../Features', {region: region, champion: champion.key}]" *ngIf="!loading">
+    <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
+      <a id="{{champion.id}}" [routerLink]="[champion.key]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>
@@ -53,8 +53,7 @@ export class ChampionsComponent {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(params: RouteParams, private router: Router, public lolApi: LolApiService) {
-    this.region = params.get('region');
+  constructor(current: RouteSegment, private router: Router, public lolApi: LolApiService) {
     this.getData();
   }
 
@@ -73,7 +72,7 @@ export class ChampionsComponent {
   private enterHit() {
     let filteredChampions = this.filter(this.champions, this.name, this.sort, this.tags);
     if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate(['../Build', { region: this.region, champion: filteredChampions[0]['key'] }]);
+      this.router.navigate([filteredChampions[0]['key'], 'build']);
     }
   }
 

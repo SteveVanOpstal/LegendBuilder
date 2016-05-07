@@ -1,11 +1,11 @@
-import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {NgFor} from '@angular/common';
 
 @Component({
   selector: 'bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [NgFor],
-  template: `<div *ngFor="#val of repeat()"></div>`
+  template: `<div *ngFor="let val of repeat()"></div>`
 })
 
 export class BarComponent {

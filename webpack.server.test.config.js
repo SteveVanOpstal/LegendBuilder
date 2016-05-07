@@ -1,15 +1,21 @@
 var helpers = require('./helpers');
+var glob = require('glob');
 
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
 module.exports = {
   devtool: 'source-map',
 
+  entry: glob.sync("./src/server/**/*.spec.ts"),
+
+  output: {
+    path: helpers.root('spec'),
+    filename: '[name].spec.js'
+  },
+
   resolve: {
-    extensions: ['', '.ts', '.js'],
-    root: helpers.root('src'),
+    extensions: ['', '.ts', '.js']
   },
 
   module: {

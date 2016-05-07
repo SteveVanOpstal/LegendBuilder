@@ -7,11 +7,9 @@ import {waterfall} from 'async';
 
 import {Server, Host} from './host';
 
-let settings = require('./settings').settings;
+import {settings} from '../../settings';
 
-let server = new Server(
-  settings.server.staticServer.port || 8081,
-  settings.server.staticServer.host || 'localhost');
+let server = new Server(settings.staticServer.host, settings.staticServer.port);
 
 let baseUrl = Host.config.protocol + 'global' + Host.config.hostname + '/api/lol';
 

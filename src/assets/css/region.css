@@ -16,7 +16,7 @@ region span {
 	text-align: left;
 }
 
-region button > span:first-child {
+region button > a > span:first-child {
 	width: 40px;
 	border-right: 1px dotted #CCC;
 }
