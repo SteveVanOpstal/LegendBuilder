@@ -19,6 +19,8 @@ Legend Builder is currently in **Alpha**.
 
 #### Contributing
 
+[![Join the chat at https://gitter.im/SteveVanOpstal/LegendBuilder](https://badges.gitter.im/SteveVanOpstal/LegendBuilder.svg)](https://gitter.im/SteveVanOpstal/LegendBuilder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages.
 In case of a Pull request, follow the [angular format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
 
