@@ -1,4 +1,3 @@
-'use strict'
 var path = require('path');
 var zlib = require('zlib');
 
@@ -27,7 +26,7 @@ function prependExt(extensions, args) {
 }
 
 function merge(src, target) {
-  for (let prop in src) {
+  for (var prop in src) {
     target[prop] = src[prop];
   }
   return target;

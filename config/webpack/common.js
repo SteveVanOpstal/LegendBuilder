@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const helpers = require('../helpers');
+const helpers = require('../../helpers');
 
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 
