@@ -1,13 +1,10 @@
 import {ServerRequest, ServerResponse} from 'http';
-var http = require('http');
 var url = require('url');
-var fs = require('fs');
 var Lru = require('lru-cache');
-import {waterfall} from 'async';
 
 import {Server, Host} from './host';
 
-import {settings} from '../../settings';
+import {settings} from '../../config/settings';
 
 let server = new Server(settings.staticServer.host, settings.staticServer.port);
 
