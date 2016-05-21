@@ -1,8 +1,6 @@
+'use strict'
 var path = require('path');
 var zlib = require('zlib');
-
-
-// Helper functions
 
 function hasProcessFlag(flag) {
   return process.argv.join('').indexOf(flag) > -1;
@@ -28,8 +26,16 @@ function prependExt(extensions, args) {
   }, ['']);
 }
 
+function merge(src, target) {
+  for (let prop in src) {
+    target[prop] = src[prop];
+  }
+  return target;
+}
+
 exports.hasProcessFlag = hasProcessFlag;
 exports.root = root;
 exports.rootNode = rootNode;
 exports.prependExt = prependExt;
 exports.prepend = prependExt;
+exports.merge = merge;

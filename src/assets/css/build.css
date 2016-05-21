@@ -318,6 +318,19 @@ shop .items item {
   width: 32%;
 }
 
+shop .items item > div {
+  margin: 4px 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+shop .items item > div > p {
+  margin: 0;
+  font-size: 1em;
+  display: inline;
+  font-family: sans-serif;
+}
+
 /* items */
 
 items {
@@ -364,19 +377,6 @@ item > img {
   height: 45px;
   border-radius: 5px;
   display: inline-block;
-}
-
-item > div {
-  margin: 4px 10px;
-  display: inline-block;
-  width: 100%;
-}
-
-item > div > p {
-  margin: 0;
-  font-size: 1em;
-  display: inline;
-  font-family: sans-serif;
 }
 
 item .name {
@@ -459,7 +459,8 @@ preview item p.gold {
 }
 
 preview .item > item,
-preview .item > item > img {
+preview .item > item div,
+preview .item > item img {
   width: 64px;
   height: 64px;
   border-radius: 8px;
@@ -497,7 +498,7 @@ items-from {
   justify-content: center;
 }
 
-items-from div {
+items-from > div {
   padding-top: 14px;
 }
 

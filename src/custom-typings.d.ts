@@ -1,8 +1,6 @@
 declare var ENV: string;
-declare var HMR: boolean;
 interface GlobalEnvironment {
   ENV;
-  HMR;
 }
 
 interface WebpackModule {

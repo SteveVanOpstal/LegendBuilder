@@ -1,6 +1,10 @@
-var helpers = require('./helpers');
-var settings = require('./settings').settings;
+var helpers = require('../../../helpers');
+var settings = require('../../settings').settings;
+const commonConfig = require('../common.js');
 
+const webpackMerge = require('webpack-merge');
+
+/* plugins */
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
@@ -12,18 +16,17 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
-var metadata = {
-  title: 'Legend Builder',
-  baseUrl: '/',
+var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
+
+const METADATA = webpackMerge(commonConfig.metadata, {
   host: settings.httpServer.host || 'localhost',
   port: settings.httpServer.port || 8080,
   ENV: ENV
-};
+});
 
-module.exports = {
-  metadata: metadata,
+module.exports = webpackMerge(commonConfig, {
+  metadata: METADATA,
   devtool: 'source-map',
   debug: false,
 
@@ -35,31 +38,13 @@ module.exports = {
   },
 
   output: {
-    path: helpers.root('dist/client'),
+    path: helpers.root('../dist/client'),
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'
   },
-
-  resolve: {
-    extensions: ['', '.ts', '.js']
-  },
-
+  
   module: {
-    preLoaders: [
-      {
-        test: /\.ts$/,
-        loader: 'tslint-loader',
-        exclude: [
-          helpers.root('node_modules')
-        ]
-      },
-      {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        exclude: [helpers.root('node_modules/rxjs')]
-      }
-    ],
     loaders: [
       {
         test: /\.ts$/,
@@ -69,14 +54,9 @@ module.exports = {
             'removeComments': true
           }
         },
-        exclude: [/\.e2e\.ts$/]
+        exclude: [/\.(spec|e2e)\.ts$/]
       }
-    ],
-    noParse: [
-      helpers.root('zone.js', 'dist'),
-      helpers.root('angular2', 'bundles')
     ]
-
   },
 
   plugins: [
@@ -91,9 +71,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
-    new DefinePlugin({
-      'ENV': JSON.stringify(metadata.ENV)
-    }),
+    new DefinePlugin({ 'ENV': JSON.stringify(ENV) }),
     new UglifyJsPlugin({
       beautify: false,
       mangle: {
@@ -110,21 +88,6 @@ module.exports = {
     })
   ],
 
-  tslint: {
-    emitErrors: true,
-    failOnHint: true,
-    resourcePath: 'src'
-  },
-
-  //Needed to workaround Angular 2's html syntax => #id [bind] (event) *ngFor
-  htmlLoader: {
-    minimize: true,
-    removeAttributeQuotes: false,
-    caseSensitive: true,
-    customAttrSurround: [[/#/, /(?:)/], [/\*/, /(?:)/], [/\[?\(?/, /(?:)/]],
-    customAttrAssign: [/\)?\]?=/]
-  },
-
   node: {
     global: 'window',
     process: false,
@@ -133,4 +96,4 @@ module.exports = {
     clearImmediate: false,
     setImmediate: false
   }
-};
+});
