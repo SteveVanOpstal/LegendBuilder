@@ -65,12 +65,15 @@ describe('ShopComponent', () => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
-      });
+      }
+    );
 
-    expect(component.items).not.toBeDefined();
+    expect(component.items).toHaveEqualContent([]);
+    expect(component.originalItems).toHaveEqualContent([]);
     component.getData();
     return service.getItems().toPromise().then(() => {
-      expect(component.items).toBeDefined();
+      expect(component.items).not.toHaveEqualContent([]);
+      expect(component.originalItems).not.toHaveEqualContent([]);
     });
   }));
 
@@ -78,12 +81,15 @@ describe('ShopComponent', () => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
-      });
+      }
+    );
 
-    expect(component.items).not.toBeDefined();
+    expect(component.items).toHaveEqualContent([]);
+    expect(component.originalItems).toHaveEqualContent([]);
     component.getData();
     return service.getItems().toPromise().catch(() => {
-      expect(component.items).not.toBeDefined();
+      expect(component.items).toHaveEqualContent([]);
+      expect(component.originalItems).toHaveEqualContent([]);
     });
   }));
 
