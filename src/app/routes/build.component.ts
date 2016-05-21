@@ -17,8 +17,8 @@ import {Config} from '../build/config';
 @Component({
   providers: [LolApiService],
   directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
-  styleUrls: [
-    './assets/css/build.css'
+  styles: [
+    require('../../assets/css/build.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -43,11 +43,11 @@ export class BuildComponent {
   private config: Config = new Config();
   private pickedItems: Array<Object>;
 
-  constructor(current: RouteSegment, private lolApi: LolApiService) {
-    this.championKey = current.getParam('champion');
+  constructor(routeSegment: RouteSegment, private lolApi: LolApiService) {
+    this.championKey = routeSegment.getParam('champion');
     this.getData();
 
-    let summoner: string = current.getParam('summoner');
+    let summoner: string = routeSegment.getParam('summoner');
     this.getMatchData(summoner);
   }
 

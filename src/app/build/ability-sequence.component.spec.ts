@@ -1,4 +1,4 @@
-import {it, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
+import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
 

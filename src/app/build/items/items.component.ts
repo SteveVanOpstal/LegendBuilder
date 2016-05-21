@@ -18,6 +18,8 @@ import {Config} from '../config';
 
 export class ItemsComponent {
   @Input() config: Config;
+  // @Input() pickedItems: Array<Object>;
+  // @Output() pickedItemsChange: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
   private itemSlotComponents: Array<ItemSlotComponent> = [];
 
@@ -37,32 +39,14 @@ export class ItemsComponent {
       }
     });
     s.addItem(item);
+    //this.updatePickedItems();
   }
 
-  // private MaxOwnableExceeded(pickedItems: Array<Object>, pickedItem: Object) {
-  //   let pickedGroup = pickedItem['group'];
-  //   if (!pickedGroup) {
-  //     return false;
-  //   }
-
-  //   let pickedGroupCount = 0;
-  //   pickedItems.forEach((item) => {
-  //     if (item['group'] === pickedGroup) {
-  //       pickedGroupCount++;
-  //     }
+  // private updatePickedItems() {
+  //   this.pickedItems = [];
+  //   this.itemSlotComponents.forEach((itemSlot) => {
+  //     this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
   //   });
-
-  //   let pickedGroupMaxOwnable = 0;
-  //   this.items['groups'].forEach((group) => {
-  //     if (pickedGroup.indexOf(group['key']) !== -1) {
-  //       pickedGroupMaxOwnable = group['MaxGroupOwnable'];
-  //     }
-  //   });
-
-  //   if (pickedGroupCount >= pickedGroupMaxOwnable && pickedGroupMaxOwnable >= 0) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
+  //   this.pickedItemsChange.emit(this.pickedItems);
   // }
 }

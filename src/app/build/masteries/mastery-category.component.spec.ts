@@ -1,10 +1,9 @@
-import {provide, Inject, forwardRef} from 'angular2/core';
-import {BaseRequestOptions, Http} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
-import {RootRouter} from 'angular2/src/router/router';
+import {provide, Inject, forwardRef} from '@angular/core';
+import {Http, BaseRequestOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
-import {MockBackend} from 'angular2/http/testing';
+import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {MockBackend} from '@angular/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
 import {MasteriesComponent} from './masteries.component';
@@ -12,6 +11,7 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
+import {MockRouteSegment} from '../../testing';
 
 class MockMasteryComponent extends MasteryComponent {
   public rank: number = 0;
@@ -45,7 +45,8 @@ class MockMasteryTierComponent extends MasteryTierComponent {
 
 describe('MasteryCategoryComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' })}),
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {

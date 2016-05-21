@@ -6,10 +6,21 @@ import {DDragonDirective} from '../../../misc/ddragon.directive';
   selector: 'item',
   directives: [DDragonDirective],
   template: `
-    <img [ddragon]="'item/' + item?.image?.full">
-    <p class="gold">{{item?.gold?.total ? item?.gold?.total : ''}}</p>`
+    <img [ddragon]="'item/' + item?.image?.full" (click)="selectItem(item)" (contextmenu)="pickItem(item)">
+    <p class="gold" (click)="selectItem(item)" (contextmenu)="pickItem(item)">{{item?.gold?.total ? item?.gold?.total : ''}}</p>`
 })
 
 export class ItemComponent {
   @Input() item: Object;
+  @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+
+  private selectItem(item: Object) {
+    this.itemSelected.emit(item);
+  }
+
+  private pickItem(item: Object) {
+    this.itemPicked.emit(item);
+    return false; // stop context menu from appearing
+  }
 }

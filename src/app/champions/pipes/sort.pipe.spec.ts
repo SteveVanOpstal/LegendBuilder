@@ -1,6 +1,6 @@
-import {provide} from 'angular2/core';
+import {provide} from '@angular/core';
 
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
 
 import {SortPipe} from './sort.pipe';
 

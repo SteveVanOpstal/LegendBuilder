@@ -1,20 +1,22 @@
-import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
-import {RootRouter} from 'angular2/src/router/router';
+import {provide} from '@angular/core';
+import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {Router, RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
+import {it, inject, beforeEachProviders} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
+import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {Config} from '../build/config';
 import {BuildComponent} from './build.component';
 
-import {Observable} from 'rxjs/Observable';
+import {MockRouteSegment} from '../testing';
 
 describe('BuildComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw', champion: 'VelKoz' }) }),
+    ROUTER_FAKE_PROVIDERS,
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw', champion: 'VelKoz' })}),
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
@@ -42,18 +44,19 @@ describe('BuildComponent', () => {
   }));
 
 
-  it('should call getData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
+  it('should call getData() on contruct', inject([RouteSegment, LolApiService], (routeSegment, service) => {
     spyOn(BuildComponent.prototype, 'getData');
     expect(BuildComponent.prototype.getData).not.toHaveBeenCalled();
-    let component = new BuildComponent(routeParams, service);
+    let component = new BuildComponent(routeSegment, service);
     expect(BuildComponent.prototype.getData).toHaveBeenCalled();
   }));
 
-  it('should call getMatchData() on contruct', inject([RouteParams, LolApiService], (routeParams, service) => {
-    routeParams = new RouteParams({ summoner: 'xXxSwagLord69xXx' });
+  it('should call getMatchData() on contruct', inject([RouteSegment, LolApiService], (routeSegment, service) => {
+    // todo: figure out MockRouteSegment
+    // routeSegment = new RouteSegment(,{ summoner: 'xXxSwagLord69xXx' });
     spyOn(BuildComponent.prototype, 'getMatchData');
     expect(BuildComponent.prototype.getMatchData).not.toHaveBeenCalled();
-    let component = new BuildComponent(routeParams, service);
+    let component = new BuildComponent(routeSegment, service);
     expect(BuildComponent.prototype.getMatchData).toHaveBeenCalled();
   }));
 

@@ -9,8 +9,8 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
   providers: [LolApiService],
   directives: [NgFor],
   pipes: [ToIterablePipe],
-  styleUrls: [
-    './assets/css/region.css'
+  styles: [
+    require('../../assets/css/region.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `

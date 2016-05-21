@@ -1,4 +1,4 @@
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
 
 import {ChampionPipe} from './champion.pipe';
 

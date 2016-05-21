@@ -1,9 +1,10 @@
-import {provide} from 'angular2/core';
+import {provide} from '@angular/core';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from '@angular/core/testing';
 
 import {FiltersComponent} from './filters.component';
 
+import {MockEvent, MockKeyboardEvent} from '';
 class MockEvent {
   public target: any;
 }

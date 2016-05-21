@@ -10,9 +10,9 @@ import {ItemBundle} from './item-bundle';
   template: `
     <div *ngFor="let bundle of items">
       <hr class="up">
-      <item [item]="bundle.item" [attr.title]="bundle.item.name" (click)="selectItem(bundle.item)" (contextmenu)="pickItem(bundle.item)"></item>
+      <item [item]="bundle.item" [attr.title]="bundle.item.name"></item>
       <hr *ngIf="bundle.children" class="down">
-      <items-from [items]="bundle.children" (itemSelected)="itemSelected" (itemPicked)="itemPicked"></items-from>
+      <items-from [items]="bundle.children" (itemSelected)="itemSelected.emit($event)" (itemPicked)="itemPicked.emit($event)"></items-from>
     </div>`
 })
 
@@ -20,13 +20,4 @@ export class ItemsFromComponent {
   @Input() items: Array<ItemBundle>;
   @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
-
-  private selectItem(item: Object) {
-    this.itemSelected.emit(item);
-  }
-
-  private pickItem(item: Object) {
-    this.itemPicked.emit(item);
-    return false; // stop context menu from appearing
-  }
 }

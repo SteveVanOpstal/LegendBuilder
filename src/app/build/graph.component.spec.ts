@@ -1,12 +1,10 @@
-import {provide, ElementRef} from 'angular2/core';
+import {provide, ElementRef} from '@angular/core';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from '@angular/core/testing';
 
 import {GraphComponent} from './graph.component';
 
-class MockElementRef implements ElementRef {
-  nativeElement = {};
-}
+import {MockElementRef} from '../testing';
 
 describe('GraphComponent', () => {
   beforeEachProviders(() => [

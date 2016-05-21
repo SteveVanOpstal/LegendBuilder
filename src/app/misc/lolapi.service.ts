@@ -3,17 +3,17 @@ import {Http, Headers, Response, BaseResponseOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
-import {settings} from '../../../settings';
+import {settings} from '../../../config/settings';
 
 @Injectable()
 export class LolApiService {
-  public staticServer = settings.server.staticServer;
-  public matchServer = settings.server.matchServer;
+  public staticServer = settings.staticServer;
+  public matchServer = settings.matchServer;
 
   private realm: Observable<Response>;
   private region: string;
 
-  constructor(private current: RouteSegment, private http: Http) { }
+  constructor(private routeSegment: RouteSegment, private http: Http) { }
 
 
   public getRealm(): Observable<Response> {
@@ -62,11 +62,11 @@ export class LolApiService {
 
 
   private linkStaticData() {
-    return this.linkStaticServer() + '/static-data/' + this.getCurrentRegion() + '/v1.2';
+    return this.linkStaticServer() + '/static-data/' + this.getRegion() + '/v1.2';
   }
 
   private linkMatchData() {
-    return this.linkMatchServer() + '/' + this.getCurrentRegion();
+    return this.linkMatchServer() + '/' + this.getRegion();
   }
 
   private linkStaticServer() {
@@ -77,9 +77,9 @@ export class LolApiService {
     return 'http://' + this.matchServer.host + ':' + this.matchServer.port;
   }
 
-  private getCurrentRegion() {
+  private getRegion() {
     if (!this.region) {
-      this.region = this.current.getParam('region').toLowerCase();
+      this.region = this.routeSegment.getParam('region').toLowerCase();
     }
     return this.region;
   }

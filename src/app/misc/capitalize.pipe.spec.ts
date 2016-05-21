@@ -1,4 +1,4 @@
-import {it, inject, beforeEachProviders} from 'angular2/testing';
+import {it, inject, beforeEachProviders} from '@angular/core/testing';
 
 import {CapitalizePipe} from './capitalize.pipe';
 

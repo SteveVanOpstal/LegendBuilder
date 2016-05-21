@@ -1,5 +1,5 @@
 //import {spyOn} from 'jasmine';
-import {it, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
+import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
 
 import {ItemsComponent} from './items.component';
 import {ItemSlotComponent} from './item-slot.component';

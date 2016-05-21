@@ -6,8 +6,8 @@ import {LolApiService} from '../misc/lolapi.service';
 @Component({
   directives: [],
   providers: [LolApiService],
-  styleUrls: [
-    './assets/css/summoner.css'
+  styles: [
+    require('../../assets/css/summoner.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -27,12 +27,10 @@ import {LolApiService} from '../misc/lolapi.service';
 })
 
 export class FeaturesComponent {
-  private region: string;
   private champion: string;
   private error: boolean = false;
 
   constructor(current: RouteSegment, private router: Router, private lolApi: LolApiService) {
-    this.region = current.getParam('region');
     this.champion = current.getParam('champion');
   }
 
@@ -41,7 +39,7 @@ export class FeaturesComponent {
       .subscribe(
         res => {
           if (!isNaN(res)) {
-            this.router.navigate([this.region, this.champion, 'summoner', event.value ]);
+            this.router.navigate(['summoner', event.value ]);
           } else {
             this.error = true;
           }

@@ -1,12 +1,14 @@
-import {provide, ElementRef} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
+import {provide, ElementRef} from '@angular/core';
+import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
+import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {DDragonDirective} from './ddragon.directive';
+
+import {MockRouteSegment} from '../testing';
 
 class MockNativeElement {
   private attributes: Array<string> = new Array<string>();
@@ -41,7 +43,8 @@ class MockSvgImageElementRef implements ElementRef {
 describe('DDragonDirective', () => {
   beforeEachProviders(() => [
     provide(ElementRef, { useValue: new MockImageElementRef() }),
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
@@ -77,7 +80,7 @@ describe('DDragonDirective', () => {
   });
 
 
-  it('should update on contruct', inject([MockBackend, ElementRef, RouteParams, Http], (mockBackend, elementRef, routeParams, http) => {
+  it('should update on contruct', inject([MockBackend, ElementRef, RouteSegment, Http], (mockBackend, elementRef, routeSegment, http) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -87,7 +90,7 @@ describe('DDragonDirective', () => {
     spyOn(DDragonDirective.prototype, 'updateElement');
     expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
 
-    let service = new LolApiService(routeParams, http);
+    let service = new LolApiService(routeSegment, http);
     let directive = new DDragonDirective(elementRef, service);
     return service.getRealm().toPromise().then(() => {
       expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();

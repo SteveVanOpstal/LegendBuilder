@@ -12,14 +12,14 @@ import {ItemBundle} from './item-bundle';
   directives: [NgIf, DDragonDirective, ItemComponent, ItemsFromComponent],
   template: `
     <div class="into">
-      <template ngFor #item [ngForOf]="itemsInto">
-        <item [item]="item" [attr.title]="item.name" (click)="selectItem(item)" (contextmenu)="pickItem(item)"></item>
+      <template ngFor let-item [ngForOf]="itemsInto">
+        <item [item]="item" [attr.title]="item.name" (itemSelected)="selectItem(item)" (itemPicked)="itemPicked"></item>
       </template>
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">
         <h2>{{item.name}}</h2>
-        <item [item]="item" (contextmenu)="pickItem(item)"></item>
+        <item [item]="item" (itemPicked)="itemPicked"></item>
       </div>
       <div class="from">
         <hr *ngIf="itemsFrom?.length" class="down">

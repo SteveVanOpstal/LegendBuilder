@@ -1,14 +1,15 @@
-import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
-import {RootRouter} from 'angular2/src/router/router';
+import {provide} from '@angular/core';
+import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
+import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteriesComponent} from './masteries.component';
+
+import {MockRouteSegment} from '../../testing';
 
 class MockMasteryCategoryComponent extends MasteryCategoryComponent {
   public rank: number = 0;
@@ -20,7 +21,8 @@ class MockMasteryCategoryComponent extends MasteryCategoryComponent {
 
 describe('MasteriesComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' })}),
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {

@@ -20,8 +20,8 @@ import {LolApiService} from '../misc/lolapi.service';
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
   directives: [NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
-  styleUrls: [
-    './assets/css/champions.css'
+  styles: [
+    require('../../assets/css/champions.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -43,8 +43,6 @@ import {LolApiService} from '../misc/lolapi.service';
 })
 
 export class ChampionsComponent {
-  private region: string;
-
   private champions: Array<Object>;
   private loading: boolean = true;
   private error: boolean = false;
@@ -53,7 +51,7 @@ export class ChampionsComponent {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(current: RouteSegment, private router: Router, public lolApi: LolApiService) {
+  constructor(private router: Router, public lolApi: LolApiService) {
     this.getData();
   }
 
@@ -63,9 +61,9 @@ export class ChampionsComponent {
 
     this.lolApi.getChampions()
       .subscribe(
-        res => this.champions = res,
-        error => { this.error = true; this.loading = false; },
-        () => this.loading = false
+      res => this.champions = res,
+      error => { this.error = true; this.loading = false; },
+      () => this.loading = false
       );
   }
 

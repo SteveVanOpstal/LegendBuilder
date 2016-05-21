@@ -53,26 +53,30 @@ import {LolApiService} from '../../misc/lolapi.service';
         </div>
         <div class="items">
           <template ngFor let-item [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
-            <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="leftClick(item)"></item>
+            <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="selectItem(item)" (contextmenu)="pickItem(item)"></item>
           </template>
           <loading [loading]="loading"></loading>
           <error [error]="error" (retry)="getData()"></error>
         </div>
       </div>
       <div class="right">
-        <preview [item]="pickedItem" [items]="items?.data | toIterable | map:11 | champion:123"></preview>
+        <preview [item]="pickedItem" [items]="items | map:11 | champion:123" (itemPicked)="pickItem(item)"></preview>
       </div>
     </div>`
 })
 
-export class ShopComponent {
+export class ShopComponent /*implements OnChanges*/ {
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Input() pickedItems: Array<Object>;
 
-  private items: Object;
   private loading: boolean = true;
   private error: boolean = false;
 
   private tags: Array<string> = [];
+
+  private data: Object;
+  private items: Array<any> = [];
+  private originalItems: Array<any> = [];
   private pickedItem: Object;
 
   constructor(private lolApi: LolApiService) {
@@ -85,11 +89,50 @@ export class ShopComponent {
 
     this.lolApi.getItems()
       .subscribe(
-      res => { this.items = res; },
+      res => {
+        this.data = res;
+        this.items = new ToIterablePipe().transform(res.data);
+        this.originalItems = this.items;
+      },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
   }
+
+  // ngOnChanges(changes: { [key: string]: SimpleChange; }) {
+  //   if (!changes['pickedItems'] || !changes['pickedItems'].currentValue) {
+  //     return;
+  //   }
+
+  //   let exceededGroups = this.getExceededGroups(changes['pickedItems'].currentValue);
+  //   this.items = this.originalItems.filter((item) => {
+  //     if (exceededGroups.indexOf(item['group']) !== -1) {
+  //       return false;
+  //     }
+  //     return true;
+  //   });
+  // }
+
+  // private getExceededGroups(items: Array<Object>): Array<Object> {
+  //   let groupsCount = [];
+  //   items.forEach((item) => {
+  //     if (!item['group']) {
+  //       return;
+  //     }
+  //     if (groupsCount.indexOf(item['group']) === -1) {
+  //       groupsCount[item['group']] = 1;
+  //     } else {
+  //       groupsCount[item['group']]++;
+  //     }
+  //   });
+  //   let exceededGroups = [];
+  //   this.data['groups'].forEach((group) => {
+  //     if (groupsCount[group['key']] > 0 && groupsCount[group['key']] >= group['MaxGroupOwnable']) {
+  //       exceededGroups.push(group['key']);
+  //     }
+  //   });
+  //   return exceededGroups;
+  // }
 
   private tagChanged(event: Event) {
     if (!event || !event.target) {

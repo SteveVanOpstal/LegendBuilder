@@ -1,15 +1,20 @@
-import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
+import {provide} from '@angular/core';
+import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
+import {it, inject, beforeEachProviders} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
+import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
 
+import {MockRouteSegment} from '../testing';
+
 describe('LolApiService', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' })}),
+    ROUTER_FAKE_PROVIDERS,
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
@@ -23,7 +28,6 @@ describe('LolApiService', () => {
   ]);
 
   var mockResponse = new Response(new ResponseOptions({ status: 200, body: [{ test: true }] }));
-
 
 
   it('should get realm data', inject([MockBackend, LolApiService], (mockBackend, service) => {
@@ -86,13 +90,26 @@ describe('LolApiService', () => {
     });
   }));
 
-  it('should get summonerMatchData', inject([MockBackend, LolApiService], (mockBackend, service) => {
+  it('should get summonerId', inject([MockBackend, LolApiService], (mockBackend, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
       });
 
-    service.getSummonerMatchData('', '', 0, 0)
+    service.getSummonerId('', '')
+      .subscribe(res => {
+        expect(res).toBeDefined();
+        expect(res[0].test).toBeTruthy();
+      });
+  }));
+
+  it('should get matchData', inject([MockBackend, LolApiService], (mockBackend, service) => {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockRespond(mockResponse);
+      });
+
+    service.getMatchData(0, '', 0, 0)
       .subscribe(res => {
         expect(res).toBeDefined();
         expect(res[0].test).toBeTruthy();

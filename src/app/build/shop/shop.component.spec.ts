@@ -1,13 +1,14 @@
-import {provide} from 'angular2/core';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
-import {RootRouter} from 'angular2/src/router/router';
+import {provide} from '@angular/core';
+import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
-import {MockBackend, MockConnection} from 'angular2/http/testing';
+import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
 import {ShopComponent} from './shop.component';
+
+import {MockRouteSegment} from '../../testing';
 
 class MockEvent {
   public target: any;
@@ -15,7 +16,8 @@ class MockEvent {
 
 describe('ShopComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteParams, { useValue: new RouteParams({ region: 'euw' }) }),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
@@ -24,6 +26,7 @@ describe('ShopComponent', () => {
       },
       deps: [MockBackend, BaseRequestOptions]
     }),
+
     provide(Event, { useValue: new MockEvent() }),
 
     LolApiService,
@@ -123,7 +126,7 @@ describe('ShopComponent', () => {
 
 
   it('should emit pickeditem', inject([ShopComponent], (component) => {
-    spyOn(component.itemPicked, 'next');
+    spyOn(component.itemPicked, 'emit');
     component.items = items;
     component.pickItem(pickedItem2);
     expect(component.itemPicked.emit).toHaveBeenCalled();
