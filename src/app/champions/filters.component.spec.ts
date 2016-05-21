@@ -4,13 +4,7 @@ import {it, inject, beforeEachProviders} from '@angular/core/testing';
 
 import {FiltersComponent} from './filters.component';
 
-import {MockEvent, MockKeyboardEvent} from '';
-class MockEvent {
-  public target: any;
-}
-class MockKeyboardEvent {
-  public key: any;
-}
+import {MockEvent, MockKeyboardEvent} from '../testing';
 
 describe('FiltersComponent', () => {
   beforeEachProviders(() => [
