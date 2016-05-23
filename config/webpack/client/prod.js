@@ -32,13 +32,13 @@ module.exports = webpackMerge(commonConfig, {
 
   entry: {
     //'main': ['./src/boot.ts', './src/vendor.ts', './src/polyfills.ts']
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
-    'main': './src/boot.ts'
+    'polyfills': helpers.root('src/polyfills.ts'),
+    'vendor': helpers.root('src/vendor.ts'),
+    'main': helpers.root('src/boot.ts')
   },
 
   output: {
-    path: helpers.root('../dist/client'),
+    path: helpers.root('dist/client'),
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'

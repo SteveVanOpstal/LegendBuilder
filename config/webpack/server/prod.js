@@ -21,12 +21,12 @@ module.exports = webpackMerge(commonConfig, {
   target: 'node',
 
   entry: {
-    'static-server': './src/server/static-server.ts',
-    'match-server': './src/server/match-server.ts'
+    'static-server': helpers.root('src/server/static-server.ts'),
+    'match-server': helpers.root('src/server/match-server.ts')
   },
 
   output: {
-    path: helpers.root('../dist/server'),
+    path: helpers.root('dist/server'),
     filename: '[name].js'
   },
 
