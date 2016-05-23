@@ -49,7 +49,7 @@
     "lint": "./node_modules/.bin/tslint src/**/*.ts",
     "lint:client": "./node_modules/.bin/tslint src/app/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts",
-    "lint:test": "./node_modules/.bin/tslint src/**/*.spec.ts",
+    "lint:test": "./node_modules/.bin/tslint src/**/*.spec.ts src/**/testing/**/*.ts",
     "lint:e2e": "./node_modules/.bin/tslint src/**/*.e2e.ts",
     "pree2e": "npm run lint:e2e && npm run webdriver:update -- --standalone",
     "e2e": "protractor",
@@ -58,7 +58,7 @@
     "test": "npm run test:client && npm run test:server",
     "test:client": "./node_modules/.bin/karma start",
     "pretest:server": "npm run build:server:test",
-    "test:server": "node jasmine.js",
+    "test:server": "node config/jasmine.js",
     "ci": "npm run e2e && npm run test",
     "typings-install": "./node_modules/.bin/typings install",
     "postinstall": "npm run typings-install"
