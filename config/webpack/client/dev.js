@@ -58,7 +58,7 @@ module.exports = webpackMerge(commonConfig, {
     new ForkCheckerPlugin(),
     new OccurenceOrderPlugin(true),
     new CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity }),
-    new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
+    new CopyWebpackPlugin([{ from: 'src/assets/images', to: 'assets/images' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     new DefinePlugin({ 'ENV': JSON.stringify(ENV) })
   ],

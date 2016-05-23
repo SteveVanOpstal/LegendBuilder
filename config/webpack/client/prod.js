@@ -69,7 +69,7 @@ module.exports = webpackMerge(commonConfig, {
       filename: '[name].bundle.js',
       minChunks: Infinity
     }),
-    new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
+    new CopyWebpackPlugin([{ from: 'src/assets/images', to: 'assets/images' }]),
     new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     new DefinePlugin({ 'ENV': JSON.stringify(ENV) }),
     new UglifyJsPlugin({
