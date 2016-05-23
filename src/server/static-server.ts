@@ -1,4 +1,4 @@
-import {ServerRequest, ServerResponse} from 'http';
+import {IncomingMessage, ServerResponse} from 'http';
 var url = require('url');
 var Lru = require('lru-cache');
 
@@ -10,7 +10,7 @@ let server = new Server(settings.staticServer.host, settings.staticServer.port);
 
 let baseUrl = Host.config.protocol + 'global' + Host.config.hostname + '/api/lol';
 
-server.run((request: ServerRequest, response: ServerResponse) => {
+server.run((request: IncomingMessage, response: ServerResponse) => {
   let pathname = Host.getPathname(request.url);
   server.sendRequest(baseUrl + request.url, pathname[2], (res: Host.Response) => {
     response.writeHead(res.status, server.headers);

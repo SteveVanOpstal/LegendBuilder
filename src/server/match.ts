@@ -1,4 +1,4 @@
-import {ServerRequest, ServerResponse} from 'http';
+import {IncomingMessage, ServerResponse} from 'http';
 import {waterfall, parallel} from 'async';
 
 import {Server, Host} from './host';
@@ -56,7 +56,7 @@ export class Match {
     this.summoner = new Summoner(server);
   }
 
-  public get(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, request: ServerRequest, response: ServerResponse) {
+  public get(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, summonerName, championKey, gameTime, sampleSize, (res) => {
       response.writeHead(res.status, this.server.headers);
       if (res.success) {

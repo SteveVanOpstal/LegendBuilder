@@ -1,4 +1,4 @@
-import {ServerRequest, ServerResponse, IncomingMessage} from 'http';
+import {IncomingMessage, ServerResponse} from 'http';
 import * as http from 'http';
 import * as https from 'https';
 import {RequestOptions} from 'https';
@@ -71,9 +71,9 @@ export class Server {
     }, this.options.headers);
   }
 
-  public run(callback: (req: ServerRequest, resp: ServerResponse) => void): void {
+  public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     this.preRun();
-    let server = http.createServer((request: ServerRequest, response: ServerResponse) => {
+    let server = http.createServer((request: IncomingMessage, response: ServerResponse) => {
       this.handleRequest(request, response, callback);
     });
     server.listen(this.port, this.host);
@@ -150,7 +150,7 @@ export class Server {
     callback(response);
   }
 
-  private handleRequest(request: ServerRequest, response: ServerResponse, callback: (req: ServerRequest, resp: ServerResponse) => void): void {
+  private handleRequest(request: IncomingMessage, response: ServerResponse, callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     let console = new ColorConsole();
 
     let cachedResponseData = this.getCache(request.url);

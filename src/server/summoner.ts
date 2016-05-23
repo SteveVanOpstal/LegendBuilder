@@ -1,4 +1,4 @@
-import {ServerRequest, ServerResponse} from 'http';
+import {IncomingMessage, ServerResponse} from 'http';
 
 import {Server, Host} from './host';
 import {settings} from '../../config/settings';
@@ -6,7 +6,7 @@ import {settings} from '../../config/settings';
 export class Summoner {
   constructor(private server: Server) { }
 
-  public get(region: string, name: string, request: ServerRequest, response: ServerResponse) {
+  public get(region: string, name: string, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, name, (res) => {
       response.writeHead(res.status, this.server.headers);
       if (res.success && res.json[name]) {
