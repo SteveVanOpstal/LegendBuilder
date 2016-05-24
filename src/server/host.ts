@@ -23,9 +23,6 @@ export module Host {
   export let config = {
     protocol: 'https://',
     hostname: '.api.pvp.net',
-    // summoner: '/{{region}}/v1.4/summoner/',
-    // matchlist: '/{{region}}/v2.2/matchlist/',
-    // match: '/{{region}}/v2.2/match/',
     apiKey: apiKey
   };
 
@@ -48,7 +45,7 @@ export class Server {
     'content-type': 'application/json'
   };
 
-  private options: RequestOptions = {
+  private options: https.RequestOptions = {
     hostname: 'global.api.pvp.net',
     method: 'GET',
     headers: {
@@ -84,7 +81,7 @@ export class Server {
   public sendRequest(url: string, region: string, callback: (response: Host.Response) => void): void {
     url = this.transformPath(url, region);
 
-    let options: RequestOptions = { path: url };
+    let options: https.RequestOptions = { path: url };
     this.merge(this.options, options);
 
     this.sendHttpsRequest(options, callback);
@@ -98,7 +95,7 @@ export class Server {
     return this.cache.get(url);
   }
 
-  private sendHttpsRequest(options: RequestOptions, callback: (response: Host.Response) => void) {
+  private sendHttpsRequest(options: https.RequestOptions, callback: (response: Host.Response) => void) {
     let console = new ColorConsole();
     let req = https.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on('error', (e) => this.handleResponseError(console, options, e, callback));
@@ -112,7 +109,7 @@ export class Server {
     req.end();
   }
 
-  private handleResponse(console: ColorConsole, options: RequestOptions, res: IncomingMessage, callback: (response: Host.Response) => void) {
+  private handleResponse(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, callback: (response: Host.Response) => void) {
     let data = '';
     res.on('data', (d: string) => {
       data += d;
@@ -122,7 +119,7 @@ export class Server {
     });
   }
 
-  private handleResponseSuccess(console: ColorConsole, options: RequestOptions, res: IncomingMessage, data: any, callback: (response: Host.Response) => void) {
+  private handleResponseSuccess(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any, callback: (response: Host.Response) => void) {
     let json = {};
     try {
       json = JSON.parse(data);
@@ -217,7 +214,7 @@ export class Server {
 
     championUrl = this.addApiKey(championUrl);
 
-    let options: RequestOptions = { path: championUrl };
+    let options: https.RequestOptions = { path: championUrl };
     this.merge(this.options, options);
 
     this.sendHttpsRequest(options, (response: Host.Response) => {
