@@ -8,10 +8,9 @@ import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
 
 let apiKey = '';
-try{
+try {
   apiKey = require('raw!../../.api.key');
-}
-catch (e){}
+} catch (e) { }
 
 export module Host {
   export interface Response {
