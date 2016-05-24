@@ -10,6 +10,11 @@ import {parallel, retry} from 'async';
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
 import {tim} from '../app/misc/tim';
+let apiKey = '';
+try{
+  apiKey = require('raw!../../.api.key');
+}
+catch (e){}
 
 export module Host {
   export interface Response {
@@ -26,6 +31,7 @@ export module Host {
     // matchlist: '/{{region}}/v2.2/matchlist/',
     // match: '/{{region}}/v2.2/match/',
     apiKey: fs.readFileSync('.api.key', 'utf8')
+    apiKey: apiKey
   };
 
   export function getPathname(path: string): Array<string> {
