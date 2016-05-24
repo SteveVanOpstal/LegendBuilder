@@ -1,9 +1,7 @@
 'use strict';
 
-export function tim(template, data) {
+export function tim(template: string, data: Object) {
   let pattern = new RegExp('{ ?{\\s*([a-z0-9_][\\.a-z0-9_]*)\\s*} ?}', 'gi');
-
-  // Merge data into the template string
   return template.replace(pattern, (tag, token) => {
     let path = token.split('.');
     let len = path.length;
@@ -11,13 +9,11 @@ export function tim(template, data) {
     for (let i = 0; i < len; i++) {
       let lookup = data[path[i]];
 
-      // Property not found
       if (lookup === undefined) {
-        console.error('tim: ' + path[i] + ' not found in ' + tag);
+        console.error('tim: unresolved ' + tag + ' in ' + template);
         return '[[error]]';
       }
 
-      // Return the required value
       if (i === len - 1) {
         return lookup;
       }

@@ -28,7 +28,7 @@ describe('AbilitySequenceComponent', () => {
             key: 'a1'
           }
         ],
-        sanitizedTooltip: 'Test {{ e1 }} (+{{ f1 }}) (+{{ a1 }}) e3 {{ e2 } }%.'
+        sanitizedTooltip: '{{ a1 }} {{ e1 }} {{ f1 }}'
       }]
     };
   }));
@@ -36,12 +36,12 @@ describe('AbilitySequenceComponent', () => {
 
   it('should create a tooltip', inject([AbilitySequenceComponent], (component) => {
     let extendedTooltip = component.getExtendedTooltip(0);
-    expect(extendedTooltip).toBe('Test 50 (+175) (+0.6) e3 35%.');
+    expect(extendedTooltip).toBe('0.6 50 175');
   }));
 
   it('should handle tooltip errors', inject([AbilitySequenceComponent], (component) => {
-    component.champion.spells[0].sanitizedTooltip = 'Test {{ e1 }} (+{{ f1 }}) (+{{ a1 }}) e3 {{ e2 } }%. {{f10}} {{f2}}  {{e3}}';
+    component.champion.spells[0].sanitizedTooltip = '{{f10}}';
     let extendedTooltip = component.getExtendedTooltip(0);
-    expect(extendedTooltip).toBe('Test 50 (+175) (+0.6) e3 35%. [[error]] 47  0.3');
+    expect(extendedTooltip).toBe('[[error]]');
   }));
 });
