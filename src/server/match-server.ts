@@ -1,9 +1,5 @@
 // let url = this.config.protocol + (type === 'static-data' ? 'global' : region) + this.config.hostname + tim(this.config[type], { region: region });
 import {IncomingMessage, ServerResponse} from 'http';
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
-var Lru = require('lru-cache');
 
 import {Server, Host} from './host';
 

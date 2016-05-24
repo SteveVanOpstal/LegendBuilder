@@ -1,15 +1,12 @@
 import {IncomingMessage, ServerResponse} from 'http';
 import * as http from 'http';
 import * as https from 'https';
-import {RequestOptions} from 'https';
 import * as url from 'url';
 let Lru = require('lru-cache');
-import * as fs from 'fs';
-import {parallel, retry} from 'async';
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
-import {tim} from '../app/misc/tim';
+
 let apiKey = '';
 try{
   apiKey = require('raw!../../.api.key');
@@ -30,7 +27,6 @@ export module Host {
     // summoner: '/{{region}}/v1.4/summoner/',
     // matchlist: '/{{region}}/v2.2/matchlist/',
     // match: '/{{region}}/v2.2/match/',
-    apiKey: fs.readFileSync('.api.key', 'utf8')
     apiKey: apiKey
   };
 
