@@ -16,6 +16,7 @@
   },
   "homepage": "http://legendbuilder.io/",
   "scripts": {
+    "check": "./node_modules/.bin/depcheck --parsers'*.js:es6,*.ts:typescript' --specials=bin,eslint,webpack",
     "clean": "npm cache clean && ./node_modules/.bin/rimraf node_modules typings coverage dist",
     "clean:dist:client": "./node_modules/.bin/rimraf dist/client",
     "clean:dist:server": "./node_modules/.bin/rimraf dist/server",
@@ -87,6 +88,7 @@
     "copy-webpack-plugin": "^3.0.0",
     "coveralls": "^2.11.9",
     "css-loader": "^0.23.1",
+    "depcheck": "^0.6.3",
     "glob": "^7.0.3",
     "html-webpack-plugin": "^2.14.0",
     "istanbul-instrumenter-loader": "^0.2.0",
