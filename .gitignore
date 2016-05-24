@@ -8,5 +8,4 @@ __pycache__/
 *.log
 
 .api.key
-.git.token
 .settings.json
