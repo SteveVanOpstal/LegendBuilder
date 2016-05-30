@@ -1,6 +1,6 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {Server, Host} from './host';
+import {Server, HostResponse} from './server';
 import {settings} from '../../config/settings';
 
 export class Summoner {
@@ -19,8 +19,8 @@ export class Summoner {
     });
   }
 
-  public getData(region: string, name: string, callback: (response: Host.Response) => void) {
-    let baseUrl = Host.config.protocol + region + Host.config.hostname + '/api/lol';
+  public getData(region: string, name: string, callback: (response: HostResponse) => void) {
+    let baseUrl = this.server.config.protocol + region + this.server.config.hostname + '/api/lol';
     var path = baseUrl + region + '/' + settings.apiVersions.summoner + '/summoner/by-name/' + name;
     this.server.sendRequest(path, region, callback);
   }

@@ -12,28 +12,20 @@ try {
   apiKey = require('raw!../../.api.key');
 } catch (e) { }
 
-export module Host {
-  export interface Response {
-    data: any;
-    json?: any;
-    status: number;
-    success: boolean;
-  }
+export interface HostResponse {
+  data: any;
+  json?: any;
+  status: number;
+  success: boolean;
+}
 
-  export let config = {
-    protocol: 'https://',
-    hostname: '.api.pvp.net',
-    apiKey: apiKey
-  };
+export function getPathname(path: string): Array<string> {
+  let pathname = url.parse(path).pathname;
+  return pathname.split('/');
+}
 
-  export function getPathname(path: string): Array<string> {
-    let pathname = url.parse(path).pathname;
-    return pathname.split('/');
-  }
-
-  export function getQuery(path: string): any {
-    return url.parse(path).query;
-  }
+export function getQuery(path: string): any {
+  return url.parse(path).query;
 }
 
 
@@ -43,6 +35,12 @@ export class Server {
   public headers = {
     'Access-Control-Allow-Origin': 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
     'content-type': 'application/json'
+  };
+
+  public config = {
+    protocol: 'https://',
+    hostname: '.api.pvp.net',
+    apiKey: apiKey
   };
 
   private options: https.RequestOptions = {
@@ -78,7 +76,7 @@ export class Server {
     console.log(this.host + ':' + this.port);
   }
 
-  public sendRequest(url: string, region: string, callback: (response: Host.Response) => void): void {
+  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void): void {
     url = this.transformPath(url, region);
 
     let options: https.RequestOptions = { path: url };
@@ -95,21 +93,21 @@ export class Server {
     return this.cache.get(url);
   }
 
-  private sendHttpsRequest(options: https.RequestOptions, callback: (response: Host.Response) => void) {
+  private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = https.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on('error', (e) => this.handleResponseError(console, options, e, callback));
     req.end();
   }
 
-  private sendHttpRequest(options: any, callback: (response: Host.Response) => void) {
+  private sendHttpRequest(options: any, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = http.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on('error', (e) => this.handleResponseError(console, options, e, callback));
     req.end();
   }
 
-  private handleResponse(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, callback: (response: Host.Response) => void) {
+  private handleResponse(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, callback: (response: HostResponse) => void) {
     let data = '';
     res.on('data', (d: string) => {
       data += d;
@@ -119,7 +117,7 @@ export class Server {
     });
   }
 
-  private handleResponseSuccess(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any, callback: (response: Host.Response) => void) {
+  private handleResponseSuccess(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any, callback: (response: HostResponse) => void) {
     let json = {};
     try {
       json = JSON.parse(data);
@@ -128,7 +126,7 @@ export class Server {
       return;
     }
 
-    let response: Host.Response = {
+    let response: HostResponse = {
       data: data,
       json: json,
       status: res.statusCode,
@@ -138,8 +136,8 @@ export class Server {
     callback(response);
   }
 
-  private handleResponseError(console: ColorConsole, options: any, e: any, callback: (response: Host.Response) => void) {
-    let response: Host.Response = {
+  private handleResponseError(console: ColorConsole, options: any, e: any, callback: (response: HostResponse) => void) {
+    let response: HostResponse = {
       data: e,
       status: e.statusCode,
       success: false
@@ -210,14 +208,14 @@ export class Server {
   }
 
   private getChampions(region: string, callback: (err, result: { region: string, champions?: Array<number> }) => void) {
-    let championUrl = Host.config.protocol + 'global' + Host.config.hostname + '/api/lol/static-data/' + region + '/' + settings.apiVersions['static-data'] + '/champion';
+    let championUrl = this.config.protocol + 'global' + this.config.hostname + '/api/lol/static-data/' + region + '/' + settings.apiVersions['static-data'] + '/champion';
 
     championUrl = this.addApiKey(championUrl);
 
     let options: https.RequestOptions = { path: championUrl };
     this.merge(this.options, options);
 
-    this.sendHttpsRequest(options, (response: Host.Response) => {
+    this.sendHttpsRequest(options, (response: HostResponse) => {
       if (response.success) {
         let champions = [];
         for (let championKey in response.json.data) {
@@ -262,7 +260,7 @@ export class Server {
   }
 
   private addApiKey(path: string): string {
-    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + Host.config.apiKey;
+    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + this.config.apiKey;
     return path;
   }
 

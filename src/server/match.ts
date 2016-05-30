@@ -1,7 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 import {waterfall, parallel} from 'async';
 
-import {Server, Host} from './host';
+import {Server, HostResponse} from './server';
 import {Summoner} from './summoner';
 import {settings} from '../../config/settings';
 
@@ -70,7 +70,7 @@ export class Match {
     });
   }
 
-  private getData(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, callback: (response: Host.Response) => void) {
+  private getData(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, callback: (response: HostResponse) => void) {
     gameTime = isNaN(gameTime) ? config.default.gameTime : gameTime;
     sampleSize = isNaN(sampleSize) ? config.default.sampleSize : sampleSize;
     var stepSize = gameTime / (sampleSize - 1);
@@ -95,7 +95,7 @@ export class Match {
       ],
       (error, results) => {
         if (error) {
-          let response: Host.Response;
+          let response: HostResponse;
           response.data = error.message;
           //response.status = error.status;
           response.success = false;
@@ -108,7 +108,7 @@ export class Match {
         var samples = this.getSamples(matches, sampleSize, stepSize);
         results = JSON.stringify(samples);
 
-        let response: Host.Response;
+        let response: HostResponse;
         response.data = samples;
         response.json = results;
         response.status = 200;
@@ -120,9 +120,9 @@ export class Match {
   }
 
   private getMatchList(region, summonerId, championKey, callback: CallBack) {
-    let baseUrl = Host.config.protocol + region + Host.config.hostname + '/api/lol';
+    let baseUrl = this.server.config.protocol + region + this.server.config.hostname + '/api/lol';
     var path = baseUrl + region + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
-    this.server.sendRequest(path, region, (res: Host.Response) => {
+    this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
         return callback(null, res.json);
       } else if (res.success) {
@@ -174,9 +174,9 @@ export class Match {
   }
 
   private getMatch(region: string, summonerId: number, matchId: number, callback: CallBack) {
-    let baseUrl = Host.config.protocol + region + Host.config.hostname + '/api/lol';
+    let baseUrl = this.server.config.protocol + region + this.server.config.hostname + '/api/lol';
     var path = baseUrl + region + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
-    this.server.sendRequest(path, region, (res: Host.Response) => {
+    this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success) {
         callback(null, res.json);
       } else {

@@ -1,7 +1,7 @@
 import {RequestOptions} from 'https';
-import {Server, Host} from '../host';
+import {Server, HostResponse} from '../server';
 
-class Response implements Host.Response {
+class Response implements HostResponse {
   data: string = '';
   json: string = '';
   status = 200;
@@ -39,7 +39,7 @@ export class MockServer extends Server {
     super('', 1234);
   }
 
-  public sendRequest(url: string, region: string, callback: (response: Host.Response) => void): void {
+  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void): void {
     this.response.url = url;
     callback(this.response);
   }

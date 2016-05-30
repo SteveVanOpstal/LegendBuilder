@@ -1,7 +1,7 @@
 // let url = this.config.protocol + (type === 'static-data' ? 'global' : region) + this.config.hostname + tim(this.config[type], { region: region });
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {Server, Host} from './host';
+import {Server, getPathname, getQuery} from './server';
 
 import {settings} from '../../config/settings';
 
@@ -16,8 +16,8 @@ let summoner = new Summoner(server);
 let match = new Match(server);
 
 server.run((request: IncomingMessage, response: ServerResponse) => {
-  let pathname = Host.getPathname(request.url);
-  let query = Host.getQuery(request.url);
+  let pathname = getPathname(request.url);
+  let query = getQuery(request.url);
   var region = pathname[1];
   var type = pathname[2];
 
