@@ -268,7 +268,7 @@ export class Server {
 
   private maskApiKey(path: string): string {
     if (process.env.NODE_ENV === 'development') {
-      return;
+      return path;
     }
     let apiKeyPostion = path.indexOf('api_key=');
     if (apiKeyPostion === -1) {
