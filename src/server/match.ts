@@ -48,6 +48,7 @@ module Errors {
 };
 
 interface CallBack { (err: HttpError, results?: any): void; }
+interface Sample { xp: number; g: number; }
 
 export class Match {
   private summoner: Summoner;
@@ -69,7 +70,7 @@ export class Match {
     });
   }
 
-  public getData(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, callback: (response: Host.Response) => void) {
+  private getData(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, callback: (response: Host.Response) => void) {
     gameTime = isNaN(gameTime) ? config.default.gameTime : gameTime;
     sampleSize = isNaN(sampleSize) ? config.default.sampleSize : sampleSize;
     var stepSize = gameTime / (sampleSize - 1);
@@ -210,11 +211,51 @@ export class Match {
     return games;
   }
 
-  private getRelativeOf(frames, time, frameCb) {
-    if (!frames) {
-      return false;
+  private getSamples(matches: Array<Array<any>>, sampleSize: number, factor: number): Array<Sample> {
+    var samples = Array<Sample>();
+    for (var i = 0; i < sampleSize; i++) {
+      var absFactor = i * factor;
+      var absXp = 0;
+      var absG = 0;
+
+      for (let index in matches) {
+        var frames = matches[index];
+        absXp += this.getRelativeOf(frames, absFactor, (frame) => { return frame.xp; });
+        absG += this.getRelativeOf(frames, absFactor, (frame) => { return frame.g; });
+      }
+
+      let sample: Sample;
+      sample.xp[i] = Math.round(absXp / matches.length);
+      sample.g[i] = Math.round(absG / matches.length);
+      samples.push(sample);
     }
 
+    return samples;
+  }
+
+  private getRelativeOf(frames: Array<any>, time: number, callback: (frame: any) => number): number {
+    if (!frames) {
+      return 0;
+    }
+
+    var index = this.getFrameIndex(frames, time);
+    if (index < 0) {
+      return 0;
+    }
+
+    var lowerFrame = frames[index - 1];
+    var upperFrame = frames[index];
+
+    var ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
+
+    let lowerValue = (callback(lowerFrame));
+    let upperValue = (callback(upperFrame));
+    var rel = upperValue - lowerValue * ratio;
+
+    return lowerValue + rel;
+  }
+
+  private getFrameIndex(frames: Array<any>, time: number) {
     var index = -1;
     for (var j = 0; j < frames.length; j++) {
       if (frames[j].time > time) {
@@ -222,37 +263,6 @@ export class Match {
         break;
       }
     }
-
-    if (index > 0) {
-      var lowerFrame = frames[index - 1];
-      var upperFrame = frames[index];
-
-      var ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
-      var rel = (frameCb(upperFrame) - frameCb(lowerFrame)) * ratio;
-
-      return frameCb(lowerFrame) + rel;
-    } else {
-      return false;
-    }
-  }
-
-  private getSamples(games, sampleSize, factor) {
-    var result = { xp: [], g: [] };
-    for (var i = 0; i < sampleSize; i++) {
-      var absFactor = i * factor;
-      var absXp = 0;
-      var absG = 0;
-
-      for (var j = 0; j < games.length; j++) {
-        var frames = games[j];
-        absXp += this.getRelativeOf(frames, absFactor, function (frame) { return frame.xp; });
-        absG += this.getRelativeOf(frames, absFactor, function (frame) { return frame.g; });
-      }
-
-      result.xp[i] = Math.round(absXp / games.length);
-      result.g[i] = Math.round(absG / games.length);
-    }
-
-    return result;
+    return index;
   }
 }
