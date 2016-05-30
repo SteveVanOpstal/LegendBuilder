@@ -233,7 +233,7 @@ export class Server {
 
   private handleChampions = (err, result) => {
     if (err) {
-      setTimeout(this.getChampions(result.region, this.handleChampions), 60 * 1000);
+      setTimeout(this.getChampions, 10 * 1000, result.region, this.handleChampions);
       return;
     }
     this.champions[result.region] = result.champions;
