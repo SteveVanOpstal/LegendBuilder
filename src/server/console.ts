@@ -1,4 +1,4 @@
-import * as Colors from 'colors';
+var chalk = require('chalk');
 var dateFormat = require('dateformat');
 
 import {tim} from '../app/misc/tim';
@@ -17,17 +17,17 @@ export class ColorConsole {
   }
 
   public debug(message?: any, ...optionalParams: any[]): void {
-    optionalParams.unshift(Colors.blue(this.format(message, 'DBG')));
+    optionalParams.unshift(chalk.blue(this.format(message, 'DBG')));
     console.debug.apply(this, optionalParams);
   }
 
   public error(message?: any, ...optionalParams: any[]): void {
-    optionalParams.unshift(Colors.red(this.format(message, 'ERR')));
+    optionalParams.unshift(chalk.red(this.format(message, 'ERR')));
     console.error.apply(this, optionalParams);
   }
 
   public info(message?: any, ...optionalParams: any[]): void {
-    optionalParams.unshift(Colors.green(this.format(message, 'INF')));
+    optionalParams.unshift(chalk.green(this.format(message, 'INF')));
     console.info.apply(this, optionalParams);
   }
 
@@ -37,12 +37,12 @@ export class ColorConsole {
   }
 
   public trace(message?: any, ...optionalParams: any[]): void {
-    optionalParams.unshift(Colors.magenta(this.format(message, 'TRC')));
+    optionalParams.unshift(chalk.magenta(this.format(message, 'TRC')));
     console.trace.apply(this, optionalParams);
   }
 
   public warn(message?: any, ...optionalParams: any[]): void {
-    optionalParams.unshift(Colors.yellow(this.format(message, 'WRN')));
+    optionalParams.unshift(chalk.yellow(this.format(message, 'WRN')));
     console.warn.apply(this, optionalParams);
   }
 
