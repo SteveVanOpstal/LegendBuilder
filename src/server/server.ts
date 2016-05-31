@@ -85,6 +85,10 @@ export class Server {
     this.sendHttpsRequest(options, callback);
   }
 
+  public getHostname(region?: string) {
+    return region ? region : 'global' + this.config.hostname;
+  }
+
   public setCache(url: string, data: any): void {
     this.cache.set(url, data);
   }
@@ -208,7 +212,7 @@ export class Server {
   }
 
   private getChampions(region: string, callback: (err, result: { region: string, champions?: Array<number> }) => void) {
-    let championUrl = this.config.protocol + 'global' + this.config.hostname + '/api/lol/static-data/' + region + '/' + settings.apiVersions['static-data'] + '/champion';
+    let championUrl = this.config.protocol + this.getHostname() + '/api/lol/static-data/' + region + '/' + settings.apiVersions['static-data'] + '/champion';
 
     championUrl = this.addApiKey(championUrl);
 
