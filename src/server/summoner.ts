@@ -21,7 +21,7 @@ export class Summoner {
 
   public getData(region: string, name: string, callback: (response: HostResponse) => void) {
     let baseUrl = this.server.config.protocol + this.server.getHostname(region) + '/api/lol';
-    var path = baseUrl + region + '/' + settings.apiVersions.summoner + '/summoner/by-name/' + name;
+    let path = baseUrl + region + '/' + settings.apiVersions.summoner + '/summoner/by-name/' + name;
     this.server.sendRequest(path, region, callback);
   }
 }

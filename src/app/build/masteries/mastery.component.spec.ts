@@ -87,7 +87,7 @@ describe('MasteryComponent', () => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
     component.enabled = false;
-    component.data = null;
+    component.data = undefined;
     component.enable();
     expect(component.disable).toHaveBeenCalled();
   }));
@@ -170,9 +170,9 @@ describe('MasteryComponent', () => {
   }));
 
   it('should get max rank zero when there is no data', inject([MasteryComponent], (component) => {
-    component.data = null;
+    component.data = undefined;
     expect(component.getMaxRank()).toBe(0);
-    component.data = { ranks: null };
+    component.data = { ranks: undefined };
     expect(component.getMaxRank()).toBe(0);
   }));
 

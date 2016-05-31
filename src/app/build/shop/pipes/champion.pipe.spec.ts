@@ -32,8 +32,8 @@ describe('Shop ChampionPipe', () => {
     expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]);
   }));
 
-  it('should not filter null', inject([ChampionPipe], (pipe) => {
-    expect(pipe.transform(null, 3)).toBe(null);
-    expect(pipe.transform(items, null)).toBe(items);
+  it('should not filter undefined', inject([ChampionPipe], (pipe) => {
+    expect(pipe.transform(undefined, 3)).toBe(undefined);
+    expect(pipe.transform(items, undefined)).toBe(items);
   }));
 });

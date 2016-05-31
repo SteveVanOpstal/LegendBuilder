@@ -9,7 +9,7 @@ import {DDragonDirective} from '../misc/ddragon.directive';
   selector: 'g[ability-sequence]',
   directives: [NgFor, NgClass, DDragonDirective],
   template: `
-    <svg:g xmlns="http://www.w3.org/2000/svg" version="1.1" class="ability" [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
+    <svg:g xmlns="http://www.w3.org/2000/svg" version="1.1" class="ability" [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = i">
       <g fill="gray">
         <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"></rect>
       </g>
@@ -28,46 +28,43 @@ export class AbilitySequenceComponent {
   private height: number = 250;
 
   getExtendedTooltip(index: number): string {
-    var spell = this.champion.spells[index];
+    let spell = this.champion.spells[index];
     return this.applyEffects(spell);
   }
 
-  applyEffects(spell: any) {
-    var effects = new Object();
+  private applyEffects(spell: any) {
+    let effects = new Object();
 
     if (spell.effect) {
-      spell.effect.forEach((value, i) => {
+      for (let i = 0; i < spell.effect.length; i++) {
+        let value = spell.effect[i];
         if (value) {
           effects['e' + i] = value[0];
         }
-      });
+      }
     }
 
-    if (spell.vars) {
-      spell.vars.forEach((value, i) => {
+    if (spell.lets) {
+      for (let value of spell.lets) {
         if (value.key && value.coeff) {
           effects[value.key] = value.coeff[0];
         }
-      });
+      }
     }
 
-    var stats = this.getStats();
-    for (var attrname in stats) {
-      effects[attrname] = stats[attrname];
+    let stats = this.getStats();
+    for (let i = 0; i < stats.length; i++) {
+      effects[i] = stats[i];
     }
 
     return tim(spell.sanitizedTooltip, effects);
   }
 
-  getStats() {
-    var stats = new Object();
-
-    var i = 0;
-    for (var stat in this.champion.stats) {
-      i++;
-      stats['f' + i] = this.champion.stats[stat];
+  private getStats(): Array<string> {
+    let stats = [];
+    for (let i = 0; i < this.champion.stats.length; i++) {
+      stats['f' + i] = this.champion.stats[i];
     }
-
     return stats;
   }
 }

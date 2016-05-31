@@ -29,6 +29,6 @@ export class ErrorComponent {
   @Output() retry: EventEmitter<any> = new EventEmitter<any>();
 
   retryClicked() {
-    this.retry.emit(null);
+    this.retry.emit(undefined);
   }
 }

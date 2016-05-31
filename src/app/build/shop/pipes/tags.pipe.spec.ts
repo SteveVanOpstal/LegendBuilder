@@ -39,9 +39,9 @@ describe('Shop TagsPipe', () => {
     expect(pipe.transform(items, tags)).toHaveEqualContent([item2]);
   }));
 
-  it('should not filter null', inject([TagsPipe], (pipe) => {
+  it('should not filter undefined', inject([TagsPipe], (pipe) => {
     let tags = ['Armor'];
-    expect(pipe.transform(null, tags)).toBe(null);
-    expect(pipe.transform(items, null)).toBe(items);
+    expect(pipe.transform(undefined, tags)).toBe(undefined);
+    expect(pipe.transform(items, undefined)).toBe(items);
   }));
 });

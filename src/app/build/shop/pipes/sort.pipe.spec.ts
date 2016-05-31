@@ -33,7 +33,7 @@ describe('Shop SortPipe', () => {
     expect(pipe.transform(items)).toHaveEqualContent([item2, item3, item1]);
   }));
 
-  it('should not sort null', inject([SortPipe], (pipe) => {
-    expect(pipe.transform(null)).toBe(null);
+  it('should not sort undefined', inject([SortPipe], (pipe) => {
+    expect(pipe.transform(undefined)).toBe(undefined);
   }));
 });

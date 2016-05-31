@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ViewChildren, QueryList} from '@angular/core';
 import {NgFor} from '@angular/common';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
 import {LoadingComponent} from '../../misc/loading.component';
 import {ErrorComponent} from '../../misc/error.component';
@@ -13,46 +15,51 @@ import {LolApiService} from '../../misc/lolapi.service';
   providers: [LolApiService],
   directives: [NgFor, MasteryCategoryComponent, LoadingComponent, ErrorComponent],
   template: `
-    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="let category of data"></mastery-category>
+    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="let category of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery-category>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
 })
 
 export class MasteriesComponent {
+  @ViewChildren(MasteryCategoryComponent) children: QueryList<MasteryCategoryComponent>;
+
   private data: Object;
   private loading: boolean = true;
   private error: boolean = false;
-
-  private categoryComponents: Array<MasteryCategoryComponent> = new Array<MasteryCategoryComponent>();
 
   constructor(private lolApi: LolApiService) {
     this.getData();
   }
 
-  public addCategoryComponent(category: MasteryCategoryComponent) {
-    this.categoryComponents.push(category);
-  }
-
   public enable() {
-    this.categoryComponents.forEach((c) => c.enable());
+    this.children.forEach((c) => c.enable());
   }
   public disable() {
-    this.categoryComponents.forEach((c) => c.disable());
+    this.children.forEach((c) => c.disable());
   }
 
   public getRank(): number {
-    var rank = 0;
-    this.categoryComponents.forEach((c) => rank += c.getRank());
+    let rank = 0;
+    this.children.forEach((c) => rank += c.getRank());
     return rank;
   }
 
-  public rankAdded() {
+  public rankAdd(tier: MasteryTierComponent, mastery: MasteryComponent) {
+    let deviation = this.getTotalRankDeviation();
+    if (deviation) {
+      if (tier.getRank() > mastery.getRank()) {
+        tier.setOtherRank(mastery, tier.getRank() - deviation - mastery.getRank());
+      } else {
+        mastery.setRank(tier.getRank() - deviation);
+      }
+    }
+
     if (this.getRank() >= 30) {
       this.disable();
     }
   }
 
-  public rankRemoved() {
+  public rankRemove() {
     if (this.getRank() === 29) {
       this.enable();
     }
@@ -70,21 +77,21 @@ export class MasteriesComponent {
       );
   }
 
-  private alterData(newMasteries: Object) {
-    var alteredMasteries = [];
+  private alterData(newMasteries: any) {
+    let alteredMasteries = [];
 
-    for (var categoryName in newMasteries['tree']) {
-      var category = newMasteries['tree'][categoryName];
-      var tiers = [];
-      for (var masteryTreeItemName in category) {
-        var masteryTreeItem = category[masteryTreeItemName];
-        var item = [];
-        for (var masteryName in masteryTreeItem['masteryTreeItems']) {
-          var mastery = masteryTreeItem['masteryTreeItems'][masteryName];
-          if (mastery !== null) {
-            item.push(newMasteries['data'][mastery.masteryId]);
+    for (let categoryName in newMasteries.tree) {
+      let category = newMasteries.tree[categoryName];
+      let tiers = [];
+      for (let masteryTreeItemName in category) {
+        let masteryTreeItem = category[masteryTreeItemName];
+        let item = [];
+        for (let masteryName in masteryTreeItem.masteryTreeItems) {
+          let mastery = masteryTreeItem.masteryTreeItems[masteryName];
+          if (mastery !== undefined) {
+            item.push(newMasteries.data[mastery.masteryId]);
           } else {
-            item.push(null);
+            item.push(undefined);
           }
         }
         tiers.push(item);
@@ -93,5 +100,10 @@ export class MasteriesComponent {
     }
 
     return alteredMasteries;
+  }
+
+  private getTotalRankDeviation() {
+    let deviation = this.getRank() - 30;
+    return deviation > 0 ? deviation : 0;
   }
 }

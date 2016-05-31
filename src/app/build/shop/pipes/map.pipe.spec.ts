@@ -38,8 +38,8 @@ describe('Shop MapPipe', () => {
     expect(pipe.transform(items, 1)).toHaveEqualContent([item1, item2]);
   }));
 
-  it('should not filter null', inject([MapPipe], (pipe) => {
-    expect(pipe.transform(null, 1)).toBe(null);
-    expect(pipe.transform(items, null)).toBe(items);
+  it('should not filter undefined', inject([MapPipe], (pipe) => {
+    expect(pipe.transform(undefined, 1)).toBe(undefined);
+    expect(pipe.transform(items, undefined)).toBe(items);
   }));
 });

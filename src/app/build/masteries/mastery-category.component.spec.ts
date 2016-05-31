@@ -197,15 +197,15 @@ describe('MasteryCategoryComponent', () => {
     component.tierComponents[0].masteryComponents[0].rank = 1;
 
     spyOn(component.masteries, 'rankRemoved');
-    component.rankRemoved(null, component.tierComponents[0].masteryComponents[0]);
+    component.rankRemoved(undefined, component.tierComponents[0].masteryComponents[0]);
     expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
-    component.rankRemoved(component.tierComponents[0], null);
+    component.rankRemoved(component.tierComponents[0], undefined);
     expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
 
     spyOn(component.masteries, 'rankAdded');
-    component.rankAdded(null, component.tierComponents[0].masteryComponents[0]);
+    component.rankAdded(undefined, component.tierComponents[0].masteryComponents[0]);
     expect(component.masteries.rankAdded).not.toHaveBeenCalled();
-    component.rankAdded(component.tierComponents[0], null);
+    component.rankAdded(component.tierComponents[0], undefined);
     expect(component.masteries.rankAdded).not.toHaveBeenCalled();
   }));
 

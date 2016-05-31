@@ -105,7 +105,7 @@ export class GraphComponent implements OnChanges, OnInit {
       return;
     }
 
-    var lastXpMark = this.config.xp[this.config.xp.length - 1];
+    let lastXpMark = this.config.xp[this.config.xp.length - 1];
 
     this.xScaleLevel = d3.scale.linear()
       .domain([0, lastXpMark])
@@ -116,7 +116,7 @@ export class GraphComponent implements OnChanges, OnInit {
       .tickSize(-this.height + this.margin.top + this.margin.bottom)
       .tickValues(this.levelXpMarks);
 
-    var values = [];
+    let values = [];
     this.levelXpMarks.forEach((v, i, a) => {
       values[i] = v + (((!a[i + 1] ? lastXpMark : a[i + 1]) - v) / 2);
     });
@@ -130,7 +130,7 @@ export class GraphComponent implements OnChanges, OnInit {
     this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine);
     this.svg.select('.x.axis.level-text').call(this.xAxisLevelText);
 
-    for (var i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 4; i++) {
       this.svg.selectAll('.x.axis.level-text .tick')
         .append('foreignObject')
         .attr('y', -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.margin.bottom)

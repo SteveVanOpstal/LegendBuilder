@@ -15,7 +15,7 @@ import {MockRouteSegment} from '../testing';
 describe('BuildComponent', () => {
   beforeEachProviders(() => [
     ROUTER_FAKE_PROVIDERS,
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw', champion: 'VelKoz' })}),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw', champion: 'VelKoz' }) }),
 
     BaseRequestOptions,
     MockBackend,
@@ -29,11 +29,6 @@ describe('BuildComponent', () => {
     LolApiService,
     BuildComponent
   ]);
-
-  let config = new Config();
-  config.xp = [0, 1];
-  config.g = [0, 1];
-  let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
 
 
   it('should be initialised', inject([BuildComponent], (component) => {
@@ -52,8 +47,6 @@ describe('BuildComponent', () => {
   }));
 
   it('should call getMatchData() on contruct', inject([RouteSegment, LolApiService], (routeSegment, service) => {
-    // todo: figure out MockRouteSegment
-    // routeSegment = new RouteSegment(,{ summoner: 'xXxSwagLord69xXx' });
     spyOn(BuildComponent.prototype, 'getMatchData');
     expect(BuildComponent.prototype.getMatchData).not.toHaveBeenCalled();
     let component = new BuildComponent(routeSegment, service);
@@ -76,7 +69,6 @@ describe('BuildComponent', () => {
   }));
 
   it('should handle a champion error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
@@ -92,6 +84,8 @@ describe('BuildComponent', () => {
 
 
   it('should handle a match request', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+    let config = { xp: [0, 1], g: [0, 1] };
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
@@ -105,6 +99,7 @@ describe('BuildComponent', () => {
   }));
 
   it('should handle a match error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+    let config = { xp: [0, 1], g: [0, 1] };
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();

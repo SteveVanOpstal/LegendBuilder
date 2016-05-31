@@ -9,7 +9,7 @@ export class ToIterablePipe implements PipeTransform {
     if (!values || typeof values !== 'object') {
       return values;
     }
-    var dataArr = [];
+    let dataArr = [];
     Object.keys(values).forEach(key => {
       dataArr.push(values[key]);
     });

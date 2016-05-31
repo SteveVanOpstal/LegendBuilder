@@ -18,8 +18,8 @@ describe('SortPipe', () => {
     champions = [champion1, champion2, champion3];
   });
 
-  it('should order alphabetical on \'null\'', inject([SortPipe], (pipe) => {
-    let result = pipe.transform(champions, null);
+  it('should order alphabetical on \'undefined\'', inject([SortPipe], (pipe) => {
+    let result = pipe.transform(champions, undefined);
     expect(result).toHaveEqualContent([champion2, champion1, champion3]); // alphabetical order
   }));
 
@@ -34,8 +34,8 @@ describe('SortPipe', () => {
   }));
 
   it('should not filter on invalid champions', inject([SortPipe], (pipe) => {
-    let result = pipe.transform(null, ['attack']);
-    expect(result).toBe(null);
+    let result = pipe.transform(undefined, ['attack']);
+    expect(result).toBe(undefined);
   }));
 
   it('should order by \'attack\'', inject([SortPipe], (pipe) => {

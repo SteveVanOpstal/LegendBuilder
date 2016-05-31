@@ -5,7 +5,7 @@ import {Server, HostResponse} from './server';
 import {Summoner} from './summoner';
 import {settings} from '../../config/settings';
 
-var config = {
+let config = {
   games: {
     min: 2,
     max: 5
@@ -24,24 +24,24 @@ interface HttpError {
   error: string;
 }
 
-module Errors {
-  export let badRequest: HttpError = {
+namespace Errors {
+  let badRequest: HttpError = {
     code: 400,
     error: 'Invalid request.'
   };
-  export let invalidSummoner: HttpError = {
+  let invalidSummoner: HttpError = {
     code: 404,
     error: 'Unable to find summoner.'
   };
-  export let matchlist: HttpError = {
+  let matchlist: HttpError = {
     code: 404,
     error: 'Unable to find sufficient games. Play at least ' + config.games.min + ' ranked games with the chosen champion.'
   };
-  export let matches: HttpError = {
+  let matches: HttpError = {
     code: 500,
     error: 'Unable to process match data.'
   };
-  export let participant: HttpError = {
+  let participant: HttpError = {
     code: 404,
     error: 'Unable to find participant.'
   };
@@ -73,39 +73,39 @@ export class Match {
   private getData(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, callback: (response: HostResponse) => void) {
     gameTime = isNaN(gameTime) ? config.default.gameTime : gameTime;
     sampleSize = isNaN(sampleSize) ? config.default.sampleSize : sampleSize;
-    var stepSize = gameTime / (sampleSize - 1);
+    let stepSize = gameTime / (sampleSize - 1);
 
     waterfall(
       [
-        (callback) => {
+        (cb) => {
           this.summoner.getData(region, summonerName, (res) => {
             if (res.success) {
-              callback(res.json[summonerName].id);
+              cb(res.json[summonerName].id);
             } else {
-              callback(null, res.data);
+              cb(undefined, res.data);
             }
           });
         },
-        (summonerId, callback) => {
-          this.getMatchList(region, summonerId, championKey, callback);
+        (summonerId, cb) => {
+          this.getMatchList(region, summonerId, championKey, cb);
         },
-        (summonerId, matches, callback) => {
-          this.getMatches(region, summonerId, matches, callback);
+        (summonerId, matches, cb) => {
+          this.getMatches(region, summonerId, matches, cb);
         }
       ],
       (error, results) => {
         if (error) {
           let response: HostResponse;
           response.data = error.message;
-          //response.status = error.status;
+          // response.status = error.status;
           response.success = false;
           callback(response);
           return;
         }
 
-        var matches = this.fill(results.matches, results.interval, gameTime);
+        let matches = this.fill(results.matches, results.interval, gameTime);
 
-        var samples = this.getSamples(matches, sampleSize, stepSize);
+        let samples = this.getSamples(matches, sampleSize, stepSize);
         results = JSON.stringify(samples);
 
         let response: HostResponse;
@@ -121,10 +121,10 @@ export class Match {
 
   private getMatchList(region, summonerId, championKey, callback: CallBack) {
     let baseUrl = this.server.config.protocol + this.server.getHostname(region) + '/api/lol';
-    var path = baseUrl + region + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
+    let path = baseUrl + region + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
-        return callback(null, res.json);
+        return callback(undefined, res.json);
       } else if (res.success) {
         return callback(Errors.matchlist);
       } else {
@@ -136,21 +136,21 @@ export class Match {
   private getMatches(region: string, summonerId: number, matches, callback: CallBack) {
     let matchRequests = [];
     for (let index in matches) {
-      matchRequests.push((callback) => {
+      matchRequests.push((cb) => {
         let match = matches[index];
-        this.getMatch(region, summonerId, match.matchId, callback);
+        this.getMatch(region, summonerId, match.matchId, cb);
       });
     }
 
     parallel(matchRequests, (err, results: Array<any>) => {
-      var data = { interval: 120000, matches: [] };
+      let data = { interval: 120000, matches: [] };
       for (let index in results) {
         let result = results[index];
         if (data.interval > result.timeline.frameInterval) {
           data.interval = result.timeline.frameInterval;
         }
 
-        var participantId = -1;
+        let participantId = -1;
         result.participantIdentities.forEach((participant) => {
           if (participant.player.summonerId === summonerId) {
             participantId = participant.participantId;
@@ -175,10 +175,10 @@ export class Match {
 
   private getMatch(region: string, summonerId: number, matchId: number, callback: CallBack) {
     let baseUrl = this.server.config.protocol + this.server.getHostname(region) + '/api/lol';
-    var path = baseUrl + region + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
+    let path = baseUrl + region + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success) {
-        callback(null, res.json);
+        callback(undefined, res.json);
       } else {
         callback(Errors.matches);
       }
@@ -186,25 +186,25 @@ export class Match {
   }
 
   private fill(games, interval, limit) {
-    for (var i = 0; i < games.length; i++) {
-      var frames = games[i];
-      var deltaXp = 0;
-      var deltaG = 0;
-      var sampleSize = config.fill.sampleTime / interval;
+    for (let i = 0; i < games.length; i++) {
+      let frames = games[i];
+      let deltaXp = 0;
+      let deltaG = 0;
+      let sampleSize = config.fill.sampleTime / interval;
 
       // gather samples
-      for (var j = frames.length - 1; j >= frames.length - sampleSize; j--) {
-        var frame = frames[j];
-        var prevFrame = frames[j - 1];
+      for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
+        let frame = frames[j];
+        let prevFrame = frames[j - 1];
         deltaXp += frame.xp - prevFrame.xp;
         deltaG += frame.g - prevFrame.g;
       }
-      var avgDeltaXp = deltaXp / sampleSize;
-      var avgDeltaG = deltaG / sampleSize;
+      let avgDeltaXp = deltaXp / sampleSize;
+      let avgDeltaG = deltaG / sampleSize;
 
       // fill up games using the average trend of the samples
       while (games[i][games[i].length - 1].time < limit) {
-        var lastFrame = games[i][games[i].length - 1];
+        let lastFrame = games[i][games[i].length - 1];
         games[i][games[i].length] = { time: lastFrame.time + interval, xp: lastFrame.xp + avgDeltaXp, g: lastFrame.g + avgDeltaG };
       }
     }
@@ -212,14 +212,13 @@ export class Match {
   }
 
   private getSamples(matches: Array<Array<any>>, sampleSize: number, factor: number): Array<Sample> {
-    var samples = Array<Sample>();
-    for (var i = 0; i < sampleSize; i++) {
-      var absFactor = i * factor;
-      var absXp = 0;
-      var absG = 0;
+    let samples = Array<Sample>();
+    for (let i = 0; i < sampleSize; i++) {
+      let absFactor = i * factor;
+      let absXp = 0;
+      let absG = 0;
 
-      for (let index in matches) {
-        var frames = matches[index];
+      for (let frames of matches) {
         absXp += this.getRelativeOf(frames, absFactor, (frame) => { return frame.xp; });
         absG += this.getRelativeOf(frames, absFactor, (frame) => { return frame.g; });
       }
@@ -238,26 +237,26 @@ export class Match {
       return 0;
     }
 
-    var index = this.getFrameIndex(frames, time);
+    let index = this.getFrameIndex(frames, time);
     if (index < 0) {
       return 0;
     }
 
-    var lowerFrame = frames[index - 1];
-    var upperFrame = frames[index];
+    let lowerFrame = frames[index - 1];
+    let upperFrame = frames[index];
 
-    var ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
+    let ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
 
     let lowerValue = (callback(lowerFrame));
     let upperValue = (callback(upperFrame));
-    var rel = upperValue - lowerValue * ratio;
+    let rel = upperValue - lowerValue * ratio;
 
     return lowerValue + rel;
   }
 
   private getFrameIndex(frames: Array<any>, time: number) {
-    var index = -1;
-    for (var j = 0; j < frames.length; j++) {
+    let index = -1;
+    for (let j = 0; j < frames.length; j++) {
       if (frames[j].time > time) {
         index = j;
         break;

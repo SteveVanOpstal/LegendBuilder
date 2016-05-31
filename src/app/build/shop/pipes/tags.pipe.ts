@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {Item} from '../../../misc/item';
 
 @Pipe({
   name: 'tags',
@@ -10,14 +11,14 @@ export class TagsPipe implements PipeTransform {
     if (!items || !tags) {
       return items;
     }
-    return items.filter((item) => {
-      if (!item['tags']) {
+    return items.filter((item: Item) => {
+      if (!item.tags) {
         return false;
       }
       if (tags && tags.length > 0) {
-        for (var tag in tags) {
-          item['tags'] = item['tags'].map(tag => tag.toLowerCase());
-          if (item['tags'].indexOf(tags[tag].toLowerCase()) === -1) {
+        for (let tag in tags) {
+          item.tags = item.tags.map(tag => tag.toLowerCase());
+          if (item.tags.indexOf(tags[tag].toLowerCase()) === -1) {
             return false;
           }
         }

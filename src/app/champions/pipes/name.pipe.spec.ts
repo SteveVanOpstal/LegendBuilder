@@ -15,8 +15,8 @@ describe('NamePipe', () => {
     champions = [{ name: 'Amumu' }, { name: 'Ahri' }, { name: 'Vel\'Koz' }];
   });
 
-  it('should not filter on \'null\'', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(champions, null);
+  it('should not filter on \'undefined\'', inject([NamePipe], (pipe) => {
+    champions = pipe.transform(champions, undefined);
     expect(champions.length).toBe(3);
   }));
 
@@ -26,8 +26,8 @@ describe('NamePipe', () => {
   }));
 
   it('should not filter on invalid champions', inject([NamePipe], (pipe) => {
-    champions = pipe.transform(null, 'Amumu');
-    expect(champions).toBe(null);
+    champions = pipe.transform(undefined, 'Amumu');
+    expect(champions).toBe(undefined);
   }));
 
   it('should not filter on \'\'', inject([NamePipe], (pipe) => {

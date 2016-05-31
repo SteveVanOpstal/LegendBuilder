@@ -14,7 +14,7 @@ describe('Shop TranslatePipe', () => {
   }));
 
   it('should not translate', inject([TranslatePipe], (pipe) => {
-    expect(pipe.transform(null)).toBe(null);
+    expect(pipe.transform(undefined)).toBe(undefined);
     expect(pipe.transform('Test')).toBe('Test');
   }));
 });

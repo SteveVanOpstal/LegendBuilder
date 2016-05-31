@@ -1,4 +1,4 @@
-declare var ENV: string;
+declare let ENV: string;
 interface GlobalEnvironment {
   ENV;
 }
@@ -27,9 +27,6 @@ interface ErrorStackTraceLimit {
   stackTraceLimit: number;
 }
 
-declare module tinytim {
-  function tim(): string;
-}
 
 // Extend jasmine matchers
 declare namespace jasmine {

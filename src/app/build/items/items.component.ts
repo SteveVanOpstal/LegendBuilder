@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ItemSlotComponent} from './item-slot.component';
+import {Item} from '../../misc/item';
 import {Config} from '../config';
 
 @Component({
@@ -27,11 +28,11 @@ export class ItemsComponent {
     this.itemSlotComponents[slot.id] = slot;
   }
 
-  addItem(item: Object) {
+  addItem(item: Item) {
     this.addToFirstCompatibleSlot(item);
   }
 
-  private addToFirstCompatibleSlot(item: Object) {
+  private addToFirstCompatibleSlot(item: Item) {
     let s;
     this.itemSlotComponents.forEach((slot: ItemSlotComponent) => {
       if (slot.compatible(item) && !s) {
@@ -39,7 +40,7 @@ export class ItemsComponent {
       }
     });
     s.addItem(item);
-    //this.updatePickedItems();
+    // this.updatePickedItems();
   }
 
   // private updatePickedItems() {

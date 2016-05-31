@@ -5,6 +5,7 @@ import {DDragonDirective} from '../../../misc/ddragon.directive';
 
 import {ItemComponent} from './item.component';
 import {ItemsFromComponent} from './items-from.component';
+import {Item} from '../../../misc/item';
 import {ItemBundle} from './item-bundle';
 
 @Component({
@@ -30,12 +31,12 @@ import {ItemBundle} from './item-bundle';
 })
 
 export class PreviewComponent implements OnChanges {
-  @Input() item;
-  @Input() items;
+  @Input() item: Item;
+  @Input() items: Array<Item>;
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
   private itemsFrom: Array<ItemBundle> = new Array<ItemBundle>();
-  private itemsInto: Array<Object> = new Array<Object>();
+  private itemsInto: Array<any> = new Array<any>();
 
   ngOnChanges() {
     if (!this.item) {
@@ -45,13 +46,13 @@ export class PreviewComponent implements OnChanges {
     this.itemsInto = this.getItemsInto(this.item);
   }
 
-  private getItemsFrom(item: Object): Array<ItemBundle> {
-    let items = this.getItems(item['from']);
+  private getItemsFrom(baseItem: Item): Array<ItemBundle> {
+    let items = this.getItems(baseItem.from);
     if (!items || !items.length) {
       return;
     }
     let arr = Array<ItemBundle>();
-    items.forEach((item: Object) => {
+    items.forEach((item: Item) => {
       arr.push({
         item: item, children: this.getItemsFrom(item)
       });
@@ -59,25 +60,25 @@ export class PreviewComponent implements OnChanges {
     return arr;
   }
 
-  private getItemsInto(item: Object) {
-    return this.getItems(item['into']);
+  private getItemsInto(item: Item) {
+    return this.getItems(item.into);
   }
 
-  private getItems(itemIds: Array<Object>): Array<Object> {
+  private getItems(itemIds: Array<string>): Array<Item> {
     if (!this.items || !itemIds || !itemIds.length) {
       return;
     }
-    return this.items.filter((item: Object) => {
-      return itemIds.indexOf(item['id'].toString()) > -1;
+    return this.items.filter((item: Item) => {
+      return itemIds.indexOf(item.id.toString()) > -1;
     });
   }
 
-  private selectItem(item) {
+  private selectItem(item: Item) {
     this.item = item;
     this.ngOnChanges();
   }
 
-  private pickItem(item: Object) {
+  private pickItem(item: Item) {
     this.itemPicked.emit(item);
     return false; // stop context menu from appearing
   }

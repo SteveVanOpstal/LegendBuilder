@@ -12,14 +12,14 @@ describe('TagsPipe', () => {
   let champions = [];
   let champion1 = { name: 'Amumu', tags: ['Tank', 'Mage'] };
   let champion2 = { name: 'Ahri', tags: ['Mage', 'Assassin'] };
-  let champion3 = { name: 'Tryndamere', tags: ['Fighter', 'Melee', 'Assassin'], };
+  let champion3 = { name: 'Tryndamere', tags: ['Fighter', 'Melee', 'Assassin'] };
 
   beforeEach(() => {
     champions = [champion1, champion2, champion3];
   });
 
-  it('should not filter on \'null\'', inject([TagsPipe], (pipe) => {
-    champions = pipe.transform(champions, null);
+  it('should not filter on \'undefined\'', inject([TagsPipe], (pipe) => {
+    champions = pipe.transform(champions, undefined);
     expect(champions.length).toBe(3);
   }));
 
@@ -34,8 +34,8 @@ describe('TagsPipe', () => {
   }));
 
   it('should not filter on invalid champions', inject([TagsPipe], (pipe) => {
-    champions = pipe.transform(null, ['Tank']);
-    expect(champions).toBe(null);
+    champions = pipe.transform(undefined, ['Tank']);
+    expect(champions).toBe(undefined);
   }));
 
   it('should filter by \'Mage\'', inject([TagsPipe], (pipe) => {

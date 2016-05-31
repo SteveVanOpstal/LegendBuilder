@@ -138,11 +138,11 @@ export class ShopComponent /*implements OnChanges*/ {
     if (!event || !event.target) {
       return;
     }
-    var input = event.target;
-    if (input['checked']) {
-      this.tags.push(input['value']);
+    let input: any = event.target;
+    if (input.checked) {
+      this.tags.push(input.value);
     } else {
-      var index: number = this.tags.indexOf(input['value']);
+      let index: number = this.tags.indexOf(input.value);
       if (index > -1) {
         this.tags.splice(index, 1);
       }

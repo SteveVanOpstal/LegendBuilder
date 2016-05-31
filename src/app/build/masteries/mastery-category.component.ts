@@ -1,53 +1,51 @@
-import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {NgFor} from '@angular/common';
 
 import {MasteryComponent} from './mastery.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteriesComponent} from './masteries.component';
 
+type EventEmitterRank = EventEmitter<{ tier: MasteryTierComponent, mastery: MasteryComponent }>;
+
 @Component({
   selector: 'mastery-category',
   directives: [NgFor, MasteryTierComponent],
   template: `
-    <mastery-tier [data]="tier" [index]="i" *ngFor="let tier of data.tiers; let i = index"></mastery-tier>
+    <mastery-tier [data]="tier" [index]="i" *ngFor="let tier of data.tiers; let i = index" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery-tier>
     <p class="total">{{data.name + ': ' + totalRank}}</p>`
 })
 
-export class MasteryCategoryComponent implements OnInit {
+export class MasteryCategoryComponent {
   @Input() data: Object;
 
+  @Output() rankAdded: EventEmitterRank = new EventEmitterRank();
+  @Output() rankRemoved: EventEmitterRank = new EventEmitterRank();
+
+  @ViewChildren(MasteryTierComponent) children: QueryList<MasteryTierComponent>;
+
   private totalRank: number = 0;
-  private tierComponents: Array<MasteryTierComponent> = new Array<MasteryTierComponent>();
 
-  constructor( @Inject(forwardRef(() => MasteriesComponent)) private masteries: MasteriesComponent) {
-  }
-
-  public ngOnInit() {
-    this.masteries.addCategoryComponent(this);
-  }
-
-  public addTierComponent(tier: MasteryTierComponent) {
-    this.tierComponents[tier.index] = tier;
+  constructor() {
   }
 
   public enable() {
-    this.tierComponents.forEach((t) => {
+    this.children.forEach((t: MasteryTierComponent) => {
       if (t.index === 0) {
         t.enable();
-      } else if (this.tierComponents[t.index - 1].getRank() !== 0) {
+      } else if (this.children[t.index - 1].getRank() !== 0) {
         t.enable();
       }
     });
   }
   public disable() {
-    this.tierComponents.forEach((t) => {
+    this.children.forEach((t: MasteryTierComponent) => {
       if (t.getRank() === 0) {
         t.disable();
       }
     });
   }
 
-  public rankAdded(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankAdd(tier: MasteryTierComponent, mastery: MasteryComponent) {
     if (!tier || !mastery) {
       return;
     }
@@ -58,19 +56,11 @@ export class MasteryCategoryComponent implements OnInit {
     if (tier.getRank() > mastery.getRank()) {
       tier.setOtherRank(mastery, mastery.getMaxRank() - mastery.getRank());
     }
-    var deviation = this.getTotalRankDeviation();
-    if (deviation) {
-      if (tier.getRank() > mastery.getRank()) {
-        tier.setOtherRank(mastery, tier.getRank() - deviation - mastery.getRank());
-      } else {
-        mastery.setRank(tier.getRank() - deviation);
-      }
-    }
-    this.masteries.rankAdded();
+    this.rankAdded.emit({ tier: tier, mastery: mastery });
     this.totalRank = this.getRank();
   }
 
-  public rankRemoved(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankRemove(tier: MasteryTierComponent, mastery: MasteryComponent) {
     if (!tier || !mastery) {
       return;
     }
@@ -78,25 +68,20 @@ export class MasteryCategoryComponent implements OnInit {
       this.forTier(tier.index + 1, (t) => t.disable());
       this.forTier(tier.index - 1, (t) => t.unlock());
     }
-    this.masteries.rankRemoved();
+    this.rankRemoved.emit({ tier: tier, mastery: mastery });
     this.totalRank = this.getRank();
   }
 
   public getRank(): number {
-    var rank = 0;
-    this.tierComponents.forEach((t) => rank += t.getRank());
+    let rank = 0;
+    this.children.forEach((t) => rank += t.getRank());
     return rank;
   }
 
-  private forTier(index: number, callback: (MasteryTierComponent) => void) {
-    if (!this.tierComponents[index]) {
+  private forTier(index: number, callback: (masteryTierComponent: MasteryTierComponent) => void) {
+    if (!this.children[index]) {
       return;
     }
-    callback(this.tierComponents[index]);
-  }
-
-  private getTotalRankDeviation() {
-    var deviation = this.masteries.getRank() - 30;
-    return deviation > 0 ? deviation : 0;
+    callback(this.children[index]);
   }
 }

@@ -34,8 +34,8 @@ describe('ToIterablePipe', () => {
     expect(pipe.transform(test)).toBe(test);
   }));
 
-  it('should not transform null', inject([ToIterablePipe], (pipe) => {
-    let test = null;
+  it('should not transform undefined', inject([ToIterablePipe], (pipe) => {
+    let test = undefined;
     expect(pipe.transform(test)).toBe(test);
   }));
 });

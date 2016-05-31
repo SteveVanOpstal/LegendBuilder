@@ -1,4 +1,3 @@
-//import {spyOn} from 'jasmine';
 import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
 
 import {ItemsComponent} from './items.component';
@@ -42,9 +41,9 @@ describe('ItemSlotComponent', () => {
 
   it('should calculate time', inject([ItemSlotComponent], (component) => {
     component.addTime(item1);
-    expect(item1['time']).toBe(0);
+    expect(item1.time).toBe(0);
     component.addTime(item2);
-    expect(item2['time']).toBe(5);
+    expect(item2.time).toBe(5);
   }));
 
   it('should bundle', inject([ItemSlotComponent], (component) => {

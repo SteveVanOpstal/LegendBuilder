@@ -1,4 +1,4 @@
-import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgIf, NgClass} from '@angular/common';
 
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -36,8 +36,11 @@ export class Colors {
     </div>`
 })
 
-export class MasteryComponent implements OnInit {
-  @Input() data: Object;
+export class MasteryComponent {
+  @Input() data: any;
+
+  @Output() rankAdded: EventEmitter<any> = new EventEmitter<any>();
+  @Output() rankRemoved: EventEmitter<any> = new EventEmitter<any>();
 
   public rank: number = 0;
   private color: string = Colors.gray;
@@ -46,11 +49,7 @@ export class MasteryComponent implements OnInit {
   private active: boolean = false;
   private locked: boolean = false;
 
-  constructor( @Inject(forwardRef(() => MasteryTierComponent)) private tier: MasteryTierComponent) {
-  }
-
-  public ngOnInit() {
-    this.tier.addMasteryComponent(this);
+  constructor() {
   }
 
   public enable() {
@@ -94,10 +93,10 @@ export class MasteryComponent implements OnInit {
   }
 
   public getMaxRank() {
-    if (!this.data || !this.data['ranks']) {
+    if (!this.data || !this.data.ranks) {
       return 0;
     }
-    return this.data['ranks'];
+    return this.data.ranks;
   }
 
   private clicked() {
@@ -117,12 +116,7 @@ export class MasteryComponent implements OnInit {
     if (!this.enabled) {
       return;
     }
-    if (this.tier.getRank() === 0) {
-      this.rank = this.getMaxRank();
-    } else if (this.rank < this.getMaxRank()) {
-      this.rank++;
-    }
-    this.tier.rankAdded(this);
+    this.rankAdded.emit(this);
     this.changed();
   }
 
@@ -133,7 +127,7 @@ export class MasteryComponent implements OnInit {
     if (this.rank > 0) {
       this.rank--;
     }
-    this.tier.rankRemoved(this);
+    this.rankRemoved.emit(this);
     this.changed();
   }
 

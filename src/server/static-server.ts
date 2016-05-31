@@ -1,9 +1,6 @@
 import {IncomingMessage, ServerResponse} from 'http';
-var url = require('url');
-var Lru = require('lru-cache');
 
 import {Server, getPathname, HostResponse} from './server';
-
 import {settings} from '../../config/settings';
 
 let server = new Server(settings.staticServer.host, settings.staticServer.port);

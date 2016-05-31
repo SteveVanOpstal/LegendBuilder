@@ -32,7 +32,7 @@ describe('Shop HidePipe', () => {
     expect(pipe.transform(items)).toHaveEqualContent([item2, item3]);
   }));
 
-  it('should not filter null', inject([HidePipe], (pipe) => {
-    expect(pipe.transform(null)).toBe(null);
+  it('should not filter undefined', inject([HidePipe], (pipe) => {
+    expect(pipe.transform(undefined)).toBe(undefined);
   }));
 });

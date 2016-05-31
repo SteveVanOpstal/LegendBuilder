@@ -16,9 +16,9 @@ describe('FiltersComponent', () => {
   it('should not emit tagsChange on incorrect event', inject([FiltersComponent, Event], (component, event) => {
     spyOn(component.tagsChange, 'next');
     expect(component.tagsChange.next).not.toHaveBeenCalled();
-    component.tagChanged(null);
+    component.tagChanged(undefined);
     expect(component.tagsChange.next).not.toHaveBeenCalled();
-    event.target = null;
+    event.target = undefined;
     component.tagChanged(event);
     expect(component.tagsChange.next).not.toHaveBeenCalled();
   }));
@@ -63,9 +63,9 @@ describe('FiltersComponent', () => {
   it('should not emit sortChange on incorrect event', inject([FiltersComponent, Event], (component, event) => {
     spyOn(component.sortChange, 'next');
     expect(component.sortChange.next).not.toHaveBeenCalled();
-    component.sortChanged(null);
+    component.sortChanged(undefined);
     expect(component.sortChange.next).not.toHaveBeenCalled();
-    event.target = null;
+    event.target = undefined;
     component.sortChanged(event);
     expect(component.sortChange.next).not.toHaveBeenCalled();
   }));
@@ -82,9 +82,9 @@ describe('FiltersComponent', () => {
   it('should not emit enterHit on incorrect event', inject([FiltersComponent, KeyboardEvent], (component, event) => {
     spyOn(component.enterHit, 'next');
     expect(component.enterHit.next).not.toHaveBeenCalled();
-    component.keyup(null);
+    component.keyup(undefined);
     expect(component.enterHit.next).not.toHaveBeenCalled();
-    event.key = null;
+    event.key = undefined;
     component.keyup(event);
     expect(component.enterHit.next).not.toHaveBeenCalled();
     event.key = 'Escape';

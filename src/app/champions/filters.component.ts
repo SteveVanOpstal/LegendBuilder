@@ -44,11 +44,11 @@ export class FiltersComponent {
     if (!event || !event.target) {
       return;
     }
-    var input = event.target;
-    if (input['checked']) {
-      this.tags.push(input['value']);
+    let input: any = event.target;
+    if (input.checked) {
+      this.tags.push(input.value);
     } else {
-      var index: number = this.tags.indexOf(input['value']);
+      let index: number = this.tags.indexOf(input.value);
       if (index > -1) {
         this.tags.splice(index, 1);
       }
@@ -60,7 +60,8 @@ export class FiltersComponent {
     if (!event || !event.target) {
       return;
     }
-    this.sort = event.target['value'];
+    let input: any = event.target;
+    this.sort = input.value;
     this.sortChange.next(this.sort);
   }
 
@@ -69,7 +70,7 @@ export class FiltersComponent {
       return;
     }
     if (event.key === 'Enter') {
-      this.enterHit.next(null);
+      this.enterHit.next(undefined);
     }
   }
 }

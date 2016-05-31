@@ -101,14 +101,14 @@ describe('ShopComponent', () => {
     expect(component.tags).toContain('HEALTH');
   }));
 
-  it('should not add tags on null event', inject([ShopComponent, Event], (component, event) => {
-    component.tags = null;
-    expect(component.tags).toBe(null);
-    component.tagChanged(null);
-    expect(component.tags).toBe(null);
-    event.target = null;
+  it('should not add tags on undefined event', inject([ShopComponent, Event], (component, event) => {
+    component.tags = undefined;
+    expect(component.tags).toBe(undefined);
+    component.tagChanged(undefined);
+    expect(component.tags).toBe(undefined);
+    event.target = undefined;
     component.tagChanged(event);
-    expect(component.tags).toBe(null);
+    expect(component.tags).toBe(undefined);
   }));
 
   it('should add multiple tags', inject([ShopComponent, Event], (component, event) => {

@@ -19,7 +19,11 @@ export class DDragonDirective implements OnChanges {
       .subscribe(res => { this.realm = res; this.updateElement(this.realm); });
   }
 
-  updateElement(realm: any) {
+  ngOnChanges() {
+    this.updateElement(this.realm);
+  }
+
+  private updateElement(realm: any) {
     if (this.x >= 0 && this.y >= 0) {
       this.el.nativeElement.setAttribute('style', this.buildStyle(this.image, realm, this.x, this.y));
     } else if (this.el.nativeElement.tagName === 'IMG') {
@@ -29,20 +33,20 @@ export class DDragonDirective implements OnChanges {
     }
   }
 
-  buildStyle(image: string, realm: any, x: number, y: number): string {
+  private buildStyle(image: string, realm: any, x: number, y: number): string {
     return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;';
   }
 
-  buildUrl(image: string, realm: any): string {
+  private buildUrl(image: string, realm: any): string {
     if (!image || !realm) {
       return this.default;
     }
 
-    var type = image.substr(0, image.lastIndexOf('/'));
+    let type = image.substr(0, image.lastIndexOf('/'));
     return realm.cdn + this.getVersion(realm, type) + '/img/' + image;
   }
 
-  getVersion(realm: any, type: string): string {
+  private getVersion(realm: any, type: string): string {
     if (type === 'ui') {
       return '/5.5.1';
     }
@@ -51,16 +55,12 @@ export class DDragonDirective implements OnChanges {
       return '';
     }
 
-    for (var obj in realm.n) {
+    for (let obj in realm.n) {
       if (obj === type) {
         return '/' + realm.n[obj];
       }
     }
 
     return '/' + realm.v;
-  }
-
-  ngOnChanges() {
-    this.updateElement(this.realm);
   }
 }

@@ -21,14 +21,14 @@ class MockNativeElement {
     return this.attributes.push(attr);
   }
   getAttribute(attr: string): Object {
-    return this.attributes.indexOf(attr) > -1 ? {} : null;
+    return this.attributes.indexOf(attr) > -1 ? {} : undefined;
   }
 
   setAttributeNS(scope: string, attr: string, value: string): number {
     return this.attributesNS.push(attr);
   }
   getAttributeNS(attr: string): Object {
-    return this.attributesNS.indexOf(attr) > -1 ? {} : null;
+    return this.attributesNS.indexOf(attr) > -1 ? {} : undefined;
   }
 }
 
@@ -60,7 +60,7 @@ describe('DDragonDirective', () => {
     DDragonDirective
   ]);
 
-  let realm = null;
+  let realm = undefined;
 
   beforeEach(() => {
     realm = {
@@ -107,26 +107,26 @@ describe('DDragonDirective', () => {
 
   it('should add src attribute for <img [ddragon]="">', inject([MockImageElementRef, LolApiService], (elementRef, service) => {
     let directive = new DDragonDirective(elementRef, service);
-    expect(directive.el.nativeElement.getAttribute('src')).toBeNull();
+    expect(directive.el.nativeElement.getAttribute('src')).toBeUndefined();
     directive.updateElement(realm);
-    expect(directive.el.nativeElement.getAttribute('src')).not.toBeNull();
+    expect(directive.el.nativeElement.getAttribute('src')).not.toBeUndefined();
     expect(true).toBeTruthy();
   }));
 
   it('should add xlink:href attribute for <svg:image [ddragon]="">', inject([MockSvgImageElementRef, LolApiService], (elementRef, service) => {
     let directive = new DDragonDirective(elementRef, service);
-    expect(directive.el.nativeElement.getAttributeNS('xlink:href')).toBeNull();
+    expect(directive.el.nativeElement.getAttributeNS('xlink:href')).toBeUndefined();
     directive.updateElement(realm);
-    expect(directive.el.nativeElement.getAttributeNS('xlink:href')).not.toBeNull();
+    expect(directive.el.nativeElement.getAttributeNS('xlink:href')).not.toBeUndefined();
   }));
 
   it('should add style attribute for <img [ddragon]="" [x]="" [y]="">', inject([MockImageElementRef, LolApiService], (elementRef, service) => {
     let directive = new DDragonDirective(elementRef, service);
     directive.x = 0;
     directive.y = 0;
-    expect(directive.el.nativeElement.getAttribute('style')).toBeNull();
+    expect(directive.el.nativeElement.getAttribute('style')).toBeUndefined();
     directive.updateElement(realm);
-    expect(directive.el.nativeElement.getAttribute('style')).not.toBeNull();
+    expect(directive.el.nativeElement.getAttribute('style')).not.toBeUndefined();
   }));
 
 
@@ -140,9 +140,9 @@ describe('DDragonDirective', () => {
   }));
 
   it('should use the default url when image or realm is unavailable', inject([DDragonDirective], (directive) => {
-    let result = directive.buildUrl('test.png', null);
+    let result = directive.buildUrl('test.png', undefined);
     expect(result).toBe(directive.default);
-    result = directive.buildUrl('test.png', null);
+    result = directive.buildUrl('test.png', undefined);
     expect(result).toBe(directive.default);
   }));
 

@@ -2,7 +2,7 @@ import {IncomingMessage, ServerResponse} from 'http';
 import * as http from 'http';
 import * as https from 'https';
 import * as url from 'url';
-let Lru = require('lru-cache');
+let lru = require('lru-cache');
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
@@ -56,7 +56,7 @@ export class Server {
   private cache;
 
   constructor(private host: string, private port: number, cacheSettings?: any) {
-    this.cache = Lru(this.merge(cacheSettings, {
+    this.cache = lru(this.merge(cacheSettings, {
       max: 1048000,
       length: (n) => { return n.length * 2; },
       maxAge: 1000 * 60 * 60 * 2
@@ -200,8 +200,8 @@ export class Server {
       if (res.success) {
         let regions = [];
         for (let index in res.json) {
-          var region = res.json[index];
-          regions.push(region['slug']);
+          let region = res.json[index];
+          regions.push(region.slug);
         }
         callback(regions);
       } else {
@@ -225,7 +225,7 @@ export class Server {
         for (let championKey in response.json.data) {
           champions[championKey] = response.json.data[championKey].id;
         }
-        callback(null, { region: region, champions: champions });
+        callback(undefined, { region: region, champions: champions });
       } else {
         console.error('Unable to get champion data for ' + region);
         callback(true, { region: region });

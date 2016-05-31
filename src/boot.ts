@@ -1,5 +1,4 @@
-/**
-  @license
+/*
   Copyright 2015-2016 Steve Van Opstal https://github.com/SteveVanOpstal
 
   Legend Builder - An advanced League Of Legends champion builder
@@ -17,7 +16,6 @@
   You should have received a copy of the GNU General Public License along
   with this program; if not, write to the Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
  */
 
 import {bootstrap} from '@angular/platform-browser-dynamic';

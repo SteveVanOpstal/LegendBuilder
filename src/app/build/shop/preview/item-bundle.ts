@@ -1,4 +1,6 @@
+import {Item} from '../../../misc/item';
+
 export interface ItemBundle {
-  item: Object;
+  item: Item;
   children?: Array<ItemBundle>;
 }

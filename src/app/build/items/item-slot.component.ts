@@ -4,9 +4,10 @@ import {Observable} from 'rxjs/Observable';
 
 import {ItemsComponent} from './items.component';
 import {ItemComponent} from './item.component';
+import {Item} from '../../misc/item';
 import {Config} from '../config';
 
-import * as d3 from 'd3'; //TODO: remove test
+import * as d3 from 'd3'; // TODO: remove test
 
 @Component({
   selector: 'item-slot',
@@ -20,7 +21,7 @@ import * as d3 from 'd3'; //TODO: remove test
 export class ItemSlotComponent implements OnInit {
   @Input() id: number;
   @Input() config: Config;
-  private items: Array<Object> = new Array<Object>();
+  private items: Array<any> = new Array<any>();
 
   // TODO: move to itemComponent when angular allows attributes on <template>
   // TODO: get this scale from shopComponent
@@ -35,40 +36,40 @@ export class ItemSlotComponent implements OnInit {
     this.itemsComponent.addItemSlotComponent(this);
   }
 
-  addItem(item: Object) {
+  addItem(item: Item) {
     this.addTime(item);
     this.addBundle(item);
     this.items.push(item);
   }
 
-  removeItem(item: Object) {
+  removeItem(item: Item) {
     this.items.splice(this.items.indexOf(item), 1);
   }
 
-  compatible(item: Object) {
+  compatible(item: Item) {
     if (!this.items.length) {
       return true;
     }
-    let from = this.items[this.items.length - 1]['from'];
+    let from = this.items[this.items.length - 1].from;
     if (!from) {
       return true;
     }
-    return from.indexOf(item['id']) > -1;
+    return from.indexOf(item.id) > -1;
   }
 
-  private addTime(item: Object) {
-    item['time'] = this.getTime(this.config.g, item['gold']['total'], this.config.gameTime, this.config.sampleSize);
+  private addTime(item: Item) {
+    item.time = this.getTime(this.config.g, item.gold.total, this.config.gameTime, this.config.sampleSize);
   }
 
-  private addBundle(item: Object) {
+  private addBundle(item: Item) {
     if (!this.items || !this.items.length) {
       return;
     }
 
-    item['bundle'] = 1;
+    item.bundle = 1;
     for (let index = 0; index < this.items.length - 1; index++) {
-      if (item['id'] === this.items[index]['id'] && item['time'] === this.items[index]['time']) {
-        item['bundle']++;
+      if (item.id === this.items[index].id && item.time === this.items[index].time) {
+        item.bundle++;
         this.items.splice(index + 1, 1);
         index--;
       }
@@ -96,7 +97,7 @@ export class ItemSlotComponent implements OnInit {
   }
 
   private getUpperIndex(frames: Array<number>, gold: number) {
-    for (var j = 0; j < frames.length; j++) {
+    for (let j = 0; j < frames.length; j++) {
       if (frames[j] > gold) {
         return j;
       }
@@ -105,7 +106,7 @@ export class ItemSlotComponent implements OnInit {
   }
 
   // TODO: move to itemComponent when angular allows events on <template>
-  private rightClicked(item: Object) {
+  private rightClicked(item: Item) {
     this.removeItem(item);
     return false; // stop context menu from appearing
   }

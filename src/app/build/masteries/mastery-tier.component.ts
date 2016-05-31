@@ -1,53 +1,53 @@
-import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit} from '@angular/core';
 import {NgFor} from '@angular/common';
 
 import {MasteryComponent} from './mastery.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 
+type EventEmitterRank = EventEmitter<{ tier: MasteryTierComponent, mastery: MasteryComponent }>;
+
 @Component({
   selector: 'mastery-tier',
   directives: [NgFor, MasteryComponent],
   template: `
-    <mastery [data]="mastery" *ngFor="let mastery of data"></mastery>`
+    <mastery [data]="mastery" *ngFor="let mastery of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery>`
 })
 
-export class MasteryTierComponent implements OnInit {
+export class MasteryTierComponent implements AfterViewInit {
   @Input() data: Object;
   @Input() index: number = 0;
 
-  private masteryComponents: Array<MasteryComponent> = new Array<MasteryComponent>();
+  @Output() rankAdded: EventEmitterRank = new EventEmitterRank();
+  @Output() rankRemoved: EventEmitterRank = new EventEmitterRank();
 
-  constructor( @Inject(forwardRef(() => MasteryCategoryComponent)) private category: MasteryCategoryComponent) {
+  @ViewChildren(MasteryComponent) children: QueryList<MasteryComponent>;
+
+  constructor() {
   }
 
-  public ngOnInit() {
-    this.category.addTierComponent(this);
-  }
-
-  public addMasteryComponent(mastery: MasteryComponent) {
-    this.masteryComponents.push(mastery);
+  public ngAfterViewInit() {
     if (this.index === 0) {
-      mastery.enable();
+      this.enable();
     }
   }
 
   public enable() {
-    this.masteryComponents.forEach((m) => m.enable());
+    this.children.forEach((m) => m.enable());
   }
   public disable() {
-    this.masteryComponents.forEach((m) => m.disable());
+    this.children.forEach((m) => m.disable());
   }
 
   public lock() {
-    this.masteryComponents.forEach((m) => m.lock());
+    this.children.forEach((m) => m.lock());
   }
   public unlock() {
-    this.masteryComponents.forEach((m) => m.unlock());
+    this.children.forEach((m) => m.unlock());
   }
 
   public setOtherRank(mastery: MasteryComponent, rank: number) {
-    for (var index in this.masteryComponents) {
-      var m = this.masteryComponents[index];
+    for (let index in this.children) {
+      let m = this.children[index];
       if (mastery !== m && m.rank > 0) {
         m.setRank(rank);
         return;
@@ -55,16 +55,21 @@ export class MasteryTierComponent implements OnInit {
     }
   }
   public getRank(): number {
-    var rank = 0;
-    this.masteryComponents.forEach((m) => rank += m.getRank());
+    let rank = 0;
+    this.children.forEach((m) => rank += m.getRank());
     return rank;
   }
 
-  public rankAdded(mastery: MasteryComponent) {
-    this.category.rankAdded(this, mastery);
+  public rankAdd(mastery: MasteryComponent) {
+    if (this.getRank() === 0) {
+      mastery.rank = mastery.getMaxRank();
+    } else if (mastery.rank < mastery.getMaxRank()) {
+      mastery.rank++;
+    }
+    this.rankAdded.emit({ tier: this, mastery: mastery });
   }
 
-  public rankRemoved(mastery: MasteryComponent) {
-    this.category.rankRemoved(this, mastery);
+  public rankRemove(mastery: MasteryComponent) {
+    this.rankRemoved.emit({ tier: this, mastery: mastery });
   }
 }

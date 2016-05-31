@@ -27,7 +27,7 @@ describe('LolApiService', () => {
     LolApiService
   ]);
 
-  var mockResponse = new Response(new ResponseOptions({ status: 200, body: [{ test: true }] }));
+  let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{ test: true }] }));
 
 
   it('should get realm data', inject([MockBackend, LolApiService], (mockBackend, service) => {

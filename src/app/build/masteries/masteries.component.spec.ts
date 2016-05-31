@@ -128,7 +128,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              null,
+              undefined,
               {
                 masteryId: 6122
               }
@@ -154,7 +154,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              null,
+              undefined,
               {
                 masteryId: 6122
               }
@@ -167,7 +167,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              null,
+              undefined,
               {
                 masteryId: 6122
               }
@@ -177,10 +177,10 @@ describe('MasteriesComponent', () => {
       },
       data: {
         6121: {
-          id: 0,
+          id: 0
         },
         6122: {
-          id: 1,
+          id: 1
         }
       }
     };
@@ -191,7 +191,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            null,
+            undefined,
             { id: 1 }
           ],
           [
@@ -206,7 +206,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            null,
+            undefined,
             { id: 1 }
           ]
         ]
@@ -216,7 +216,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            null,
+            undefined,
             { id: 1 }
           ]
         ]

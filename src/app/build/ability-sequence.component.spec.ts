@@ -12,14 +12,14 @@ describe('AbilitySequenceComponent', () => {
       stats: {
         attackrange: 175,
         mpperlevel: 47,
-        mp: 334,
+        mp: 334
       },
       spells: [{
         effect: [
-          null,
+          undefined,
           [50, 75, 100, 125, 150],
           [35, 35, 35, 35, 35],
-          [0.3, 0.35, 0.4, 0.45, 0.5],
+          [0.3, 0.35, 0.4, 0.45, 0.5]
         ],
         vars: [
           {

@@ -68,15 +68,15 @@ export class ChampionsComponent {
   }
 
   private enterHit() {
-    let filteredChampions = this.filter(this.champions, this.name, this.sort, this.tags);
+    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
     if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate([filteredChampions[0]['key'], 'build']);
+      this.router.navigate([filteredChampions[0].key, 'build']);
     }
   }
 
-  private filter(champions: Array<Object>, name: string, sort: string, tags: Array<string>): Array<Object> {
+  private filter(champions: any, name: string, sort: string, tags: Array<string>): Array<Object> {
     let toIterablePipe = new ToIterablePipe();
-    let filteredChampions = toIterablePipe.transform(champions['data']);
+    let filteredChampions = toIterablePipe.transform(champions.data);
     let namePipe = new NamePipe();
     filteredChampions = namePipe.transform(filteredChampions, name);
     let sortPipe = new SortPipe();

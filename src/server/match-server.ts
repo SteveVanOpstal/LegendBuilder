@@ -18,8 +18,8 @@ let match = new Match(server);
 server.run((request: IncomingMessage, response: ServerResponse) => {
   let pathname = getPathname(request.url);
   let query = getQuery(request.url);
-  var region = pathname[1];
-  var type = pathname[2];
+  let region = pathname[1];
+  let type = pathname[2];
 
   switch (type) {
     case 'summoner':
