@@ -9,7 +9,7 @@ import {DDragonDirective} from '../misc/ddragon.directive';
   selector: 'g[ability-sequence]',
   directives: [NgFor, NgClass, DDragonDirective],
   template: `
-    <svg:g xmlns="http://www.w3.org/2000/svg" version="1.1" class="ability" [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = i">
+    <svg:g xmlns="http://www.w3.org/2000/svg" version="1.1" class="ability" [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
       <g fill="gray">
         <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"></rect>
       </g>

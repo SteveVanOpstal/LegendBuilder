@@ -1,8 +1,7 @@
-import {Component, Input, Inject, forwardRef, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 
-import {ItemsComponent} from './items.component';
 import {ItemComponent} from './item.component';
 import {Item} from '../../misc/item';
 import {Config} from '../config';
@@ -18,7 +17,7 @@ import * as d3 from 'd3'; // TODO: remove test
     </template>`
 })
 
-export class ItemSlotComponent implements OnInit {
+export class ItemSlotComponent {
   @Input() id: number;
   @Input() config: Config;
   private items: Array<any> = new Array<any>();
@@ -29,11 +28,7 @@ export class ItemSlotComponent implements OnInit {
     .domain([0, 3600000])
     .range([0, 1460]);
 
-  constructor( @Inject(forwardRef(() => ItemsComponent)) private itemsComponent: ItemsComponent) {
-  }
-
-  ngOnInit() {
-    this.itemsComponent.addItemSlotComponent(this);
+  constructor() {
   }
 
   addItem(item: Item) {

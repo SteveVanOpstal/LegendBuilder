@@ -174,9 +174,8 @@ export class Server {
   }
 
   private preRun() {
-    this.getRegions((regions) => {
-      for (let index in regions) {
-        let region = regions[index];
+    this.getRegions((regions: Array<string>) => {
+      for (let region of regions) {
         this.champions[region] = [];
         this.getChampions(region, this.handleChampions);
       }

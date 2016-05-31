@@ -15,10 +15,10 @@ export class TagsPipe implements PipeTransform {
       if (!item.tags) {
         return false;
       }
-      if (tags && tags.length > 0) {
-        for (let tag in tags) {
+      if (tags) {
+        for (let index = 0; index < tags.length; index++) {
           item.tags = item.tags.map(tag => tag.toLowerCase());
-          if (item.tags.indexOf(tags[tag].toLowerCase()) === -1) {
+          if (item.tags.indexOf(tags[index].toLowerCase()) === -1) {
             return false;
           }
         }
