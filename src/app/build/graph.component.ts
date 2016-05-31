@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Inp
 import * as d3 from 'd3';
 
 import {Config} from './config';
+import {settings} from '../../../config/settings';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 
@@ -52,7 +53,7 @@ export class GraphComponent implements OnChanges, OnInit {
   private line: any = d3.svg.line()
     .interpolate('monotone')
     .x((d, i) => {
-      return this.xScaleTime(i * (this.config.gameTime / (this.config.sampleSize - 1)));
+      return this.xScaleTime(i * (settings.gameTime / (settings.sampleSize - 1)));
     })
     .y((d) => { return this.yScale(d); });
 
@@ -69,7 +70,7 @@ export class GraphComponent implements OnChanges, OnInit {
 
   createAxes() {
     this.xScaleTime = d3.scale.linear()
-      .domain([0, this.config.gameTime])
+      .domain([0, settings.gameTime])
       .range([0, this.graphWidth]);
 
     this.yScale = d3.scale.linear()

@@ -8,4 +8,6 @@ export declare module settings {
     match: string,
     'static-data': string,
   }
+  let gameTime: number;
+  let sampleSize: number;
 }

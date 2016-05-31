@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ItemComponent} from './item.component';
 import {Item} from '../../misc/item';
 import {Config} from '../config';
+import {settings} from '../../../../config/settings';
 
 import * as d3 from 'd3'; // TODO: remove test
 
@@ -53,7 +54,7 @@ export class ItemSlotComponent {
   }
 
   private addTime(item: Item) {
-    item.time = this.getTime(this.config.g, item.gold.total, this.config.gameTime, this.config.sampleSize);
+    item.time = this.getTime(this.config.g, item.gold.total, settings.gameTime, settings.sampleSize);
   }
 
   private addBundle(item: Item) {

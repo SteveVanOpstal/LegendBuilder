@@ -13,6 +13,7 @@ import {ErrorComponent} from '../misc/error.component';
 import {LolApiService} from '../misc/lolapi.service';
 
 import {Config} from '../build/config';
+import {settings} from '../../../config/settings';
 
 @Component({
   providers: [LolApiService],
@@ -64,7 +65,7 @@ export class BuildComponent {
   }
 
   getMatchData(value: string) {
-    this.lolApi.getMatchData(value, this.championKey, this.config.gameTime, this.config.sampleSize)
+    this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.sampleSize)
       .subscribe(
         res => {
           this.config = new Config();
