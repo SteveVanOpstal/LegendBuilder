@@ -120,8 +120,7 @@ export class Match {
   }
 
   private getMatchList(region, summonerId, championKey, callback: CallBack) {
-    let baseUrl = this.server.config.protocol + this.server.getHostname(region) + '/api/lol';
-    let path = baseUrl + region + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
         return callback(undefined, res.json);
@@ -174,8 +173,7 @@ export class Match {
   }
 
   private getMatch(region: string, summonerId: number, matchId: number, callback: CallBack) {
-    let baseUrl = this.server.config.protocol + this.server.getHostname(region) + '/api/lol';
-    let path = baseUrl + region + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success) {
         callback(undefined, res.json);

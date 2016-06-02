@@ -5,7 +5,7 @@ import {settings} from '../../config/settings';
 
 let server = new Server(settings.staticServer.host, settings.staticServer.port);
 
-let baseUrl = server.config.protocol + server.getHostname() + '/api/lol';
+let baseUrl = server.getBaseUrl();
 
 server.run((request: IncomingMessage, response: ServerResponse) => {
   let pathname = getPathname(request.url);
