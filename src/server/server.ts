@@ -85,8 +85,12 @@ export class Server {
     this.sendHttpsRequest(options, callback);
   }
 
+  public getBaseUrl(region?: string) {
+    return this.config.protocol + this.getHostname(region) + '/api/lol' + (region ? region : '');
+  }
+
   public getHostname(region?: string) {
-    return region ? region : 'global' + this.config.hostname;
+    return (region ? region : 'global') + this.config.hostname;
   }
 
   public setCache(url: string, data: any): void {
