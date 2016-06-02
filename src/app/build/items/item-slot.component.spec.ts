@@ -24,7 +24,7 @@ describe('ItemSlotComponent', () => {
       'gold': { 'total': 50 }
     };
 
-    component.config = { g: [0, 100, 200, 300], gameTime: 200, sampleSize: 20 };
+    component.config = { g: [0, 100, 200, 300] };
     component.items = [item1, item2, item2, item2];
   }));
 
@@ -43,7 +43,7 @@ describe('ItemSlotComponent', () => {
     component.addTime(item1);
     expect(item1.time).toBe(0);
     component.addTime(item2);
-    expect(item2.time).toBe(5);
+    expect(item2.time).toBe(28125);
   }));
 
   it('should bundle', inject([ItemSlotComponent], (component) => {

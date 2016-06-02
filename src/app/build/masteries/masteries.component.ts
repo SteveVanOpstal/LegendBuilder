@@ -44,7 +44,9 @@ export class MasteriesComponent {
     return rank;
   }
 
-  public rankAdd(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankAdd(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+    let tier = event.tier;
+    let mastery = event.mastery;
     let deviation = this.getTotalRankDeviation();
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
@@ -59,7 +61,7 @@ export class MasteriesComponent {
     }
   }
 
-  public rankRemove() {
+  public rankRemove(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
     if (this.getRank() === 29) {
       this.enable();
     }
@@ -88,10 +90,10 @@ export class MasteriesComponent {
         let item = [];
         for (let masteryName in masteryTreeItem.masteryTreeItems) {
           let mastery = masteryTreeItem.masteryTreeItems[masteryName];
-          if (mastery !== undefined) {
+          if (mastery !== null) {
             item.push(newMasteries.data[mastery.masteryId]);
           } else {
-            item.push(undefined);
+            item.push(null);
           }
         }
         tiers.push(item);

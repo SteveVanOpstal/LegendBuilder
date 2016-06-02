@@ -39,10 +39,10 @@ describe('MasteriesComponent', () => {
 
   beforeEach(inject([MasteriesComponent], (component) => {
     component.categoryComponents = [
-      new MockMasteryCategoryComponent(component),
-      new MockMasteryCategoryComponent(component),
-      new MockMasteryCategoryComponent(component),
-      new MockMasteryCategoryComponent(component)
+      new MockMasteryCategoryComponent(),
+      new MockMasteryCategoryComponent(),
+      new MockMasteryCategoryComponent(),
+      new MockMasteryCategoryComponent()
     ];
   }));
 
@@ -76,7 +76,7 @@ describe('MasteriesComponent', () => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
     component.categoryComponents[0].rank = 30;
-    component.rankAdded();
+    component.rankAdd();
     expect(component.disable).toHaveBeenCalled();
   }));
 
@@ -128,7 +128,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              undefined,
+              null,
               {
                 masteryId: 6122
               }
@@ -154,7 +154,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              undefined,
+              null,
               {
                 masteryId: 6122
               }
@@ -167,7 +167,7 @@ describe('MasteriesComponent', () => {
               {
                 masteryId: 6121
               },
-              undefined,
+              null,
               {
                 masteryId: 6122
               }
@@ -191,7 +191,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            undefined,
+            null,
             { id: 1 }
           ],
           [
@@ -206,7 +206,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            undefined,
+            null,
             { id: 1 }
           ]
         ]
@@ -216,7 +216,7 @@ describe('MasteriesComponent', () => {
         tiers: [
           [
             { id: 0 },
-            undefined,
+            null,
             { id: 1 }
           ]
         ]

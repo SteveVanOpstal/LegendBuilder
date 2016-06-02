@@ -5,7 +5,7 @@ import {MasteryComponent} from './mastery.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteriesComponent} from './masteries.component';
 
-type EventEmitterRank = EventEmitter<{ tier: MasteryTierComponent, mastery: MasteryComponent }>;
+type EventData = { tier: MasteryTierComponent, mastery: MasteryComponent };
 
 @Component({
   selector: 'mastery-category',
@@ -18,8 +18,8 @@ type EventEmitterRank = EventEmitter<{ tier: MasteryTierComponent, mastery: Mast
 export class MasteryCategoryComponent {
   @Input() data: Object;
 
-  @Output() rankAdded: EventEmitterRank = new EventEmitterRank();
-  @Output() rankRemoved: EventEmitterRank = new EventEmitterRank();
+  @Output() rankAdded: EventEmitter<EventData> = new EventEmitter<EventData>();
+  @Output() rankRemoved: EventEmitter<EventData> = new EventEmitter<EventData>();
 
   @ViewChildren(MasteryTierComponent) children: QueryList<MasteryTierComponent>;
 
@@ -32,7 +32,7 @@ export class MasteryCategoryComponent {
     this.children.forEach((t: MasteryTierComponent) => {
       if (t.index === 0) {
         t.enable();
-      } else if (this.children[t.index - 1].getRank() !== 0) {
+      } else if (this.children.toArray()[t.index - 1].getRank() !== 0) {
         t.enable();
       }
     });
@@ -45,7 +45,9 @@ export class MasteryCategoryComponent {
     });
   }
 
-  public rankAdd(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankAdd(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+    let tier = event.tier;
+    let mastery = event.mastery;
     if (!tier || !mastery) {
       return;
     }
@@ -60,7 +62,9 @@ export class MasteryCategoryComponent {
     this.totalRank = this.getRank();
   }
 
-  public rankRemove(tier: MasteryTierComponent, mastery: MasteryComponent) {
+  public rankRemove(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+    let tier = event.tier;
+    let mastery = event.mastery;
     if (!tier || !mastery) {
       return;
     }
@@ -79,9 +83,10 @@ export class MasteryCategoryComponent {
   }
 
   private forTier(index: number, callback: (masteryTierComponent: MasteryTierComponent) => void) {
-    if (!this.children[index]) {
+    let tier = this.children.toArray()[index];
+    if (!tier) {
       return;
     }
-    callback(this.children[index]);
+    callback(tier);
   }
 }

@@ -44,8 +44,8 @@ export class AbilitySequenceComponent {
       }
     }
 
-    if (spell.lets) {
-      for (let value of spell.lets) {
+    if (spell.vars) {
+      for (let value of spell.vars) {
         if (value.key && value.coeff) {
           effects[value.key] = value.coeff[0];
         }
@@ -53,8 +53,8 @@ export class AbilitySequenceComponent {
     }
 
     let stats = this.getStats();
-    for (let i = 0; i < stats.length; i++) {
-      effects[i] = stats[i];
+    for (var attrname in stats) {
+      effects[attrname] = stats[attrname];
     }
 
     return tim(spell.sanitizedTooltip, effects);
@@ -62,8 +62,10 @@ export class AbilitySequenceComponent {
 
   private getStats(): Array<string> {
     let stats = [];
-    for (let i = 0; i < this.champion.stats.length; i++) {
-      stats['f' + i] = this.champion.stats[i];
+    let i = 0;
+    for (let stat in this.champion.stats) {
+      i++;
+      stats['f' + i] = this.champion.stats[stat];
     }
     return stats;
   }

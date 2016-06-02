@@ -55,13 +55,6 @@ describe('MasteryComponent', () => {
     expect(component.locked).toBeFalsy();
   }));
 
-  it('should add mastery to tier', inject([MasteryComponent], (component) => {
-    spyOn(component.tier, 'addMasteryComponent');
-    expect(component.tier.addMasteryComponent).not.toHaveBeenCalled();
-    component.ngOnInit();
-    expect(component.tier.addMasteryComponent).toHaveBeenCalled();
-  }));
-
 
   it('should enable', inject([MasteryComponent], (component) => {
     spyOn(component, 'changed');
@@ -147,7 +140,7 @@ describe('MasteryComponent', () => {
     spyOn(component, 'changed');
     expect(component.changed).not.toHaveBeenCalled();
     component.rank = 3;
-    component.enabled = true;
+    component.enable();
     component.setRank(5);
     expect(component.rank).toBe(5);
     expect(component.changed).toHaveBeenCalled();
@@ -180,41 +173,33 @@ describe('MasteryComponent', () => {
   it('should add rank', inject([MasteryComponent], (component) => {
     component.rank = 1;
     component.data = { ranks: 5 };
-    component.enabled = true;
+    component.enable();
     component.clicked();
     component.dragEnd();
     expect(component.rank).toBe(3);
   }));
 
   it('should add a tier rank when a rank is added', inject([MasteryComponent], (component) => {
-    spyOn(component.tier, 'rankAdded');
-    expect(component.tier.rankAdded).not.toHaveBeenCalled();
-    component.enabled = true;
-    component.addRank();
-    expect(component.tier.rankAdded).toHaveBeenCalled();
-  }));
-
-  it('should add max rank when tier rank is zero', inject([MasteryComponent], (component) => {
-    component.tier.rank = 0;
-    component.data = { ranks: 5 };
-    component.enabled = true;
-    component.addRank();
-    expect(component.rank).toBe(5);
+    spyOn(component.rankAdded, 'emit');
+    expect(component.rankAdded.emit).not.toHaveBeenCalled();
+    component.enable();
+    component._addRank();
+    expect(component.rankAdded.emit).toHaveBeenCalled();
   }));
 
   it('should not go above max rank', inject([MasteryComponent], (component) => {
     component.rank = 5;
     component.data = { ranks: 5 };
-    component.enabled = true;
-    component.addRank();
+    component.enable();
+    component._addRank();
     expect(component.rank).toBe(5);
   }));
 
   it('should not add a rank when disabled', inject([MasteryComponent], (component) => {
     component.rank = 0;
     component.data = { ranks: 5 };
-    component.enabled = false;
-    component.addRank();
+    component.disable();
+    component._addRank();
     expect(component.rank).toBe(0);
   }));
 
@@ -223,36 +208,36 @@ describe('MasteryComponent', () => {
     expect(component.changed).not.toHaveBeenCalled();
     component.rank = 0;
     component.data = { ranks: 5 };
-    component.enabled = true;
-    component.addRank();
+    component.enable();
+    component._addRank();
     expect(component.changed).toHaveBeenCalled();
   }));
 
 
   it('should remove rank', inject([MasteryComponent], (component) => {
     component.rank = 2;
-    component.enabled = true;
+    component.enable();
     component.rightClicked();
     expect(component.rank).toBe(1);
   }));
 
   it('should not remove rank when rank is zero', inject([MasteryComponent], (component) => {
     component.rank = 0;
-    component.enabled = true;
+    component.enable();
     component.rightClicked();
     expect(component.rank).toBe(0);
   }));
 
   it('should not remove rank when disabled', inject([MasteryComponent], (component) => {
     component.rank = 2;
-    component.enabled = false;
+    component.disable();
     component.removeRank();
     expect(component.rank).toBe(2);
   }));
 
   it('should not remove rank when locked', inject([MasteryComponent], (component) => {
     component.rank = 2;
-    component.enabled = true;
+    component.enable();
     component.locked = true;
     component.removeRank();
     expect(component.rank).toBe(2);
@@ -260,7 +245,7 @@ describe('MasteryComponent', () => {
 
 
   it('should set active and color when enabled', inject([MasteryComponent], (component) => {
-    component.enabled = true;
+    component.enable();
     component.rank = 1;
     component.changed();
     expect(component.active).toBeTruthy();
@@ -273,7 +258,7 @@ describe('MasteryComponent', () => {
 
 
   it('should set active and color when disabled', inject([MasteryComponent], (component) => {
-    component.enabled = false;
+    component.disable();
     component.changed();
     expect(component.active).toBeFalsy();
     expect(component.color).toBe(Colors.gray);

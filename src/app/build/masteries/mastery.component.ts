@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import {NgIf, NgClass} from '@angular/common';
 
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -36,20 +36,24 @@ export class Colors {
     </div>`
 })
 
-export class MasteryComponent {
+export class MasteryComponent implements OnChanges {
   @Input() data: any;
+  @Input() enabled: boolean;
 
   @Output() rankAdded: EventEmitter<any> = new EventEmitter<any>();
   @Output() rankRemoved: EventEmitter<any> = new EventEmitter<any>();
 
-  public rank: number = 0;
+  private rank: number = 0;
   private color: string = Colors.gray;
 
-  private enabled: boolean = false;
   private active: boolean = false;
   private locked: boolean = false;
 
   constructor() {
+  }
+
+  public ngOnChanges() {
+    this.changed();
   }
 
   public enable() {
@@ -84,6 +88,11 @@ export class MasteryComponent {
     return this.rank;
   }
 
+  public addRank() {
+    this.rank++;
+    this.changed();
+  }
+
   public setRank(rank: number) {
     if (!this.enabled) {
       return;
@@ -100,11 +109,11 @@ export class MasteryComponent {
   }
 
   private clicked() {
-    this.addRank();
+    this._addRank();
   }
 
   private dragEnd() {
-    this.addRank();
+    this._addRank();
   }
 
   private rightClicked() {
@@ -112,7 +121,7 @@ export class MasteryComponent {
     return false; // stop context menu from appearing
   }
 
-  private addRank() {
+  private _addRank() {
     if (!this.enabled) {
       return;
     }

@@ -17,8 +17,8 @@ class MockMasteryComponent extends MasteryComponent {
   public rank: number = 0;
   public maxRank: number = 0;
 
-  constructor(category: MockMasteryTierComponent) {
-    super(<MasteryTierComponent>category);
+  constructor() {
+    super();
     super.enable();
     super.unlock();
     super.data = {};
@@ -31,14 +31,14 @@ class MockMasteryComponent extends MasteryComponent {
 class MockMasteryTierComponent extends MasteryTierComponent {
   public index = 0;
 
-  constructor( @Inject(forwardRef(() => MasteryCategoryComponent)) private category: MasteryCategoryComponent, index: number) {
-    super(category);
+  constructor(index: number) {
+    super();
     this.index = index;
     this.masteryComponents = [
-      new MockMasteryComponent(this),
-      new MockMasteryComponent(this),
-      new MockMasteryComponent(this),
-      new MockMasteryComponent(this)
+      new MockMasteryComponent(),
+      new MockMasteryComponent(),
+      new MockMasteryComponent(),
+      new MockMasteryComponent()
     ];
   }
 }
@@ -63,10 +63,10 @@ describe('MasteryCategoryComponent', () => {
 
   beforeEach(inject([MasteryCategoryComponent], (component) => {
     component.tierComponents = [
-      new MockMasteryTierComponent(component, 0),
-      new MockMasteryTierComponent(component, 1),
-      new MockMasteryTierComponent(component, 2),
-      new MockMasteryTierComponent(component, 3)
+      new MockMasteryTierComponent(0),
+      new MockMasteryTierComponent(1),
+      new MockMasteryTierComponent(2),
+      new MockMasteryTierComponent(3)
     ];
   }));
 
@@ -74,20 +74,6 @@ describe('MasteryCategoryComponent', () => {
   it('should be initialised', inject([MasteryCategoryComponent], (component) => {
     expect(component.data).not.toBeDefined();
     expect(component.totalRank).toBe(0);
-  }));
-
-  it('should add category to masteries', inject([MasteryCategoryComponent], (component) => {
-    spyOn(component.masteries, 'addCategoryComponent');
-    expect(component.masteries.addCategoryComponent).not.toHaveBeenCalled();
-    component.ngOnInit();
-    expect(component.masteries.addCategoryComponent).toHaveBeenCalled();
-  }));
-
-
-  it('should add a tier', inject([MasteryCategoryComponent], (component) => {
-    let tier = new MockMasteryTierComponent(component, 4);
-    component.addTierComponent(tier);
-    expect(component.tierComponents[4]).toBeDefined();
   }));
 
 
@@ -129,7 +115,7 @@ describe('MasteryCategoryComponent', () => {
     component.tierComponents[1].masteryComponents[0].maxRank = 5;
     component.tierComponents[2].masteryComponents[0].enabled = false;
     component.tierComponents[0].masteryComponents[0].locked = false;
-    component.rankAdded(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
+    component.rankAdd(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
     expect(component.tierComponents[2].masteryComponents[0].enabled).toBeTruthy();
     expect(component.tierComponents[0].masteryComponents[0].locked).toBeTruthy();
   }));
@@ -138,7 +124,7 @@ describe('MasteryCategoryComponent', () => {
     component.tierComponents[0].masteryComponents[0].maxRank = 5;
     component.tierComponents[0].masteryComponents[0].rank = 5;
     component.tierComponents[0].masteryComponents[1].rank = 1;
-    component.rankAdded(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
+    component.rankAdd(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
     expect(component.tierComponents[0].masteryComponents[1].rank).toBe(0);
   }));
 
@@ -148,7 +134,7 @@ describe('MasteryCategoryComponent', () => {
     component.tierComponents[1].masteryComponents[0].maxRank = 5;
     component.tierComponents[1].masteryComponents[0].rank = 2;
     component.masteries.addCategoryComponent(component);
-    component.rankAdded(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
+    component.rankAdd(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
     expect(component.tierComponents[1].masteryComponents[0].rank).toBe(1);
     expect(component.totalRank).toBe(30);
   }));
@@ -159,17 +145,18 @@ describe('MasteryCategoryComponent', () => {
     component.tierComponents[1].masteryComponents[0].rank = 2;
     component.tierComponents[1].masteryComponents[1].rank = 2;
     component.masteries.addCategoryComponent(component);
-    component.rankAdded(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
+    component.rankAdd(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
     expect(component.tierComponents[1].masteryComponents[0].rank).toBe(2);
     expect(component.tierComponents[1].masteryComponents[1].rank).toBe(1);
     expect(component.totalRank).toBe(30);
   }));
 
   it('should should trigger masteries rankAdded event', inject([MasteryCategoryComponent], (component) => {
-    spyOn(component.masteries, 'rankAdded');
+    spyOn(component.rankAdded, 'emit');
+    expect(component.rankAdded.emit).not.toHaveBeenCalled();
     component.tierComponents[0].masteryComponents[0].rank = 1;
-    component.rankAdded(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
-    expect(component.masteries.rankAdded).toHaveBeenCalled();
+    component.rankAdd(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
+    expect(component.rankAdded.emit).toHaveBeenCalled();
     expect(component.totalRank).toBe(1);
   }));
 
@@ -177,18 +164,19 @@ describe('MasteryCategoryComponent', () => {
   it('should disable/unlock tiers', inject([MasteryCategoryComponent], (component) => {
     component.tierComponents[1].masteryComponents[0].rank = 2;
     component.tierComponents[1].masteryComponents[0].maxRank = 5;
-    component.rankRemoved(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
+    component.rankRemove(component.tierComponents[1], component.tierComponents[1].masteryComponents[0]);
     expect(component.tierComponents[2].masteryComponents[0].enabled).toBeFalsy();
     expect(component.tierComponents[0].masteryComponents[0].locked).toBeFalsy();
   }));
 
   it('should should trigger masteries rankRemoved event', inject([MasteryCategoryComponent], (component) => {
-    spyOn(component.masteries, 'rankRemoved');
+    spyOn(component.rankRemoved, 'emit');
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
     component.tierComponents[0].masteryComponents[0].rank = 1;
     component.tierComponents[1].masteryComponents[0].rank = 1;
     component.tierComponents[0].masteryComponents[0].maxRank = 5;
-    component.rankRemoved(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
-    expect(component.masteries.rankRemoved).toHaveBeenCalled();
+    component.rankRemove(component.tierComponents[0], component.tierComponents[0].masteryComponents[0]);
+    expect(component.rankRemoved.emit).toHaveBeenCalled();
     expect(component.totalRank).toBe(2);
   }));
 
@@ -196,17 +184,17 @@ describe('MasteryCategoryComponent', () => {
   it('should do nothing when tier or mastery is incorrect', inject([MasteryCategoryComponent], (component) => {
     component.tierComponents[0].masteryComponents[0].rank = 1;
 
-    spyOn(component.masteries, 'rankRemoved');
-    component.rankRemoved(undefined, component.tierComponents[0].masteryComponents[0]);
-    expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
-    component.rankRemoved(component.tierComponents[0], undefined);
-    expect(component.masteries.rankRemoved).not.toHaveBeenCalled();
+    spyOn(component.rankRemoved, 'emit');
+    component.rankRemove(undefined, component.tierComponents[0].masteryComponents[0]);
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
+    component.rankRemove(component.tierComponents[0], undefined);
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
 
-    spyOn(component.masteries, 'rankAdded');
-    component.rankAdded(undefined, component.tierComponents[0].masteryComponents[0]);
-    expect(component.masteries.rankAdded).not.toHaveBeenCalled();
-    component.rankAdded(component.tierComponents[0], undefined);
-    expect(component.masteries.rankAdded).not.toHaveBeenCalled();
+    spyOn(component.rankAdded, 'emit');
+    component.rankAdd(undefined, component.tierComponents[0].masteryComponents[0]);
+    expect(component.rankAdded.emit).not.toHaveBeenCalled();
+    component.rankAdd(component.tierComponents[0], undefined);
+    expect(component.rankAdded.emit).not.toHaveBeenCalled();
   }));
 
 
