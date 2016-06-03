@@ -2,8 +2,9 @@ import {provide} from '@angular/core';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
+import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -19,12 +20,130 @@ class MockMasteryCategoryComponent extends MasteryCategoryComponent {
   disable() { this.enabled = false; }
 }
 
+const masteriesData = {
+  tree: {
+    Ferocity: [
+      {
+        masteryTreeItems: [
+          {
+            masteryId: 6121
+          },
+          null,
+          {
+            masteryId: 6122
+          }
+        ]
+      },
+      {
+        masteryTreeItems: [
+          {
+            masteryId: 6121
+          },
+          {
+            masteryId: 6122
+          },
+          {
+            masteryId: 6122
+          }
+        ]
+      }
+    ],
+    Cunning: [
+      {
+        masteryTreeItems: [
+          {
+            masteryId: 6121
+          },
+          null,
+          {
+            masteryId: 6122
+          }
+        ]
+      }
+    ],
+    Resolve: [
+      {
+        masteryTreeItems: [
+          {
+            masteryId: 6121
+          },
+          null,
+          {
+            masteryId: 6122
+          }
+        ]
+      }
+    ]
+  },
+  data: {
+    6121: {
+      id: 0,
+      description: ['Melee: Deal 3% additional damage, take 1.5% additional damage.<br><br>Ranged: Deal and take 2% additional damage'],
+      image: { full: '6121.png' }
+    },
+    6122: {
+      id: 1,
+      description: ['Killing a unit restores 20 Health (30 second cooldown)'],
+      image: { full: '6122.png' }
+    }
+  }
+};
+
+const masteriesDataAltered = [
+  {
+    name: 'Ferocity',
+    tiers: [
+      [
+        { id: 0 },
+        null,
+        { id: 1 }
+      ],
+      [
+        { id: 0 },
+        { id: 1 },
+        { id: 1 }
+      ]
+    ]
+  },
+  {
+    name: 'Cunning',
+    tiers: [
+      [
+        { id: 0 },
+        null,
+        { id: 1 }
+      ]
+    ]
+  },
+  {
+    name: 'Resolve',
+    tiers: [
+      [
+        { id: 0 },
+        null,
+        { id: 1 }
+      ]
+    ]
+  }
+];
+
 describe('MasteriesComponent', () => {
   beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' })}),
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
 
     BaseRequestOptions,
-    MockBackend,
+    provide(MockBackend, {
+      useFactory: () => {
+        let mockBackend = new MockBackend();
+        let mockResponse = new Response(new ResponseOptions({ status: 200, body: masteriesData }));
+        mockBackend.connections.subscribe(
+          (connection: MockConnection) => {
+            connection.mockRespond(mockResponse);
+          }
+        );
+        return mockBackend;
+      }
+    }),
     provide(Http, {
       useFactory: (backend, defaultOptions) => {
         return new Http(backend, defaultOptions);
@@ -37,192 +156,95 @@ describe('MasteriesComponent', () => {
     MasteriesComponent
   ]);
 
-  beforeEach(inject([MasteriesComponent], (component) => {
-    component.categoryComponents = [
-      new MockMasteryCategoryComponent(),
-      new MockMasteryCategoryComponent(),
-      new MockMasteryCategoryComponent(),
-      new MockMasteryCategoryComponent()
-    ];
-  }));
+  let component: MasteriesComponent;
+  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    tcb.createAsync(MasteriesComponent).then((fixture: ComponentFixture<MasteriesComponent>) => {
+      fixture.detectChanges();
+      component = fixture.componentInstance;
+    });
+  })));
+
+  it('should be initialised', () => {
+    expect(component.data).toBeDefined();
+    expect(component.children).toBeDefined();
+  });
 
 
-  it('should be initialised', inject([MasteriesComponent], (component) => {
-    expect(component.data).not.toBeDefined();
-    expect(component.loading).toBeFalsy;
-    expect(component.error).toBeFalsy;
-    expect(component.categoryComponents).toBeDefined();
-  }));
-
-
-  it('should enable', inject([MasteriesComponent], (component) => {
+  it('should enable', () => {
     component.enable();
-    expect(component.categoryComponents[0].enabled).toBeTruthy();
-  }));
-
-  it('should disable', inject([MasteriesComponent], (component) => {
-    component.categoryComponents[3].enabled = true;
+    expect(component.children.toArray()[0].children.toArray()[1].children.toArray()[0].enabled).toBeFalsy();
+  });
+  it('should disable', () => {
     component.disable();
-    expect(component.categoryComponents[3].enabled).toBeFalsy();
-  }));
+    expect(component.children.toArray()[1].children.toArray()[0].children.toArray()[0].enabled).toBeFalsy();
+  });
 
-  it('should get rank', inject([MasteriesComponent], (component) => {
-    component.categoryComponents[0].rank = 2;
-    component.categoryComponents[1].rank = 2;
+  it('should get rank', () => {
+    component.children.toArray()[0].children.toArray()[0].children.toArray()[0].setRank(2);
+    component.children.toArray()[1].children.toArray()[0].children.toArray()[0].setRank(2);
     expect(component.getRank()).toBe(4);
-  }));
+  });
 
-  it('should disable when rank is higher than 30', inject([MasteriesComponent], (component) => {
+  it('should disable when rank is higher than 30', () => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
-    component.categoryComponents[0].rank = 30;
-    component.rankAdd();
+    let tier = component.children.toArray()[0].children.toArray()[0];
+    let mastery = tier.children.toArray()[0];
+    mastery.setRank(30);
+    component.rankAdd({ tier: tier, mastery: mastery });
     expect(component.disable).toHaveBeenCalled();
-  }));
-
-  it('should enable when rank is 29', inject([MasteriesComponent], (component) => {
+  });
+  it('should enable when rank is 29', () => {
     spyOn(component, 'enable');
     expect(component.enable).not.toHaveBeenCalled();
-    component.categoryComponents[0].rank = 29;
-    component.rankRemoved();
+    let tier = component.children.toArray()[0].children.toArray()[0];
+    let mastery = tier.children.toArray()[0];
+    mastery.setRank(29);
+    component.rankRemove({ tier: tier, mastery: mastery });
     expect(component.enable).toHaveBeenCalled();
-  }));
+  });
 
 
-  it('should get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-    spyOn(component, 'alterData');
-    let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockRespond(mockResponse);
-      });
+  // it('should get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+  //   spyOn(component, 'alterData');
+  //   let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
+  //   mockBackend.connections.subscribe(
+  //     (connection: MockConnection) => {
+  //       connection.mockRespond(mockResponse);
+  //     });
 
-    expect(component.alterData).not.toHaveBeenCalled();
-    component.getData();
-    return service.getMasteries().toPromise().then(() => {
-      expect(component.alterData).toHaveBeenCalled();
-    });
-  }));
+  //   expect(component.alterData).not.toHaveBeenCalled();
+  //   component.getData();
+  //   return service.getMasteries().toPromise().then(() => {
+  //     expect(component.alterData).toHaveBeenCalled();
+  //   });
+  // }));
 
-  it('should not get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-    spyOn(component, 'alterData');
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockError();
-      });
+  // it('should not get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+  //   spyOn(component, 'alterData');
+  //   mockBackend.connections.subscribe(
+  //     (connection: MockConnection) => {
+  //       connection.mockError();
+  //     });
 
-    expect(component.alterData).not.toHaveBeenCalled();
-    component.getData();
-    return service.getMasteries().toPromise().catch(() => {
-      expect(component.alterData).not.toHaveBeenCalled();
-    });
-  }));
+  //   expect(component.alterData).not.toHaveBeenCalled();
+  //   component.getData();
+  //   return service.getMasteries().toPromise().catch(() => {
+  //     expect(component.alterData).not.toHaveBeenCalled();
+  //   });
+  // }));
 
 
-  it('should alter data', inject([MasteriesComponent], (component) => {
-    let newMasteries = {
-      tree: {
-        Ferocity: [
-          {
-            masteryTreeItems: [
-              {
-                masteryId: 6121
-              },
-              null,
-              {
-                masteryId: 6122
-              }
-            ]
-          },
-          {
-            masteryTreeItems: [
-              {
-                masteryId: 6121
-              },
-              {
-                masteryId: 6122
-              },
-              {
-                masteryId: 6122
-              }
-            ]
-          }
-        ],
-        Cunning: [
-          {
-            masteryTreeItems: [
-              {
-                masteryId: 6121
-              },
-              null,
-              {
-                masteryId: 6122
-              }
-            ]
-          }
-        ],
-        Resolve: [
-          {
-            masteryTreeItems: [
-              {
-                masteryId: 6121
-              },
-              null,
-              {
-                masteryId: 6122
-              }
-            ]
-          }
-        ]
-      },
-      data: {
-        6121: {
-          id: 0
-        },
-        6122: {
-          id: 1
-        }
-      }
-    };
+  // it('should alter data', inject([MasteriesComponent], (component) => {
+  //   expect(component.alterData(masteriesData)).toHaveEqualContent(masteriesDataAltered);
+  // }));
 
-    let alteredMasteries = [
-      {
-        name: 'Ferocity',
-        tiers: [
-          [
-            { id: 0 },
-            null,
-            { id: 1 }
-          ],
-          [
-            { id: 0 },
-            { id: 1 },
-            { id: 1 }
-          ]
-        ]
-      },
-      {
-        name: 'Cunning',
-        tiers: [
-          [
-            { id: 0 },
-            null,
-            { id: 1 }
-          ]
-        ]
-      },
-      {
-        name: 'Resolve',
-        tiers: [
-          [
-            { id: 0 },
-            null,
-            { id: 1 }
-          ]
-        ]
-      }
-    ];
-
-    expect(component.alterData(newMasteries)).toHaveEqualContent(alteredMasteries);
-  }));
+  // it('should get total rank deviation', inject([MasteryCategoryComponent], (component) => {
+  //   component.tierComponents[0].masteryComponents[0].rank = 10;
+  //   component.tierComponents[2].masteryComponents[0].rank = 25;
+  //   component.masteries.addCategoryComponent(component);
+  //   expect(component.getTotalRankDeviation()).toBe(5);
+  //   component.tierComponents[2].masteryComponents[0].rank = 20;
+  //   expect(component.getTotalRankDeviation()).toBe(0);
+  // }));
 });

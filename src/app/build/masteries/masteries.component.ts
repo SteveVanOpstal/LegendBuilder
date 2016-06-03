@@ -1,4 +1,4 @@
-import {Component, ViewChildren, QueryList} from '@angular/core';
+import {Component, ViewChildren, QueryList, OnInit} from '@angular/core';
 import {NgFor} from '@angular/common';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -20,15 +20,19 @@ import {LolApiService} from '../../misc/lolapi.service';
     <error [error]="error" (retry)="getData()"></error>`
 })
 
-export class MasteriesComponent {
+export class MasteriesComponent implements OnInit {
   @ViewChildren(MasteryCategoryComponent) children: QueryList<MasteryCategoryComponent>;
 
-  private data: Object;
+  public data: Object; // TODO: remove temporary public
   private loading: boolean = true;
   private error: boolean = false;
 
   constructor(private lolApi: LolApiService) {
+  }
+
+  public ngOnInit() {
     this.getData();
+    console.log('test1');
   }
 
   public enable() {
@@ -73,7 +77,10 @@ export class MasteriesComponent {
 
     this.lolApi.getMasteries()
       .subscribe(
-      res => this.data = this.alterData(res),
+      res => {
+        this.data = this.alterData(res)
+        console.log('test2');
+      },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
       );
