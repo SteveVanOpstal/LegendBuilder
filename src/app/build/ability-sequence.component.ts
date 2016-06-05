@@ -53,7 +53,7 @@ export class AbilitySequenceComponent {
     }
 
     let stats = this.getStats();
-    for (var attrname in stats) {
+    for (let attrname in stats) {
       effects[attrname] = stats[attrname];
     }
 
