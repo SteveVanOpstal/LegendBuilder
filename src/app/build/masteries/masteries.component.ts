@@ -32,7 +32,6 @@ export class MasteriesComponent implements OnInit {
 
   public ngOnInit() {
     this.getData();
-    console.log('test1');
   }
 
   public enable() {
@@ -78,8 +77,7 @@ export class MasteriesComponent implements OnInit {
     this.lolApi.getMasteries()
       .subscribe(
       res => {
-        this.data = this.alterData(res)
-        console.log('test2');
+        this.data = this.alterData(res);
       },
       error => { this.error = true; this.loading = false; },
       () => this.loading = false
