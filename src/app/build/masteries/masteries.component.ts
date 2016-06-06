@@ -50,7 +50,7 @@ export class MasteriesComponent implements OnInit {
   public rankAdd(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
     let tier = event.tier;
     let mastery = event.mastery;
-    let deviation = this.getTotalRankDeviation();
+    let deviation = this.getTotalRankExceeded();
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
         tier.setOtherRank(mastery, tier.getRank() - deviation - mastery.getRank());
@@ -109,7 +109,7 @@ export class MasteriesComponent implements OnInit {
     return alteredMasteries;
   }
 
-  private getTotalRankDeviation() {
+  private getTotalRankExceeded() {
     let deviation = this.getRank() - 30;
     return deviation > 0 ? deviation : 0;
   }

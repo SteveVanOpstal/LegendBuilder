@@ -2,14 +2,13 @@ import {provide, Inject, forwardRef, QueryList} from '@angular/core';
 import {Http, BaseRequestOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
+import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
 
 import {MockRouteSegment} from '../../testing';
 
@@ -45,12 +44,53 @@ import {MockRouteSegment} from '../../testing';
 //   }
 // }
 
+const data = {
+  name: 'Ferocity',
+  tiers: [
+    [
+      {
+        id: 0,
+        description: ['test6121'],
+        image: { full: '6121.png' },
+        ranks: 5
+      },
+      null,
+      {
+        id: 1,
+        description: ['test6122'],
+        image: { full: '6122.png' },
+        ranks: 5
+      }
+    ],
+    [
+      {
+        id: 0,
+        description: ['test6121'],
+        image: { full: '6121.png' },
+        ranks: 5
+      },
+      {
+        id: 1,
+        description: ['test6122'],
+        image: { full: '6122.png' },
+        ranks: 5
+      },
+      {
+        id: 1,
+        description: ['test6122'],
+        image: { full: '6122.png' },
+        ranks: 5
+      }
+    ]
+  ]
+};
+
 describe('MasteryCategoryComponent', () => {
   beforeEachProviders(() => [
     provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
 
-    BaseRequestOptions,
     MockBackend,
+    BaseRequestOptions,
     provide(Http, {
       useFactory: (backend, defaultOptions) => {
         return new Http(backend, defaultOptions);
@@ -59,152 +99,94 @@ describe('MasteryCategoryComponent', () => {
     }),
 
     LolApiService,
+
     MasteriesComponent,
     MasteryCategoryComponent
   ]);
 
-  // beforeEach(inject([MasteryCategoryComponent], (component) => {
-  //   let masteryTierComponent1 = new MasteryTierComponent();
-  //   let masteryComponent1 =  new MasteryTierComponent();
-  //   masteryComponent1.enable();
-  //   let masteryComponent2 =  new MasteryTierComponent();
-  //   masteryTierComponent1.children = [
-  //     masteryComponent1,
-  //     masteryComponent2
-  //   ];
 
-  //   component.children = [];
-  // }));
+  let component: MasteryCategoryComponent;
+  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    tcb.createAsync(MasteryCategoryComponent).then((fixture: ComponentFixture<MasteryCategoryComponent>) => {
+      component = fixture.componentInstance;
+      component.data = data;
+      fixture.detectChanges();
+    });
+  })));
 
 
-  // it('should be initialised', inject([MasteryCategoryComponent], (component) => {
-  //   expect(component.data).not.toBeDefined();
-  //   expect(component.totalRank).toBe(0);
-  // }));
+  it('should enable next tier when previous tier has a rank more than zero', () => {
+    let tier1 = component.children.toArray()[0];
+    let tier2 = component.children.toArray()[1];
+    let mastery1 = tier1.children.toArray()[0];
+    let mastery2 = tier2.children.toArray()[0];
+    mastery1.setRank(5);
+    mastery2.enabled = false;
+    component.enable();
+    expect(mastery2.enabled).toBeTruthy();
+  });
 
 
-  // it('should enable tier zero', inject([MasteryCategoryComponent], (component) => {
-  //   component.enable();
-  //   expect(component.children[0].masteryComponents[0].enabled).toBeTruthy();
-  // }));
+  it('should lock previous tier when the tier is at max rank', () => {
+    let tier1 = component.children.toArray()[0];
+    let mastery1 = tier1.children.toArray()[0];
+    spyOn(mastery1, 'lock');
+    expect(mastery1.lock).not.toHaveBeenCalled();
+    mastery1.unlock();
+    let tier2 = component.children.toArray()[1];
+    let mastery2 = tier2.children.toArray()[0];
+    mastery2.enabled = true;
+    mastery2.setRank(5);
 
-  // it('should enable tiers', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[1].masteryComponents[0].rank = 1;
-  //   component.children[3].masteryComponents[0].rank = 5;
-  //   component.children[0].masteryComponents[0].enabled = false;
-  //   component.children[1].masteryComponents[0].enabled = false;
-  //   component.children[2].masteryComponents[0].enabled = false;
-  //   component.children[3].masteryComponents[0].enabled = false;
-  //   component.enable();
-  //   expect(component.children[0].masteryComponents[0].enabled).toBeTruthy();
-  //   expect(component.children[1].masteryComponents[0].enabled).toBeFalsy();
-  //   expect(component.children[2].masteryComponents[0].enabled).toBeTruthy();
-  //   expect(component.children[3].masteryComponents[0].enabled).toBeFalsy();
-  // }));
+    component.rankAdd({ tier: tier2, mastery: mastery2 });
+    expect(mastery1.lock).toHaveBeenCalled();
+  });
+  it('should enable next tier when the tier is at max rank', () => {
+    let tier1 = component.children.toArray()[0];
+    let mastery1 = tier1.children.toArray()[0];
+    mastery1.setRank(5);
+    let tier2 = component.children.toArray()[1];
+    let mastery2 = tier2.children.toArray()[0];
+    mastery2.enabled = false;
 
-  // it('should disable tiers without ranks', inject([MasteryCategoryComponent], (component) => {
-  //   for (let index in component.children) {
-  //     component.children[index].masteryComponents[0].enabled = true;
-  //   }
-  //   component.children[0].masteryComponents[0].rank = 1;
-  //   component.children[2].masteryComponents[0].rank = 5;
-  //   component.disable();
-  //   expect(component.children[0].masteryComponents[0].enabled).toBeTruthy();
-  //   expect(component.children[1].masteryComponents[0].enabled).toBeFalsy();
-  //   expect(component.children[2].masteryComponents[0].enabled).toBeTruthy();
-  //   expect(component.children[3].masteryComponents[0].enabled).toBeFalsy();
-  // }));
+    component.rankAdd({ tier: tier1, mastery: mastery1 });
+    expect(mastery2.enabled).toBeTruthy();
+  });
 
 
-  // it('should enable/lock tiers', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[1].masteryComponents[0].rank = 5;
-  //   component.children[1].masteryComponents[0].maxRank = 5;
-  //   component.children[2].masteryComponents[0].enabled = false;
-  //   component.children[0].masteryComponents[0].locked = false;
-  //   component.rankAdd(component.children[1], component.children[1].masteryComponents[0]);
-  //   expect(component.children[2].masteryComponents[0].enabled).toBeTruthy();
-  //   expect(component.children[0].masteryComponents[0].locked).toBeTruthy();
-  // }));
+  it('should unlock previous tier when the tier is below max rank', () => {
+    let tier1 = component.children.toArray()[0];
+    let mastery1 = tier1.children.toArray()[0];
+    spyOn(mastery1, 'unlock');
+    expect(mastery1.unlock).not.toHaveBeenCalled();
+    mastery1.lock();
+    let tier2 = component.children.toArray()[1];
+    let mastery2 = tier2.children.toArray()[0];
+    mastery2.setRank(4);
 
-  // it('should lower the other rank in the tier', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[0].masteryComponents[0].maxRank = 5;
-  //   component.children[0].masteryComponents[0].rank = 5;
-  //   component.children[0].masteryComponents[1].rank = 1;
-  //   component.rankAdd(component.children[0], component.children[0].masteryComponents[0]);
-  //   expect(component.children[0].masteryComponents[1].rank).toBe(0);
-  // }));
+    component.rankRemove({ tier: tier2, mastery: mastery2 });
+    expect(mastery1.unlock).toHaveBeenCalled();
+  });
+  it('should disable next tier when the tier is below max rank', () => {
+    let tier1 = component.children.toArray()[0];
+    let mastery1 = tier1.children.toArray()[0];
+    mastery1.setRank(4);
+    let tier2 = component.children.toArray()[1];
+    let mastery2 = tier2.children.toArray()[0];
+    mastery2.enabled = true;
 
-  // it('should not go over rank 30 (mastery)', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[0].masteryComponents[0].rank = 25;
-  //   component.children[0].masteryComponents[1].rank = 4;
-  //   component.children[1].masteryComponents[0].maxRank = 5;
-  //   component.children[1].masteryComponents[0].rank = 2;
-  //   component.masteries.addCategoryComponent(component);
-  //   component.rankAdd(component.children[1], component.children[1].masteryComponents[0]);
-  //   expect(component.children[1].masteryComponents[0].rank).toBe(1);
-  //   expect(component.totalRank).toBe(30);
-  // }));
-
-  // it('should not go over rank 30 (tier)', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[0].masteryComponents[0].rank = 27;
-  //   component.children[1].masteryComponents[0].maxRank = 5;
-  //   component.children[1].masteryComponents[0].rank = 2;
-  //   component.children[1].masteryComponents[1].rank = 2;
-  //   component.masteries.addCategoryComponent(component);
-  //   component.rankAdd(component.children[1], component.children[1].masteryComponents[0]);
-  //   expect(component.children[1].masteryComponents[0].rank).toBe(2);
-  //   expect(component.children[1].masteryComponents[1].rank).toBe(1);
-  //   expect(component.totalRank).toBe(30);
-  // }));
+    component.rankRemove({ tier: tier1, mastery: mastery1 });
+    expect(mastery2.enabled).toBeFalsy();
+  });
 
 
-  // it('should disable/unlock tiers', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[1].masteryComponents[0].rank = 2;
-  //   component.children[1].masteryComponents[0].maxRank = 5;
-  //   component.rankRemove(component.children[1], component.children[1].masteryComponents[0]);
-  //   expect(component.children[2].masteryComponents[0].enabled).toBeFalsy();
-  //   expect(component.children[0].masteryComponents[0].locked).toBeFalsy();
-  // }));
-
-
-  // it('should do nothing when tier or mastery is incorrect', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[0].masteryComponents[0].rank = 1;
-
-  //   spyOn(component.rankRemoved, 'emit');
-  //   component.rankRemove(undefined, component.children[0].masteryComponents[0]);
-  //   expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-  //   component.rankRemove(component.children[0], undefined);
-  //   expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-
-  //   spyOn(component.rankAdded, 'emit');
-  //   component.rankAdd(undefined, component.children[0].masteryComponents[0]);
-  //   expect(component.rankAdded.emit).not.toHaveBeenCalled();
-  //   component.rankAdd(component.children[0], undefined);
-  //   expect(component.rankAdded.emit).not.toHaveBeenCalled();
-  // }));
-
-
-  // it('should get rank', inject([MasteryCategoryComponent], (component) => {
-  //   component.children[0].masteryComponents[0].rank = 1;
-  //   component.children[2].masteryComponents[0].rank = 5;
-  //   expect(component.getRank()).toBe(6);
-  // }));
-
-  // it('should should trigger masteries rankAdded event', inject([MasteryCategoryComponent], (component) => {
-  //   spyOn(component.rankAdded, 'emit');
-  //   expect(component.rankAdded.emit).not.toHaveBeenCalled();
-  //   let tier = new MasteryTierComponent();
-  //   let mastery = new MasteryTierComponent();
-  //   component.rankAdd(tier, mastery);
-  //   expect(component.rankAdded.emit).toHaveBeenCalled();
-  // }));
-
-  // it('should should trigger masteries rankRemoved event', inject([MasteryCategoryComponent], (component) => {
-  //   spyOn(component.rankRemoved, 'emit');
-  //   expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-  //   let tier = new MasteryTierComponent();
-  //   let mastery = new MasteryTierComponent();
-  //   component.rankRemove(tier, mastery);
-  //   expect(component.rankRemoved.emit).toHaveBeenCalled();
-  // }));
+  it('should lower the other rank in the tier', () => {
+    let tier = component.children.toArray()[0];
+    let mastery1 = tier.children.toArray()[0];
+    let mastery2 = tier.children.toArray()[1];
+    mastery1.setRank(5);
+    mastery2.setRank(1);
+    component.rankAdd({ tier: tier, mastery: mastery1 });
+    expect(mastery2.getRank()).toBe(0);
+  });
 });

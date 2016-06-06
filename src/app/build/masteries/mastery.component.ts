@@ -108,20 +108,7 @@ export class MasteryComponent implements OnChanges {
     return this.data.ranks;
   }
 
-  private clicked() {
-    this._addRank();
-  }
-
-  private dragEnd() {
-    this._addRank();
-  }
-
-  private rightClicked() {
-    this.removeRank();
-    return false; // stop context menu from appearing
-  }
-
-  private _addRank() {
+  public rankAdd() {
     if (!this.enabled) {
       return;
     }
@@ -129,7 +116,7 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  private removeRank() {
+  public rankRemove() {
     if (!this.enabled || this.locked) {
       return;
     }
@@ -138,6 +125,19 @@ export class MasteryComponent implements OnChanges {
     }
     this.rankRemoved.emit(this);
     this.changed();
+  }
+
+  private clicked() {
+    this.rankAdd();
+  }
+
+  private dragEnd() {
+    this.rankAdd();
+  }
+
+  private rightClicked() {
+    this.rankRemove();
+    return false; // stop context menu from appearing
   }
 
   private changed() {
