@@ -25,23 +25,23 @@ interface HttpError {
 }
 
 namespace Errors {
-  let badRequest: HttpError = {
+  export const badRequest: HttpError = {
     code: 400,
     error: 'Invalid request.'
   };
-  let invalidSummoner: HttpError = {
+  export const invalidSummoner: HttpError = {
     code: 404,
     error: 'Unable to find summoner.'
   };
-  let matchlist: HttpError = {
+  export const matchlist: HttpError = {
     code: 404,
     error: 'Unable to find sufficient games. Play at least ' + config.games.min + ' ranked games with the chosen champion.'
   };
-  let matches: HttpError = {
+  export const matches: HttpError = {
     code: 500,
     error: 'Unable to process match data.'
   };
-  let participant: HttpError = {
+  export const participant: HttpError = {
     code: 404,
     error: 'Unable to find participant.'
   };
