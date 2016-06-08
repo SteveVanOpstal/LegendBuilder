@@ -2,7 +2,7 @@ import {provide} from '@angular/core';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {Router, RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders} from '@angular/core/testing';
+import {it, inject, async, beforeEachProviders} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
@@ -38,7 +38,7 @@ describe('ChampionsComponent', () => {
   }));
 
 
-  it('should get champions', inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get champions', async(inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -49,10 +49,12 @@ describe('ChampionsComponent', () => {
     component.getData();
     return service.getChampions().toPromise().then(() => {
       expect(component.champions).toBeDefined();
+    }).catch(() => {
+      expect(false).toBeTruthy();
     });
-  }));
+  })));
 
-  it('should not get champions', inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+  it('should not get champions', async(inject([MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
@@ -60,11 +62,13 @@ describe('ChampionsComponent', () => {
 
     expect(component.champions).not.toBeDefined();
     component.getData();
-    return service.getChampions().toPromise().catch(() => {
+    return service.getChampions().toPromise().then(() => {
+      expect(false).toBeTruthy();
+    }).catch(() => {
       expect(component.champions).not.toBeDefined();
       expect(component.error).toBeTruthy();
     });
-  }));
+  })));
 
 
   it('should navigate when enter is hit and one champion is available', inject([ChampionsComponent], (component) => {

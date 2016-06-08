@@ -2,7 +2,7 @@ import {provide} from '@angular/core';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {Router, RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders} from '@angular/core/testing';
+import {it, inject, async, beforeEachProviders} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
@@ -54,7 +54,7 @@ describe('BuildComponent', () => {
   }));
 
 
-  it('sshould handle a champion request', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a champion request', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -65,10 +65,12 @@ describe('BuildComponent', () => {
     component.getData();
     return service.getChampion('VelKoz').toPromise().then(() => {
       expect(component.champion).toBeDefined();
+    }).catch(() => {
+      expect(false).toBeTruthy();
     });
-  }));
+  })));
 
-  it('should handle a champion error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a champion error', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
@@ -76,14 +78,16 @@ describe('BuildComponent', () => {
 
     expect(component.champion).not.toBeDefined();
     component.getData();
-    return service.getChampion('VelKoz').toPromise().catch(() => {
+    return service.getChampion('VelKoz').toPromise().then(() => {
+      expect(false).toBeTruthy();
+    }).catch(() => {
       expect(component.champion).not.toBeDefined();
       expect(component.error).toBeTruthy();
     });
-  }));
+  })));
 
 
-  it('should handle a match request', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a match request', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     let config = { xp: [0, 1], g: [0, 1] };
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
     mockBackend.connections.subscribe(
@@ -95,10 +99,12 @@ describe('BuildComponent', () => {
     component.getMatchData('');
     return service.getMatchData('', '', 0, 0).toPromise().then(() => {
       expect(component.config).toHaveEqualContent(config);
+    }).catch(() => {
+      expect(false).toBeTruthy();
     });
-  }));
+  })));
 
-  it('should handle a match error', inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
+  it('should handle a match error', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
     let config = { xp: [0, 1], g: [0, 1] };
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -107,9 +113,11 @@ describe('BuildComponent', () => {
 
     expect(component.config).toBeDefined();
     component.getMatchData('');
-    return service.getMatchData('', '', 0, 0).toPromise().catch(() => {
+    return service.getMatchData('', '', 0, 0).toPromise().then(() => {
+      expect(false).toBeTruthy();
+    }).catch(() => {
       expect(component.config).not.toHaveEqualContent(config);
       expect(component.error).toBeTruthy();
     });
-  }));
+  })));
 });

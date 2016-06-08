@@ -2,7 +2,7 @@ import {provide, ElementRef} from '@angular/core';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
@@ -80,7 +80,7 @@ describe('DDragonDirective', () => {
   });
 
 
-  it('should update on contruct', inject([MockBackend, ElementRef, RouteSegment, Http], (mockBackend, elementRef, routeSegment, http) => {
+  it('should update on contruct', async(inject([MockBackend, ElementRef, RouteSegment, Http], (mockBackend, elementRef, routeSegment, http) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -94,8 +94,10 @@ describe('DDragonDirective', () => {
     let directive = new DDragonDirective(elementRef, service);
     return service.getRealm().toPromise().then(() => {
       expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();
+    }).catch(() => {
+      expect(false).toBeTruthy();
     });
-  }));
+  })));
 
   it('should update on change', inject([DDragonDirective], (directive) => {
     spyOn(directive, 'updateElement');

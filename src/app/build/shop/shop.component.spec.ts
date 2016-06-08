@@ -2,7 +2,7 @@ import {provide} from '@angular/core';
 import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
+import {it, inject, async, beforeEachProviders, beforeEach} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 
 import {LolApiService} from '../../misc/lolapi.service';
@@ -60,7 +60,7 @@ describe('ShopComponent', () => {
   }));
 
 
-  it('should get items', inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get items', async(inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: [{}] }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
@@ -74,10 +74,12 @@ describe('ShopComponent', () => {
     return service.getItems().toPromise().then(() => {
       expect(component.items).not.toHaveEqualContent([]);
       expect(component.originalItems).not.toHaveEqualContent([]);
+    }).catch(() => {
+      expect(false).toBeTruthy();
     });
-  }));
+  })));
 
-  it('should not get items', inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+  it('should not get items', async(inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
@@ -87,11 +89,13 @@ describe('ShopComponent', () => {
     expect(component.items).toHaveEqualContent([]);
     expect(component.originalItems).toHaveEqualContent([]);
     component.getData();
-    return service.getItems().toPromise().catch(() => {
+    return service.getItems().toPromise().then(() => {
+      expect(false).toBeTruthy();
+    }).catch(() => {
       expect(component.items).toHaveEqualContent([]);
       expect(component.originalItems).toHaveEqualContent([]);
     });
-  }));
+  })));
 
 
   it('should add tags', inject([ShopComponent, Event], (component, event) => {
