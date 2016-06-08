@@ -289,23 +289,43 @@ describe('MasteriesComponent', () => {
       expect(false).toBeTruthy();
     });
   })));
-
-  // it('should not get masteries', inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-  //   spyOn(component, 'alterData');
-  //   mockBackend.connections.subscribe(
-  //     (connection: MockConnection) => {
-  //       connection.mockError();
-  //     });
-
-  //   expect(component.alterData).not.toHaveBeenCalled();
-  //   component.getData();
-  //   return service.getMasteries().toPromise().then((error: Error) => {
-  //     if (error) {
-  //       expect(component.alterData).not.toHaveBeenCalled();
-  //     }
-  //     else {
-  //       expect(false).toBeTruthy();
-  //     }
-  //   });
-  // }));
 });
+
+
+describe('MasteriesComponent', () => {
+  beforeEachProviders(() => [
+    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+
+    MockBackend,
+    BaseRequestOptions,
+    provide(Http, {
+      useFactory: (backend, defaultOptions) => {
+        return new Http(backend, defaultOptions);
+      },
+      deps: [MockBackend, BaseRequestOptions]
+    }),
+
+    LolApiService,
+    MasteryCategoryComponent,
+    MasteriesComponent
+  ]);
+
+
+  it('should not get masteries', async(inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError();
+      });
+
+    spyOn(component, 'alterData');
+    expect(component.alterData).not.toHaveBeenCalled();
+    component.ngOnInit();
+    return service.getMasteries().toPromise().then(() => {
+      expect(false).toBeTruthy();
+    }).catch(() => {
+      expect(component.alterData).not.toHaveBeenCalled();
+      expect(component.error).toBeTruthy();
+    });
+  })));
+});
+

@@ -156,4 +156,23 @@ describe('MasteryComponent', () => {
     expect(component.rankRemoved.emit).toHaveBeenCalled();
     expect(component.getRank()).toBe(0);
   });
+
+  it('should add rank on click', () => {
+    spyOn(component, 'rankAdd');
+    expect(component.rankAdd).not.toHaveBeenCalled();
+    document.getElementsByTagName('div').item(1).click();
+    expect(component.rankAdd).toHaveBeenCalled();
+  });
+  it('should add rank on drag', () => {
+    spyOn(component, 'rankAdd');
+    expect(component.rankAdd).not.toHaveBeenCalled();
+    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('dragend'));
+    expect(component.rankAdd).toHaveBeenCalled();
+  });
+  it('should remove rank on right click', () => {
+    spyOn(component, 'rankRemove');
+    expect(component.rankRemove).not.toHaveBeenCalled();
+    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('contextmenu'));
+    expect(component.rankRemove).toHaveBeenCalled();
+  });
 });

@@ -189,4 +189,26 @@ describe('MasteryCategoryComponent', () => {
     component.rankAdd({ tier: tier, mastery: mastery1 });
     expect(mastery2.getRank()).toBe(0);
   });
+
+
+  it('should not add rank on an invalid event', () => {
+    spyOn(component.rankRemoved, 'emit')
+    let tier = component.children.toArray()[0];
+    let mastery = tier.children.toArray()[0];
+    mastery.setRank(5);
+    component.rankAdd({ tier: tier, mastery: undefined });
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
+    component.rankAdd({ tier: undefined, mastery: mastery });
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
+  });
+  it('should not remove rank on an invalid event', () => {
+    spyOn(component.rankRemoved, 'emit')
+    let tier = component.children.toArray()[0];
+    let mastery = tier.children.toArray()[0];
+    mastery.setRank(5);
+    component.rankRemove({ tier: tier, mastery: undefined });
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
+    component.rankRemove({ tier: undefined, mastery: mastery });
+    expect(component.rankRemoved.emit).not.toHaveBeenCalled();
+  });
 });
