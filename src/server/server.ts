@@ -86,7 +86,7 @@ export class Server {
   }
 
   public getBaseUrl(region?: string) {
-    return this.config.protocol + this.getHostname(region) + '/api/lol' + (region ? region : '');
+    return this.config.protocol + this.getHostname(region) + '/api/lol' + (region ? '/' + region : '');
   }
 
   public getHostname(region?: string) {
