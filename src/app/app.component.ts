@@ -2,10 +2,10 @@ import {HTTP_BINDINGS} from '@angular/http';
 import {Router, Routes} from '@angular/router';
 import {Component} from '@angular/core';
 
-import {RegionsComponent} from './routes/region.component';
-import {ChampionsComponent} from './routes/champions.component';
-import {FeaturesComponent} from './routes/features.component';
-import {BuildComponent} from './routes/build.component';
+import {RegionsComponent} from './region/region.component';
+import {ChampionsComponent} from './champions/champions.component';
+import {FeaturesComponent} from './features/features.component';
+import {BuildComponent} from './build/build.component';
 
 @Component({
   selector: 'app',
