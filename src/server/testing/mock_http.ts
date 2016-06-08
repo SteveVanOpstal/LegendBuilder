@@ -17,6 +17,9 @@ export class MockServerResponse implements ServerResponse {
     this.headers = headers;
   }
   getHeader(name: string): string {
+    if (!this.headers) {
+      return '[no headers]';
+    }
     return this.headers[name];
   }
   end() { }
