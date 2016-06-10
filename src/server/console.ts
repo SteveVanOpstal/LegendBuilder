@@ -1,7 +1,7 @@
 let chalk = require('chalk');
 let dateFormat = require('dateformat');
 
-import {tim} from '../app/misc/tim';
+import {tim} from '../client/app/misc/tim';
 
 export class ColorConsole {
   private timeStart = process.hrtime();
