@@ -52,42 +52,40 @@ describe('MasteryComponent', () => {
   })));
 
 
-  it('should disable when there is no data', inject([MasteryComponent], (component) => {
+  it('should disable when there is no data', () => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
     component.enabled = false;
     component.data = undefined;
     component.enable();
     expect(component.disable).toHaveBeenCalled();
-  }));
+  });
 
-  it('should not disable when it has a rank', inject([MasteryComponent], (component) => {
+  it('should not disable when it has a rank', () => {
     spyOn(component, 'changed');
-    component.rank = 1;
-    component.enabled = false;
-    expect(component.changed).not.toHaveBeenCalled();
+    component.enabled = true;
+    component.setRank(1);
     component.disable();
-    expect(component.rank).toBe(1);
-    expect(component.enabled).toBeFalsy();
-    expect(component.changed).not.toHaveBeenCalled();
-  }));
+    expect(component.getRank()).toBe(1);
+    expect(component.enabled).toBeTruthy();
+  });
 
 
-  it('should get max rank zero when there is no data', inject([MasteryComponent], (component) => {
+  it('should get max rank zero when there is no data', () => {
     component.data = undefined;
     expect(component.getMaxRank()).toBe(0);
     component.data = { ranks: undefined };
     expect(component.getMaxRank()).toBe(0);
-  }));
+  });
 
 
-  it('should not add a rank when disabled', inject([MasteryComponent], (component) => {
-    component.rank = 0;
+  it('should not add a rank when disabled', () => {
+    component.setRank(0);
     component.data = { ranks: 5 };
     component.disable();
     component.rankAdd();
-    expect(component.rank).toBe(0);
-  }));
+    expect(component.getRank()).toBe(0);
+  });
 
 
   it('should remove rank', () => {

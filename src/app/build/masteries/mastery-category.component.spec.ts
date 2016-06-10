@@ -192,7 +192,7 @@ describe('MasteryCategoryComponent', () => {
 
 
   it('should not add rank on an invalid event', () => {
-    spyOn(component.rankRemoved, 'emit')
+    spyOn(component.rankRemoved, 'emit');
     let tier = component.children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(5);
@@ -202,7 +202,7 @@ describe('MasteryCategoryComponent', () => {
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
   });
   it('should not remove rank on an invalid event', () => {
-    spyOn(component.rankRemoved, 'emit')
+    spyOn(component.rankRemoved, 'emit');
     let tier = component.children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(5);
