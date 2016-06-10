@@ -48,6 +48,7 @@
     "http-server:prod": "node dist/server/http-server.js",
     "static-server": "npm run build:server:dev && node dist/server/static-server.js",
     "match-server": "npm run build:server:dev && node dist/server/match-server.js",
+    "format": "./node_modules/.bin/clang-format --glob=src/**/*.ts",
     "lint": "./node_modules/.bin/tslint src/**/*.ts",
     "lint:client": "./node_modules/.bin/tslint src/app/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
@@ -90,6 +91,7 @@
   },
   "devDependencies": {
     "awesome-typescript-loader": "^0.19.1",
+    "clang-format": "^1.0.41",
     "codelyzer": "^0.0.19",
     "compression-webpack-plugin": "^0.3.1",
     "copy-webpack-plugin": "^3.0.0",
