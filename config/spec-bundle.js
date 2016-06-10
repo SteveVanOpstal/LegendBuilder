@@ -22,7 +22,7 @@ testing.setBaseTestProviders(
 
 Object.assign(global, testing);
 
-var testContext = require.context('../src/app', true, /\.spec\.ts/);
+var testContext = require.context('../src/client/app', true, /\.spec\.ts/);
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
 }

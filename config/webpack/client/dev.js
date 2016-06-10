@@ -28,9 +28,9 @@ module.exports = webpackMerge(commonConfig, {
   debug: true,
 
   entry: {
-    'polyfills': helpers.root('src/polyfills.ts'),
-    'vendor': helpers.root('src/vendor.ts'),
-    'app': helpers.root('src/boot.ts')
+    'polyfills': helpers.root('src/client/polyfills.ts'),
+    'vendor': helpers.root('src/client/vendor.ts'),
+    'app': helpers.root('src/client/boot.ts')
   },
 
   output: {

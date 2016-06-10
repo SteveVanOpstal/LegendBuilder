@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Inp
 import * as d3 from 'd3';
 
 import {Config} from './config';
-import {settings} from '../../../config/settings';
+import {settings} from '../../../../config/settings';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 

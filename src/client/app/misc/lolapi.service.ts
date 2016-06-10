@@ -3,7 +3,7 @@ import {Http, Headers, Response, BaseResponseOptions} from '@angular/http';
 import {RouteSegment} from '@angular/router';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
-import {settings} from '../../../config/settings';
+import {settings} from '../../../../config/settings';
 
 @Injectable()
 export class LolApiService {
