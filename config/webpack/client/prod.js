@@ -32,9 +32,9 @@ module.exports = webpackMerge(commonConfig, {
 
   entry: {
     //'main': ['./src/boot.ts', './src/vendor.ts', './src/polyfills.ts']
-    'polyfills': helpers.root('src/polyfills.ts'),
-    'vendor': helpers.root('src/vendor.ts'),
-    'main': helpers.root('src/boot.ts')
+    'polyfills': helpers.root('src/client/polyfills.ts'),
+    'vendor': helpers.root('src/client/vendor.ts'),
+    'main': helpers.root('src/client/boot.ts')
   },
 
   output: {
@@ -70,7 +70,7 @@ module.exports = webpackMerge(commonConfig, {
       minChunks: Infinity
     }),
     new CopyWebpackPlugin([{ from: 'src/assets/images', to: 'assets/images' }]),
-    new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
+    new HtmlWebpackPlugin({ template: 'src/client/index.html', chunksSortMode: 'none' }),
     new DefinePlugin({ 'ENV': JSON.stringify(ENV) }),
     new UglifyJsPlugin({
       beautify: false,

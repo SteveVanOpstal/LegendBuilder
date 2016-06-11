@@ -40,7 +40,7 @@ module.exports = webpackMerge(commonConfig, {
     postLoaders: [
       {
         test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
-        include: helpers.root('src'),
+        include: helpers.root('src/client'),
         exclude: [
           /\.e2e\.ts$/,
           /\.spec\.ts$/,
