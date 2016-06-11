@@ -25,7 +25,12 @@ export function getPathname(path: string): Array<string> {
 }
 
 export function getQuery(path: string): any {
-  return url.parse(path).query;
+  return url.parse(path, true).query;
+}
+
+export interface HttpError {
+  status: number;
+  message: string;
 }
 
 
@@ -81,6 +86,7 @@ export class Server {
 
     let options: https.RequestOptions = { path: url };
     this.merge(this.options, options);
+    options.hostname = url.indexOf('global') > 0 ? this.getHostname() : this.getHostname(region);
 
     this.sendHttpsRequest(options, callback);
   }
@@ -104,14 +110,14 @@ export class Server {
   private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = https.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
-    req.on('error', (e) => this.handleResponseError(console, options, e, callback));
+    req.on('error', (e) => this.handleResponseError(console, options, { status: 500, message: e }, callback));
     req.end();
   }
 
   private sendHttpRequest(options: any, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = http.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
-    req.on('error', (e) => this.handleResponseError(console, options, e, callback));
+    req.on('error', (e) => this.handleResponseError(console, options, { status: 500, message: e }, callback));
     req.end();
   }
 
@@ -126,11 +132,24 @@ export class Server {
   }
 
   private handleResponseSuccess(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any, callback: (response: HostResponse) => void) {
-    let json = {};
+    let json;
     try {
       json = JSON.parse(data);
     } catch (e) {
-      this.handleResponseError(console, options, e, callback);
+      let error: HttpError = {
+        status: 500,
+        message: e
+      };
+      this.handleResponseError(console, options, error, callback);
+      return;
+    }
+
+    if (json.status) {
+      let error: HttpError = {
+        status: json.status.status_code,
+        message: json.status.message
+      };
+      this.handleResponseError(console, options, error, callback);
       return;
     }
 
@@ -144,13 +163,13 @@ export class Server {
     callback(response);
   }
 
-  private handleResponseError(console: ColorConsole, options: any, e: any, callback: (response: HostResponse) => void) {
+  private handleResponseError(console: ColorConsole, options: any, e: HttpError, callback: (response: HostResponse) => void) {
     let response: HostResponse = {
       data: e,
-      status: e.statusCode,
+      status: e.status,
       success: false
     };
-    console.logHttp(options.method, this.maskApiKey(options.path), e.statusCode, e);
+    console.logHttp(options.method, this.maskApiKey(options.path), e.status, e.message);
     callback(response);
   }
 

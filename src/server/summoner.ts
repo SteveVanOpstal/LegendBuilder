@@ -9,8 +9,8 @@ export class Summoner {
   public get(region: string, name: string, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, name, (res) => {
       response.writeHead(res.status, this.server.headers);
-      if (res.success && res.json[name]) {
-        response.write(res.json[name].id);
+      if (res.success && res.json[name.toLowerCase()]) {
+        response.write(res.json[name.toLowerCase()].id);
         this.server.setCache(request.url, res.data);
       } else {
         response.write(res.data + '\n');

@@ -79,15 +79,21 @@ export class Match {
       [
         (cb) => {
           this.summoner.getData(region, summonerName, (res) => {
-            if (res.success) {
-              cb(res.json[summonerName].id);
+            if (res.success && res.json[summonerName.toLowerCase()]) {
+              cb(undefined, res.json[summonerName.toLowerCase()].id);
             } else {
-              cb(undefined, res.data);
+              callback(res);
             }
           });
         },
         (summonerId, cb) => {
-          this.getMatchList(region, summonerId, championKey, cb);
+          this.getMatchList(region, summonerId, championKey, (err: HttpError, results?: any) => {
+            if (err) {
+              cb(err);
+            } else {
+              cb(undefined, summonerId, results);
+            }
+          });
         },
         (summonerId, matches, cb) => {
           this.getMatches(region, summonerId, matches, cb);
@@ -95,11 +101,11 @@ export class Match {
       ],
       (error, results) => {
         if (error) {
-          let response: HostResponse;
-          response.data = error.message;
-          // response.status = error.status;
-          response.success = false;
-          callback(response);
+          callback({
+            data: error.message,
+            status: 500,
+            success: false
+          });
           return;
         }
 
@@ -108,22 +114,21 @@ export class Match {
         let samples = this.getSamples(matches, sampleSize, stepSize);
         results = JSON.stringify(samples);
 
-        let response: HostResponse;
-        response.data = samples;
-        response.json = results;
-        response.status = 200;
-        response.success = true;
-
-        callback(response);
+        callback({
+          data: samples,
+          json: results,
+          status: 200,
+          success: true
+        });
       }
     );
   }
 
   private getMatchList(region, summonerId, championKey, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + 'matchlist/by-summoner/' + summonerId;
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + '/matchlist/by-summoner/' + summonerId;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
-        return callback(undefined, res.json);
+        return callback(undefined, res.json.matches);
       } else if (res.success) {
         return callback(Errors.matchlist);
       } else {
@@ -134,17 +139,27 @@ export class Match {
 
   private getMatches(region: string, summonerId: number, matches, callback: CallBack) {
     let matchRequests = [];
+    let i = 0;
     for (let index in matches) {
+      i++;
       matchRequests.push((cb) => {
         let match = matches[index];
         this.getMatch(region, summonerId, match.matchId, cb);
       });
+      if (i >= config.games.max) {
+        break;
+      }
     }
 
     parallel(matchRequests, (err, results: Array<any>) => {
       let data = { interval: 120000, matches: [] };
       for (let index in results) {
         let result = results[index];
+        if (!result || !result.timeline || !result.timeline.frameInterval) {
+          callback(Errors.matches);
+          return;
+        }
+
         if (data.interval > result.timeline.frameInterval) {
           data.interval = result.timeline.frameInterval;
         }
@@ -158,6 +173,7 @@ export class Match {
 
         if (participantId <= -1) {
           callback(Errors.participant);
+          return;
         }
 
         data.matches[index] = new Array();
@@ -169,11 +185,13 @@ export class Match {
           };
         });
       }
+
+      callback(undefined, data);
     });
   }
 
   private getMatch(region: string, summonerId: number, matchId: number, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.match + 'match' + matchId + '?includeTimeline=true';
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.match + '/match/' + matchId + '?includeTimeline=true';
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success) {
         callback(undefined, res.json);
@@ -221,9 +239,10 @@ export class Match {
         absG += this.getRelativeOf(frames, absFactor, (frame) => { return frame.g; });
       }
 
-      let sample: Sample;
-      sample.xp[i] = Math.round(absXp / matches.length);
-      sample.g[i] = Math.round(absG / matches.length);
+      let sample: Sample = {
+        xp: Math.round(absXp / matches.length),
+        g: Math.round(absG / matches.length)
+      };
       samples.push(sample);
     }
 
