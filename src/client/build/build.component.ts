@@ -13,13 +13,13 @@ import {ErrorComponent} from '../misc/error.component';
 import {LolApiService} from '../misc/lolapi.service';
 
 import {Config} from '../build/config';
-import {settings} from '../../../../config/settings';
+import {settings} from '../../../config/settings';
 
 @Component({
   providers: [LolApiService],
   directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
   styles: [
-    require('../../../assets/css/build.css')
+    require('../../assets/css/build.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `

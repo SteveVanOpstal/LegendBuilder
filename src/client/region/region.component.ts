@@ -10,7 +10,7 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
   directives: [NgFor],
   pipes: [ToIterablePipe],
   styles: [
-    require('../../../assets/css/region.css')
+    require('../../assets/css/region.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `

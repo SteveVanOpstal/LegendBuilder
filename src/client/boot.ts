@@ -27,7 +27,7 @@ if (ENV === 'production') {
   enableProdMode();
 }
 
-import {AppComponent} from './app/app.component';
+import {AppComponent} from './app.component';
 
 bootstrap(AppComponent, [
   HTTP_BINDINGS,

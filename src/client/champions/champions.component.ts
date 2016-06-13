@@ -21,7 +21,7 @@ import {LolApiService} from '../misc/lolapi.service';
   providers: [LolApiService],
   directives: [NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
   styles: [
-    require('../../../assets/css/champions.css')
+    require('../../assets/css/champions.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `

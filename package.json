@@ -52,7 +52,7 @@
     "lint": "./node_modules/.bin/tslint src/**/*.ts",
     "lint:client": "./node_modules/.bin/tslint src/client/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
-    "lint:client:test": "./node_modules/.bin/tslint src/app/**/*.spec.ts src/app/**/testing/**/*.ts",
+    "lint:client:test": "./node_modules/.bin/tslint src/client/**/*.spec.ts src/client/**/testing/**/*.ts",
     "lint:server:test": "./node_modules/.bin/tslint src/server/**/*.spec.ts src/server/**/testing/**/*.ts",
     "lint:test": "./node_modules/.bin/tslint src/**/*.spec.ts src/**/testing/**/*.ts",
     "lint:e2e": "./node_modules/.bin/tslint src/**/*.e2e.ts",

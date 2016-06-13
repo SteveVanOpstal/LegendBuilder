@@ -7,7 +7,7 @@ import {LolApiService} from '../misc/lolapi.service';
   directives: [],
   providers: [LolApiService],
   styles: [
-    require('../../../assets/css/summoner.css')
+    require('../../assets/css/summoner.css')
   ],
   encapsulation: ViewEncapsulation.None,
   template: `

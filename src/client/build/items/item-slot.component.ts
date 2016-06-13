@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ItemComponent} from './item.component';
 import {Item} from '../../misc/item';
 import {Config} from '../config';
-import {settings} from '../../../../../config/settings';
+import {settings} from '../../../../config/settings';
 
 import * as d3 from 'd3'; // TODO: remove test
 
