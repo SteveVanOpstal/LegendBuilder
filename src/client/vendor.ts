@@ -8,9 +8,5 @@ import '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/Observable';
 
-if ('production' === ENV) {
-  // Production
-} else {
-  // Development
-}
-
+// d3
+import 'd3';
