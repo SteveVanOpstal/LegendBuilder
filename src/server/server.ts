@@ -3,6 +3,7 @@ import * as http from 'http';
 import * as https from 'https';
 import * as url from 'url';
 let lru = require('lru-cache');
+import * as async from 'async';
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
@@ -81,14 +82,14 @@ export class Server {
     console.log(this.host + ':' + this.port);
   }
 
-  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void): void {
+  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void, opts?: { times: number, interval: number }): void {
     url = this.transformPath(url, region);
 
     let options: https.RequestOptions = { path: url };
     this.merge(this.options, options);
     options.hostname = url.indexOf('global') > 0 ? this.getHostname() : this.getHostname(region);
 
-    this.sendHttpsRequest(options, callback);
+    this.sendHttpsRequest(options, callback, opts);
   }
 
   public getBaseUrl(region?: string) {
@@ -107,14 +108,26 @@ export class Server {
     return this.cache.get(url);
   }
 
-  private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void) {
+  private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void, opts?: { times: number, interval: number }) {
     let console = new ColorConsole();
-    let req = https.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
-    req.on('error', (e) => this.handleResponseError(console, options, { status: 500, message: e }, callback));
-    req.end();
+    async.retry(opts || { times: 1, interval: 0 }, (cb: AsyncResultCallback<any>, results: any) => {
+      let req = https.request(options, (res: IncomingMessage) => {
+        cb(undefined, res);
+      });
+      req.on('error', (e: Error) => {
+        cb(e, undefined);
+      });
+      req.end();
+    }, (error: Error, results: any) => {
+      if (error) {
+        this.handleResponseError(console, options, { status: 500, message: error.message }, callback);
+      } else {
+        this.handleResponse(console, options, results, callback);
+      }
+    });
   }
 
-  private sendHttpRequest(options: any, callback: (response: HostResponse) => void) {
+  private sendHttpRequest(options: https.RequestOptions, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = http.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on('error', (e) => this.handleResponseError(console, options, { status: 500, message: e }, callback));
@@ -163,7 +176,7 @@ export class Server {
     callback(response);
   }
 
-  private handleResponseError(console: ColorConsole, options: any, e: HttpError, callback: (response: HostResponse) => void) {
+  private handleResponseError(console: ColorConsole, options: https.RequestOptions, e: HttpError, callback: (response: HostResponse) => void) {
     let response: HostResponse = {
       data: e,
       status: e.status,

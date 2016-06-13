@@ -1,4 +1,3 @@
-// let url = this.config.protocol + (type === 'static-data' ? 'global' : region) + this.config.hostname + tim(this.config[type], { region: region });
 import {IncomingMessage, ServerResponse} from 'http';
 
 import {Server, getPathname, getQuery} from './server';

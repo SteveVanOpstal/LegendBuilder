@@ -5,7 +5,9 @@ import {Summoner} from './summoner';
 describe('Summoner', () => {
   let server: MockServer;
   let summoner: Summoner;
-  let data = '{ "xXxSwagLord69xXx": { "id": 123456 } }';
+  let data = JSON.stringify({
+    DinosHaveNoLife: { id: 42457671 }
+  });
 
   beforeEach(() => {
     server = new MockServer();
@@ -21,12 +23,10 @@ describe('Summoner', () => {
     };
     let serverResponse: MockServerResponse = new MockServerResponse();
 
-    console.log(server.responses[0].message.data);
-
-    summoner.get('euw', 'xXxSwagLord69xXx', incomingMessage, serverResponse);
+    summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe(123456);
+    expect(serverResponse.buffer).toBe(data);
     expect(server.mockCache.url).toBe(incomingMessage.url);
     expect(server.mockCache.data).toBe(data);
     expect(server.responses[0].message.success).toBeTruthy();

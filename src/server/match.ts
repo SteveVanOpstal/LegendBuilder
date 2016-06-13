@@ -48,7 +48,6 @@ namespace Errors {
 };
 
 interface CallBack { (err: HttpError, results?: any): void; }
-interface Sample { xp: number; g: number; }
 
 export class Match {
   private summoner: Summoner;
@@ -134,7 +133,7 @@ export class Match {
       } else {
         return callback({ code: res.status, error: res.data });
       }
-    });
+    }, { times: 2, interval: 5000 });
   }
 
   private getMatches(region: string, summonerId: number, matches, callback: CallBack) {
@@ -198,7 +197,7 @@ export class Match {
       } else {
         callback(Errors.matches);
       }
-    });
+    }, { times: 2, interval: 5000 });
   }
 
   private fill(games, interval, limit) {
@@ -227,8 +226,8 @@ export class Match {
     return games;
   }
 
-  private getSamples(matches: Array<Array<any>>, sampleSize: number, factor: number): Array<Sample> {
-    let samples = Array<Sample>();
+  private getSamples(matches: Array<Array<any>>, sampleSize: number, factor: number): any {
+    let samples = { xp: [], g: [] };
     for (let i = 0; i < sampleSize; i++) {
       let absFactor = i * factor;
       let absXp = 0;
@@ -239,13 +238,10 @@ export class Match {
         absG += this.getRelativeOf(frames, absFactor, (frame) => { return frame.g; });
       }
 
-      let sample: Sample = {
-        xp: Math.round(absXp / matches.length),
-        g: Math.round(absG / matches.length)
-      };
-      samples.push(sample);
+      samples.xp[i] = Math.round(absXp / matches.length);
+      samples.g[i] = Math.round(absG / matches.length);
     }
-
+    console.log(samples);
     return samples;
   }
 
