@@ -61,7 +61,7 @@
     "e2e:live": "./node_modules/.bin/protractor config/protractor.conf.js --elementExplorer",
     "pretest": "npm run lint:test",
     "test": "npm run test:client && npm run test:server",
-    "test:client": "./node_modules/.bin/karma start",
+    "test:client": "./node_modules/.bin/karma start config/karma.conf.js",
     "pretest:server": "npm run build:server:test",
     "test:server": "node config/jasmine.js",
     "ci": "npm run e2e && npm run test",

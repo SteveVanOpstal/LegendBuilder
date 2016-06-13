@@ -1,16 +1,16 @@
 module.exports = function (config) {
-  var testWebpackConfig = require('./config/webpack/client/test.js');
+  var testWebpackConfig = require('./webpack/client/test.js');
 
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     exclude: [],
-    files: [{ pattern: './config/spec-bundle.js', watched: false }],
-    preprocessors: { './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
+    files: [{ pattern: './spec-bundle.js', watched: false }],
+    preprocessors: { './spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
     webpack: testWebpackConfig,
 
     coverageReporter: {
-      dir : 'coverage/',
+      dir: 'coverage/',
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
@@ -19,7 +19,7 @@ module.exports = function (config) {
       ]
     },
     webpackServer: { noInfo: true },
-    reporters: [ 'mocha', 'coverage' ],
+    reporters: ['mocha', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
