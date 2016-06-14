@@ -1,5 +1,5 @@
 <p align="center" style="margin-bottom: 100px;">
-  <a href="http://gulpjs.com">
+  <a href="legendbuilder.io">
     <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg">
   </a>
   <h3 align="center">Legend Builder</h3>
