@@ -61,9 +61,9 @@ export class Match {
       response.writeHead(res.status, this.server.headers);
       if (res.success) {
         response.write(res.json);
-        this.server.setCache(request.url, res.data);
+        this.server.setCache(request.url, res.json);
       } else {
-        response.write(res.data + '\n');
+        response.write(res.data);
       }
       response.end();
     });
@@ -127,11 +127,14 @@ export class Match {
     let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + '/matchlist/by-summoner/' + summonerId;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
-        return callback(undefined, res.json.matches);
+        callback(undefined, res.json.matches);
+        return;
       } else if (res.success) {
-        return callback(Errors.matchlist);
+        callback(Errors.matchlist);
+        return;
       } else {
-        return callback({ code: res.status, error: res.data });
+        callback({ code: res.status, error: res.data });
+        return;
       }
     }, { times: 2, interval: 5000 });
   }
@@ -241,7 +244,6 @@ export class Match {
       samples.xp[i] = Math.round(absXp / matches.length);
       samples.g[i] = Math.round(absG / matches.length);
     }
-    console.log(samples);
     return samples;
   }
 

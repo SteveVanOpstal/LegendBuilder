@@ -11,11 +11,9 @@ server.run((request: IncomingMessage, response: ServerResponse) => {
   let pathname = getPathname(request.url);
   server.sendRequest(baseUrl + request.url, pathname[2], (res: HostResponse) => {
     response.writeHead(res.status, server.headers);
+    response.write(res.data);
     if (res.success) {
-      response.write(res.data);
       server.setCache(request.url, res.data);
-    } else {
-      response.write(res.data + '\n');
     }
     response.end();
   });
