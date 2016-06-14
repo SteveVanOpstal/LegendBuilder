@@ -8,11 +8,9 @@ export class MockHostResponse implements HostResponse {
   success: boolean = true;
   url: string = '';
   constructor(data?: string) {
-    this.data = data;
-    try {
-      this.json = JSON.parse(data);
-    } catch (e) {
-      console.error(e);
+    this.data = data || '';
+    if (data) {
+      this.json = JSON.parse(this.data);
     }
   }
 }
@@ -28,9 +26,7 @@ export class MockHostResponseFailure extends MockHostResponse {
 }
 
 export class MockServer extends Server {
-  public headers = {
-    test: 'test'
-  };
+  public headers;
 
   public responses: Array<{ url: string, message: MockHostResponse }>;
   public mockCache: { url: string, data: any } = { url: '', data: '' };

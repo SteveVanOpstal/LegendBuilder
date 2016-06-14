@@ -1,20 +1,21 @@
-import {MockServer, MockHostResponseSuccess, MockIncomingMessage, MockServerResponse} from './testing';
+import {MockServer, MockHostResponseSuccess, MockHostResponseFailure, MockIncomingMessage, MockServerResponse} from './testing';
 
 import {Summoner} from './summoner';
 
 describe('Summoner', () => {
   let server: MockServer;
   let summoner: Summoner;
-  let data = JSON.stringify({
-    DinosHaveNoLife: { id: 42457671 }
-  });
 
   beforeEach(() => {
     server = new MockServer();
     summoner = new Summoner(server);
+    server.headers = {
+      test: 'test'
+    };
   });
 
   it('should get the summoner id', () => {
+    let data = JSON.stringify({ dinoshavenolife: { id: 42457671 } });
     server.responses = [
       { url: 'summoner', message: new MockHostResponseSuccess(data) }
     ];
@@ -26,9 +27,25 @@ describe('Summoner', () => {
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe(data);
+    expect(serverResponse.buffer).toBe(42457671);
     expect(server.mockCache.url).toBe(incomingMessage.url);
     expect(server.mockCache.data).toBe(data);
-    expect(server.responses[0].message.success).toBeTruthy();
+  });
+
+  it('should not get the summoner id', () => {
+    server.responses = [
+      { url: 'summoner', message: new MockHostResponseFailure() }
+    ];
+    let incomingMessage: MockIncomingMessage = {
+      url: 'test1'
+    };
+    let serverResponse: MockServerResponse = new MockServerResponse();
+
+    summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
+
+    expect(serverResponse.getHeader('test')).toBe('test');
+    expect(serverResponse.buffer).toBe('\n');
+    expect(server.mockCache.url).toBe('');
+    expect(server.mockCache.data).toBe('');
   });
 });
