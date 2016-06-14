@@ -7,7 +7,7 @@ import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {Config} from '../build/config';
+import {Samples} from '../build/samples';
 import {BuildComponent} from './build.component';
 
 import {MockRouteSegment} from '../testing';
@@ -88,35 +88,35 @@ describe('BuildComponent', () => {
 
 
   it('should handle a match request', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    let config = { xp: [0, 1], g: [0, 1] };
+    let samples = { xp: [0, 1], g: [0, 1] };
     let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
       });
 
-    expect(component.config).toBeDefined();
+    expect(component.samples).toBeDefined();
     component.getMatchData('');
     return service.getMatchData('', '', 0, 0).toPromise().then(() => {
-      expect(component.config).toHaveEqualContent(config);
+      expect(component.samples).toHaveEqualContent(samples);
     }).catch(() => {
       expect(false).toBeTruthy();
     });
   })));
 
   it('should handle a match error', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    let config = { xp: [0, 1], g: [0, 1] };
+    let samples = { xp: [0, 1], g: [0, 1] };
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();
       });
 
-    expect(component.config).toBeDefined();
+    expect(component.samples).toBeDefined();
     component.getMatchData('');
     return service.getMatchData('', '', 0, 0).toPromise().then(() => {
       expect(false).toBeTruthy();
     }).catch(() => {
-      expect(component.config).not.toHaveEqualContent(config);
+      expect(component.samples).not.toHaveEqualContent(samples);
       expect(component.error).toBeTruthy();
     });
   })));

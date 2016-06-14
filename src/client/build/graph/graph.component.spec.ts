@@ -4,7 +4,7 @@ import {it, inject, beforeEachProviders} from '@angular/core/testing';
 
 import {GraphComponent} from './graph.component';
 
-import {MockElementRef} from '../testing';
+import {MockElementRef} from '../../testing';
 
 describe('GraphComponent', () => {
   beforeEachProviders(() => [

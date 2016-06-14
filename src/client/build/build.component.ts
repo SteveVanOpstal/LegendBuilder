@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {RouteSegment} from '@angular/router';
 
-import {GraphComponent} from '../build/graph.component';
+import {GraphComponent} from '../build/graph/graph.component';
 import {ItemsComponent} from '../build/items/items.component';
 import {MasteriesComponent} from '../build/masteries/masteries.component';
 import {ShopComponent} from '../build/shop/shop.component';
@@ -12,7 +12,7 @@ import {ErrorComponent} from '../misc/error.component';
 
 import {LolApiService} from '../misc/lolapi.service';
 
-import {Config} from '../build/config';
+import {Samples} from '../build/samples';
 import {settings} from '../../../config/settings';
 
 @Component({
@@ -27,9 +27,9 @@ import {settings} from '../../../config/settings';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion" [config]="config"></graph>
+    <graph [champion]="champion" [samples]="samples"></graph>
     <masteries></masteries>
-    <items [config]="config" #items></items>
+    <items [samples]="samples" #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
@@ -41,7 +41,7 @@ export class BuildComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private config: Config = new Config();
+  private samples: Samples = new Samples();
   private pickedItems: Array<Object>;
 
   constructor(routeSegment: RouteSegment, private lolApi: LolApiService) {
@@ -68,9 +68,9 @@ export class BuildComponent {
     this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.sampleSize)
       .subscribe(
         res => {
-          this.config = new Config();
-          this.config.xp = res.xp;
-          this.config.g = res.g;
+          this.samples = new Samples();
+          this.samples.xp = res.xp;
+          this.samples.g = res.g;
         },
         error => { this.error = true; }
       );

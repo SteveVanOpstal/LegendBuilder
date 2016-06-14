@@ -3,22 +3,22 @@ import {Observable} from 'rxjs/Observable';
 
 import {ItemSlotComponent} from './item-slot.component';
 import {Item} from '../../misc/item';
-import {Config} from '../config';
+import {Samples} from '../samples';
 
 @Component({
   selector: 'items',
   directives: [ItemSlotComponent],
   template: `
-    <item-slot [id]="0" [config]="config"></item-slot>
-    <item-slot [id]="1" [config]="config"></item-slot>
-    <item-slot [id]="2" [config]="config"></item-slot>
-    <item-slot [id]="3" [config]="config"></item-slot>
-    <item-slot [id]="4" [config]="config"></item-slot>
-    <item-slot [id]="5" [config]="config"></item-slot>`
+    <item-slot [id]="0" [samples]="samples"></item-slot>
+    <item-slot [id]="1" [samples]="samples"></item-slot>
+    <item-slot [id]="2" [samples]="samples"></item-slot>
+    <item-slot [id]="3" [samples]="samples"></item-slot>
+    <item-slot [id]="4" [samples]="samples"></item-slot>
+    <item-slot [id]="5" [samples]="samples"></item-slot>`
 })
 
 export class ItemsComponent {
-  @Input() config: Config;
+  @Input() samples: Samples;
   // @Input() pickedItems: Array<Object>;
   // @Output() pickedItemsChange: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 

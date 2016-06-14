@@ -13,7 +13,7 @@ describe('ItemsComponent', () => {
   ]);
 
   beforeEach(inject([ItemsComponent], (component) => {
-    component.config = { g: [100, 200, 300], gameTime: 200, sampleSize: 20 };
+    component.samples = { g: [100, 200, 300], gameTime: 200, sampleSize: 20 };
     component.itemSlotComponents = [
       {
         'id': 3341,
