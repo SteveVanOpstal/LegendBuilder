@@ -11,9 +11,9 @@ export class Summoner {
       response.writeHead(res.status, this.server.headers);
       if (res.success && res.json[name.toLowerCase()]) {
         response.write(res.json[name.toLowerCase()].id);
-        this.server.setCache(request.url, res.data);
+        this.server.setCache(request.url, res.json[name.toLowerCase()].id);
       } else {
-        response.write(res.data + '\n');
+        response.write(res.data);
       }
       response.end();
     });

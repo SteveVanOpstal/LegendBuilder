@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {NgFor, NgClass} from '@angular/common';
 
-import {tim} from '../misc/tim';
+import {tim} from '../../misc/tim';
 
-import {DDragonDirective} from '../misc/ddragon.directive';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 
 @Component({
   selector: 'g[ability-sequence]',

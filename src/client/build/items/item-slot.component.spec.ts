@@ -24,7 +24,7 @@ describe('ItemSlotComponent', () => {
       'gold': { 'total': 50 }
     };
 
-    component.config = { g: [0, 100, 200, 300] };
+    component.samples = { g: [0, 100, 200, 300] };
     component.items = [item1, item2, item2, item2];
   }));
 

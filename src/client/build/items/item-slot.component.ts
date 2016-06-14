@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {ItemComponent} from './item.component';
 import {Item} from '../item';
-import {Config} from '../config';
+import {Samples} from '../samples';
 import {settings} from '../../../../config/settings';
 
 import * as d3 from 'd3'; // TODO: remove test
@@ -20,7 +20,7 @@ import * as d3 from 'd3'; // TODO: remove test
 
 export class ItemSlotComponent {
   @Input() id: number;
-  @Input() config: Config;
+  @Input() samples: Samples;
   private items: Array<any> = new Array<any>();
 
   // TODO: move to itemComponent when angular allows attributes on <template>
@@ -54,7 +54,7 @@ export class ItemSlotComponent {
   }
 
   private addTime(item: Item) {
-    item.time = this.getTime(this.config.g, item.gold.total, settings.gameTime, settings.sampleSize);
+    item.time = this.getTime(this.samples.g, item.gold.total, settings.gameTime, settings.sampleSize);
   }
 
   private addBundle(item: Item) {
