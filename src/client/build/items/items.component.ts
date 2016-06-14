@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {ItemSlotComponent} from './item-slot.component';
-import {Item} from '../../misc/item';
+import {Item} from '../item';
 import {Config} from '../config';
 
 @Component({

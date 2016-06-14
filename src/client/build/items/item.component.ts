@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {NgIf} from '@angular/common';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
-import {Item} from '../../misc/item';
+import {Item} from '../item';
 
 @Component({
   selector: 'item',

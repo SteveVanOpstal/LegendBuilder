@@ -5,7 +5,7 @@ import {DDragonDirective} from '../../../misc/ddragon.directive';
 
 import {ItemComponent} from './item.component';
 import {ItemsFromComponent} from './items-from.component';
-import {Item} from '../../../misc/item';
+import {Item} from '../../item';
 import {ItemBundle} from './item-bundle';
 
 @Component({

@@ -8,7 +8,7 @@ import {SortPipe} from '../champions/pipes/sort.pipe';
 import {TagsPipe} from '../champions/pipes/tags.pipe';
 
 import {FiltersComponent} from '../champions/filters.component';
-import {BarComponent} from '../misc/bar.component';
+import {BarComponent} from './bar.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {ErrorComponent} from '../misc/error.component';
 import {DDragonDirective} from '../misc/ddragon.directive';

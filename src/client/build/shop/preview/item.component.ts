@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
-import {Item} from '../../../misc/item';
+import {Item} from '../../item';
 
 @Component({
   selector: 'item',

@@ -3,7 +3,7 @@ import {NgClass} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 
 import {ItemComponent} from './item.component';
-import {Item} from '../../misc/item';
+import {Item} from '../item';
 import {Config} from '../config';
 import {settings} from '../../../../config/settings';
 
