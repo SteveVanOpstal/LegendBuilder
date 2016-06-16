@@ -58,6 +58,9 @@ describe('Match', () => {
   beforeEach(() => {
     server = new MockServer();
     match = new Match(server);
+    server.headers = {
+      test: 'test'
+    };
   });
 
   it('should get the summoner id', () => {
