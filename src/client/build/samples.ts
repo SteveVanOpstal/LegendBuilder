@@ -1,6 +1,5 @@
-export class Samples {
-  public xp: Array<number> = [];
-  public g: Array<number> = [];
-
-  constructor() { }
+export interface Samples {
+  xp: Array<number>;
+  gold: Array<number>;
+  debug?: any;
 }

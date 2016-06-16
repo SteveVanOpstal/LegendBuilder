@@ -41,7 +41,7 @@ export class BuildComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private samples: Samples = new Samples();
+  private samples: Samples = { xp: [], gold: [] };
   private pickedItems: Array<Object>;
 
   constructor(routeSegment: RouteSegment, private lolApi: LolApiService) {
@@ -67,12 +67,13 @@ export class BuildComponent {
   getMatchData(value: string) {
     this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.sampleSize)
       .subscribe(
-        res => {
-          this.samples = new Samples();
-          this.samples.xp = res.xp;
-          this.samples.g = res.g;
-        },
-        error => { this.error = true; }
+      res => {
+        this.samples = { xp: [], gold: [] };
+        this.samples = res;
+        // this.samples.xp = res.xp;
+        // this.samples.g = res.g;
+      },
+      error => { this.error = true; }
       );
   }
 }

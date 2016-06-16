@@ -7,7 +7,6 @@ import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {Samples} from '../build/samples';
 import {BuildComponent} from './build.component';
 
 import {MockRouteSegment} from '../testing';
@@ -88,8 +87,8 @@ describe('BuildComponent', () => {
 
 
   it('should handle a match request', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    let samples = { xp: [0, 1], g: [0, 1] };
-    let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], g: [0, 1] } }));
+    let samples = { xp: [0, 1], gold: [0, 1] };
+    let mockResponse = new Response(new ResponseOptions({ status: 200, body: { xp: [0, 1], gold: [0, 1] } }));
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockRespond(mockResponse);
@@ -105,7 +104,7 @@ describe('BuildComponent', () => {
   })));
 
   it('should handle a match error', async(inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-    let samples = { xp: [0, 1], g: [0, 1] };
+    let samples = { xp: [0, 1], gold: [0, 1] };
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         connection.mockError();

@@ -29,7 +29,7 @@ describe('Summoner', () => {
     expect(serverResponse.getHeader('test')).toBe('test');
     expect(serverResponse.buffer).toBe(42457671);
     expect(server.mockCache.url).toBe(incomingMessage.url);
-    expect(server.mockCache.data).toBe(data);
+    expect(server.mockCache.data).toBe(42457671);
   });
 
   it('should not get the summoner id', () => {
@@ -44,7 +44,7 @@ describe('Summoner', () => {
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe('\n');
+    expect(serverResponse.buffer).toBe('');
     expect(server.mockCache.url).toBe('');
     expect(server.mockCache.data).toBe('');
   });

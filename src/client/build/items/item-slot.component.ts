@@ -54,7 +54,7 @@ export class ItemSlotComponent {
   }
 
   private addTime(item: Item) {
-    item.time = this.getTime(this.samples.g, item.gold.total, settings.gameTime, settings.sampleSize);
+    item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.sampleSize);
   }
 
   private addBundle(item: Item) {

@@ -15,7 +15,7 @@ let config = {
     sampleSize: 8
   },
   fill: {
-    sampleTime: 10 * 60 * 1000
+    sampleTime: 20 * 60 * 1000
   }
 };
 
@@ -109,8 +109,12 @@ export class Match {
         }
 
         let matches = this.fill(results.matches, results.interval, gameTime);
-
         let samples = this.getSamples(matches, sampleSize, stepSize);
+
+        if (ENV === 'development') {
+          samples = this.getDebugSamples(samples, matches, sampleSize, stepSize);
+        }
+
         results = JSON.stringify(samples);
 
         callback({
@@ -183,7 +187,7 @@ export class Match {
           data.matches[index][frameIndex] = {
             time: frame.timestamp,
             xp: frame.participantFrames[participantId].xp,
-            g: frame.participantFrames[participantId].totalGold
+            gold: frame.participantFrames[participantId].totalGold
           };
         });
       }
@@ -205,44 +209,60 @@ export class Match {
 
   private fill(games, interval, limit) {
     for (let i = 0; i < games.length; i++) {
-      let frames = games[i];
-      let deltaXp = 0;
-      let deltaG = 0;
-      let sampleSize = config.fill.sampleTime / interval;
+      let frames: Array<any> = games[i];
+      let avgTrendXp = this.getAverageTrend(frames, interval, (frame) => {
+        return frame.xp;
+      });
+      let avgTrendGold = this.getAverageTrend(frames, interval, (frame) => {
+        return frame.gold;
+      });
 
-      // gather samples
-      for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
-        let frame = frames[j];
-        let prevFrame = frames[j - 1];
-        deltaXp += frame.xp - prevFrame.xp;
-        deltaG += frame.g - prevFrame.g;
-      }
-      let avgDeltaXp = deltaXp / sampleSize;
-      let avgDeltaG = deltaG / sampleSize;
-
-      // fill up games using the average trend of the samples
-      while (games[i][games[i].length - 1].time < limit) {
-        let lastFrame = games[i][games[i].length - 1];
-        games[i][games[i].length] = { time: lastFrame.time + interval, xp: lastFrame.xp + avgDeltaXp, g: lastFrame.g + avgDeltaG };
+      // fill up games
+      while (frames[frames.length - 1].time < limit) {
+        let lastFrame = frames[frames.length - 1];
+        frames.push({ time: lastFrame.time + interval, xp: lastFrame.xp + avgTrendXp, gold: lastFrame.gold + avgTrendGold });
       }
     }
     return games;
   }
 
-  private getSamples(matches: Array<Array<any>>, sampleSize: number, factor: number): any {
-    let samples = { xp: [], g: [] };
+  private getAverageTrend(frames, interval, callback: (frame: any) => number) {
+    let sampleSize = config.fill.sampleTime / interval;
+    let delta = 0;
+    for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
+      delta += callback(frames[j]) - callback(frames[j - 1]);
+    }
+    return delta / sampleSize;
+  }
+
+  private getSamples(matches: Array<Array<any>>, sampleSize: number, stepSize: number): any {
+    let samples = { xp: [], gold: [] };
     for (let i = 0; i < sampleSize; i++) {
-      let absFactor = i * factor;
+      let absTime = i * stepSize;
       let absXp = 0;
       let absG = 0;
 
       for (let frames of matches) {
-        absXp += this.getRelativeOf(frames, absFactor, (frame) => { return frame.xp; });
-        absG += this.getRelativeOf(frames, absFactor, (frame) => { return frame.g; });
+        absXp += this.getRelativeOf(frames, absTime, (frame) => { return frame.xp; });
+        absG += this.getRelativeOf(frames, absTime, (frame) => { return frame.gold; });
       }
 
-      samples.xp[i] = Math.round(absXp / matches.length);
-      samples.g[i] = Math.round(absG / matches.length);
+      samples.xp.push(Math.round(absXp / matches.length));
+      samples.gold.push(Math.round(absG / matches.length));
+    }
+    return samples;
+  }
+
+  private getDebugSamples(samples: any, matches: Array<Array<any>>, sampleSize: number, stepSize: number) {
+    for (let index in matches) {
+      let frames = matches[index];
+      samples['xp' + index] = new Array();
+      samples['gold' + index] = new Array();
+      for (let i = 0; i < sampleSize; i++) {
+        let absTime = i * stepSize;
+        samples['xp' + index].push(this.getRelativeOf(frames, absTime, (frame) => { return frame.xp; }));
+        samples['gold' + index].push(this.getRelativeOf(frames, absTime, (frame) => { return frame.gold; }));
+      }
     }
     return samples;
   }
@@ -264,7 +284,7 @@ export class Match {
 
     let lowerValue = (callback(lowerFrame));
     let upperValue = (callback(upperFrame));
-    let rel = upperValue - lowerValue * ratio;
+    let rel = (upperValue - lowerValue) * ratio;
 
     return lowerValue + rel;
   }

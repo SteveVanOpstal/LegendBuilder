@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, OnChanges, OnInit, SimpleChange, Input, Inject, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnChanges, OnInit, AfterContentChecked, SimpleChange, Input, Inject, ElementRef} from '@angular/core';
+import {NgFor, NgClass} from '@angular/common';
 import * as d3 from 'd3';
 
 import {Samples} from '../samples';
@@ -11,26 +12,42 @@ import {AbilitySequenceComponent} from './ability-sequence.component';
 
 import {TimeAxis, TimeScale} from './axes/time';
 import {DataAxis, DataScale} from './axes/data';
+import {LevelAxisLine, LevelAxisText, LevelScale} from './axes/level';
+
+interface Line {
+  enabled: boolean;
+  preview: boolean;
+  name: string;
+  obj: d3.svg.Line<[number, number]>;
+}
 
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [DDragonDirective, AbilitySequenceComponent],
+  directives: [DDragonDirective, AbilitySequenceComponent, NgFor, NgClass],
   template: `
+    <ul class="legend">
+      <li *ngFor="let line of lines">
+        <button [ngClass]="{ enabled: line.enabled }" [attr.name]="line.name" type="button" (click)="clicked(line)" (mouseenter)="mouseEnter(line)" (mouseleave)="mouseLeave(line)">{{ line.name }}</button>
+      </li>
+    </ul>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
-        <path class="line xp"></path>
-        <path class="line g"></path>
-        <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
-        <g class="x axis level-line" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
-        <g class="x axis level-text" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
-        <g class="y axis"></g>
+        <g class="lines">
+          <path *ngFor="let line of lines" [ngClass]="'line ' + line.name + (line.enabled ? ' enabled' : '') + (line.preview ? ' preview' : '')"></path>
+        </g>
+        <g class="axes">
+          <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
+          <g class="x axis level-line" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
+          <g class="x axis level-text" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
+          <g class="y axis"></g>
+        </g>
       </g>
     </svg>`
 })
 
-export class GraphComponent implements OnChanges, OnInit {
+export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
   @Input() private samples: Samples;
   @Input() private champion: any;
 
@@ -39,13 +56,15 @@ export class GraphComponent implements OnChanges, OnInit {
   private svg: any;
 
   private xScaleTime = new TimeScale();
-  private xScaleLevel: any;
+  private xScaleLevel = new LevelScale();
   private yScale = new DataScale();
 
   private xAxisTime = new TimeAxis();
-  private xAxisLevelLine: any;
-  private xAxisLevelText: any;
+  private xAxisLevelLine = new LevelAxisLine();
+  private xAxisLevelText = new LevelAxisText();
   private yAxis = new DataAxis();
+
+  private lines = new Array<Line>();
 
   private line: any = d3.svg.line()
     .interpolate('monotone')
@@ -54,13 +73,15 @@ export class GraphComponent implements OnChanges, OnInit {
     })
     .y((d) => { return this.yScale.get()(d); });
 
-  private levelMarks: Array<number> = [0, 280, 660, 1140, 1720, 2400, 3180, 4060, 5040, 6120, 7300, 8580, 9960, 11440, 13020, 14700, 16480, 18360];
 
   constructor( @Inject(ElementRef) private elementRef: ElementRef) { }
 
   ngOnInit() {
     this.svg = d3.select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
+  }
+
+  ngAfterContentChecked() {
     this.updateLines();
   }
 
@@ -77,11 +98,23 @@ export class GraphComponent implements OnChanges, OnInit {
       .call(this.yAxis.get());
   }
 
+  createLines() {
+    this.lines = [];
+    for (let index in this.samples) {
+      this.lines.push({
+        enabled: true,
+        preview: false,
+        name: index,
+        obj: this.line(this.samples[index])
+      });
+    }
+  }
+
   updateLines() {
-    this.svg.select('.line.xp')
-      .attr('d', this.line(this.samples.xp));
-    this.svg.select('.line.g')
-      .attr('d', this.line(this.samples.g));
+    for (let line of this.lines) {
+      this.svg.select('.line.' + line.name)
+        .attr('d', line.obj);
+    }
   }
 
   createLevelScale() {
@@ -89,30 +122,16 @@ export class GraphComponent implements OnChanges, OnInit {
       return;
     }
 
-    let lastXpMark = this.samples.xp[this.samples.xp.length - 1];
+    this.xScaleLevel.create();
+    this.xScaleLevel.update(this.samples);
 
-    this.xScaleLevel = d3.scale.linear()
-      .domain([0, lastXpMark])
-      .range([0, config.graphWidth]);
+    this.xAxisLevelLine.create(this.xScaleLevel);
+    this.xAxisLevelText.create(this.xScaleLevel);
 
-    this.xAxisLevelLine = d3.svg.axis()
-      .scale(this.xScaleLevel)
-      .tickSize(-this.config.height + this.config.margin.top + this.config.margin.bottom)
-      .tickValues(this.levelMarks);
+    this.xAxisLevelText.update(this.samples);
 
-    let values = [];
-    this.levelMarks.forEach((v, i, a) => {
-      values[i] = v + (((a[i + 1] ? a[i + 1] : lastXpMark) - v) / 2);
-    });
-
-    this.xAxisLevelText = d3.svg.axis()
-      .scale(this.xScaleLevel)
-      .tickSize(-this.config.height + this.config.margin.top + this.config.margin.bottom)
-      .tickValues(values)
-      .tickFormat((t) => { return (values.indexOf(t) + 1).toString(); });
-
-    this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine);
-    this.svg.select('.x.axis.level-text').call(this.xAxisLevelText);
+    this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine.get());
+    this.svg.select('.x.axis.level-text').call(this.xAxisLevelText.get());
 
     for (let i = 1; i <= 4; i++) {
       this.svg.selectAll('.x.axis.level-text .tick')
@@ -127,8 +146,24 @@ export class GraphComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: { [key: string]: SimpleChange; }) {
     if (this.svg) {
-      this.updateLines();
+      this.createLines();
       this.createLevelScale();
+    }
+  }
+
+  clicked(line: Line) {
+    line.enabled = !line.enabled;
+  }
+
+  mouseEnter(line: Line) {
+    if (!line.enabled) {
+      line.preview = true;
+    }
+  }
+
+  mouseLeave(line: Line) {
+    if (!line.enabled) {
+      line.preview = false;
     }
   }
 }
