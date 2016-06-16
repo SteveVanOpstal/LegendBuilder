@@ -10,7 +10,7 @@ module.exports = function (config) {
     webpack: testWebpackConfig,
 
     coverageReporter: {
-      dir: 'coverage/',
+      dir: '../coverage',
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
