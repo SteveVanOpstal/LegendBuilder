@@ -73,7 +73,7 @@ describe('Match', () => {
     match.get('euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.sampleSize, incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe(responseSummoner.message.json);
+    expect(serverResponse.buffer).toBe(responseSummoner.message.data);
     expect(server.mockCache.url).toBe(incomingMessage.url);
     // expect(server.mockCache.data).toBe(server.response.data);
     // expect(server.response.success).toBeTruthy();

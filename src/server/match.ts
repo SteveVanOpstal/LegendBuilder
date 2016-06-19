@@ -59,11 +59,9 @@ export class Match {
   public get(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, summonerName, championKey, gameTime, sampleSize, (res) => {
       response.writeHead(res.status, this.server.headers);
+      response.write(res.data);
       if (res.success) {
-        response.write(res.json);
-        this.server.setCache(request.url, res.json);
-      } else {
-        response.write(res.data);
+        this.server.setCache(request.url, res.data);
       }
       response.end();
     });
@@ -118,8 +116,8 @@ export class Match {
         results = JSON.stringify(samples);
 
         callback({
-          data: samples,
-          json: results,
+          data: results,
+          json: samples,
           status: 200,
           success: true
         });

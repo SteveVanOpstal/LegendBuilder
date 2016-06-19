@@ -14,7 +14,7 @@ try {
 } catch (e) { }
 
 export interface HostResponse {
-  data: any;
+  data: string;
   json?: any;
   status: number;
   success: boolean;
@@ -178,7 +178,7 @@ export class Server {
 
   private handleResponseError(console: ColorConsole, options: https.RequestOptions, e: HttpError, callback: (response: HostResponse) => void) {
     let response: HostResponse = {
-      data: e,
+      data: e.message,
       status: e.status,
       success: false
     };
