@@ -3,6 +3,8 @@ import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing
 import {ItemsComponent} from './items.component';
 import {ItemSlotComponent} from './item-slot.component';
 
+import {settings} from '../../../../config/settings';
+
 describe('ItemSlotComponent', () => {
   beforeEachProviders(() => [
     ItemsComponent,
@@ -43,7 +45,7 @@ describe('ItemSlotComponent', () => {
     component.addTime(item1);
     expect(item1.time).toBe(0);
     component.addTime(item2);
-    expect(item2.time).toBe(28125);
+    expect(item2.time).toBe((settings.gameTime / settings.sampleSize) / component.samples.gold[1] * item2.gold.total);
   }));
 
   it('should bundle', inject([ItemSlotComponent], (component) => {

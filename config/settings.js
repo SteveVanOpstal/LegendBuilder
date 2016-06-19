@@ -25,6 +25,6 @@ module.exports.settings = helpers.merge(settings, {
     'match': 'v2.2',
     'static-data': 'v1.2',
   },
-  sampleSize: 64,
+  sampleSize: 32,
   gameTime: 3600000
 });
