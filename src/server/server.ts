@@ -258,7 +258,7 @@ export class Server {
       if (response.success) {
         let champions = [];
         for (let championKey in response.json.data) {
-          champions[championKey] = response.json.data[championKey].id;
+          champions[championKey.toLowerCase()] = response.json.data[championKey].id;
         }
         callback(undefined, { region: region, champions: champions });
       } else {
@@ -283,19 +283,33 @@ export class Server {
   }
 
   private replaceChampion(path: string, region: string): string {
-    let parsedPath = url.parse(path);
-    let pathname = parsedPath.pathname.split('/');
-    let type = pathname[6];
-    if (type !== 'champion') {
+    let championKey = this.getChampionKey(path);
+    if (!championKey) {
       return path;
     }
-    let championKey = pathname[7];
-    let championId = this.champions[region][championKey];
+    let championId = this.getChampionId(region, championKey);
     if (championId >= 0) {
-      parsedPath.pathname = parsedPath.pathname.replace(championKey, championId);
+      path = path.replace(championKey, championId);
     }
-    let formattedPath = url.format(parsedPath);
-    return formattedPath;
+    return path;
+  }
+
+  private getChampionKey(path: string): string {
+    let parsedPath = url.parse(path, true);
+    let pathname = parsedPath.pathname.split('/');
+    let api = pathname[5];
+    let type = pathname[6];
+    if (api === 'static-data' && type === 'champion') {
+      return pathname[7];
+    }
+    if (api === 'matchlist' && type === 'by-summoner') {
+      return parsedPath.query.championIds;
+    }
+    return undefined;
+  }
+
+  private getChampionId(region: string, championKey: string) {
+    return this.champions[region][championKey.toLowerCase()];
   }
 
   private addApiKey(path: string): string {

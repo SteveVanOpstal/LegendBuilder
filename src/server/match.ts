@@ -1,7 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 import {waterfall, parallel} from 'async';
 
-import {Server, HostResponse} from './server';
+import {Server, HostResponse, HttpError} from './server';
 import {Summoner} from './summoner';
 import {settings} from '../../config/settings';
 
@@ -19,31 +19,26 @@ let config = {
   }
 };
 
-interface HttpError {
-  code: number;
-  error: string;
-}
-
 namespace Errors {
   export const badRequest: HttpError = {
-    code: 400,
-    error: 'Invalid request.'
+    status: 400,
+    message: 'Invalid request.'
   };
   export const invalidSummoner: HttpError = {
-    code: 404,
-    error: 'Unable to find summoner.'
+    status: 404,
+    message: 'Unable to find summoner.'
   };
   export const matchlist: HttpError = {
-    code: 404,
-    error: 'Unable to find sufficient games. Play at least ' + config.games.min + ' ranked games with the chosen champion.'
+    status: 404,
+    message: 'Unable to find sufficient games. Play at least ' + config.games.min + ' ranked games with the chosen champion.'
   };
   export const matches: HttpError = {
-    code: 500,
-    error: 'Unable to process match data.'
+    status: 500,
+    message: 'Unable to process match data.'
   };
   export const participant: HttpError = {
-    code: 404,
-    error: 'Unable to find participant.'
+    status: 404,
+    message: 'Unable to find participant.'
   };
 };
 
@@ -57,7 +52,7 @@ export class Match {
   }
 
   public get(region: string, summonerName: string, championKey: string, gameTime: number, sampleSize: number, request: IncomingMessage, response: ServerResponse) {
-    this.getData(region, summonerName, championKey, gameTime, sampleSize, (res) => {
+    this.getData(region, summonerName, championKey, gameTime, sampleSize, (res: HostResponse) => {
       response.writeHead(res.status, this.server.headers);
       response.write(res.data);
       if (res.success) {
@@ -75,7 +70,7 @@ export class Match {
     waterfall(
       [
         (cb) => {
-          this.summoner.getData(region, summonerName, (res) => {
+          this.summoner.getData(region, summonerName, (res: HostResponse) => {
             if (res.success && res.json[summonerName.toLowerCase()]) {
               cb(undefined, res.json[summonerName.toLowerCase()].id);
             } else {
@@ -125,20 +120,17 @@ export class Match {
     );
   }
 
-  private getMatchList(region, summonerId, championKey, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + '/matchlist/by-summoner/' + summonerId;
+  private getMatchList(region, summonerId: number, championKey: string, callback: CallBack) {
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + '/matchlist/by-summoner/' + summonerId + '?championIds=' + championKey;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.games.min) {
         callback(undefined, res.json.matches);
-        return;
       } else if (res.success) {
         callback(Errors.matchlist);
-        return;
       } else {
-        callback({ code: res.status, error: res.data });
-        return;
+        callback({ status: res.status, message: res.data });
       }
-    }, { times: 2, interval: 5000 });
+    }, { times: 2, interval: 2000 });
   }
 
   private getMatches(region: string, summonerId: number, matches, callback: CallBack) {
