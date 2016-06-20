@@ -131,7 +131,7 @@ export class GraphComponent implements OnChanges,
     }
   }
 
-  ngOnChanges(changes: {[key: string]: SimpleChange;}) {
+  ngOnChanges(changes: {[key: string]: SimpleChange}) {
     if (this.svg) {
       this.createLines();
       this.createLevelScale();

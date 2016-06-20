@@ -109,13 +109,11 @@ describe('DDragonDirective', () => {
        expect(result).toBe('background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 0px 0px;');
      }));
 
-  it('should have a default url', inject([DDragonDirective], (directive) => { expect(directive.default).toBeDefined(); }));
-
-  it('should use the default url when image or realm is unavailable', inject([DDragonDirective], (directive) => {
+  it('should use a default url when image or realm is unavailable', inject([DDragonDirective], (directive) => {
        let result = directive.buildUrl('test.png', undefined);
-       expect(result).toBe(directive.default);
+       expect(result).toBeDefined();
        result = directive.buildUrl('test.png', undefined);
-       expect(result).toBe(directive.default);
+       expect(result).toBeDefined();
      }));
 
   it('should create a correct url', inject([DDragonDirective], (directive) => {
