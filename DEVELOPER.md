@@ -6,35 +6,42 @@ All commands mentioned should be ran from the project root.
 
 ## Prerequisite Software
 
-* [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac](http://mac.github.com) or [Windows](http://windows.github.com)).
+* [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac or Windows](http://desktop.github.com)).
 * [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager).
 
 ## Getting started
 
 ### 1. Install packages
-All packages for this project are stored in the [package.json](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/package.json) file 
-and can be retrieved by executing following command:
+All packages for this project can be retrieved by executing following command:
 ```
 npm install
 ```
 
 ### 2. Configuration (optional)
 A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
-It could contain the following:
+These are the default values that can be altered via an override:
 ```
 {
-  "httpServer": {
-    "host: "10.10.10.10",
-    "port: 8000
+  httpServer: {
+    host: 'localhost',
+    port: 8080
   },
-  "staticServer": {
-    "host": "10.10.10.10",
-    "port": 8001
+  staticServer: {
+    host: 'localhost',
+    port: 8081
   },
-  "matchServer" : {
-    "host": "10.10.10.10",
-    "port": 8002
-  }
+  matchServer: {
+    host: 'localhost',
+    port: 8082
+  },
+  apiVersions: {
+    'summoner': 'v1.4',
+    'matchlist': 'v2.2',
+    'match': 'v2.2',
+    'static-data': 'v1.2',
+  },
+  sampleSize: 64,
+  gameTime: 3600000
 }
 ```
 
@@ -44,7 +51,7 @@ This is a guide on how to set them up.
 
 #### 3.1 Create `.api.key`
 Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
-Create a file named `.api.key` and add the key to it. Place it at the root of the project.
+Create a file named `.api.key` and add the key to it (no newline). Place it at the root of the project.
 
 #### 3.3 Run
 ```
@@ -53,38 +60,11 @@ npm run match-server
 ```
 
 ### 4. Run a HTTP server (webpack-dev-server)
-In development I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server).
+I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) which is included as a packages.
 
-#### 4.1 Install
-```
-npm install -g webpack-dev-server
-```
-
-#### 4.2 Run
+#### 4.1 Run
 ```
 npm run server
-```
-
-## Visual Studio Code
-I highly recommend the [Visual Studio Code](https://code.visualstudio.com/) IDE. 
-
-It works well with for example npm, by adding following `tasks.json` you can call the npm `build` task via `Ctrl+Shift+B`:
-
-```JSON
-{
-  "version": "0.1.0",
-  "command": "npm run",
-  "isShellCommand": true,
-  "showOutput": "silent",
-  "tasks": [
-    {
-      "taskName": "build",
-      "args": [],
-      "isBuildCommand": true,
-      "problemMatcher": "$tsc"
-    }
-  ]
-}
 ```
 
 ## Reddit Release

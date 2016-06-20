@@ -9,6 +9,8 @@ As a contributor, here are the guidelines we would like you to follow:
  - [Coding Rules](#rules)
  - [Commit Message Guidelines](#commit)
 
+These guidelines use shell examples which can also be performed via [github desktop](http://desktop.github.com), 
+pick whatever you prefer.
 
 If you have questions about how to *use* Legend Builder, please direct them to [/r/LegendBuilder][reddit].
 
@@ -64,8 +66,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 * Create your patch, **including appropriate test cases**.
 * Follow our [Coding Rules](#rules).
-* Run the full Angular test suite, as described in the [developer documentation][dev-doc],
-  and ensure that all tests pass.
+* Run `npm run test` and ensure that all tests pass.
 * Commit your changes using a descriptive commit message that follows our
   [commit message conventions](#commit). Adherence to these conventions
   is necessary because release notes are automatically generated from these messages.
@@ -81,10 +82,10 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `angular:master`.
+* In GitHub, send a pull request to `LegendBuilder:master`.
 * If we suggest changes then:
   * Make the required updates.
-  * Re-run the Angular 2 test suites for JS and Dart to ensure tests are still passing.
+  * Re-run `npm run test` to ensure tests are still passing.
   * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
     ```shell
@@ -127,19 +128,18 @@ from the main (upstream) repository:
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
-* All public API methods **must be documented**. (Details TBC).
 * We follow [Google's JavaScript Style Guide][js-style-guide], but wrap all code at
-  **100 characters**. An automated formatter is available, see
+  **200 characters**. An automated formatter is available, see
   [DEVELOPER.md](DEVELOPER.md#clang-format).
 
 ## <a name="commit"></a> Commit Message Guidelines
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more
-readable messages** that are easy to follow when looking through the **project history**.  But also,
+readable messages** that are easy to follow when looking through the **project history**. But also,
 we use the git commit messages to **generate the Angular change log**.
 
 ### Commit Message Format
-Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
+Each commit message consists of a **header**, a **body** and a **footer**. The header has a special
 format that includes a **type**, a **scope** and a **subject**:
 
 ```
@@ -152,11 +152,27 @@ format that includes a **type**, a **scope** and a **subject**:
 
 The **header** is mandatory and the **scope** of the header is optional.
 
-Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
-to read on GitHub as well as in various git tools.
+Any line of the commit message cannot be longer 100 characters! This allows the message to be
+easier to read on GitHub as well as in various git tools.
+
+Footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
+
+Samples:
+
+```
+docs(changelog): update change log to beta.5
+```
+```
+fix(release): need to depend on latest rxjs and zone.js
+
+The version in our package.json gets copied to the one we publish, and users need the latest of these.
+```
+
+[More samples](https://github.com/SteveVanOpstal/LegendBuilder/commits/master)
 
 ### Revert
-If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
+If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit.
+In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
 
 ### Type
 Must be one of the following:
@@ -189,18 +205,15 @@ Just as in the **subject**, use the imperative, present tense: "change" not "cha
 The body should include the motivation for the change and contrast this with previous behavior.
 
 ### Footer
-The footer should contain any information about **Breaking Changes** and is also the place to
-reference GitHub issues that this commit **Closes**.
+A place to reference GitHub issues that this commit **Closes**, if any.
 
-**Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
+```
+closes #1
+```
 
-A detailed explanation can be found in this [document][commit-message-format].
-
-
-[commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
-[dev-doc]: https://github.com/SteveVanOpstal/LegendBuilder/blob/master/DEVELOPER.md
 [github]: https://github.com/SteveVanOpstal/LegendBuilder
 [reddit]: https://www.reddit.com/r/LegendBuilder
 [jsfiddle]: http://jsfiddle.net/
 [plunker]: http://plnkr.co/edit
 [runnable]: http://runnable.com/
+[js-style-guide]: https://google.github.io/styleguide/javascriptguide.xml
