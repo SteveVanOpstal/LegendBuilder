@@ -1,7 +1,7 @@
 {
   "name": "legend-builder",
   "version": "1.0.0-alpha.8",
-  "description": "An advanced League Of Legends champion builder.",
+  "description": "An advanced League Of Legends champion builder",
   "bugs": {
     "url": "https://github.com/SteveVanOpstal/LegendBuilder/issues"
   },
@@ -48,7 +48,7 @@
     "http-server:prod": "node dist/server/http-server.js",
     "static-server": "npm run build:server:dev && node dist/server/static-server.js",
     "match-server": "npm run build:server:dev && node dist/server/match-server.js",
-    "format": "./node_modules/.bin/clang-format --glob=src/**/*.ts",
+    "format": "./node_modules/.bin/clang-format --glob=src/**/*.ts -i",
     "lint": "./node_modules/.bin/tslint src/**/*.ts",
     "lint:client": "./node_modules/.bin/tslint src/client/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
     "lint:server": "./node_modules/.bin/tslint src/server/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
