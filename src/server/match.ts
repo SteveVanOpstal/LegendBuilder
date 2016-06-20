@@ -1,12 +1,11 @@
-import {parallel, waterfall} from 'async';
 import {IncomingMessage, ServerResponse} from 'http';
+import {waterfall, parallel} from 'async';
 
+import {Server, HostResponse, HttpError} from './server';
+import {Summoner} from './summoner';
 import {settings} from '../../config/settings';
 
-import {HostResponse, HttpError, Server} from './server';
-import {Summoner} from './summoner';
-
-let config = {games: {min: 2, max: 5}, default: {gameTime: 80 * 60 * 1000, sampleSize: 8}, fill: {sampleTime: 20 * 60 * 1000}};
+let config = {matches: {min: 2, max: 5}, default: {gameTime: 80 * 60 * 1000, sampleSize: 8}, fill: {sampleTime: 20 * 60 * 1000}};
 
 namespace Errors {
 export const badRequest: HttpError = {
@@ -19,7 +18,7 @@ export const invalidSummoner: HttpError = {
 };
 export const matchlist: HttpError = {
   status: 404,
-  message: 'Unable to find sufficient games. Play at least ' + config.games.min + ' ranked games with the chosen champion.'
+  message: 'Unable to find sufficient games. Play at least ' + config.matches.min + ' ranked games with the chosen champion.'
 };
 export const matches: HttpError = {
   status: 500,
@@ -30,6 +29,15 @@ export const participant: HttpError = {
   message: 'Unable to find participant.'
 };
 };
+
+interface Frame {
+  time: number;
+  xp: number;
+  gold: number;
+}
+
+type Frames = Array<Frame>;
+type Matches = Array<Frames>;
 
 interface CallBack {
   (err: HttpError, results?: any): void;
@@ -67,7 +75,7 @@ export class Match {
               }
             });
           },
-          (summonerId, cb) => {
+          (summonerId: number, cb) => {
             this.getMatchList(region, summonerId, championKey, (err: HttpError, results?: any) => {
               if (err) {
                 cb(err);
@@ -76,9 +84,9 @@ export class Match {
               }
             });
           },
-          (summonerId, matches, cb) => { this.getMatches(region, summonerId, matches, cb); }
+          (summonerId: number, matches, cb) => { this.getMatches(region, summonerId, matches, cb); }
         ],
-        (error, results) => {
+        (error: Error, results: any) => {
           if (error) {
             callback({data: error.message, status: 500, success: false});
             return;
@@ -97,10 +105,10 @@ export class Match {
         });
   }
 
-  private getMatchList(region, summonerId: number, championKey: string, callback: CallBack) {
+  private getMatchList(region: string, summonerId: number, championKey: string, callback: CallBack) {
     let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist + '/matchlist/by-summoner/' + summonerId + '?championIds=' + championKey;
     this.server.sendRequest(path, region, (res: HostResponse) => {
-      if (res.success && res.json.totalGames >= config.games.min) {
+      if (res.success && res.json.totalGames >= config.matches.min) {
         callback(undefined, res.json.matches);
       } else if (res.success) {
         callback(Errors.matchlist);
@@ -110,21 +118,18 @@ export class Match {
     }, {times: 2, interval: 2000});
   }
 
-  private getMatches(region: string, summonerId: number, matches, callback: CallBack) {
+  private getMatches(region: string, summonerId: number, matches: any, callback: CallBack) {
     let matchRequests = [];
     let i = 0;
-    for (let index in matches) {
+    for (let match of matches) {
       i++;
-      matchRequests.push((cb) => {
-        let match = matches[index];
-        this.getMatch(region, summonerId, match.matchId, cb);
-      });
-      if (i >= config.games.max) {
+      matchRequests.push((cb) => { this.getMatch(region, summonerId, match.matchId, cb); });
+      if (i >= config.matches.max) {
         break;
       }
     }
 
-    parallel(matchRequests, (err, results: Array<any>) => {
+    parallel(matchRequests, (err: Error, results: Array<any>) => {
       let data = {interval: 120000, matches: []};
       for (let index in results) {
         let result = results[index];
@@ -170,22 +175,22 @@ export class Match {
     }, {times: 2, interval: 5000});
   }
 
-  private fill(games, interval, limit) {
-    for (let i = 0; i < games.length; i++) {
-      let frames: Array<any> = games[i];
+  private fill(matches: Matches, interval: number, limit: number) {
+    for (let i = 0; i < matches.length; i++) {
+      let frames: Frames = matches[i];
       let avgTrendXp = this.getAverageTrend(frames, interval, (frame) => { return frame.xp; });
       let avgTrendGold = this.getAverageTrend(frames, interval, (frame) => { return frame.gold; });
 
-      // fill up games
+      // fill up matches
       while (frames[frames.length - 1].time < limit) {
         let lastFrame = frames[frames.length - 1];
         frames.push({time: lastFrame.time + interval, xp: lastFrame.xp + avgTrendXp, gold: lastFrame.gold + avgTrendGold});
       }
     }
-    return games;
+    return matches;
   }
 
-  private getAverageTrend(frames, interval, callback: (frame: any) => number) {
+  private getAverageTrend(frames: Frames, interval: number, callback: (frame: any) => number) {
     let sampleSize = config.fill.sampleTime / interval;
     let delta = 0;
     for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
@@ -194,7 +199,7 @@ export class Match {
     return delta / sampleSize;
   }
 
-  private getSamples(matches: Array<Array<any>>, sampleSize: number, stepSize: number): any {
+  private getSamples(matches: Matches, sampleSize: number, stepSize: number): any {
     let samples = {xp: [], gold: []};
     for (let i = 0; i < sampleSize; i++) {
       let absTime = i * stepSize;
@@ -212,9 +217,9 @@ export class Match {
     return samples;
   }
 
-  private getDebugSamples(samples: any, matches: Array<Array<any>>, sampleSize: number, stepSize: number) {
+  private getDebugSamples(samples: any, matches: Matches, sampleSize: number, stepSize: number) {
     for (let index in matches) {
-      let frames = matches[index];
+      let frames: Frames = matches[index];
       samples['xp' + index] = new Array();
       samples['gold' + index] = new Array();
       for (let i = 0; i < sampleSize; i++) {
@@ -226,7 +231,7 @@ export class Match {
     return samples;
   }
 
-  private getRelativeOf(frames: Array<any>, time: number, callback: (frame: any) => number): number {
+  private getRelativeOf(frames: Frames, time: number, callback: (frame: any) => number): number {
     if (!frames) {
       return 0;
     }
@@ -248,7 +253,7 @@ export class Match {
     return lowerValue + rel;
   }
 
-  private getFrameIndex(frames: Array<any>, time: number) {
+  private getFrameIndex(frames: Frames, time: number) {
     let index = -1;
     for (let j = 0; j < frames.length; j++) {
       if (frames[j].time > time) {
