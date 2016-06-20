@@ -4,7 +4,7 @@ export interface Item {
   from: Array<string>;
   into: Array<string>;
   bundle: number;
-  gold: { total: number };
-  image: { full: string };
+  gold: {total: number};
+  image: {full: string};
   tags: Array<string>;
 }

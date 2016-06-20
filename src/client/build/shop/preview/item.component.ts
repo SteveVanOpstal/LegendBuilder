@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
 import {Item} from '../../item';
@@ -16,12 +16,10 @@ export class ItemComponent {
   @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
-  private selectItem(item: Item) {
-    this.itemSelected.emit(item);
-  }
+  private selectItem(item: Item) { this.itemSelected.emit(item); }
 
   private pickItem(item: Item) {
     this.itemPicked.emit(item);
-    return false; // stop context menu from appearing
+    return false;  // stop context menu from appearing
   }
 }

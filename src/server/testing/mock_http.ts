@@ -1,9 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
 
-export class MockIncomingMessage implements IncomingMessage {
-  url: string;
-};
+export class MockIncomingMessage implements IncomingMessage { url: string; };
 
 export class MockServerResponse implements ServerResponse {
   buffer: Buffer;
@@ -13,14 +11,12 @@ export class MockServerResponse implements ServerResponse {
     this.buffer = buffer;
     return true;
   }
-  writeHead(statusCode: number, headers?: any): void {
-    this.headers = headers;
-  }
+  writeHead(statusCode: number, headers?: any): void { this.headers = headers; }
   getHeader(name: string): string {
     if (!this.headers) {
       return '[no headers]';
     }
     return this.headers[name];
   }
-  end() { }
+  end() {}
 }

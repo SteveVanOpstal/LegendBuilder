@@ -1,10 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Item} from '../../item';
 
-@Pipe({
-  name: 'tags',
-  pure: false
-})
+@Pipe({name: 'tags', pure: false})
 
 export class TagsPipe implements PipeTransform {
   transform(items: Array<any>, tags) {

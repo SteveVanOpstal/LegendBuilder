@@ -1,53 +1,28 @@
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
-import {Http, BaseRequestOptions} from '@angular/http';
+import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {BaseRequestOptions, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, async, beforeEachProviders, beforeEach} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
 import {LolApiService} from '../../misc/lolapi.service';
+import {MockRouteSegment} from '../../testing';
+
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
-import {MockRouteSegment} from '../../testing';
-
-const data = [
-  {
-    id: 0,
-    description: ['test6121'],
-    image: { full: '6121.png' },
-    ranks: 5
-  },
-  null,
-  {
-    id: 1,
-    description: ['test6122'],
-    image: { full: '6122.png' },
-    ranks: 5
-  }
-];
+const data = [{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}];
 
 describe('MasteryTierComponent', () => {
-  beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+  beforeEachProviders(
+      () =>
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-    BaseRequestOptions,
-    MockBackend,
-    provide(Http, {
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
+           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
 
-    LolApiService,
-    MasteriesComponent,
-    MasteryCategoryComponent,
-    MasteryTierComponent
-  ]);
+           LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent]);
 
 
   let component: MasteryTierComponent;

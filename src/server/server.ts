@@ -1,7 +1,8 @@
-import {IncomingMessage, ServerResponse} from 'http';
 import * as http from 'http';
+import {IncomingMessage, ServerResponse} from 'http';
 import * as https from 'https';
 import * as url from 'url';
+
 let lru = require('lru-cache');
 import * as async from 'async';
 
@@ -11,7 +12,8 @@ import {settings} from '../../config/settings';
 let apiKey = '';
 try {
   apiKey = require('raw!../../.api.key');
-} catch (e) { }
+} catch (e) {
+}
 
 export interface HostResponse {
   data: string;
@@ -38,110 +40,74 @@ export interface HttpError {
 export class Server {
   public champions: Array<Array<string>> = [];
 
-  public headers = {
-    'Access-Control-Allow-Origin': 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
-    'content-type': 'application/json'
-  };
+  public headers = {'Access-Control-Allow-Origin': 'http://' + settings.httpServer.host + ':' + settings.httpServer.port, 'content-type': 'application/json'};
 
-  public config = {
-    protocol: 'https://',
-    hostname: '.api.pvp.net',
-    apiKey: apiKey
-  };
+  public config = {protocol: 'https://', hostname: '.api.pvp.net', apiKey: apiKey};
 
-  private options: https.RequestOptions = {
-    hostname: 'global.api.pvp.net',
-    method: 'GET',
-    headers: {
-      'User-Agent': 'Legend-Builder',
-      'Accept-Language': 'en-US',
-      'Accept-Charset': 'ISO-8859-1,utf-8'
-    }
-  };
+  private options: https.RequestOptions = {hostname: 'global.api.pvp.net', method: 'GET', headers: {'User-Agent': 'Legend-Builder', 'Accept-Language': 'en-US', 'Accept-Charset': 'ISO-8859-1,utf-8'}};
 
   private cache;
 
   constructor(private host: string, private port: number, cacheSettings?: any) {
-    this.cache = lru(this.merge(cacheSettings, {
-      max: 1048000,
-      length: (n) => { return n.length * 2; },
-      maxAge: 1000 * 60 * 60 * 2
-    }));
+    this.cache = lru(this.merge(cacheSettings, {max: 1048000, length: (n) => { return n.length * 2; }, maxAge: 1000 * 60 * 60 * 2}));
 
-    this.merge({
-      Origin: 'http://' + this.host + ':' + this.port
-    }, this.options.headers);
+    this.merge({Origin: 'http://' + this.host + ':' + this.port}, this.options.headers);
   }
 
   public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     this.preRun();
-    let server = http.createServer((request: IncomingMessage, response: ServerResponse) => {
-      this.handleRequest(request, response, callback);
-    });
+    let server = http.createServer((request: IncomingMessage, response: ServerResponse) => { this.handleRequest(request, response, callback); });
     server.listen(this.port, this.host);
     console.log(this.host + ':' + this.port);
   }
 
-  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void, opts?: { times: number, interval: number }): void {
+  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void, opts?: {times: number, interval: number}): void {
     url = this.transformPath(url, region);
 
-    let options: https.RequestOptions = { path: url };
+    let options: https.RequestOptions = {path: url};
     this.merge(this.options, options);
     options.hostname = url.indexOf('global') > 0 ? this.getHostname() : this.getHostname(region);
 
     this.sendHttpsRequest(options, callback, opts);
   }
 
-  public getBaseUrl(region?: string) {
-    return this.config.protocol + this.getHostname(region) + '/api/lol' + (region ? '/' + region : '');
-  }
+  public getBaseUrl(region?: string) { return this.config.protocol + this.getHostname(region) + '/api/lol' + (region ? '/' + region : ''); }
 
-  public getHostname(region?: string) {
-    return (region ? region : 'global') + this.config.hostname;
-  }
+  public getHostname(region?: string) { return (region ? region : 'global') + this.config.hostname; }
 
-  public setCache(url: string, data: any): void {
-    this.cache.set(url, data);
-  }
+  public setCache(url: string, data: any): void { this.cache.set(url, data); }
 
-  private getCache(url: string): any {
-    return this.cache.get(url);
-  }
+  private getCache(url: string): any { return this.cache.get(url); }
 
-  private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void, opts?: { times: number, interval: number }) {
+  private sendHttpsRequest(options: https.RequestOptions, callback: (response: HostResponse) => void, opts?: {times: number, interval: number}) {
     let console = new ColorConsole();
-    async.retry(opts || { times: 1, interval: 0 }, (cb: AsyncResultCallback<any>, results: any) => {
-      let req = https.request(options, (res: IncomingMessage) => {
-        cb(undefined, res);
-      });
-      req.on('error', (e: Error) => {
-        cb(e, undefined);
-      });
-      req.end();
-    }, (error: Error, results: any) => {
-      if (error) {
-        this.handleResponseError(console, options, { status: 500, message: error.message }, callback);
-      } else {
-        this.handleResponse(console, options, results, callback);
-      }
-    });
+    async.retry(
+        opts || {times: 1, interval: 0},
+        (cb: AsyncResultCallback<any>, results: any) => {
+          let req = https.request(options, (res: IncomingMessage) => { cb(undefined, res); });
+          req.on('error', (e: Error) => { cb(e, undefined); });
+          req.end();
+        },
+        (error: Error, results: any) => {
+          if (error) {
+            this.handleResponseError(console, options, {status: 500, message: error.message}, callback);
+          } else {
+            this.handleResponse(console, options, results, callback);
+          }
+        });
   }
 
   private sendHttpRequest(options: https.RequestOptions, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
     let req = http.request(options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
-    req.on('error', (e) => this.handleResponseError(console, options, { status: 500, message: e }, callback));
+    req.on('error', (e) => this.handleResponseError(console, options, {status: 500, message: e}, callback));
     req.end();
   }
 
   private handleResponse(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, callback: (response: HostResponse) => void) {
     let data = '';
-    res.on('data', (d: string) => {
-      data += d;
-    });
-    res.on('end', () => {
-      this.handleResponseSuccess(console, options, res, data, callback);
-    });
+    res.on('data', (d: string) => { data += d; });
+    res.on('end', () => { this.handleResponseSuccess(console, options, res, data, callback); });
   }
 
   private handleResponseSuccess(console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any, callback: (response: HostResponse) => void) {
@@ -149,39 +115,24 @@ export class Server {
     try {
       json = JSON.parse(data);
     } catch (e) {
-      let error: HttpError = {
-        status: 500,
-        message: e
-      };
+      let error: HttpError = {status: 500, message: e};
       this.handleResponseError(console, options, error, callback);
       return;
     }
 
     if (json.status) {
-      let error: HttpError = {
-        status: json.status.status_code,
-        message: json.status.message
-      };
+      let error: HttpError = {status: json.status.status_code, message: json.status.message};
       this.handleResponseError(console, options, error, callback);
       return;
     }
 
-    let response: HostResponse = {
-      data: data,
-      json: json,
-      status: res.statusCode,
-      success: res.statusCode === 200
-    };
+    let response: HostResponse = {data: data, json: json, status: res.statusCode, success: res.statusCode === 200};
     console.logHttp(options.method, this.maskApiKey(options.path), res.statusCode);
     callback(response);
   }
 
   private handleResponseError(console: ColorConsole, options: https.RequestOptions, e: HttpError, callback: (response: HostResponse) => void) {
-    let response: HostResponse = {
-      data: e.message,
-      status: e.status,
-      success: false
-    };
+    let response: HostResponse = {data: e.message, status: e.status, success: false};
     console.logHttp(options.method, this.maskApiKey(options.path), e.status, e.message);
     callback(response);
   }
@@ -223,12 +174,7 @@ export class Server {
       path: 'http://status.leagueoflegends.com/shards',
       hostname: 'status.leagueoflegends.com',
       method: 'GET',
-      headers: {
-        'User-Agent': 'Legend-Builder',
-        'Accept-Language': 'en-US',
-        'Accept-Charset': 'ISO-8859-1,utf-8',
-        Origin: 'http://' + this.host + ':' + this.port
-      }
+      headers: {'User-Agent': 'Legend-Builder', 'Accept-Language': 'en-US', 'Accept-Charset': 'ISO-8859-1,utf-8', Origin: 'http://' + this.host + ':' + this.port}
     };
 
     this.sendHttpRequest(options, (res) => {
@@ -246,12 +192,12 @@ export class Server {
     });
   }
 
-  private getChampions(region: string, callback: (err, result: { region: string, champions?: Array<number> }) => void) {
+  private getChampions(region: string, callback: (err, result: {region: string, champions?: Array<number>}) => void) {
     let championUrl = this.config.protocol + this.getHostname() + '/api/lol/static-data/' + region + '/' + settings.apiVersions['static-data'] + '/champion';
 
     championUrl = this.addApiKey(championUrl);
 
-    let options: https.RequestOptions = { path: championUrl };
+    let options: https.RequestOptions = {path: championUrl};
     this.merge(this.options, options);
 
     this.sendHttpsRequest(options, (response: HostResponse) => {
@@ -260,21 +206,22 @@ export class Server {
         for (let championKey in response.json.data) {
           champions[championKey.toLowerCase()] = response.json.data[championKey].id;
         }
-        callback(undefined, { region: region, champions: champions });
+        callback(undefined, {region: region, champions: champions});
       } else {
         console.error('Unable to get champion data for ' + region);
-        callback(true, { region: region });
+        callback(true, {region: region});
       }
     });
   }
 
-  private handleChampions = (err, result) => {
-    if (err) {
-      setTimeout(this.getChampions, 10 * 1000, result.region, this.handleChampions);
-      return;
-    }
-    this.champions[result.region] = result.champions;
-  }
+  private handleChampions =
+      (err, result) => {
+        if (err) {
+          setTimeout(this.getChampions, 10 * 1000, result.region, this.handleChampions);
+          return;
+        }
+        this.champions[result.region] = result.champions;
+      }
 
   private transformPath(path: string, region: string): string {
     path = this.replaceChampion(path, region);
@@ -308,9 +255,7 @@ export class Server {
     return undefined;
   }
 
-  private getChampionId(region: string, championKey: string) {
-    return this.champions[region][championKey.toLowerCase()];
-  }
+  private getChampionId(region: string, championKey: string) { return this.champions[region][championKey.toLowerCase()]; }
 
   private addApiKey(path: string): string {
     path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + this.config.apiKey;

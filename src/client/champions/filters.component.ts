@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgModel} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'filters',

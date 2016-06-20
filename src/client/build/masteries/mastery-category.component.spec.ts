@@ -1,16 +1,15 @@
-import {provide, Inject, forwardRef, QueryList} from '@angular/core';
-import {Http, BaseRequestOptions} from '@angular/http';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {Inject, QueryList, forwardRef, provide} from '@angular/core';
+import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {BaseRequestOptions, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
 import {LolApiService} from '../../misc/lolapi.service';
+import {MockRouteSegment} from '../../testing';
+
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
-
-import {MockRouteSegment} from '../../testing';
 
 // class MockMasteryComponent extends MasteryComponent {
 //   public rank: number = 0;
@@ -47,62 +46,24 @@ import {MockRouteSegment} from '../../testing';
 const data = {
   name: 'Ferocity',
   tiers: [
+    [{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}],
     [
-      {
-        id: 0,
-        description: ['test6121'],
-        image: { full: '6121.png' },
-        ranks: 5
-      },
-      null,
-      {
-        id: 1,
-        description: ['test6122'],
-        image: { full: '6122.png' },
-        ranks: 5
-      }
-    ],
-    [
-      {
-        id: 0,
-        description: ['test6121'],
-        image: { full: '6121.png' },
-        ranks: 5
-      },
-      {
-        id: 1,
-        description: ['test6122'],
-        image: { full: '6122.png' },
-        ranks: 5
-      },
-      {
-        id: 1,
-        description: ['test6122'],
-        image: { full: '6122.png' },
-        ranks: 5
-      }
+      {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5},
+      {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}
     ]
   ]
 };
 
 describe('MasteryCategoryComponent', () => {
-  beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+  beforeEachProviders(
+      () =>
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-    MockBackend,
-    BaseRequestOptions,
-    provide(Http, {
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
+           MockBackend, BaseRequestOptions, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
 
-    LolApiService,
+           LolApiService,
 
-    MasteriesComponent,
-    MasteryCategoryComponent
-  ]);
+           MasteriesComponent, MasteryCategoryComponent]);
 
 
   let component: MasteryCategoryComponent;
@@ -138,7 +99,7 @@ describe('MasteryCategoryComponent', () => {
     mastery2.enabled = true;
     mastery2.setRank(5);
 
-    component.rankAdd({ tier: tier2, mastery: mastery2 });
+    component.rankAdd({tier: tier2, mastery: mastery2});
     expect(mastery1.lock).toHaveBeenCalled();
   });
   it('should enable next tier when the tier is at max rank', () => {
@@ -149,7 +110,7 @@ describe('MasteryCategoryComponent', () => {
     let mastery2 = tier2.children.toArray()[0];
     mastery2.enabled = false;
 
-    component.rankAdd({ tier: tier1, mastery: mastery1 });
+    component.rankAdd({tier: tier1, mastery: mastery1});
     expect(mastery2.enabled).toBeTruthy();
   });
 
@@ -164,7 +125,7 @@ describe('MasteryCategoryComponent', () => {
     let mastery2 = tier2.children.toArray()[0];
     mastery2.setRank(4);
 
-    component.rankRemove({ tier: tier2, mastery: mastery2 });
+    component.rankRemove({tier: tier2, mastery: mastery2});
     expect(mastery1.unlock).toHaveBeenCalled();
   });
   it('should disable next tier when the tier is below max rank', () => {
@@ -175,7 +136,7 @@ describe('MasteryCategoryComponent', () => {
     let mastery2 = tier2.children.toArray()[0];
     mastery2.enabled = true;
 
-    component.rankRemove({ tier: tier1, mastery: mastery1 });
+    component.rankRemove({tier: tier1, mastery: mastery1});
     expect(mastery2.enabled).toBeFalsy();
   });
 
@@ -186,7 +147,7 @@ describe('MasteryCategoryComponent', () => {
     let mastery2 = tier.children.toArray()[1];
     mastery1.setRank(5);
     mastery2.setRank(1);
-    component.rankAdd({ tier: tier, mastery: mastery1 });
+    component.rankAdd({tier: tier, mastery: mastery1});
     expect(mastery2.getRank()).toBe(0);
   });
 
@@ -196,9 +157,9 @@ describe('MasteryCategoryComponent', () => {
     let tier = component.children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(5);
-    component.rankAdd({ tier: tier, mastery: undefined });
+    component.rankAdd({tier: tier, mastery: undefined});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-    component.rankAdd({ tier: undefined, mastery: mastery });
+    component.rankAdd({tier: undefined, mastery: mastery});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
   });
   it('should not remove rank on an invalid event', () => {
@@ -206,9 +167,9 @@ describe('MasteryCategoryComponent', () => {
     let tier = component.children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(5);
-    component.rankRemove({ tier: tier, mastery: undefined });
+    component.rankRemove({tier: tier, mastery: undefined});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-    component.rankRemove({ tier: undefined, mastery: mastery });
+    component.rankRemove({tier: undefined, mastery: mastery});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
   });
 });

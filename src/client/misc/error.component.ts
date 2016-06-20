@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'error',
@@ -28,7 +28,5 @@ export class ErrorComponent {
   @Input() error: boolean = false;
   @Output() retry: EventEmitter<any> = new EventEmitter<any>();
 
-  retryClicked() {
-    this.retry.emit(undefined);
-  }
+  retryClicked() { this.retry.emit(undefined); }
 }

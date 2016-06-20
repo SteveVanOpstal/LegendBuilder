@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {NgIf, NgClass} from '@angular/common';
-
-import {MasteryTierComponent} from './mastery-tier.component';
+import {NgClass, NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
+
+import {MasteryTierComponent} from './mastery-tier.component';
 
 export class Colors {
   public static blue: string = '#4C99FC';
@@ -49,12 +49,9 @@ export class MasteryComponent implements OnChanges {
   private active: boolean = false;
   private locked: boolean = false;
 
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnChanges() {
-    this.changed();
-  }
+  public ngOnChanges() { this.changed(); }
 
   public enable() {
     if (this.enabled) {
@@ -76,17 +73,11 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public lock() {
-    this.locked = true;
-  }
+  public lock() { this.locked = true; }
 
-  public unlock() {
-    this.locked = false;
-  }
+  public unlock() { this.locked = false; }
 
-  public getRank() {
-    return this.rank;
-  }
+  public getRank() { return this.rank; }
 
   public addRank() {
     this.rank++;
@@ -127,17 +118,13 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  private clicked() {
-    this.rankAdd();
-  }
+  private clicked() { this.rankAdd(); }
 
-  private dragEnd() {
-    this.rankAdd();
-  }
+  private dragEnd() { this.rankAdd(); }
 
   private rightClicked() {
     this.rankRemove();
-    return false; // stop context menu from appearing
+    return false;  // stop context menu from appearing
   }
 
   private changed() {

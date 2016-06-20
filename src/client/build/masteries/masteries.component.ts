@@ -1,14 +1,13 @@
-import {Component, ViewChildren, QueryList, OnInit} from '@angular/core';
 import {NgFor} from '@angular/common';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+
+import {ErrorComponent} from '../../misc/error.component';
+import {LoadingComponent} from '../../misc/loading.component';
+import {LolApiService} from '../../misc/lolapi.service';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
-
-import {LoadingComponent} from '../../misc/loading.component';
-import {ErrorComponent} from '../../misc/error.component';
-
-import {LolApiService} from '../../misc/lolapi.service';
 
 @Component({
   selector: 'masteries',
@@ -23,23 +22,16 @@ import {LolApiService} from '../../misc/lolapi.service';
 export class MasteriesComponent implements OnInit {
   @ViewChildren(MasteryCategoryComponent) children: QueryList<MasteryCategoryComponent>;
 
-  public data: Object; // TODO: remove temporary public
+  public data: Object;  // TODO: remove temporary public
   private loading: boolean = true;
   private error: boolean = false;
 
-  constructor(private lolApi: LolApiService) {
-  }
+  constructor(private lolApi: LolApiService) {}
 
-  public ngOnInit() {
-    this.getData();
-  }
+  public ngOnInit() { this.getData(); }
 
-  public enable() {
-    this.children.forEach((c) => c.enable());
-  }
-  public disable() {
-    this.children.forEach((c) => c.disable());
-  }
+  public enable() { this.children.forEach((c) => c.enable()); }
+  public disable() { this.children.forEach((c) => c.disable()); }
 
   public getRank(): number {
     let rank = 0;
@@ -47,7 +39,7 @@ export class MasteriesComponent implements OnInit {
     return rank;
   }
 
-  public rankAdd(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+  public rankAdd(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
     let tier = event.tier;
     let mastery = event.mastery;
     let deviation = this.getTotalRankExceeded();
@@ -64,7 +56,7 @@ export class MasteriesComponent implements OnInit {
     }
   }
 
-  public rankRemove(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+  public rankRemove(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
     if (this.getRank() === 29) {
       this.enable();
     }
@@ -74,14 +66,13 @@ export class MasteriesComponent implements OnInit {
     this.loading = true;
     this.error = false;
 
-    this.lolApi.getMasteries()
-      .subscribe(
-      res => {
-        this.data = this.alterData(res);
-      },
-      error => { this.error = true; this.loading = false; },
-      () => this.loading = false
-      );
+    this.lolApi.getMasteries().subscribe(
+        res => { this.data = this.alterData(res); },
+        error => {
+          this.error = true;
+          this.loading = false;
+        },
+        () => this.loading = false);
   }
 
   private alterData(newMasteries: any) {
@@ -103,7 +94,7 @@ export class MasteriesComponent implements OnInit {
         }
         tiers.push(item);
       }
-      alteredMasteries.push({ name: categoryName, tiers: tiers });
+      alteredMasteries.push({name: categoryName, tiers: tiers});
     }
 
     return alteredMasteries;

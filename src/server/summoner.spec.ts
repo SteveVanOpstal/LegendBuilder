@@ -1,6 +1,5 @@
-import {MockServer, MockHostResponseSuccess, MockHostResponseFailure, MockIncomingMessage, MockServerResponse} from './testing';
-
 import {Summoner} from './summoner';
+import {MockHostResponseFailure, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from './testing';
 
 describe('Summoner', () => {
   let server: MockServer;
@@ -9,19 +8,13 @@ describe('Summoner', () => {
   beforeEach(() => {
     server = new MockServer();
     summoner = new Summoner(server);
-    server.headers = {
-      test: 'test'
-    };
+    server.headers = {test: 'test'};
   });
 
   it('should get the summoner id', () => {
-    let data = JSON.stringify({ dinoshavenolife: { id: 42457671 } });
-    server.responses = [
-      { url: 'summoner', message: new MockHostResponseSuccess(data) }
-    ];
-    let incomingMessage: MockIncomingMessage = {
-      url: 'test1'
-    };
+    let data = JSON.stringify({dinoshavenolife: {id: 42457671}});
+    server.responses = [{url: 'summoner', message: new MockHostResponseSuccess(data)}];
+    let incomingMessage: MockIncomingMessage = {url: 'test1'};
     let serverResponse: MockServerResponse = new MockServerResponse();
 
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
@@ -33,12 +26,8 @@ describe('Summoner', () => {
   });
 
   it('should not get the summoner id', () => {
-    server.responses = [
-      { url: 'summoner', message: new MockHostResponseFailure() }
-    ];
-    let incomingMessage: MockIncomingMessage = {
-      url: 'test1'
-    };
+    server.responses = [{url: 'summoner', message: new MockHostResponseFailure()}];
+    let incomingMessage: MockIncomingMessage = {url: 'test1'};
     let serverResponse: MockServerResponse = new MockServerResponse();
 
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);

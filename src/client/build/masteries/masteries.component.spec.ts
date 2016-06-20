@@ -1,16 +1,15 @@
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
-import {Http, BaseRequestOptions, Response, ResponseOptions} from '@angular/http';
+import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {MockBackend, MockConnection} from '@angular/http/testing';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
-import {MockBackend, MockConnection} from '@angular/http/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
 import {LolApiService} from '../../misc/lolapi.service';
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteriesComponent} from './masteries.component';
-
 import {MockRouteSegment} from '../../testing';
+
+import {MasteriesComponent} from './masteries.component';
+import {MasteryCategoryComponent} from './mastery-category.component';
 
 class MockMasteryCategoryComponent extends MasteryCategoryComponent {
   public rank: number = 0;
@@ -22,184 +21,43 @@ class MockMasteryCategoryComponent extends MasteryCategoryComponent {
 
 const masteriesData = {
   tree: {
-    Ferocity: [
-      {
-        masteryTreeItems: [
-          {
-            masteryId: 6121
-          },
-          null,
-          {
-            masteryId: 6122
-          }
-        ]
-      },
-      {
-        masteryTreeItems: [
-          {
-            masteryId: 6121
-          },
-          {
-            masteryId: 6122
-          },
-          {
-            masteryId: 6122
-          }
-        ]
-      }
-    ],
-    Cunning: [
-      {
-        masteryTreeItems: [
-          {
-            masteryId: 6121
-          },
-          null,
-          {
-            masteryId: 6122
-          }
-        ]
-      }
-    ],
-    Resolve: [
-      {
-        masteryTreeItems: [
-          {
-            masteryId: 6121
-          },
-          null,
-          {
-            masteryId: 6122
-          }
-        ]
-      }
-    ]
+    Ferocity: [{masteryTreeItems: [{masteryId: 6121}, null, {masteryId: 6122}]}, {masteryTreeItems: [{masteryId: 6121}, {masteryId: 6122}, {masteryId: 6122}]}],
+    Cunning: [{masteryTreeItems: [{masteryId: 6121}, null, {masteryId: 6122}]}],
+    Resolve: [{masteryTreeItems: [{masteryId: 6121}, null, {masteryId: 6122}]}]
   },
-  data: {
-    6121: {
-      id: 0,
-      description: ['test6121'],
-      image: { full: '6121.png' },
-      ranks: 5
-    },
-    6122: {
-      id: 1,
-      description: ['test6122'],
-      image: { full: '6122.png' },
-      ranks: 5
-    }
-  }
+  data: {6121: {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, 6122: {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}}
 };
 
 const masteriesDataAltered = [
   {
     name: 'Ferocity',
     tiers: [
+      [{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}],
       [
-        {
-          id: 0,
-          description: ['test6121'],
-          image: { full: '6121.png' },
-          ranks: 5
-        },
-        null,
-        {
-          id: 1,
-          description: ['test6122'],
-          image: { full: '6122.png' },
-          ranks: 5
-        }
-      ],
-      [
-        {
-          id: 0,
-          description: ['test6121'],
-          image: { full: '6121.png' },
-          ranks: 5
-        },
-        {
-          id: 1,
-          description: ['test6122'],
-          image: { full: '6122.png' },
-          ranks: 5
-        },
-        {
-          id: 1,
-          description: ['test6122'],
-          image: { full: '6122.png' },
-          ranks: 5
-        }
+        {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5},
+        {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}
       ]
     ]
   },
-  {
-    name: 'Cunning',
-    tiers: [
-      [
-        {
-          id: 0,
-          description: ['test6121'],
-          image: { full: '6121.png' },
-          ranks: 5
-        },
-        null,
-        {
-          id: 1,
-          description: ['test6122'],
-          image: { full: '6122.png' },
-          ranks: 5
-        }
-      ]
-    ]
-  },
-  {
-    name: 'Resolve',
-    tiers: [
-      [
-        {
-          id: 0,
-          description: ['test6121'],
-          image: { full: '6121.png' },
-          ranks: 5
-        },
-        null,
-        {
-          id: 1,
-          description: ['test6122'],
-          image: { full: '6122.png' },
-          ranks: 5
-        }
-      ]
-    ]
-  }
+  {name: 'Cunning', tiers: [[{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}]]},
+  {name: 'Resolve', tiers: [[{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}]]}
 ];
 
 
 describe('MasteriesComponent', () => {
-  beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+  beforeEachProviders(
+      () =>
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-    MockBackend,
-    BaseRequestOptions,
-    provide(Http, {
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
+           MockBackend, BaseRequestOptions, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
 
-    LolApiService,
-    MasteryCategoryComponent,
-    MasteriesComponent
-  ]);
+           LolApiService, MasteryCategoryComponent, MasteriesComponent]);
 
 
-  let mockResponse = new Response(new ResponseOptions({ status: 200, body: masteriesData }));
+  let mockResponse = new Response(new ResponseOptions({status: 200, body: masteriesData}));
   let component: MasteriesComponent;
   beforeEach(async(inject([MockBackend, TestComponentBuilder], (mockBackend: MockBackend, tcb: TestComponentBuilder) => {
-    mockBackend.connections.subscribe((connection: MockConnection) => {
-      connection.mockRespond(mockResponse);
-    });
+    mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
     tcb.createAsync(MasteriesComponent).then((fixture: ComponentFixture<MasteriesComponent>) => {
       fixture.detectChanges();
       component = fixture.componentInstance;
@@ -237,7 +95,7 @@ describe('MasteriesComponent', () => {
     let tier = component.children.toArray()[0].children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(30);
-    component.rankAdd({ tier: tier, mastery: mastery });
+    component.rankAdd({tier: tier, mastery: mastery});
     expect(component.disable).toHaveBeenCalled();
   });
   it('should enable when rank is 29', () => {
@@ -246,7 +104,7 @@ describe('MasteriesComponent', () => {
     let tier = component.children.toArray()[0].children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(29);
-    component.rankRemove({ tier: tier, mastery: mastery });
+    component.rankRemove({tier: tier, mastery: mastery});
     expect(component.enable).toHaveBeenCalled();
   });
   it('should not enable when rank is not 29', () => {
@@ -255,7 +113,7 @@ describe('MasteriesComponent', () => {
     let tier = component.children.toArray()[0].children.toArray()[0];
     let mastery = tier.children.toArray()[0];
     mastery.setRank(30);
-    component.rankRemove({ tier: tier, mastery: mastery });
+    component.rankRemove({tier: tier, mastery: mastery});
     expect(component.enable).not.toHaveBeenCalled();
   });
 
@@ -268,64 +126,45 @@ describe('MasteriesComponent', () => {
     let mastery3 = tier2.children.toArray()[0];
     mastery1.setRank(2);
     mastery2.setRank(30);
-    component.rankAdd({ tier: tier1, mastery: mastery1 });
+    component.rankAdd({tier: tier1, mastery: mastery1});
     expect(mastery1.getRank()).toBe(2);
     expect(mastery2.getRank()).toBe(28);
     mastery1.setRank(2);
     mastery2.setRank(0);
     mastery3.enabled = true;
     mastery3.setRank(30);
-    component.rankAdd({ tier: tier1, mastery: mastery1 });
+    component.rankAdd({tier: tier1, mastery: mastery1});
     expect(mastery1.getRank()).toBe(0);
     expect(mastery3.getRank()).toBe(30);
   });
 
 
   it('should get masteries', async(inject([LolApiService], (service: LolApiService) => {
-    component.ngOnInit();
-    return service.getMasteries().toPromise().then(() => {
-      expect(component.data).toHaveEqualContent(masteriesDataAltered);
-    }).catch(() => {
-      expect(false).toBeTruthy();
-    });
-  })));
+       component.ngOnInit();
+       return service.getMasteries().toPromise().then(() => { expect(component.data).toHaveEqualContent(masteriesDataAltered); }).catch(() => { expect(false).toBeTruthy(); });
+     })));
 });
 
 
 describe('MasteriesComponent', () => {
-  beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+  beforeEachProviders(
+      () =>
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-    MockBackend,
-    BaseRequestOptions,
-    provide(Http, {
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
+           MockBackend, BaseRequestOptions, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
 
-    LolApiService,
-    MasteryCategoryComponent,
-    MasteriesComponent
-  ]);
+           LolApiService, MasteryCategoryComponent, MasteriesComponent]);
 
 
   it('should not get masteries', async(inject([MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        connection.mockError();
-      });
+       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockError(); });
 
-    spyOn(component, 'alterData');
-    expect(component.alterData).not.toHaveBeenCalled();
-    component.ngOnInit();
-    return service.getMasteries().toPromise().then(() => {
-      expect(false).toBeTruthy();
-    }).catch(() => {
-      expect(component.alterData).not.toHaveBeenCalled();
-      expect(component.error).toBeTruthy();
-    });
-  })));
+       spyOn(component, 'alterData');
+       expect(component.alterData).not.toHaveBeenCalled();
+       component.ngOnInit();
+       return service.getMasteries().toPromise().then(() => { expect(false).toBeTruthy(); }).catch(() => {
+         expect(component.alterData).not.toHaveBeenCalled();
+         expect(component.error).toBeTruthy();
+       });
+     })));
 });
-

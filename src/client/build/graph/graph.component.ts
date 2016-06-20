@@ -1,18 +1,16 @@
-import {Component, ChangeDetectionStrategy, OnChanges, OnInit, AfterContentChecked, SimpleChange, Input, Inject, ElementRef} from '@angular/core';
-import {NgFor, NgClass} from '@angular/common';
+import {NgClass, NgFor} from '@angular/common';
+import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import * as d3 from 'd3';
 
-import {Samples} from '../samples';
 import {settings} from '../../../../config/settings';
-import {config} from './config';
-
 import {DDragonDirective} from '../../misc/ddragon.directive';
+import {Samples} from '../samples';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
-
-import {TimeAxis, TimeScale} from './axes/time';
 import {DataAxis, DataScale} from './axes/data';
 import {LevelAxisLine, LevelAxisText, LevelScale} from './axes/level';
+import {TimeAxis, TimeScale} from './axes/time';
+import {config} from './config';
 
 interface Line {
   enabled: boolean;
@@ -28,7 +26,9 @@ interface Line {
   template: `
     <ul class="legend">
       <li *ngFor="let line of lines">
-        <button [ngClass]="{ enabled: line.enabled }" [attr.name]="line.name" type="button" (click)="clicked(line)" (mouseenter)="mouseEnter(line)" (mouseleave)="mouseLeave(line)">{{ line.name }}</button>
+        <button [ngClass]="{ enabled: line.enabled }" [attr.name]="line.name" type="button" (click)="clicked(line)" (mouseenter)="mouseEnter(line)" (mouseleave)="mouseLeave(line)">
+          {{ line.name }}
+        </button>
       </li>
     </ul>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
@@ -47,7 +47,8 @@ interface Line {
     </svg>`
 })
 
-export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
+export class GraphComponent implements OnChanges,
+    OnInit, AfterContentChecked {
   @Input() private samples: Samples;
   @Input() private champion: any;
 
@@ -66,24 +67,18 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
 
   private lines = new Array<Line>();
 
-  private line: any = d3.svg.line()
-    .interpolate('monotone')
-    .x((d, i) => {
-      return this.xScaleTime.get()(i * (settings.gameTime / (settings.sampleSize - 1)));
-    })
-    .y((d) => { return this.yScale.get()(d); });
+  private line: any =
+      d3.svg.line().interpolate('monotone').x((d, i) => { return this.xScaleTime.get()(i * (settings.gameTime / (settings.sampleSize - 1))); }).y((d) => { return this.yScale.get()(d); });
 
 
-  constructor( @Inject(ElementRef) private elementRef: ElementRef) { }
+  constructor(@Inject(ElementRef) private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.svg = d3.select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
   }
 
-  ngAfterContentChecked() {
-    this.updateLines();
-  }
+  ngAfterContentChecked() { this.updateLines(); }
 
   createAxes() {
     this.xScaleTime.create();
@@ -92,28 +87,20 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     this.yScale.create();
     this.yAxis.create(this.yScale);
 
-    this.svg.select('.x.axis.time')
-      .call(this.xAxisTime.get());
-    this.svg.select('.y.axis')
-      .call(this.yAxis.get());
+    this.svg.select('.x.axis.time').call(this.xAxisTime.get());
+    this.svg.select('.y.axis').call(this.yAxis.get());
   }
 
   createLines() {
     this.lines = [];
     for (let index in this.samples) {
-      this.lines.push({
-        enabled: true,
-        preview: false,
-        name: index,
-        obj: this.line(this.samples[index])
-      });
+      this.lines.push({enabled: true, preview: false, name: index, obj: this.line(this.samples[index])});
     }
   }
 
   updateLines() {
     for (let line of this.lines) {
-      this.svg.select('.line.' + line.name)
-        .attr('d', line.obj);
+      this.svg.select('.line.' + line.name).attr('d', line.obj);
     }
   }
 
@@ -135,25 +122,23 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
 
     for (let i = 1; i <= 4; i++) {
       this.svg.selectAll('.x.axis.level-text .tick')
-        .append('foreignObject')
-        .attr('y', -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.config.margin.bottom)
-        .attr('x', -10)
-        .append('xhtml:label')
-        .append('xhtml:input')
-        .attr('type', 'checkbox');
+          .append('foreignObject')
+          .attr('y', -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.config.margin.bottom)
+          .attr('x', -10)
+          .append('xhtml:label')
+          .append('xhtml:input')
+          .attr('type', 'checkbox');
     }
   }
 
-  ngOnChanges(changes: { [key: string]: SimpleChange; }) {
+  ngOnChanges(changes: {[key: string]: SimpleChange;}) {
     if (this.svg) {
       this.createLines();
       this.createLevelScale();
     }
   }
 
-  clicked(line: Line) {
-    line.enabled = !line.enabled;
-  }
+  clicked(line: Line) { line.enabled = !line.enabled; }
 
   mouseEnter(line: Line) {
     if (!line.enabled) {

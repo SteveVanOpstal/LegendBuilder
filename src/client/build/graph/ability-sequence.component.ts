@@ -1,9 +1,8 @@
+import {NgClass, NgFor} from '@angular/common';
 import {Component, Input} from '@angular/core';
-import {NgFor, NgClass} from '@angular/common';
-
-import {tim} from '../../misc/tim';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
+import {tim} from '../../misc/tim';
 
 @Component({
   selector: 'g[ability-sequence]',
@@ -22,7 +21,7 @@ import {DDragonDirective} from '../../misc/ddragon.directive';
 export class AbilitySequenceComponent {
   @Input() private champion: any;
 
-  private margin: any = { top: 20, right: 20, bottom: 20, left: 60 };
+  private margin: any = {top: 20, right: 20, bottom: 20, left: 60};
 
   private width: number = 1500;
   private height: number = 250;

@@ -1,9 +1,10 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import {ItemSlotComponent} from './item-slot.component';
 import {Item} from '../item';
 import {Samples} from '../samples';
+
+import {ItemSlotComponent} from './item-slot.component';
 
 @Component({
   selector: 'items',
@@ -24,13 +25,9 @@ export class ItemsComponent {
 
   private itemSlotComponents: Array<ItemSlotComponent> = [];
 
-  addItemSlotComponent(slot: ItemSlotComponent) {
-    this.itemSlotComponents[slot.id] = slot;
-  }
+  addItemSlotComponent(slot: ItemSlotComponent) { this.itemSlotComponents[slot.id] = slot; }
 
-  addItem(item: Item) {
-    this.addToFirstCompatibleSlot(item);
-  }
+  addItem(item: Item) { this.addToFirstCompatibleSlot(item); }
 
   private addToFirstCompatibleSlot(item: Item) {
     let s;

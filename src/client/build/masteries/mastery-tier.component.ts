@@ -1,10 +1,13 @@
-import {Component, Input, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {NgFor} from '@angular/common';
+import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteryComponent} from './mastery.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
+import {MasteryComponent} from './mastery.component';
 
-type EventData = { tier: MasteryTierComponent, mastery: MasteryComponent };
+type EventData = {
+  tier: MasteryTierComponent,
+  mastery: MasteryComponent
+};
 
 @Component({
   selector: 'mastery-tier',
@@ -22,22 +25,13 @@ export class MasteryTierComponent {
 
   @ViewChildren(MasteryComponent) children: QueryList<MasteryComponent>;
 
-  constructor() {
-  }
+  constructor() {}
 
-  public enable() {
-    this.children.forEach((m) => m.enable());
-  }
-  public disable() {
-    this.children.forEach((m) => m.disable());
-  }
+  public enable() { this.children.forEach((m) => m.enable()); }
+  public disable() { this.children.forEach((m) => m.disable()); }
 
-  public lock() {
-    this.children.forEach((m) => m.lock());
-  }
-  public unlock() {
-    this.children.forEach((m) => m.unlock());
-  }
+  public lock() { this.children.forEach((m) => m.lock()); }
+  public unlock() { this.children.forEach((m) => m.unlock()); }
 
   public setOtherRank(mastery: MasteryComponent, rank: number) {
     for (let m of this.children.toArray()) {
@@ -60,10 +54,8 @@ export class MasteryTierComponent {
     } else if (mastery.getRank() < mastery.getMaxRank()) {
       mastery.addRank();
     }
-    this.rankAdded.emit({ tier: this, mastery: mastery });
+    this.rankAdded.emit({tier: this, mastery: mastery});
   }
 
-  public rankRemove(mastery: MasteryComponent) {
-    this.rankRemoved.emit({ tier: this, mastery: mastery });
-  }
+  public rankRemove(mastery: MasteryComponent) { this.rankRemoved.emit({tier: this, mastery: mastery}); }
 }

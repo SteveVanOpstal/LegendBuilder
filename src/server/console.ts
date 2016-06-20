@@ -48,12 +48,10 @@ export class ColorConsole {
 
   private format(message: any, type: string): string {
     let timestamp = dateFormat(new Date(), 'HH:MM:ss.L');
-    return tim('{{timestamp}} {{type}}: {{message}}', { timestamp: timestamp, type: type, message: message });
+    return tim('{{timestamp}} {{type}}: {{message}}', {timestamp: timestamp, type: type, message: message});
   }
 
-  private pad(input: string, length: number) {
-    return (input + Array(length).join(' ')).substring(0, length);
-  }
+  private pad(input: string, length: number) { return (input + Array(length).join(' ')).substring(0, length); }
 
   private totalTime() {
     let diff = process.hrtime(this.timeStart);

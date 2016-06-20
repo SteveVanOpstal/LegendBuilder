@@ -1,26 +1,21 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {RouteSegment} from '@angular/router';
 
+import {settings} from '../../../config/settings';
 import {GraphComponent} from '../build/graph/graph.component';
 import {ItemsComponent} from '../build/items/items.component';
 import {MasteriesComponent} from '../build/masteries/masteries.component';
-import {ShopComponent} from '../build/shop/shop.component';
-
-import {DDragonDirective} from '../misc/ddragon.directive';
-import {LoadingComponent} from '../misc/loading.component';
-import {ErrorComponent} from '../misc/error.component';
-
-import {LolApiService} from '../misc/lolapi.service';
-
 import {Samples} from '../build/samples';
-import {settings} from '../../../config/settings';
+import {ShopComponent} from '../build/shop/shop.component';
+import {DDragonDirective} from '../misc/ddragon.directive';
+import {ErrorComponent} from '../misc/error.component';
+import {LoadingComponent} from '../misc/loading.component';
+import {LolApiService} from '../misc/lolapi.service';
 
 @Component({
   providers: [LolApiService],
   directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
-  styles: [
-    require('../../assets/css/build.css')
-  ],
+  styles: [require('../../assets/css/build.css')],
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="title">
@@ -41,7 +36,7 @@ export class BuildComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private samples: Samples = { xp: [], gold: [] };
+  private samples: Samples = {xp: [], gold: []};
   private pickedItems: Array<Object>;
 
   constructor(routeSegment: RouteSegment, private lolApi: LolApiService) {
@@ -57,23 +52,24 @@ export class BuildComponent {
     this.error = false;
 
     this.lolApi.getChampion(this.championKey)
-      .subscribe(
-      res => this.champion = res,
-      error => { this.error = true; this.loading = false; },
-      () => { this.loading = false; }
-      );
+        .subscribe(
+            res => this.champion = res,
+            error => {
+              this.error = true;
+              this.loading = false;
+            },
+            () => { this.loading = false; });
   }
 
   getMatchData(value: string) {
     this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.sampleSize)
-      .subscribe(
-      res => {
-        this.samples = { xp: [], gold: [] };
-        this.samples = res;
-        // this.samples.xp = res.xp;
-        // this.samples.g = res.g;
-      },
-      error => { this.error = true; }
-      );
+        .subscribe(
+            res => {
+              this.samples = {xp: [], gold: []};
+              this.samples = res;
+              // this.samples.xp = res.xp;
+              // this.samples.g = res.g;
+            },
+            error => { this.error = true; });
   }
 }

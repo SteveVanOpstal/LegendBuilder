@@ -1,7 +1,3 @@
-export class MockEvent {
-  public target: any;
-}
+export class MockEvent { public target: any; }
 
-export class MockKeyboardEvent {
-  public key: any;
-}
+export class MockKeyboardEvent { public key: any; }

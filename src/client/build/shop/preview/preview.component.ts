@@ -1,12 +1,12 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import {NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 import {DDragonDirective} from '../../../misc/ddragon.directive';
+import {Item} from '../../item';
 
+import {ItemBundle} from './item-bundle';
 import {ItemComponent} from './item.component';
 import {ItemsFromComponent} from './items-from.component';
-import {Item} from '../../item';
-import {ItemBundle} from './item-bundle';
 
 @Component({
   selector: 'preview',
@@ -52,25 +52,17 @@ export class PreviewComponent implements OnChanges {
       return;
     }
     let arr = Array<ItemBundle>();
-    items.forEach((item: Item) => {
-      arr.push({
-        item: item, children: this.getItemsFrom(item)
-      });
-    });
+    items.forEach((item: Item) => { arr.push({item: item, children: this.getItemsFrom(item)}); });
     return arr;
   }
 
-  private getItemsInto(item: Item) {
-    return this.getItems(item.into);
-  }
+  private getItemsInto(item: Item) { return this.getItems(item.into); }
 
   private getItems(itemIds: Array<string>): Array<Item> {
     if (!this.items || !itemIds || !itemIds.length) {
       return;
     }
-    return this.items.filter((item: Item) => {
-      return itemIds.indexOf(item.id.toString()) > -1;
-    });
+    return this.items.filter((item: Item) => { return itemIds.indexOf(item.id.toString()) > -1; });
   }
 
   private selectItem(item: Item) {
@@ -80,6 +72,6 @@ export class PreviewComponent implements OnChanges {
 
   private pickItem(item: Item) {
     this.itemPicked.emit(item);
-    return false; // stop context menu from appearing
+    return false;  // stop context menu from appearing
   }
 }

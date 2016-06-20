@@ -1,9 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'champion',
-  pure: false
-})
+@Pipe({name: 'champion', pure: false})
 
 export class ChampionPipe implements PipeTransform {
   transform(items: Array<any>, champion) {

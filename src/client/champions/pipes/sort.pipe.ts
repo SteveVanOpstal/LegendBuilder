@@ -1,9 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'sort',
-  pure: false
-})
+@Pipe({name: 'sort', pure: false})
 
 export class SortPipe implements PipeTransform {
   private prevSort: string;
@@ -28,9 +25,7 @@ export class SortPipe implements PipeTransform {
       });
     } else {
       // sort alphabetical
-      champions.sort((a: any, b: any) => {
-        return a.name < b.name ? -1 : 1;
-      });
+      champions.sort((a: any, b: any) => { return a.name < b.name ? -1 : 1; });
     }
 
     return champions;

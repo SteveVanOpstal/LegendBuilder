@@ -1,12 +1,10 @@
-import {it, inject, beforeEach, beforeEachProviders} from '@angular/core/testing';
+import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
 
 import {ChampionPipe} from './champion.pipe';
 
 
 describe('Shop ChampionPipe', () => {
-  beforeEachProviders(() => [
-    ChampionPipe
-  ]);
+  beforeEachProviders(() => [ChampionPipe]);
 
   let items = [];
   let item1 = {};
@@ -14,26 +12,16 @@ describe('Shop ChampionPipe', () => {
   let item3 = {};
 
   beforeEach(() => {
-    item1 = {
-      id: 1,
-      requiredChampion: 5
-    };
-    item2 = {
-      id: 2,
-      requiredChampion: 3
-    };
-    item3 = {
-      id: 3
-    };
+    item1 = {id: 1, requiredChampion: 5};
+    item2 = {id: 2, requiredChampion: 3};
+    item3 = {id: 3};
     items = [item1, item2, item3];
   });
 
-  it('should filter', inject([ChampionPipe], (pipe) => {
-    expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]);
-  }));
+  it('should filter', inject([ChampionPipe], (pipe) => { expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]); }));
 
   it('should not filter undefined', inject([ChampionPipe], (pipe) => {
-    expect(pipe.transform(undefined, 3)).toBe(undefined);
-    expect(pipe.transform(items, undefined)).toBe(items);
-  }));
+       expect(pipe.transform(undefined, 3)).toBe(undefined);
+       expect(pipe.transform(items, undefined)).toBe(items);
+     }));
 });

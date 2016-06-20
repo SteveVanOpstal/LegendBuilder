@@ -1,27 +1,24 @@
-import {Directive, Input, ElementRef, OnChanges} from '@angular/core';
+import {Directive, ElementRef, Input, OnChanges} from '@angular/core';
 
 import {LolApiService} from './lolapi.service';
 
-@Directive({
-  selector: '[ddragon]'
-})
+@Directive({selector: '[ddragon]'})
 
 export class DDragonDirective implements OnChanges {
   @Input('ddragon') image: string;
   @Input() x: number = -1;
   @Input() y: number = -1;
 
-  private default: string = '/assets/images/hourglass.svg';
   private realm: any;
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {
-    this.lolApi.getRealm()
-      .subscribe(res => { this.realm = res; this.updateElement(this.realm); });
+    this.lolApi.getRealm().subscribe(res => {
+      this.realm = res;
+      this.updateElement(this.realm);
+    });
   }
 
-  ngOnChanges() {
-    this.updateElement(this.realm);
-  }
+  ngOnChanges() { this.updateElement(this.realm); }
 
   private updateElement(realm: any) {
     if (this.x >= 0 && this.y >= 0) {
@@ -33,13 +30,11 @@ export class DDragonDirective implements OnChanges {
     }
   }
 
-  private buildStyle(image: string, realm: any, x: number, y: number): string {
-    return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;';
-  }
+  private buildStyle(image: string, realm: any, x: number, y: number): string { return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;'; }
 
   private buildUrl(image: string, realm: any): string {
     if (!image || !realm) {
-      return this.default;
+      return '/assets/images/hourglass.svg';
     }
 
     let type = image.substr(0, image.lastIndexOf('/'));

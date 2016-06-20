@@ -1,8 +1,8 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {ItemComponent} from './item.component';
 import {ItemBundle} from './item-bundle';
+import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'items-from',

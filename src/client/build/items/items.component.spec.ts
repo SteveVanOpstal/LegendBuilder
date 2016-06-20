@@ -1,37 +1,18 @@
-import {it, inject, beforeEachProviders, beforeEach} from '@angular/core/testing';
+import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
 
-import {ItemsComponent} from './items.component';
 import {ItemSlotComponent} from './item-slot.component';
+import {ItemsComponent} from './items.component';
 
 // class MockItemSlotComponent implements ItemSlotComponent {
 
 // }
 
 describe('ItemsComponent', () => {
-  beforeEachProviders(() => [
-    ItemsComponent
-  ]);
+  beforeEachProviders(() => [ItemsComponent]);
 
   beforeEach(inject([ItemsComponent], (component) => {
-    component.samples = { gold: [100, 200, 300], gameTime: 200, sampleSize: 20 };
-    component.itemSlotComponents = [
-      {
-        'id': 3341,
-        'gold': { 'total': 0 }
-      },
-      {
-        'id': 2003,
-        'gold': { 'total': 50 }
-      },
-      {
-        'id': 2003,
-        'gold': { 'total': 50 }
-      },
-      {
-        'id': 2003,
-        'gold': { 'total': 50 }
-      }
-    ];
+    component.samples = {gold: [100, 200, 300], gameTime: 200, sampleSize: 20};
+    component.itemSlotComponents = [{'id': 3341, 'gold': {'total': 0}}, {'id': 2003, 'gold': {'total': 50}}, {'id': 2003, 'gold': {'total': 50}}, {'id': 2003, 'gold': {'total': 50}}];
   }));
 
   // it('should add item', inject([ItemsComponent], (component) => {

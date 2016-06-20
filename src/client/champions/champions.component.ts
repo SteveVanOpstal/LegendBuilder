@@ -1,28 +1,25 @@
-import {Component, ViewEncapsulation} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
-import {Router, RouteSegment} from '@angular/router';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {RouteSegment, Router} from '@angular/router';
 
-import {ToIterablePipe} from '../misc/to-iterable.pipe';
+import {FiltersComponent} from '../champions/filters.component';
 import {NamePipe} from '../champions/pipes/name.pipe';
 import {SortPipe} from '../champions/pipes/sort.pipe';
 import {TagsPipe} from '../champions/pipes/tags.pipe';
-
-import {FiltersComponent} from '../champions/filters.component';
-import {BarComponent} from './bar.component';
-import {LoadingComponent} from '../misc/loading.component';
-import {ErrorComponent} from '../misc/error.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
-
+import {ErrorComponent} from '../misc/error.component';
+import {LoadingComponent} from '../misc/loading.component';
 import {LolApiService} from '../misc/lolapi.service';
+import {ToIterablePipe} from '../misc/to-iterable.pipe';
+
+import {BarComponent} from './bar.component';
 
 @Component({
   selector: 'champions',
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
   directives: [NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
-  styles: [
-    require('../../assets/css/champions.css')
-  ],
+  styles: [require('../../assets/css/champions.css')],
   encapsulation: ViewEncapsulation.None,
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
@@ -51,20 +48,16 @@ export class ChampionsComponent {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private router: Router, public lolApi: LolApiService) {
-    this.getData();
-  }
+  constructor(private router: Router, public lolApi: LolApiService) { this.getData(); }
 
   private getData() {
     this.loading = true;
     this.error = false;
 
-    this.lolApi.getChampions()
-      .subscribe(
-      res => this.champions = res,
-      error => { this.error = true; this.loading = false; },
-      () => this.loading = false
-      );
+    this.lolApi.getChampions().subscribe(res => this.champions = res, error => {
+      this.error = true;
+      this.loading = false;
+    }, () => this.loading = false);
   }
 
   private enterHit() {

@@ -1,45 +1,33 @@
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
-import {Http, BaseRequestOptions} from '@angular/http';
+import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {BaseRequestOptions, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 import {RouteSegment} from '@angular/router';
 
-import {it, inject, async, beforeEach, beforeEachProviders} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
 import {LolApiService} from '../../misc/lolapi.service';
+import {MockRouteSegment} from '../../testing';
+
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent, Colors} from './mastery.component';
-
-import {MockRouteSegment} from '../../testing';
+import {Colors, MasteryComponent} from './mastery.component';
 
 const data = {
   id: 0,
   description: ['test6121'],
-  image: { full: '6121.png' },
+  image: {full: '6121.png'},
   ranks: 5
 };
 
 describe('MasteryComponent', () => {
-  beforeEachProviders(() => [
-    provide(RouteSegment, { useValue: new MockRouteSegment({ region: 'euw' }) }),
+  beforeEachProviders(
+      () =>
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-    BaseRequestOptions,
-    MockBackend,
-    provide(Http, {
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
-      },
-      deps: [MockBackend, BaseRequestOptions]
-    }),
+           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
 
-    LolApiService,
-    MasteriesComponent,
-    MasteryCategoryComponent,
-    MasteryTierComponent,
-    MasteryComponent
-  ]);
+           LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent]);
 
 
   let component: MasteryComponent;
@@ -74,14 +62,14 @@ describe('MasteryComponent', () => {
   it('should get max rank zero when there is no data', () => {
     component.data = undefined;
     expect(component.getMaxRank()).toBe(0);
-    component.data = { ranks: undefined };
+    component.data = {ranks: undefined};
     expect(component.getMaxRank()).toBe(0);
   });
 
 
   it('should not add a rank when disabled', () => {
     component.setRank(0);
-    component.data = { ranks: 5 };
+    component.data = {ranks: 5};
     component.disable();
     component.rankAdd();
     expect(component.getRank()).toBe(0);

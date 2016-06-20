@@ -1,9 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'map',
-  pure: false
-})
+@Pipe({name: 'map', pure: false})
 
 export class MapPipe implements PipeTransform {
   transform(items: Array<any>, map) {

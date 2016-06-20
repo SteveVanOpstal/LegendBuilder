@@ -1,10 +1,11 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {Server, HostResponse} from './server';
 import {settings} from '../../config/settings';
 
+import {HostResponse, Server} from './server';
+
 export class Summoner {
-  constructor(private server: Server) { }
+  constructor(private server: Server) {}
 
   public get(region: string, name: string, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, name, (res) => {

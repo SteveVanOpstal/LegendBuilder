@@ -1,13 +1,13 @@
-import {Component, Input} from '@angular/core';
 import {NgClass} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import * as d3 from 'd3'; // TODO: remove test
 import {Observable} from 'rxjs/Observable';
 
-import {ItemComponent} from './item.component';
+import {settings} from '../../../../config/settings';
 import {Item} from '../item';
 import {Samples} from '../samples';
-import {settings} from '../../../../config/settings';
 
-import * as d3 from 'd3'; // TODO: remove test
+import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'item-slot',
@@ -25,12 +25,9 @@ export class ItemSlotComponent {
 
   // TODO: move to itemComponent when angular allows attributes on <template>
   // TODO: get this scale from shopComponent
-  private xScaleTime = d3.scale.linear()
-    .domain([0, 3600000])
-    .range([0, 1460]);
+  private xScaleTime = d3.scale.linear().domain([0, 3600000]).range([0, 1460]);
 
-  constructor() {
-  }
+  constructor() {}
 
   addItem(item: Item) {
     this.addTime(item);
@@ -38,9 +35,7 @@ export class ItemSlotComponent {
     this.items.push(item);
   }
 
-  removeItem(item: Item) {
-    this.items.splice(this.items.indexOf(item), 1);
-  }
+  removeItem(item: Item) { this.items.splice(this.items.indexOf(item), 1); }
 
   compatible(item: Item) {
     if (!this.items.length) {
@@ -53,9 +48,7 @@ export class ItemSlotComponent {
     return from.indexOf(item.id) > -1;
   }
 
-  private addTime(item: Item) {
-    item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.sampleSize);
-  }
+  private addTime(item: Item) { item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.sampleSize); }
 
   private addBundle(item: Item) {
     if (!this.items || !this.items.length) {
@@ -104,6 +97,6 @@ export class ItemSlotComponent {
   // TODO: move to itemComponent when angular allows events on <template>
   private rightClicked(item: Item) {
     this.removeItem(item);
-    return false; // stop context menu from appearing
+    return false;  // stop context menu from appearing
   }
 }

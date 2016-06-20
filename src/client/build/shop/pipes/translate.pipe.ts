@@ -1,12 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'translate'
-})
+@Pipe({name: 'translate'})
 
 export class TranslatePipe implements PipeTransform {
-  translator: Object =
-  {
+  translator: Object = {
     GOLDPER: 'Gold income',
     TRINKET: 'Trinkets',
     SPELLBLOCK: 'Magic resist',

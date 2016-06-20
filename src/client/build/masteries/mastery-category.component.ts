@@ -1,11 +1,14 @@
-import {Component, Input, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {NgFor} from '@angular/common';
+import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteryComponent} from './mastery.component';
-import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteriesComponent} from './masteries.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
-type EventData = { tier: MasteryTierComponent, mastery: MasteryComponent };
+type EventData = {
+  tier: MasteryTierComponent,
+  mastery: MasteryComponent
+};
 
 @Component({
   selector: 'mastery-category',
@@ -25,8 +28,7 @@ export class MasteryCategoryComponent {
 
   private totalRank: number = 0;
 
-  constructor() {
-  }
+  constructor() {}
 
   public enable() {
     this.children.forEach((t: MasteryTierComponent) => {
@@ -45,7 +47,7 @@ export class MasteryCategoryComponent {
     });
   }
 
-  public rankAdd(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+  public rankAdd(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
     let tier = event.tier;
     let mastery = event.mastery;
     if (!tier || !mastery) {
@@ -58,11 +60,11 @@ export class MasteryCategoryComponent {
     if (tier.getRank() > mastery.getRank()) {
       tier.setOtherRank(mastery, mastery.getMaxRank() - mastery.getRank());
     }
-    this.rankAdded.emit({ tier: tier, mastery: mastery });
+    this.rankAdded.emit({tier: tier, mastery: mastery});
     this.totalRank = this.getRank();
   }
 
-  public rankRemove(event: { tier: MasteryTierComponent, mastery: MasteryComponent }) {
+  public rankRemove(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
     let tier = event.tier;
     let mastery = event.mastery;
     if (!tier || !mastery) {
@@ -72,7 +74,7 @@ export class MasteryCategoryComponent {
       this.forTier(tier.index + 1, (t) => t.disable());
       this.forTier(tier.index - 1, (t) => t.unlock());
     }
-    this.rankRemoved.emit({ tier: tier, mastery: mastery });
+    this.rankRemoved.emit({tier: tier, mastery: mastery});
     this.totalRank = this.getRank();
   }
 

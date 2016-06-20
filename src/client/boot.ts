@@ -18,10 +18,10 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import {PLATFORM_DIRECTIVES, enableProdMode, provide} from '@angular/core';
 import {HTTP_BINDINGS} from '@angular/http';
-import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from '@angular/router';
-import {enableProdMode, provide, PLATFORM_DIRECTIVES} from '@angular/core';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
 
 if (ENV === 'production') {
   enableProdMode();
@@ -29,11 +29,7 @@ if (ENV === 'production') {
 
 import {AppComponent} from './app.component';
 
-bootstrap(AppComponent, [
-  HTTP_BINDINGS,
-  ROUTER_PROVIDERS,
-  provide(PLATFORM_DIRECTIVES, { useValue: ROUTER_DIRECTIVES, multi: true })
-]).catch((err) => {
+bootstrap(AppComponent, [HTTP_BINDINGS, ROUTER_PROVIDERS, provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})]).catch((err) => {
   if (ENV !== 'production') {
     console.error(err);
   }

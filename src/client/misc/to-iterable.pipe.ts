@@ -1,8 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'toIterable'
-})
+@Pipe({name: 'toIterable'})
 
 export class ToIterablePipe implements PipeTransform {
   transform(values: any): any[] {
@@ -10,9 +8,7 @@ export class ToIterablePipe implements PipeTransform {
       return values;
     }
     let dataArr = [];
-    Object.keys(values).forEach(key => {
-      dataArr.push(values[key]);
-    });
+    Object.keys(values).forEach(key => { dataArr.push(values[key]); });
     return dataArr;
   }
 }

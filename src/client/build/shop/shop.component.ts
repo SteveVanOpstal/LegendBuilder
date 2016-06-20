@@ -1,26 +1,23 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChange} from '@angular/core';
-import {NgFor, NgIf, NgClass} from '@angular/common';
+import {NgClass, NgFor, NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChange} from '@angular/core';
 
-import {PreviewComponent} from './preview/preview.component';
-
-import {ItemsComponent} from '../items/items.component';
-import {ItemComponent} from './item.component';
-
-import {DDragonDirective} from '../../misc/ddragon.directive';
-import {LoadingComponent} from '../../misc/loading.component';
-import {ErrorComponent} from '../../misc/error.component';
-
-import {ToIterablePipe} from '../../misc/to-iterable.pipe';
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
-import {TranslatePipe} from './pipes/translate.pipe';
+import {DDragonDirective} from '../../misc/ddragon.directive';
+import {ErrorComponent} from '../../misc/error.component';
+import {LoadingComponent} from '../../misc/loading.component';
+import {LolApiService} from '../../misc/lolapi.service';
+import {ToIterablePipe} from '../../misc/to-iterable.pipe';
+import {ItemsComponent} from '../items/items.component';
+
+import {ItemComponent} from './item.component';
 import {ChampionPipe} from './pipes/champion.pipe';
 import {HidePipe} from './pipes/hide.pipe';
-import {TagsPipe} from './pipes/tags.pipe';
+import {MapPipe} from './pipes/map.pipe';
 import {NamePipe} from './pipes/name.pipe';
 import {SortPipe} from './pipes/sort.pipe';
-import {MapPipe} from './pipes/map.pipe';
-
-import {LolApiService} from '../../misc/lolapi.service';
+import {TagsPipe} from './pipes/tags.pipe';
+import {TranslatePipe} from './pipes/translate.pipe';
+import {PreviewComponent} from './preview/preview.component';
 
 @Component({
   selector: 'shop',
@@ -79,24 +76,23 @@ export class ShopComponent /*implements OnChanges*/ {
   private originalItems: Array<any> = [];
   private pickedItem: Object;
 
-  constructor(private lolApi: LolApiService) {
-    this.getData();
-  }
+  constructor(private lolApi: LolApiService) { this.getData(); }
 
   getData() {
     this.loading = true;
     this.error = false;
 
-    this.lolApi.getItems()
-      .subscribe(
-      res => {
-        this.data = res;
-        this.items = new ToIterablePipe().transform(res.data);
-        this.originalItems = this.items;
-      },
-      error => { this.error = true; this.loading = false; },
-      () => this.loading = false
-      );
+    this.lolApi.getItems().subscribe(
+        res => {
+          this.data = res;
+          this.items = new ToIterablePipe().transform(res.data);
+          this.originalItems = this.items;
+        },
+        error => {
+          this.error = true;
+          this.loading = false;
+        },
+        () => this.loading = false);
   }
 
   // ngOnChanges(changes: { [key: string]: SimpleChange; }) {
@@ -149,12 +145,10 @@ export class ShopComponent /*implements OnChanges*/ {
     }
   }
 
-  private selectItem(pickedItem: Object) {
-    this.pickedItem = pickedItem;
-  }
+  private selectItem(pickedItem: Object) { this.pickedItem = pickedItem; }
 
   private pickItem(pickedItem: Object) {
     this.itemPicked.emit(pickedItem);
-    return false; // stop context menu from appearing
+    return false;  // stop context menu from appearing
   }
 }
