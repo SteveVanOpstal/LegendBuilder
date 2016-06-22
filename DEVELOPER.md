@@ -20,7 +20,7 @@ npm install
 ### 2. Configuration (optional)
 A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
 These are the default values that can be altered via an override:
-```
+```Javascript
 {
   httpServer: {
     host: 'localhost',
@@ -74,10 +74,36 @@ Every release a python script will generate a post on reddit. To improve this sc
   * [praw](https://praw.readthedocs.org) (`pip install praw`)
 
 `src/reddit/.settings.json`:
-```
+```JSON
 {
   "SUBREDDIT": "LegendBuilder",
   "REDDIT_USERNAME": "LookAtMeImRedditNow",
   "REDDIT_PASSWORD": "LegendBuilderDaBest"
+}
+```
+
+## <a name="clang-format"></a> ClangFormat
+ClangFormat will format the code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
+The following command will format all .ts files:
+```
+npm run format
+```
+
+### Visual Studio Code
+When using VSCode the command can be integrated in the IDE as a task:
+
+```JSON
+{
+  "version": "0.1.0",
+  "command": "npm",
+  "isShellCommand": true,
+  "suppressTaskName": true,
+  "tasks": [
+    {
+      "taskName": "format",
+      "args": ["run", "clang-format", "--", "${file}", "-i" ],
+      "showOutput": "never"
+    }
+  ]
 }
 ```
