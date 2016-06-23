@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {RouteSegment, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 
@@ -28,7 +28,9 @@ export class FeaturesComponent {
   private champion: string;
   private error: boolean = false;
 
-  constructor(current: RouteSegment, private router: Router, private lolApi: LolApiService) { this.champion = current.getParam('champion'); }
+  constructor(route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {
+    route.params.subscribe(params => { this.champion = params['champion']; });
+  }
 
   getSummonerId(event: HTMLInputElement) {
     this.lolApi.getSummonerId(event.value, this.champion)

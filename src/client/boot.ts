@@ -21,16 +21,19 @@
 import {PLATFORM_DIRECTIVES, enableProdMode, provide} from '@angular/core';
 import {HTTP_BINDINGS} from '@angular/http';
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+import {ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
+
+import {BuildComponent} from './build/build.component';
+import {ChampionsComponent} from './champions/champions.component';
+import {FeaturesComponent} from './features/features.component';
+import {RegionsComponent} from './region/region.component';
 
 if (ENV === 'production') {
   enableProdMode();
 }
 
 import {AppComponent} from './app.component';
+import {APP_ROUTER_PROVIDERS} from './app.routes';
 
-bootstrap(AppComponent, [HTTP_BINDINGS, ROUTER_PROVIDERS, provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})]).catch((err) => {
-  if (ENV !== 'production') {
-    console.error(err);
-  }
-});
+
+bootstrap(AppComponent, [HTTP_BINDINGS, APP_ROUTER_PROVIDERS, provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})]).catch(err => console.error(err));
