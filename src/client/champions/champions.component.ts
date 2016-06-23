@@ -1,6 +1,6 @@
 import {NgFor, NgIf} from '@angular/common';
 import {Component, ViewEncapsulation} from '@angular/core';
-import {RouteSegment, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 import {FiltersComponent} from '../champions/filters.component';
 import {NamePipe} from '../champions/pipes/name.pipe';

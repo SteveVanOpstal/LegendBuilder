@@ -1,5 +1,5 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {RouteSegment} from '@angular/router';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {GraphComponent} from '../build/graph/graph.component';
@@ -30,7 +30,7 @@ import {LolApiService} from '../misc/lolapi.service';
     <error [error]="error" (retry)="getData()"></error>`
 })
 
-export class BuildComponent {
+export class BuildComponent implements OnInit {
   private championKey: string;
   private champion: any;
   private loading: boolean = true;
@@ -39,12 +39,16 @@ export class BuildComponent {
   private samples: Samples = {xp: [], gold: []};
   private pickedItems: Array<Object>;
 
-  constructor(routeSegment: RouteSegment, private lolApi: LolApiService) {
-    this.championKey = routeSegment.getParam('champion');
-    this.getData();
+  constructor(private route: ActivatedRoute, private lolApi: LolApiService) {}
 
-    let summoner: string = routeSegment.getParam('summoner');
-    this.getMatchData(summoner);
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.championKey = params['champion'];
+      this.getData();
+
+      let summoner = params['summoner'];
+      this.getMatchData(summoner);
+    });
   }
 
   getData() {
