@@ -17,7 +17,8 @@
   "homepage": "http://legendbuilder.io/",
   "scripts": {
     "check": "./node_modules/.bin/depcheck --parsers'*.js:es6,*.ts:typescript' --specials=bin,eslint,webpack",
-    "clean": "npm cache clean && ./node_modules/.bin/rimraf node_modules typings coverage dist",
+    "preclean": "./node_modules/.bin/rimraf typings coverage dist node_modules",
+    "clean": "npm cache clean",
     "clean:dist:client": "./node_modules/.bin/rimraf dist/client",
     "clean:dist:server": "./node_modules/.bin/rimraf dist/server",
     "clean:dist:spec": "./node_modules/.bin/rimraf dist/spec",
