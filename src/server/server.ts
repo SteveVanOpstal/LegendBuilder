@@ -244,12 +244,11 @@ export class Server {
   private getChampionKey(path: string): string {
     let parsedPath = url.parse(path, true);
     let pathname = parsedPath.pathname.split('/');
-    let api = pathname[5];
     let type = pathname[6];
-    if (api === 'static-data' && type === 'champion') {
+    if (type === 'champion') {
       return pathname[7];
     }
-    if (api === 'matchlist' && type === 'by-summoner') {
+    if (type === 'by-summoner') {
       return parsedPath.query.championIds;
     }
     return undefined;
