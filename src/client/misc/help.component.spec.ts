@@ -3,7 +3,7 @@ import {beforeEachProviders, inject, it} from '@angular/core/testing';
 import {HelpComponent} from './help.component';
 
 
-describe('ErrorComponent', () => {
+describe('HelpComponent', () => {
   beforeEachProviders(() => [HelpComponent]);
 
 
