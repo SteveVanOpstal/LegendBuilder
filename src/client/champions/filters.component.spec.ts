@@ -6,9 +6,13 @@ import {MockEvent, MockKeyboardEvent} from '../testing';
 import {FiltersComponent} from './filters.component';
 
 describe('FiltersComponent', () => {
-  beforeEachProviders(() => [provide(Event, {useValue: new MockEvent()}), provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent]);
+  beforeEachProviders(
+      () =>
+          [provide(Event, {useValue: new MockEvent()}),
+           provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent]);
 
-  it('should not emit tagsChange on incorrect event', inject([FiltersComponent, Event], (component, event) => {
+  it('should not emit tagsChange on incorrect event',
+     inject([FiltersComponent, Event], (component, event) => {
        spyOn(component.tagsChange, 'next');
        expect(component.tagsChange.next).not.toHaveBeenCalled();
        component.tagChanged(undefined);
@@ -28,7 +32,8 @@ describe('FiltersComponent', () => {
        expect(component.tagsChange.next).toHaveBeenCalled();
      }));
 
-  it('should add multiple tags and emit tags', inject([FiltersComponent, Event], (component, event) => {
+  it('should add multiple tags and emit tags',
+     inject([FiltersComponent, Event], (component, event) => {
        spyOn(component.tagsChange, 'next');
        expect(component.tags).not.toContain('Marksman');
        expect(component.tagsChange.next).not.toHaveBeenCalled();
@@ -54,8 +59,8 @@ describe('FiltersComponent', () => {
        expect(component.tagsChange.next).toHaveBeenCalled();
      }));
 
-
-  it('should not emit sortChange on incorrect event', inject([FiltersComponent, Event], (component, event) => {
+  it('should not emit sortChange on incorrect event',
+     inject([FiltersComponent, Event], (component, event) => {
        spyOn(component.sortChange, 'next');
        expect(component.sortChange.next).not.toHaveBeenCalled();
        component.sortChanged(undefined);
@@ -74,7 +79,8 @@ describe('FiltersComponent', () => {
        expect(component.sortChange.next).toHaveBeenCalled();
      }));
 
-  it('should not emit enterHit on incorrect event', inject([FiltersComponent, KeyboardEvent], (component, event) => {
+  it('should not emit enterHit on incorrect event',
+     inject([FiltersComponent, KeyboardEvent], (component, event) => {
        spyOn(component.enterHit, 'next');
        expect(component.enterHit.next).not.toHaveBeenCalled();
        component.keyup(undefined);

@@ -2,7 +2,6 @@ import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing
 
 import {ChampionPipe} from './champion.pipe';
 
-
 describe('Shop ChampionPipe', () => {
   beforeEachProviders(() => [ChampionPipe]);
 
@@ -18,7 +17,9 @@ describe('Shop ChampionPipe', () => {
     items = [item1, item2, item3];
   });
 
-  it('should filter', inject([ChampionPipe], (pipe) => { expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]); }));
+  it('should filter', inject([ChampionPipe], (pipe) => {
+       expect(pipe.transform(items, 3)).toHaveEqualContent([item2, item3]);
+     }));
 
   it('should not filter undefined', inject([ChampionPipe], (pipe) => {
        expect(pipe.transform(undefined, 3)).toBe(undefined);

@@ -20,7 +20,8 @@ import {MasteryComponent} from './mastery.component';
 })
 
 export class MasteriesComponent implements OnInit {
-  @ViewChildren(MasteryCategoryComponent) children: QueryList<MasteryCategoryComponent>;
+  @ViewChildren(MasteryCategoryComponent)
+  children: QueryList<MasteryCategoryComponent>;
 
   private data: Object;
   private loading: boolean = true;
@@ -28,10 +29,16 @@ export class MasteriesComponent implements OnInit {
 
   constructor(private lolApi: LolApiService) {}
 
-  public ngOnInit() { this.getData(); }
+  public ngOnInit() {
+    this.getData();
+  }
 
-  public enable() { this.children.forEach((c) => c.enable()); }
-  public disable() { this.children.forEach((c) => c.disable()); }
+  public enable() {
+    this.children.forEach((c) => c.enable());
+  }
+  public disable() {
+    this.children.forEach((c) => c.disable());
+  }
 
   public getRank(): number {
     let rank = 0;
@@ -67,7 +74,9 @@ export class MasteriesComponent implements OnInit {
     this.error = false;
 
     this.lolApi.getMasteries().subscribe(
-        res => { this.data = this.alterData(res); },
+        res => {
+          this.data = this.alterData(res);
+        },
         error => {
           this.error = true;
           this.loading = false;

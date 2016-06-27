@@ -3,7 +3,9 @@ import {tim} from './tim';
 describe('tim', () => {
   let object = {};
 
-  beforeEach(() => { object = {test: 'result'}; });
+  beforeEach(() => {
+    object = {test: 'result'};
+  });
 
   it('should handle "{{ test }}"', () => {
     let test = '{{ test }}';
@@ -25,7 +27,8 @@ describe('tim', () => {
   });
   it('should handle "{{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ}}"', () => {
     let test = '{{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ}}';
-    let result = tim(test, {'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ': 'result'});
+    let result =
+        tim(test, {'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ': 'result'});
     expect(result).toBe('result');
   });
 

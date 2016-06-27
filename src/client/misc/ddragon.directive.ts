@@ -18,19 +18,25 @@ export class DDragonDirective implements OnChanges {
     });
   }
 
-  ngOnChanges() { this.updateElement(this.realm); }
+  ngOnChanges() {
+    this.updateElement(this.realm);
+  }
 
   private updateElement(realm: any) {
     if (this.x >= 0 && this.y >= 0) {
-      this.el.nativeElement.setAttribute('style', this.buildStyle(this.image, realm, this.x, this.y));
+      this.el.nativeElement.setAttribute(
+          'style', this.buildStyle(this.image, realm, this.x, this.y));
     } else if (this.el.nativeElement.tagName === 'IMG') {
       this.el.nativeElement.setAttribute('src', this.buildUrl(this.image, realm));
     } else {
-      this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', this.buildUrl(this.image, realm));
+      this.el.nativeElement.setAttributeNS(
+          'http://www.w3.org/1999/xlink', 'xlink:href', this.buildUrl(this.image, realm));
     }
   }
 
-  private buildStyle(image: string, realm: any, x: number, y: number): string { return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;'; }
+  private buildStyle(image: string, realm: any, x: number, y: number): string {
+    return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;';
+  }
 
   private buildUrl(image: string, realm: any): string {
     if (!image || !realm) {

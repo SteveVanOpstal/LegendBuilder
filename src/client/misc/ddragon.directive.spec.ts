@@ -15,11 +15,19 @@ class MockNativeElement {
 
   constructor(private tagName: string) {}
 
-  setAttribute(attr: string, value: string): number { return this.attributes.push(attr); }
-  getAttribute(attr: string): Object { return this.attributes.indexOf(attr) > -1 ? {} : undefined; }
+  setAttribute(attr: string, value: string): number {
+    return this.attributes.push(attr);
+  }
+  getAttribute(attr: string): Object {
+    return this.attributes.indexOf(attr) > -1 ? {} : undefined;
+  }
 
-  setAttributeNS(scope: string, attr: string, value: string): number { return this.attributesNS.push(attr); }
-  getAttributeNS(attr: string): Object { return this.attributesNS.indexOf(attr) > -1 ? {} : undefined; }
+  setAttributeNS(scope: string, attr: string, value: string): number {
+    return this.attributesNS.push(attr);
+  }
+  getAttributeNS(attr: string): Object {
+    return this.attributesNS.indexOf(attr) > -1 ? {} : undefined;
+  }
 }
 
 class MockImageElementRef implements ElementRef {
@@ -29,13 +37,18 @@ class MockSvgImageElementRef implements ElementRef {
   nativeElement: MockNativeElement = new MockNativeElement('IMAGE');
 }
 
-
 describe('DDragonDirective', () => {
   beforeEachProviders(
       () =>
-          [provide(ElementRef, {useValue: new MockImageElementRef()}), provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+          [provide(ElementRef, {useValue: new MockImageElementRef()}),
+           provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
+           BaseRequestOptions, MockBackend, provide(Http, {
+             useFactory: (backend, defaultOptions) => {
+               return new Http(backend, defaultOptions);
+             },
+             deps: [MockBackend, BaseRequestOptions]
+           }),
 
            MockImageElementRef, MockSvgImageElementRef, LolApiService, DDragonDirective]);
 
@@ -58,18 +71,29 @@ describe('DDragonDirective', () => {
     };
   });
 
+  it('should update on contruct',
+     async(inject(
+         [MockBackend, ElementRef, RouteSegment, Http],
+         (mockBackend, elementRef, routeSegment, http) => {
+           let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
+           mockBackend.connections.subscribe((connection: MockConnection) => {
+             connection.mockRespond(mockResponse);
+           });
 
-  it('should update on contruct', async(inject([MockBackend, ElementRef, RouteSegment, Http], (mockBackend, elementRef, routeSegment, http) => {
-       let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+           spyOn(DDragonDirective.prototype, 'updateElement');
+           expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
 
-       spyOn(DDragonDirective.prototype, 'updateElement');
-       expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
-
-       let service = new LolApiService(routeSegment, http);
-       let directive = new DDragonDirective(elementRef, service);
-       return service.getRealm().toPromise().then(() => { expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled(); }).catch(() => { expect(false).toBeTruthy(); });
-     })));
+           let service = new LolApiService(routeSegment, http);
+           let directive = new DDragonDirective(elementRef, service);
+           return service.getRealm()
+               .toPromise()
+               .then(() => {
+                 expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();
+               })
+               .catch(() => {
+                 expect(false).toBeTruthy();
+               });
+         })));
 
   it('should update on change', inject([DDragonDirective], (directive) => {
        spyOn(directive, 'updateElement');
@@ -78,8 +102,8 @@ describe('DDragonDirective', () => {
        expect(directive.updateElement).toHaveBeenCalled();
      }));
 
-
-  it('should add src attribute for <img [ddragon]="">', inject([MockImageElementRef, LolApiService], (elementRef, service) => {
+  it('should add src attribute for <img [ddragon]="">',
+     inject([MockImageElementRef, LolApiService], (elementRef, service) => {
        let directive = new DDragonDirective(elementRef, service);
        expect(directive.el.nativeElement.getAttribute('src')).toBeUndefined();
        directive.updateElement(realm);
@@ -87,14 +111,16 @@ describe('DDragonDirective', () => {
        expect(true).toBeTruthy();
      }));
 
-  it('should add xlink:href attribute for <svg:image [ddragon]="">', inject([MockSvgImageElementRef, LolApiService], (elementRef, service) => {
+  it('should add xlink:href attribute for <svg:image [ddragon]="">',
+     inject([MockSvgImageElementRef, LolApiService], (elementRef, service) => {
        let directive = new DDragonDirective(elementRef, service);
        expect(directive.el.nativeElement.getAttributeNS('xlink:href')).toBeUndefined();
        directive.updateElement(realm);
        expect(directive.el.nativeElement.getAttributeNS('xlink:href')).not.toBeUndefined();
      }));
 
-  it('should add style attribute for <img [ddragon]="" [x]="" [y]="">', inject([MockImageElementRef, LolApiService], (elementRef, service) => {
+  it('should add style attribute for <img [ddragon]="" [x]="" [y]="">',
+     inject([MockImageElementRef, LolApiService], (elementRef, service) => {
        let directive = new DDragonDirective(elementRef, service);
        directive.x = 0;
        directive.y = 0;
@@ -103,13 +129,14 @@ describe('DDragonDirective', () => {
        expect(directive.el.nativeElement.getAttribute('style')).not.toBeUndefined();
      }));
 
-
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
        let result = directive.buildStyle('test.png', realm, 0, 0);
-       expect(result).toBe('background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 0px 0px;');
+       expect(result).toBe(
+           'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 0px 0px;');
      }));
 
-  it('should use a default url when image or realm is unavailable', inject([DDragonDirective], (directive) => {
+  it('should use a default url when image or realm is unavailable',
+     inject([DDragonDirective], (directive) => {
        let result = directive.buildUrl('test.png', undefined);
        expect(result).toBeDefined();
        result = directive.buildUrl('test.png', undefined);
@@ -128,17 +155,20 @@ describe('DDragonDirective', () => {
 
   it('should create a correct \'champion\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildUrl('champion/test.png', realm);
-       expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[champion-version]/img/champion/test.png');
+       expect(result).toBe(
+           'http://ddragon.leagueoflegends.com/cdn/[champion-version]/img/champion/test.png');
      }));
 
   it('should create a correct \'profileicon\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildUrl('profileicon/test.png', realm);
-       expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[profileicon-version]/img/profileicon/test.png');
+       expect(result).toBe(
+           'http://ddragon.leagueoflegends.com/cdn/[profileicon-version]/img/profileicon/test.png');
      }));
 
   it('should create a correct \'junk\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildUrl('junk/test.png', realm);
-       expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/junk/test.png');
+       expect(result).toBe(
+           'http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/junk/test.png');
      }));
 
   it('should create a correct \'champion/loading\' url', inject([DDragonDirective], (directive) => {

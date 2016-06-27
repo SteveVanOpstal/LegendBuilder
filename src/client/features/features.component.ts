@@ -29,7 +29,9 @@ export class FeaturesComponent {
   private error: boolean = false;
 
   constructor(route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {
-    route.params.subscribe(params => { this.champion = params['champion']; });
+    route.params.subscribe(params => {
+      this.champion = params['champion'];
+    });
   }
 
   getSummonerId(event: HTMLInputElement) {
@@ -42,6 +44,8 @@ export class FeaturesComponent {
                 this.error = true;
               }
             },
-            error => { this.error = true; });
+            error => {
+              this.error = true;
+            });
   }
 }

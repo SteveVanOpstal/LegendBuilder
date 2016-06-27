@@ -8,7 +8,9 @@ describe('NamePipe', () => {
 
   let champions = [];
 
-  beforeEach(() => { champions = [{name: 'Ravenous Hydra'}, {name: 'Titanic Hydra'}, {name: 'Dagger'}]; });
+  beforeEach(() => {
+    champions = [{name: 'Ravenous Hydra'}, {name: 'Titanic Hydra'}, {name: 'Dagger'}];
+  });
 
   it('should not filter on \'undefined\'', inject([NamePipe], (pipe) => {
        champions = pipe.transform(champions, undefined);
@@ -45,7 +47,11 @@ describe('NamePipe', () => {
        expect(champions.length).toBe(2);
      }));
 
-  it('should remove semicolon from names', inject([NamePipe], (pipe) => { expect(pipe.clean('da\'gger')).toBe('dagger'); }));
+  it('should remove semicolon from names', inject([NamePipe], (pipe) => {
+       expect(pipe.clean('da\'gger')).toBe('dagger');
+     }));
 
-  it('should lowercase names', inject([NamePipe], (pipe) => { expect(pipe.clean('DaGGer')).toBe('dagger'); }));
+  it('should lowercase names', inject([NamePipe], (pipe) => {
+       expect(pipe.clean('DaGGer')).toBe('dagger');
+     }));
 });

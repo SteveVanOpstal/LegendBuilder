@@ -2,7 +2,6 @@ import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing
 
 import {HidePipe} from './hide.pipe';
 
-
 describe('Shop HidePipe', () => {
   beforeEachProviders(() => [HidePipe]);
 
@@ -18,7 +17,11 @@ describe('Shop HidePipe', () => {
     items = [item1, item2, item3];
   });
 
-  it('should filter', inject([HidePipe], (pipe) => { expect(pipe.transform(items)).toHaveEqualContent([item2, item3]); }));
+  it('should filter', inject([HidePipe], (pipe) => {
+       expect(pipe.transform(items)).toHaveEqualContent([item2, item3]);
+     }));
 
-  it('should not filter undefined', inject([HidePipe], (pipe) => { expect(pipe.transform(undefined)).toBe(undefined); }));
+  it('should not filter undefined', inject([HidePipe], (pipe) => {
+       expect(pipe.transform(undefined)).toBe(undefined);
+     }));
 });

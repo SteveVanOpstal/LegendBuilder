@@ -22,8 +22,14 @@ import {PreviewComponent} from './preview/preview.component';
 @Component({
   selector: 'shop',
   providers: [LolApiService, ItemsComponent],
-  directives: [NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, DDragonDirective, LoadingComponent, ErrorComponent],
-  pipes: [ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe, NamePipe, SortPipe],
+  directives: [
+    NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, DDragonDirective, LoadingComponent,
+    ErrorComponent
+  ],
+  pipes: [
+    ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe,
+    NamePipe, SortPipe
+  ],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -76,7 +82,9 @@ export class ShopComponent /*implements OnChanges*/ {
   private originalItems: Array<any> = [];
   private pickedItem: Object;
 
-  constructor(private lolApi: LolApiService) { this.getData(); }
+  constructor(private lolApi: LolApiService) {
+    this.getData();
+  }
 
   getData() {
     this.loading = true;
@@ -100,7 +108,8 @@ export class ShopComponent /*implements OnChanges*/ {
   //     return;
   //   }
 
-  //   let exceededGroups = this.getExceededGroups(changes['pickedItems'].currentValue);
+  //   let exceededGroups =
+  //   this.getExceededGroups(changes['pickedItems'].currentValue);
   //   this.items = this.originalItems.filter((item) => {
   //     if (exceededGroups.indexOf(item['group']) !== -1) {
   //       return false;
@@ -123,7 +132,8 @@ export class ShopComponent /*implements OnChanges*/ {
   //   });
   //   let exceededGroups = [];
   //   this.data['groups'].forEach((group) => {
-  //     if (groupsCount[group['key']] > 0 && groupsCount[group['key']] >= group['MaxGroupOwnable']) {
+  //     if (groupsCount[group['key']] > 0 && groupsCount[group['key']] >=
+  //     group['MaxGroupOwnable']) {
   //       exceededGroups.push(group['key']);
   //     }
   //   });
@@ -145,7 +155,9 @@ export class ShopComponent /*implements OnChanges*/ {
     }
   }
 
-  private selectItem(pickedItem: Object) { this.pickedItem = pickedItem; }
+  private selectItem(pickedItem: Object) {
+    this.pickedItem = pickedItem;
+  }
 
   private pickItem(pickedItem: Object) {
     this.itemPicked.emit(pickedItem);

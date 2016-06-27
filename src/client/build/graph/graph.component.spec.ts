@@ -12,6 +12,5 @@ describe('GraphComponent', () => {
 
            GraphComponent]);
 
-
   it('should initialise', inject([GraphComponent], (component) => {}));
 });

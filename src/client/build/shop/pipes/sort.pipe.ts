@@ -7,6 +7,8 @@ export class SortPipe implements PipeTransform {
     if (!items) {
       return items;
     }
-    return items.sort((a: any, b: any) => { return a.gold.total > b.gold.total ? 1 : -1; });
+    return items.sort((a: any, b: any) => {
+      return a.gold.total > b.gold.total ? 1 : -1;
+    });
   }
 }

@@ -7,9 +7,16 @@ describe('Match', () => {
   let server: MockServer;
   let match: Match;
 
-  let responseSummoner = {url: 'summoner', message: new MockHostResponseSuccess(JSON.stringify({'DinosHaveNoLife': {'id': 42457671}}))};
+  let responseSummoner = {
+    url: 'summoner',
+    message: new MockHostResponseSuccess(JSON.stringify({'DinosHaveNoLife': {'id': 42457671}}))
+  };
 
-  let responseMatchList = {url: 'matchlist', message: new MockHostResponseSuccess(JSON.stringify({'matches': [{'matchId': 2701428538}, {'matchId': 2698839638}, {'matchId': 2695882481}]}))};
+  let responseMatchList = {
+    url: 'matchlist',
+    message: new MockHostResponseSuccess(JSON.stringify(
+        {'matches': [{'matchId': 2701428538}, {'matchId': 2698839638}, {'matchId': 2695882481}]}))
+  };
 
   let responseMatch = {
     url: 'match',
@@ -17,11 +24,16 @@ describe('Match', () => {
       'timeline': {
         'frameInterval': 60000,
         'frames': [
-          {'timestamp': 0, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}}, {'timestamp': 60047, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
-          {'timestamp': 120058, 'participantFrames': {'1': {'totalGold': 538, 'xp': 206}}}, {'timestamp': 180094, 'participantFrames': {'1': {'totalGold': 808, 'xp': 706}}}
+          {'timestamp': 0, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
+          {'timestamp': 60047, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
+          {'timestamp': 120058, 'participantFrames': {'1': {'totalGold': 538, 'xp': 206}}},
+          {'timestamp': 180094, 'participantFrames': {'1': {'totalGold': 808, 'xp': 706}}}
         ]
       },
-      'participantIdentities': [{'player': {'summonerName': 'DinosHaveNoLife', 'summonerId': 42457671}, 'participantId': 1}],
+      'participantIdentities': [{
+        'player': {'summonerName': 'DinosHaveNoLife', 'summonerId': 42457671},
+        'participantId': 1
+      }],
       'mapId': 11
     }))
   };
@@ -37,7 +49,9 @@ describe('Match', () => {
     let incomingMessage: MockIncomingMessage = {url: 'test1'};
     let serverResponse: MockServerResponse = new MockServerResponse();
 
-    match.get('euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.matchServer.sampleSize, incomingMessage, serverResponse);
+    match.get(
+        'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.matchServer.sampleSize,
+        incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
     expect(serverResponse.buffer).toBe(responseSummoner.message.data);

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChildren, QueryList} from '@angular/core';
+import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {Item} from '../item';
@@ -25,9 +25,13 @@ export class ItemsComponent {
 
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
 
-  addItemSlotComponent(slot: ItemSlotComponent) { this.children.toArray()[slot.id] = slot; }
+  addItemSlotComponent(slot: ItemSlotComponent) {
+    this.children.toArray()[slot.id] = slot;
+  }
 
-  addItem(item: Item) { this.addToFirstCompatibleSlot(item); }
+  addItem(item: Item) {
+    this.addToFirstCompatibleSlot(item);
+  }
 
   private addToFirstCompatibleSlot(item: Item) {
     let s;

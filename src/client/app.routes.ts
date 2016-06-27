@@ -6,7 +6,9 @@ import {FeaturesComponent} from './features/features.component';
 import {RegionsComponent} from './region/region.component';
 
 export const routes: RouterConfig = [
-  {path: ':region/:champion/summoner/:summoner', component: BuildComponent}, {path: ':region/:champion/build', component: BuildComponent}, {path: ':region/:champion', component: FeaturesComponent},
+  {path: ':region/:champion/summoner/:summoner', component: BuildComponent},
+  {path: ':region/:champion/build', component: BuildComponent},
+  {path: ':region/:champion', component: FeaturesComponent},
   {path: ':region', component: ChampionsComponent}, {path: '', component: RegionsComponent}
 ];
 

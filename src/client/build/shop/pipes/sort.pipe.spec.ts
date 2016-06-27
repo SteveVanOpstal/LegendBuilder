@@ -2,7 +2,6 @@ import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing
 
 import {SortPipe} from './sort.pipe';
 
-
 describe('Shop SortPipe', () => {
   beforeEachProviders(() => [SortPipe]);
 
@@ -18,7 +17,11 @@ describe('Shop SortPipe', () => {
     items = [item1, item2, item3];
   });
 
-  it('should sort', inject([SortPipe], (pipe) => { expect(pipe.transform(items)).toHaveEqualContent([item2, item3, item1]); }));
+  it('should sort', inject([SortPipe], (pipe) => {
+       expect(pipe.transform(items)).toHaveEqualContent([item2, item3, item1]);
+     }));
 
-  it('should not sort undefined', inject([SortPipe], (pipe) => { expect(pipe.transform(undefined)).toBe(undefined); }));
+  it('should not sort undefined', inject([SortPipe], (pipe) => {
+       expect(pipe.transform(undefined)).toBe(undefined);
+     }));
 });

@@ -22,7 +22,8 @@ export class MasteryCategoryComponent {
   @Input() data: Object;
 
   @Output() rankAdded: EventEmitter<EventData> = new EventEmitter<EventData>();
-  @Output() rankRemoved: EventEmitter<EventData> = new EventEmitter<EventData>();
+  @Output()
+  rankRemoved: EventEmitter<EventData> = new EventEmitter<EventData>();
 
   @ViewChildren(MasteryTierComponent) children: QueryList<MasteryTierComponent>;
 

@@ -11,9 +11,13 @@ export class TimeScale implements Scale {
 
   constructor() {}
 
-  create() { this.scale = d3.scale.linear().domain([0, settings.gameTime]).range([0, config.graphWidth]); }
+  create() {
+    this.scale = d3.scale.linear().domain([0, settings.gameTime]).range([0, config.graphWidth]);
+  }
 
-  get() { return this.scale; }
+  get() {
+    return this.scale;
+  }
 }
 
 export class TimeAxis implements Axis {
@@ -26,18 +30,24 @@ export class TimeAxis implements Axis {
     this.timeMarks = [];
 
     let i: number = 0;
-    while(i <= settings.gameTime) {
+    while (i <= settings.gameTime) {
       this.timeMarks.push(i);
-      i+= config.timeInterval;
+      i += config.timeInterval;
     }
 
     this.axis = d3.svg.axis()
                     .scale(scale.get())
                     .tickSize(config.graphHeight)
                     .tickValues(this.timeMarks)
-                    .tickFormat((d) => { return d === 0 ? '' : Math.floor(d / settings.gameTime) + ':' + ('00' + Math.floor((d % settings.gameTime) / 60000)).slice(-2); })
+                    .tickFormat((d) => {
+                      return d === 0 ? '' :
+                                       Math.floor(d / settings.gameTime) + ':' +
+                              ('00' + Math.floor((d % settings.gameTime) / 60000)).slice(-2);
+                    })
                     .orient('top');
   }
 
-  get() { return this.axis; }
+  get() {
+    return this.axis;
+  }
 }

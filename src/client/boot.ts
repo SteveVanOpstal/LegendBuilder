@@ -35,5 +35,7 @@ if (ENV === 'production') {
 import {AppComponent} from './app.component';
 import {APP_ROUTER_PROVIDERS} from './app.routes';
 
-
-bootstrap(AppComponent, [HTTP_BINDINGS, APP_ROUTER_PROVIDERS, provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})]).catch(err => console.error(err));
+bootstrap(AppComponent, [
+  HTTP_BINDINGS, APP_ROUTER_PROVIDERS,
+  provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})
+]).catch(err => console.error(err));

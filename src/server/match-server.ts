@@ -6,7 +6,8 @@ import {Match} from './match';
 import {Server, getPathname, getQuery} from './server';
 import {Summoner} from './summoner';
 
-let server = new Server(settings.matchServer.host || 'localhost', settings.matchServer.port || 8081);
+let server =
+    new Server(settings.matchServer.host || 'localhost', settings.matchServer.port || 8081);
 
 let summoner = new Summoner(server);
 let match = new Match(server);

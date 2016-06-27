@@ -25,10 +25,15 @@ describe('MasteryComponent', () => {
       () =>
           [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
+           BaseRequestOptions, MockBackend, provide(Http, {
+             useFactory: (backend, defaultOptions) => {
+               return new Http(backend, defaultOptions);
+             },
+             deps: [MockBackend, BaseRequestOptions]
+           }),
 
-           LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent]);
-
+           LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
+           MasteryComponent]);
 
   let component: MasteryComponent;
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
@@ -38,7 +43,6 @@ describe('MasteryComponent', () => {
       fixture.detectChanges();
     });
   })));
-
 
   it('should disable when there is no data', () => {
     spyOn(component, 'disable');
@@ -58,14 +62,12 @@ describe('MasteryComponent', () => {
     expect(component.enabled).toBeTruthy();
   });
 
-
   it('should get max rank zero when there is no data', () => {
     component.data = undefined;
     expect(component.getMaxRank()).toBe(0);
     component.data = {ranks: undefined};
     expect(component.getMaxRank()).toBe(0);
   });
-
 
   it('should not add a rank when disabled', () => {
     component.setRank(0);
@@ -74,7 +76,6 @@ describe('MasteryComponent', () => {
     component.rankAdd();
     expect(component.getRank()).toBe(0);
   });
-
 
   it('should remove rank', () => {
     component.enable();
@@ -108,7 +109,6 @@ describe('MasteryComponent', () => {
     expect(component.getRank()).toBe(2);
   });
 
-
   it('should set active and color when enabled', () => {
     component.enable();
     component.setRank(1);
@@ -123,7 +123,6 @@ describe('MasteryComponent', () => {
     expect(component.active).toBeFalsy();
     expect(component.color).toBe(Colors.gray);
   });
-
 
   it('should trigger tier rankAdd event', () => {
     spyOn(component.rankAdded, 'emit');

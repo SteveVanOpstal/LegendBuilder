@@ -8,7 +8,9 @@ export class ToIterablePipe implements PipeTransform {
       return values;
     }
     let dataArr = [];
-    Object.keys(values).forEach(key => { dataArr.push(values[key]); });
+    Object.keys(values).forEach(key => {
+      dataArr.push(values[key]);
+    });
     return dataArr;
   }
 }

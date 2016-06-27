@@ -14,9 +14,13 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 const data = {
   name: 'Ferocity',
   tiers: [
-    [{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}],
     [
-      {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5},
+      {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null,
+      {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}
+    ],
+    [
+      {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5},
+      {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5},
       {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}
     ]
   ]
@@ -27,22 +31,26 @@ describe('MasteryCategoryComponent', () => {
       () =>
           [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-           MockBackend, BaseRequestOptions, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
+           MockBackend, BaseRequestOptions, provide(Http, {
+             useFactory: (backend, defaultOptions) => {
+               return new Http(backend, defaultOptions);
+             },
+             deps: [MockBackend, BaseRequestOptions]
+           }),
 
            LolApiService,
 
            MasteriesComponent, MasteryCategoryComponent]);
 
-
   let component: MasteryCategoryComponent;
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteryCategoryComponent).then((fixture: ComponentFixture<MasteryCategoryComponent>) => {
-      component = fixture.componentInstance;
-      component.data = data;
-      fixture.detectChanges();
-    });
+    tcb.createAsync(MasteryCategoryComponent)
+        .then((fixture: ComponentFixture<MasteryCategoryComponent>) => {
+          component = fixture.componentInstance;
+          component.data = data;
+          fixture.detectChanges();
+        });
   })));
-
 
   it('should enable next tier when previous tier has a rank more than zero', () => {
     let tier1 = component.children.toArray()[0];
@@ -54,7 +62,6 @@ describe('MasteryCategoryComponent', () => {
     component.enable();
     expect(mastery2.enabled).toBeTruthy();
   });
-
 
   it('should lock previous tier when the tier is at max rank', () => {
     let tier1 = component.children.toArray()[0];
@@ -82,7 +89,6 @@ describe('MasteryCategoryComponent', () => {
     expect(mastery2.enabled).toBeTruthy();
   });
 
-
   it('should unlock previous tier when the tier is below max rank', () => {
     let tier1 = component.children.toArray()[0];
     let mastery1 = tier1.children.toArray()[0];
@@ -108,7 +114,6 @@ describe('MasteryCategoryComponent', () => {
     expect(mastery2.enabled).toBeFalsy();
   });
 
-
   it('should lower the other rank in the tier', () => {
     let tier = component.children.toArray()[0];
     let mastery1 = tier.children.toArray()[0];
@@ -118,7 +123,6 @@ describe('MasteryCategoryComponent', () => {
     component.rankAdd({tier: tier, mastery: mastery1});
     expect(mastery2.getRank()).toBe(0);
   });
-
 
   it('should not add rank on an invalid event', () => {
     spyOn(component.rankRemoved, 'emit');

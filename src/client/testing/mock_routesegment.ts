@@ -8,6 +8,10 @@ export class MockRouteSegment implements RouteSegment {
   _componentFactory: any;
   type: any;
   stringifiedUrlSegments: string;
-  constructor(parameters?: {[key: string]: any}) { this.parameters = parameters; }
-  getParam(param: string) { return this.parameters[param]; }
+  constructor(parameters?: {[key: string]: any}) {
+    this.parameters = parameters;
+  }
+  getParam(param: string) {
+    return this.parameters[param];
+  }
 }

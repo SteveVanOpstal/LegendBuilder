@@ -2,7 +2,6 @@ import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing
 
 import {MapPipe} from './map.pipe';
 
-
 describe('Shop MapPipe', () => {
   beforeEachProviders(() => [MapPipe]);
 

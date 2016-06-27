@@ -32,9 +32,14 @@ export class MockServer extends Server {
   public responses: Array<{url: string, message: MockHostResponse}>;
   public mockCache: {url: string, data: any} = {url: '', data: ''};
 
-  constructor() { super('', 1234); }
+  constructor() {
+    super('', 1234);
+  }
 
-  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void): void { callback(this.getResponse(url)); }
+  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void):
+      void {
+    callback(this.getResponse(url));
+  }
 
   public setCache(url: string, data: any) {
     this.mockCache.url = url;

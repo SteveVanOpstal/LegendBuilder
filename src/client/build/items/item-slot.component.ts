@@ -30,7 +30,9 @@ export class ItemSlotComponent {
     this.items.push(item);
   }
 
-  removeItem(item: Item) { this.items.splice(this.items.indexOf(item), 1); }
+  removeItem(item: Item) {
+    this.items.splice(this.items.indexOf(item), 1);
+  }
 
   getItems(): Array<Item> {
     return this.items;
@@ -47,7 +49,10 @@ export class ItemSlotComponent {
     return from.indexOf(item.id.toString()) > -1;
   }
 
-  private addTime(item: Item) { item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize); }
+  private addTime(item: Item) {
+    item.time = this.getTime(
+        this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize);
+  }
 
   private addBundle(item: Item) {
     if (!this.items || !this.items.length) {

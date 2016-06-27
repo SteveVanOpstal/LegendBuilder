@@ -28,5 +28,7 @@ export class ErrorComponent {
   @Input() error: boolean = false;
   @Output() retry: EventEmitter<any> = new EventEmitter<any>();
 
-  retryClicked() { this.retry.emit(undefined); }
+  retryClicked() {
+    this.retry.emit(undefined);
+  }
 }

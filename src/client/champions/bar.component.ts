@@ -1,7 +1,12 @@
 import {NgFor} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-@Component({selector: 'bar', changeDetection: ChangeDetectionStrategy.OnPush, directives: [NgFor], template: `<div *ngFor="let val of repeat()"></div>`})
+@Component({
+  selector: 'bar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  directives: [NgFor],
+  template: `<div *ngFor="let val of repeat()"></div>`
+})
 
 export class BarComponent {
   @Input() value: number;

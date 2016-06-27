@@ -2,7 +2,6 @@ import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing
 
 import {TagsPipe} from './tags.pipe';
 
-
 describe('Shop TagsPipe', () => {
   beforeEachProviders(() => [TagsPipe]);
 

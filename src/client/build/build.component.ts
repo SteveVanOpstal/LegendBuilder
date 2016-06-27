@@ -16,7 +16,10 @@ import {Item} from './item';
 
 @Component({
   providers: [LolApiService],
-  directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
+  directives: [
+    GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
+    LoadingComponent, ErrorComponent
+  ],
   styles: [require('../../assets/css/build.css')],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -53,6 +56,10 @@ export class BuildComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: {[key: string]: SimpleChange;}) {
+    return;
+  }
+
   getData() {
     this.loading = true;
     this.error = false;
@@ -64,11 +71,14 @@ export class BuildComponent implements OnInit {
               this.error = true;
               this.loading = false;
             },
-            () => { this.loading = false; });
+            () => {
+              this.loading = false;
+            });
   }
 
   getMatchData(value: string) {
-    this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.matchServer.sampleSize)
+    this.lolApi
+        .getMatchData(value, this.championKey, settings.gameTime, settings.matchServer.sampleSize)
         .subscribe(
             res => {
               this.samples = {xp: [], gold: []};
@@ -76,6 +86,8 @@ export class BuildComponent implements OnInit {
               // this.samples.xp = res.xp;
               // this.samples.g = res.g;
             },
-            error => { this.error = true; });
+            error => {
+              this.error = true;
+            });
   }
 }

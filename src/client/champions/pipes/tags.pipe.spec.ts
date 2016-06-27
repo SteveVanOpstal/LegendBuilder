@@ -11,7 +11,9 @@ describe('TagsPipe', () => {
   let champion2 = {name: 'Ahri', tags: ['Mage', 'Assassin']};
   let champion3 = {name: 'Tryndamere', tags: ['Fighter', 'Melee', 'Assassin']};
 
-  beforeEach(() => { champions = [champion1, champion2, champion3]; });
+  beforeEach(() => {
+    champions = [champion1, champion2, champion3];
+  });
 
   it('should not filter on \'undefined\'', inject([TagsPipe], (pipe) => {
        champions = pipe.transform(champions, undefined);

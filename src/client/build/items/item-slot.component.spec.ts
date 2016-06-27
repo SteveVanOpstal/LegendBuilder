@@ -39,7 +39,10 @@ describe('ItemSlotComponent', () => {
        component.addTime(item1);
        expect(item1.time).toBe(0);
        component.addTime(item2);
-       expect(item2.time).toBe((settings.gameTime / settings.matchServer.sampleSize) / component.samples.gold[1] * item2.gold.total);
+       expect(item2.time)
+           .toBe(
+               (settings.gameTime / settings.matchServer.sampleSize) / component.samples.gold[1] *
+               item2.gold.total);
      }));
 
   it('should bundle', inject([ItemSlotComponent], (component) => {

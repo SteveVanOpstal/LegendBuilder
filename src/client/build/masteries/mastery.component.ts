@@ -51,7 +51,9 @@ export class MasteryComponent implements OnChanges {
 
   constructor() {}
 
-  public ngOnChanges() { this.changed(); }
+  public ngOnChanges() {
+    this.changed();
+  }
 
   public enable() {
     if (this.enabled) {
@@ -73,11 +75,17 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public lock() { this.locked = true; }
+  public lock() {
+    this.locked = true;
+  }
 
-  public unlock() { this.locked = false; }
+  public unlock() {
+    this.locked = false;
+  }
 
-  public getRank() { return this.rank; }
+  public getRank() {
+    return this.rank;
+  }
 
   public addRank() {
     this.rank++;
@@ -118,9 +126,13 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  private clicked() { this.rankAdd(); }
+  private clicked() {
+    this.rankAdd();
+  }
 
-  private dragEnd() { this.rankAdd(); }
+  private dragEnd() {
+    this.rankAdd();
+  }
 
   private rightClicked() {
     this.rankRemove();

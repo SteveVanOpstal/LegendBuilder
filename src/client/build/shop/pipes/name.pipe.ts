@@ -8,8 +8,12 @@ export class NamePipe implements PipeTransform {
       return champions;
     }
 
-    return champions.filter((champion: any) => { return this.clean(champion.name).indexOf(this.clean(name)) >= 0; });
+    return champions.filter((champion: any) => {
+      return this.clean(champion.name).indexOf(this.clean(name)) >= 0;
+    });
   }
 
-  private clean(value: string): string { return value.toLowerCase().replace('\'', ''); }
+  private clean(value: string): string {
+    return value.toLowerCase().replace('\'', '');
+  }
 }

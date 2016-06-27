@@ -1,7 +1,9 @@
 'use strict';
 describe('ChampionsComponent', () => {
 
-  it('should have a title', () => { expect(browser.getTitle()).toEqual('Legend Builder'); });
+  it('should have a title', () => {
+    expect(browser.getTitle()).toEqual('Legend Builder');
+  });
 
   it('should find Amumu', () => {
     element(by.css('champions filters input[type=\'text\']')).sendKeys('am\'umu');

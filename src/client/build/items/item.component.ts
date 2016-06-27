@@ -18,11 +18,11 @@ export class ItemComponent implements OnInit {
   @Input() item: Item;
   private xScaleTime = new TimeScale();
 
-  constructor(private el: ElementRef) {
-  }
+  constructor(private el: ElementRef) {}
 
   ngOnInit() {
     this.xScaleTime.create();
-    this.el.nativeElement.setAttribute('style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
+    this.el.nativeElement.setAttribute(
+        'style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
   }
 }

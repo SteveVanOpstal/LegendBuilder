@@ -52,17 +52,23 @@ export class PreviewComponent implements OnChanges {
       return;
     }
     let arr = Array<ItemBundle>();
-    items.forEach((item: Item) => { arr.push({item: item, children: this.getItemsFrom(item)}); });
+    items.forEach((item: Item) => {
+      arr.push({item: item, children: this.getItemsFrom(item)});
+    });
     return arr;
   }
 
-  private getItemsInto(item: Item) { return this.getItems(item.into); }
+  private getItemsInto(item: Item) {
+    return this.getItems(item.into);
+  }
 
   private getItems(itemIds: Array<string>): Array<Item> {
     if (!this.items || !itemIds || !itemIds.length) {
       return;
     }
-    return this.items.filter((item: Item) => { return itemIds.indexOf(item.id.toString()) > -1; });
+    return this.items.filter((item: Item) => {
+      return itemIds.indexOf(item.id.toString()) > -1;
+    });
   }
 
   private selectItem(item: Item) {

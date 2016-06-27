@@ -25,7 +25,9 @@ export class SortPipe implements PipeTransform {
       });
     } else {
       // sort alphabetical
-      champions.sort((a: any, b: any) => { return a.name < b.name ? -1 : 1; });
+      champions.sort((a: any, b: any) => {
+        return a.name < b.name ? -1 : 1;
+      });
     }
 
     return champions;

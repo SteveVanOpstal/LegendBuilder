@@ -11,17 +11,24 @@ import {MockRouteSegment} from '../testing';
 describe('LolApiService', () => {
   beforeEachProviders(
       () =>
-          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}), ROUTER_FAKE_PROVIDERS,
+          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+           ROUTER_FAKE_PROVIDERS,
 
-           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
+           BaseRequestOptions, MockBackend, provide(Http, {
+             useFactory: (backend, defaultOptions) => {
+               return new Http(backend, defaultOptions);
+             },
+             deps: [MockBackend, BaseRequestOptions]
+           }),
 
            LolApiService]);
 
   let mockResponse = new Response(new ResponseOptions({status: 200, body: [{test: true}]}));
 
-
   it('should get realm data', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getRealm().subscribe(res => {
          expect(res).toBeDefined();
@@ -30,7 +37,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get champions', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getChampions().subscribe(res => {
          expect(res).toBeDefined();
@@ -39,7 +48,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get champion', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getChampions().subscribe(res => {
          expect(res).toBeDefined();
@@ -48,7 +59,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get items', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getChampion(0).subscribe(res => {
          expect(res).toBeDefined();
@@ -57,7 +70,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get masteries', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getMasteries().subscribe(res => {
          expect(res).toBeDefined();
@@ -66,7 +81,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get summonerId', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getSummonerId('', '').subscribe(res => {
          expect(res).toBeDefined();
@@ -75,7 +92,9 @@ describe('LolApiService', () => {
      }));
 
   it('should get matchData', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => { connection.mockRespond(mockResponse); });
+       mockBackend.connections.subscribe((connection: MockConnection) => {
+         connection.mockRespond(mockResponse);
+       });
 
        service.getMatchData(0, '', 0, 0).subscribe(res => {
          expect(res).toBeDefined();

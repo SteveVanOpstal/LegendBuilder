@@ -13,7 +13,9 @@ describe('PreviewComponent', () => {
 
   let items = [item1, item2, item3, item4, item5];
 
-  beforeEach(inject([PreviewComponent], (component) => { component.items = items; }));
+  beforeEach(inject([PreviewComponent], (component) => {
+    component.items = items;
+  }));
 
   it('should be initialised', inject([PreviewComponent], (component) => {
        expect(component.item).not.toBeDefined();
@@ -22,7 +24,6 @@ describe('PreviewComponent', () => {
        expect(component.itemsFrom).toBeDefined();
        expect(component.itemsInto).toBeDefined();
      }));
-
 
   it('should update on changes', inject([PreviewComponent], (component) => {
        spyOn(component, 'getItemsFrom');
@@ -43,7 +44,6 @@ describe('PreviewComponent', () => {
        expect(component.ngOnChanges).toHaveBeenCalled();
      }));
 
-
   it('should not update when there is no item', inject([PreviewComponent], (component) => {
        component.itemsFrom = 'test';
        component.itemsInto = 'test';
@@ -52,11 +52,14 @@ describe('PreviewComponent', () => {
        expect(component.itemsInto).toHaveEqualContent('test');
      }));
 
-
   it('should get from-items', inject([PreviewComponent], (component) => {
        let result = component.getItemsFrom(item1);
-       expect(result).toHaveEqualContent(
-           [{item: item2, children: [{item: item4, children: undefined}]}, {item: item3, children: [{item: item4, children: undefined}, {item: item5, children: undefined}]}]);
+       expect(result).toHaveEqualContent([
+         {item: item2, children: [{item: item4, children: undefined}]}, {
+           item: item3,
+           children: [{item: item4, children: undefined}, {item: item5, children: undefined}]
+         }
+       ]);
      }));
 
   it('should get into-items', inject([PreviewComponent], (component) => {
@@ -64,15 +67,14 @@ describe('PreviewComponent', () => {
        expect(result).toHaveEqualContent([item2, item3]);
      }));
 
-
-  it('should emit itemPicked event when an item is picked', inject([PreviewComponent], (component) => {
+  it('should emit itemPicked event when an item is picked',
+     inject([PreviewComponent], (component) => {
        spyOn(component.itemPicked, 'emit');
        expect(component.itemPicked.emit).not.toHaveBeenCalled();
        let result = component.pickItem(item4);
        expect(result).toBeFalsy();
        expect(component.itemPicked.emit).toHaveBeenCalled();
      }));
-
 
   it('should not get items when there are no items', inject([PreviewComponent], (component) => {
        component.items = undefined;

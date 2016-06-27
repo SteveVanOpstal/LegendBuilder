@@ -9,9 +9,15 @@ describe('SortPipe', () => {
   let champions = [];
   let champion1 = {id: 1, name: 'Amumu', info: {attack: 1, magic: 8, defense: 6, difficulty: 3}};
   let champion2 = {id: 2, name: 'Ahri', info: {attack: 3, magic: 8, defense: 4, difficulty: 5}};
-  let champion3 = {id: 3, name: 'Vel\'Koz', info: {attack: 2, magic: 10, defense: 2, difficulty: 8}};
+  let champion3 = {
+    id: 3,
+    name: 'Vel\'Koz',
+    info: {attack: 2, magic: 10, defense: 2, difficulty: 8}
+  };
 
-  beforeEach(() => { champions = [champion1, champion2, champion3]; });
+  beforeEach(() => {
+    champions = [champion1, champion2, champion3];
+  });
 
   it('should order alphabetical on \'null\'', inject([SortPipe], (pipe) => {
        let result = pipe.transform(champions, null);
@@ -40,7 +46,9 @@ describe('SortPipe', () => {
 
   it('should order by \'magic\'', inject([SortPipe], (pipe) => {
        let result = pipe.transform(champions, 'magic');
-       expect(result).toContain(champion1);  // 'magic' order (magic of id:1 and id:2 are equal, therefore the order is unknown)
+       expect(result).toContain(champion1);  // 'magic' order (magic of id:1 and
+                                             // id:2 are equal, therefore the
+                                             // order is unknown)
        expect(result).toContain(champion2);
        expect(result[0]).toBe(champion3);
      }));

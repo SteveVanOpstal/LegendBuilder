@@ -13,25 +13,33 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
-const data = [{id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null, {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}];
+const data = [
+  {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null,
+  {id: 1, description: ['test6122'], image: {full: '6122.png'}, ranks: 5}
+];
 
 describe('MasteryTierComponent', () => {
   beforeEachProviders(
       () =>
           [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
 
-           BaseRequestOptions, MockBackend, provide(Http, {useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions); }, deps: [MockBackend, BaseRequestOptions]}),
+           BaseRequestOptions, MockBackend, provide(Http, {
+             useFactory: (backend, defaultOptions) => {
+               return new Http(backend, defaultOptions);
+             },
+             deps: [MockBackend, BaseRequestOptions]
+           }),
 
            LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent]);
 
-
   let component: MasteryTierComponent;
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteryTierComponent).then((fixture: ComponentFixture<MasteryTierComponent>) => {
-      component = fixture.componentInstance;
-      component.data = data;
-      fixture.detectChanges();
-    });
+    tcb.createAsync(MasteryTierComponent)
+        .then((fixture: ComponentFixture<MasteryTierComponent>) => {
+          component = fixture.componentInstance;
+          component.data = data;
+          fixture.detectChanges();
+        });
   })));
 
   it('should add mastery rank', () => {
@@ -48,7 +56,6 @@ describe('MasteryTierComponent', () => {
     component.rankAdd(mastery);
     expect(mastery.getRank()).toBe(5);
   });
-
 
   it('should trigger category rankAdd event', () => {
     spyOn(component.rankAdded, 'emit');

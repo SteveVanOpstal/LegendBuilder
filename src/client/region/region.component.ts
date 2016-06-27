@@ -29,7 +29,9 @@ export class RegionsComponent {
   private loading: boolean = true;
   private error: boolean = false;
 
-  constructor(public lolApi: LolApiService) { this.getData(); }
+  constructor(public lolApi: LolApiService) {
+    this.getData();
+  }
 
   private getData() {
     this.loading = true;

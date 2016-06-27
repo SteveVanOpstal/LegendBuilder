@@ -18,7 +18,9 @@ import {BarComponent} from './bar.component';
   selector: 'champions',
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
-  directives: [NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective],
+  directives: [
+    NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective
+  ],
   styles: [require('../../assets/css/champions.css')],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -48,7 +50,9 @@ export class ChampionsComponent {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private router: Router, public lolApi: LolApiService) { this.getData(); }
+  constructor(private router: Router, public lolApi: LolApiService) {
+    this.getData();
+  }
 
   private getData() {
     this.loading = true;

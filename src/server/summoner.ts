@@ -22,7 +22,8 @@ export class Summoner {
   }
 
   public getData(region: string, name: string, callback: (response: HostResponse) => void) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.summoner + '/summoner/by-name/' + name;
+    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.summoner +
+        '/summoner/by-name/' + name;
     this.server.sendRequest(path, region, callback);
   }
 }

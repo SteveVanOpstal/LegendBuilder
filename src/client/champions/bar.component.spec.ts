@@ -3,10 +3,8 @@ import {beforeEachProviders, inject, it} from '@angular/core/testing';
 
 import {BarComponent} from './bar.component';
 
-
 describe('BarComponent', () => {
   beforeEachProviders(() => [BarComponent]);
-
 
   it('should be initialised', inject([BarComponent], (component) => {
        expect(component.value).not.toBeDefined();

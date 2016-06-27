@@ -5,7 +5,6 @@ import {ToIterablePipe} from './to-iterable.pipe';
 describe('ToIterablePipe', () => {
   beforeEachProviders(() => [ToIterablePipe]);
 
-
   it('should transform object to array', inject([ToIterablePipe], (pipe) => {
        let test = {test: 'data', test2: 'data', test3: ['data', 'data'], test4: {test: 'data'}};
        let result = ['data', 'data', ['data', 'data'], {test: 'data'}];
