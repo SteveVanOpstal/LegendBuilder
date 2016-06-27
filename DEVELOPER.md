@@ -32,7 +32,8 @@ These are the default values that can be altered via an override:
   },
   matchServer: {
     host: 'localhost',
-    port: 8082
+    port: 8082,
+    sampleSize: 32
   },
   apiVersions: {
     'summoner': 'v1.4',
@@ -40,8 +41,7 @@ These are the default values that can be altered via an override:
     'match': 'v2.2',
     'static-data': 'v1.2',
   },
-  sampleSize: 64,
-  gameTime: 3600000
+  gameTime: 60 * 60 * 1000
 }
 ```
 
