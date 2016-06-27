@@ -11,38 +11,6 @@ import {MockRouteSegment} from '../../testing';
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 
-// class MockMasteryComponent extends MasteryComponent {
-//   public rank: number = 0;
-//   public maxRank: number = 0;
-
-//   constructor() {
-//     super();
-//     super.enable();
-//     super.unlock();
-//     super.data = {};
-//   }
-
-//   getRank() { return this.rank; }
-//   getMaxRank(): number { return this.maxRank; }
-// }
-
-// class MockMasteryTierComponent extends MasteryTierComponent {
-//   public index = 0;
-
-//   children: QueryList<MasteryComponent>;
-
-//   constructor(index: number) {
-//     super();
-//     this.index = index;
-//     this.children = [
-//       new MockMasteryComponent(),
-//       new MockMasteryComponent(),
-//       new MockMasteryComponent(),
-//       new MockMasteryComponent()
-//     ];
-//   }
-// }
-
 const data = {
   name: 'Ferocity',
   tiers: [
