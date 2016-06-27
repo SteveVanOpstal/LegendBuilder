@@ -1,7 +1,8 @@
 import {NgIf} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
+import {TimeScale} from '../graph/axes/time';
 import {Item} from '../item';
 
 @Component({
@@ -15,4 +16,10 @@ import {Item} from '../item';
 
 export class ItemComponent {
   @Input() item: Item;
+  private xScaleTime = new TimeScale();
+
+  constructor(el: ElementRef) {
+    this.xScaleTime.create();
+    el.nativeElement.setAttribute('style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
+  }
 }

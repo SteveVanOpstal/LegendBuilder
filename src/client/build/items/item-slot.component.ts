@@ -1,6 +1,5 @@
 import {NgClass} from '@angular/common';
-import {Component, Input} from '@angular/core';
-import * as d3 from 'd3'; // TODO: remove test
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {settings} from '../../../../config/settings';
@@ -14,7 +13,7 @@ import {ItemComponent} from './item.component';
   directives: [NgClass, ItemComponent],
   template: `
     <template ngFor let-item [ngForOf]="items">
-      <item [item]="item" [ngClass]="{disabled: item.disabled}" style="left: {{xScaleTime(item.time)}}px" (contextmenu)="rightClicked(item)"></item>
+      <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)"></item>
     </template>`
 })
 
@@ -22,10 +21,6 @@ export class ItemSlotComponent {
   @Input() id: number;
   @Input() samples: Samples;
   private items: Array<any> = new Array<any>();
-
-  // TODO: move to itemComponent when angular allows attributes on <template>
-  // TODO: get this scale from shopComponent
-  private xScaleTime = d3.scale.linear().domain([0, 3600000]).range([0, 1460]);
 
   constructor() {}
 
