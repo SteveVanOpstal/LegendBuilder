@@ -41,26 +41,23 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        exclude: [
-          // these packages have problems with their sourcemaps
-          helpers.root('node_modules/rxjs'),
-          helpers.root('node_modules/@angular'),
-        ]
-      }
-    ]
+    preLoaders: [{
+      test: /\.js$/,
+      loader: 'source-map-loader',
+      exclude: [
+        // these packages have problems with their sourcemaps
+        helpers.root('node_modules/rxjs'),
+        helpers.root('node_modules/@angular'),
+      ]
+    }]
   },
 
   plugins: [
-    new ForkCheckerPlugin(),
-    new OccurenceOrderPlugin(true),
-    new CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity }),
-    new CopyWebpackPlugin([{ from: 'src/assets/images', to: 'assets/images' }]),
-    new HtmlWebpackPlugin({ template: 'src/client/index.html', chunksSortMode: 'none' }),
-    new DefinePlugin({ 'ENV': JSON.stringify(ENV) })
+    new ForkCheckerPlugin(), new OccurenceOrderPlugin(true),
+    new CommonsChunkPlugin({name: ['app', 'vendor', 'polyfills'], minChunks: Infinity}),
+    new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
+    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
+    new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ],
 
   devServer: {
@@ -68,10 +65,7 @@ module.exports = webpackMerge(commonConfig, {
     host: METADATA.host,
     historyApiFallback: true,
     outputPath: helpers.root('../dist/client'),
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000
-    }
+    watchOptions: {aggregateTimeout: 300, poll: 1000}
   },
 
   node: {

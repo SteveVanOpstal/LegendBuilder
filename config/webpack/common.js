@@ -16,22 +16,11 @@ module.exports = {
     root: helpers.root('src/client'),
     modulesDirectories: ['node_modules']
   },
-  
+
   module: {
     loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-      {
-        test: /\.css$/,
-        loader: 'raw-loader'
-      }
+      {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
+      {test: /\.json$/, loader: 'json-loader'}, {test: /\.css$/, loader: 'raw-loader'}
     ]
   }
 };

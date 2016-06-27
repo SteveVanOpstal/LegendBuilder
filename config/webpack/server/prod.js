@@ -11,9 +11,7 @@ var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
-const METADATA = webpackMerge(commonConfig.metadata, {
-  ENV: ENV
-});
+const METADATA = webpackMerge(commonConfig.metadata, {ENV: ENV});
 
 module.exports = webpackMerge(commonConfig, {
   metadata: METADATA,
@@ -25,15 +23,10 @@ module.exports = webpackMerge(commonConfig, {
     'match-server': helpers.root('src/server/match-server.ts')
   },
 
-  output: {
-    path: helpers.root('dist/server'),
-    filename: '[name].js'
-  },
+  output: {path: helpers.root('dist/server'), filename: '[name].js'},
 
   plugins: [
-    new ForkCheckerPlugin(),
-    new DedupePlugin(),
-    new OccurenceOrderPlugin(true),
-    new DefinePlugin({ 'ENV': JSON.stringify(ENV) })
+    new ForkCheckerPlugin(), new DedupePlugin(), new OccurenceOrderPlugin(true),
+    new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ]
 });

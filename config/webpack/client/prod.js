@@ -43,49 +43,31 @@ module.exports = webpackMerge(commonConfig, {
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'
   },
-  
+
   module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
-        query: {
-          'compilerOptions': {
-            'removeComments': true
-          }
-        },
-        exclude: [/\.(spec|e2e)\.ts$/]
-      }
-    ]
+    loaders: [{
+      test: /\.ts$/,
+      loader: 'awesome-typescript-loader',
+      query: {'compilerOptions': {'removeComments': true}},
+      exclude: [/\.(spec|e2e)\.ts$/]
+    }]
   },
 
   plugins: [
-    new ForkCheckerPlugin(),
-    new WebpackMd5Hash(),
-    new DedupePlugin(),
+    new ForkCheckerPlugin(), new WebpackMd5Hash(), new DedupePlugin(),
     new OccurenceOrderPlugin(true),
-    new CommonsChunkPlugin({
-      name: ['main', 'vendor', 'polyfills'],
-      filename: '[name].bundle.js',
-      minChunks: Infinity
-    }),
-    new CopyWebpackPlugin([{ from: 'src/assets/images', to: 'assets/images' }]),
-    new HtmlWebpackPlugin({ template: 'src/client/index.html', chunksSortMode: 'none' }),
-    new DefinePlugin({ 'ENV': JSON.stringify(ENV) }),
-    new UglifyJsPlugin({
+    new CommonsChunkPlugin(
+        {name: ['main', 'vendor', 'polyfills'], filename: '[name].bundle.js', minChunks: Infinity}),
+    new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
+    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
+    new DefinePlugin({'ENV': JSON.stringify(ENV)}), new UglifyJsPlugin({
       beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: { screw_ie8: true },
+      mangle: {screw_ie8: true, keep_fnames: true},
+      compress: {screw_ie8: true},
       comments: false
     }),
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      regExp: /\.css$|\.html$|\.js$|\.map$/,
-      threshold: 2 * 1024
-    })
+    new CompressionPlugin(
+        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024})
   ],
 
   node: {
