@@ -1,5 +1,5 @@
 import {NgClass} from '@angular/common';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {settings} from '../../../../config/settings';
@@ -20,7 +20,7 @@ import {ItemComponent} from './item.component';
 export class ItemSlotComponent {
   @Input() id: number;
   @Input() samples: Samples;
-  private items: Array<any> = new Array<any>();
+  private items: Array<Item> = new Array<Item>();
 
   constructor() {}
 
@@ -32,6 +32,10 @@ export class ItemSlotComponent {
 
   removeItem(item: Item) { this.items.splice(this.items.indexOf(item), 1); }
 
+  getItems(): Array<Item> {
+    return this.items;
+  }
+
   compatible(item: Item) {
     if (!this.items.length) {
       return true;
@@ -40,7 +44,7 @@ export class ItemSlotComponent {
     if (!from) {
       return true;
     }
-    return from.indexOf(item.id) > -1;
+    return from.indexOf(item.id.toString()) > -1;
   }
 
   private addTime(item: Item) { item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize); }

@@ -7,4 +7,5 @@ export interface Item {
   gold: {total: number};
   image: {full: string};
   tags: Array<string>;
+  stats: any;
 }

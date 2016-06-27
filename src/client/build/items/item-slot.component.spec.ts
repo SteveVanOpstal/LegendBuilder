@@ -16,9 +16,9 @@ describe('ItemSlotComponent', () => {
   let item2;
 
   beforeEach(inject([ItemSlotComponent], (component) => {
-    item1 = {'id': 3341, 'gold': {'total': 0}};
+    item1 = {id: 3341, gold: {total: 0}};
 
-    item2 = {'id': 2003, 'gold': {'total': 50}};
+    item2 = {id: 2003, gold: {total: 50}};
 
     component.samples = {gold: [0, 100, 200, 300]};
     component.items = [item1, item2, item2, item2];

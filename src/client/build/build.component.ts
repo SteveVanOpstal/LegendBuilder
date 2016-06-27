@@ -12,6 +12,8 @@ import {ErrorComponent} from '../misc/error.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {LolApiService} from '../misc/lolapi.service';
 
+import {Item} from './item';
+
 @Component({
   providers: [LolApiService],
   directives: [GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective, LoadingComponent, ErrorComponent],
@@ -22,9 +24,9 @@ import {LolApiService} from '../misc/lolapi.service';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion" [samples]="samples"></graph>
+    <graph [champion]="champion" [samples]="samples" [pickedItems]="pickedItems"></graph>
     <masteries></masteries>
-    <items [samples]="samples" #items></items>
+    <items [samples]="samples" [(pickedItems)]="pickedItems" #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
     <error [error]="error" (retry)="getData()"></error>`
@@ -37,7 +39,7 @@ export class BuildComponent implements OnInit {
   private error: boolean = false;
 
   private samples: Samples = {xp: [], gold: []};
-  private pickedItems: Array<Object>;
+  private pickedItems: Array<Item>;
 
   constructor(private route: ActivatedRoute, private lolApi: LolApiService) {}
 

@@ -12,6 +12,8 @@ import {LevelAxisLine, LevelAxisText, LevelScale} from './axes/level';
 import {TimeAxis, TimeScale} from './axes/time';
 import {config} from './config';
 
+import {Item} from '../item'
+
 interface Line {
   enabled: boolean;
   preview: boolean;
@@ -47,10 +49,11 @@ interface Line {
     </svg>`
 })
 
-export class GraphComponent implements OnChanges,
-    OnInit, AfterContentChecked {
+export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
   @Input() private samples: Samples;
+  @Input() private stats: any;
   @Input() private champion: any;
+  @Input() private pickedItems: any;
 
   private config = config;
 
@@ -95,6 +98,9 @@ export class GraphComponent implements OnChanges,
     this.lines = [];
     for (let index in this.samples) {
       this.lines.push({enabled: true, preview: false, name: index, obj: this.line(this.samples[index])});
+    }
+    for (let index in this.stats) {
+      this.lines.push({enabled: true, preview: false, name: index, obj: this.line(this.stats[index])});
     }
   }
 
@@ -150,5 +156,19 @@ export class GraphComponent implements OnChanges,
     if (!line.enabled) {
       line.preview = false;
     }
+  }
+
+  private calculate() {
+    this.stats = {};
+    this.pickedItems.forEach((item: Item) => {
+      for (let index in item.stats) {
+        let stat = item.stats[index];
+        if (this.stats[index]) {
+          this.stats[index] += stat;
+        } else {
+          this.stats[index] = stat;
+        }
+      }
+    });
   }
 }

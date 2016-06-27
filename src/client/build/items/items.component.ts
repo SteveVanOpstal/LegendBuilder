@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChildren, QueryList} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {Item} from '../item';
@@ -20,31 +20,31 @@ import {ItemSlotComponent} from './item-slot.component';
 
 export class ItemsComponent {
   @Input() samples: Samples;
-  // @Input() pickedItems: Array<Object>;
-  // @Output() pickedItemsChange: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
+  @Input() pickedItems: Array<Item>;
+  @Output() pickedItemsChange: EventEmitter<any> = new EventEmitter<any>();
 
-  private itemSlotComponents: Array<ItemSlotComponent> = [];
+  @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
 
-  addItemSlotComponent(slot: ItemSlotComponent) { this.itemSlotComponents[slot.id] = slot; }
+  addItemSlotComponent(slot: ItemSlotComponent) { this.children.toArray()[slot.id] = slot; }
 
   addItem(item: Item) { this.addToFirstCompatibleSlot(item); }
 
   private addToFirstCompatibleSlot(item: Item) {
     let s;
-    this.itemSlotComponents.forEach((slot: ItemSlotComponent) => {
+    this.children.toArray().forEach((slot: ItemSlotComponent) => {
       if (slot.compatible(item) && !s) {
         s = slot;
       }
     });
     s.addItem(item);
-    // this.updatePickedItems();
+    this.updatePickedItems();
   }
 
-  // private updatePickedItems() {
-  //   this.pickedItems = [];
-  //   this.itemSlotComponents.forEach((itemSlot) => {
-  //     this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
-  //   });
-  //   this.pickedItemsChange.emit(this.pickedItems);
-  // }
+  private updatePickedItems() {
+    this.pickedItems = [];
+    this.children.toArray().forEach((itemSlot) => {
+      this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
+    });
+    this.pickedItemsChange.emit(null);
+  }
 }
