@@ -37,7 +37,7 @@ describe('Match', () => {
     let incomingMessage: MockIncomingMessage = {url: 'test1'};
     let serverResponse: MockServerResponse = new MockServerResponse();
 
-    match.get('euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.sampleSize, incomingMessage, serverResponse);
+    match.get('euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.matchServer.sampleSize, incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
     expect(serverResponse.buffer).toBe(responseSummoner.message.data);

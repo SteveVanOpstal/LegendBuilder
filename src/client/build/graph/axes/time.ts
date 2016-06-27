@@ -27,7 +27,7 @@ export class TimeAxis implements Axis {
                     .scale(scale.get())
                     .tickSize(config.graphHeight)
                     .tickValues(this.timeMarks)
-                    .tickFormat((d) => { return d === 0 ? '' : Math.floor(d / 3600000) + ':' + ('00' + Math.floor((d % 3600000) / 60000)).slice(-2); })
+                    .tickFormat((d) => { return d === 0 ? '' : Math.floor(d / settings.gameTime) + ':' + ('00' + Math.floor((d % settings.gameTime) / 60000)).slice(-2); })
                     .orient('top');
   }
 

@@ -3,8 +3,8 @@ const helpers = require('../helpers');
 var settings = {};
 try {
   settings = req('json!./.settings.json');
+} catch (e) {
 }
-catch(e){}
 
 module.exports.settings = helpers.merge(settings, {
   httpServer: {
@@ -17,7 +17,8 @@ module.exports.settings = helpers.merge(settings, {
   },
   matchServer: {
     host: 'localhost',
-    port: 8082
+    port: 8082,
+    sampleSize: 32
   },
   apiVersions: {
     'summoner': 'v1.4',
@@ -25,6 +26,5 @@ module.exports.settings = helpers.merge(settings, {
     'match': 'v2.2',
     'static-data': 'v1.2',
   },
-  sampleSize: 32,
-  gameTime: 3600000
+  gameTime: 60 * 60 * 1000
 });

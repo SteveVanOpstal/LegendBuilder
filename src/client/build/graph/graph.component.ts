@@ -68,7 +68,7 @@ export class GraphComponent implements OnChanges,
   private lines = new Array<Line>();
 
   private line: any =
-      d3.svg.line().interpolate('monotone').x((d, i) => { return this.xScaleTime.get()(i * (settings.gameTime / (settings.sampleSize - 1))); }).y((d) => { return this.yScale.get()(d); });
+      d3.svg.line().interpolate('monotone').x((d, i) => { return this.xScaleTime.get()(i * (settings.gameTime / (settings.matchServer.sampleSize - 1))); }).y((d) => { return this.yScale.get()(d); });
 
 
   constructor(@Inject(ElementRef) private elementRef: ElementRef) {}

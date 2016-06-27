@@ -48,7 +48,7 @@ export class ItemSlotComponent {
     return from.indexOf(item.id) > -1;
   }
 
-  private addTime(item: Item) { item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.sampleSize); }
+  private addTime(item: Item) { item.time = this.getTime(this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize); }
 
   private addBundle(item: Item) {
     if (!this.items || !this.items.length) {

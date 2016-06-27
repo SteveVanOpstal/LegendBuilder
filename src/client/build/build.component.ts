@@ -66,7 +66,7 @@ export class BuildComponent implements OnInit {
   }
 
   getMatchData(value: string) {
-    this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.sampleSize)
+    this.lolApi.getMatchData(value, this.championKey, settings.gameTime, settings.matchServer.sampleSize)
         .subscribe(
             res => {
               this.samples = {xp: [], gold: []};
