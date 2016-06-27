@@ -22,7 +22,7 @@ import {MasteryComponent} from './mastery.component';
 export class MasteriesComponent implements OnInit {
   @ViewChildren(MasteryCategoryComponent) children: QueryList<MasteryCategoryComponent>;
 
-  public data: Object;  // TODO: remove temporary public
+  private data: Object;
   private loading: boolean = true;
   private error: boolean = false;
 

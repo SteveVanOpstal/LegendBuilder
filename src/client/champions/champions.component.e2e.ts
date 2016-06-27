@@ -1,18 +1,6 @@
 'use strict';
 describe('ChampionsComponent', () => {
 
-  // TODO: remove
-  // // Temporary fix for zone.js issue #234
-  // beforeEach((done) => {
-  //   browser.get('/euw');
-  //   element(by.css('body')).isPresent().then(() => {
-  //     done();
-  //   }, () => {
-  //     // error skipped
-  //     done();
-  //   });
-  // });
-
   it('should have a title', () => { expect(browser.getTitle()).toEqual('Legend Builder'); });
 
   it('should find Amumu', () => {
