@@ -12,8 +12,9 @@ export class Summoner {
       response.writeHead(res.status, this.server.headers);
       let summoner = res.json[name.toLowerCase()];
       if (res.success && summoner) {
-        response.write(summoner.id);
-        this.server.setCache(request.url, summoner.id);
+        let summonerId = summoner.id.toString();
+        response.write(summonerId);
+        this.server.setCache(request.url, summonerId);
       } else {
         response.write(res.data);
       }
