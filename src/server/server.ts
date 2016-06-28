@@ -319,6 +319,9 @@ export class Server {
   }
 
   private getChampionId(region: string, championKey: string) {
+    if (!this.champions[region]) {
+      return 0;
+    }
     return this.champions[region][championKey.toLowerCase()];
   }
 
