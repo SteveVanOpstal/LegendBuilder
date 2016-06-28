@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 
 import {Item} from '../item';
 import {Samples} from '../samples';

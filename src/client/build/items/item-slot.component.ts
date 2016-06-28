@@ -1,6 +1,5 @@
 import {NgClass} from '@angular/common';
 import {Component, Input} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 
 import {settings} from '../../../../config/settings';
 import {Item} from '../item';

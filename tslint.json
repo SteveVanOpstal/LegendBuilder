@@ -25,7 +25,6 @@
         "variable-declaration": "nospace"
       },
       {
-        "call-signature": "space",
         "index-signature": "space",
         "parameter": "space",
         "property-declaration": "space",
@@ -55,7 +54,7 @@
     "no-empty": false,
     "no-eval": true,
     "no-shadowed-variable": true,
-    "no-string-literal": true,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-unreachable": true,
     "no-unused-expression": true,
@@ -75,7 +74,7 @@
     ],
     "max-line-length": [
       true,
-      100
+      200
     ],
     "no-require-imports": false,
     "no-trailing-whitespace": true,
@@ -99,7 +98,6 @@
     "no-constructor-vars": false,
     "one-line": [
       true,
-      "check-open-brace",
       "check-catch",
       "check-else",
       "check-finally",
@@ -132,9 +130,9 @@
       true,
       "camelCase"
     ],
-    "component-selector-name": [
+    "directive-selector-type": [
       true,
-      "kebab-case"
+      "attribute"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
@@ -148,6 +146,7 @@
       "camelCase"
     ],
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "import-destructuring-spacing": false
   }
 }
