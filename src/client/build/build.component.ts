@@ -47,13 +47,11 @@ export class BuildComponent implements OnInit {
   constructor(private route: ActivatedRoute, private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.championKey = params['champion'];
-      this.getData();
+    this.championKey = this.route.snapshot.params['champion'];
+    this.getData();
 
-      let summoner = params['summoner'];
-      this.getMatchData(summoner);
-    });
+    let summoner = this.route.snapshot.params['summoner'];
+    this.getMatchData(summoner);
   }
 
   ngOnChanges(changes: {[key: string]: SimpleChange;}) {

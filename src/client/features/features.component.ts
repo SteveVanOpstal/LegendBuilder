@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
@@ -16,20 +16,22 @@ import {LolApiService} from '../misc/lolapi.service';
         <button (click)="getSummonerId(summoner)">Go</button>
       </p>
       <p>
-        Universal build
         <button>
-          <a [routerLink]="['/Build', region.id, champion]"></a>
+          <a [routerLink]="['build']">Universal build</a>
         </button>
       </p>
     </div>`
 })
 
-export class FeaturesComponent {
+export class FeaturesComponent implements OnInit {
   private champion: string;
   private error: boolean = false;
 
-  constructor(route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {
-    route.params.subscribe(params => {
+  constructor(
+      private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
       this.champion = params['champion'];
     });
   }
@@ -39,7 +41,9 @@ export class FeaturesComponent {
         .subscribe(
             res => {
               if (!isNaN(res)) {
-                this.router.navigate(['summoner', event.value]);
+                this.router.navigate(['summoner', event.value]).catch(() => {
+                  this.error = true;
+                });
               } else {
                 this.error = true;
               }
