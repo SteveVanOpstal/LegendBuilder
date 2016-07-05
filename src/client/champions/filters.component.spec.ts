@@ -1,15 +1,17 @@
 import {provide} from '@angular/core';
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {MockEvent, MockKeyboardEvent} from '../testing';
 
 import {FiltersComponent} from './filters.component';
 
 describe('FiltersComponent', () => {
-  beforeEachProviders(
-      () =>
-          [provide(Event, {useValue: new MockEvent()}),
-           provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent]);
+  beforeEach(() => {
+    addProviders([
+      provide(Event, {useValue: new MockEvent()}),
+      provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent
+    ]);
+  });
 
   it('should not emit tagsChange on incorrect event',
      inject([FiltersComponent, Event], (component, event) => {

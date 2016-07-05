@@ -1,10 +1,12 @@
 import {provide} from '@angular/core';
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {NamePipe} from './name.pipe';
 
 describe('NamePipe', () => {
-  beforeEachProviders(() => [NamePipe]);
+  beforeEach(() => {
+    addProviders([NamePipe]);
+  });
 
   let champions = [];
 

@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {ItemsFromComponent} from './items-from.component';
 
 describe('ItemsFromComponent', () => {
-  beforeEachProviders(() => [ItemsFromComponent]);
+  beforeEach(() => {
+    addProviders([ItemsFromComponent]);
+  });
 
   it('should be initialised', inject([ItemsFromComponent], (component) => {
        expect(component.items).not.toBeDefined();

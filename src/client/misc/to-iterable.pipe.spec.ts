@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {ToIterablePipe} from './to-iterable.pipe';
 
 describe('ToIterablePipe', () => {
-  beforeEachProviders(() => [ToIterablePipe]);
+  beforeEach(() => {
+    addProviders([ToIterablePipe]);
+  });
 
   it('should transform object to array', inject([ToIterablePipe], (pipe) => {
        let test = {test: 'data', test2: 'data', test3: ['data', 'data'], test4: {test: 'data'}};

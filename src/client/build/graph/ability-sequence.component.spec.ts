@@ -1,9 +1,11 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
 
 describe('AbilitySequenceComponent', () => {
-  beforeEachProviders(() => [AbilitySequenceComponent]);
+  beforeEach(() => {
+    addProviders([AbilitySequenceComponent]);
+  });
 
   beforeEach(inject([AbilitySequenceComponent], (component) => {
     component.champion = {

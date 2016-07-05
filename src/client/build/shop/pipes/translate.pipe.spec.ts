@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {TranslatePipe} from './translate.pipe';
 
 describe('Shop TranslatePipe', () => {
-  beforeEachProviders(() => [TranslatePipe]);
+  beforeEach(() => {
+    addProviders([TranslatePipe]);
+  });
 
   it('should translate', inject([TranslatePipe], (pipe) => {
        expect(pipe.transform('AURA')).toBe('Area Of Effect');

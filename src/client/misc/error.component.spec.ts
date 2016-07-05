@@ -1,10 +1,12 @@
 import {provide} from '@angular/core';
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {ErrorComponent} from './error.component';
 
 describe('ErrorComponent', () => {
-  beforeEachProviders(() => [ErrorComponent]);
+  beforeEach(() => {
+    addProviders([ErrorComponent]);
+  });
 
   it('should be initialised', inject([ErrorComponent], (component) => {
        expect(component.error).toBeFalsy();

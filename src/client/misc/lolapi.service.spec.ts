@@ -1,5 +1,5 @@
 import {provide} from '@angular/core';
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -8,19 +8,21 @@ import {LolApiService} from '../misc/lolapi.service';
 import {MockActivatedRoute} from '../testing';
 
 describe('LolApiService', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           LolApiService]);
+      LolApiService
+    ]);
+  });
 
   let mockResponse = new Response(new ResponseOptions({status: 200, body: [{test: true}]}));
 

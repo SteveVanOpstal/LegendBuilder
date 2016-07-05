@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {HelpComponent} from './help.component';
 
 describe('HelpComponent', () => {
-  beforeEachProviders(() => [HelpComponent]);
+  beforeEach(() => {
+    addProviders([HelpComponent]);
+  });
 
   it('should be initialised', inject([HelpComponent], (component) => {
        expect(component.content).not.toBeDefined();

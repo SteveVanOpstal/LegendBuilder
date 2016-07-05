@@ -1,10 +1,12 @@
 import {provide} from '@angular/core';
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {SortPipe} from './sort.pipe';
 
 describe('SortPipe', () => {
-  beforeEachProviders(() => [SortPipe]);
+  beforeEach(() => {
+    addProviders([SortPipe]);
+  });
 
   let champions = [];
   let champion1 = {id: 1, name: 'Amumu', info: {attack: 1, magic: 8, defense: 6, difficulty: 3}};

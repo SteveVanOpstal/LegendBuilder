@@ -1,7 +1,7 @@
 import {LocationStrategy} from '@angular/common';
-import {MockLocationStrategy, SpyLocation} from '@angular/common/testing';
+import {SpyLocation} from '@angular/common/testing';
 import {ElementRef, provide} from '@angular/core';
-import {ComponentResolver, Injector, async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute, Router, RouterOutletMap, UrlSerializer} from '@angular/router';
@@ -40,21 +40,23 @@ class MockSvgImageElementRef implements ElementRef {
 }
 
 describe('DDragonDirective', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ElementRef, useValue: new MockImageElementRef()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ElementRef, useValue: new MockImageElementRef()},
 
-           {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           MockImageElementRef, MockSvgImageElementRef, LolApiService, DDragonDirective]);
+      MockImageElementRef, MockSvgImageElementRef, LolApiService, DDragonDirective
+    ]);
+  });
 
   let realm = undefined;
 

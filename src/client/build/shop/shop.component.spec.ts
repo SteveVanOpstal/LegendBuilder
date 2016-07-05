@@ -1,5 +1,5 @@
 import {provide} from '@angular/core';
-import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -14,21 +14,23 @@ class MockEvent {
 }
 
 describe('ShopComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           provide(Event, {useValue: new MockEvent()}),
+      provide(Event, {useValue: new MockEvent()}),
 
-           LolApiService, ShopComponent]);
+      LolApiService, ShopComponent
+    ]);
+  });
 
   let pickedItem1 = {id: 1, group: 'PinkWards'};
   let pickedItem2 = {id: 2, group: 'PinkWards'};

@@ -1,9 +1,11 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {TagsPipe} from './tags.pipe';
 
 describe('Shop TagsPipe', () => {
-  beforeEachProviders(() => [TagsPipe]);
+  beforeEach(() => {
+    addProviders([TagsPipe]);
+  });
 
   let items = [];
   let item1 = {};

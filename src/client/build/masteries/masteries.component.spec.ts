@@ -1,6 +1,5 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
-import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -72,19 +71,21 @@ const masteriesDataAltered = [
 ];
 
 describe('MasteriesComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           LolApiService, MasteryCategoryComponent, MasteriesComponent]);
+      LolApiService, MasteryCategoryComponent, MasteriesComponent
+    ]);
+  });
 
   let mockResponse = new Response(new ResponseOptions({status: 200, body: masteriesData}));
   let component: MasteriesComponent;
@@ -187,18 +188,20 @@ describe('MasteriesComponent', () => {
 });
 
 describe('MasteriesComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           MockBackend, BaseRequestOptions, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           }),
+      MockBackend, BaseRequestOptions, provide(Http, {
+        useFactory: (backend, defaultOptions) => {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      }),
 
-           LolApiService, MasteryCategoryComponent, MasteriesComponent]);
+      LolApiService, MasteryCategoryComponent, MasteriesComponent
+    ]);
+  });
 
   it('should not get masteries',
      async(inject(

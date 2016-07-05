@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {CapitalizePipe} from './capitalize.pipe';
 
 describe('CapitalizePipe', () => {
-  beforeEachProviders(() => [CapitalizePipe]);
+  beforeEach(() => {
+    addProviders([CapitalizePipe]);
+  });
 
   it('should capitalize', inject([CapitalizePipe], (pipe) => {
        expect(pipe.transform('test')).toBe('Test');

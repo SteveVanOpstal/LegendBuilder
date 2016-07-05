@@ -1,10 +1,12 @@
 import {provide} from '@angular/core';
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {TagsPipe} from './tags.pipe';
 
 describe('TagsPipe', () => {
-  beforeEachProviders(() => [TagsPipe]);
+  beforeEach(() => {
+    addProviders([TagsPipe]);
+  });
 
   let champions = [];
   let champion1 = {name: 'Amumu', tags: ['Tank', 'Mage']};

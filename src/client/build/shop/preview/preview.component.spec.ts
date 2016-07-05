@@ -1,9 +1,11 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {PreviewComponent} from './preview.component';
 
 describe('PreviewComponent', () => {
-  beforeEachProviders(() => [PreviewComponent]);
+  beforeEach(() => {
+    addProviders([PreviewComponent]);
+  });
 
   let item1 = {id: 1, from: ['2', '3']};
   let item2 = {id: 2, from: ['4'], into: ['1']};

@@ -1,9 +1,11 @@
-import {beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject, it} from '@angular/core/testing';
 
 import {LoadingComponent} from './loading.component';
 
 describe('LoadingComponent', () => {
-  beforeEachProviders(() => [LoadingComponent]);
+  beforeEach(() => {
+    addProviders([LoadingComponent]);
+  });
 
   it('should be initialised', inject([LoadingComponent], (component) => {
        expect(component.loading).not.toBeDefined();

@@ -1,5 +1,5 @@
 import {provide} from '@angular/core';
-import {async, beforeEachProviders, iit, inject, it} from '@angular/core/testing';
+import {addProviders, async, iit, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,19 +10,22 @@ import {MockActivatedRoute} from '../testing';
 import {BuildComponent} from './build.component';
 
 describe('BuildComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           LolApiService, BuildComponent]);
+      LolApiService, BuildComponent
+    ]);
+  });
+
 
   it('should be initialised', inject([BuildComponent], (component) => {
        component.ngOnInit();

@@ -1,4 +1,4 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {ItemSlotComponent} from './item-slot.component';
 import {ItemsComponent} from './items.component';
@@ -8,7 +8,9 @@ import {ItemsComponent} from './items.component';
 // }
 
 describe('ItemsComponent', () => {
-  beforeEachProviders(() => [ItemsComponent]);
+  beforeEach(() => {
+    addProviders([ItemsComponent]);
+  });
 
   beforeEach(inject([ItemsComponent], (component) => {
     component.samples = {gold: [100, 200, 300], gameTime: 200, sampleSize: 20};

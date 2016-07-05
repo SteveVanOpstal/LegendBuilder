@@ -1,4 +1,4 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {settings} from '../../../../config/settings';
 
@@ -6,11 +6,9 @@ import {ItemSlotComponent} from './item-slot.component';
 import {ItemsComponent} from './items.component';
 
 describe('ItemSlotComponent', () => {
-  beforeEachProviders(
-      () =>
-          [ItemsComponent,
-
-           ItemSlotComponent]);
+  beforeEach(() => {
+    addProviders([ItemsComponent, ItemSlotComponent]);
+  });
 
   let item1;
   let item2;

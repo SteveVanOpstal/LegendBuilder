@@ -1,9 +1,11 @@
-import {beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
 
 import {MapPipe} from './map.pipe';
 
 describe('Shop MapPipe', () => {
-  beforeEachProviders(() => [MapPipe]);
+  beforeEach(() => {
+    addProviders([MapPipe]);
+  });
 
   let items = [];
   let item1 = {};

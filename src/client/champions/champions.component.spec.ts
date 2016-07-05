@@ -1,5 +1,5 @@
 import {provide} from '@angular/core';
-import {async, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {addProviders, async, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,21 +10,23 @@ import {MockActivatedRoute, MockRouter} from '../testing';
 import {ChampionsComponent} from './champions.component';
 
 describe('ChampionsComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           {provide: Router, useValue: new MockRouter()},
+      {provide: Router, useValue: new MockRouter()},
 
-           LolApiService, ChampionsComponent]);
+      LolApiService, ChampionsComponent
+    ]);
+  });
 
   it('should call getData() on contruct', inject([ChampionsComponent], (component) => {
        spyOn(component, 'getData');

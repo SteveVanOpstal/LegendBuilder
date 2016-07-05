@@ -1,6 +1,5 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
-import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -19,19 +18,21 @@ const data = [
 ];
 
 describe('MasteryTierComponent', () => {
-  beforeEachProviders(
-      () =>
-          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  beforeEach(() => {
+    addProviders([
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, {
-             provide: Http,
-             useFactory: function(backend, defaultOptions) {
-               return new Http(backend, defaultOptions);
-             },
-             deps: [MockBackend, BaseRequestOptions]
-           },
+      BaseRequestOptions, MockBackend, {
+        provide: Http,
+        useFactory: function(backend, defaultOptions) {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
 
-           LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent]);
+      LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent
+    ]);
+  });
 
   let component: MasteryTierComponent;
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
