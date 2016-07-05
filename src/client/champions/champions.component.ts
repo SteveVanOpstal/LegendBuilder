@@ -1,5 +1,5 @@
 import {NgFor, NgIf} from '@angular/common';
-import {Component, ViewEncapsulation, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {FiltersComponent} from '../champions/filters.component';
@@ -52,7 +52,7 @@ export class ChampionsComponent implements OnInit {
 
   constructor(private router: Router, public lolApi: LolApiService) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getData();
   }
 

@@ -1,10 +1,10 @@
 import {LocationStrategy} from '@angular/common';
 import {MockLocationStrategy, SpyLocation} from '@angular/common/testing';
 import {ElementRef, provide} from '@angular/core';
-import {async, beforeEach, beforeEachProviders, inject, it, ComponentResolver, Injector} from '@angular/core/testing';
+import {ComponentResolver, Injector, async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {ActivatedRoute, Router, UrlSerializer, RouterOutletMap} from '@angular/router';
+import {ActivatedRoute, Router, RouterOutletMap, UrlSerializer} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {MockActivatedRoute} from '../testing';
@@ -42,9 +42,9 @@ class MockSvgImageElementRef implements ElementRef {
 describe('DDragonDirective', () => {
   beforeEachProviders(
       () =>
-          [provide(ElementRef, {useValue: new MockImageElementRef()}),
-          
-          {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+          [{provide: ElementRef, useValue: new MockImageElementRef()},
+
+           {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
            BaseRequestOptions, MockBackend, {
              provide: Http,

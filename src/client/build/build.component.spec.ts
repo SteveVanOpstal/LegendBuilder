@@ -25,12 +25,12 @@ describe('BuildComponent', () => {
            LolApiService, BuildComponent]);
 
   it('should be initialised', inject([BuildComponent], (component) => {
-        component.ngOnInit();
-        expect(component.championKey).toBe('VelKoz');
-        expect(component.champion).not.toBeDefined();
-        expect(component.loading).toBeTruthy();
-        expect(component.error).toBeFalsy();
-      }));
+       component.ngOnInit();
+       expect(component.championKey).toBe('VelKoz');
+       expect(component.champion).not.toBeDefined();
+       expect(component.loading).toBeTruthy();
+       expect(component.error).toBeFalsy();
+     }));
 
   it('should call getData() onInit', inject([BuildComponent], (component) => {
        spyOn(component, 'getData');
