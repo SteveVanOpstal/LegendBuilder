@@ -54,10 +54,6 @@ export class BuildComponent implements OnInit {
     this.getMatchData(summoner);
   }
 
-  ngOnChanges(changes: {[key: string]: SimpleChange;}) {
-    return;
-  }
-
   getData() {
     this.loading = true;
     this.error = false;
