@@ -1,3 +1,9 @@
+export class MockRouter {
+  constructor() {}
+
+  navigate(commands: any[], extras?: any): any {}
+}
+
 export class MockActivatedRoute {
   snapshot: any;
   params: any;

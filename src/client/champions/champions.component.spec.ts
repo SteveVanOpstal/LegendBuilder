@@ -2,10 +2,10 @@ import {provide} from '@angular/core';
 import {async, beforeEachProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockActivatedRoute} from '../testing';
+import {MockActivatedRoute, MockRouter} from '../testing';
 
 import {ChampionsComponent} from './champions.component';
 
@@ -22,10 +22,12 @@ describe('ChampionsComponent', () => {
              deps: [MockBackend, BaseRequestOptions]
            },
 
+           {provide: Router, useValue: new MockRouter()},
+
            LolApiService, ChampionsComponent]);
 
   it('should call getData() on contruct', inject([ChampionsComponent], (component) => {
-       spyOn(component.getData, 'getData');
+       spyOn(component, 'getData');
        expect(component.getData).not.toHaveBeenCalled();
        component.ngOnInit();
        expect(component.getData).toHaveBeenCalled();
@@ -71,7 +73,7 @@ describe('ChampionsComponent', () => {
                });
          })));
 
-  it('should navigate when enter is hit and one champion is available',
+  it('should navigate when \'Enter\' is hit and one champion is available',
      inject([ChampionsComponent], (component) => {
        spyOn(component.router, 'navigate');
        expect(component.router.navigate).not.toHaveBeenCalled();
@@ -87,7 +89,7 @@ describe('ChampionsComponent', () => {
        expect(component.router.navigate).toHaveBeenCalled();
      }));
 
-  it('should not navigate when enter is hit and multiple champions are available',
+  it('should not navigate when \'Enter\' is hit and multiple champions are available',
      inject([ChampionsComponent], (component) => {
        spyOn(component.router, 'navigate');
        expect(component.router.navigate).not.toHaveBeenCalled();
