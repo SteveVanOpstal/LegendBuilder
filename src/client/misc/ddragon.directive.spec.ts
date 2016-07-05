@@ -1,11 +1,13 @@
+import {LocationStrategy} from '@angular/common';
+import {MockLocationStrategy, SpyLocation} from '@angular/common/testing';
 import {ElementRef, provide} from '@angular/core';
-import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {async, beforeEach, beforeEachProviders, inject, it, ComponentResolver, Injector} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {RouteSegment} from '@angular/router';
+import {ActivatedRoute, Router, UrlSerializer, RouterOutletMap} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockRouteSegment} from '../testing';
+import {MockActivatedRoute} from '../testing';
 
 import {DDragonDirective} from './ddragon.directive';
 
@@ -41,14 +43,16 @@ describe('DDragonDirective', () => {
   beforeEachProviders(
       () =>
           [provide(ElementRef, {useValue: new MockImageElementRef()}),
-           provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+          
+          {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
+           BaseRequestOptions, MockBackend, {
+             provide: Http,
+             useFactory: function(backend, defaultOptions) {
                return new Http(backend, defaultOptions);
              },
              deps: [MockBackend, BaseRequestOptions]
-           }),
+           },
 
            MockImageElementRef, MockSvgImageElementRef, LolApiService, DDragonDirective]);
 
@@ -73,8 +77,8 @@ describe('DDragonDirective', () => {
 
   it('should update on contruct',
      async(inject(
-         [MockBackend, ElementRef, RouteSegment, Http],
-         (mockBackend, elementRef, routeSegment, http) => {
+         [MockBackend, ElementRef, ActivatedRoute, Http],
+         (mockBackend, elementRef, route, http) => {
            let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
            mockBackend.connections.subscribe((connection: MockConnection) => {
              connection.mockRespond(mockResponse);
@@ -83,7 +87,7 @@ describe('DDragonDirective', () => {
            spyOn(DDragonDirective.prototype, 'updateElement');
            expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
 
-           let service = new LolApiService(routeSegment, http);
+           let service = new LolApiService(route, http);
            let directive = new DDragonDirective(elementRef, service);
            return service.getRealm()
                .toPromise()

@@ -1,52 +1,49 @@
 import {provide} from '@angular/core';
-import {async, beforeEachProviders, inject, it} from '@angular/core/testing';
+import {async, beforeEachProviders, iit, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {RouteSegment, Router} from '@angular/router';
-import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockRouteSegment} from '../testing';
+import {MockActivatedRoute} from '../testing';
 
 import {BuildComponent} from './build.component';
 
 describe('BuildComponent', () => {
   beforeEachProviders(
       () =>
-          [ROUTER_FAKE_PROVIDERS,
-           provide(
-               RouteSegment, {useValue: new MockRouteSegment({region: 'euw', champion: 'VelKoz'})}),
+          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
+           BaseRequestOptions, MockBackend, {
+             provide: Http,
+             useFactory: function(backend, defaultOptions) {
                return new Http(backend, defaultOptions);
              },
              deps: [MockBackend, BaseRequestOptions]
-           }),
+           },
 
            LolApiService, BuildComponent]);
 
   it('should be initialised', inject([BuildComponent], (component) => {
-       expect(component.championKey).toBe('VelKoz');
-       expect(component.champion).not.toBeDefined();
-       expect(component.loading).toBeTruthy();
-       expect(component.error).toBeFalsy();
+        component.ngOnInit();
+        expect(component.championKey).toBe('VelKoz');
+        expect(component.champion).not.toBeDefined();
+        expect(component.loading).toBeTruthy();
+        expect(component.error).toBeFalsy();
+      }));
+
+  it('should call getData() onInit', inject([BuildComponent], (component) => {
+       spyOn(component, 'getData');
+       expect(component.getData).not.toHaveBeenCalled();
+       component.ngOnInit();
+       expect(component.getData).toHaveBeenCalled();
      }));
 
-  it('should call getData() on contruct',
-     inject([RouteSegment, LolApiService], (routeSegment, service) => {
-       spyOn(BuildComponent.prototype, 'getData');
-       expect(BuildComponent.prototype.getData).not.toHaveBeenCalled();
-       let component = new BuildComponent(routeSegment, service);
-       expect(BuildComponent.prototype.getData).toHaveBeenCalled();
-     }));
-
-  it('should call getMatchData() on contruct',
-     inject([RouteSegment, LolApiService], (routeSegment, service) => {
-       spyOn(BuildComponent.prototype, 'getMatchData');
-       expect(BuildComponent.prototype.getMatchData).not.toHaveBeenCalled();
-       let component = new BuildComponent(routeSegment, service);
-       expect(BuildComponent.prototype.getMatchData).toHaveBeenCalled();
+  it('should call getMatchData() onInit', inject([BuildComponent], (component) => {
+       spyOn(component, 'getMatchData');
+       expect(component.getMatchData).not.toHaveBeenCalled();
+       component.ngOnInit();
+       expect(component.getMatchData).toHaveBeenCalled();
      }));
 
   it('should handle a champion request',

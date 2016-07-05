@@ -2,24 +2,23 @@ import {provide} from '@angular/core';
 import {beforeEachProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {RouteSegment} from '@angular/router';
-import {ROUTER_FAKE_PROVIDERS} from '@angular/router/testing';
+import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockRouteSegment} from '../testing';
+import {MockActivatedRoute} from '../testing';
 
 describe('LolApiService', () => {
   beforeEachProviders(
       () =>
-          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
-           ROUTER_FAKE_PROVIDERS,
+          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           BaseRequestOptions, MockBackend, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
+           BaseRequestOptions, MockBackend, {
+             provide: Http,
+             useFactory: function(backend, defaultOptions) {
                return new Http(backend, defaultOptions);
              },
              deps: [MockBackend, BaseRequestOptions]
-           }),
+           },
 
            LolApiService]);
 

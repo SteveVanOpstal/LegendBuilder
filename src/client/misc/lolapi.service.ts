@@ -1,6 +1,6 @@
 import 'rxjs/Rx';
 
-import {Injectable, bind} from '@angular/core';
+import {Injectable, bind, OnInit} from '@angular/core';
 import {BaseResponseOptions, Headers, Http, Response} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
@@ -17,7 +17,9 @@ export class LolApiService {
 
   constructor(route: ActivatedRoute, private http: Http) {
     route.params.subscribe(params => {
-      this.region = params['region'].toLowerCase();
+      if(params['region']) {
+        this.region = params['region'].toLowerCase();
+      }
     });
   }
 
@@ -35,8 +37,8 @@ export class LolApiService {
 
   public getChampion(championKey: string): Observable<any> {
     return this.cached(
-        'champion', this.linkStaticData() + '/champion/' + championKey +
-            '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
+      'champion', this.linkStaticData() + '/champion/' + championKey +
+      '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
   }
 
   public getItems(): Observable<any> {
@@ -52,10 +54,10 @@ export class LolApiService {
   }
 
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
-      Observable<any> {
+    Observable<any> {
     return this.get(
-        this.linkMatchData() + '/match/' + summonerName + '/' + championKey + '?gameTime=' +
-        gameTime + '&samples=' + samples);
+      this.linkMatchData() + '/match/' + summonerName + '/' + championKey + '?gameTime=' +
+      gameTime + '&samples=' + samples);
   }
 
   private cached(name: string, url: string): Observable<any> {

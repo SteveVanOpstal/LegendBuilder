@@ -3,10 +3,10 @@ import {provide} from '@angular/core';
 import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {RouteSegment} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../misc/lolapi.service';
-import {MockRouteSegment} from '../../testing';
+import {MockActivatedRoute} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -74,14 +74,15 @@ const masteriesDataAltered = [
 describe('MasteriesComponent', () => {
   beforeEachProviders(
       () =>
-          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           MockBackend, BaseRequestOptions, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
+           BaseRequestOptions, MockBackend, {
+             provide: Http,
+             useFactory: function(backend, defaultOptions) {
                return new Http(backend, defaultOptions);
              },
              deps: [MockBackend, BaseRequestOptions]
-           }),
+           },
 
            LolApiService, MasteryCategoryComponent, MasteriesComponent]);
 
@@ -188,7 +189,7 @@ describe('MasteriesComponent', () => {
 describe('MasteriesComponent', () => {
   beforeEachProviders(
       () =>
-          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
            MockBackend, BaseRequestOptions, provide(Http, {
              useFactory: (backend, defaultOptions) => {

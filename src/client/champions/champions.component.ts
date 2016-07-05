@@ -1,5 +1,5 @@
 import {NgFor, NgIf} from '@angular/common';
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {FiltersComponent} from '../champions/filters.component';
@@ -41,7 +41,7 @@ import {BarComponent} from './bar.component';
     <error [error]="error" (retry)="getData()"></error>`
 })
 
-export class ChampionsComponent {
+export class ChampionsComponent implements OnInit {
   private champions: Array<Object>;
   private loading: boolean = true;
   private error: boolean = false;
@@ -50,7 +50,9 @@ export class ChampionsComponent {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private router: Router, public lolApi: LolApiService) {
+  constructor(private router: Router, public lolApi: LolApiService) {}
+
+  ngOnInit(){
     this.getData();
   }
 

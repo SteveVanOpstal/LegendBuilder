@@ -3,10 +3,10 @@ import {Inject, QueryList, forwardRef, provide} from '@angular/core';
 import {async, beforeEach, beforeEachProviders, inject, it} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {RouteSegment} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../misc/lolapi.service';
-import {MockRouteSegment} from '../../testing';
+import {MockActivatedRoute} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -29,14 +29,15 @@ const data = {
 describe('MasteryCategoryComponent', () => {
   beforeEachProviders(
       () =>
-          [provide(RouteSegment, {useValue: new MockRouteSegment({region: 'euw'})}),
+          [{provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-           MockBackend, BaseRequestOptions, provide(Http, {
-             useFactory: (backend, defaultOptions) => {
+           BaseRequestOptions, MockBackend, {
+             provide: Http,
+             useFactory: function(backend, defaultOptions) {
                return new Http(backend, defaultOptions);
              },
              deps: [MockBackend, BaseRequestOptions]
-           }),
+           },
 
            LolApiService,
 

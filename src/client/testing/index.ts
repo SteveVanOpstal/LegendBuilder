@@ -1,3 +1,3 @@
-export {MockElementRef} from './mock_elementref';
-export {MockEvent, MockKeyboardEvent} from './mock_events';
-export {MockRouteSegment} from './mock_routesegment';
+export {MockElementRef} from './core';
+export {MockEvent, MockKeyboardEvent} from './events';
+export {MockActivatedRoute} from './router';
