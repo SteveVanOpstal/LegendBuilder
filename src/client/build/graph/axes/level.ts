@@ -1,34 +1,15 @@
-import * as d3 from 'd3';
+import {axisBottom} from 'd3-axis';
 
 import {Samples} from '../../samples';
 import {config} from '../config';
-
+import {LevelScale} from '../scales/level';
 import {Axis} from './axis';
-import {Scale} from './scale';
-
-export class LevelScale implements Scale {
-  private scale;
-
-  create() {
-    this.scale = d3.scale.linear().range([0, config.graphWidth]);
-  }
-
-  get() {
-    return this.scale;
-  }
-
-  update(samples: Samples) {
-    let lastXpMark = samples.xp[samples.xp.length - 1];
-    this.scale.domain([0, lastXpMark]);
-  }
-}
 
 export class LevelAxisLine implements Axis {
   private axis: any;
 
   create(scale: LevelScale) {
-    this.axis = d3.svg.axis()
-                    .scale(scale.get())
+    this.axis = axisBottom(scale.get())
                     .tickSize(-config.height + config.margin.top + config.margin.bottom)
                     .tickValues(config.levelXp);
   }
@@ -42,9 +23,8 @@ export class LevelAxisText implements Axis {
   private axis: any;
 
   create(scale: LevelScale) {
-    this.axis = d3.svg.axis()
-                    .scale(scale.get())
-                    .tickSize(-config.height + config.margin.top + config.margin.bottom);
+    this.axis =
+        axisBottom(scale.get()).tickSize(-config.height + config.margin.top + config.margin.bottom);
   }
 
   get() {

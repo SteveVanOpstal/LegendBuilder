@@ -1,6 +1,7 @@
 import {NgClass, NgFor} from '@angular/common';
-import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
-import * as d3 from 'd3';
+import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {select} from 'd3-selection';
+import {Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
 import {DDragonDirective} from '../../misc/ddragon.directive';
@@ -8,16 +9,15 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
-import {DataAxis, DataScale} from './axes/data';
-import {LevelAxisLine, LevelAxisText, LevelScale} from './axes/level';
-import {TimeAxis, TimeScale} from './axes/time';
+import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
 import {config} from './config';
+import {DataScale, LevelScale, TimeScale} from './scales';
 
-interface Line {
+interface Path {
   enabled: boolean;
   preview: boolean;
   name: string;
-  obj: d3.svg.Line<[number, number]>;
+  obj: Line<[number, number]>;
 }
 
 @Component({
@@ -26,9 +26,9 @@ interface Line {
   directives: [DDragonDirective, AbilitySequenceComponent, NgFor, NgClass],
   template: `
     <ul class="legend">
-      <li *ngFor="let line of lines">
-        <button [ngClass]="{ enabled: line.enabled }" [attr.name]="line.name" type="button" (click)="clicked(line)" (mouseenter)="mouseEnter(line)" (mouseleave)="mouseLeave(line)">
-          {{ line.name }}
+      <li *ngFor="let path of paths">
+        <button [ngClass]="{ enabled: path.enabled }" [attr.name]="path.name" type="button" (click)="clicked(path)" (mouseenter)="mouseEnter(path)" (mouseleave)="mouseLeave(path)">
+          {{ path.name }}
         </button>
       </li>
     </ul>
@@ -36,7 +36,7 @@ interface Line {
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
         <g class="lines">
-          <path *ngFor="let line of lines" [ngClass]="'line ' + line.name + (line.enabled ? ' enabled' : '') + (line.preview ? ' preview' : '')"></path>
+          <path *ngFor="let path of paths" [ngClass]="'line ' + path.name + (path.enabled ? ' enabled' : '') + (path.preview ? ' preview' : '')"></path>
         </g>
         <g class="axes">
           <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
@@ -67,10 +67,9 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
   private xAxisLevelText = new LevelAxisText();
   private yAxis = new DataAxis();
 
-  private lines = new Array<Line>();
+  private paths = new Array<Path>();
 
-  private line: any = d3.svg.line()
-                          .interpolate('monotone')
+  private line: any = line()
                           .x((d, i) => {
                             return this.xScaleTime.get()(
                                 i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
@@ -79,16 +78,22 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
                             return this.yScale.get()(d);
                           });
 
-
   constructor(@Inject(ElementRef) private elementRef: ElementRef) {}
 
   ngOnInit() {
-    this.svg = d3.select(this.elementRef.nativeElement).select('svg');
+    this.svg = select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
   }
 
   ngAfterContentChecked() {
-    this.updateLines();
+    this.updatePaths();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.svg) {
+      this.createPaths();
+      this.createLevelScale();
+    }
   }
 
   createAxes() {
@@ -102,21 +107,21 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     this.svg.select('.y.axis').call(this.yAxis.get());
   }
 
-  createLines() {
-    this.lines = [];
+  createPaths() {
+    this.paths = [];
     for (let index in this.samples) {
-      this.lines.push(
+      this.paths.push(
           {enabled: true, preview: false, name: index, obj: this.line(this.samples[index])});
     }
     for (let index in this.stats) {
-      this.lines.push(
+      this.paths.push(
           {enabled: true, preview: false, name: index, obj: this.line(this.stats[index])});
     }
   }
 
-  updateLines() {
-    for (let line of this.lines) {
-      this.svg.select('.line.' + line.name).attr('d', line.obj);
+  updatePaths() {
+    for (let path of this.paths) {
+      this.svg.select('.line.' + path.name).attr('d', path.obj);
     }
   }
 
@@ -147,26 +152,19 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     }
   }
 
-  ngOnChanges(changes: {[key: string]: SimpleChange}) {
-    if (this.svg) {
-      this.createLines();
-      this.createLevelScale();
+  clicked(path: Path) {
+    path.enabled = !path.enabled;
+  }
+
+  mouseEnter(path: Path) {
+    if (!path.enabled) {
+      path.preview = true;
     }
   }
 
-  clicked(line: Line) {
-    line.enabled = !line.enabled;
-  }
-
-  mouseEnter(line: Line) {
-    if (!line.enabled) {
-      line.preview = true;
-    }
-  }
-
-  mouseLeave(line: Line) {
-    if (!line.enabled) {
-      line.preview = false;
+  mouseLeave(path: Path) {
+    if (!path.enabled) {
+      path.preview = false;
     }
   }
 

@@ -1,24 +1,9 @@
-import * as d3 from 'd3';
+import {axisTop} from 'd3-axis';
 
 import {settings} from '../../../../../config/settings';
 import {config} from '../config';
-
+import {TimeScale} from '../scales/time';
 import {Axis} from './axis';
-import {Scale} from './scale';
-
-export class TimeScale implements Scale {
-  private scale;
-
-  constructor() {}
-
-  create() {
-    this.scale = d3.scale.linear().domain([0, settings.gameTime]).range([0, config.graphWidth]);
-  }
-
-  get() {
-    return this.scale;
-  }
-}
 
 export class TimeAxis implements Axis {
   private timeMarks: Array<number> = [];
@@ -35,16 +20,14 @@ export class TimeAxis implements Axis {
       i += config.timeInterval;
     }
 
-    this.axis = d3.svg.axis()
-                    .scale(scale.get())
+    this.axis = axisTop(scale.get())
                     .tickSize(config.graphHeight)
                     .tickValues(this.timeMarks)
                     .tickFormat((d) => {
                       return d === 0 ? '' :
                                        Math.floor(d / settings.gameTime) + ':' +
                               ('00' + Math.floor((d % settings.gameTime) / 60000)).slice(-2);
-                    })
-                    .orient('top');
+                    });
   }
 
   get() {

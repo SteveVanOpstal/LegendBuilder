@@ -2,7 +2,7 @@ import {NgIf} from '@angular/common';
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
-import {TimeScale} from '../graph/axes/time';
+import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
 
 @Component({
