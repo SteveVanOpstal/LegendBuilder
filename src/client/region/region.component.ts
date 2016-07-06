@@ -1,5 +1,5 @@
 import {NgFor} from '@angular/common';
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
@@ -23,13 +23,15 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
   </div>`
 })
 
-export class RegionsComponent {
+export class RegionsComponent implements OnInit {
   private regions: Array<Object> = [];
 
   private loading: boolean = true;
   private error: boolean = false;
 
-  constructor(public lolApi: LolApiService) {
+  constructor(public lolApi: LolApiService) {}
+
+  ngOnInit() {
     this.getData();
   }
 

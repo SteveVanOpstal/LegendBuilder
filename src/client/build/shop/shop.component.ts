@@ -1,5 +1,5 @@
 import {NgClass, NgFor, NgIf} from '@angular/common';
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChange} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
 import {DDragonDirective} from '../../misc/ddragon.directive';
@@ -68,7 +68,7 @@ import {PreviewComponent} from './preview/preview.component';
     </div>`
 })
 
-export class ShopComponent /*implements OnChanges*/ {
+export class ShopComponent implements OnInit {
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
   @Input() pickedItems: Array<Object>;
 
@@ -83,6 +83,10 @@ export class ShopComponent /*implements OnChanges*/ {
   private pickedItem: Object;
 
   constructor(private lolApi: LolApiService) {
+    this.getData();
+  }
+
+  ngOnInit() {
     this.getData();
   }
 
