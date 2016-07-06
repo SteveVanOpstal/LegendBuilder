@@ -99,7 +99,7 @@
   "devDependencies": {
     "awesome-typescript-loader": "^1.1.1",
     "clang-format": "^1.0.42",
-    "codelyzer": "^0.0.23",
+    "codelyzer": "^0.0.24",
     "compression-webpack-plugin": "^0.3.1",
     "copy-webpack-plugin": "^3.0.0",
     "coveralls": "^2.11.9",
@@ -112,7 +112,7 @@
     "jasmine-core": "^2.4.1",
     "jasmine-matchers-loader": "^0.1.0",
     "json-loader": "^0.5.4",
-    "karma": "^0.13.22",
+    "karma": "^1.1.0",
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.0",
