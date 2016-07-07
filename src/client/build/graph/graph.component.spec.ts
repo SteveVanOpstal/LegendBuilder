@@ -7,7 +7,7 @@ import {GraphComponent} from './graph.component';
 
 describe('GraphComponent', () => {
   beforeEach(() => {
-    addProviders([GraphComponent]);
+    addProviders([GraphComponent, {provide: ElementRef, useValue: new MockElementRef()}]);
   });
 
   it('should initialise', inject([GraphComponent], (component) => {}));
