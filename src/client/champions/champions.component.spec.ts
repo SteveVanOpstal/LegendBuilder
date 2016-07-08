@@ -1,11 +1,11 @@
 import {provide} from '@angular/core';
 import {addProviders, async, inject, it} from '@angular/core/testing';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockActivatedRoute, MockRouter} from '../testing';
+import {MockActivatedRoute, MockMockBackend, MockRouter} from '../testing';
 
 import {ChampionsComponent} from './champions.component';
 
@@ -14,7 +14,7 @@ describe('ChampionsComponent', () => {
     addProviders([
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
         useFactory: function(backend, defaultOptions) {
           return new Http(backend, defaultOptions);
@@ -38,10 +38,7 @@ describe('ChampionsComponent', () => {
   it('should get champions',
      async(inject(
          [MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
-           let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockRespond(mockResponse);
-           });
+           mockBackend.subscribe(false, {});
 
            expect(component.champions).not.toBeDefined();
            component.getData();
@@ -58,9 +55,7 @@ describe('ChampionsComponent', () => {
   it('should not get champions',
      async(inject(
          [MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockError();
-           });
+           mockBackend.subscribe();
 
            expect(component.champions).not.toBeDefined();
            component.getData();

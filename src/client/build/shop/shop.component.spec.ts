@@ -1,11 +1,11 @@
 import {provide} from '@angular/core';
 import {addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../misc/lolapi.service';
-import {MockActivatedRoute} from '../../testing';
+import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {ShopComponent} from './shop.component';
 
@@ -18,7 +18,7 @@ describe('ShopComponent', () => {
     addProviders([
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
         useFactory: function(backend, defaultOptions) {
           return new Http(backend, defaultOptions);
@@ -40,20 +40,18 @@ describe('ShopComponent', () => {
     groups: [{MaxGroupOwnable: 2, key: 'PinkWards'}, {MaxGroupOwnable: -1, key: 'DoransItems'}]
   };
 
-  it('should call getData() on contruct', inject([LolApiService], (service) => {
-       spyOn(ShopComponent.prototype, 'getData');
-       expect(ShopComponent.prototype.getData).not.toHaveBeenCalled();
-       let component = new ShopComponent(service);
-       expect(ShopComponent.prototype.getData).toHaveBeenCalled();
+  it('should get data',
+     inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+       spyOn(component, 'getData');
+       expect(component.getData).not.toHaveBeenCalled();
+       component.ngOnInit();
+       expect(component.getData).toHaveBeenCalled();
      }));
 
   it('should get items',
      async(
          inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockRespond(mockResponse);
-           });
+           mockBackend.subscribe(false, []);
 
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);
@@ -72,9 +70,7 @@ describe('ShopComponent', () => {
   it('should not get items',
      async(
          inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockError();
-           });
+           mockBackend.subscribe();
 
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);

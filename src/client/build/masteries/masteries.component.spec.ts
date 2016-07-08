@@ -1,11 +1,11 @@
 import {provide} from '@angular/core';
 import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../misc/lolapi.service';
-import {MockActivatedRoute} from '../../testing';
+import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -70,12 +70,12 @@ const masteriesDataAltered = [
   }
 ];
 
-describe('MasteriesComponent', () => {
+let providers = () => {
   beforeEach(() => {
     addProviders([
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
         useFactory: function(backend, defaultOptions) {
           return new Http(backend, defaultOptions);
@@ -86,21 +86,20 @@ describe('MasteriesComponent', () => {
       LolApiService, MasteryCategoryComponent, MasteriesComponent
     ]);
   });
+};
 
-  let mockResponse = new Response(new ResponseOptions({status: 200, body: masteriesData}));
+describe('MasteriesComponent', () => {
+  providers();
+
   let component: MasteriesComponent;
-  beforeEach(async(inject(
-      [MockBackend, TestComponentBuilder],
-      (mockBackend: MockBackend, tcb: TestComponentBuilder) => {
-        mockBackend.connections.subscribe((connection: MockConnection) => {
-          connection.mockRespond(mockResponse);
-        });
-        tcb.createAsync(MasteriesComponent)
-            .then((fixture: ComponentFixture<MasteriesComponent>) => {
-              fixture.detectChanges();
-              component = fixture.componentInstance;
-            });
-      })));
+  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    tcb.createAsync(MasteriesComponent).then((fixture: ComponentFixture<MasteriesComponent>) => {
+      fixture.detectChanges();
+      component = fixture.componentInstance;
+      component.data = masteriesDataAltered;
+      fixture.detectChanges();
+    });
+  })));
 
   it('should be initialised', () => {
     expect(component.data).toBeDefined();
@@ -173,42 +172,31 @@ describe('MasteriesComponent', () => {
     expect(mastery1.getRank()).toBe(0);
     expect(mastery3.getRank()).toBe(30);
   });
-
-  it('should get masteries', async(inject([LolApiService], (service: LolApiService) => {
-       component.ngOnInit();
-       return service.getMasteries()
-           .toPromise()
-           .then(() => {
-             expect(component.data).toHaveEqualContent(masteriesDataAltered);
-           })
-           .catch(() => {
-             expect(false).toBeTruthy();
-           });
-     })));
 });
 
 describe('MasteriesComponent', () => {
-  beforeEach(() => {
-    addProviders([
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+  providers();
 
-      MockBackend, BaseRequestOptions, provide(Http, {
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
-        },
-        deps: [MockBackend, BaseRequestOptions]
-      }),
+  it('should get masteries',
+     async(inject(
+         [MockBackend, MasteriesComponent, LolApiService],
+         (mockBackend, component: MasteriesComponent, service: LolApiService) => {
+           mockBackend.subscribe(false, masteriesData);
 
-      LolApiService, MasteryCategoryComponent, MasteriesComponent
-    ]);
-  });
+           component.ngOnInit();
+           return service.getMasteries().subscribe(
+               () => {
+                 expect(component.data).toHaveEqualContent(masteriesDataAltered);
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+         })));
 
   it('should not get masteries',
      async(inject(
          [MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockError();
-           });
+           mockBackend.subscribe();
 
            spyOn(component, 'alterData');
            expect(component.alterData).not.toHaveBeenCalled();

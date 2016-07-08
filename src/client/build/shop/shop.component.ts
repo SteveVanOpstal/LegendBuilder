@@ -82,9 +82,7 @@ export class ShopComponent implements OnInit {
   private originalItems: Array<any> = [];
   private pickedItem: Object;
 
-  constructor(private lolApi: LolApiService) {
-    this.getData();
-  }
+  constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.getData();
@@ -107,7 +105,7 @@ export class ShopComponent implements OnInit {
         () => this.loading = false);
   }
 
-  // ngOnChanges(changes: { [key: string]: SimpleChange; }) {
+  // ngOnChanges(changes: SimpleChanges) {
   //   if (!changes['pickedItems'] || !changes['pickedItems'].currentValue) {
   //     return;
   //   }

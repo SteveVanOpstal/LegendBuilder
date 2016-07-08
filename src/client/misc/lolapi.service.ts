@@ -1,9 +1,7 @@
-import 'rxjs/Rx';
-
-import {Injectable, OnInit, bind} from '@angular/core';
+import {Injectable, bind} from '@angular/core';
 import {BaseResponseOptions, Headers, Http, Response} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable, Subscription} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
 
@@ -13,70 +11,107 @@ export class LolApiService {
   public matchServer = settings.matchServer;
 
   private cachedObservables: Array<Observable<any>> = new Array<Observable<any>>();
-  private region: string;
 
-  constructor(route: ActivatedRoute, private http: Http) {
-    route.params.subscribe(params => {
-      if (params['region']) {
-        this.region = params['region'].toLowerCase();
-      }
-    });
-  }
+  constructor(private route: ActivatedRoute, private http: Http) {}
 
   public getRealm(): Observable<any> {
-    return this.cached('realm', this.linkStaticData() + '/realm');
+    return this.get(region => this.linkStaticData(region) + '/realm');
   }
 
   public getRegions(): Observable<any> {
-    return this.cached('shards', 'http://status.leagueoflegends.com/shards');
+    return this.cache('http://status.leagueoflegends.com/shards');
   }
 
   public getChampions(): Observable<any> {
-    return this.cached('champions', this.linkStaticData() + '/champion?champData=info,tags');
+    return this.get(region => this.linkStaticData(region) + '/champion?champData=info,tags');
   }
 
   public getChampion(championKey: string): Observable<any> {
-    return this.cached(
-        'champion', this.linkStaticData() + '/champion/' + championKey +
+    return this.get(
+        region => this.linkStaticData(region) + '/champion/' + championKey +
             '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
   }
 
   public getItems(): Observable<any> {
-    return this.cached('items', this.linkStaticData() + '/item?itemListData=all');
+    return this.get(region => this.linkStaticData(region) + '/item?itemListData=all');
   }
 
   public getMasteries(): Observable<any> {
-    return this.cached('masteries', this.linkStaticData() + '/mastery?masteryListData=all');
+    return this.get(region => this.linkStaticData(region) + '/mastery?masteryListData=all');
   }
 
   public getSummonerId(summonerName: string, championKey: string): Observable<any> {
-    return this.get(this.linkMatchData() + '/summoner/' + summonerName + '/' + championKey);
+    return this.get(
+        region => this.linkMatchData(region) + '/summoner/' + summonerName + '/' + championKey);
   }
 
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
       Observable<any> {
     return this.get(
-        this.linkMatchData() + '/match/' + summonerName + '/' + championKey + '?gameTime=' +
-        gameTime + '&samples=' + samples);
+        region => this.linkMatchData(region) + '/match/' + summonerName + '/' + championKey +
+            '?gameTime=' + gameTime + '&samples=' + samples);
   }
 
-  private cached(name: string, url: string): Observable<any> {
-    if (!this.cachedObservables[name]) {
-      this.cachedObservables[name] = this.get(url).cache();
+  private get(url: (region: string) => string): Observable<any> {
+    return Observable.create(observer => {
+      this.getUrl(url).subscribe(
+          (urlResolved: string) => {
+            this.cache(urlResolved)
+                .subscribe(
+                    res => {
+                      observer.next(res);
+                      observer.complete();
+                    },
+                    () => {
+                      observer.error();
+                    });
+          },
+          () => {
+            observer.error();
+          });
+    });
+  }
+
+  private cache(url: string): Observable<any> {
+    if (!this.cachedObservables[url]) {
+      this.cachedObservables[url] = this.http.get(url).cache();
     }
-    return this.cachedObservables[name];
+    return this.cachedObservables[url].map(res => res.json());
   }
 
-  private get(url: string): Observable<any> {
-    return this.http.get(url).map(res => res.json());
+  private getUrl(url: (region: string) => string): Observable<string> {
+    return this.getRegion().map(region => url(region));
   }
 
-  private linkStaticData() {
-    return this.linkStaticServer() + '/static-data/' + this.region + '/v1.2';
+  private getRegion(): Observable<string> {
+    return Observable.create(observer => {
+      this.route.params.subscribe(params => {
+        if (!params['region']) {
+          observer.error();
+          return;
+        }
+        this.getRegions().subscribe((regions: Array<string>) => {
+          let region = params['region'].toLowerCase();
+          if (regions.some((r: any) => {
+                return r.slug === region;
+              })) {
+            observer.next(region);
+            observer.complete();
+            return;
+          }
+          observer.error();
+        });
+      });
+    });
   }
 
-  private linkMatchData() {
-    return this.linkMatchServer() + '/' + this.region;
+
+  private linkStaticData(region: string) {
+    return this.linkStaticServer() + '/static-data/' + region + '/v1.2';
+  }
+
+  private linkMatchData(region: string) {
+    return this.linkMatchServer() + '/' + region;
   }
 
   private linkStaticServer() {

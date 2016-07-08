@@ -1,18 +1,19 @@
 import {provide} from '@angular/core';
-import {addProviders, inject, it} from '@angular/core/testing';
-import {BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {addProviders, async, inject, it} from '@angular/core/testing';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Observable} from 'rxjs';
 
 import {LolApiService} from '../misc/lolapi.service';
-import {MockActivatedRoute} from '../testing';
+import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
     addProviders([
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
         useFactory: function(backend, defaultOptions) {
           return new Http(backend, defaultOptions);
@@ -24,94 +25,174 @@ describe('LolApiService', () => {
     ]);
   });
 
-  let mockResponse = new Response(new ResponseOptions({status: 200, body: [{test: true}]}));
+  beforeEach(async(inject([MockBackend], (mockBackend) => {
+    mockBackend.subscribe(false, {test: true});
+  })));
 
-  it('should get realm data', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
+  it('should get realm data', async(inject([LolApiService], (service) => {
+       service.getRealm().subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get regions', async(inject([LolApiService], (service) => {
+       service.getRegions().subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res[0].slug).toBe('euw');
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get champions', async(inject([LolApiService], (service) => {
+       service.getChampions().subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get champion', async(inject([LolApiService], (service) => {
+       service.getChampion(0).subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get items', async(inject([LolApiService], (service) => {
+       service.getItems().subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get masteries', async(inject([LolApiService], (service) => {
+       service.getMasteries().subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get summonerId', async(inject([LolApiService], (service) => {
+       service.getSummonerId('', '').subscribe(
+           res => {
+             expect(res).toBeDefined();
+             expect(res.test).toBeTruthy();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get matchData', async(inject([LolApiService], (service) => {
+       service.getMatchData(0, '', 0, 0)
+           .subscribe(
+               res => {
+                 expect(res).toBeDefined();
+                 expect(res.test).toBeTruthy();
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+     })));
+
+  it('should handle a missing region',
+     async(inject([ActivatedRoute, LolApiService], (route, service) => {
+       route.params = Observable.create((observer) => {
+         let params: Params = {'not region': ''};
+         observer.next(params);
+         observer.complete();
        });
 
-       service.getRealm().subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
+       service.getRealm().subscribe(
+           res => {
+             fail('unexpected success');
+           },
+           (error) => {
+             expect(error).not.toBeDefined();
+           });
+     })));
 
-  it('should get champions', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
-       });
-
-       service.getChampions().subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
-
-  it('should get champion', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
+  it('should handle an incorrect region',
+     async(inject([ActivatedRoute, LolApiService], (route, service) => {
+       route.params = Observable.create((observer) => {
+         let params: Params = {'region': 'not euw'};
+         observer.next(params);
+         observer.complete();
        });
 
-       service.getChampions().subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
+       service.getRealm().subscribe(
+           res => {
+             fail('unexpected success');
+           },
+           (error) => {
+             expect(error).not.toBeDefined();
+           });
+     })));
 
-  it('should get items', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
-       });
+  it('should get the correct resolved link to the static-server',
+     async(inject([LolApiService], (service) => {
+       service.getUrl(region => service.linkStaticData(region))
+           .subscribe(
+               (urlResolved) => {
+                 expect(urlResolved).toBe('http://localhost:8081/static-data/euw/v1.2');
+               },
+               () => {
+                 fail('unexpected failure');
+               });
 
-       service.getChampion(0).subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
-
-  it('should get masteries', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
-       });
-
-       service.getMasteries().subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
-
-  it('should get summonerId', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
-       });
-
-       service.getSummonerId('', '').subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
-
-  it('should get matchData', inject([MockBackend, LolApiService], (mockBackend, service) => {
-       mockBackend.connections.subscribe((connection: MockConnection) => {
-         connection.mockRespond(mockResponse);
-       });
-
-       service.getMatchData(0, '', 0, 0).subscribe(res => {
-         expect(res).toBeDefined();
-         expect(res[0].test).toBeTruthy();
-       });
-     }));
-
-  it('should get the correct link to the static-server', inject([LolApiService], (service) => {
-       expect(service.linkStaticData()).toBe('http://localhost:8081/static-data/euw/v1.2');
        service.staticServer = {host: 'test', port: 5};
-       expect(service.linkStaticData()).toBe('http://test:5/static-data/euw/v1.2');
-     }));
+       service.getUrl(region => service.linkStaticData(region))
+           .subscribe(
+               (urlResolved) => {
+                 expect(urlResolved).toBe('http://test:5/static-data/euw/v1.2');
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+     })));
 
-  it('should get the correct link to the match-server', inject([LolApiService], (service) => {
-       expect(service.linkMatchData()).toBe('http://localhost:8082/euw');
+  it('should get the correct resolved link to the match-server',
+     async(inject([LolApiService], (service) => {
+       service.getUrl(region => service.linkMatchData(region))
+           .toPromise()
+           .then((urlResolved) => {
+             expect(urlResolved).toBe('http://localhost:8082/euw');
+           })
+           .catch(() => {
+             fail('unexpected failure');
+           });
+
        service.matchServer = {host: 'test', port: 5};
-       expect(service.linkMatchData()).toBe('http://test:5/euw');
-     }));
+       service.getUrl(region => service.linkMatchData(region))
+           .subscribe(
+               (urlResolved) => {
+                 expect(urlResolved).toBe('http://test:5/euw');
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+     })));
 });
