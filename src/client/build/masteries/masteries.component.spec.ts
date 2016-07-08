@@ -201,12 +201,11 @@ describe('MasteriesComponent', () => {
            spyOn(component, 'alterData');
            expect(component.alterData).not.toHaveBeenCalled();
            component.ngOnInit();
-           return service.getMasteries()
-               .toPromise()
-               .then(() => {
-                 expect(false).toBeTruthy();
-               })
-               .catch(() => {
+           return service.getMasteries().subscribe(
+               () => {
+                 fail('unexpected success');
+               },
+               () => {
                  expect(component.alterData).not.toHaveBeenCalled();
                  expect(component.error).toBeTruthy();
                });

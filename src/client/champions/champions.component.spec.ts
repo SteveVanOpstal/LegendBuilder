@@ -42,13 +42,12 @@ describe('ChampionsComponent', () => {
 
            expect(component.champions).not.toBeDefined();
            component.getData();
-           return service.getChampions()
-               .toPromise()
-               .then(() => {
+           return service.getChampions().subscribe(
+               () => {
                  expect(component.champions).toBeDefined();
-               })
-               .catch(() => {
-                 expect(false).toBeTruthy();
+               },
+               () => {
+                 fail('unexpected failure');
                });
          })));
 
@@ -59,12 +58,11 @@ describe('ChampionsComponent', () => {
 
            expect(component.champions).not.toBeDefined();
            component.getData();
-           return service.getChampions()
-               .toPromise()
-               .then(() => {
-                 expect(false).toBeTruthy();
-               })
-               .catch(() => {
+           return service.getChampions().subscribe(
+               () => {
+                 fail('unexpected success');
+               },
+               () => {
                  expect(component.champions).not.toBeDefined();
                  expect(component.error).toBeTruthy();
                });

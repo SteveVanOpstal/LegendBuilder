@@ -56,14 +56,13 @@ describe('ShopComponent', () => {
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);
            component.getData();
-           return service.getItems()
-               .toPromise()
-               .then(() => {
+           service.getItems().subscribe(
+               () => {
                  expect(component.items).not.toHaveEqualContent([]);
                  expect(component.originalItems).not.toHaveEqualContent([]);
-               })
-               .catch(() => {
-                 expect(false).toBeTruthy();
+               },
+               () => {
+                 fail('unexpected failure');
                });
          })));
 
@@ -75,12 +74,11 @@ describe('ShopComponent', () => {
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);
            component.getData();
-           return service.getItems()
-               .toPromise()
-               .then(() => {
-                 expect(false).toBeTruthy();
-               })
-               .catch(() => {
+           service.getItems().subscribe(
+               () => {
+                 fail('unexpected success');
+               },
+               () => {
                  expect(component.items).toHaveEqualContent([]);
                  expect(component.originalItems).toHaveEqualContent([]);
                });

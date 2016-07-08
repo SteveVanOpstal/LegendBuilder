@@ -56,13 +56,12 @@ describe('BuildComponent', () => {
 
            expect(component.champion).not.toBeDefined();
            component.getData();
-           return service.getChampion('VelKoz')
-               .toPromise()
-               .then(() => {
+           return service.getChampion('VelKoz').subscribe(
+               () => {
                  expect(component.champion).toBeDefined();
-               })
-               .catch(() => {
-                 expect(false).toBeTruthy();
+               },
+               () => {
+                 fail('unexpected failure');
                });
          })));
 
@@ -73,12 +72,11 @@ describe('BuildComponent', () => {
 
            expect(component.champion).not.toBeDefined();
            component.getData();
-           return service.getChampion('VelKoz')
-               .toPromise()
-               .then(() => {
-                 expect(false).toBeTruthy();
-               })
-               .catch(() => {
+           return service.getChampion('VelKoz').subscribe(
+               () => {
+                 fail('unexpected success');
+               },
+               () => {
                  expect(component.champion).not.toBeDefined();
                  expect(component.error).toBeTruthy();
                });
@@ -93,13 +91,13 @@ describe('BuildComponent', () => {
            expect(component.samples).toBeDefined();
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
-               .toPromise()
-               .then(() => {
-                 expect(component.samples).toHaveEqualContent(samples);
-               })
-               .catch(() => {
-                 expect(false).toBeTruthy();
-               });
+               .subscribe(
+                   () => {
+                     expect(component.samples).toHaveEqualContent(samples);
+                   },
+                   () => {
+                     fail('unexpected failure');
+                   });
          })));
 
   it('should handle a match error',
@@ -111,13 +109,13 @@ describe('BuildComponent', () => {
            expect(component.samples).toBeDefined();
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
-               .toPromise()
-               .then(() => {
-                 expect(false).toBeTruthy();
-               })
-               .catch(() => {
-                 expect(component.samples).not.toHaveEqualContent(samples);
-                 expect(component.error).toBeTruthy();
-               });
+               .subscribe(
+                   () => {
+                     fail('unexpected success');
+                   },
+                   () => {
+                     expect(component.samples).not.toHaveEqualContent(samples);
+                     expect(component.error).toBeTruthy();
+                   });
          })));
 });
