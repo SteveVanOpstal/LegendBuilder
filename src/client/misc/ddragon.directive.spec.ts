@@ -18,17 +18,19 @@ class MockNativeElement {
   constructor(private tagName: string) {}
 
   setAttribute(attr: string, value: string): number {
-    return this.attributes.push(attr);
+    this.attributes[attr] = value;
+    return this.attributes.length;
   }
   getAttribute(attr: string): Object {
-    return this.attributes.indexOf(attr) > -1 ? {} : undefined;
+    return this.attributes[attr];
   }
 
   setAttributeNS(scope: string, attr: string, value: string): number {
-    return this.attributesNS.push(attr);
+    this.attributesNS[attr] = value;
+    return this.attributesNS.length;
   }
   getAttributeNS(attr: string): Object {
-    return this.attributesNS.indexOf(attr) > -1 ? {} : undefined;
+    return this.attributesNS[attr];
   }
 }
 
@@ -39,14 +41,31 @@ class MockSvgImageElementRef implements ElementRef {
   nativeElement: MockNativeElement = new MockNativeElement('IMAGE');
 }
 
-describe('DDragonDirective', () => {
+
+let realm = {
+  'v': '[realm-version]',
+  'cdn': 'http://ddragon.leagueoflegends.com/cdn',
+  'n': {
+    'champion': '[champion-version]',
+    'profileicon': '[profileicon-version]',
+    'item': '[item-version]',
+    'map': '[map-version]',
+    'mastery': '[mastery-version]',
+    'language': '[language-version]',
+    'summoner': '[summoner-version]',
+    'rune': '[rune-version]'
+  }
+};
+
+
+function providers<T>(elementRefType: {new (): T}) {
   beforeEach(() => {
     addProviders([
-      {provide: ElementRef, useValue: new MockImageElementRef()},
+      {provide: ElementRef, useValue: new elementRefType()},
 
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
         useFactory: function(backend, defaultOptions) {
           return new Http(backend, defaultOptions);
@@ -54,86 +73,98 @@ describe('DDragonDirective', () => {
         deps: [MockBackend, BaseRequestOptions]
       },
 
-      MockImageElementRef, MockSvgImageElementRef, LolApiService, DDragonDirective
+      LolApiService, DDragonDirective
     ]);
   });
+}
 
-  let realm = undefined;
+describe('DDragonDirective:style', () => {
+  providers(MockImageElementRef);
 
-  beforeEach(() => {
-    realm = {
-      'v': '[realm-version]',
-      'cdn': 'http://ddragon.leagueoflegends.com/cdn',
-      'n': {
-        'champion': '[champion-version]',
-        'profileicon': '[profileicon-version]',
-        'item': '[item-version]',
-        'map': '[map-version]',
-        'mastery': '[mastery-version]',
-        'language': '[language-version]',
-        'summoner': '[summoner-version]',
-        'rune': '[rune-version]'
-      }
-    };
-  });
+  it('should initialise with a default image', inject([DDragonDirective], (directive) => {
+       directive.x = 1;
+       directive.y = 1;
+       directive.ngOnInit();
+       expect(directive.el.nativeElement.getAttribute('style')).toBe(directive.defaultImg);
+     }));
 
-  it('should update on contruct',
-     async(inject(
-         [MockBackend, ElementRef, ActivatedRoute, Http],
-         (mockBackend, elementRef, route, http) => {
-           let mockResponse = new Response(new ResponseOptions({status: 200, body: [{}]}));
-           mockBackend.connections.subscribe((connection: MockConnection) => {
-             connection.mockRespond(mockResponse);
+  it('should set requested image',
+     async(inject([MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
+       mockBackend.subscribe(false, realm);
+       directive.x = 1;
+       directive.y = 1;
+       directive.image = 'test.png';
+       directive.ngOnInit();
+
+       service.getRealm().subscribe(
+           () => {
+             expect(directive.el.nativeElement.getAttribute('style'))
+                 .toBe(
+                     'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 1px 1px;');
+           },
+           () => {
+             fail('unexpected failure');
            });
+     })));
+});
 
-           spyOn(DDragonDirective.prototype, 'updateElement');
-           expect(DDragonDirective.prototype.updateElement).not.toHaveBeenCalled();
 
-           let service = new LolApiService(route, http);
-           let directive = new DDragonDirective(elementRef, service);
-           return service.getRealm()
-               .toPromise()
-               .then(() => {
-                 expect(DDragonDirective.prototype.updateElement).toHaveBeenCalled();
-               })
-               .catch(() => {
-                 expect(false).toBeTruthy();
+describe('DDragonDirective:src', () => {
+  providers(MockImageElementRef);
+
+  it('should initialise with a default image', inject([DDragonDirective], (directive) => {
+       directive.ngOnInit();
+       expect(directive.el.nativeElement.getAttribute('src')).toBe(directive.defaultImg);
+     }));
+
+  it('should set requested image',
+     async(inject(
+         [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
+           mockBackend.subscribe(false, realm);
+           directive.image = 'test.png';
+           directive.ngOnInit();
+
+           service.getRealm().subscribe(
+               () => {
+                 expect(directive.el.nativeElement.getAttribute('src'))
+                     .toBe('http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png');
+               },
+               () => {
+                 fail('unexpected failure');
                });
          })));
+});
 
-  it('should update on change', inject([DDragonDirective], (directive) => {
-       spyOn(directive, 'updateElement');
-       expect(directive.updateElement).not.toHaveBeenCalled();
-       directive.ngOnChanges();
-       expect(directive.updateElement).toHaveBeenCalled();
+
+describe('DDragonDirective:xlink', () => {
+  providers(MockSvgImageElementRef);
+
+  it('should initialise with a default image', inject([DDragonDirective], (directive) => {
+       directive.ngOnInit();
+       expect(directive.el.nativeElement.getAttributeNS('xlink:href')).toBe(directive.defaultImg);
      }));
 
-  it('should add src attribute for <img [ddragon]="">',
-     inject([MockImageElementRef, LolApiService], (elementRef, service) => {
-       let directive = new DDragonDirective(elementRef, service);
-       expect(directive.el.nativeElement.getAttribute('src')).toBeUndefined();
-       directive.updateElement(realm);
-       expect(directive.el.nativeElement.getAttribute('src')).not.toBeUndefined();
-       expect(true).toBeTruthy();
-     }));
+  it('should set requested image',
+     async(inject(
+         [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
+           mockBackend.subscribe(false, realm);
+           directive.image = 'test.png';
+           directive.ngOnInit();
 
-  it('should add xlink:href attribute for <svg:image [ddragon]="">',
-     inject([MockSvgImageElementRef, LolApiService], (elementRef, service) => {
-       let directive = new DDragonDirective(elementRef, service);
-       expect(directive.el.nativeElement.getAttributeNS('xlink:href')).toBeUndefined();
-       directive.updateElement(realm);
-       expect(directive.el.nativeElement.getAttributeNS('xlink:href')).not.toBeUndefined();
-     }));
+           service.getRealm().subscribe(
+               () => {
+                 expect(directive.el.nativeElement.getAttributeNS('xlink:href'))
+                     .toBe('http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png');
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+         })));
+});
 
-  it('should add style attribute for <img [ddragon]="" [x]="" [y]="">',
-     inject([MockImageElementRef, LolApiService], (elementRef, service) => {
-       let directive = new DDragonDirective(elementRef, service);
-       directive.x = 0;
-       directive.y = 0;
-       expect(directive.el.nativeElement.getAttribute('style')).toBeUndefined();
-       directive.updateElement(realm);
-       expect(directive.el.nativeElement.getAttribute('style')).not.toBeUndefined();
-     }));
+
+describe('DDragonDirective', () => {
+  providers(MockImageElementRef);
 
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
        let result = directive.buildStyle('test.png', realm, 0, 0);
