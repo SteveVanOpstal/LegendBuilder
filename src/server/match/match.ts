@@ -1,9 +1,9 @@
 import {parallel, waterfall} from 'async';
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {settings} from '../../config/settings';
+import {settings} from '../../../config/settings';
 
-import {HostResponse, HttpError, Server} from './server';
+import {HostResponse, HttpError, Server} from '../server';
 import {Summoner} from './summoner';
 
 let config = {

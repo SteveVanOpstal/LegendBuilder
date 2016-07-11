@@ -1,8 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {settings} from '../../config/settings';
-
-import {HostResponse, Server} from './server';
+import {settings} from '../../../config/settings';
+import {HostResponse, Server} from '../server';
 
 export class Summoner {
   constructor(private server: Server) {}

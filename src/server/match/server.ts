@@ -1,9 +1,9 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
-import {settings} from '../../config/settings';
+import {settings} from '../../../config/settings';
+import {Server, getPathname, getQuery} from '../server';
 
 import {Match} from './match';
-import {Server, getPathname, getQuery} from './server';
 import {Summoner} from './summoner';
 
 let server =
