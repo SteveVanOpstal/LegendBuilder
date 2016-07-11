@@ -1,5 +1,5 @@
 import {NgFor, NgIf} from '@angular/common';
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {FiltersComponent} from '../champions/filters.component';
@@ -14,6 +14,9 @@ import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
 import {BarComponent} from './bar.component';
 
+require('../../assets/css/base.css');
+require('../../assets/css/champions.css');
+
 @Component({
   selector: 'champions',
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
@@ -21,8 +24,6 @@ import {BarComponent} from './bar.component';
   directives: [
     NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective
   ],
-  styles: [require('../../assets/css/champions.css')],
-  encapsulation: ViewEncapsulation.None,
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">

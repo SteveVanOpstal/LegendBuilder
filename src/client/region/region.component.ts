@@ -4,13 +4,14 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {LolApiService} from '../misc/lolapi.service';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
+require('../../assets/css/base.css');
+require('../../assets/css/region.css');
+
 @Component({
   selector: 'region',
   providers: [LolApiService],
   directives: [NgFor],
   pipes: [ToIterablePipe],
-  styles: [require('../../assets/css/region.css')],
-  encapsulation: ViewEncapsulation.None,
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>

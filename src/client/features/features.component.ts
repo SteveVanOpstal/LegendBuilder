@@ -1,13 +1,14 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 
+require('../../assets/css/base.css');
+require('../../assets/css/summoner.css');
+
 @Component({
   directives: [],
   providers: [LolApiService],
-  styles: [require('../../assets/css/summoner.css')],
-  encapsulation: ViewEncapsulation.None,
   template: `
     <div>
       <p>
