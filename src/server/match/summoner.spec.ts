@@ -1,5 +1,6 @@
+import {MockHostResponseFailure, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from '../testing';
+
 import {Summoner} from './summoner';
-import {MockHostResponseFailure, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from './testing';
 
 describe('Summoner', () => {
   let server: MockServer;

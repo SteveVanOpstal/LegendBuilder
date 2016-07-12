@@ -1,7 +1,7 @@
-import {settings} from '../../config/settings';
+import {settings} from '../../../config/settings';
+import {MockHostResponse, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from '../testing';
 
 import {Match} from './match';
-import {MockHostResponse, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from './testing';
 
 describe('Match', () => {
   let server: MockServer;
