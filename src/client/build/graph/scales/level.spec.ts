@@ -1,4 +1,4 @@
-import {addProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {Samples} from '../../samples';
 import {LevelScale} from './level';

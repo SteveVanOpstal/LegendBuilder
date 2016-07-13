@@ -1,6 +1,5 @@
-import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
-import {ItemSlotComponent} from './item-slot.component';
 import {ItemsComponent} from './items.component';
 
 // class MockItemSlotComponent implements ItemSlotComponent {

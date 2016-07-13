@@ -1,7 +1,7 @@
-import {Injectable, bind} from '@angular/core';
-import {BaseResponseOptions, Headers, Http, Response} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
-import {Observable, Subscription} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
 

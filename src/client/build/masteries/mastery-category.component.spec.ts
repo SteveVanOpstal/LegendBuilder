@@ -1,5 +1,4 @@
-import {Inject, QueryList, forwardRef, provide} from '@angular/core';
-import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';

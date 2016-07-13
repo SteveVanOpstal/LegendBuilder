@@ -1,7 +1,6 @@
 import {NgFor} from '@angular/common';
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteriesComponent} from './masteries.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 

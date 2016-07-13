@@ -1,4 +1,4 @@
-import {addProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {DataScale} from '../scales/data';
 import {DataAxis} from './data';

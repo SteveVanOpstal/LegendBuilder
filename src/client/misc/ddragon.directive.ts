@@ -1,5 +1,4 @@
 import {Directive, ElementRef, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 
 import {LolApiService} from './lolapi.service';
 

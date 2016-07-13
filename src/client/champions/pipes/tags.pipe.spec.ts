@@ -1,5 +1,4 @@
-import {provide} from '@angular/core';
-import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {TagsPipe} from './tags.pipe';
 

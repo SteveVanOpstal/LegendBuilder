@@ -1,5 +1,5 @@
-import {ElementRef, provide} from '@angular/core';
-import {addProviders, inject, it} from '@angular/core/testing';
+import {ElementRef} from '@angular/core';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {MockElementRef} from '../../testing';
 

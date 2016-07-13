@@ -1,8 +1,7 @@
-import {provide} from '@angular/core';
-import {addProviders, async, iit, inject, it} from '@angular/core/testing';
+import {addProviders, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
-import {ActivatedRoute, Router} from '@angular/router';
+import {MockBackend} from '@angular/http/testing';
+import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';
