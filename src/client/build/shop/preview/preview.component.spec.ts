@@ -23,8 +23,8 @@ describe('PreviewComponent', () => {
        expect(component.item).not.toBeDefined();
        expect(component.items).toHaveEqualContent(items);
        expect(component.itemPicked).toBeDefined();
-       expect(component.itemsFrom).toBeDefined();
-       expect(component.itemsInto).toBeDefined();
+       expect(component.itemsFrom).not.toBeDefined();
+       expect(component.itemsInto).not.toBeDefined();
      }));
 
   it('should update on changes', inject([PreviewComponent], (component) => {

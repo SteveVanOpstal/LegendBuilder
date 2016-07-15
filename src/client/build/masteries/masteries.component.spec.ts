@@ -198,15 +198,15 @@ describe('MasteriesComponent', () => {
          [MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
            mockBackend.subscribe();
 
-           spyOn(component, 'alterData');
-           expect(component.alterData).not.toHaveBeenCalled();
+           spyOn(component, 'transformData');
+           expect(component.transformData).not.toHaveBeenCalled();
            component.ngOnInit();
            return service.getMasteries().subscribe(
                () => {
                  fail('unexpected success');
                },
                () => {
-                 expect(component.alterData).not.toHaveBeenCalled();
+                 expect(component.transformData).not.toHaveBeenCalled();
                  expect(component.error).toBeTruthy();
                });
          })));

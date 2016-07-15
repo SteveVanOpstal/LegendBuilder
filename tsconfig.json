@@ -8,7 +8,9 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "removeComments": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "strictNullChecks": false
   },
   "exclude": [
     "node_modules",
@@ -23,7 +25,6 @@
   ],
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,
-    "resolveGlobs": true,
     "forkChecker": true,
     "cacheDirectory": "node_modules/.awesome-typescript-loader-cache"
   },

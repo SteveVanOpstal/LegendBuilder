@@ -35,8 +35,8 @@ export class PreviewComponent implements OnChanges {
   @Input() items: Array<Item>;
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
-  private itemsFrom: Array<ItemBundle> = new Array<ItemBundle>();
-  private itemsInto: Array<any> = new Array<any>();
+  private itemsFrom: Array<ItemBundle> | undefined = undefined;
+  private itemsInto: Array<Item> | undefined = undefined;
 
   ngOnChanges() {
     if (!this.item) {
@@ -46,7 +46,7 @@ export class PreviewComponent implements OnChanges {
     this.itemsInto = this.getItemsInto(this.item);
   }
 
-  private getItemsFrom(baseItem: Item): Array<ItemBundle> {
+  private getItemsFrom(baseItem: Item): Array<ItemBundle> | undefined {
     let items = this.getItems(baseItem.from);
     if (!items || !items.length) {
       return;
@@ -58,11 +58,11 @@ export class PreviewComponent implements OnChanges {
     return arr;
   }
 
-  private getItemsInto(item: Item) {
+  private getItemsInto(item: Item): Array<Item> | undefined {
     return this.getItems(item.into);
   }
 
-  private getItems(itemIds: Array<string>): Array<Item> {
+  private getItems(itemIds: Array<string>): Array<Item> | undefined {
     if (!this.items || !itemIds || !itemIds.length) {
       return;
     }

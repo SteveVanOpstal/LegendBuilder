@@ -7,10 +7,8 @@ const webpackMerge = require('webpack-merge');
 /* plugins */
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
-var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
 var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -31,10 +29,11 @@ module.exports = webpackMerge(commonConfig, {
   debug: false,
 
   entry: {
-    //'main': ['./src/boot.ts', './src/vendor.ts', './src/polyfills.ts']
-    'polyfills': helpers.root('src/client/polyfills.ts'),
-    'vendor': helpers.root('src/client/vendor.ts'),
-    'main': helpers.root('src/client/boot.ts')
+    'main': [
+      helpers.root('src/client/polyfills.ts'),
+      helpers.root('src/client/vendor.ts'),
+      helpers.root('src/client/boot.ts')
+    ]
   },
 
   output: {
@@ -55,9 +54,6 @@ module.exports = webpackMerge(commonConfig, {
 
   plugins: [
     new ForkCheckerPlugin(), new WebpackMd5Hash(), new DedupePlugin(),
-    new OccurenceOrderPlugin(true),
-    new CommonsChunkPlugin(
-        {name: ['main', 'vendor', 'polyfills'], filename: '[name].bundle.js', minChunks: Infinity}),
     new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}), new UglifyJsPlugin({

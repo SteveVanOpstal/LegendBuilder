@@ -6,7 +6,7 @@ const webpackMerge = require('webpack-merge');
 
 /* plugins */
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
+var OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin');
 var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -28,9 +28,11 @@ module.exports = webpackMerge(commonConfig, {
   debug: true,
 
   entry: {
-    'polyfills': helpers.root('src/client/polyfills.ts'),
-    'vendor': helpers.root('src/client/vendor.ts'),
-    'app': helpers.root('src/client/boot.ts')
+    'main': [
+      helpers.root('src/client/polyfills.ts'),
+      helpers.root('src/client/vendor.ts'),
+      helpers.root('src/client/boot.ts')
+    ]
   },
 
   output: {
@@ -53,8 +55,7 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [
-    new ForkCheckerPlugin(), new OccurenceOrderPlugin(true),
-    new CommonsChunkPlugin({name: ['app', 'vendor', 'polyfills'], minChunks: Infinity}),
+    new ForkCheckerPlugin(),
     new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})

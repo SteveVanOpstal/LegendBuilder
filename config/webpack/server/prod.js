@@ -7,7 +7,7 @@ const webpackMerge = require('webpack-merge');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
+var OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
@@ -26,7 +26,7 @@ module.exports = webpackMerge(commonConfig, {
   output: {path: helpers.root('dist/server'), filename: '[name].js'},
 
   plugins: [
-    new ForkCheckerPlugin(), new DedupePlugin(), new OccurenceOrderPlugin(true),
+    new ForkCheckerPlugin(), new DedupePlugin(), new OccurrenceOrderPlugin(true),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ]
 });

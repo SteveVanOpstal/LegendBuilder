@@ -1,8 +1,8 @@
-import {Axis} from 'd3-axis';
+import * as d3 from 'd3-axis';
 
 import {Scale} from '../scales/scale';
 
 export interface Axis {
   create(scale: Scale): void;
-  get(): Axis;
+  get(): d3.Axis;
 }

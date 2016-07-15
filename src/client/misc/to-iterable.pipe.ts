@@ -7,7 +7,7 @@ export class ToIterablePipe implements PipeTransform {
     if (!values || typeof values !== 'object') {
       return values;
     }
-    let dataArr = [];
+    let dataArr: Array<any> = [];
     Object.keys(values).forEach(key => {
       dataArr.push(values[key]);
     });

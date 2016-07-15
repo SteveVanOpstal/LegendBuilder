@@ -1,4 +1,4 @@
-import {axisBottom} from 'd3-axis';
+import * as d3 from 'd3-axis';
 
 import {Samples} from '../../samples';
 import {config} from '../config';
@@ -6,36 +6,36 @@ import {LevelScale} from '../scales/level';
 import {Axis} from './axis';
 
 export class LevelAxisLine implements Axis {
-  private axis: any;
+  private axis: d3.Axis;
 
-  create(scale: LevelScale) {
-    this.axis = axisBottom(scale.get())
+  create(scale: LevelScale): void {
+    this.axis = d3.axisBottom(scale.get())
                     .tickSize(-config.height + config.margin.top + config.margin.bottom)
                     .tickValues(config.levelXp);
   }
 
-  get() {
+  get(): d3.Axis {
     return this.axis;
   }
 }
 
 export class LevelAxisText implements Axis {
-  private axis: any;
+  private axis: d3.Axis;
 
-  create(scale: LevelScale) {
+  create(scale: LevelScale): void {
     this.axis =
-        axisBottom(scale.get()).tickSize(-config.height + config.margin.top + config.margin.bottom);
+        d3.axisBottom(scale.get()).tickSize(-config.height + config.margin.top + config.margin.bottom);
   }
 
-  get() {
+  get(): d3.Axis {
     return this.axis;
   }
 
-  update(samples: Samples) {
+  update(samples: Samples): void {
     let lastXpMark = samples.xp[samples.xp.length - 1];
 
-    let values = [];
-    config.levelXp.forEach((v, i, a) => {
+    let values: Array<number> = [];
+    config.levelXp.forEach((v: number, i: number, a: Array<number>) => {
       values[i] = v + (((a[i + 1] ? a[i + 1] : lastXpMark) - v) / 2);
     });
 

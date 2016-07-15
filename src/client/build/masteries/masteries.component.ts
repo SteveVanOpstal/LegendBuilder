@@ -75,7 +75,7 @@ export class MasteriesComponent implements OnInit {
 
     this.lolApi.getMasteries().subscribe(
         res => {
-          this.data = this.alterData(res);
+          this.data = this.transformData(res);
         },
         error => {
           this.error = true;
@@ -84,15 +84,15 @@ export class MasteriesComponent implements OnInit {
         () => this.loading = false);
   }
 
-  private alterData(newMasteries: any) {
-    let alteredMasteries = [];
+  private transformData(newMasteries: any) {
+    let transformedMasteries: Array<any> = [];
 
     for (let categoryName in newMasteries.tree) {
       let category = newMasteries.tree[categoryName];
-      let tiers = [];
+      let tiers: Array<any> = [];
       for (let masteryTreeItemName in category) {
         let masteryTreeItem = category[masteryTreeItemName];
-        let item = [];
+        let item: Array<any> = [];
         for (let masteryName in masteryTreeItem.masteryTreeItems) {
           let mastery = masteryTreeItem.masteryTreeItems[masteryName];
           if (mastery !== null) {
@@ -103,10 +103,10 @@ export class MasteriesComponent implements OnInit {
         }
         tiers.push(item);
       }
-      alteredMasteries.push({name: categoryName, tiers: tiers});
+      transformedMasteries.push({name: categoryName, tiers: tiers});
     }
 
-    return alteredMasteries;
+    return transformedMasteries;
   }
 
   private getTotalRankExceeded() {
