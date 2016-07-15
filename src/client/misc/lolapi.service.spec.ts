@@ -1,7 +1,6 @@
-import {provide} from '@angular/core';
-import {addProviders, async, inject, it} from '@angular/core/testing';
+import {addProviders, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
+import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Observable} from 'rxjs';
 

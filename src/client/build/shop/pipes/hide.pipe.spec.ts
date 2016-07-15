@@ -1,4 +1,4 @@
-import {addProviders, beforeEach, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {HidePipe} from './hide.pipe';
 

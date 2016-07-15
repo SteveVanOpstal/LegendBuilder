@@ -21,12 +21,7 @@
 import {PLATFORM_DIRECTIVES, enableProdMode, provide} from '@angular/core';
 import {HTTP_BINDINGS} from '@angular/http';
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
-
-import {BuildComponent} from './build/build.component';
-import {ChampionsComponent} from './champions/champions.component';
-import {FeaturesComponent} from './features/features.component';
-import {RegionsComponent} from './region/region.component';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 if (ENV === 'production') {
   enableProdMode();

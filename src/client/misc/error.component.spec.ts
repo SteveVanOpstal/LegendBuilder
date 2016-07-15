@@ -1,5 +1,4 @@
-import {provide} from '@angular/core';
-import {addProviders, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {ErrorComponent} from './error.component';
 

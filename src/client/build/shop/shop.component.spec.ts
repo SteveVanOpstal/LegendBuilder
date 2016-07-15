@@ -1,7 +1,7 @@
 import {provide} from '@angular/core';
-import {addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
+import {addProviders, async, beforeEach, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
+import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../misc/lolapi.service';
@@ -32,10 +32,10 @@ describe('ShopComponent', () => {
     ]);
   });
 
-  let pickedItem1 = {id: 1, group: 'PinkWards'};
+  // let pickedItem1 = {id: 1, group: 'PinkWards'};
   let pickedItem2 = {id: 2, group: 'PinkWards'};
-  let pickedItem3 = {};
-  let pickedItem4 = {id: 4, group: 'DoransItems'};
+  // let pickedItem3 = {};
+  // let pickedItem4 = {id: 4, group: 'DoransItems'};
   let items = {
     groups: [{MaxGroupOwnable: 2, key: 'PinkWards'}, {MaxGroupOwnable: -1, key: 'DoransItems'}]
   };

@@ -1,10 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {SpyLocation} from '@angular/common/testing';
-import {ElementRef, provide} from '@angular/core';
-import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject, it} from '@angular/core/testing';
+import {ElementRef} from '@angular/core';
+import {addProviders, async, beforeEach, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend, MockConnection} from '@angular/http/testing';
-import {ActivatedRoute, Router, RouterOutletMap, UrlSerializer} from '@angular/router';
+import {MockBackend} from '@angular/http/testing';
+import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../misc/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';

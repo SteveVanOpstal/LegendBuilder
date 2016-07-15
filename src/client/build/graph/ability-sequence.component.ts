@@ -21,11 +21,6 @@ import {tim} from '../../misc/tim';
 export class AbilitySequenceComponent {
   @Input() private champion: any;
 
-  private margin: any = {top: 20, right: 20, bottom: 20, left: 60};
-
-  private width: number = 1500;
-  private height: number = 250;
-
   getExtendedTooltip(index: number): string {
     let spell = this.champion.spells[index];
     return this.applyEffects(spell);

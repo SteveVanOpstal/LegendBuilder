@@ -1,7 +1,6 @@
 import {NgFor} from '@angular/common';
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryComponent} from './mastery.component';
 
 type EventData = {

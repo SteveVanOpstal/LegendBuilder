@@ -3,8 +3,6 @@ import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 import {DDragonDirective} from '../../misc/ddragon.directive';
 
-import {MasteryTierComponent} from './mastery-tier.component';
-
 export class Colors {
   public static blue: string = '#4C99FC';
   public static yellow: string = '#fdf300';

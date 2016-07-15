@@ -1,5 +1,5 @@
 import {settings} from '../../../config/settings';
-import {MockHostResponse, MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from '../testing';
+import {MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from '../testing';
 
 import {Match} from './match';
 
