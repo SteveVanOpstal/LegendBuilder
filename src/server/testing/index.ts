@@ -1,2 +1,2 @@
-export {MockServerResponse} from './mock_http';
-export {MockHostResponse, MockHostResponseFailure, MockHostResponseSuccess, MockServer} from './mock_server';
+export {MockServerResponse} from './http';
+export {MockHostResponse, MockHostResponseFailure, MockHostResponseSuccess, MockServer} from './server';
