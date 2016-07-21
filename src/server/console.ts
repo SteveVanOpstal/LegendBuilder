@@ -63,3 +63,5 @@ export class ColorConsole {
     return diffMs;
   }
 }
+
+export let colorConsole = new ColorConsole();

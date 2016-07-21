@@ -2,12 +2,14 @@ import {parallel, waterfall} from 'async';
 import {IncomingMessage, ServerResponse} from 'http';
 
 import {settings} from '../../../config/settings';
-
+import {colorConsole} from '../console';
 import {HostResponse, HttpError, Server} from '../server';
+
 import {Summoner} from './summoner';
 
 let config = {
   matches: {min: 2, max: 5},
+  minDuration: 20 * 60,
   default: {gameTime: 80 * 60 * 1000, sampleSize: 8},
   fill: {sampleTime: 20 * 60 * 1000}
 };
@@ -21,7 +23,6 @@ namespace Errors {
         ' ranked games with the chosen champion.'
   };
   export const matches: HttpError = {status: 500, message: 'Unable to process match data.'};
-  export const participant: HttpError = {status: 404, message: 'Unable to find participant.'};
 };
 
 interface Frame {
@@ -94,6 +95,12 @@ export class Match {
             return;
           }
 
+          if (results.matches.length < config.matches.min) {
+            callback(
+                {data: Errors.matchlist.message, status: Errors.matchlist.status, success: false});
+            return;
+          }
+
           let matches = this.fill(results.matches, results.interval, gameTime);
           let samples = this.getSamples(matches, sampleSize, stepSize);
 
@@ -137,11 +144,18 @@ export class Match {
 
     parallel(matchRequests, (err: Error, results: Array<any>) => {
       let data = {interval: 120000, matches: []};
+      let ind = 0;
       for (let index in results) {
         let result = results[index];
         if (!result || !result.timeline || !result.timeline.frameInterval) {
           callback(Errors.matches);
           return;
+        }
+
+        if (result.matchDuration < config.minDuration) {
+          colorConsole.debug(
+              'Match duration too short (%d/%d).', result.matchDuration, config.minDuration);
+          continue;
         }
 
         if (data.interval > result.timeline.frameInterval) {
@@ -156,13 +170,14 @@ export class Match {
         });
 
         if (participantId <= -1) {
-          callback(Errors.participant);
-          return;
+          colorConsole.error('Unable to find participant.');
+          continue;
         }
 
-        data.matches[index] = new Array();
+        ind++;
+        data.matches[ind] = new Array();
         result.timeline.frames.forEach((frame, frameIndex) => {
-          data.matches[index][frameIndex] = {
+          data.matches[ind][frameIndex] = {
             time: frame.timestamp,
             xp: frame.participantFrames[participantId].xp,
             gold: frame.participantFrames[participantId].totalGold
@@ -213,7 +228,9 @@ export class Match {
     let sampleSize = config.fill.sampleTime / interval;
     let delta = 0;
     for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
-      delta += callback(frames[j]) - callback(frames[j - 1]);
+      if (frames[j] && frames[j - 1]) {
+        delta += callback(frames[j]) - callback(frames[j - 1]);
+      }
     }
     return delta / sampleSize;
   }

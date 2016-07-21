@@ -1,5 +1,3 @@
-import {RequestOptions} from 'https';
-
 import {HostResponse, Server} from '../server';
 
 export class MockHostResponse implements HostResponse {
@@ -54,6 +52,4 @@ export class MockServer extends Server {
     }
     throw 'Error in MockServer';
   }
-
-  private preRun() {}
 }

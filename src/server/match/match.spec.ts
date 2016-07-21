@@ -1,5 +1,5 @@
 import {settings} from '../../../config/settings';
-import {MockHostResponseSuccess, MockIncomingMessage, MockServer, MockServerResponse} from '../testing';
+import {MockHostResponseSuccess, MockServer, MockServerResponse} from '../testing';
 
 import {Match} from './match';
 
@@ -46,8 +46,8 @@ describe('Match', () => {
 
   it('should get the summoner id', () => {
     server.responses = [responseSummoner, responseMatchList, responseMatch];
-    let incomingMessage: MockIncomingMessage = {url: 'test1'};
-    let serverResponse: MockServerResponse = new MockServerResponse();
+    let incomingMessage: any = {url: 'test'};
+    let serverResponse: any = new MockServerResponse();
 
     match.get(
         'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.matchServer.sampleSize,

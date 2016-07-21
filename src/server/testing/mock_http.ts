@@ -1,12 +1,8 @@
-import {IncomingMessage, ServerResponse} from 'http';
-
-export class MockIncomingMessage implements IncomingMessage { url: string; };
-
-export class MockServerResponse implements ServerResponse {
-  buffer: Buffer;
+export class MockServerResponse {
+  buffer: any;
   private headers: any;
 
-  write(buffer: Buffer): boolean {
+  write(buffer: any): boolean {
     this.buffer = buffer;
     return true;
   }
