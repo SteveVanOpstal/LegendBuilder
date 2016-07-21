@@ -113,6 +113,14 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
+  public getActive() {
+    return this.active;
+  }
+
+  public getColor() {
+    return this.color;
+  }
+
   public rankRemove() {
     if (!this.enabled || this.locked) {
       return;

@@ -23,8 +23,8 @@ export class LevelAxisText implements Axis {
   private axis: d3.Axis;
 
   create(scale: LevelScale): void {
-    this.axis =
-        d3.axisBottom(scale.get()).tickSize(-config.height + config.margin.top + config.margin.bottom);
+    this.axis = d3.axisBottom(scale.get())
+                    .tickSize(-config.height + config.margin.top + config.margin.bottom);
   }
 
   get(): d3.Axis {

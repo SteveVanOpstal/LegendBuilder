@@ -22,8 +22,8 @@ import {MasteryComponent} from './mastery.component';
 export class MasteriesComponent implements OnInit {
   @ViewChildren(MasteryCategoryComponent)
   children: QueryList<MasteryCategoryComponent>;
+  data: Object;
 
-  private data: Object;
   private loading: boolean = true;
   private error: boolean = false;
 

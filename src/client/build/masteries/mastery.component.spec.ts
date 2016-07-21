@@ -1,4 +1,4 @@
-import {ComponentFixture, TestComponentBuilder, addProviders, async, beforeEach, inject} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder, addProviders, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -113,16 +113,16 @@ describe('MasteryComponent', () => {
   it('should set active and color when enabled', () => {
     component.enable();
     component.setRank(1);
-    expect(component.active).toBeTruthy();
-    expect(component.color).toBe(Colors.yellow);
+    expect(component.getActive()).toBeTruthy();
+    expect(component.getColor()).toBe(Colors.yellow);
     component.setRank(0);
-    expect(component.active).toBeFalsy();
-    expect(component.color).toBe(Colors.blue);
+    expect(component.getActive()).toBeFalsy();
+    expect(component.getColor()).toBe(Colors.blue);
   });
   it('should set active and color when disabled', () => {
     component.disable();
-    expect(component.active).toBeFalsy();
-    expect(component.color).toBe(Colors.gray);
+    expect(component.getActive()).toBeFalsy();
+    expect(component.getColor()).toBe(Colors.gray);
   });
 
   it('should trigger tier rankAdd event', () => {

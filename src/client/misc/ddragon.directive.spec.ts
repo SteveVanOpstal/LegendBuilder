@@ -1,5 +1,5 @@
 import {ElementRef} from '@angular/core';
-import {addProviders, async, beforeEach, inject} from '@angular/core/testing';
+import {addProviders, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';

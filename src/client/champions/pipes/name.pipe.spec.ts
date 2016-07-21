@@ -1,4 +1,4 @@
-import {addProviders, beforeEach, inject} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {NamePipe} from './name.pipe';
 
