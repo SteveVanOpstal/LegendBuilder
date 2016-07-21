@@ -1,33 +1,25 @@
-module.exports = function (config) {
-  var testWebpackConfig = require('./webpack/client/test.js');
+module.exports = function(config) {
+  var helpers = require('../helpers');
+  var specPath = helpers.root('dist/spec/client/main.spec.js');
 
   config.set({
-    basePath: '',
     frameworks: ['jasmine'],
-    exclude: [],
-    files: [{ pattern: './spec-bundle.js', watched: false }],
-    preprocessors: { './spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
-    webpack: testWebpackConfig,
+    files: [{pattern: specPath, watched: false}],
 
     coverageReporter: {
       dir: '../coverage',
       reporters: [
-        { type: 'text-summary' },
-        { type: 'json' },
-        { type: 'html' },
-        { type: 'lcovonly', subdir: 'lcov' }
+        {type: 'text-summary'}, {type: 'json'}, {type: 'html'},
+        {type: 'lcovonly', subdir: 'lcov'}
       ]
     },
-    webpackServer: { noInfo: true },
+    webpackServer: {noInfo: true},
     reporters: ['mocha', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: [
-      'PhantomJS'
-    ],
+    browsers: ['PhantomJS'],
     singleRun: true
   });
-
 };

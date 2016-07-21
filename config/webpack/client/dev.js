@@ -11,6 +11,7 @@ var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
@@ -28,9 +29,8 @@ module.exports = webpackMerge(commonConfig, {
   debug: true,
 
   entry: {
-    'main': [
-      helpers.root('src/client/polyfills.ts'),
-      helpers.root('src/client/vendor.ts'),
+    main: [
+      helpers.root('src/client/polyfills.ts'), helpers.root('src/client/vendor.ts'),
       helpers.root('src/client/boot.ts')
     ]
   },
@@ -51,14 +51,22 @@ module.exports = webpackMerge(commonConfig, {
         helpers.root('node_modules/rxjs'),
         helpers.root('node_modules/@angular'),
       ]
-    }]
+    }],
+
+    loaders: [
+      {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}, {
+        test: /\.css$/,
+        loader:
+            ExtractTextPlugin.extract({notExtractLoader: 'style-loader', loader: 'css-loader'})
+      }
+    ]
   },
 
   plugins: [
     new ForkCheckerPlugin(),
     new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
-    new DefinePlugin({'ENV': JSON.stringify(ENV)})
+    new DefinePlugin({'ENV': JSON.stringify(ENV)}), new ExtractTextPlugin('style.css')
   ],
 
   devServer: {

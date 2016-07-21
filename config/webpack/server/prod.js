@@ -25,8 +25,22 @@ module.exports = webpackMerge(commonConfig, {
 
   output: {path: helpers.root('dist/server'), filename: '[name].js'},
 
+  module: {
+    loaders:
+        [{test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}]
+  },
+
   plugins: [
     new ForkCheckerPlugin(), new DedupePlugin(), new OccurrenceOrderPlugin(true),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})
-  ]
+  ],
+
+  node: {
+    global: 'window',
+    process: false,
+    crypto: 'empty',
+    module: false,
+    clearImmediate: false,
+    setImmediate: false
+  }
 });

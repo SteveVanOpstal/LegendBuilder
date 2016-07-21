@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const helpers = require('../../helpers');
 
 var DefinePlugin = require('webpack/lib/DefinePlugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 
 const METADATA = {
   title: 'Legend Builder',
@@ -18,13 +18,7 @@ module.exports = {
     modulesDirectories: ['node_modules']
   },
 
-  module: {
-    loaders: [
-      {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
-      {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader')}
-    ]
-  },
+  module: {loaders: [{test: /\.json$/, loader: 'json-loader'}]},
 
-  plugins: [new ExtractTextPlugin('style.css')]
+  plugins: [new TsConfigPathsPlugin()]
 };

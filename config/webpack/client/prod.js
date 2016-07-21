@@ -14,6 +14,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
@@ -30,8 +31,7 @@ module.exports = webpackMerge(commonConfig, {
 
   entry: {
     'main': [
-      helpers.root('src/client/polyfills.ts'),
-      helpers.root('src/client/vendor.ts'),
+      helpers.root('src/client/polyfills.ts'), helpers.root('src/client/vendor.ts'),
       helpers.root('src/client/boot.ts')
     ]
   },
@@ -44,12 +44,19 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
-    loaders: [{
-      test: /\.ts$/,
-      loader: 'awesome-typescript-loader',
-      query: {'compilerOptions': {'removeComments': true}},
-      exclude: [/\.(spec|e2e)\.ts$/]
-    }]
+    loaders: [
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        query: {'compilerOptions': {'removeComments': true}},
+        exclude: [/\.(spec|e2e)\.ts$/]
+      },
+      {
+        test: /\.css$/,
+        loader:
+            ExtractTextPlugin.extract({notExtractLoader: 'style-loader', loader: 'css-loader'})
+      }
+    ]
   },
 
   plugins: [
@@ -63,15 +70,7 @@ module.exports = webpackMerge(commonConfig, {
       comments: false
     }),
     new CompressionPlugin(
-        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024})
-  ],
-
-  node: {
-    global: 'window',
-    process: false,
-    crypto: 'empty',
-    module: false,
-    clearImmediate: false,
-    setImmediate: false
-  }
+        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024}),
+    new ExtractTextPlugin('style.css')
+  ]
 });

@@ -19,7 +19,7 @@ module.exports = webpackMerge(commonConfig, {
 
   entry: glob.sync('./src/server/**/*.spec.ts'),
 
-  output: {path: helpers.root('dist/spec'), filename: '[name].spec.js'},
+  output: {path: helpers.root('dist/spec/server'), filename: '[name].spec.js'},
 
   module: {
     preLoaders: [{
@@ -32,15 +32,24 @@ module.exports = webpackMerge(commonConfig, {
       ]
     }],
 
-    loaders: [{test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(e2e)\.ts$/]}],
+    loaders: [{test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/]}],
 
     postLoaders: [{
       test: /\.(js|ts)$/,
       loader: 'istanbul-instrumenter-loader',
-      include: helpers.root('src'),
+      include: helpers.root('src/server'),
       exclude: [/\.e2e\.ts$/, /\.spec\.ts$/, helpers.root('node_modules')]
     }]
   },
 
-  plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})]
+  plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})],
+
+  node: {
+    global: 'window',
+    process: false,
+    crypto: 'empty',
+    module: false,
+    clearImmediate: false,
+    setImmediate: false
+  }
 });
