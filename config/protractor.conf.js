@@ -1,38 +1,8 @@
 var settings = require('./settings').settings;
-var helpers = require('./helpers');
-
-var configuration = {
-  baseUrl: 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
-
-  specs: [
-    helpers.root('src/**/*.e2e.ts')
-  ],
-  exclude: [],
-
-  framework: 'jasmine2',
-
-  allScriptsTimeout: 110000,
-
-  jasmineNodeOpts: {
-    showTiming: true,
-    showColors: true,
-    isVerbose: false,
-    includeStackTrace: false,
-    defaultTimeoutInterval: 400000
-  },
-  directConnect: true,
-
-  onPrepare: function() {
-    browser.ignoreSynchronization = true;
-  },
-
-  seleniumServerJar: "node_modules/protractor/selenium/selenium-server-standalone-2.52.0.jar",
-  useAllAngular2AppRoots: true
-};
-
+var helpers = require('../helpers');
 
 var BROWSER_CAPS = {
-  ChromeDesktop: {
+  Chrome: {
     browserName: 'chrome',
     chromeOptions: {
       args: ['show-fps-counter=true', '--js-flags=--expose-gc'],
@@ -40,37 +10,28 @@ var BROWSER_CAPS = {
         traceCategories: 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
       }
     },
-    loggingPrefs: {
-      performance: 'ALL',
-      browser: 'ALL'
-    }
+    loggingPrefs: {performance: 'ALL', browser: 'ALL'}
   },
-  ChromeOnTravis: {
-    browserName: 'chrome',
-    chromeOptions: {
-      args: ['show-fps-counter=true', '--no-sandbox', '--js-flags=--expose-gc'],
-      perfLoggingPrefs: {
-        traceCategories: 'v8,blink.console,devtools.timeline,disabled-by-default-devtools.timeline'
-      }
-    },
-    loggingPrefs: {
-      performance: 'ALL',
-      browser: 'ALL'
-    }
-  },
-  Firefox: {
-    browserName: 'firefox'
-  }
+  Firefox: {browserName: 'firefox'}
 };
 
-if (process.env.TRAVIS) {
-  configuration.multiCapabilities = [
-    BROWSER_CAPS.Firefox
-  ];
-} else {
-  configuration.multiCapabilities = [
-    BROWSER_CAPS.ChromeDesktop
-  ];
-}
+exports.config = {
+  baseUrl: 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
 
-exports.config = configuration;
+  specs: [helpers.root('src/**/*.e2e.ts')],
+  exclude: [],
+
+  framework: 'jasmine2',
+
+  allScriptsTimeout: 110000,
+
+  directConnect: true,
+
+  multiCapabilities: [BROWSER_CAPS.Firefox, BROWSER_CAPS.Chrome],
+
+  onPrepare: function() {
+    browser.ignoreSynchronization = true;
+  },
+
+  useAllAngular2AppRoots: true
+};

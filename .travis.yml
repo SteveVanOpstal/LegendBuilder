@@ -19,6 +19,10 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+  sauce_connect:
+    username: "SteveVanOpstal"
+    access_key:
+      secure: "F3rE/B3kbM7nHO24rWSP/M2JTi9YQdYh/rhvMpvZgdAICjnUOZYb8nROpduFrwXb/Dc9BImAGw/loF4FOSW18sUH5KiORZpBgwLDqCjz5fyux48tAOO3REO0NZgpAeYAqQct2gWO894fkCmfXdkpYAcrQJRQe7YbnL3HDYrAw0mbIHEyWw+jiIL98WWogoraVIS0n3gBzTaKAPjxy0eqoe6XZsU2m9FJ+DODKEFme0FgOi52ioCVR6lWkAsXQedbwwRG0uPSM6MtZnffd0n2xS7iO/Dlph5UBUDW4mtM0YR8zB+55y0s3tIGlkiiEk/dqVH+hx8wWqFtNd6GQ9uoyMdK1uMdZu8eVP1x+OeCwoAT/r1nUEqA6agvCe8gs1Sw2WPhPXsFauIpH7tO4DgWFjZf0WkFdjWxhMeCkkbRc9FzfJGIuoGdSytc9x6qFxRBwqCXrLDBq4gonivQMtEoaWILwIO6gUyrgs1582P7Q9Z2zqSvwQ5LTAOtzU2bzqpZmS3kGyGCHwgvk8ZweFEAxCcZ0xd/EsQG9mxPFdw0chMp8rmZNuB9PZBTImTg7LYI8H2gdK2wk3SLpkmlNjuVpTml9OIp/HYfFsSijwqch4yzcngp4zpSYxvq05q6/SWmzM8sy9VexEm4S1QBFaKLYrCgkkTOOa93Ggsb7LymSY="
 
 before_script:
   - export DISPLAY=:99.0
