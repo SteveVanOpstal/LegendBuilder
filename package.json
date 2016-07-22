@@ -48,7 +48,7 @@
     "start": "npm run http-server",
     "server": "npm run http-server",
     "http-server": "npm run http-server:dev",
-    "http-server:dev": "./node_modules/.bin/webpack-dev-server --config config/webpack/client/dev.js --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
+    "http-server:dev": "./node_modules/.bin/webpack-dev-server --config config/webpack/client/dev.js --inline --progress --profile --watch --content-base src/",
     "http-server:prod": "node dist/server/http-server.js",
     "static-server": "npm run static-server:dev",
     "static-server:dev": "npm run build:server:dev && node dist/server/static-server.js",
