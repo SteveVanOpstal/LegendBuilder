@@ -30,7 +30,12 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script:
-  - npm run ci
+  - npm run build
+  - npm run server
+  - npm run static-server
+  - npm run match-server
+  - npm run e2e
+  - npm run test
 
 after_script:
   - npm run coveralls
