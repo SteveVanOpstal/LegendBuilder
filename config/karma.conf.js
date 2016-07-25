@@ -1,3 +1,5 @@
+var browserProvidersConf = require('./browser-providers.conf.js');
+
 module.exports = function(config) {
   var helpers = require('../helpers');
   var specPath = helpers.root('dist/spec/client/main.spec.js');
@@ -20,6 +22,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: false,
     browsers: ['PhantomJS'],
-    singleRun: true
+    singleRun: true,
+    customLaunchers: browserProvidersConf.customLaunchers
   });
 };
