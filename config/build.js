@@ -18,6 +18,7 @@ switch (process.env.CI_MODE) {
 
   case 'client_test_required':
     commands.push('test:client');
+    commands.push('coveralls');
     config.scripts['test:client'] += ' --browsers=' + browsers.sauceAliases.CI_REQUIRED.join(',');
     break;
 

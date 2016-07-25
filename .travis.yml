@@ -42,6 +42,4 @@ before_script:
 
 script:
   - npm run ci
-
-after_script:
-  - npm run coveralls
+  
