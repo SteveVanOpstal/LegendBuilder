@@ -23,6 +23,14 @@ module.exports = function(config) {
     autoWatch: false,
     browsers: ['PhantomJS'],
     singleRun: true,
-    customLaunchers: browserProvidersConf.customLaunchers
+    customLaunchers: browserProvidersConf.customLaunchers,
+
+    plugins: [
+      'karma-jasmine',
+      'karma-sauce-launcher',
+      'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
+      'karma-sourcemap-loader'
+    ],
   });
 };
