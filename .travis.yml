@@ -7,9 +7,11 @@ env:
   global:
   - CXX=g++-4.8
   matrix:
-    - CI_MODE=js
-    - CI_MODE=test_required
-    - CI_MODE=test_optional
+    - CI_MODE=client
+    - CI_MODE=client_test_required
+    - CI_MODE=client_test_optional
+    - CI_MODE=server
+    - CI_MODE=server_test
 
 matrix:
   allow_failures:

@@ -12,18 +12,26 @@ let browsers = require('./browser-providers.conf.js');
 let commands = [];
 
 switch (process.env.CI_MODE) {
-  case 'js':
-    commands.push('build');
+  case 'client':
+    commands.push('build:client');
     break;
 
-  case 'test_required':
-    commands.push('test');
-    config.scripts['test'] += ' -- --browsers=' + browsers.sauceAliases.CI_REQUIRED.join(',');
+  case 'client_test_required':
+    commands.push('test:client');
+    config.scripts['test:client'] += ' --browsers=' + browsers.sauceAliases.CI_REQUIRED.join(',');
     break;
 
-  case 'test_optional':
-    commands.push('test');
-    config.scripts['test'] += ' -- --browsers=' + browsers.sauceAliases.CI_OPTIONAL.join(',');
+  case 'client_test_optional':
+    commands.push('test:client');
+    config.scripts['test:client'] += ' --browsers=' + browsers.sauceAliases.CI_OPTIONAL.join(',');
+    break;
+
+  case 'server':
+    commands.push('build:server');
+    break;
+
+  case 'server_test':
+    commands.push('test:server');
     break;
 
   case 'e2e':
@@ -35,8 +43,6 @@ switch (process.env.CI_MODE) {
     commands.push('test');
     break;
 }
-
-console.log(config.scripts['test']);
 
 /* translate scripts */
 
