@@ -4,6 +4,7 @@ node_js:
   - '5.4.1'
 
 env:
+  global:
   - CXX=g++-4.8
   matrix:
     - CI_MODE=js
