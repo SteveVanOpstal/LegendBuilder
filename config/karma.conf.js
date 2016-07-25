@@ -30,7 +30,9 @@ module.exports = function(config) {
       'karma-sauce-launcher',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
-      'karma-sourcemap-loader'
+      'karma-sourcemap-loader',
+      'karma-mocha-reporter',
+      'karma-coverage'
     ],
   });
 };
