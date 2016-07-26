@@ -12,11 +12,16 @@ module.exports = function(config) {
     browsers: ['PhantomJS'],
     concurrency: 5,
     customLaunchers: browserProvidersConf.customLaunchers,
+    singleRun: true,
 
     plugins: [
       'karma-jasmine', 'karma-sauce-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher',
       'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage'
     ],
+
+    preprocessors: {
+      specPath: ['sourcemap']
+    },
 
     reporters: ['mocha', 'coverage'],
 
