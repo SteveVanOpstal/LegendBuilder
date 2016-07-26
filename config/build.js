@@ -80,6 +80,9 @@ function spawn_process(script, done) {
 
   child.on('exit', (code) => {
     console.log('Exit code `' + code + '` on `' + script + '`');
+    if (code !== 0) {
+      process.exit(code);
+    }
     done();
   });
 }
