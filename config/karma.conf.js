@@ -10,6 +10,7 @@ module.exports = function(config) {
 
     port: 9876,
     browsers: ['PhantomJS'],
+    concurrency: 5,
     customLaunchers: browserProvidersConf.customLaunchers,
 
     plugins: [
