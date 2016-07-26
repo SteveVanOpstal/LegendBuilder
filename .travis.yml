@@ -1,11 +1,13 @@
 language: node_js
 sudo: false
 node_js:
-  - '5.4.1'
+  - 5.4.1
 
 env:
   global:
-  - CXX=g++-4.8
+    - CXX=g++-4.8
+    - SAUCE_USERNAME=SteveVanOpstal
+    - secure: fGMOrTaL4fJrZkQfwoC3/PZykjmeverJyPXhn7pGgq5sAHxB/xmZlG6tj4hi6Dxubjpr35aQ7D9oe+ml3TcRhE0TnQnYPhCOy76SX1UsuP1eiUxNfIMqmWy29rBzvLLqBqsSna9FcKE1cgaj/CyPP31vMZdeOOmFkAjvsZ/ydadugrwLB2zLPAPegWmmZyDmi/UamjbgvflvGT8tQ51JK6bU4V73WSKMcO+O8O5pLsQVf2qUIKmyQXzhawhTutNL+33GCa4cpG/HaoczNRdyeUJ/x/o0mLN3ltwjRmUYbl6EjbfkcGjAQhr/GG80mBbGsJPkUV8XCVpVXaRA1gV4SdPGAAIz13QY0p0I8tjEISud2KMp4bi+ixmx1/nl5iwbJjJg6LsSVPa/v+Me31o/fDaYoxjeYiBHJB8JDH7t7OomIsPoXl85HB9PFzrUQBb/WM79h+fgQuN7Pg2cktSbsRPZQ9i6BI6OIXFyywyY7D2BwSmfL7Tg1SbgpQbzkLTHOzfLaeW9zM9yO6D9mFp65Dr4nlA9WMtASH0g+K1jTQ8NubFULwghWtNmS+NUY8S6NPUtOzcA4IHGKY3XO8FT687X399gcx9lk82i/IuWwpmsF097Wdqzz6u/sLU7Tl1QQj6yjMNVydCPtrSnmefAbfOyFp0PCny90TKuxRuSe6k=
   matrix:
     - CI_MODE=client
     - CI_MODE=client_test_required
@@ -15,7 +17,7 @@ env:
 
 matrix:
   allow_failures:
-    - env: "CI_MODE=test_optional"
+    - env: CI_MODE=client_test_optional
 
 cache:
   directories:
@@ -30,16 +32,11 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-  sauce_connect:
-    username: "SteveVanOpstal"
-    access_key:
-      secure: "Oh1/z+sYb7emqapsY22oFh3NkYyI69MJwuhDZsTi9/8aSdMFnfU9CQ0Cn4oJ2AOO3oT23LPeWnv4fZn6KgvuouXPRLf8mQHudQ//ifOINKq9BOxD59CpM2yUB5ON9rO5RR3SY1L5njZ+FXpue9YOsBWBJV4Rp/L2D1whPwtAklKTbvZHHJfBXbzKdCBVkd0Aui46vg1RN28s0rPXN6OJAfH9jqpGsIZIZROPnpQtlb8gY4HnwQGOXmFIwz3jV1RCNJ69voUh6cvs4RONdBUmQR2HgnCs+3Yxrcl3IlcqasXmZqwmzoCn8dnXe54jtJutSdoj23048lRH/bGymKvEvqwAGHSzmSg7HeKz22vdlTJbpfy81PfBqZInb0S4xDuWo5OMxrncL+rIYpJRod+W/X9+owoZzIvcuicPj3UvA6XbAknvV4YFxpPA+3NXZAgPKxGawLOz4vZnpxwNnPsApvR4kRGfqOV530eGVs9tL9XzuciwV9EGIxsTOBhZucBxfK16wsX6h6K37IEYzDyJzEzfZkJLDsae7o42ChKbYgdZUfqtMTwCUncHZ2xDHB5bFT/HuACW/tdFfrJddnCs7jP3JBfBb425z2oVGeAArF2Xs21iJZHHYSTxo7C55x8NIJ/bTaxT/ktxyo1Id+NBlvw0rJohXI26aCZXm8eTZ/c="
 
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
+  - sleep 3
 
 script:
   - npm run ci
-  
