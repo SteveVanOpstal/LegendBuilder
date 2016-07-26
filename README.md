@@ -15,6 +15,8 @@
 [![License](https://img.shields.io/github/license/SteveVanOpstal/LegendBuilder.svg)](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/SteveVanOpstal/LegendBuilder.svg)](https://gitter.im/SteveVanOpstal/LegendBuilder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/SteveVanOpstal.svg)](https://saucelabs.com/u/SteveVanOpstal)
+
 
 Legend Builder is currently in **Alpha**.
 
