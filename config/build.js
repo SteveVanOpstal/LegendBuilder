@@ -73,13 +73,15 @@ function spawn_process(script) {
 
   let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
-  console.log('Exit code `' + child.status + '` on `' + script + '`');
+  console.log('Exit code ' + child.status + ' on \'' + script + '\'');
   if (child.status !== 0) {
+    close_sauce_tunnel();
     process.exit(child.status);
   }
 
   if (child.error) {
-    console.log('Error `' + error + '` on `' + script + '`');
+    console.log('Error \'' + error + '\' on \'' + script + '\'');
+    close_sauce_tunnel();
     process.exit(1);
   }
 }
@@ -94,6 +96,7 @@ function open_sauce_tunnel(done) {
       console.log('Sauce tunnel: start failed');
       process.exit(1);
     } else {
+      console.log('Sauce tunnel: started');
       done();
     }
   });
