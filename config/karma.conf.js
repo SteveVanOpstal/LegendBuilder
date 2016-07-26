@@ -5,9 +5,6 @@ module.exports = function(config) {
   var specPath = helpers.root('dist/spec/client/main.spec.js');
 
   config.set({
-    sauceUser: process.env.SAUCE_USERNAME,
-    sauceKey: process.env.SAUCE_ACCESS_KEY,
-
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
 

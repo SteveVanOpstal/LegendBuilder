@@ -6,7 +6,7 @@ let browsers = require('./browser-providers.conf.js');
 
 var SauceTunnel = require('sauce-tunnel');
 var tunnel = new SauceTunnel(
-    process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESSKEY, process.env.TRAVIS_JOB_NUMBER);
+    process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY, process.env.TRAVIS_JOB_NUMBER);
 
 /* configuration */
 
