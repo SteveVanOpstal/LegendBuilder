@@ -23,7 +23,7 @@ module.exports = function(config) {
       specPath: ['sourcemap']
     },
 
-    reporters: ['mocha', 'coverage'],
+    reporters: ['mocha', 'coverage', 'saucelabs'],
 
     coverageReporter: {
       dir: '../coverage',
