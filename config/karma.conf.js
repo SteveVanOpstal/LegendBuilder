@@ -7,25 +7,16 @@ module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
-    
+
     port: 9876,
-    colors: true,
-    logLevel: config.LOG_INFO,
-    autoWatch: false,
     browsers: ['PhantomJS'],
-    singleRun: true,
     customLaunchers: browserProvidersConf.customLaunchers,
 
     plugins: [
-      'karma-jasmine',
-      'karma-sauce-launcher',
-      'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
-      'karma-sourcemap-loader',
-      'karma-mocha-reporter',
-      'karma-coverage'
+      'karma-jasmine', 'karma-sauce-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher',
+      'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage'
     ],
-    
+
     reporters: ['mocha', 'coverage'],
 
     coverageReporter: {
@@ -35,7 +26,7 @@ module.exports = function(config) {
         {type: 'lcovonly', subdir: 'lcov'}
       ]
     },
-    
+
     sauceLabs: {
       testName: 'Legend Builder',
       retryLimit: 3,
@@ -50,12 +41,18 @@ module.exports = function(config) {
       }
     },
 
-    webpackServer: {noInfo: true}
+    webpackServer: {noInfo: true},
+
+    captureTimeout: 60000,
+    browserDisconnectTimeout: 60000,
+    browserDisconnectTolerance: 3,
+    browserNoActivityTimeout: 60000
   });
 
 
   if (process.env.TRAVIS) {
-    config.sauceLabs.build = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
+    config.sauceLabs.build =
+        'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
     config.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
 
     console.log('>>>> setting socket.io transport to polling <<<<');
