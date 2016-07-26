@@ -7,16 +7,7 @@ module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
-
-    coverageReporter: {
-      dir: '../coverage',
-      reporters: [
-        {type: 'text-summary'}, {type: 'json'}, {type: 'html'},
-        {type: 'lcovonly', subdir: 'lcov'}
-      ]
-    },
-    webpackServer: {noInfo: true},
-    reporters: ['mocha', 'coverage'],
+    
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -34,5 +25,40 @@ module.exports = function(config) {
       'karma-mocha-reporter',
       'karma-coverage'
     ],
+    
+    reporters: ['mocha', 'coverage'],
+
+    coverageReporter: {
+      dir: '../coverage',
+      reporters: [
+        {type: 'text-summary'}, {type: 'json'}, {type: 'html'},
+        {type: 'lcovonly', subdir: 'lcov'}
+      ]
+    },
+    
+    sauceLabs: {
+      testName: 'Legend Builder',
+      retryLimit: 3,
+      startConnect: false,
+      recordVideo: false,
+      recordScreenshots: false,
+      options: {
+        'selenium-version': '2.53.0',
+        'command-timeout': 600,
+        'idle-timeout': 600,
+        'max-duration': 5400
+      }
+    },
+
+    webpackServer: {noInfo: true}
   });
+
+
+  if (process.env.TRAVIS) {
+    config.sauceLabs.build = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
+    config.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+
+    console.log('>>>> setting socket.io transport to polling <<<<');
+    config.transports = ['polling'];
+  }
 };
