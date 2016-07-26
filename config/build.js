@@ -1,6 +1,6 @@
 'use strict';
 
-let spawn = require('child_process').spawn;
+let spawnSync = require('child_process').spawnSync;
 let async = require('async');
 let browsers = require('./browser-providers.conf.js');
 
@@ -45,44 +45,29 @@ switch (process.env.CI_MODE) {
 
 execute_scripts(scripts);
 
-function execute_scripts(scripts, index) {
-  index = index ? index : 0;
-  spawn_process(scripts[index], function() {
-    index++;
-    if (scripts[index]) {
-      execute_scripts(scripts, index);
-    }
-  });
+function execute_scripts(scripts) {
+  for (let script of scripts) {
+    spawn_process(script);
+  }
 }
 
-function spawn_process(script, done) {
+function spawn_process(script) {
   let command = 'npm';
   if (/^win/.test(process.platform)) {
     command += '.cmd';
   }
 
-  console.log('Starting `' + script + '`..');
+  console.log('Starting `npm run ' + script + '`..');
 
-  let child = spawn(command, ['run'].concat(script.split(' ')));
+  let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
-  child.stdout.on('data', function(chunk) {
-    console.log(chunk.toString());
-  });
+  console.log('Exit code `' + child.status + '` on `' + script + '`');
+  if (child.status !== 0) {
+    process.exit(child.status);
+  }
 
-  child.stderr.on('data', function(chunk) {
-    console.log(chunk.toString());
-  });
-
-  child.on('error', (err) => {
-    console.log('Error `' + err + '` on `' + script + '`');
-    done();
-  });
-
-  child.on('exit', (code) => {
-    console.log('Exit code `' + code + '` on `' + script + '`');
-    if (code !== 0) {
-      process.exit(code);
-    }
-    done();
-  });
+  if (child.error) {
+    console.log('Error `' + error + '` on `' + script + '`');
+    process.exit(1);
+  }
 }
