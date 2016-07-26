@@ -25,7 +25,7 @@ var CIconfiguration = {
   'iOS7':         { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
   'iOS8':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
   'iOS9':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'WindowsPhone': { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}}
+  'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: true}}
 };
 
 var customLaunchers = {
