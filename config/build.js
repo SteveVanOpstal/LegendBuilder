@@ -48,8 +48,9 @@ if (process.env.CI_MODE === 'client_test_required' ||
     process.env.CI_MODE === 'client_test_optional') {
   open_sauce_connect(function(process) {
     let status = execute_scripts(scripts);
-    close_sauce_connect(process);
-    exit(status);
+    close_sauce_connect(process, function() {
+      exit(status);
+    });
   });
 } else {
   let status = execute_scripts(scripts);
@@ -76,7 +77,7 @@ function spawn_process(script) {
 
   let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
-  console.log('Exit code ' + child.status + ' on \'' + script + '\'');
+  console.log('Exit status ' + child.status + ' on \'' + script + '\'');
 
   if (child.error) {
     console.log('Error \'' + child.error + '\' on \'' + script + '\'');
@@ -109,8 +110,10 @@ function open_sauce_connect(done) {
   });
 }
 
-function close_sauce_connect(process) {
+function close_sauce_connect(process, done) {
+  console.log('Sauce connect: stopping..');
   process.close(function() {
     console.log('Sauce connect: stopped');
+    done();
   })
 }
