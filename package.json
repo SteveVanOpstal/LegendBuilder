@@ -136,7 +136,7 @@
     "phantomjs-prebuilt": "^2.1.7",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.2",
-    "sauce-tunnel": "^2.5.0",
+    "sauce-connect-launcher": "^0.15.1",
     "source-map-loader": "^0.1.5",
     "standard-version": "^2.2.1",
     "style-loader": "^0.13.1",

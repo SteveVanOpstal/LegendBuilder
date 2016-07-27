@@ -3,14 +3,12 @@
 let spawnSync = require('child_process').spawnSync;
 let async = require('async');
 let browsers = require('./browser-providers.conf.js');
-
-var SauceTunnel = require('sauce-tunnel');
-var tunnel = new SauceTunnel(
-    process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY, process.env.TRAVIS_JOB_NUMBER);
+var sauceConnectLauncher = require('sauce-connect-launcher');
 
 /* configuration */
 
 let scripts = [];
+console.log('Starting \'' + process.env.CI_MODE + '\'..');
 
 switch (process.env.CI_MODE) {
   case 'client':
@@ -48,12 +46,18 @@ switch (process.env.CI_MODE) {
 
 if (process.env.CI_MODE === 'client_test_required' ||
     process.env.CI_MODE === 'client_test_optional') {
-  open_sauce_tunnel(function() {
-    execute_scripts(scripts);
-    close_sauce_tunnel();
+  open_sauce_connect(function(process) {
+    let status = execute_scripts(scripts);
+    close_sauce_connect(process);
+    if (status) {
+      throw new Error('Exit status ' + status);
+    }
   });
 } else {
-  execute_scripts(scripts);
+  let status = execute_scripts(scripts);
+  if (status) {
+    throw new Error('Exit status ' + status);
+  }
 }
 
 
@@ -69,41 +73,36 @@ function spawn_process(script) {
     command += '.cmd';
   }
 
-  console.log('Starting `npm run ' + script + '`..');
+  console.log('Starting \'npm run ' + script + '\'..');
 
   let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
   console.log('Exit code ' + child.status + ' on \'' + script + '\'');
-  if (child.status !== 0) {
-    close_sauce_tunnel();
-    process.exit(child.status);
-  }
 
   if (child.error) {
-    console.log('Error \'' + error + '\' on \'' + script + '\'');
-    close_sauce_tunnel();
-    process.exit(1);
+    console.log('Error \'' + child.error + '\' on \'' + script + '\'');
+    return child.status === 0 ? 1 : child.status;
   }
+
+  return child.status;
 }
 
 
-/* sauce-tunnel */
+/* sauce-connect-launcher */
 
-function open_sauce_tunnel(done) {
-  console.log('Sauce tunnel: starting..');
-  tunnel.start(function(status) {
-    if (!status) {
-      console.log('Sauce tunnel: start failed');
-      process.exit(1);
-    } else {
-      console.log('Sauce tunnel: started');
-      done();
+function open_sauce_connect(done) {
+  console.log('Sauce connect: starting..');
+  sauceConnectLauncher({}, function(err, process) {
+    if (err) {
+      throw new Error('Sauce connect: start failed, \'' + err.message + '\'');
     }
+    console.log('Sauce connect: running');
+    done(process);
   });
 }
 
-function close_sauce_tunnel() {
-  tunnel.stop(function() {
-    console.log('Sauce tunnel: stopped');
-  });
+function close_sauce_connect(process) {
+  process.close(function() {
+    console.log('Sauce connect: stopped');
+  })
 }
