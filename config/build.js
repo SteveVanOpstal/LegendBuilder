@@ -92,7 +92,7 @@ function spawn_process(script) {
 
 function open_sauce_connect(done) {
   console.log('Sauce connect: starting..');
-  sauceConnectLauncher({}, function(err, process) {
+  sauceConnectLauncher({tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER}, function(err, process) {
     if (err) {
       throw new Error('Sauce connect: start failed, \'' + err.message + '\'');
     }
