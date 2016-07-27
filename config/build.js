@@ -49,22 +49,21 @@ if (process.env.CI_MODE === 'client_test_required' ||
   open_sauce_connect(function(process) {
     let status = execute_scripts(scripts);
     close_sauce_connect(process);
-    if (status) {
-      throw new Error('Exit status ' + status);
-    }
+    exit(status);
   });
 } else {
   let status = execute_scripts(scripts);
-  if (status) {
-    throw new Error('Exit status ' + status);
-  }
+  exit(status);
 }
 
 
 function execute_scripts(scripts) {
+  let status = 0;
   for (let script of scripts) {
-    spawn_process(script);
+    let currentStatus = spawn_process(script);
+    status = currentStatus ? currentStatus : status;
   }
+  return status;
 }
 
 function spawn_process(script) {
@@ -85,6 +84,15 @@ function spawn_process(script) {
   }
 
   return child.status;
+}
+
+function exit(status) {
+  let message = 'Exit status ' + status;
+  if (status) {
+    throw new Error(message);
+  } else {
+    console.log(message);
+  }
 }
 
 
