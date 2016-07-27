@@ -15,7 +15,7 @@ module.exports = webpackMerge(commonConfig, {
   metadata: METADATA,
   devtool: 'source-map',
 
-  entry: {main: ['./config/spec-imports'].concat(glob.sync('./src/client/**/*.spec.ts'))},
+  entry: {main: ['./config/spec-imports', './config/shims_for_IE.js'].concat(glob.sync('./src/client/**/*.spec.ts'))},
 
   output: {path: helpers.root('dist/spec/client'), filename: '[name].spec.js'},
 
