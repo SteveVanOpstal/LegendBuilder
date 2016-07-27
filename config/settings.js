@@ -1,4 +1,4 @@
-const helpers = require('../helpers');
+var helpers = require('../helpers');
 
 var settings = {};
 try {
