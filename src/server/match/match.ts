@@ -174,7 +174,11 @@ export class Match {
           continue;
         }
 
-        ind++;
+        if (result.timeline.frames.length <= 0) {
+          colorConsole.warn('Empty match.');
+          continue;
+        }
+
         data.matches[ind] = new Array();
         result.timeline.frames.forEach((frame, frameIndex) => {
           data.matches[ind][frameIndex] = {
@@ -183,6 +187,7 @@ export class Match {
             gold: frame.participantFrames[participantId].totalGold
           };
         });
+        ind++;
       }
 
       callback(undefined, data);
