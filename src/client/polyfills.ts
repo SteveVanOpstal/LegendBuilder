@@ -2,7 +2,7 @@
 import 'core-js';
 
 // shims_for_ie
-import '../../config/shims_for_ie.js';
+import '../../config/shims_for_IE.js';
 
 // zone.js
 import 'zone.js/dist/zone';
