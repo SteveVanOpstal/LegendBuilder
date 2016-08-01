@@ -69,7 +69,13 @@ describe('ChampionsComponent', () => {
 
   it('should navigate when \'Enter\' is hit and one champion is available',
      inject([ChampionsComponent], (component) => {
-       spyOn(component.router, 'navigate');
+       spyOn(component.router, 'navigate').and.callFake(function() {
+         return {
+           catch: function(callback) {
+             return callback();
+           }
+         };
+       });
        expect(component.router.navigate).not.toHaveBeenCalled();
        component.champions = {
          data: [{
@@ -85,7 +91,13 @@ describe('ChampionsComponent', () => {
 
   it('should not navigate when \'Enter\' is hit and multiple champions are available',
      inject([ChampionsComponent], (component) => {
-       spyOn(component.router, 'navigate');
+       spyOn(component.router, 'navigate').and.callFake(function() {
+         return {
+           catch: function(callback) {
+             return callback();
+           }
+         };
+       });
        expect(component.router.navigate).not.toHaveBeenCalled();
        component.champions = {
          data: [
