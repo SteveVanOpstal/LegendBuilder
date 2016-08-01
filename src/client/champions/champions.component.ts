@@ -1,6 +1,6 @@
 import {NgFor, NgIf} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {FiltersComponent} from '../champions/filters.component';
 import {NamePipe} from '../champions/pipes/name.pipe';
@@ -51,7 +51,8 @@ export class ChampionsComponent implements OnInit {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private router: Router, public lolApi: LolApiService) {}
+  constructor(private route: ActivatedRoute, private router: Router, public lolApi: LolApiService) {
+  }
 
   ngOnInit() {
     this.getData();
@@ -70,7 +71,9 @@ export class ChampionsComponent implements OnInit {
   private enterHit() {
     let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
     if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate([filteredChampions[0].key, 'build']);
+      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
+        this.error = true;
+      });
     }
   }
 

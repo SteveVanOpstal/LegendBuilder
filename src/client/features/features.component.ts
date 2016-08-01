@@ -42,9 +42,10 @@ export class FeaturesComponent implements OnInit {
         .subscribe(
             res => {
               if (!isNaN(res)) {
-                this.router.navigate(['summoner', event.value]).catch(() => {
-                  this.error = true;
-                });
+                this.router.navigate(['summoner', event.value], {relativeTo: this.route})
+                    .catch(() => {
+                      this.error = true;
+                    });
               } else {
                 this.error = true;
               }
