@@ -65,8 +65,7 @@ module.exports = webpackMerge(commonConfig, {
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}), new UglifyJsPlugin({
       beautify: false,
-      mangle: {screw_ie8: true, keep_fnames: true},
-      compress: {screw_ie8: true},
+      mangle: {keep_fnames: true},
       comments: false
     }),
     new CompressionPlugin(
