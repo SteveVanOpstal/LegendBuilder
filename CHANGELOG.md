@@ -1,3 +1,70 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.0.0-alpha.9"></a>
+# [1.0.0-alpha.9](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.8...1.0.0-alpha.9) (2016-08-01)
+
+
+### Bug Fixes
+
+* **CHANGELOG:** add correct legendbuilder.io link ([78a9888](https://github.com/SteveVanOpstal/LegendBuilder/commit/78a9888))
+* **CHANGELOG:** remove gulp link ([a3fef81](https://github.com/SteveVanOpstal/LegendBuilder/commit/a3fef81))
+* **console:** tim import incorrect ([17ad6b2](https://github.com/SteveVanOpstal/LegendBuilder/commit/17ad6b2))
+* **d3:** incorrect typings ([1400337](https://github.com/SteveVanOpstal/LegendBuilder/commit/1400337))
+* **format:** errors due to clang-format changes ([7558725](https://github.com/SteveVanOpstal/LegendBuilder/commit/7558725))
+* **host:** .api.key file not found ([c14e2a3](https://github.com/SteveVanOpstal/LegendBuilder/commit/c14e2a3))
+* **host:** cannot find RequestOptions ([95506be](https://github.com/SteveVanOpstal/LegendBuilder/commit/95506be))
+* **host:** setTimeout fails ([ca318af](https://github.com/SteveVanOpstal/LegendBuilder/commit/ca318af))
+* **host:** undefined in log ([1204479](https://github.com/SteveVanOpstal/LegendBuilder/commit/1204479))
+* **masteries:** codelyzer issues ([f65482d](https://github.com/SteveVanOpstal/LegendBuilder/commit/f65482d))
+* **masteries:** tests fail ([3de2906](https://github.com/SteveVanOpstal/LegendBuilder/commit/3de2906))
+* **match:** build errors ([ed4b1eb](https://github.com/SteveVanOpstal/LegendBuilder/commit/ed4b1eb))
+* **match-server:** error in request ([67c92de](https://github.com/SteveVanOpstal/LegendBuilder/commit/67c92de))
+* IE9/10/11 shim for CustomEvent ([25af788](https://github.com/SteveVanOpstal/LegendBuilder/commit/25af788))
+* **vendor:** incorrect imports ([08747c0](https://github.com/SteveVanOpstal/LegendBuilder/commit/08747c0))
+* incorrect import shims_for_IE.js ([3d0e7a0](https://github.com/SteveVanOpstal/LegendBuilder/commit/3d0e7a0))
+* **match-server:** incorrect indexation on matches ([1aad309](https://github.com/SteveVanOpstal/LegendBuilder/commit/1aad309))
+* **Router:** absolute navigation should be relative ([4379670](https://github.com/SteveVanOpstal/LegendBuilder/commit/4379670))
+* **server:** base url with region incorrect ([38e3f65](https://github.com/SteveVanOpstal/LegendBuilder/commit/38e3f65))
+* **server:** cache incorrect ([28adef7](https://github.com/SteveVanOpstal/LegendBuilder/commit/28adef7))
+* **server:** HostResponse.data type incorrect ([81157ca](https://github.com/SteveVanOpstal/LegendBuilder/commit/81157ca))
+* **server:** incorrect api parameter ([23d37b4](https://github.com/SteveVanOpstal/LegendBuilder/commit/23d37b4))
+* **settings:** IE10 and below fail on const declaration ([9f0365e](https://github.com/SteveVanOpstal/LegendBuilder/commit/9f0365e))
+* navigation ([dd18fc1](https://github.com/SteveVanOpstal/LegendBuilder/commit/dd18fc1))
+* remove unused dependencies ([d9d16c3](https://github.com/SteveVanOpstal/LegendBuilder/commit/d9d16c3))
+* tslint errors ([4cf62ec](https://github.com/SteveVanOpstal/LegendBuilder/commit/4cf62ec))
+* **summoner:** response.write fails ([e98c5cd](https://github.com/SteveVanOpstal/LegendBuilder/commit/e98c5cd))
+* **tslint:** build errors ([eed7d67](https://github.com/SteveVanOpstal/LegendBuilder/commit/eed7d67))
+* **tslint:** errors ([ebe93e8](https://github.com/SteveVanOpstal/LegendBuilder/commit/ebe93e8))
+* **tslint:** incorrect constructor location ([cb8ea57](https://github.com/SteveVanOpstal/LegendBuilder/commit/cb8ea57))
+
+
+### Features
+
+* **angular:** update to angular 2.0.0-rc.3 ([97803a2](https://github.com/SteveVanOpstal/LegendBuilder/commit/97803a2))
+* **angular:** update to angular 2.0.0-rc.4 ([44c4b75](https://github.com/SteveVanOpstal/LegendBuilder/commit/44c4b75))
+* **console:** move to chalk ([0f2c28a](https://github.com/SteveVanOpstal/LegendBuilder/commit/0f2c28a))
+* **d3:** update to 1.0.0 ([6e14cc1](https://github.com/SteveVanOpstal/LegendBuilder/commit/6e14cc1))
+* **ddragon:** get image onInit ([4d94f18](https://github.com/SteveVanOpstal/LegendBuilder/commit/4d94f18))
+* **ie:** add shims_for_ie to polyfills ([2ea19fa](https://github.com/SteveVanOpstal/LegendBuilder/commit/2ea19fa))
+* **items:** add stats ([dd7cefb](https://github.com/SteveVanOpstal/LegendBuilder/commit/dd7cefb))
+* **lolapi:** ignore unkown regions ([80a5057](https://github.com/SteveVanOpstal/LegendBuilder/commit/80a5057))
+* **match:** improvements ([670b352](https://github.com/SteveVanOpstal/LegendBuilder/commit/670b352))
+* **match-server:** debug graphs in development ([6d14638](https://github.com/SteveVanOpstal/LegendBuilder/commit/6d14638))
+* **server:** add async retry ([4911ce1](https://github.com/SteveVanOpstal/LegendBuilder/commit/4911ce1))
+* **server:** extra check on region for champions ([3053e48](https://github.com/SteveVanOpstal/LegendBuilder/commit/3053e48))
+* **servers:** get base url in a generic manner ([2a22be0](https://github.com/SteveVanOpstal/LegendBuilder/commit/2a22be0))
+* **servers:** get the hostname in a generic way ([4ccc636](https://github.com/SteveVanOpstal/LegendBuilder/commit/4ccc636))
+* update to TypeScript 2.0 ([e6ac2d1](https://github.com/SteveVanOpstal/LegendBuilder/commit/e6ac2d1))
+
+
+### Performance Improvements
+
+* pack css files in one style.css ([dfdf0b5](https://github.com/SteveVanOpstal/LegendBuilder/commit/dfdf0b5))
+
+
+
 <a name="1.0.0-alpha.8"></a>
 # [1.0.0-alpha.8](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.7...1.0.0-alpha.8) (2016-04-24)
 
