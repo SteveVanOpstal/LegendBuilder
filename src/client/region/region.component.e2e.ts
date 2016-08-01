@@ -1,16 +1,20 @@
 'use strict';
 describe('RegionsComponent', () => {
 
- // Temporary fix for zone.js issue #234
- beforeEach((done) => {
-   browser.get('/');
-   element(by.css('body')).isPresent().then(() => {
-     done();
-   }, () => {
-     // error skipped
-     done();
-   });
- });
+  // Temporary fix for zone.js issue #234
+  beforeEach((done) => {
+    browser.get('/');
+    element(by.css('body'))
+        .isPresent()
+        .then(
+            () => {
+              done();
+            },
+            () => {
+              // error skipped
+              done();
+            });
+  });
 
   it('should have a title', () => {
     expect(browser.getTitle()).toEqual('Legend Builder');
