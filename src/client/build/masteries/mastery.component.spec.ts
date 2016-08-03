@@ -146,7 +146,7 @@ describe('MasteryComponent', () => {
   it('should add rank on click', () => {
     spyOn(component, 'rankAdd');
     expect(component.rankAdd).not.toHaveBeenCalled();
-    document.getElementsByTagName('div').item(1).click();
+    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('click'));
     expect(component.rankAdd).toHaveBeenCalled();
   });
   it('should add rank on drag', () => {
