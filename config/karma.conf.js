@@ -1,9 +1,8 @@
 var browserProvidersConf = require('./browser-providers.conf.js');
+var helpers = require('../helpers');
+var specPath = helpers.root('dist/spec/client/main.spec.js');
 
 module.exports = function(config) {
-  var helpers = require('../helpers');
-  var specPath = helpers.root('dist/spec/client/main.spec.js');
-
   config.set({
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
@@ -32,6 +31,8 @@ module.exports = function(config) {
     },
 
     sauceLabs: {
+      build: process.env.SAUCE_BUILD,
+      tunnelIdentifier: process.env.SAUCE_TUNNEL_IDENTIFIER,
       testName: 'Legend Builder',
       retryLimit: 3,
       startConnect: false,
@@ -54,12 +55,4 @@ module.exports = function(config) {
   });
 
 
-  if (process.env.TRAVIS) {
-    config.sauceLabs.build =
-        'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
-    config.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
-
-    console.log('>>>> setting socket.io transport to polling <<<<');
-    config.transports = ['polling'];
-  }
 };
