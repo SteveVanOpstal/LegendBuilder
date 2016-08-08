@@ -12,6 +12,7 @@ module.exports = function(config) {
     concurrency: 1,
     customLaunchers: browserProvidersConf.customLaunchers,
     singleRun: true,
+    logLevel: config.LOG_DEBUG,
 
     plugins: [
       'karma-jasmine', 'karma-sauce-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher',
@@ -36,8 +37,8 @@ module.exports = function(config) {
       testName: 'Legend Builder',
       retryLimit: 3,
       startConnect: false,
-      recordVideo: false,
-      recordScreenshots: false,
+      recordVideo: true,
+      recordScreenshots: true,
       options: {
         'selenium-version': '2.53.0',
         'command-timeout': 600,
