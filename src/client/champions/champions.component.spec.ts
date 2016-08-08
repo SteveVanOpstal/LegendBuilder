@@ -15,7 +15,7 @@ describe('ChampionsComponent', () => {
 
       BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
         provide: Http,
-        useFactory: function(backend, defaultOptions) {
+        useFactory: (backend, defaultOptions) => {
           return new Http(backend, defaultOptions);
         },
         deps: [MockBackend, BaseRequestOptions]
@@ -69,9 +69,9 @@ describe('ChampionsComponent', () => {
 
   it('should navigate when \'Enter\' is hit and one champion is available',
      inject([ChampionsComponent], (component) => {
-       spyOn(component.router, 'navigate').and.callFake(function() {
+       spyOn(component.router, 'navigate').and.callFake(() => {
          return {
-           catch: function(callback) {
+           catch: (callback) => {
              return callback();
            }
          };
@@ -91,9 +91,9 @@ describe('ChampionsComponent', () => {
 
   it('should not navigate when \'Enter\' is hit and multiple champions are available',
      inject([ChampionsComponent], (component) => {
-       spyOn(component.router, 'navigate').and.callFake(function() {
+       spyOn(component.router, 'navigate').and.callFake(() => {
          return {
-           catch: function(callback) {
+           catch: (callback) => {
              return callback();
            }
          };
