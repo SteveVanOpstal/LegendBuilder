@@ -56,32 +56,35 @@ let realm = {
 };
 
 
-function providers<T>(elementRefType: {new (): T}) {
-  beforeEach(() => {
-    addProviders([
-      {provide: ElementRef, useValue: new elementRefType()},
+function addCommonProviders<T>(elementRefType: {new (): T}) {
+  addProviders([
+    {provide: ElementRef, useValue: new elementRefType()},
 
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: function(backend, defaultOptions) {
-          return new Http(backend, defaultOptions);
-        },
-        deps: [MockBackend, BaseRequestOptions]
+    BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+      provide: Http,
+      useFactory: (backend, defaultOptions) => {
+        return new Http(backend, defaultOptions);
       },
+      deps: [MockBackend, BaseRequestOptions]
+    },
 
-      LolApiService, DDragonDirective
-    ]);
-  });
+    LolApiService, DDragonDirective
+  ]);
 }
 
 describe('DDragonDirective:style', () => {
-  providers(MockImageElementRef);
+  beforeEach(() => {
+    addCommonProviders(MockImageElementRef);
+  });
+
+  beforeEach(inject([DDragonDirective], (directive) => {
+    directive.x = 1;
+    directive.y = 1;
+  }));
 
   it('should initialise with a default image', inject([DDragonDirective], (directive) => {
-       directive.x = 1;
-       directive.y = 1;
        directive.ngOnInit();
        expect(directive.el.nativeElement.getAttribute('style')).toBe(directive.defaultImg);
      }));
@@ -89,8 +92,6 @@ describe('DDragonDirective:style', () => {
   it('should set requested image',
      async(inject([MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
        mockBackend.subscribe(false, realm);
-       directive.x = 1;
-       directive.y = 1;
        directive.image = 'test.png';
        directive.ngOnInit();
 
@@ -108,7 +109,9 @@ describe('DDragonDirective:style', () => {
 
 
 describe('DDragonDirective:src', () => {
-  providers(MockImageElementRef);
+  beforeEach(() => {
+    addCommonProviders(MockImageElementRef);
+  });
 
   it('should initialise with a default image', inject([DDragonDirective], (directive) => {
        directive.ngOnInit();
@@ -135,7 +138,9 @@ describe('DDragonDirective:src', () => {
 
 
 describe('DDragonDirective:xlink', () => {
-  providers(MockSvgImageElementRef);
+  beforeEach(() => {
+    addCommonProviders(MockSvgImageElementRef);
+  });
 
   it('should initialise with a default image', inject([DDragonDirective], (directive) => {
        directive.ngOnInit();
@@ -162,7 +167,9 @@ describe('DDragonDirective:xlink', () => {
 
 
 describe('DDragonDirective', () => {
-  providers(MockImageElementRef);
+  beforeEach(() => {
+    addCommonProviders(MockImageElementRef);
+  });
 
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
        let result = directive.buildStyle('test.png', realm, 0, 0);
@@ -210,4 +217,29 @@ describe('DDragonDirective', () => {
        let result = directive.buildUrl('champion/loading/test.png', realm);
        expect(result).toBe('http://ddragon.leagueoflegends.com/cdn/img/champion/loading/test.png');
      }));
+
+  it('should not update image without realm', inject([DDragonDirective], (directive) => {
+       spyOn(directive, 'setImage');
+       expect(directive.setImage).not.toHaveBeenCalled();
+       directive.ngOnChanges();
+       expect(directive.setImage).not.toHaveBeenCalled();
+     }));
+
+  it('should update image',
+     async(inject(
+         [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
+           mockBackend.subscribe(false, realm);
+           spyOn(directive, 'setImage');
+           expect(directive.setImage).not.toHaveBeenCalled();
+           directive.ngOnInit();
+
+           service.getRealm().subscribe(
+               () => {
+                 directive.ngOnChanges();
+                 expect(directive.setImage).toHaveBeenCalled();
+               },
+               () => {
+                 fail('unexpected failure');
+               });
+         })));
 });

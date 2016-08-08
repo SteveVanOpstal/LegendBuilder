@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, Input, OnChanges, OnInit} from '@angular/core';
 
 import {LolApiService} from './lolapi.service';
 
@@ -10,20 +10,28 @@ enum AttributeType {
 
 @Directive({selector: '[ddragon]'})
 
-export class DDragonDirective implements OnInit {
+export class DDragonDirective implements OnInit, OnChanges {
   @Input('ddragon') image: string;
   @Input() x: number = -1;
   @Input() y: number = -1;
 
   private defaultImg: string = '/assets/images/hourglass.svg';
+  private realm: string = '';
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.setImage(this.defaultImg);
     this.lolApi.getRealm().subscribe((realm) => {
+      this.realm = realm;
       this.setImage(this.buildImage(realm));
     });
+  }
+
+  ngOnChanges() {
+    if (this.realm) {
+      this.setImage(this.buildImage(this.realm));
+    }
   }
 
   setImage(image: string) {
