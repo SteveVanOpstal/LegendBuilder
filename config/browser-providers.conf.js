@@ -38,7 +38,7 @@ var customLaunchers = {
   'SL_CHROME': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '50'
+    version: '51'
   },
   'SL_CHROMEBETA': {
     base: 'SauceLabs',
@@ -53,7 +53,7 @@ var customLaunchers = {
   'SL_FIREFOX': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: '45'
+    version: '47'
   },
   'SL_FIREFOXBETA': {
     base: 'SauceLabs',
