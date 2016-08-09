@@ -49,10 +49,10 @@ module.exports = function(config) {
 
     webpackServer: {noInfo: true},
 
-    captureTimeout: 60000,
-    browserDisconnectTimeout: 20000,
+    captureTimeout: 40000,
+    browserDisconnectTimeout: 40000,
     browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 60000
+    browserNoActivityTimeout: 40000
   });
 
 
