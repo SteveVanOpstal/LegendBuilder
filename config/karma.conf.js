@@ -41,16 +41,16 @@ module.exports = function(config) {
       recordScreenshots: true,
       options: {
         'selenium-version': '2.53.0',
-        'command-timeout': 600,
-        'idle-timeout': 600,
-        'max-duration': 5400
+        'command-timeout': 120,
+        'idle-timeout': 120,
+        'max-duration': 900
       }
     },
 
     webpackServer: {noInfo: true},
 
     captureTimeout: 60000,
-    browserDisconnectTimeout: 60000,
+    browserDisconnectTimeout: 20000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 60000
   });
