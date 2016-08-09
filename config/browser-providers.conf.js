@@ -1,11 +1,9 @@
 // Unique place to configure the browsers which are used in the different CI jobs in Sauce Labs (SL).
 // If the target is set to null, then the browser is not run anywhere during CI.
 var CIconfiguration = {
-  'ChromeDev':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'ChromeBeta':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Chrome':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Chrome-1':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'FirefoxDev':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'FirefoxBeta':  { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Firefox':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Firefox-1':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
@@ -34,11 +32,6 @@ var customLaunchers = {
   'ChromeNoSandbox': {
     base: 'Chrome',
     flags: ['--no-sandbox'] },
-  'SL_CHROMEDEV': {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'dev'
-  },
   'SL_CHROMEBETA': {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -53,11 +46,6 @@ var customLaunchers = {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: '50'
-  },
-  'SL_FIREFOXDEV': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'dev'
   },
   'SL_FIREFOXBETA': {
     base: 'SauceLabs',
