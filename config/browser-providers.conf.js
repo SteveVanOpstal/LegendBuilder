@@ -1,31 +1,30 @@
 // Unique place to configure the browsers which are used in the different CI jobs in Sauce Labs (SL).
 // If the target is set to null, then the browser is not run anywhere during CI.
-// If a category becomes empty (e.g. BS and required), then the corresponding job must be commented out in Travis configuration.
 var CIconfiguration = {
-  'Chrome':       { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
-  'Firefox':      { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
-  // FirefoxBeta and ChromeBeta should be target:'SL', and required:true
-  // Currently deactivated due to https://github.com/angular/angular/issues/7560
-  'ChromeBeta':   { unitTest: {target: null, required: true}, e2e: {target: null, required: false}},
-  'FirefoxBeta':  { unitTest: {target: null, required: false}, e2e: {target: null, required: false}},
-  'ChromeDev':    { unitTest: {target: null, required: true}, e2e: {target: null, required: true}},
-  'FirefoxDev':   { unitTest: {target: null, required: true}, e2e: {target: null, required: true}},
-  'IE9':          { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'IE10':         { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
-  'IE11':         { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
-  'Edge':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Android4.1':   { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Android4.2':   { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Android4.3':   { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Android4.4':   { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Android5':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Safari7':      { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Safari8':      { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'Safari9':      { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'iOS7':         { unitTest: {target: 'SL', required: true}, e2e: {target: null, required: true}},
-  'iOS8':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'iOS9':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: true}},
-  'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: true}}
+  'ChromeDev':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'ChromeBeta':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome-1':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'FirefoxDev':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'FirefoxBeta':  { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox-1':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'IE':           { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'IE-1':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'IE-2':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Edge':         { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Android':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Android-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Android-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Android-3':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Android-4':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Safari':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Safari-1':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Safari-2':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'iOS':          { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'iOS-1':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'iOS-2':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: false}}
 };
 
 var customLaunchers = {
@@ -35,138 +34,140 @@ var customLaunchers = {
   'ChromeNoSandbox': {
     base: 'Chrome',
     flags: ['--no-sandbox'] },
-  'SL_CHROME': {
+  'SL_CHROMEDEV': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '51'
+    version: 'dev'
   },
   'SL_CHROMEBETA': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'beta'
   },
-  'SL_CHROMEDEV': {
+  'SL_CHROME': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: 'dev'
+    version: '51'
   },
-  'SL_FIREFOX': {
+  'SL_CHROME-1': {
     base: 'SauceLabs',
-    browserName: 'firefox',
-    version: '47'
-  },
-  'SL_FIREFOXBETA': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'beta'
+    browserName: 'chrome',
+    version: '50'
   },
   'SL_FIREFOXDEV': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'dev'
   },
-  'SL_SAFARI7': {
+  'SL_FIREFOXBETA': {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: 'beta'
+  },
+  'SL_FIREFOX': {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: 'latest'
+  },
+  'SL_FIREFOX-1': {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: 'latest-1'
+  },
+  'SL_SAFARI': {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'OS X 10.9',
-    version: '7'
+    platform: 'OS X 10.11',
+    version: '9'
   },
-  'SL_SAFARI8': {
+  'SL_SAFARI-1': {
     base: 'SauceLabs',
     browserName: 'safari',
     platform: 'OS X 10.10',
     version: '8'
   },
-  'SL_SAFARI9': {
+  'SL_SAFARI-2': {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'OS X 10.11',
-    version: '9.0'
+    platform: 'OS X 10.9',
+    version: '7'
   },
-  'SL_IOS7': {
-    base: 'SauceLabs',
-    browserName: 'iphone',
-    platform: 'OS X 10.10',
-    version: '7.1'
-  },
-  'SL_IOS8': {
-    base: 'SauceLabs',
-    browserName: 'iphone',
-    platform: 'OS X 10.10',
-    version: '8.4'
-  },
-  'SL_IOS9': {
+  'SL_IOS': {
     base: 'SauceLabs',
     browserName: 'iphone',
     platform: 'OS X 10.10',
     version: '9.1'
   },
-  'SL_IE9': {
+  'SL_IOS-1': {
     base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 2008',
-    version: '9'
+    browserName: 'iphone',
+    platform: 'OS X 10.10',
+    version: '8.4'
   },
-  'SL_IE10': {
+  'SL_IOS-2': {
+    base: 'SauceLabs',
+    browserName: 'iphone',
+    platform: 'OS X 10.10',
+    version: '7.1'
+  },
+  'SL_IE': {
     base: 'SauceLabs',
     browserName: 'internet explorer',
-    platform: 'Windows 2012',
+    platform: 'Windows 10',
+    version: '11'
+  },
+  'SL_IE-1': {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows 8',
     version: '10'
   },
-  'SL_IE11': {
+  'SL_IE-2': {
     base: 'SauceLabs',
     browserName: 'internet explorer',
-    platform: 'Windows 8.1',
-    version: '11'
+    platform: 'Windows 7',
+    version: '9'
   },
   'SL_EDGE': {
     base: 'SauceLabs',
     browserName: 'MicrosoftEdge',
     platform: 'Windows 10',
-    version: '13.10586'
+    version: 'latest'
   },
-  'SL_ANDROID4.1': {
+  'SL_ANDROID': {
     base: 'SauceLabs',
     browserName: 'android',
     platform: 'Linux',
-    version: '4.1'
+    version: 'latest'
   },
-  'SL_ANDROID4.2': {
+  'SL_ANDROID-1': {
     base: 'SauceLabs',
     browserName: 'android',
     platform: 'Linux',
-    version: '4.2'
+    version: 'latest-1'
   },
-  'SL_ANDROID4.3': {
+  'SL_ANDROID-2': {
     base: 'SauceLabs',
     browserName: 'android',
     platform: 'Linux',
-    version: '4.3'
+    version: 'latest-2'
   },
-  'SL_ANDROID4.4': {
+  'SL_ANDROID-3': {
     base: 'SauceLabs',
     browserName: 'android',
     platform: 'Linux',
-    version: '4.4'
+    version: 'latest-3'
   },
-  'SL_ANDROID5': {
+  'SL_ANDROID-4': {
     base: 'SauceLabs',
     browserName: 'android',
     platform: 'Linux',
-    version: '5.1'
+    version: 'latest-4'
   }
 };
 
 var sauceAliases = {
   'ALL': Object.keys(customLaunchers).filter(function(item) {return customLaunchers[item].base == 'SauceLabs';}),
-  'DESKTOP': ['SL_CHROME', 'SL_FIREFOX', 'SL_IE9', 'SL_IE10', 'SL_IE11', 'SL_EDGE', 'SL_SAFARI7', 'SL_SAFARI8', 'SL_SAFARI9'],
-  'MOBILE': ['SL_ANDROID4.1', 'SL_ANDROID4.2', 'SL_ANDROID4.3', 'SL_ANDROID4.4', 'SL_ANDROID5', 'SL_IOS7', 'SL_IOS8', 'SL_IOS9'],
-  'ANDROID': ['SL_ANDROID4.1', 'SL_ANDROID4.2', 'SL_ANDROID4.3', 'SL_ANDROID4.4', 'SL_ANDROID5'],
-  'IE': ['SL_IE9', 'SL_IE10', 'SL_IE11'],
-  'IOS': ['SL_IOS7', 'SL_IOS8', 'SL_IOS9'],
-  'SAFARI': ['SL_SAFARI7', 'SL_SAFARI8', 'SL_SAFARI9'],
-  'BETA': ['SL_CHROMEBETA', 'SL_FIREFOXBETA'],
-  'DEV': ['SL_CHROMEDEV', 'SL_FIREFOXDEV'],
   'CI_REQUIRED': buildConfiguration('unitTest', 'SL', true),
   'CI_OPTIONAL': buildConfiguration('unitTest', 'SL', false)
 };
