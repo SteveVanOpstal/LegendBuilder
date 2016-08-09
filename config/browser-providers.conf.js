@@ -55,12 +55,12 @@ var customLaunchers = {
   'SL_FIREFOX': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: 'latest'
+    version: '46'
   },
   'SL_FIREFOX-1': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: 'latest-1'
+    version: '45'
   },
   'SL_SAFARI': {
     base: 'SauceLabs',
