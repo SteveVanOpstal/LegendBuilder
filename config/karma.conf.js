@@ -32,8 +32,8 @@ module.exports = function(config) {
     },
 
     sauceLabs: {
-      build: process.env.SAUCE_BUILD,
-      tunnelIdentifier: process.env.SAUCE_TUNNEL_IDENTIFIER,
+      build: process.env.BUILD,
+      tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
       testName: 'Legend Builder',
       retryLimit: 3,
       startConnect: false,

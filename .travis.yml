@@ -10,8 +10,8 @@ env:
     - secure: NgjbZH7zEqylJnCo9xV/0Y/8O67mdMPSwghTyZ6nNoKjQflNXRpA+/1Y0qxiv5Ek580eUMAxIQ4ynlO5iyprS7iqzOpOYnGqsiqRszegKXanKthZzcgv58eHBsUCYkAyEaW/askNGYY9sI45T9OYIxnC0ogeQq/16BGYUKNo1J2rTFQ05xYGMGouDVs0dqw9JkJsNOvUZgleLQySZaOhsu+W2m1VkON5DMbBqlOBAcbb911P/ZyMEoBlEJhLTOI+x/y4sjSal6otYbGrE+eKb8O38QeurY1OOWVybPyTrx2WSMvol/Emxm9g3gcKHUzWlf0eYGFLwJI4au4atrSpvMYwBmgRefvqim3zWD8WxNknTNvvChq//0CE2jGrP8C7vmQ+dwScnatNuN1tG+ZsNiCB21+AuAWqQQcwoNzpcejm4CDAfyLN1DpyLrAk5kGiWyadkX/PU4ufKKDWYSLxz50NCEWNw8zKmlAPIyKK3Lu/QI4pwiHAcauApG7aE7/4oUxPVal6ZurdXZL1EI7Y5bhY0yIQQdzkOkaUYQ4fbndVISV9jp1iEa0e/eAK5nPURh1QH76Ql0ZBPEkcPH32Cn7Kmla/APrlR87ZEoLq5Ei0VcQ0u6PJxlwuMBhC7gA1BZD4cncbeJ8K1xdwNstCrZ4fy+pVpTjr6Tv/ZQ0Y5Zc=
   matrix:
     - CI_MODE=client
-    - CI_MODE=client_test_required
-    - CI_MODE=client_test_optional
+    - CI_MODE=sl_client_test_required
+    - CI_MODE=sl_client_test_optional
     - CI_MODE=server
     - CI_MODE=server_test
     - CI_MODE=coverage

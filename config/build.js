@@ -5,68 +5,105 @@ let async = require('async');
 let browsers = require('./browser-providers.conf.js');
 let sauceConnectLauncher = require('sauce-connect-launcher');
 
-if (!process.env.SAUCE_BUILD || !process.env.SAUCE_TUNNEL_IDENTIFIER) {
+const readline = require('readline');
+var rl = readline.createInterface({input: process.stdin, output: process.stdout});
+
+
+if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
   if (process.env.TRAVIS) {
-    process.env.SAUCE_BUILD =
+    process.env.BUILD =
         'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
-    process.env.SAUCE_TUNNEL_IDENTIFIER = process.env.TRAVIS_JOB_NUMBER;
+    process.env.TUNNEL_IDENTIFIER = process.env.TRAVIS_JOB_NUMBER;
   } else {
     var time = timestamp();
-    process.env.SAUCE_BUILD = 'Local (' + time + ')';
-    process.env.SAUCE_TUNNEL_IDENTIFIER = 'Local ' + time;
+    process.env.BUILD = 'Local (' + time + ')';
+    process.env.TUNNEL_IDENTIFIER = 'Local ' + time;
   }
 }
 
 /* configuration */
 
-let scripts = [];
-console.log('Starting \'' + process.env.CI_MODE + '\'..');
-
-switch (process.env.CI_MODE) {
-  case 'client':
-    scripts.push('build:client');
-    break;
-
-  case 'client_test_required':
-    scripts.push('test:client -- --browsers=' + browsers.sauceAliases.CI_REQUIRED.join(','));
-    scripts.push('coveralls');
-    break;
-
-  case 'client_test_optional':
-    scripts.push('test:client -- --browsers=' + browsers.sauceAliases.CI_OPTIONAL.join(','));
-    break;
-
-  case 'server':
-    scripts.push('build:server');
-    break;
-
-  case 'server_test':
-    scripts.push('test:server');
-    break;
-
-  case 'e2e':
-    scripts.push('e2e');
-    break;
-
-  default:
-    scripts.push('build');
-    scripts.push('test');
-    break;
+var modes = {
+  'client': ['build:client'],
+  'sl_client_test_required':
+      ['test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_REQUIRED.join(',')],
+  'sl_client_test_optional':
+      ['test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_OPTIONAL.join(',')],
+  'server': ['build:server'],
+  'server_test': ['test:server'],
+  'coverage': ['test:client', 'coveralls'],
+  'e2e': ['e2e']
 }
+
+var mode = process.env.CI_MODE;
+if (validMode(mode)) {
+  execute(modes[mode]);
+}
+else {
+  selectMode();
+}
+
+
+function selectMode() {
+  console.log('\nSelect one of the following modes you want to run: ');
+
+  var i = 0;
+  for (var m in modes) {
+    console.log('  ' + i + ' - \'' + m + '\'');
+    for (var index in modes[m]) {
+      console.log('    * ' + modes[m][index]);
+    }
+    i++;
+  }
+
+  rl.question('\nType in a number: ', (answer) => {
+    mode = getMode(parseInt(answer));
+
+    if (validMode(mode)) {
+      execute(modes[mode]);
+    } else {
+      selectMode();
+    }
+  });
+}
+
+function validMode(mode) {
+  for (var m in modes) {
+    if (mode === m) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function getMode(index) {
+  var i = 0;
+  for (var m in modes) {
+    if (index === i) {
+      return m;
+    }
+    i++;
+  }
+  return '';
+}
+
 
 /* execute */
 
-if (process.env.CI_MODE === 'client_test_required' ||
-    process.env.CI_MODE === 'client_test_optional') {
-  open_sauce(function(process) {
-    let status = execute_scripts(scripts);
-    close_sauce(process, function() {
-      exit(status);
+function execute(scripts) {
+  console.log('\nStarting \'' + mode + '\'..');
+
+  if (mode === 'sl_client_test_required' || mode === 'sl_client_test_optional') {
+    open_saucelabs(function(process) {
+      let status = execute_scripts(scripts);
+      close_saucelabs(process, function() {
+        exit(status);
+      });
     });
-  });
-} else {
-  let status = execute_scripts(scripts);
-  exit(status);
+  } else {
+    let status = execute_scripts(scripts);
+    exit(status);
+  }
 }
 
 
@@ -85,11 +122,11 @@ function spawn_process(script) {
     command += '.cmd';
   }
 
-  console.log('Starting \'npm run ' + script + '\'..');
+  console.log('\nStarting \'npm run ' + script + '\'..');
 
   let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
-  console.log('Exit status ' + child.status + ' on \'' + script + '\'');
+  console.log('\nExit status ' + child.status + ' on \'' + script + '\'');
 
   if (child.error) {
     console.log('Error \'' + child.error + '\' on \'' + script + '\'');
@@ -99,34 +136,24 @@ function spawn_process(script) {
   return child.status;
 }
 
-function exit(status) {
-  let message = 'Exit status ' + status;
-  if (status) {
-    throw new Error(message);
-  } else {
-    console.log(message);
-  }
+
+/* saucelabs tunnel */
+
+function open_saucelabs(done) {
+  console.log('SauceLabs: starting ' + process.env.BUILD + '..');
+  sauceConnectLauncher({tunnelIdentifier: process.env.TUNNEL_IDENTIFIER}, function(err, process) {
+    if (err) {
+      throw new Error('SauceLabs: start failed, \'' + err.message + '\'');
+    }
+    console.log('SauceLabs: running');
+    done(process);
+  });
 }
 
-
-/* sauce-connect-launcher */
-
-function open_sauce(done) {
-  console.log('Sauce: starting ' + process.env.SAUCE_BUILD + '..');
-  sauceConnectLauncher(
-      {tunnelIdentifier: process.env.SAUCE_TUNNEL_IDENTIFIER}, function(err, process) {
-        if (err) {
-          throw new Error('Sauce: start failed, \'' + err.message + '\'');
-        }
-        console.log('Sauce: running');
-        done(process);
-      });
-}
-
-function close_sauce(process, done) {
-  console.log('Sauce: stopping..');
+function close_saucelabs(process, done) {
+  console.log('SauceLabs: stopping..');
   process.close(function() {
-    console.log('Sauce: stopped');
+    console.log('SauceLabs: stopped');
     done();
   })
 }
@@ -142,4 +169,15 @@ function timestamp(input, length) {
 
 function pad(input) {
   return '00'.substring(0, 2 - input.toString().length) + input;
+}
+
+function exit(status) {
+  rl.pause();
+
+  let message = 'Exit status ' + status;
+  if (status) {
+    throw new Error(message);
+  } else {
+    console.log(message);
+  }
 }

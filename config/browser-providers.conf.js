@@ -154,15 +154,17 @@ var customLaunchers = {
   }
 };
 
-var sauceAliases = {
+var saucelabsAliases = {
   'ALL': Object.keys(customLaunchers).filter(function(item) {return customLaunchers[item].base == 'SauceLabs';}),
-  'CI_REQUIRED': buildConfiguration('unitTest', 'SL', true),
-  'CI_OPTIONAL': buildConfiguration('unitTest', 'SL', false)
+  'CI_TEST_REQUIRED': buildConfiguration('unitTest', 'SL', true),
+  'CI_TEST_OPTIONAL': buildConfiguration('unitTest', 'SL', false),
+  'CI_E2E_REQUIRED': buildConfiguration('e2e', 'SL', true),
+  'CI_E2E_OPTIONAL': buildConfiguration('e2e', 'SL', false)
 };
 
 module.exports = {
   customLaunchers: customLaunchers,
-  sauceAliases: sauceAliases
+  saucelabsAliases: saucelabsAliases,
 };
 
 function buildConfiguration(type, target, required) {
