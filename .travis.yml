@@ -18,7 +18,7 @@ env:
 
 matrix:
   allow_failures:
-    - env: CI_MODE=client_test_optional
+    - env: CI_MODE=sl_client_test_optional
 
 cache:
   directories:
