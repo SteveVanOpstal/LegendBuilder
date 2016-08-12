@@ -176,11 +176,11 @@ describe('LolApiService', () => {
   it('should get the correct resolved link to the match-server',
      async(inject([LolApiService], (service) => {
        service.getUrl(region => service.linkMatchData(region))
-           .toPromise()
-           .then((urlResolved) => {
+           .subscribe(
+             (urlResolved) => {
              expect(urlResolved).toBe('http://localhost:8082/euw');
-           })
-           .catch(() => {
+           },
+           () => {
              fail('unexpected failure');
            });
 
