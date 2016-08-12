@@ -14,6 +14,7 @@ env:
     - CI_MODE=client_test_optional
     - CI_MODE=server
     - CI_MODE=server_test
+    - CI_MODE=coverage
 
 matrix:
   allow_failures:
