@@ -1,6 +1,6 @@
 var browserProvidersConf = require('./browser-providers.conf.js');
 var helpers = require('../helpers');
-var specPath = helpers.root('dist/spec/client/main.spec.js');
+var specPath = helpers.root('build/spec/client/main.spec.js');
 
 module.exports = function(config) {
   config.set({

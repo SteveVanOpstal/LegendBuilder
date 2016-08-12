@@ -23,7 +23,7 @@ module.exports = webpackMerge(commonConfig, {
     'match-server': helpers.root('src/server/match/server.ts'),
   },
 
-  output: {path: helpers.root('dist/server'), filename: '[name].js'},
+  output: {path: helpers.root('build/dist/server'), filename: '[name].js'},
 
   module: {
     loaders:

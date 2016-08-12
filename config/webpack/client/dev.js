@@ -36,7 +36,7 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   output: {
-    path: helpers.root('dist/client'),
+    path: helpers.root('build/dist/client'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
@@ -73,7 +73,7 @@ module.exports = webpackMerge(commonConfig, {
     port: METADATA.port,
     host: METADATA.host,
     historyApiFallback: true,
-    outputPath: helpers.root('../dist/client'),
+    outputPath: helpers.root('../build/dist/client'),
     watchOptions: {aggregateTimeout: 300, poll: 1000}
   },
 

@@ -4,6 +4,7 @@ let spawnSync = require('child_process').spawnSync;
 let async = require('async');
 let browsers = require('./browser-providers.conf.js');
 let sauceConnectLauncher = require('sauce-connect-launcher');
+let fs = require('fs');
 
 const readline = require('readline');
 var rl = readline.createInterface({input: process.stdin, output: process.stdout});
@@ -20,6 +21,7 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
     process.env.TUNNEL_IDENTIFIER = 'Local ' + time;
   }
 }
+
 
 /* configuration */
 
@@ -141,7 +143,8 @@ function spawn_process(script) {
 
 function open_saucelabs(done) {
   console.log('SauceLabs: starting ' + process.env.BUILD + '..');
-  sauceConnectLauncher({tunnelIdentifier: process.env.TUNNEL_IDENTIFIER}, function(err, process) {
+  mkdirSync('build/log');
+  sauceConnectLauncher({tunnelIdentifier: process.env.TUNNEL_IDENTIFIER, logfile: 'build/log/' + process.env.BUILD + '.log'}, function(err, process) {
     if (err) {
       throw new Error('SauceLabs: start failed, \'' + err.message + '\'');
     }
@@ -179,5 +182,13 @@ function exit(status) {
     throw new Error(message);
   } else {
     console.log(message);
+  }
+}
+
+var mkdirSync = function (path) {
+  try {
+    fs.mkdirSync(path);
+  } catch(e) {
+    if ( e.code != 'EEXIST' ) throw e;
   }
 }

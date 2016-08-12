@@ -20,7 +20,7 @@ module.exports = webpackMerge(commonConfig, {
         glob.sync('./src/client/**/*.spec.ts'))
   },
 
-  output: {path: helpers.root('dist/spec/client'), filename: '[name].spec.js'},
+  output: {path: helpers.root('build/spec/client'), filename: '[name].spec.js'},
 
   module: {
     preLoaders: [{
