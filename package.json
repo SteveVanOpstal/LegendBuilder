@@ -74,7 +74,7 @@
     "test:client": "./node_modules/.bin/karma start config/karma.conf.js",
     "pretest:server": "npm run build:server:test",
     "test:server": "node config/jasmine.js",
-    "ci": "node config/build.js",
+    "ci": "node config/ci.js",
     "typings-install": "./node_modules/.bin/typings install",
     "postinstall": "npm run typings-install",
     "reddit-release": "python src/reddit/release.py",
