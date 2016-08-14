@@ -143,6 +143,7 @@ function spawn_process(script) {
 
 function open_saucelabs(done) {
   console.log('SauceLabs: starting ' + process.env.BUILD + '..');
+  mkdirSync('build');
   mkdirSync('build/log');
   sauceConnectLauncher({tunnelIdentifier: process.env.TUNNEL_IDENTIFIER, logfile: 'build/log/' + process.env.BUILD + '.log'}, function(err, process) {
     if (err) {
