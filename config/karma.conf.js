@@ -7,6 +7,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
 
+    hostname: 'karma',    
     port: 9876,
     browsers: ['PhantomJS'],
     concurrency: 1,
