@@ -186,7 +186,7 @@ function exit(status) {
   }
 }
 
-var mkdirSync = function (path) {
+function mkdirSync(path) {
   try {
     fs.mkdirSync(path);
   } catch(e) {
