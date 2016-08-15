@@ -2,12 +2,14 @@
 
 let spawnSync = require('child_process').spawnSync;
 let async = require('async');
-let browsers = require('./browser-providers.conf.js');
-let sauceConnectLauncher = require('sauce-connect-launcher');
+let browsers = require('../browser-providers.conf.js');
 let fs = require('fs');
 
+let s3 = require('./s3.js');
+let sauce = require('./sauce.js');
+
 const readline = require('readline');
-var rl = readline.createInterface({input: process.stdin, output: process.stdout});
+let rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
 
 if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
@@ -16,7 +18,7 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
         'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
     process.env.TUNNEL_IDENTIFIER = process.env.TRAVIS_JOB_NUMBER;
   } else {
-    var time = timestamp();
+    let time = timestamp();
     process.env.BUILD = 'Local (' + time + ')';
     process.env.TUNNEL_IDENTIFIER = 'Local ' + time;
   }
@@ -25,7 +27,7 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
 
 /* configuration */
 
-var modes = {
+let modes = {
   'client': ['build:client'],
   'sl_client_test_required':
       ['test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_REQUIRED.join(',')],
@@ -37,9 +39,8 @@ var modes = {
   'e2e': ['e2e']
 }
 
-var mode = process.env.CI_MODE;
-if (validMode(mode)) {
-  execute(modes[mode]);
+if (validMode(process.env.CI_MODE)) {
+  execute(modes[process.env.CI_MODE]);
 }
 else {
   selectMode();
@@ -49,20 +50,20 @@ else {
 function selectMode() {
   console.log('\nSelect one of the following modes you want to run: ');
 
-  var i = 0;
-  for (var m in modes) {
+  let i = 0;
+  for (let m in modes) {
     console.log('  ' + i + ' - \'' + m + '\'');
-    for (var index in modes[m]) {
+    for (let index in modes[m]) {
       console.log('    * ' + modes[m][index]);
     }
     i++;
   }
 
   rl.question('\nType in a number: ', (answer) => {
-    mode = getMode(parseInt(answer));
+    process.env.CI_MODE = getMode(parseInt(answer));
 
-    if (validMode(mode)) {
-      execute(modes[mode]);
+    if (validMode(process.env.CI_MODE)) {
+      execute(modes[process.env.CI_MODE]);
     } else {
       selectMode();
     }
@@ -70,7 +71,7 @@ function selectMode() {
 }
 
 function validMode(mode) {
-  for (var m in modes) {
+  for (let m in modes) {
     if (mode === m) {
       return true;
     }
@@ -79,8 +80,8 @@ function validMode(mode) {
 }
 
 function getMode(index) {
-  var i = 0;
-  for (var m in modes) {
+  let i = 0;
+  for (let m in modes) {
     if (index === i) {
       return m;
     }
@@ -93,12 +94,13 @@ function getMode(index) {
 /* execute */
 
 function execute(scripts) {
-  console.log('\nStarting \'' + mode + '\'..');
+  console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
 
-  if (mode === 'sl_client_test_required' || mode === 'sl_client_test_optional') {
-    open_saucelabs(function(process) {
+  if (process.env.CI_MODE === 'sl_client_test_required' ||
+      process.env.CI_MODE === 'sl_client_test_optional') {
+    sauce.open(function(process) {
       let status = execute_scripts(scripts);
-      close_saucelabs(process, function() {
+      sauce.close(process, function() {
         exit(status);
       });
     });
@@ -139,36 +141,12 @@ function spawn_process(script) {
 }
 
 
-/* saucelabs tunnel */
-
-function open_saucelabs(done) {
-  console.log('SauceLabs: starting ' + process.env.BUILD + '..');
-  mkdirSync('build');
-  mkdirSync('build/log');
-  sauceConnectLauncher({tunnelIdentifier: process.env.TUNNEL_IDENTIFIER, logfile: 'build/log/' + process.env.BUILD + '.log'}, function(err, process) {
-    if (err) {
-      throw new Error('SauceLabs: start failed, \'' + err.message + '\'');
-    }
-    console.log('SauceLabs: running');
-    done(process);
-  });
-}
-
-function close_saucelabs(process, done) {
-  console.log('SauceLabs: stopping..');
-  process.close(function() {
-    console.log('SauceLabs: stopped');
-    done();
-  })
-}
-
-
 /* misc */
 
 function timestamp(input, length) {
   let time = new Date();
-  return pad(time.getSeconds()) + '' + pad(time.getMinutes()) + '' + pad(time.getHours()) + '' +
-      pad(time.getDate()) + '' + pad(time.getMonth()) + '' + time.getFullYear();
+  return time.getFullYear() + '' + pad(time.getMonth()) + '' + pad(time.getDate()) + '' +
+      pad(time.getHours()) + '' + pad(time.getMinutes()) + '' + pad(time.getSeconds());
 }
 
 function pad(input) {
@@ -179,17 +157,28 @@ function exit(status) {
   rl.pause();
 
   let message = 'Exit status ' + status;
-  if (status) {
-    throw new Error(message);
+  if (status === 0) {
+    if (process.env.CI_MODE === 'client') {
+      s3.sync(function(result) {
+        if (result) {
+          console.log(message);
+        } else {
+          throw new Error('Unable to sync to S3');
+        }
+      });
+    } else {
+      console.log(message);
+    }
   } else {
-    console.log(message);
+    throw new Error(message);
   }
 }
 
 function mkdirSync(path) {
   try {
     fs.mkdirSync(path);
-  } catch(e) {
-    if ( e.code != 'EEXIST' ) throw e;
+  } catch (e) {
+    if (e.code != 'EEXIST')
+      throw e;
   }
 }

@@ -1,5 +1,6 @@
 .vscode/
 build/
+!config/build/
 node_modules/
 coverage/
 typings/
