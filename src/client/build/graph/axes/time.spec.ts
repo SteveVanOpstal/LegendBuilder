@@ -1,11 +1,11 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {TimeScale} from '../scales/time';
 import {TimeAxis} from './time';
 
 describe('TimeAxis', () => {
   beforeEach(() => {
-    addProviders([TimeAxis]);
+    TestBed.configureTestingModule({providers: [TimeAxis]});
   });
 
   it('should set axis on create', inject([TimeAxis], (component) => {

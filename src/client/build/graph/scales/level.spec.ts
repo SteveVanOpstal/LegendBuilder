@@ -1,11 +1,11 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {Samples} from '../../samples';
 import {LevelScale} from './level';
 
 describe('LevelScale', () => {
   beforeEach(() => {
-    addProviders([LevelScale]);
+    TestBed.configureTestingModule({providers: [LevelScale]});
   });
 
   it('should set scale on create', inject([LevelScale], (component) => {

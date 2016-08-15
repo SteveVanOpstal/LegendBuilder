@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {TranslatePipe} from './translate.pipe';
 
 describe('Shop TranslatePipe', () => {
   beforeEach(() => {
-    addProviders([TranslatePipe]);
+    TestBed.configureTestingModule({providers: [TranslatePipe]});
   });
 
   it('should translate', inject([TranslatePipe], (pipe) => {

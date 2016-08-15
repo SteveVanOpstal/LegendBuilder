@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {ErrorComponent} from './error.component';
 
 describe('ErrorComponent', () => {
   beforeEach(() => {
-    addProviders([ErrorComponent]);
+    TestBed.configureTestingModule({providers: [ErrorComponent]});
   });
 
   it('should be initialised', inject([ErrorComponent], (component) => {

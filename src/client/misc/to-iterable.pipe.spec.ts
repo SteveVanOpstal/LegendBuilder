@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {ToIterablePipe} from './to-iterable.pipe';
 
 describe('ToIterablePipe', () => {
   beforeEach(() => {
-    addProviders([ToIterablePipe]);
+    TestBed.configureTestingModule({providers: [ToIterablePipe]});
   });
 
   it('should transform object to array', inject([ToIterablePipe], (pipe) => {

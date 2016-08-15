@@ -18,19 +18,34 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import {PLATFORM_DIRECTIVES, enableProdMode, provide} from '@angular/core';
+import {NgModule, enableProdMode} from '@angular/core';
 import {HTTP_BINDINGS} from '@angular/http';
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import {BrowserModule} from '@angular/platform-browser';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {ROUTER_DIRECTIVES} from '@angular/router';
+
+import {AppComponent} from './app.component';
+import {APP_ROUTER_PROVIDERS} from './app.routes';
+
+import {BuildComponent} from './build/build.component';
+import {ChampionsComponent} from './champions/champions.component';
+import {FeaturesComponent} from './features/features.component';
+import {RegionsComponent} from './region/region.component';
 
 if (ENV === 'production') {
   enableProdMode();
 }
 
-import {AppComponent} from './app.component';
-import {APP_ROUTER_PROVIDERS} from './app.routes';
+@NgModule({
+  declarations: [
+    ROUTER_DIRECTIVES, AppComponent, BuildComponent, ChampionsComponent, FeaturesComponent,
+    RegionsComponent
+  ],
+  imports: [BrowserModule],
+  providers: [APP_ROUTER_PROVIDERS, HTTP_BINDINGS],
+  bootstrap: [AppComponent]
+})
+class AppModule {
+}
 
-bootstrap(AppComponent, [
-  HTTP_BINDINGS, APP_ROUTER_PROVIDERS,
-  provide(PLATFORM_DIRECTIVES, {useValue: ROUTER_DIRECTIVES, multi: true})
-]).catch(err => console.error(err));
+platformBrowserDynamic().bootstrapModule(AppModule).catch(err => console.error(err));

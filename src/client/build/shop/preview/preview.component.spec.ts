@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {PreviewComponent} from './preview.component';
 
 describe('PreviewComponent', () => {
   beforeEach(() => {
-    addProviders([PreviewComponent]);
+    TestBed.configureTestingModule({providers: [PreviewComponent]});
   });
 
   let item1 = {id: 1, from: ['2', '3']};

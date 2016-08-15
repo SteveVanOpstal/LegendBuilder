@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {DataScale} from './data';
 
 describe('DataScale', () => {
   beforeEach(() => {
-    addProviders([DataScale]);
+    TestBed.configureTestingModule({providers: [DataScale]});
   });
 
   it('should set scale on create', inject([DataScale], (component) => {

@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {ItemComponent} from './item.component';
 
 describe('ItemComponent', () => {
   beforeEach(() => {
-    addProviders([ItemComponent]);
+    TestBed.configureTestingModule({providers: [ItemComponent]});
   });
 
   it('should be initialised', inject([ItemComponent], (component) => {

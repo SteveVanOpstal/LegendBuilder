@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {HidePipe} from './hide.pipe';
 
 describe('Shop HidePipe', () => {
   beforeEach(() => {
-    addProviders([HidePipe]);
+    TestBed.configureTestingModule({providers: [HidePipe]});
   });
 
   let items = [];

@@ -1,5 +1,5 @@
 import {provide} from '@angular/core';
-import {addProviders, async, inject} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -15,7 +15,7 @@ class MockEvent {
 
 describe('ShopComponent', () => {
   beforeEach(() => {
-    addProviders([
+    TestBed.configureTestingModule({providers: [
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
       BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
@@ -29,7 +29,7 @@ describe('ShopComponent', () => {
       provide(Event, {useValue: new MockEvent()}),
 
       LolApiService, ShopComponent
-    ]);
+    ]});
   });
 
   // let pickedItem1 = {id: 1, group: 'PinkWards'};

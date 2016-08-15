@@ -1,4 +1,4 @@
-import {ComponentFixture, TestComponentBuilder, addProviders, async, inject} from '@angular/core/testing';
+import {ComponentFixture, TestBed, TestComponentBuilder, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -20,7 +20,7 @@ const data = {
 
 describe('MasteryComponent', () => {
   beforeEach(() => {
-    addProviders([
+    TestBed.configureTestingModule({providers: [
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
       BaseRequestOptions, MockBackend, {
@@ -33,7 +33,7 @@ describe('MasteryComponent', () => {
 
       LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
       MasteryComponent
-    ]);
+    ]});
   });
 
   let component: MasteryComponent;

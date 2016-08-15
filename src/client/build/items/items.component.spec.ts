@@ -1,4 +1,4 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {ItemsComponent} from './items.component';
 
@@ -8,7 +8,7 @@ import {ItemsComponent} from './items.component';
 
 describe('ItemsComponent', () => {
   beforeEach(() => {
-    addProviders([ItemsComponent]);
+    TestBed.configureTestingModule({providers: [ItemsComponent]});
   });
 
   beforeEach(inject([ItemsComponent], (component) => {

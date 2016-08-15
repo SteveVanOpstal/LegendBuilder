@@ -1,4 +1,4 @@
-import {addProviders, async, inject} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,7 +10,7 @@ import {ChampionsComponent} from './champions.component';
 
 describe('ChampionsComponent', () => {
   beforeEach(() => {
-    addProviders([
+    TestBed.configureTestingModule({providers: [
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
       BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
@@ -24,7 +24,7 @@ describe('ChampionsComponent', () => {
       {provide: Router, useValue: new MockRouter()},
 
       LolApiService, ChampionsComponent
-    ]);
+    ]});
   });
 
   it('should call getData() on contruct', inject([ChampionsComponent], (component) => {

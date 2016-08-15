@@ -1,11 +1,12 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {DataScale} from '../scales/data';
 import {DataAxis} from './data';
 
 describe('DataAxis', () => {
   beforeEach(() => {
-    addProviders([DataAxis]);
+    TestBed.configureTestingModule({
+      providers: [DataAxis]});
   });
 
   it('should set axis on create', inject([DataAxis], (component) => {

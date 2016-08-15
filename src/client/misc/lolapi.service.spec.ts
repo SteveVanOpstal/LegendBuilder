@@ -1,4 +1,4 @@
-import {addProviders, async, inject} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Params} from '@angular/router';
@@ -9,7 +9,7 @@ import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
-    addProviders([
+    TestBed.configureTestingModule({providers: [
       {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
       BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
@@ -21,7 +21,7 @@ describe('LolApiService', () => {
       },
 
       LolApiService
-    ]);
+    ]});
   });
 
   beforeEach(async(inject([MockBackend], (mockBackend) => {

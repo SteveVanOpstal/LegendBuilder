@@ -1,5 +1,5 @@
 import {ElementRef} from '@angular/core';
-import {addProviders, async, inject} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -57,7 +57,7 @@ let realm = {
 
 
 function addCommonProviders<T>(elementRefType: {new (): T}) {
-  addProviders([
+  TestBed.configureTestingModule({providers: [
     {provide: ElementRef, useValue: new elementRefType()},
 
     {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
@@ -71,7 +71,7 @@ function addCommonProviders<T>(elementRefType: {new (): T}) {
     },
 
     LolApiService, DDragonDirective
-  ]);
+  ]});
 }
 
 describe('DDragonDirective:style', () => {

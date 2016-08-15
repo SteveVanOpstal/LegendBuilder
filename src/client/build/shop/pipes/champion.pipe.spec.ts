@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {ChampionPipe} from './champion.pipe';
 
 describe('Shop ChampionPipe', () => {
   beforeEach(() => {
-    addProviders([ChampionPipe]);
+    TestBed.configureTestingModule({providers: [ChampionPipe]});
   });
 
   let items = [];

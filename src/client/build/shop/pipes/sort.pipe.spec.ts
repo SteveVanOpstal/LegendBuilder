@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {SortPipe} from './sort.pipe';
 
 describe('Shop SortPipe', () => {
   beforeEach(() => {
-    addProviders([SortPipe]);
+    TestBed.configureTestingModule({providers: [SortPipe]});
   });
 
   let items = [];

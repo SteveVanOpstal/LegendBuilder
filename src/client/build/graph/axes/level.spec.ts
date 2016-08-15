@@ -1,4 +1,4 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {Samples} from '../../samples';
 import {LevelScale} from '../scales/level';
@@ -6,7 +6,7 @@ import {LevelAxisLine, LevelAxisText} from './level';
 
 describe('LevelAxisLine', () => {
   beforeEach(() => {
-    addProviders([LevelAxisLine]);
+    TestBed.configureTestingModule({providers: [LevelAxisLine]});
   });
 
   it('should set axis on create', inject([LevelAxisLine], (component) => {
@@ -24,7 +24,7 @@ describe('LevelAxisLine', () => {
 
 describe('LevelAxisText', () => {
   beforeEach(() => {
-    addProviders([LevelAxisText]);
+    TestBed.configureTestingModule({providers: [LevelAxisText]});
   });
 
   it('should set axis on create', inject([LevelAxisText], (component) => {

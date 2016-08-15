@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
 
 describe('AbilitySequenceComponent', () => {
   beforeEach(() => {
-    addProviders([AbilitySequenceComponent]);
+    TestBed.configureTestingModule({providers: [AbilitySequenceComponent]});
   });
 
   beforeEach(inject([AbilitySequenceComponent], (component) => {

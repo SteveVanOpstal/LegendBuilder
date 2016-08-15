@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {TimeScale} from './time';
 
 describe('TimeScale', () => {
   beforeEach(() => {
-    addProviders([TimeScale]);
+    TestBed.configureTestingModule({providers: [TimeScale]});
   });
 
   it('should set scale on create', inject([TimeScale], (component) => {

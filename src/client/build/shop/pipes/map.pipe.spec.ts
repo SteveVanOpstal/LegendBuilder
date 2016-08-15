@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {MapPipe} from './map.pipe';
 
 describe('Shop MapPipe', () => {
   beforeEach(() => {
-    addProviders([MapPipe]);
+    TestBed.configureTestingModule({providers: [MapPipe]});
   });
 
   let items = [];

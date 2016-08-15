@@ -1,10 +1,10 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {CapitalizePipe} from './capitalize.pipe';
 
 describe('CapitalizePipe', () => {
   beforeEach(() => {
-    addProviders([CapitalizePipe]);
+    TestBed.configureTestingModule({providers: [CapitalizePipe]});
   });
 
   it('should capitalize', inject([CapitalizePipe], (pipe) => {

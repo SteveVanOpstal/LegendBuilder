@@ -8,10 +8,13 @@ import 'zone.js/dist/sync-test';
 import 'rxjs/Rx';
 import './jasmine-matchers.js';
 
-import * as testing from '@angular/core/testing';
-import {TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS} from '@angular/platform-browser-dynamic/testing';
+import {TestBed} from '@angular/core/testing';
+import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 
-testing.setBaseTestProviders(
-    TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+TestBed.initTestEnvironment(
+    BrowserDynamicTestingModule,
+    platformBrowserDynamicTesting()
+    );
 
-Object.assign(global, testing);
+
+Object.assign(global, TestBed);
