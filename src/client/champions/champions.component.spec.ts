@@ -10,21 +10,23 @@ import {ChampionsComponent} from './champions.component';
 
 describe('ChampionsComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
+        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+          provide: Http,
+          useFactory: (backend, defaultOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         },
-        deps: [MockBackend, BaseRequestOptions]
-      },
 
-      {provide: Router, useValue: new MockRouter()},
+        {provide: Router, useValue: new MockRouter()},
 
-      LolApiService, ChampionsComponent
-    ]});
+        LolApiService, ChampionsComponent
+      ]
+    });
   });
 
   it('should call getData() on contruct', inject([ChampionsComponent], (component) => {

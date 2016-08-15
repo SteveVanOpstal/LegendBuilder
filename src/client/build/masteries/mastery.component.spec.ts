@@ -20,20 +20,22 @@ const data = {
 
 describe('MasteryComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, MockBackend, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
+        BaseRequestOptions, MockBackend, {
+          provide: Http,
+          useFactory: (backend, defaultOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         },
-        deps: [MockBackend, BaseRequestOptions]
-      },
 
-      LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
-      MasteryComponent
-    ]});
+        LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
+        MasteryComponent
+      ]
+    });
   });
 
   let component: MasteryComponent;

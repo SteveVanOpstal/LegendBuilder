@@ -9,19 +9,21 @@ import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
+        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+          provide: Http,
+          useFactory: (backend, defaultOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         },
-        deps: [MockBackend, BaseRequestOptions]
-      },
 
-      LolApiService
-    ]});
+        LolApiService
+      ]
+    });
   });
 
   beforeEach(async(inject([MockBackend], (mockBackend) => {
@@ -177,12 +179,12 @@ describe('LolApiService', () => {
      async(inject([LolApiService], (service) => {
        service.getUrl(region => service.linkMatchData(region))
            .subscribe(
-             (urlResolved) => {
-             expect(urlResolved).toBe('http://localhost:8082/euw');
-           },
-           () => {
-             fail('unexpected failure');
-           });
+               (urlResolved) => {
+                 expect(urlResolved).toBe('http://localhost:8082/euw');
+               },
+               () => {
+                 fail('unexpected failure');
+               });
 
        service.matchServer = {host: 'test', port: 5};
        service.getUrl(region => service.linkMatchData(region))

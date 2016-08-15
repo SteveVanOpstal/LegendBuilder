@@ -63,11 +63,8 @@ module.exports = webpackMerge(commonConfig, {
     new ForkCheckerPlugin(), new WebpackMd5Hash(), new DedupePlugin(),
     new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
-    new DefinePlugin({'ENV': JSON.stringify(ENV)}), new UglifyJsPlugin({
-      beautify: false,
-      mangle: {keep_fnames: true},
-      comments: false
-    }),
+    new DefinePlugin({'ENV': JSON.stringify(ENV)}),
+    new UglifyJsPlugin({beautify: false, mangle: {keep_fnames: true}, comments: false}),
     new CompressionPlugin(
         {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024}),
     new ExtractTextPlugin('style.css')

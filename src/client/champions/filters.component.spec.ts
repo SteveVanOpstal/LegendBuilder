@@ -7,10 +7,12 @@ import {FiltersComponent} from './filters.component';
 
 describe('FiltersComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      provide(Event, {useValue: new MockEvent()}),
-      provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent
-    ]});
+    TestBed.configureTestingModule({
+      providers: [
+        provide(Event, {useValue: new MockEvent()}),
+        provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent
+      ]
+    });
   });
 
   it('should not emit tagsChange on incorrect event',

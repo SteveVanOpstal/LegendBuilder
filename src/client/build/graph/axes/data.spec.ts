@@ -5,8 +5,7 @@ import {DataAxis} from './data';
 
 describe('DataAxis', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [DataAxis]});
+    TestBed.configureTestingModule({providers: [DataAxis]});
   });
 
   it('should set axis on create', inject([DataAxis], (component) => {

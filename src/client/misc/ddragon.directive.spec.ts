@@ -57,21 +57,23 @@ let realm = {
 
 
 function addCommonProviders<T>(elementRefType: {new (): T}) {
-  TestBed.configureTestingModule({providers: [
-    {provide: ElementRef, useValue: new elementRefType()},
+  TestBed.configureTestingModule({
+    providers: [
+      {provide: ElementRef, useValue: new elementRefType()},
 
-    {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-    BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-      provide: Http,
-      useFactory: (backend, defaultOptions) => {
-        return new Http(backend, defaultOptions);
+      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+        provide: Http,
+        useFactory: (backend, defaultOptions) => {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
       },
-      deps: [MockBackend, BaseRequestOptions]
-    },
 
-    LolApiService, DDragonDirective
-  ]});
+      LolApiService, DDragonDirective
+    ]
+  });
 }
 
 describe('DDragonDirective:style', () => {

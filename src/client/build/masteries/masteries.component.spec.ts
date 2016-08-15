@@ -1,4 +1,4 @@
-import {ComponentFixture, TestComponentBuilder, TestBed, async, inject} from '@angular/core/testing';
+import {ComponentFixture, TestBed, TestComponentBuilder, async, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -71,19 +71,21 @@ const masteriesDataAltered = [
 
 let providers = () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
+        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+          provide: Http,
+          useFactory: (backend, defaultOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         },
-        deps: [MockBackend, BaseRequestOptions]
-      },
 
-      LolApiService, MasteryCategoryComponent, MasteriesComponent
-    ]});
+        LolApiService, MasteryCategoryComponent, MasteriesComponent
+      ]
+    });
   });
 };
 

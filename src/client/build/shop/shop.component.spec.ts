@@ -15,21 +15,23 @@ class MockEvent {
 
 describe('ShopComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
 
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
+        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
+          provide: Http,
+          useFactory: (backend, defaultOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         },
-        deps: [MockBackend, BaseRequestOptions]
-      },
 
-      provide(Event, {useValue: new MockEvent()}),
+        provide(Event, {useValue: new MockEvent()}),
 
-      LolApiService, ShopComponent
-    ]});
+        LolApiService, ShopComponent
+      ]
+    });
   });
 
   // let pickedItem1 = {id: 1, group: 'PinkWards'};
