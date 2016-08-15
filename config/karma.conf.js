@@ -7,7 +7,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     files: [{pattern: specPath, watched: false}],
 
-    hostname: 'karma',    
+    hostname: 'karma',
     port: 9876,
     browsers: ['PhantomJS'],
     concurrency: 1,
@@ -16,8 +16,8 @@ module.exports = function(config) {
     logLevel: config.LOG_DEBUG,
 
     plugins: [
-      'karma-jasmine', 'karma-sauce-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher',
-      'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage'
+      'karma-jasmine', 'karma-sauce-launcher', 'karma-phantomjs-launcher', 'karma-sourcemap-loader',
+      'karma-mocha-reporter', 'karma-coverage'
     ],
 
     preprocessors: {specPath: ['sourcemap']},
@@ -55,6 +55,4 @@ module.exports = function(config) {
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 40000
   });
-
-
 };
