@@ -7,7 +7,7 @@ var CIconfiguration = {
   'FirefoxBeta':  { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Firefox':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Firefox-1':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'IE':           { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'IE':           { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE-1':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE-2':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Edge':         { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
