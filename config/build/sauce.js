@@ -1,12 +1,19 @@
 let sauceConnectLauncher = require('sauce-connect-launcher');
-
-/* saucelabs tunnel */
+let fs = require('fs');
 
 module.exports = {
   open: function(done) {
     console.log('SauceLabs: starting ' + process.env.BUILD + '..');
-    mkdirSync('build');
-    mkdirSync('build/log');
+
+    // create folder structure
+    try {
+      fs.mkdirSync('build');
+      fs.mkdirSync('build/log');
+    } catch (e) {
+      if (e.code != 'EEXIST')
+        throw e;
+    }
+
     sauceConnectLauncher(
         {
           tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,

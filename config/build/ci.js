@@ -3,7 +3,6 @@
 let spawnSync = require('child_process').spawnSync;
 let async = require('async');
 let browsers = require('../browser-providers.conf.js');
-let fs = require('fs');
 
 let s3 = require('./s3.js');
 let sauce = require('./sauce.js');
@@ -171,14 +170,5 @@ function exit(status) {
     }
   } else {
     throw new Error(message);
-  }
-}
-
-function mkdirSync(path) {
-  try {
-    fs.mkdirSync(path);
-  } catch (e) {
-    if (e.code != 'EEXIST')
-      throw e;
   }
 }
