@@ -22,7 +22,6 @@ Legend Builder is currently in **Alpha**.
 
 #### Contributing
 
-Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages.
-In case of a Pull request, follow the [angular format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
+Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages. Take a look at the [contributing guidelines](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/CONTRIBUTING.md) for more information.
 
 A detailed guide on how to setup the project is available at [DEVELOPER.md](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/DEVELOPER.md).
