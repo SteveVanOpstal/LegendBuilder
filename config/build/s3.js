@@ -1,7 +1,7 @@
 var s3 = require('s3');
 
 module.exports = {
-  sync: function(done) {
+  upload: function(done) {
     var client = s3.createClient({
       s3Options: {
         accessKeyId: process.env.ARTIFACTS_KEY,
@@ -18,7 +18,9 @@ module.exports = {
 
     uploader.on('error', function(err) {
       console.error('S3: unable to sync, \'', err.stack + '\'');
-      done(false);
+      if (done) {
+        done(false);
+      }
     });
     uploader.on('progress', function() {
       if (uploader.progressTotal > 0) {
@@ -29,7 +31,14 @@ module.exports = {
     });
     uploader.on('end', function() {
       console.log('S3: artifact upload succesfull');
-      done(true);
+      if (done) {
+        done(true);
+      }
     });
   }
 };
+
+
+if (require.main === module) {
+  module.exports.upload();
+}

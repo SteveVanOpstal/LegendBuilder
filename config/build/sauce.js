@@ -10,7 +10,7 @@ module.exports = {
       fs.mkdirSync('build');
       fs.mkdirSync('build/log');
     } catch (e) {
-      if (e.code != 'EEXIST')
+      if (e.code !== 'EEXIST')
         throw e;
     }
 
@@ -20,19 +20,35 @@ module.exports = {
           logfile: 'build/log/' + process.env.BUILD + '.log',
           verbose: true
         },
-        function(err, process) {
+        function(err, sauce_process) {
           if (err) {
             throw new Error('SauceLabs: start failed, \'' + err.message + '\'');
           }
           console.log('SauceLabs: running');
-          done(process);
+          if (done) {
+            done(sauce_process);
+          }
         });
   },
-  close: function(process, done) {
+  close: function(sauce_process, done) {
     console.log('SauceLabs: stopping..');
-    process.close(function() {
+
+    sauce_process.close(function() {
       console.log('SauceLabs: stopped');
       done();
-    })
+    });
   }
 };
+
+
+if (require.main === module) {
+  if (process.argv[2] == '--open') {
+    module.exports.open();
+  } else if (process.argv[2] == '--close') {
+    module.exports.close();
+  } else {
+    console.log('missing argument:');
+    console.log('  * --open');
+    console.log('  * --close');
+  }
+}

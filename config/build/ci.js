@@ -3,8 +3,6 @@
 let spawnSync = require('child_process').spawnSync;
 let async = require('async');
 let browsers = require('../browser-providers.conf.js');
-
-let s3 = require('./s3.js');
 let sauce = require('./sauce.js');
 
 const readline = require('readline');
@@ -27,11 +25,17 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
 /* configuration */
 
 let modes = {
-  'client': ['build:client'],
-  'sl_client_test_required':
-      ['test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_REQUIRED.join(',')],
-  'sl_client_test_optional':
-      ['test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_OPTIONAL.join(',')],
+  'client': ['build:client', 's3:upload'],
+  'sl_client_test_required': [
+    'sauce:open',
+    'test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_REQUIRED.join(','),
+    'sauce:close'
+  ],
+  'sl_client_test_optional': [
+    'sauce:open',
+    'test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_OPTIONAL.join(','),
+    'sauce:close'
+  ],
   'server': ['build:server'],
   'server_test': ['test:server'],
   'coverage': ['test:client', 'coveralls'],
@@ -95,28 +99,34 @@ function getMode(index) {
 function execute(scripts) {
   console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
 
-  if (process.env.CI_MODE === 'sl_client_test_required' ||
-      process.env.CI_MODE === 'sl_client_test_optional') {
-    sauce.open(function(process) {
-      let status = execute_scripts(scripts);
-      sauce.close(process, function() {
+  execute_scripts(scripts);
+}
+
+
+// todo: remove this and create npm scripts 'sauce:open' and 'sauce:close'. Currently not possible
+// due to sauce_process variable / asyncness.
+function execute_scripts(scripts) {
+  if (scripts[0] === 'sauce:open') {
+    sauce.open(function(sauce_process) {
+      let status = spawn_processes(scripts.splice(1, scripts.length - 2));
+      sauce.close(sauce_process, function() {
         exit(status);
       });
     });
   } else {
-    let status = execute_scripts(scripts);
+    let status = spawn_processes(scripts);
     exit(status);
   }
 }
 
-
-function execute_scripts(scripts) {
-  let status = 0;
+function spawn_processes(scripts) {
   for (let script of scripts) {
-    let currentStatus = spawn_process(script);
-    status = currentStatus ? currentStatus : status;
+    let status = spawn_process(script);
+    if (status !== 0) {
+      return status;
+    }
   }
-  return status;
+  return 0;
 }
 
 function spawn_process(script) {
@@ -157,17 +167,7 @@ function exit(status) {
 
   let message = 'Exit status ' + status;
   if (status === 0) {
-    if (process.env.CI_MODE === 'client') {
-      s3.sync(function(result) {
-        if (result) {
-          console.log(message);
-        } else {
-          throw new Error('Unable to sync to S3');
-        }
-      });
-    } else {
-      console.log(message);
-    }
+    console.log(message);
   } else {
     throw new Error(message);
   }
