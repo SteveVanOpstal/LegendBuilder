@@ -2,17 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
-import {GraphComponent} from '../build/graph/graph.component';
-import {ItemsComponent} from '../build/items/items.component';
-import {MasteriesComponent} from '../build/masteries/masteries.component';
-import {Samples} from '../build/samples';
-import {ShopComponent} from '../build/shop/shop.component';
 import {DDragonDirective} from '../misc/ddragon.directive';
 import {ErrorComponent} from '../misc/error.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {LolApiService} from '../misc/lolapi.service';
 
+import {GraphComponent} from './graph/graph.component';
 import {Item} from './item';
+import {ItemsComponent} from './items/items.component';
+import {MasteriesComponent} from './masteries/masteries.component';
+import {Samples} from './samples';
+import {ShopComponent} from './shop/shop.component';
 
 require('../../assets/css/base.css');
 require('../../assets/css/build.css');
