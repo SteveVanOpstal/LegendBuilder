@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {DDragonDirective} from '../misc/ddragon.directive';
-import {ErrorComponent} from '../misc/error.component';
+import {RetryComponent} from '../misc/retry.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {LolApiService} from '../misc/lolapi.service';
 
@@ -18,7 +18,7 @@ import {ShopComponent} from './shop/shop.component';
   providers: [LolApiService],
   directives: [
     GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
-    LoadingComponent, ErrorComponent
+    LoadingComponent, RetryComponent
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./build.css')],
@@ -32,7 +32,7 @@ import {ShopComponent} from './shop/shop.component';
     <items [samples]="samples" [(pickedItems)]="pickedItems" #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
-    <error [error]="error" (retry)="getData()"></error>`
+    <retry [error]="error" (retry)="getData()"></retry>`
 })
 
 export class BuildComponent implements OnInit {

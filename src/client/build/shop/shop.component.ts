@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
 import {DDragonDirective} from '../../misc/ddragon.directive';
-import {ErrorComponent} from '../../misc/error.component';
+import {RetryComponent} from '../../misc/retry.component';
 import {LoadingComponent} from '../../misc/loading.component';
 import {LolApiService} from '../../misc/lolapi.service';
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
@@ -24,7 +24,7 @@ import {PreviewComponent} from './preview/preview.component';
   providers: [LolApiService, ItemsComponent],
   directives: [
     NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, DDragonDirective, LoadingComponent,
-    ErrorComponent
+    RetryComponent
   ],
   pipes: [
     ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe,
@@ -59,7 +59,7 @@ import {PreviewComponent} from './preview/preview.component';
             <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="selectItem(item)" (contextmenu)="pickItem(item)"></item>
           </template>
           <loading [loading]="loading"></loading>
-          <error [error]="error" (retry)="getData()"></error>
+          <retry [error]="error" (retry)="getData()"></retry>
         </div>
       </div>
       <div class="right">

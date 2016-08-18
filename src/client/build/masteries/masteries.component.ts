@@ -1,7 +1,7 @@
 import {NgFor} from '@angular/common';
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 
-import {ErrorComponent} from '../../misc/error.component';
+import {RetryComponent} from '../../misc/retry.component';
 import {LoadingComponent} from '../../misc/loading.component';
 import {LolApiService} from '../../misc/lolapi.service';
 
@@ -12,11 +12,11 @@ import {MasteryComponent} from './mastery.component';
 @Component({
   selector: 'masteries',
   providers: [LolApiService],
-  directives: [NgFor, MasteryCategoryComponent, LoadingComponent, ErrorComponent],
+  directives: [NgFor, MasteryCategoryComponent, LoadingComponent, RetryComponent],
   template: `
     <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="let category of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery-category>
     <loading [loading]="loading"></loading>
-    <error [error]="error" (retry)="getData()"></error>`
+    <retry [error]="error" (retry)="getData()"></retry>`
 })
 
 export class MasteriesComponent implements OnInit {

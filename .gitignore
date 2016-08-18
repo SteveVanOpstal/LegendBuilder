@@ -4,7 +4,7 @@
 /node_modules
 /coverage
 /typings
-/__pycache__
+__pycache__
 
 *.log
 

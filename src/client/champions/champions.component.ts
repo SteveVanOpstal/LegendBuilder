@@ -1,11 +1,11 @@
 import {NgFor, NgIf} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
-import {ErrorComponent} from '../misc/error.component';
 import {LoadingComponent} from '../misc/loading.component';
 import {LolApiService} from '../misc/lolapi.service';
+import {RetryComponent} from '../misc/retry.component';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
 
 import {BarComponent} from './bar/bar.component';
@@ -14,16 +14,15 @@ import {NamePipe} from './pipes/name.pipe';
 import {SortPipe} from './pipes/sort.pipe';
 import {TagsPipe} from './pipes/tags.pipe';
 
-require('../../assets/css/base.css');
-require('../../assets/css/champions.css');
-
 @Component({
   selector: 'champions',
   pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
   directives: [
-    NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, ErrorComponent, DDragonDirective
+    NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, RetryComponent, DDragonDirective
   ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [require('./champions.css')],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
@@ -39,7 +38,7 @@ require('../../assets/css/champions.css');
       </a>
     </div>
     <loading [loading]="loading"></loading>
-    <error [error]="error" (retry)="getData()"></error>`
+    <retry [error]="error" (retry)="getData()"></retry>`
 })
 
 export class ChampionsComponent implements OnInit {
