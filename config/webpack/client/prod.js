@@ -5,16 +5,16 @@ const commonConfig = require('../common.js');
 const webpackMerge = require('webpack-merge');
 
 /* plugins */
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+var OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin');
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var DefinePlugin = require('webpack/lib/DefinePlugin');
+var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
@@ -30,10 +30,9 @@ module.exports = webpackMerge(commonConfig, {
   debug: false,
 
   entry: {
-    'main': [
-      helpers.root('src/client/polyfills.ts'), helpers.root('src/client/vendor.ts'),
-      helpers.root('src/client/boot.ts')
-    ]
+    polyfills: helpers.root('src/client/polyfills.ts'),
+    vendor: helpers.root('src/client/vendor.ts'),
+    boot: helpers.root('src/client/boot.ts')
   },
 
   output: {
@@ -44,29 +43,22 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
-        query: {'compilerOptions': {'removeComments': true}},
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
-      {
-        test: /\.css$/,
-        loader:
-            ExtractTextPlugin.extract({notExtractLoader: 'style-loader', loader: 'css-loader'})
-      }
-    ]
+    loaders: [{
+      test: /\.ts$/,
+      loader: 'awesome-typescript-loader',
+      query: {'compilerOptions': {'removeComments': true}},
+      exclude: [/\.(spec|e2e)\.ts$/]
+    }]
   },
 
   plugins: [
-    new ForkCheckerPlugin(), new WebpackMd5Hash(), new DedupePlugin(),
-    new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
-    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
+    new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
+    new CommonsChunkPlugin({name: ['vendor', 'polyfills']}), new WebpackMd5Hash(),
+    new DedupePlugin(), new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
+    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'dependency'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}),
     new UglifyJsPlugin({beautify: false, mangle: {keep_fnames: true}, comments: false}),
     new CompressionPlugin(
-        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024}),
-    new ExtractTextPlugin('style.css')
+        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024})
   ]
 });

@@ -11,7 +11,6 @@ var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
@@ -29,16 +28,15 @@ module.exports = webpackMerge(commonConfig, {
   debug: true,
 
   entry: {
-    main: [
-      helpers.root('src/client/polyfills.ts'), helpers.root('src/client/vendor.ts'),
-      helpers.root('src/client/boot.ts')
-    ]
+    polyfills: helpers.root('src/client/polyfills.ts'),
+    vendor: helpers.root('src/client/vendor.ts'),
+    boot: helpers.root('src/client/boot.ts')
   },
 
   output: {
     path: helpers.root('build/dist/client'),
     filename: '[name].bundle.js',
-    sourceMapFilename: '[name].map',
+    sourceMapFilename: '[file].map',
     chunkFilename: '[id].chunk.js'
   },
 
@@ -54,19 +52,18 @@ module.exports = webpackMerge(commonConfig, {
     }],
 
     loaders: [
-      {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}, {
-        test: /\.css$/,
-        loader:
-            ExtractTextPlugin.extract({notExtractLoader: 'style-loader', loader: 'css-loader'})
-      }
+      {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
+      {test: /\.css$/, loader: 'raw-loader'}
     ]
   },
 
   plugins: [
-    new ForkCheckerPlugin(),
+    new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
+    new CommonsChunkPlugin({name: ['vendor', 'polyfills']}),
     new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
-    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'none'}),
-    new DefinePlugin({'ENV': JSON.stringify(ENV)}), new ExtractTextPlugin('style.css')
+    new CopyWebpackPlugin([{from: 'src/client/base.css', to: 'base.css'}]),
+    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'dependency'}),
+    new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ],
 
   devServer: {

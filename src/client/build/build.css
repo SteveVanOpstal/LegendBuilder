@@ -1,3 +1,7 @@
+.content {
+  background-color: #FFF;
+}
+
 .title {
   display: flex;
   background-color: #DDD;
@@ -111,6 +115,14 @@ graph .line:nth-of-type(3) {
   stroke: #B7AF1F;
 }
 
+/*graph .line:nth-of-type(4) {
+  stroke: #C19E20;
+}
+
+graph .line:nth-of-type(5) {
+  stroke: #aa7625;
+}*/
+
 graph .line:nth-of-type(4) {
   stroke: #C15C20;
 }
@@ -118,6 +130,10 @@ graph .line:nth-of-type(4) {
 graph .line:nth-of-type(5) {
   stroke: #AA3322;
 }
+
+/*graph .line:nth-of-type(8) {
+  stroke: #AA2456;
+}*/
 
 graph .line:nth-of-type(6) {
   stroke: #AD1FC1;
@@ -142,6 +158,10 @@ graph .line:nth-of-type(10) {
 graph .line:nth-of-type(11) {
   stroke: #36AA6B;
 }
+
+/*graph .line:nth-of-type(12) {
+  stroke: #39C13C;
+}*/
 
 graph .line:nth-of-type(12) {
   stroke: #7AAA3B;

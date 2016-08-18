@@ -1,4 +1,6 @@
-/* champions */
+.content {
+  background-color: #FFF;
+}
 
 champions {
   display: flex;

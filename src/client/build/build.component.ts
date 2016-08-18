@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
@@ -14,15 +14,14 @@ import {MasteriesComponent} from './masteries/masteries.component';
 import {Samples} from './samples';
 import {ShopComponent} from './shop/shop.component';
 
-require('../../assets/css/base.css');
-require('../../assets/css/build.css');
-
 @Component({
   providers: [LolApiService],
   directives: [
     GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
     LoadingComponent, ErrorComponent
   ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [require('./build.css')],
   template: `
     <div class="title">
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">

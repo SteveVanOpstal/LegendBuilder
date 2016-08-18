@@ -1,5 +1,12 @@
 region > div {
 	width: 226px;
+  padding: 20px;
+  background-color: #FFF;
+  border-radius: 10px;
+}
+
+region h2 {
+	margin-top: 0;
 }
 
 region button {
