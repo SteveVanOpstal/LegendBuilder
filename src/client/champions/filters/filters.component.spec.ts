@@ -1,7 +1,7 @@
 import {provide} from '@angular/core';
 import {TestBed, inject} from '@angular/core/testing';
 
-import {MockEvent, MockKeyboardEvent} from '../testing';
+import {MockEvent, MockKeyboardEvent} from '../../testing';
 
 import {FiltersComponent} from './filters.component';
 
