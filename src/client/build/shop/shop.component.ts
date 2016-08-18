@@ -3,10 +3,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
 import {DDragonDirective} from '../../misc/ddragon.directive';
-import {RetryComponent} from '../../misc/retry.component';
 import {LoadingComponent} from '../../misc/loading.component';
-import {LolApiService} from '../../misc/lolapi.service';
+import {RetryComponent} from '../../misc/retry.component';
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
+import {LolApiService} from '../../services/lolapi.service';
 import {ItemsComponent} from '../items/items.component';
 
 import {ItemComponent} from './item.component';

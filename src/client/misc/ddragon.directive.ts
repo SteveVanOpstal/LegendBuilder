@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Input, OnChanges, OnInit} from '@angular/core';
 
-import {LolApiService} from './lolapi.service';
+import {LolApiService} from '../services/lolapi.service';
 
 enum AttributeType {
   style,

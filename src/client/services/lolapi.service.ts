@@ -40,9 +40,8 @@ export class LolApiService {
     return this.get(region => this.linkStaticData(region) + '/mastery?masteryListData=all');
   }
 
-  public getSummonerId(summonerName: string, championKey: string): Observable<any> {
-    return this.get(
-        region => this.linkMatchData(region) + '/summoner/' + summonerName + '/' + championKey);
+  public getSummonerId(summonerName: string): Observable<any> {
+    return this.get(region => this.linkMatchData(region) + '/summoner/' + summonerName);
   }
 
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):

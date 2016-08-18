@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {DDragonDirective} from '../misc/ddragon.directive';
-import {RetryComponent} from '../misc/retry.component';
 import {LoadingComponent} from '../misc/loading.component';
-import {LolApiService} from '../misc/lolapi.service';
+import {RetryComponent} from '../misc/retry.component';
+import {LolApiService} from '../services/lolapi.service';
 
 import {GraphComponent} from './graph/graph.component';
 import {Item} from './item';

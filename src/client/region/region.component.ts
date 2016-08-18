@@ -1,8 +1,8 @@
 import {NgFor} from '@angular/common';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {LolApiService} from '../misc/lolapi.service';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
+import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   selector: 'region',

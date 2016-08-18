@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   directives: [],
@@ -37,7 +37,7 @@ export class FeaturesComponent implements OnInit {
   }
 
   getSummonerId(event: HTMLInputElement) {
-    this.lolApi.getSummonerId(event.value, this.champion)
+    this.lolApi.getSummonerId(event.value)
         .subscribe(
             res => {
               if (!isNaN(res)) {

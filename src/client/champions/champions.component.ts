@@ -4,9 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {DDragonDirective} from '../misc/ddragon.directive';
 import {LoadingComponent} from '../misc/loading.component';
-import {LolApiService} from '../misc/lolapi.service';
 import {RetryComponent} from '../misc/retry.component';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
+import {LolApiService} from '../services/lolapi.service';
 
 import {BarComponent} from './bar/bar.component';
 import {FiltersComponent} from './filters/filters.component';

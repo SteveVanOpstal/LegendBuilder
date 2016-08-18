@@ -1,9 +1,9 @@
 import {NgFor} from '@angular/common';
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 
-import {RetryComponent} from '../../misc/retry.component';
 import {LoadingComponent} from '../../misc/loading.component';
-import {LolApiService} from '../../misc/lolapi.service';
+import {RetryComponent} from '../../misc/retry.component';
+import {LolApiService} from '../../services/lolapi.service';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';

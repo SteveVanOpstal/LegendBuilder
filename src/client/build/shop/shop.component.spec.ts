@@ -4,7 +4,7 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
-import {LolApiService} from '../../misc/lolapi.service';
+import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {ShopComponent} from './shop.component';

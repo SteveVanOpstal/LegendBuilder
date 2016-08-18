@@ -4,7 +4,7 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Observable} from 'rxjs';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 describe('LolApiService', () => {

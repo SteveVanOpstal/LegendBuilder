@@ -3,7 +3,7 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../misc/lolapi.service';
+import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend, MockRouter} from '../testing';
 
 import {ChampionsComponent} from './champions.component';
