@@ -1,7 +1,6 @@
 import {NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
-import {DDragonDirective} from '../../../misc/ddragon.directive';
 import {Item} from '../../item';
 
 import {ItemBundle} from './item-bundle';
@@ -10,7 +9,7 @@ import {ItemsFromComponent} from './items-from.component';
 
 @Component({
   selector: 'preview',
-  directives: [NgIf, DDragonDirective, ItemComponent, ItemsFromComponent],
+  directives: [NgIf, ItemComponent, ItemsFromComponent],
   template: `
     <div class="into">
       <template ngFor let-item [ngForOf]="itemsInto">

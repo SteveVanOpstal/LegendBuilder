@@ -4,7 +4,6 @@ import {select} from 'd3-selection';
 import {Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
@@ -23,7 +22,7 @@ interface Path {
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [DDragonDirective, AbilitySequenceComponent, NgFor, NgClass],
+  directives: [AbilitySequenceComponent, NgFor, NgClass],
   template: `
     <ul class="legend">
       <li *ngFor="let path of paths">
