@@ -43,12 +43,15 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
-    loaders: [{
-      test: /\.ts$/,
-      loader: 'awesome-typescript-loader',
-      query: {'compilerOptions': {'removeComments': true}},
-      exclude: [/\.(spec|e2e)\.ts$/]
-    }]
+    loaders: [
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        query: {'compilerOptions': {'removeComments': true}},
+        exclude: [/\.(spec|e2e)\.ts$/]
+      },
+      {test: /\.css$/, loader: 'raw-loader'}
+    ]
   },
 
   plugins: [
