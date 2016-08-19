@@ -8,7 +8,7 @@ import {ErrorComponent} from './error.component';
   directives: [NgIf, ErrorComponent],
   template: `
   <p *ngIf="error" class="error-item">
-    <error [error]="error" [message]="'Something went wrong.. '"></error>
+    <error [error]="error"></error>
     <button (click)="retryClicked()">
       <p>Retry </p>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon refresh" viewBox="0 0 24 24" width="32" height="32">>

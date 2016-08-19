@@ -16,5 +16,5 @@ import {Component, Input} from '@angular/core';
 
 export class ErrorComponent {
   @Input() error: boolean = false;
-  @Input() message: boolean = false;
+  @Input() message: string = 'Something went wrong.. ';
 }
