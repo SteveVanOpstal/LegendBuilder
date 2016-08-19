@@ -1,8 +1,8 @@
 import {NgClass, NgFor, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+import {IconEyeComponent} from '../../assets/icon-eye.component';
 import {CapitalizePipe} from '../../misc/capitalize.pipe';
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LoadingComponent} from '../../misc/loading.component';
 import {RetryComponent} from '../../misc/retry.component';
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
@@ -23,8 +23,8 @@ import {PreviewComponent} from './preview/preview.component';
   selector: 'shop',
   providers: [LolApiService, ItemsComponent],
   directives: [
-    NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, DDragonDirective, LoadingComponent,
-    RetryComponent
+    NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, LoadingComponent, RetryComponent,
+    IconEyeComponent
   ],
   pipes: [
     ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe,
@@ -47,11 +47,7 @@ import {PreviewComponent} from './preview/preview.component';
         <div class="search">
           <input type="text" name="name" placeholder="Name" (keyup)="name=$event.target.value">
           <button type="button" name="show-disabled" title="Display hidden items">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon eye" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M0 0h24v24H0z" fill="none"/>
-              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 
-              3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-            </svg>
+            <icon-eye></icon-eye>
           </button>
         </div>
         <div class="items">

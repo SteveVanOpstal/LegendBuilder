@@ -1,6 +1,6 @@
 <p align="center" style="margin-bottom: 100px;">
   <a href="http://legendbuilder.io">
-    <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/assets/images/logo.svg">
+    <img height="120" src="https://cdn.rawgit.com/SteveVanOpstal/LegendBuilder/master/src/client/assets/images/logo.svg">
   </a>
   <h3 align="center">Legend Builder</h3>
   <p align="center">An advanced <a href="http://www.leagueoflegends.com/">League of Legends</a> champion builder</p>

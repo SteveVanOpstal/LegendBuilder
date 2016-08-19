@@ -1,31 +1,15 @@
 import {NgClass, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
+import {Colors, IconRankComponent} from '../../assets/icon-rank.component';
 import {DDragonDirective} from '../../misc/ddragon.directive';
-
-export class Colors {
-  public static blue: string = '#4C99FC';
-  public static yellow: string = '#fdf300';
-  public static gray: string = '#7e7e7e';
-}
 
 @Component({
   selector: 'mastery',
-  directives: [NgIf, NgClass, DDragonDirective],
+  directives: [NgIf, NgClass, DDragonDirective, IconRankComponent],
   template: `
     <div *ngIf="data" [ngClass]="{enabled: enabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()" (dragend)="dragEnd()">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" *ngIf="data.ranks > 1" class="rank" width="30" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient cy="10%" fy="0%" id="radialGradient">
-            <stop offset="0%" [attr.stop-color]="color"/>
-            <stop offset="100%" stop-color="#000"/>
-          </radialGradient>
-        </defs>
-        <rect x="0" y="0" width="30" height="16"/>
-        <rect x="7" y="1" width="16" height="14" opacity="0.7" fill="url(#radialGradient)"/>
-        <rect x="1" y="1" width="28" height="14" [attr.stroke]="color" fill="none" stroke-width="1"/>
-        <text x="15" y="12" [attr.fill]="color" text-anchor="middle" font-size="12">{{rank + '/' + data.ranks}}</text>
-      </svg>
+      <icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></icon-rank>
       <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>

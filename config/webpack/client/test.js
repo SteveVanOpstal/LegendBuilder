@@ -35,7 +35,7 @@ module.exports = webpackMerge(commonConfig, {
 
     loaders: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/]},
-      {test: /\.css$/, loader: 'raw-loader'}
+      {test: /\.css|.svg$/, loader: 'raw-loader'}
     ],
 
     postLoaders: [{

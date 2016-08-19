@@ -3,13 +3,14 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {Colors} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
-import {Colors, MasteryComponent} from './mastery.component';
+import {MasteryComponent} from './mastery.component';
 
 const data = {
   id: 0,

@@ -50,14 +50,14 @@ module.exports = webpackMerge(commonConfig, {
         query: {'compilerOptions': {'removeComments': true}},
         exclude: [/\.(spec|e2e)\.ts$/]
       },
-      {test: /\.css$/, loader: 'raw-loader'}
+      {test: /\.css|.svg$/, loader: 'raw-loader'}
     ]
   },
 
   plugins: [
     new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
     new CommonsChunkPlugin({name: ['vendor', 'polyfills']}), new WebpackMd5Hash(),
-    new DedupePlugin(), new CopyWebpackPlugin([{from: 'src/assets/images', to: 'assets/images'}]),
+    new DedupePlugin(), new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'dependency'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}),
     new UglifyJsPlugin({beautify: false, mangle: {keep_fnames: true}, comments: false}),

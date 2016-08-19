@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
-  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+  <link rel="shortcut icon" href="/images/favicon.ico" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
   <link href='/base.css' rel='stylesheet' type='text/css'>
 
@@ -19,22 +19,14 @@
 <body>
   <div class="header">
     <div class="align-center">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon logo" id="logo" width="60" height="60" viewBox="0 0 60 60" fill="none" stroke="#000"
-      stroke-width="6">
-        <rect x="3" y="3" width="54" height="54" />
-        <rect x="21" y="3" width="36" height="36" />
-        <line x1="45" y1="21" x2="55" y2="21" />
-      </svg>
+      <%= require('./assets/images/logo.svg') %>
       <h1>Legend Builder</h1>
       <span class="alpha">Alpha</span>
     </div>
   </div>
   <div class="content">
     <app>
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" *ngIf="loading" class="icon load" viewBox="0 0 32 32" width="32" height="32">
-        <path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4" />
-        <path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" />
-      </svg>
+      <%= require('./assets/images/load.svg') %>
     </app>
   </div>
 
