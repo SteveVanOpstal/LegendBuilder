@@ -38,7 +38,7 @@ addons:
     packages:
       - g++-4.8
   hosts:
-    - karma
+    - karma.com
 
 script:
   - npm run ci
