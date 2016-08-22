@@ -95,7 +95,7 @@
     "d3-axis": "1.0.3",
     "d3-scale": "1.0.3",
     "d3-selection": "1.0.2",
-    "d3-shape": "1.0.2",
+    "d3-shape": "1.0.3",
     "dateformat": "1.0.12",
     "es6-shim": "0.35.1",
     "lru-cache": "4.0.1",
