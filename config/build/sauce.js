@@ -2,7 +2,7 @@ let sauceConnectLauncher = require('sauce-connect-launcher');
 let fs = require('fs');
 
 module.exports = {
-  open: function(done) {
+  open: function(done, error) {
     console.log('SauceLabs: starting ' + process.env.BUILD + '..');
 
     // create folder structure
@@ -22,11 +22,18 @@ module.exports = {
         },
         function(err, sauce_process) {
           if (err) {
-            throw new Error('SauceLabs: start failed, \'' + err.message + '\'');
-          }
-          console.log('SauceLabs: running');
-          if (done) {
-            done(sauce_process);
+            let message = 'SauceLabs: start failed, \'' + err.message + '\'';
+            if (typeof error === 'function') {
+              console.log(message);
+              error(err);
+            } else {
+              throw new Error(message);
+            }
+          } else {
+            console.log('SauceLabs: running');
+            if (typeof done === 'function') {
+              done(sauce_process);
+            }
           }
         });
   },
@@ -35,7 +42,9 @@ module.exports = {
 
     sauce_process.close(function() {
       console.log('SauceLabs: stopped');
-      done();
+      if (typeof done === 'function') {
+        done();
+      }
     });
   }
 };

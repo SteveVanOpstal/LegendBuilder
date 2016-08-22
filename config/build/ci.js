@@ -107,12 +107,16 @@ function execute(scripts) {
 // due to sauce_process variable / asyncness.
 function execute_scripts(scripts) {
   if (scripts[0] === 'sauce:open') {
-    sauce.open(function(sauce_process) {
-      let status = spawn_processes(scripts.splice(1, scripts.length - 2));
-      sauce.close(sauce_process, function() {
-        exit(status);
-      });
-    });
+    sauce.open(
+        function(sauce_process) {
+          let status = spawn_processes(scripts.splice(1, scripts.length - 2));
+          sauce.close(sauce_process, function() {
+            exit(status);
+          });
+        },
+        function() {
+          execute_scripts(scripts);
+        });
   } else {
     let status = spawn_processes(scripts);
     exit(status);
