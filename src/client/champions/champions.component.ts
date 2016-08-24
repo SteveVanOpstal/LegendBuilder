@@ -22,7 +22,7 @@ import {TagsPipe} from './pipes/tags.pipe';
     NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, RetryComponent, DDragonDirective
   ],
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./champions.css')],
+  styles: [require('./champions.css').toString()],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">

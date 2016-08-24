@@ -5,15 +5,17 @@
   <title><%= webpackConfig.metadata.title %></title>
 
   <meta charset="utf-8">
-  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
   <link rel="shortcut icon" href="/images/favicon.ico" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
-  <link href='/base.css' rel='stylesheet' type='text/css'>
 
   <base href="<%= webpackConfig.metadata.baseUrl %>">
+
+  <style>
+    <%= require('./base.css') %>
+  </style>
 </head>
 
 <body>
