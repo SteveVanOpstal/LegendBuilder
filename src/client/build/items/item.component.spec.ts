@@ -1,6 +1,6 @@
 import {ElementRef} from '@angular/core';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {TestBed, inject} from '@angular/core/testing';
 import {MockElementRef} from '../../testing';
 
 import {ItemComponent} from './item.component';

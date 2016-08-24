@@ -1,7 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
 import {settings} from '../../../config/settings';
-import {HostResponse, Server, getPathname} from '../server';
+import {getPathname, HostResponse, Server} from '../server';
 
 let server = new Server(settings.staticServer.host, settings.staticServer.port);
 

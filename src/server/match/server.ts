@@ -1,7 +1,7 @@
 import {IncomingMessage, ServerResponse} from 'http';
 
 import {settings} from '../../../config/settings';
-import {Server, getPathname, getQuery} from '../server';
+import {getPathname, getQuery, Server} from '../server';
 
 import {Match} from './match';
 import {Summoner} from './summoner';

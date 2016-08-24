@@ -18,7 +18,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import {NgModule, enableProdMode} from '@angular/core';
+import {enableProdMode, NgModule} from '@angular/core';
 import {HTTP_BINDINGS} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';

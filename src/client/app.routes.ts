@@ -1,4 +1,4 @@
-import {RouterConfig, provideRouter} from '@angular/router';
+import {provideRouter, RouterConfig} from '@angular/router';
 
 import {BuildComponent} from './build/build.component';
 import {ChampionsComponent} from './champions/champions.component';

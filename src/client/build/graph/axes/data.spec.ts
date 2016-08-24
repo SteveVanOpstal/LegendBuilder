@@ -1,6 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {DataScale} from '../scales/data';
+
 import {DataAxis} from './data';
 
 describe('DataAxis', () => {

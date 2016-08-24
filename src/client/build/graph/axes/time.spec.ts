@@ -1,6 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {TimeScale} from '../scales/time';
+
 import {TimeAxis} from './time';
 
 describe('TimeAxis', () => {

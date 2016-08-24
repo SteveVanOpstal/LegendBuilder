@@ -1,6 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {Samples} from '../../samples';
+
 import {LevelScale} from './level';
 
 describe('LevelScale', () => {
