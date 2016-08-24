@@ -10,7 +10,7 @@ import {LolApiService} from '../services/lolapi.service';
   directives: [NgFor],
   pipes: [ToIterablePipe],
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./region.css')],
+  styles: [require('./region.css').toString()],
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>

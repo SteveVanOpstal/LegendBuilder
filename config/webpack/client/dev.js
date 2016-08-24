@@ -53,7 +53,7 @@ module.exports = webpackMerge(commonConfig, {
 
     loaders: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
-      {test: /\.css|.svg$/, loader: 'raw-loader'}
+      {test: /\.svg$/, loader: 'raw'}, {test: /\.css$/, loader: 'css?minimize'}
     ]
   },
 
@@ -61,7 +61,6 @@ module.exports = webpackMerge(commonConfig, {
     new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
     new CommonsChunkPlugin({name: ['vendor', 'polyfills']}),
     new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
-    new CopyWebpackPlugin([{from: 'src/client/base.css', to: 'base.css'}]),
     new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'dependency'}),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ],

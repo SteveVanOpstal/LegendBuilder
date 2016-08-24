@@ -21,7 +21,7 @@ import {ShopComponent} from './shop/shop.component';
     LoadingComponent, RetryComponent
   ],
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./build.css')],
+  styles: [require('./build.css').toString()],
   template: `
     <div class="title">
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
