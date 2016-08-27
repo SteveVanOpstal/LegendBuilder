@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
+import {BuildService} from '../build.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
@@ -23,6 +24,8 @@ export class ItemsComponent {
   @Output() pickedItemsChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
+
+  constructor(private buildService: BuildService) {}
 
   addItemSlotComponent(slot: ItemSlotComponent) {
     this.children.toArray()[slot.id] = slot;
@@ -48,6 +51,6 @@ export class ItemsComponent {
     this.children.toArray().forEach((itemSlot) => {
       this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
     });
-    this.pickedItemsChange.emit(null);
+    this.buildService.pickedItems.notify(this.pickedItems);
   }
 }

@@ -7,6 +7,7 @@ import {LoadingComponent} from '../misc/loading.component';
 import {RetryComponent} from '../misc/retry.component';
 import {LolApiService} from '../services/lolapi.service';
 
+import {BuildService} from './build.service';
 import {GraphComponent} from './graph/graph.component';
 import {Item} from './item';
 import {ItemsComponent} from './items/items.component';
@@ -15,7 +16,7 @@ import {Samples} from './samples';
 import {ShopComponent} from './shop/shop.component';
 
 @Component({
-  providers: [LolApiService],
+  providers: [BuildService, LolApiService],
   directives: [
     GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
     LoadingComponent, RetryComponent
@@ -27,9 +28,9 @@ import {ShopComponent} from './shop/shop.component';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion" [samples]="samples" [pickedItems]="pickedItems"></graph>
+    <graph [champion]="champion" [samples]="samples"></graph>
     <masteries></masteries>
-    <items [samples]="samples" [(pickedItems)]="pickedItems" #items></items>
+    <items [samples]="samples"  #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
     <retry [error]="error" (retry)="getData()"></retry>`
@@ -42,7 +43,6 @@ export class BuildComponent implements OnInit {
   private error: boolean = false;
 
   private samples: Samples = {xp: [], gold: []};
-  private pickedItems: Array<Item>;
 
   constructor(private route: ActivatedRoute, private lolApi: LolApiService) {}
 

@@ -4,6 +4,7 @@ import {select} from 'd3-selection';
 import {Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
+import {BuildService} from '../build.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
@@ -46,7 +47,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
   @Input() private samples: Samples;
   @Input() private stats: any;
   @Input() private champion: any;
-  @Input() private pickedItems: any;
 
   private config = config;
 
@@ -63,7 +63,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
 
   private paths = new Array<Path>();
 
-  private line: any = line()
+  private lineSamples: any = line()
                           .x((d, i) => {
                             return this.xScaleTime.get()(
                                 i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
@@ -72,7 +72,18 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
                             return this.yScale.get()(d);
                           });
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef) {}
+  private lineStats: any = line()
+                           .x((d) => {
+                             return this.xScaleTime.get()(d['time']);
+                           })
+                           .y((d) => {
+                             return this.yScale.get()(d['value']);
+                           });
+
+  constructor(
+      @Inject(ElementRef) private elementRef: ElementRef, private buildService: BuildService) {
+    buildService.pickedItems.subscribe(this.calculate);
+  }
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
@@ -105,11 +116,11 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     this.paths = [];
     for (let index in this.samples) {
       this.paths.push(
-          {enabled: true, preview: false, name: index, obj: this.line(this.samples[index])});
+          {enabled: true, preview: false, name: index, obj: this.lineSamples(this.samples[index])});
     }
     for (let index in this.stats) {
       this.paths.push(
-          {enabled: true, preview: false, name: index, obj: this.line(this.stats[index])});
+          {enabled: true, preview: false, name: index, obj: this.lineStats(this.stats[index])});
     }
   }
 
@@ -146,16 +157,16 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     }
   }
 
-  private calculate() {
+  private calculate = (pickedItems: Array<Item>) => {
     this.stats = {};
-    this.pickedItems.forEach((item: Item) => {
+    pickedItems.forEach((item: Item) => {
       for (let index in item.stats) {
         let stat = item.stats[index];
-        if (this.stats[index]) {
-          this.stats[index] += stat;
-        } else {
-          this.stats[index] = stat;
+        if (!this.stats[index]) {
+          this.stats[index] = [];
+          this.stats[index][0] = { time:0, value:0 };
         }
+        this.stats[index].push({ time:item.time, value:stat });
       }
     });
     this.createPaths();
