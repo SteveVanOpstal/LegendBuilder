@@ -8,11 +8,12 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
+import {LegendComponent} from './legend.component';
 import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
 import {config} from './config';
 import {DataScale, LevelScale, TimeScale} from './scales';
 
-interface Path {
+export interface Path {
   enabled: boolean;
   preview: boolean;
   name: string;
@@ -22,15 +23,9 @@ interface Path {
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [AbilitySequenceComponent, NgFor, NgClass],
+  directives: [LegendComponent, AbilitySequenceComponent, NgFor, NgClass],
   template: `
-    <ul class="legend">
-      <li *ngFor="let path of paths">
-        <button [ngClass]="{ enabled: path.enabled }" [attr.name]="path.name" type="button" (click)="clicked(path)" (mouseenter)="mouseEnter(path)" (mouseleave)="mouseLeave(path)">
-          {{ path.name }}
-        </button>
-      </li>
-    </ul>
+    <legend [paths]="paths"></legend>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
       <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
@@ -151,22 +146,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     }
   }
 
-  clicked(path: Path) {
-    path.enabled = !path.enabled;
-  }
-
-  mouseEnter(path: Path) {
-    if (!path.enabled) {
-      path.preview = true;
-    }
-  }
-
-  mouseLeave(path: Path) {
-    if (!path.enabled) {
-      path.preview = false;
-    }
-  }
-
   private calculate() {
     this.stats = {};
     this.pickedItems.forEach((item: Item) => {
@@ -179,5 +158,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
         }
       }
     });
+    this.createPaths();
   }
 }

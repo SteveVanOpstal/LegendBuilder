@@ -78,30 +78,7 @@ graph .line {
   fill: none;
 }
 
-
-/* legend */
-
-graph .legend {
-  display: block;
-  margin: 10px;
-  padding: 0;
-}
-
-graph .legend li {
-  display: block;
-}
-
-graph .legend li button {
-  display: block;
-  width: 50px;
-}
-
-graph .legend li button:hover {
-  filter: saturate(100%);
-  -webkit-filter: saturate(100%);
-}
-
-/* graph - legend */
+/* graph - lines */
 
 graph .line:nth-of-type(1) {
   stroke: #026561;
@@ -167,67 +144,85 @@ graph .line:nth-of-type(12) {
   stroke: #7AAA3B;
 }
 
+/* graph - legend */
 
-
-graph .legend li:nth-of-type(1) button {
-  background-color: #026561;
+graph legend {
+  margin: 10px;
 }
 
-graph .legend li:nth-of-type(2) button {
-  background-color: #aa7625;
+graph legend ul {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
-graph .legend li:nth-of-type(3) button {
-  background-color: #B7AF1F;
+graph legend li {
+  display: block;
 }
 
-graph .legend li:nth-of-type(4) button {
-  background-color: #C15C20;
+graph legend li button {
+  display: block;
+  width: 50px;
 }
 
-graph .legend li:nth-of-type(5) button {
-  background-color: #AA3322;
+graph legend li:nth-of-type(1) button {
+  background-color: #026561 !important;
 }
 
-graph .legend li:nth-of-type(6) button {
-  background-color: #AD1FC1;
+graph legend li:nth-of-type(2) button {
+  background-color: #aa7625 !important;
 }
 
-graph .legend li:nth-of-type(7) button {
-  background-color: #5A21AA;
+graph legend li:nth-of-type(3) button {
+  background-color: #B7AF1F !important;
 }
 
-graph .legend li:nth-of-type(8) button {
-  background-color: #374DC1;
+graph legend li:nth-of-type(4) button {
+  background-color: #C15C20 !important;
 }
 
-graph .legend li:nth-of-type(9) button {
-  background-color: #397EAA;
+graph legend li:nth-of-type(5) button {
+  background-color: #AA3322 !important;
 }
 
-graph .legend li:nth-of-type(10) button {
-  background-color: #37C1B8;
+graph legend li:nth-of-type(6) button {
+  background-color: #AD1FC1 !important;
 }
 
-graph .legend li:nth-of-type(11) button {
-  background-color: #36AA6B;
+graph legend li:nth-of-type(7) button {
+  background-color: #5A21AA !important;
 }
 
-graph .legend li:nth-of-type(12) button {
-  background-color: #7AAA3B;
+graph legend li:nth-of-type(8) button {
+  background-color: #374DC1 !important;
 }
 
+graph legend li:nth-of-type(9) button {
+  background-color: #397EAA !important;
+}
+
+graph legend li:nth-of-type(10) button {
+  background-color: #37C1B8 !important;
+}
+
+graph legend li:nth-of-type(11) button {
+  background-color: #36AA6B !important;
+}
+
+graph legend li:nth-of-type(12) button {
+  background-color: #7AAA3B !important;
+}
+
+graph legend li button:not(.enabled):hover {
+  color: #000;
+}
 
 graph .line:not(.enabled):not(.preview) {
   stroke: transparent;
 }
 
-graph .legend li button:not(.enabled):hover {
-  color: #000;
-}
-
-graph .legend li button:not(.enabled):not(:hover) {
-  background-color: transparent;
+graph legend li button:not(.enabled) {
+  background-color: transparent !important;
 }
 
 
