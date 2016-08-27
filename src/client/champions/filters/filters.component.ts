@@ -15,10 +15,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
         <label><input type="checkbox" value="Support"  (change)="tagChanged($event)"/>Support</label>
       </div>
     </div>
-    <div class="center align-center" (keyup)="keyup($event)">
+    <div class="center align-center">
       <div>
         <h2>Pick your champion</h2>
-        <input type="text" name="name" placeholder="Name" (keyup)="keyup($event)" (input)="nameChange.next($event.target.value)" autofocus/>
+        <input type="text" name="name" placeholder="Name" (keyup.enter)="enterHit.next(undefined)" (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>
     <div class="right">
@@ -63,14 +63,5 @@ export class FiltersComponent {
     let input: any = event.target;
     this.sort = input.value;
     this.sortChange.next(this.sort);
-  }
-
-  private keyup(event: KeyboardEvent) {
-    if (!event || !event.key) {
-      return;
-    }
-    if (event.key === 'Enter') {
-      this.enterHit.next(undefined);
-    }
   }
 }
