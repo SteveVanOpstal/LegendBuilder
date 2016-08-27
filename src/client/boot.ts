@@ -19,14 +19,13 @@
  */
 
 import {enableProdMode, NgModule} from '@angular/core';
-import {HTTP_BINDINGS} from '@angular/http';
+import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {APP_ROUTER_PROVIDERS} from './app.routes';
-
+import {ROUTES} from './app.routes';
 import {BuildComponent} from './build/build.component';
 import {ChampionsComponent} from './champions/champions.component';
 import {FeaturesComponent} from './features/features.component';
@@ -37,12 +36,9 @@ if (ENV === 'production') {
 }
 
 @NgModule({
-  declarations: [
-    ROUTER_DIRECTIVES, AppComponent, BuildComponent, ChampionsComponent, FeaturesComponent,
-    RegionsComponent
-  ],
-  imports: [BrowserModule],
-  providers: [APP_ROUTER_PROVIDERS, HTTP_BINDINGS],
+  declarations:
+      [AppComponent, BuildComponent, ChampionsComponent, FeaturesComponent, RegionsComponent],
+  imports: [BrowserModule, RouterModule.forRoot(ROUTES), HttpModule],
   bootstrap: [AppComponent]
 })
 class AppModule {
