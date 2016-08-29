@@ -7,6 +7,7 @@ import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 import {BuildComponent} from './build.component';
+import {BuildService} from './build.service';
 
 describe('BuildComponent', () => {
   beforeEach(() => {
@@ -22,7 +23,7 @@ describe('BuildComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, BuildComponent
+        LolApiService, BuildService, BuildComponent
       ]
     });
   });

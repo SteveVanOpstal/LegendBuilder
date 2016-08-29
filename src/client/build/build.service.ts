@@ -6,7 +6,7 @@ import {Item} from './item';
 type Trigger<T> = (subject: T) => void;
 type Triggers<T> = Array<Trigger<T>>;
 
-class Notifier<T> {
+export class Observer<T> {
   private subject: T;
   private triggers: Triggers<T> = [];
 
@@ -29,7 +29,7 @@ class Notifier<T> {
 
 @Injectable()
 export class BuildService {
-  pickedItems: Notifier<Array<Item>> = new Notifier<Array<Item>>();
+  pickedItems: Observer<Array<Item>> = new Observer<Array<Item>>();
 
   constructor() {}
 }

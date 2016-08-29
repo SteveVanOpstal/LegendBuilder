@@ -37,15 +37,15 @@ export class LegendComponent {
   mouseLeave(path: Path|undefined) {
     if (!path) {
       this.dragging = false;
-      this.paths.forEach(path => {
-        path.preview = false;
-      });
+      for (let p of this.paths) {
+        p.preview = false;
+      }
     } else {
       path.preview = false;
     }
   }
 
-  mouseDown(path: Path|undefined) {
+  mouseDown(path: Path) {
     path.enabled = !path.enabled;
     this.dragging = true;
   }

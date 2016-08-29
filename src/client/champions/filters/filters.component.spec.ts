@@ -82,26 +82,4 @@ describe('FiltersComponent', () => {
        expect(component.sort).toBe('attack');
        expect(component.sortChange.next).toHaveBeenCalled();
      }));
-
-  it('should not emit enterHit on incorrect event',
-     inject([FiltersComponent, KeyboardEvent], (component, event) => {
-       spyOn(component.enterHit, 'next');
-       expect(component.enterHit.next).not.toHaveBeenCalled();
-       component.keyup(undefined);
-       expect(component.enterHit.next).not.toHaveBeenCalled();
-       event.key = undefined;
-       component.keyup(event);
-       expect(component.enterHit.next).not.toHaveBeenCalled();
-       event.key = 'Escape';
-       component.keyup(event);
-       expect(component.enterHit.next).not.toHaveBeenCalled();
-     }));
-
-  it('should emit enterHit', inject([FiltersComponent, KeyboardEvent], (component, event) => {
-       spyOn(component.enterHit, 'next');
-       expect(component.enterHit.next).not.toHaveBeenCalled();
-       event.key = 'Enter';
-       component.keyup(event);
-       expect(component.enterHit.next).toHaveBeenCalled();
-     }));
 });
