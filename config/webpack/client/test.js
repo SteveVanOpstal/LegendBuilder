@@ -1,7 +1,5 @@
-var helpers = require('../../../helpers');
 const commonConfig = require('../common.js');
-
-var glob = require('glob');
+var helpers = require('../../../helpers');
 
 const webpackMerge = require('webpack-merge');
 
@@ -11,31 +9,16 @@ var DefinePlugin = require('webpack/lib/DefinePlugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 const METADATA = webpackMerge(commonConfig.metadata, {ENV: ENV});
 
-module.exports = webpackMerge(commonConfig, {
+module.exports = {
   metadata: METADATA,
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
 
-  entry: {
-    main: ['./config/spec-imports', './config/shims_for_IE.js'].concat(
-        glob.sync('./src/client/**/*.spec.ts'))
-  },
-
-  output: {path: helpers.root('build/spec/client'), filename: '[name].spec.js'},
+  resolve: {extensions: ['', '.ts', '.js']},
 
   module: {
-    preLoaders: [{
-      test: /\.js$/,
-      loader: 'source-map-loader',
-      exclude: [
-        // these packages have problems with their sourcemaps
-        helpers.root('node_modules/rxjs'),
-        helpers.root('node_modules/@angular'),
-      ]
-    }],
-
     loaders: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/]},
-      {test: /\.css|.svg$/, loader: 'raw-loader'}
+      {test: /\.css|.svg$/, loader: 'raw'}
     ],
 
     postLoaders: [{
@@ -47,4 +30,4 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})]
-});
+};

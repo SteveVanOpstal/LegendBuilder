@@ -1,13 +1,13 @@
 var browserProvidersConf = require('./browser-providers.conf.js');
+var webpackConfig = require('./webpack/client/test.js');
 var helpers = require('../helpers');
-var specPath = helpers.root('build/spec/client/main.spec.js');
 
 module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
-    files: [{pattern: specPath, watched: false}],
+    files: [{pattern: 'karma-test-shim.js', watched: false}],
 
-    hostname: 'karma.com',
+    hostname: 'karma',
     port: 9876,
     browsers: ['PhantomJS'],
     concurrency: 1,
@@ -16,11 +16,11 @@ module.exports = function(config) {
     logLevel: config.LOG_DEBUG,
 
     plugins: [
-      'karma-jasmine', 'karma-sauce-launcher', 'karma-phantomjs-launcher', 'karma-sourcemap-loader',
-      'karma-mocha-reporter', 'karma-coverage'
+      'karma-jasmine', 'karma-webpack', 'karma-sauce-launcher', 'karma-phantomjs-launcher',
+      'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage'
     ],
 
-    preprocessors: {specPath: ['sourcemap']},
+    preprocessors: {'karma-test-shim.js': ['webpack', 'sourcemap']},
 
     reporters: ['mocha', 'coverage', 'saucelabs'],
 
@@ -48,6 +48,8 @@ module.exports = function(config) {
       }
     },
 
+    webpack: webpackConfig,
+    webpackMiddleware: {stats: 'errors-only'},
     webpackServer: {noInfo: true},
 
     captureTimeout: 40000,
