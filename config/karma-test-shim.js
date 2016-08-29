@@ -12,6 +12,7 @@ require('zone.js/dist/jasmine-patch');
 
 require('rxjs/Rx');
 require('./jasmine-matchers.js');
+require('./shims_for_ie.js');
 
 var appContext = require.context('../src/client', true, /\.spec\.ts/);
 
