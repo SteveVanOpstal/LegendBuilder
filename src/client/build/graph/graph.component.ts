@@ -9,9 +9,9 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
-import {LegendComponent} from './legend.component';
 import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
 import {config} from './config';
+import {LegendComponent} from './legend.component';
 import {DataScale, LevelScale, TimeScale} from './scales';
 
 export interface Path {
@@ -63,22 +63,23 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
 
   private paths = new Array<Path>();
 
-  private lineSamples: any = line()
-                          .x((d, i) => {
-                            return this.xScaleTime.get()(
-                                i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
-                          })
-                          .y((d) => {
-                            return this.yScale.get()(d);
-                          });
+  private lineSamples: any =
+      line()
+          .x((d, i) => {
+            return this.xScaleTime.get()(
+                i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
+          })
+          .y((d) => {
+            return this.yScale.get()(d);
+          });
 
   private lineStats: any = line()
-                           .x((d) => {
-                             return this.xScaleTime.get()(d['time']);
-                           })
-                           .y((d) => {
-                             return this.yScale.get()(d['value']);
-                           });
+                               .x((d) => {
+                                 return this.xScaleTime.get()(d['time']);
+                               })
+                               .y((d) => {
+                                 return this.yScale.get()(d['value']);
+                               });
 
   constructor(
       @Inject(ElementRef) private elementRef: ElementRef, private buildService: BuildService) {
@@ -164,9 +165,9 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
         let stat = item.stats[index];
         if (!this.stats[index]) {
           this.stats[index] = [];
-          this.stats[index][0] = { time:0, value:0 };
+          this.stats[index][0] = {time: 0, value: 0};
         }
-        this.stats[index].push({ time:item.time, value:stat });
+        this.stats[index].push({time: item.time, value: stat});
       }
     });
     this.createPaths();
