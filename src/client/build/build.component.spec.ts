@@ -91,7 +91,6 @@ describe('BuildComponent', () => {
            let samples = {xp: [0, 1], gold: [0, 1]};
            mockBackend.subscribe(false, samples);
 
-           expect(component.samples).toBeDefined();
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
                .subscribe(
@@ -111,7 +110,6 @@ describe('BuildComponent', () => {
            let samples = {xp: [0, 1], gold: [0, 1]};
            mockBackend.subscribe();
 
-           expect(component.samples).toBeDefined();
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
                .subscribe(
