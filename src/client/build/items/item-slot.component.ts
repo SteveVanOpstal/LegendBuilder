@@ -1,9 +1,10 @@
 import {NgClass} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
 import {Item} from '../item';
 import {Samples} from '../samples';
+import {BuildService} from '../services/build.service';
 
 import {ItemComponent} from './item.component';
 
@@ -16,12 +17,16 @@ import {ItemComponent} from './item.component';
     </template>`
 })
 
-export class ItemSlotComponent {
+export class ItemSlotComponent implements OnInit {
   @Input() id: number;
-  @Input() samples: Samples;
+  private samples: Samples;
   private items: Array<Item> = new Array<Item>();
 
-  constructor() {}
+  constructor(private build: BuildService) {}
+
+  ngOnInit() {
+    this.build.samples.subscribe(samples => this.samples);
+  }
 
   addItem(item: Item) {
     this.addTime(item);
@@ -49,8 +54,10 @@ export class ItemSlotComponent {
   }
 
   private addTime(item: Item) {
-    item.time = this.getTime(
-        this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize);
+    if (this.samples) {
+      item.time = this.getTime(
+          this.samples.gold, item.gold.total, settings.gameTime, settings.matchServer.sampleSize);
+    }
   }
 
   private addBundle(item: Item) {

@@ -21,8 +21,10 @@ export class ItemComponent implements OnInit {
   constructor(private el: ElementRef) {}
 
   ngOnInit() {
-    this.xScaleTime.create();
-    this.el.nativeElement.setAttribute(
-        'style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
+    if (this.item.time) {
+      this.xScaleTime.create();
+      this.el.nativeElement.setAttribute(
+          'style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
+    }
   }
 }

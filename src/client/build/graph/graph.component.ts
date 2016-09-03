@@ -1,12 +1,12 @@
 import {NgClass, NgFor} from '@angular/common';
-import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit, SimpleChanges} from '@angular/core';
 import {select} from 'd3-selection';
-import {Line, line} from 'd3-shape';
+import {curveStepAfter, Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {BuildService} from '../build.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
+import {BuildService} from '../services/build.service';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
 import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
@@ -37,14 +37,15 @@ export interface Path {
           <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
           <g class="x axis level-line" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
           <g class="x axis level-text" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
-          <g class="y axis"></g>
+          <g class="y axis left"></g>
+          <g class="y axis right" [attr.transform]="'translate(' + config.graphWidth + ',0)'"></g>
         </g>
       </g>
     </svg>`
 })
 
-export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
-  @Input() private samples: Samples;
+export class GraphComponent implements OnInit, AfterContentChecked {
+  private samples: Samples;
   @Input() private stats: any;
   @Input() private champion: any;
 
@@ -54,12 +55,14 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
 
   private xScaleTime = new TimeScale();
   private xScaleLevel = new LevelScale();
-  private yScale = new DataScale();
+  private yScaleSamples = new DataScale();
+  private yScaleStats = new DataScale();
 
   private xAxisTime = new TimeAxis();
   private xAxisLevelLine = new LevelAxisLine();
   private xAxisLevelText = new LevelAxisText();
-  private yAxis = new DataAxis();
+  private yAxisLeft = new DataAxis();
+  private yAxisRight = new DataAxis();
 
   private paths = new Array<Path>();
 
@@ -70,7 +73,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
                 i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
           })
           .y((d) => {
-            return this.yScale.get()(d);
+            return this.yScaleSamples.get()(d);
           });
 
   private lineStats: any = line()
@@ -78,39 +81,45 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
                                  return this.xScaleTime.get()(d['time']);
                                })
                                .y((d) => {
-                                 return this.yScale.get()(d['value']);
-                               });
+                                 return this.yScaleStats.get()(d['value']);
+                               })
+                               .curve(curveStepAfter);
 
-  constructor(
-      @Inject(ElementRef) private elementRef: ElementRef, private buildService: BuildService) {
-    buildService.pickedItems.subscribe(this.calculate);
-  }
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: BuildService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
+
+    this.build.stats.subscribe((stats) => {
+      this.stats = stats;
+      this.createPaths();
+    });
+    this.build.samples.subscribe((samples: Samples) => {
+      this.samples = samples;
+      if (this.svg) {
+        this.createPaths();
+        this.createLevelScale();
+      }
+    });
   }
 
   ngAfterContentChecked() {
     this.updatePaths();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.svg) {
-      this.createPaths();
-      this.createLevelScale();
-    }
-  }
-
   createAxes() {
     this.xScaleTime.create();
     this.xAxisTime.create(this.xScaleTime);
 
-    this.yScale.create();
-    this.yAxis.create(this.yScale);
+    this.yScaleSamples.create();
+    this.yAxisLeft.create(this.yScaleSamples);
+    this.yScaleStats.create([0, 3000]);
+    this.yAxisRight.create(this.yScaleStats, false);
 
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
-    this.svg.select('.y.axis').call(this.yAxis.get());
+    this.svg.select('.y.axis.left').call(this.yAxisLeft.get());
+    this.svg.select('.y.axis.right').call(this.yAxisRight.get());
   }
 
   createPaths() {
@@ -158,18 +167,4 @@ export class GraphComponent implements OnChanges, OnInit, AfterContentChecked {
     }
   }
 
-  private calculate = (pickedItems: Array<Item>) => {
-    this.stats = {};
-    pickedItems.forEach((item: Item) => {
-      for (let index in item.stats) {
-        let stat = item.stats[index];
-        if (!this.stats[index]) {
-          this.stats[index] = [];
-          this.stats[index][0] = {time: 0, value: 0};
-        }
-        this.stats[index].push({time: item.time, value: stat});
-      }
-    });
-    this.createPaths();
-  }
 }

@@ -7,7 +7,8 @@ import {ItemsComponent} from './items.component';
 
 describe('ItemSlotComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [ItemsComponent, ItemSlotComponent]});
+    TestBed.configureTestingModule(
+        {providers: [BuildService, StatsService, ItemsComponent, ItemSlotComponent]});
   });
 
   let item1;

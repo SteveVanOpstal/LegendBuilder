@@ -24,20 +24,24 @@ import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {RouterModule} from '@angular/router';
 
+import {AccountComponent} from './account/account.component';
+import {ActionsComponent} from './actions.component';
 import {AppComponent} from './app.component';
 import {ROUTES} from './app.routes';
 import {BuildComponent} from './build/build.component';
 import {ChampionsComponent} from './champions/champions.component';
-import {FeaturesComponent} from './features/features.component';
+import {MainComponent} from './main/main.component';
 import {RegionsComponent} from './region/region.component';
+import {SummonerComponent} from './summoner/summoner.component';
 
 if (ENV === 'production') {
   enableProdMode();
 }
 
 @NgModule({
-  declarations:
-      [AppComponent, BuildComponent, ChampionsComponent, FeaturesComponent, RegionsComponent],
+  declarations: [
+    AppComponent, ActionsComponent, BuildComponent, ChampionsComponent, RegionsComponent,
+  ],
   imports: [BrowserModule, RouterModule.forRoot(ROUTES), HttpModule],
   bootstrap: [AppComponent]
 })

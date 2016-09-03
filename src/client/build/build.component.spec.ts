@@ -7,7 +7,8 @@ import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';
 
 import {BuildComponent} from './build.component';
-import {BuildService} from './build.service';
+import {BuildService} from './services/build.service';
+import {StatsService} from './services/stats.service';
 
 describe('BuildComponent', () => {
   beforeEach(() => {
@@ -23,7 +24,7 @@ describe('BuildComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, BuildService, BuildComponent
+        LolApiService, StatsService, BuildService, BuildComponent
       ]
     });
   });
@@ -95,7 +96,9 @@ describe('BuildComponent', () => {
            return service.getMatchData('', '', 0, 0)
                .subscribe(
                    () => {
-                     expect(component.samples).toHaveEqualContent(samples);
+                     component.build.samples.subscribe((result) => {
+                       expect(result).toHaveEqualContent(samples);
+                     });
                    },
                    () => {
                      fail('unexpected failure');
@@ -116,8 +119,10 @@ describe('BuildComponent', () => {
                      fail('unexpected success');
                    },
                    () => {
-                     expect(component.samples).not.toHaveEqualContent(samples);
-                     expect(component.error).toBeTruthy();
+                     component.build.samples.subscribe((result) => {
+                       expect(result).not.toHaveEqualContent(samples);
+                       expect(component.error).toBeTruthy();
+                     });
                    });
          })));
 });

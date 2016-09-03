@@ -7,16 +7,17 @@ import {LoadingComponent} from '../misc/loading.component';
 import {RetryComponent} from '../misc/retry.component';
 import {LolApiService} from '../services/lolapi.service';
 
-import {BuildService} from './build.service';
 import {GraphComponent} from './graph/graph.component';
 import {Item} from './item';
 import {ItemsComponent} from './items/items.component';
 import {MasteriesComponent} from './masteries/masteries.component';
 import {Samples} from './samples';
+import {BuildService} from './services/build.service';
+import {StatsService} from './services/stats.service';
 import {ShopComponent} from './shop/shop.component';
 
 @Component({
-  providers: [BuildService, LolApiService],
+  providers: [BuildService, StatsService, LolApiService],
   directives: [
     GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
     LoadingComponent, RetryComponent
@@ -28,9 +29,9 @@ import {ShopComponent} from './shop/shop.component';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion" [samples]="samples"></graph>
+    <graph [champion]="champion"></graph>
     <masteries></masteries>
-    <items [samples]="samples"  #items></items>
+    <items #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
     <loading [loading]="loading"></loading>
     <retry [error]="error" (retry)="getData()"></retry>`
@@ -42,9 +43,10 @@ export class BuildComponent implements OnInit {
   private loading: boolean = true;
   private error: boolean = false;
 
-  private samples: Samples = {xp: [], gold: []};
 
-  constructor(private route: ActivatedRoute, private lolApi: LolApiService) {}
+  constructor(
+      private route: ActivatedRoute, private stats: StatsService, private build: BuildService,
+      private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.championKey = this.route.snapshot.params['champion'];
@@ -75,10 +77,7 @@ export class BuildComponent implements OnInit {
         .getMatchData(value, this.championKey, settings.gameTime, settings.matchServer.sampleSize)
         .subscribe(
             res => {
-              this.samples = {xp: [], gold: []};
-              this.samples = res;
-              // this.samples.xp = res.xp;
-              // this.samples.g = res.g;
+              this.build.samples.notify(res);
             },
             error => {
               this.error = true;

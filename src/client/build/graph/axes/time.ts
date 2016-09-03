@@ -9,17 +9,15 @@ export class TimeAxis implements Axis {
   private timeMarks: Array<number> = [];
   private axis: any;
 
-  constructor() {}
-
-  create(scale: TimeScale) {
-    this.timeMarks = [];
-
+  constructor() {
     let i: number = 0;
     while (i <= settings.gameTime) {
       this.timeMarks.push(i);
       i += config.timeInterval;
     }
+  }
 
+  create(scale: TimeScale) {
     this.axis = axisTop(scale.get())
                     .tickSize(config.graphHeight)
                     .tickValues(this.timeMarks)

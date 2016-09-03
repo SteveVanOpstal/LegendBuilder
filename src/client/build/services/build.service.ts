@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
 
 import {Item} from './item';
+import {Samples} from './samples';
 
 type Trigger<T> = (subject: T) => void;
 type Triggers<T> = Array<Trigger<T>>;
@@ -29,7 +29,9 @@ export class Observer<T> {
 
 @Injectable()
 export class BuildService {
+  samples: Observer<Samples> = new Observer<Samples>();
   pickedItems: Observer<Array<Item>> = new Observer<Array<Item>>();
+  stats: Observer<Array<any>> = new Observer<Array<any>>();
 
   constructor() {}
 }

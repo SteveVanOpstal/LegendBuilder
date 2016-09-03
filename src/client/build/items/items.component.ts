@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {BuildService} from '../build.service';
 import {Item} from '../item';
-import {Samples} from '../samples';
+import {BuildService} from '../services/build.service';
 
 import {ItemSlotComponent} from './item-slot.component';
 
@@ -10,16 +9,15 @@ import {ItemSlotComponent} from './item-slot.component';
   selector: 'items',
   directives: [ItemSlotComponent],
   template: `
-    <item-slot [id]="0" [samples]="samples"></item-slot>
-    <item-slot [id]="1" [samples]="samples"></item-slot>
-    <item-slot [id]="2" [samples]="samples"></item-slot>
-    <item-slot [id]="3" [samples]="samples"></item-slot>
-    <item-slot [id]="4" [samples]="samples"></item-slot>
-    <item-slot [id]="5" [samples]="samples"></item-slot>`
+    <item-slot [id]="0"></item-slot>
+    <item-slot [id]="1"></item-slot>
+    <item-slot [id]="2"></item-slot>
+    <item-slot [id]="3"></item-slot>
+    <item-slot [id]="4"></item-slot>
+    <item-slot [id]="5"></item-slot>`
 })
 
 export class ItemsComponent {
-  @Input() samples: Samples;
   @Input() pickedItems: Array<Item>;
   @Output() pickedItemsChange: EventEmitter<any> = new EventEmitter<any>();
 

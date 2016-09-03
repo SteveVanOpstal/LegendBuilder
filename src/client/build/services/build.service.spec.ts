@@ -3,11 +3,11 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
-import {LolApiService} from '../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../testing';
+import {LolApiService} from '../../services/lolapi.service';
+import {MockActivatedRoute, MockMockBackend} from '../../testing';
+import {Item} from '../item';
 
 import {BuildService, Observer} from './build.service';
-import {Item} from './item';
 
 
 describe('BuildService', () => {

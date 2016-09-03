@@ -6,8 +6,8 @@ import {Scale} from './scale';
 export class DataScale implements Scale {
   private scale;
 
-  create() {
-    this.scale = scaleLinear().domain([0, 30000]).range([config.graphHeight, 0]);
+  create(domain: [number, number] = [0, 30000]) {
+    this.scale = scaleLinear().domain(domain).range([config.graphHeight, 0]);
   }
 
   get() {

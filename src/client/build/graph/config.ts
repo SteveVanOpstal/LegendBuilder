@@ -1,5 +1,5 @@
 class Config {
-  margin: any = {top: 20, right: 20, bottom: 20, left: 60};
+  margin: any = {top: 20, right: 60, bottom: 20, left: 60};
   width: number = 1500;
   height: number = 650;
 
