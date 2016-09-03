@@ -17,9 +17,8 @@ export class ActionsComponent {
   private authPage: boolean = false;
 
   constructor(private route: ActivatedRoute, private auth: AuthService) {
-    this.route.url.subscribe((route) => {
-      console.log(route);
-      this.authPage = route[0].path === 'login' || route[0].path === 'signup';
+    this.route.url.subscribe((r) => {
+      this.authPage = r[0].path === 'login' || r[0].path === 'signup';
     });
   }
 

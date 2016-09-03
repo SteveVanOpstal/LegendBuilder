@@ -2,6 +2,7 @@
   "globalDependencies": {
     "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160425143459",
     "async": "registry:dt/async#1.4.2+20160501155344",
+    "auth0-js": "registry:dt/auth0-js#0.0.0+20160817003754",
     "colors": "registry:dt/colors#0.6.0-1+20160501135139",
     "core-js": "registry:dt/core-js#0.0.0+20160317120654",
     "jasmine": "registry:dt/jasmine#2.2.0+20160505161446",

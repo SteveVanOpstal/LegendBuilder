@@ -40,7 +40,7 @@ export class StatsService {
     spellblock: 'Spell Block',
     movespeed: 'Movement Speed',
     attackspeedoffset: 'Attack Speed Offset',
-    crit: 'Critical Strike',
+    crit: 'Critical Strike'
   };
 
   private itemStats: Array<Stat>;
@@ -115,7 +115,7 @@ export class StatsService {
     if (translation) {
       name = this.translator[name];
     } else {
-      for (var i = 1; i < name.length; i++) {
+      for (let i = 1; i < name.length; i++) {
         let char = name[i];
         if (char === char.toUpperCase()) {
           name = name.substr(0, i) + ' ' + name.substr(i);
@@ -233,7 +233,7 @@ export class StatsService {
     let lastXpMark = samples.xp[samples.xp.length - 1];
     this.levelTimeMarks = [];
     for (let xpMark of config.levelXp) {
-      this.levelTimeMarks.push(xpMark / lastXpMark * settings.gameTime)
+      this.levelTimeMarks.push(xpMark / lastXpMark * settings.gameTime);
     }
     this.calculate();
   }
