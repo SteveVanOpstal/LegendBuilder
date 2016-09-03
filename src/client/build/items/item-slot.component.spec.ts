@@ -1,6 +1,8 @@
 import {inject, TestBed} from '@angular/core/testing';
 
 import {settings} from '../../../../config/settings';
+import {BuildService} from '../services/build.service';
+import {StatsService} from '../services/stats.service';
 
 import {ItemSlotComponent} from './item-slot.component';
 import {ItemsComponent} from './items.component';

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {Item} from './item';
-import {Samples} from './samples';
+import {Item} from '../item';
+import {Samples} from '../samples';
 
 type Trigger<T> = (subject: T) => void;
 type Triggers<T> = Array<Trigger<T>>;
