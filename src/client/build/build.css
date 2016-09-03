@@ -221,6 +221,10 @@ graph .line:not(.enabled):not(.preview) {
   stroke: transparent;
 }
 
+graph .line.preview {
+  stroke-width: 3px;
+}
+
 graph legend li button:not(.enabled) {
   background-color: transparent !important;
 }

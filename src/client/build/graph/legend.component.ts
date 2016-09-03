@@ -26,9 +26,7 @@ export class LegendComponent {
   private dragging: boolean = false;
 
   mouseEnter(path: Path) {
-    if (!path.enabled) {
-      path.preview = true;
-    }
+    path.preview = true;
     if (this.dragging) {
       path.enabled = !path.enabled;
     }
