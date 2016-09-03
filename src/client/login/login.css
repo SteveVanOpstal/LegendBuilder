@@ -1,0 +1,47 @@
+login,
+login .actions,
+login .auth0-badge {
+  display: flex;
+}
+
+login > div {
+  width: 250px;
+  padding: 20px;
+  background-color: #FFF;
+  border-radius: 10px;
+}
+
+login .actions,
+login .auth0-badge {
+  padding-top: 20px;
+}
+
+login .actions p {
+  display: inline;
+}
+
+login .email,
+login .password {
+  padding: 0px 8px;
+}
+
+login .email label {
+  margin-top: 0px;
+}
+
+login button {
+  display: inline;
+  width: 100px;
+  height: 40px;
+}
+
+login input[type="text"],
+login input[type="password"] {
+  width: 100%;
+  padding: 5px 8px;
+  margin: 0px -8px;
+}
+
+login label {
+  margin: 10px -8px;
+}

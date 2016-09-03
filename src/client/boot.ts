@@ -24,14 +24,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {RouterModule} from '@angular/router';
 
-import {AccountComponent} from './account/account.component';
 import {ActionsComponent} from './actions.component';
 import {AppComponent} from './app.component';
 import {ROUTES} from './app.routes';
 import {BuildComponent} from './build/build.component';
 import {ChampionsComponent} from './champions/champions.component';
+import {LoginComponent} from './login/login.component';
 import {MainComponent} from './main/main.component';
 import {RegionsComponent} from './region/region.component';
+import {SignupComponent} from './signup/signup.component';
 import {SummonerComponent} from './summoner/summoner.component';
 
 if (ENV === 'production') {
@@ -40,10 +41,11 @@ if (ENV === 'production') {
 
 @NgModule({
   declarations: [
-    AppComponent, ActionsComponent, BuildComponent, ChampionsComponent, RegionsComponent,
+    AppComponent, ActionsComponent, BuildComponent, ChampionsComponent,
+    RegionsComponent, SummonerComponent, MainComponent, LoginComponent, SignupComponent
   ],
   imports: [BrowserModule, RouterModule.forRoot(ROUTES), HttpModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, ActionsComponent]
 })
 class AppModule {
 }

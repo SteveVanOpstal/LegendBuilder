@@ -1,0 +1,48 @@
+signup,
+signup .actions,
+signup .auth0-badge {
+  display: flex;
+}
+
+signup > div {
+  width: 250px;
+  padding: 20px;
+  background-color: #FFF;
+  border-radius: 10px;
+}
+
+signup .actions,
+signup .auth0-badge {
+  padding-top: 20px;
+}
+
+signup .actions p {
+  display: inline;
+}
+
+signup .email,
+signup .password,
+signup .password-repeat {
+  padding: 0px 8px;
+}
+
+signup .email label {
+  margin-top: 0px;
+}
+
+signup button {
+  display: inline;
+  width: 100px;
+  height: 40px;
+}
+
+signup input[type="text"],
+signup input[type="password"] {
+  width: 100%;
+  padding: 5px 8px;
+  margin: 0px -8px;
+}
+
+signup label {
+  margin: 10px -8px;
+}
