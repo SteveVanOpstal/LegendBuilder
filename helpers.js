@@ -6,6 +6,9 @@ function root(args) {
 }
 
 function merge(src, target) {
+  if (!target) {
+    return src;
+  }
   for (var prop in src) {
     target[prop] = src[prop];
   }
