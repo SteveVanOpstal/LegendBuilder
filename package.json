@@ -108,7 +108,7 @@
     "zone.js": "0.6.17"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "^2.0.2",
+    "awesome-typescript-loader": "^2.2.2",
     "clang-format": "^1.0.44",
     "codelyzer": "^0.0.28",
     "compression-webpack-plugin": "^0.3.1",
