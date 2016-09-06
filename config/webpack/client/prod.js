@@ -38,8 +38,7 @@ module.exports = webpackMerge(commonConfig, {
   output: {
     path: helpers.root('build/dist/client'),
     filename: '[name].[chunkhash].bundle.js',
-    sourceMapFilename: '[name].[chunkhash].bundle.map',
-    chunkFilename: '[id].[chunkhash].chunk.js'
+    sourceMapFilename: '[name].[chunkhash].bundle.map'
   },
 
   module: {
@@ -50,8 +49,7 @@ module.exports = webpackMerge(commonConfig, {
         query: {'compilerOptions': {'removeComments': true}},
         exclude: [/\.(spec|e2e)\.ts$/]
       },
-      {test: /\.svg$/, loader: 'raw'},
-      {test: /\.css$/, loader: 'css?minimize'},
+      {test: /\.svg$/, loader: 'raw'}, {test: /\.css$/, loader: 'css?minimize'}
     ]
   },
 
@@ -71,8 +69,7 @@ module.exports = webpackMerge(commonConfig, {
       }
     }),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}),
-    new UglifyJsPlugin({beautify: false, mangle: {keep_fnames: true}, comments: false}),
-    new CompressionPlugin(
-        {algorithm: 'gzip', regExp: /\.css$|\.html$|\.js$|\.map$/, threshold: 2 * 1024})
+    new UglifyJsPlugin({beautify: false, mangle: true, comments: false}),
+    new CompressionPlugin({algorithm: 'gzip', regExp: /\.html$|\.js$/, threshold: 2 * 1024})
   ]
 });
