@@ -1,10 +1,7 @@
-//// <reference path="globals/auth0/index.d.ts" />
-
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {tokenNotExpired} from 'angular2-jwt';
 import * as Auth0 from 'auth0-js';
-// import {CookieService} from 'angular2-cookie/core';
 
 const cid = '0rrx82d4Hhzi63p7MCfK4wuJkRnVcOYB';
 const domain = 'legendbuilder.eu.auth0.com';
@@ -17,7 +14,7 @@ export class AuthService {
   private auth0 = new Auth0(
       {clientID: cid, domain: domain, callbackOnLocationHash: true, callbackURL: '/account'});
 
-  constructor(private router: Router /*, private cookieService: CookieService*/) {
+  constructor(private router: Router) {
     let result = this.auth0.parseHash(window.location.hash);
 
     if (result && result.id_token) {
