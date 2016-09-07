@@ -68,7 +68,9 @@ function uploadFiles(client) {
     if (file.indexOf('.gz') === file.length - 3) {
       remoteFile = remoteFile.substring(0, remoteFile.length - 3);
       skip.push(remoteFile);
-      uploadFile(client, file, remoteFile, {ContentEncoding: 'gzip', ContentType: 'application/javascript'});
+      uploadFile(
+          client, file, remoteFile,
+          {ContentEncoding: 'gzip', ContentType: 'application/javascript'});
     }
   }
 
@@ -89,8 +91,12 @@ function uploadFiles(client) {
 }
 
 module.exports = {
-  upload: function(d) {
-    done = d;
+  upload: function(done) {
+    if (process.env.TRAVIS_PULL_REQUEST) {
+      done(false);
+      return;
+    }
+
     var client = s3.createClient({
       s3Options: {
         accessKeyId: process.env.ARTIFACTS_KEY,
