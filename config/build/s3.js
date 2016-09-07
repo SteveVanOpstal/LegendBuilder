@@ -92,7 +92,7 @@ function uploadFiles(client) {
 
 module.exports = {
   upload: function(done) {
-    if (process.env.TRAVIS_PULL_REQUEST) {
+    if (process.env.TRAVIS_PULL_REQUEST !== 'false') {
       if (typeof done === 'function') {
         done(false);
       }

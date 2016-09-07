@@ -14,7 +14,6 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
     process.env.BUILD =
         'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
     process.env.TUNNEL_IDENTIFIER = process.env.TRAVIS_JOB_NUMBER;
-    console.log('\nTRAVIS_PULL_REQUEST=' + process.env.TRAVIS_PULL_REQUEST);
   } else {
     let time = timestamp();
     process.env.BUILD = 'Local (' + time + ')';
