@@ -1,4 +1,3 @@
-import {NgFor} from '@angular/common';
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {MasteryComponent} from './mastery.component';
@@ -10,7 +9,6 @@ type EventData = {
 
 @Component({
   selector: 'mastery-tier',
-  directives: [NgFor, MasteryComponent],
   template: `
     <mastery [data]="mastery" [enabled]="index == 0" *ngFor="let mastery of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery>`
 })

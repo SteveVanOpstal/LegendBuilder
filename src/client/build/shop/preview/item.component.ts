@@ -1,11 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {DDragonDirective} from '../../../misc/ddragon.directive';
 import {Item} from '../../item';
 
 @Component({
   selector: 'item',
-  directives: [DDragonDirective],
   template: `
     <img [ddragon]="'item/' + item?.image?.full" (click)="selectItem(item)" (contextmenu)="pickItem(item)">
     <p class="gold" (click)="selectItem(item)" (contextmenu)="pickItem(item)">{{item?.gold?.total ? item?.gold?.total : ''}}</p>`

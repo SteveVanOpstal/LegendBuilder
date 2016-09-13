@@ -1,35 +1,10 @@
-import {NgClass, NgFor, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {IconEyeComponent} from '../../assets/icon-eye.component';
-import {CapitalizePipe} from '../../misc/capitalize.pipe';
-import {LoadingComponent} from '../../misc/loading.component';
-import {RetryComponent} from '../../misc/retry.component';
-import {ToIterablePipe} from '../../misc/to-iterable.pipe';
 import {LolApiService} from '../../services/lolapi.service';
-import {ItemsComponent} from '../items/items.component';
-
-import {ItemComponent} from './item.component';
-import {ChampionPipe} from './pipes/champion.pipe';
-import {HidePipe} from './pipes/hide.pipe';
-import {MapPipe} from './pipes/map.pipe';
-import {NamePipe} from './pipes/name.pipe';
-import {SortPipe} from './pipes/sort.pipe';
-import {TagsPipe} from './pipes/tags.pipe';
-import {TranslatePipe} from './pipes/translate.pipe';
-import {PreviewComponent} from './preview/preview.component';
+import {ToIterablePipe} from '../../misc/to-iterable.pipe';
 
 @Component({
   selector: 'shop',
-  providers: [LolApiService, ItemsComponent],
-  directives: [
-    NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, LoadingComponent, RetryComponent,
-    IconEyeComponent
-  ],
-  pipes: [
-    ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe,
-    NamePipe, SortPipe
-  ],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>

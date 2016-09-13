@@ -1,4 +1,3 @@
-import {NgClass} from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
@@ -6,11 +5,8 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 import {BuildService} from '../services/build.service';
 
-import {ItemComponent} from './item.component';
-
 @Component({
   selector: 'item-slot',
-  directives: [NgClass, ItemComponent],
   template: `
     <template ngFor let-item [ngForOf]="items">
       <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)"></item>

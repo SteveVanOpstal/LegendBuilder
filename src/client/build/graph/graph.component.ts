@@ -1,17 +1,13 @@
-import {NgClass, NgFor} from '@angular/common';
-import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit, SimpleChanges} from '@angular/core';
+import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {Item} from '../item';
 import {Samples} from '../samples';
 import {BuildService} from '../services/build.service';
 
-import {AbilitySequenceComponent} from './ability-sequence.component';
 import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
 import {config} from './config';
-import {LegendComponent} from './legend.component';
 import {DataScale, LevelScale, TimeScale} from './scales';
 
 export interface Path {
@@ -24,7 +20,6 @@ export interface Path {
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [LegendComponent, AbilitySequenceComponent, NgFor, NgClass],
   template: `
     <legend [paths]="paths"></legend>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
@@ -166,5 +161,4 @@ export class GraphComponent implements OnInit, AfterContentChecked {
           .attr('type', 'checkbox');
     }
   }
-
 }

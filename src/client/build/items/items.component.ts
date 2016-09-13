@@ -7,7 +7,6 @@ import {ItemSlotComponent} from './item-slot.component';
 
 @Component({
   selector: 'items',
-  directives: [ItemSlotComponent],
   template: `
     <item-slot [id]="0"></item-slot>
     <item-slot [id]="1"></item-slot>

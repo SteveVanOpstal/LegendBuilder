@@ -1,4 +1,3 @@
-import {NgFor} from '@angular/common';
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -11,7 +10,6 @@ type EventData = {
 
 @Component({
   selector: 'mastery-category',
-  directives: [NgFor, MasteryTierComponent],
   template: `
     <mastery-tier [data]="tier" [index]="i" *ngFor="let tier of data.tiers; let i = index" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery-tier>
     <p class="total">{{data.name + ': ' + totalRank}}</p>`

@@ -1,12 +1,9 @@
-import {NgClass, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
-import {Colors, IconRankComponent} from '../../assets/icon-rank.component';
-import {DDragonDirective} from '../../misc/ddragon.directive';
+import {Colors} from '../../assets/icon-rank.component';
 
 @Component({
   selector: 'mastery',
-  directives: [NgIf, NgClass, DDragonDirective, IconRankComponent],
   template: `
     <div *ngIf="data" [ngClass]="{enabled: enabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()" (dragend)="dragEnd()">
       <icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></icon-rank>

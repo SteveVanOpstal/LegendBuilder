@@ -1,9 +1,7 @@
-import {NgModel} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'filters',
-  directives: [NgModel],
   template: `
     <div class="left">
       <div class="align-center">

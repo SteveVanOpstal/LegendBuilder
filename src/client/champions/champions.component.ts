@@ -1,26 +1,16 @@
-import {NgFor, NgIf} from '@angular/common';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {DDragonDirective} from '../misc/ddragon.directive';
-import {LoadingComponent} from '../misc/loading.component';
-import {RetryComponent} from '../misc/retry.component';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {LolApiService} from '../services/lolapi.service';
 
-import {BarComponent} from './bar/bar.component';
-import {FiltersComponent} from './filters/filters.component';
 import {NamePipe} from './pipes/name.pipe';
 import {SortPipe} from './pipes/sort.pipe';
 import {TagsPipe} from './pipes/tags.pipe';
 
 @Component({
   selector: 'champions',
-  pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
   providers: [LolApiService],
-  directives: [
-    NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, RetryComponent, DDragonDirective
-  ],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./champions.css').toString()],
   template: `
@@ -50,8 +40,8 @@ export class ChampionsComponent implements OnInit {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, public lolApi: LolApiService) {
-  }
+  constructor(
+      private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.getData();

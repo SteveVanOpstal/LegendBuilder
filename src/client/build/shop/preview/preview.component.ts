@@ -1,15 +1,10 @@
-import {NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 import {Item} from '../../item';
-
 import {ItemBundle} from './item-bundle';
-import {ItemComponent} from './item.component';
-import {ItemsFromComponent} from './items-from.component';
 
 @Component({
   selector: 'preview',
-  directives: [NgIf, ItemComponent, ItemsFromComponent],
   template: `
     <div class="into">
       <template ngFor let-item [ngForOf]="itemsInto">

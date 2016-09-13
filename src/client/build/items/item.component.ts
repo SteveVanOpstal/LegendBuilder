@@ -1,13 +1,10 @@
-import {NgIf} from '@angular/common';
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
 
 @Component({
   selector: 'item',
-  directives: [NgIf, DDragonDirective],
   template: `
     <img [ddragon]="'item/' + item.image.full">
     <p *ngIf="item.bundle > 1" class="bundle">x{{item.bundle}}</p>

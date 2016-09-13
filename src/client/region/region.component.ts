@@ -1,14 +1,10 @@
-import {NgFor} from '@angular/common';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   selector: 'region',
   providers: [LolApiService],
-  directives: [NgFor],
-  pipes: [ToIterablePipe],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./region.css').toString()],
   template: `
