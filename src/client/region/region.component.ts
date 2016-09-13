@@ -19,7 +19,7 @@ import {LolApiService} from '../services/lolapi.service';
   </div>`
 })
 
-export class RegionsComponent implements OnInit {
+export class RegionComponent implements OnInit {
   private regions: Array<Object> = [];
 
   private loading: boolean = true;

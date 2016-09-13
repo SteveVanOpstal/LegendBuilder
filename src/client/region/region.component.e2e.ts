@@ -1,5 +1,5 @@
 'use strict';
-describe('RegionsComponent', () => {
+describe('RegionComponent', () => {
 
   // Temporary fix for zone.js issue #234
   beforeEach((done) => {
