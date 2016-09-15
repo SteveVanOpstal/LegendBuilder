@@ -1,5 +1,5 @@
 'use strict';
-describe('ChampionsComponent', () => {
+describe('ChampionComponent', () => {
 
   // Temporary fix for zone.js issue #234
   beforeEach((done) => {
@@ -21,23 +21,23 @@ describe('ChampionsComponent', () => {
   });
 
   it('should find Amumu', () => {
-    element(by.css('champions filters input[type=\'text\']')).sendKeys('am\'umu');
-    element(by.css('champions filters input[value=\'Tank\']')).click();
-    element(by.css('champions filters input[value=\'Mage\']')).click();
-    element(by.css('champions filters input[value=\'attack\']')).click();
-    let championCount = element.all(by.css('champions .champion')).count();
+    element(by.css('champion filters input[type=\'text\']')).sendKeys('am\'umu');
+    element(by.css('champion filters input[value=\'Tank\']')).click();
+    element(by.css('champion filters input[value=\'Mage\']')).click();
+    element(by.css('champion filters input[value=\'attack\']')).click();
+    let championCount = element.all(by.css('champion .champion')).count();
     expect(championCount).toEqual(1);
   });
 
   it('should find Velkoz', () => {
-    element(by.css('champions filters input[type=\'text\']')).sendKeys('Velkoz');
-    let championCount = element.all(by.css('champions .champion')).count();
+    element(by.css('champion filters input[type=\'text\']')).sendKeys('Velkoz');
+    let championCount = element.all(by.css('champion .champion')).count();
     expect(championCount).toEqual(1);
   });
 
   it('should find Marksmen', () => {
-    element(by.css('champions filters input[value=\'Marksman\']')).click();
-    let championCount = element.all(by.css('champions .champion')).count();
+    element(by.css('champion filters input[value=\'Marksman\']')).click();
+    let championCount = element.all(by.css('champion .champion')).count();
     expect(championCount).not.toBeLessThan(1);
   });
 

@@ -51,12 +51,12 @@ import {TranslatePipe} from './build/shop/pipes/translate.pipe';
 import {ItemsFromComponent} from './build/shop/preview/items-from.component';
 import {PreviewComponent} from './build/shop/preview/preview.component';
 import {ShopComponent} from './build/shop/shop.component';
-import {BarComponent} from './champions/bar/bar.component';
-import {ChampionsComponent} from './champions/champions.component';
-import {FiltersComponent} from './champions/filters/filters.component';
-import {NamePipe} from './champions/pipes/name.pipe';
-import {SortPipe} from './champions/pipes/sort.pipe';
-import {TagsPipe} from './champions/pipes/tags.pipe';
+import {BarComponent} from './champion/bar/bar.component';
+import {ChampionComponent} from './champion/champion.component';
+import {FiltersComponent} from './champion/filters/filters.component';
+import {NamePipe} from './champion/pipes/name.pipe';
+import {SortPipe} from './champion/pipes/sort.pipe';
+import {TagsPipe} from './champion/pipes/tags.pipe';
 import {LoginComponent} from './login/login.component';
 import {MainComponent} from './main/main.component';
 import {CapitalizePipe} from './misc/capitalize.pipe';
@@ -78,7 +78,7 @@ if (ENV === 'production') {
     AppComponent,
     ActionsComponent,
     BuildComponent,
-    ChampionsComponent,
+    ChampionComponent,
     RegionComponent,
     SummonerComponent,
     MainComponent,

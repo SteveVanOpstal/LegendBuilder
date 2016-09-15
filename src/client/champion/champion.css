@@ -2,37 +2,37 @@
   background-color: #FFF;
 }
 
-champions {
+champion {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-champions p {
+champion p {
   font-size: 1em;
 }
 
-champions .champion {
+champion .champion {
   height: 275px;
   margin: -1px -2px;
 }
 
-champions .champion:hover {
+champion .champion:hover {
   -webkit-filter: brightness(1.2);
   filter: brightness(1.2);
 }
 
-champions .champion:hover img {
+champion .champion:hover img {
   -webkit-filter: grayscale(0);
   filter: grayscale(0);
 }
 
-champions .champion a {
+champion .champion a {
   display: block;
   text-decoration: none;
 }
 
-champions .champion img {
+champion .champion img {
   width: 150px;
   height: 273px;
   -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
@@ -44,12 +44,12 @@ champions .champion img {
   background-color: #EEE;
 }
 
-champions .champion .info p {
+champion .champion .info p {
   z-index: 10;
   margin: 5px;
 }
 
-champions .champion .info {
+champion .champion .info {
   position: absolute;
   width: 134px;
   height: 72px;
@@ -64,23 +64,23 @@ champions .champion .info {
   border-bottom-right-radius: 10px;
 }
 
-champions .champion .info bar {
+champion .champion .info bar {
   padding-left: 5px;
 }
 
-champions .champion .info bar.attack > div {
+champion .champion .info bar.attack > div {
   background-color: #5C1F1F;
 }
 
-champions .champion .info bar.defense > div {
+champion .champion .info bar.defense > div {
   background-color: #163A16;
 }
 
-champions .champion .info bar.magic > div {
+champion .champion .info bar.magic > div {
   background-color: #1B3556;
 }
 
-champions .champion .info bar.difficulty > div {
+champion .champion .info bar.difficulty > div {
   background-color: #411A52;
 }
 
@@ -139,7 +139,7 @@ filters .right label {
 /* @media */
 
 @media (max-width: 1350px) {
-  champions .champion
+  champion .champion
   {
     width: 100px;
     height: 181px;
@@ -147,14 +147,14 @@ filters .right label {
     padding: 5px;
   }
 
-  champions .champion img {
+  champion .champion img {
     width: 100px;
     height: 181px;
     -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
     clip-path: inset(3px 3px 3px 3px round 5px);
   }
 
-  champions .champion .info {
+  champion .champion .info {
     font-size: 0.8em;
     width: inherit;
     height: inherit;
@@ -165,7 +165,7 @@ filters .right label {
     border-top-right-radius: 5px;
   }
   
-  champions .champion .info bar {
+  champion .champion .info bar {
     display: none;
   }
 }
