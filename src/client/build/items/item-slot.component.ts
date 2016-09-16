@@ -49,6 +49,12 @@ export class ItemSlotComponent implements OnInit {
     return from.indexOf(item.id.toString()) > -1;
   }
 
+  // TODO: move to itemComponent when angular allows events on <template>
+  rightClicked(item: Item) {
+    this.removeItem(item);
+    return false;  // stop context menu from appearing
+  }
+
   private addTime(item: Item) {
     if (this.samples) {
       item.time = this.getTime(
@@ -98,11 +104,5 @@ export class ItemSlotComponent implements OnInit {
       }
     }
     return -1;
-  }
-
-  // TODO: move to itemComponent when angular allows events on <template>
-  private rightClicked(item: Item) {
-    this.removeItem(item);
-    return false;  // stop context menu from appearing
   }
 }

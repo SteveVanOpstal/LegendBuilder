@@ -47,6 +47,15 @@ export class ChampionComponent implements OnInit {
     this.getData();
   }
 
+  enterHit() {
+    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
+    if (filteredChampions && filteredChampions.length === 1) {
+      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
+        this.error = true;
+      });
+    }
+  }
+
   private getData() {
     this.loading = true;
     this.error = false;
@@ -55,15 +64,6 @@ export class ChampionComponent implements OnInit {
       this.error = true;
       this.loading = false;
     }, () => this.loading = false);
-  }
-
-  private enterHit() {
-    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
-    if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
-        this.error = true;
-      });
-    }
   }
 
   private filter(champions: any, name: string, sort: string, tags: Array<string>): Array<Object> {

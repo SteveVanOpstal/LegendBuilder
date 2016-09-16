@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {LolApiService} from '../../services/lolapi.service';
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
+import {LolApiService} from '../../services/lolapi.service';
 
 @Component({
   selector: 'shop',
@@ -76,6 +76,30 @@ export class ShopComponent implements OnInit {
         () => this.loading = false);
   }
 
+  tagChanged(event: Event) {
+    if (!event || !event.target) {
+      return;
+    }
+    let input: any = event.target;
+    if (input.checked) {
+      this.tags.push(input.value);
+    } else {
+      let index: number = this.tags.indexOf(input.value);
+      if (index > -1) {
+        this.tags.splice(index, 1);
+      }
+    }
+  }
+
+  selectItem(pickedItem: Object) {
+    this.pickedItem = pickedItem;
+  }
+
+  pickItem(pickedItem: Object) {
+    this.itemPicked.emit(pickedItem);
+    return false;  // stop context menu from appearing
+  }
+
   // ngOnChanges(changes: SimpleChanges) {
   //   if (!changes['pickedItems'] || !changes['pickedItems'].currentValue) {
   //     return;
@@ -112,28 +136,4 @@ export class ShopComponent implements OnInit {
   //   });
   //   return exceededGroups;
   // }
-
-  private tagChanged(event: Event) {
-    if (!event || !event.target) {
-      return;
-    }
-    let input: any = event.target;
-    if (input.checked) {
-      this.tags.push(input.value);
-    } else {
-      let index: number = this.tags.indexOf(input.value);
-      if (index > -1) {
-        this.tags.splice(index, 1);
-      }
-    }
-  }
-
-  private selectItem(pickedItem: Object) {
-    this.pickedItem = pickedItem;
-  }
-
-  private pickItem(pickedItem: Object) {
-    this.itemPicked.emit(pickedItem);
-    return false;  // stop context menu from appearing
-  }
 }
