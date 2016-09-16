@@ -90,7 +90,7 @@
     "@angular/platform-browser-dynamic": "2.0.0-rc.6",
     "@angular/router": "3.0.0-rc.2",
     "angular2-cookie": "1.2.2",
-    "angular2-jwt": "0.1.22",
+    "angular2-jwt": "0.1.23",
     "async": "2.0.1",
     "auth0-js": "7.1.0",
     "chalk": "1.1.3",
