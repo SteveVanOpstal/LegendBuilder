@@ -3,25 +3,32 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
+import {ErrorComponent} from '../../misc/error.component';
+import {LoadingComponent} from '../../misc/loading.component';
+import {RetryComponent} from '../../misc/retry.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
-class MockMasteryCategoryComponent extends MasteryCategoryComponent {
-  public rank: number = 0;
-  public enabled: boolean = false;
-  getRank(): number {
-    return this.rank;
-  }
-  enable() {
-    this.enabled = true;
-  }
-  disable() {
-    this.enabled = false;
-  }
-}
+// class MockMasteryCategoryComponent extends MasteryCategoryComponent {
+//   public rank: number = 0;
+//   public enabled: boolean = false;
+//   getRank(): number {
+//     return this.rank;
+//   }
+//   enable() {
+//     this.enabled = true;
+//   }
+//   disable() {
+//     this.enabled = false;
+//   }
+// }
 
 const masteriesData = {
   tree: {
@@ -83,7 +90,11 @@ let providers = () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, MasteryCategoryComponent, MasteriesComponent
+        LolApiService, MasteriesComponent
+      ],
+      declarations: [
+        MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
+        LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, DDragonDirective
       ]
     });
   });

@@ -4,10 +4,11 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {Colors} from '../../assets/icon-rank.component';
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute} from '../../testing';
 
-import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
@@ -33,8 +34,11 @@ describe('MasteryComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
-        MasteryComponent
+        LolApiService
+      ],
+      declarations: [
+        MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
+        DDragonDirective
       ]
     });
   });

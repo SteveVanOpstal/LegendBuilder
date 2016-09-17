@@ -3,11 +3,13 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute} from '../../testing';
 
-import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
 const data = [
   {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null,
@@ -28,8 +30,9 @@ describe('MasteryTierComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, MasteryCategoryComponent, MasteryTierComponent
-      ]
+        LolApiService, MasteryTierComponent
+      ],
+      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonDirective]
     });
   });
 
