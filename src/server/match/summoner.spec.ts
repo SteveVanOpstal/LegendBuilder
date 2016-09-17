@@ -1,5 +1,3 @@
-import {IncomingMessage, ServerResponse} from 'http';
-
 import {MockHostResponseFailure, MockHostResponseSuccess, MockServer, MockServerResponse} from '../testing';
 
 import {Summoner} from './summoner';

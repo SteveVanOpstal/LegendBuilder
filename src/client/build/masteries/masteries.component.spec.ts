@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed, TestComponentBuilder} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -93,14 +93,13 @@ describe('MasteriesComponent', () => {
   providers();
 
   let component: MasteriesComponent;
-  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteriesComponent).then((fixture: ComponentFixture<MasteriesComponent>) => {
-      fixture.detectChanges();
-      component = fixture.componentInstance;
-      component.data = masteriesDataAltered;
-      fixture.detectChanges();
-    });
-  })));
+  beforeEach(() => {
+    let fixture = TestBed.createComponent(MasteriesComponent);
+    fixture.detectChanges();
+    component = fixture.componentInstance;
+    component.data = masteriesDataAltered;
+    fixture.detectChanges();
+  });
 
   it('should be initialised', () => {
     expect(component.data).toBeDefined();
