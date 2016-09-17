@@ -9,13 +9,17 @@ export class Summoner {
   public get(region: string, name: string, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, name, (res) => {
       response.writeHead(res.status, this.server.headers);
-      let summoner = res.json[name.toLowerCase()];
-      if (res.success && summoner) {
-        let summonerId = summoner.id.toString();
-        response.write(summonerId);
-        this.server.setCache(request.url, summonerId);
+      if (res.success) {
+        let summoner = res.json[name.toLowerCase()];
+        if (summoner && summoner.id) {
+          let summonerId = summoner.id.toString();
+          response.write(summonerId);
+          this.server.setCache(request.url, summonerId);
+        } else {
+          response.write(res.data.toString());
+        }
       } else {
-        response.write(res.data);
+        response.write(res.data.toString());
       }
       response.end();
     });
