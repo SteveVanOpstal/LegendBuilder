@@ -36,6 +36,9 @@ export class AuthService {
         },
         function(err) {
           current._error = err;
+          // if (!err) {
+          //   current.router.navigate(['account']);
+          // }
         });
   }
 
@@ -50,6 +53,9 @@ export class AuthService {
         },
         function(err) {
           current._error = err;
+          // if (!err) {
+          //   current.router.navigate(['account']);
+          // }
         });
   }
 
@@ -57,6 +63,21 @@ export class AuthService {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
   }
+
+  // // Configure Auth0
+  // lock = new Auth0Lock(cid, domain);
+
+  // constructor() {
+  //   // Add callback for lock `authenticated` event
+  //   this.lock.on('authenticated', (authResult) => {
+  //     localStorage.setItem('id_token', authResult.idToken);
+  //   });
+  // }
+
+  // public login() {
+  //   // Call the show method to display the widget.
+  //   this.lock.show();
+  // }
 
   public authenticated() {
     // Check if there's an unexpired JWT
@@ -69,4 +90,9 @@ export class AuthService {
     // It searches for an item in localStorage with key == 'id_token'
     return this._error;
   }
+
+  // public known() {
+  //   // Check if the user has an account
+  //   return this.cookieService.get('auth.known') === 'true';
+  // }
 }
