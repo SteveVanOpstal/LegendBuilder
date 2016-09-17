@@ -160,16 +160,18 @@ export class Match {
       let ind = 0;
       for (let index in results) {
         if (results[index].error) {
+          colorConsole.warn('Match http error.');
           continue;
         }
 
         let result = results[index].value;
         if (!result || !result.timeline || !result.timeline.frameInterval) {
+          colorConsole.warn('Match data incorrect.');
           continue;
         }
 
         if (result.matchDuration < config.minDuration) {
-          colorConsole.debug(
+          colorConsole.warn(
               'Match duration too short (%d/%d).', result.matchDuration, config.minDuration);
           continue;
         }
