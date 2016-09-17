@@ -90,14 +90,21 @@ export class Match {
           }
         ],
         (error: Error, results: any) => {
-          if (error) {
+          if (!results || !results.matches) {
             callback({data: error.message, status: 500, success: false});
             return;
           }
 
           if (results.matches.length < config.matches.min) {
-            callback(
-                {data: Errors.matchlist.message, status: Errors.matchlist.status, success: false});
+            if (error) {
+              callback({data: error.message, status: 500, success: false});
+            } else {
+              callback({
+                data: Errors.matchlist.message,
+                status: Errors.matchlist.status,
+                success: false
+              });
+            }
             return;
           }
 
