@@ -1,4 +1,3 @@
-import {provide} from '@angular/core';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
@@ -27,7 +26,7 @@ describe('ShopComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        provide(Event, {useValue: new MockEvent()}),
+        {provide: Event, useValue: new MockEvent()},
 
         LolApiService, ShopComponent
       ]

@@ -9,10 +9,10 @@ import {SortPipe} from './pipes/sort.pipe';
 import {TagsPipe} from './pipes/tags.pipe';
 
 @Component({
-  selector: 'champions',
+  selector: 'champion',
   providers: [LolApiService],
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./champions.css').toString()],
+  styles: [require('./champion.css').toString()],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
@@ -31,7 +31,7 @@ import {TagsPipe} from './pipes/tags.pipe';
     <retry [error]="error" (retry)="getData()"></retry>`
 })
 
-export class ChampionsComponent implements OnInit {
+export class ChampionComponent implements OnInit {
   private champions: Array<Object>;
   private loading: boolean = true;
   private error: boolean = false;
@@ -47,6 +47,15 @@ export class ChampionsComponent implements OnInit {
     this.getData();
   }
 
+  enterHit() {
+    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
+    if (filteredChampions && filteredChampions.length === 1) {
+      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
+        this.error = true;
+      });
+    }
+  }
+
   private getData() {
     this.loading = true;
     this.error = false;
@@ -55,15 +64,6 @@ export class ChampionsComponent implements OnInit {
       this.error = true;
       this.loading = false;
     }, () => this.loading = false);
-  }
-
-  private enterHit() {
-    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
-    if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
-        this.error = true;
-      });
-    }
   }
 
   private filter(champions: any, name: string, sort: string, tags: Array<string>): Array<Object> {

@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {tim} from '../../misc/tim';
+import {BuildService} from '../services/build.service';
 
 @Component({
   selector: 'g[ability-sequence]',
@@ -15,8 +16,16 @@ import {tim} from '../../misc/tim';
     </svg:g>`
 })
 
-export class AbilitySequenceComponent {
-  @Input() private champion: any;
+export class AbilitySequenceComponent implements OnInit {
+  private champion: any;
+
+  constructor(private build: BuildService) {}
+
+  ngOnInit() {
+    this.build.champion.subscribe((champion) => {
+      this.champion = champion;
+    });
+  }
 
   getExtendedTooltip(index: number): string {
     let spell = this.champion.spells[index];
