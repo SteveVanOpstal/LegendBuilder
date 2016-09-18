@@ -23,7 +23,7 @@ export interface Path {
   template: `
     <legend [paths]="paths"></legend>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
-      <g ability-sequence [champion]="champion" [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
+      <g ability-sequence [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
         <g class="lines">
           <path *ngFor="let path of paths" [ngClass]="'line ' + path.name + (path.enabled ? ' enabled' : '') + (path.preview ? ' preview' : '')"></path>
@@ -42,7 +42,6 @@ export interface Path {
 export class GraphComponent implements OnInit, AfterContentChecked {
   private samples: Samples;
   @Input() private stats: any;
-  @Input() private champion: any;
 
   private config = config;
 

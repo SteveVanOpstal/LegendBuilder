@@ -38,7 +38,7 @@ export class FiltersComponent {
   @Output() sortChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterHit: EventEmitter<any> = new EventEmitter<any>();
 
-  private tagChanged(event: Event) {
+  tagChanged(event: Event) {
     if (!event || !event.target) {
       return;
     }
@@ -54,7 +54,7 @@ export class FiltersComponent {
     this.tagsChange.next(this.tags);
   }
 
-  private sortChanged(event: Event) {
+  sortChanged(event: Event) {
     if (!event || !event.target) {
       return;
     }
