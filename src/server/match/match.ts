@@ -1,4 +1,4 @@
-import {parallel, waterfall} from 'async';
+import {parallel, reflect, waterfall} from 'async';
 import {IncomingMessage, ServerResponse} from 'http';
 
 import {settings} from '../../../config/settings';
@@ -90,14 +90,21 @@ export class Match {
           }
         ],
         (error: Error, results: any) => {
-          if (error) {
+          if (!results || !results.matches) {
             callback({data: error.message, status: 500, success: false});
             return;
           }
 
           if (results.matches.length < config.matches.min) {
-            callback(
-                {data: Errors.matchlist.message, status: Errors.matchlist.status, success: false});
+            if (error) {
+              callback({data: error.message, status: 500, success: false});
+            } else {
+              callback({
+                data: Errors.matchlist.message,
+                status: Errors.matchlist.status,
+                success: false
+              });
+            }
             return;
           }
 
@@ -134,9 +141,15 @@ export class Match {
     let i = 0;
     for (let match of matches) {
       i++;
-      matchRequests.push((cb) => {
-        this.getMatch(region, summonerId, match.matchId, cb);
-      });
+      matchRequests.push(reflect((cb) => {
+        this.getMatch(region, summonerId, match.matchId, (err: HttpError, results: any) => {
+          if (err) {
+            cb(Error(err.message), results);
+          } else {
+            cb(undefined, results);
+          }
+        });
+      }));
       if (i >= config.matches.max) {
         break;
       }
@@ -146,14 +159,19 @@ export class Match {
       let data = {interval: 120000, matches: []};
       let ind = 0;
       for (let index in results) {
-        let result = results[index];
+        if (results[index].error) {
+          colorConsole.warn('Match http error.');
+          continue;
+        }
+
+        let result = results[index].value;
         if (!result || !result.timeline || !result.timeline.frameInterval) {
-          callback(Errors.matches);
-          return;
+          colorConsole.warn('Match data incorrect.');
+          continue;
         }
 
         if (result.matchDuration < config.minDuration) {
-          colorConsole.debug(
+          colorConsole.warn(
               'Match duration too short (%d/%d).', result.matchDuration, config.minDuration);
           continue;
         }
