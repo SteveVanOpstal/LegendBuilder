@@ -2,26 +2,12 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
-import {DDragonDirective} from '../misc/ddragon.directive';
-import {LoadingComponent} from '../misc/loading.component';
-import {RetryComponent} from '../misc/retry.component';
 import {LolApiService} from '../services/lolapi.service';
-
-import {GraphComponent} from './graph/graph.component';
-import {Item} from './item';
-import {ItemsComponent} from './items/items.component';
-import {MasteriesComponent} from './masteries/masteries.component';
-import {Samples} from './samples';
 import {BuildService} from './services/build.service';
 import {StatsService} from './services/stats.service';
-import {ShopComponent} from './shop/shop.component';
 
 @Component({
   providers: [BuildService, StatsService, LolApiService],
-  directives: [
-    GraphComponent, ItemsComponent, MasteriesComponent, ShopComponent, DDragonDirective,
-    LoadingComponent, RetryComponent
-  ],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./build.css').toString()],
   template: `
@@ -29,7 +15,7 @@ import {ShopComponent} from './shop/shop.component';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion"></graph>
+    <graph></graph>
     <masteries></masteries>
     <items #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
@@ -62,7 +48,10 @@ export class BuildComponent implements OnInit {
 
     this.lolApi.getChampion(this.championKey)
         .subscribe(
-            res => this.champion = res,
+            res => {
+              this.champion = res;
+              this.build.champion.notify(res);
+            },
             error => {
               this.error = true;
               this.loading = false;

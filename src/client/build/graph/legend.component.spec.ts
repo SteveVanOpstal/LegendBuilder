@@ -1,7 +1,5 @@
-import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
-import {Path} from './graph.component';
 import {LegendComponent} from './legend.component';
 
 describe('GraphComponent', () => {

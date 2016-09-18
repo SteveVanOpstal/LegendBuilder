@@ -1,9 +1,7 @@
-import {NgFor} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'help',
-  directives: [NgFor],
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="icon " fill="#000000" viewBox="0 0 24 24" width="24" height="24">
       <path d="M0 0h24v24H0z" fill="none"/>

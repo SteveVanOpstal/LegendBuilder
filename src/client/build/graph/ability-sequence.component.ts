@@ -1,12 +1,10 @@
-import {NgClass, NgFor} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {tim} from '../../misc/tim';
+import {BuildService} from '../services/build.service';
 
 @Component({
   selector: 'g[ability-sequence]',
-  directives: [NgFor, NgClass, DDragonDirective],
   template: `
     <svg:g xmlns="http://www.w3.org/2000/svg" version="1.1" class="ability" [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
       <g fill="gray">
@@ -18,8 +16,16 @@ import {tim} from '../../misc/tim';
     </svg:g>`
 })
 
-export class AbilitySequenceComponent {
-  @Input() private champion: any;
+export class AbilitySequenceComponent implements OnInit {
+  private champion: any;
+
+  constructor(private build: BuildService) {}
+
+  ngOnInit() {
+    this.build.champion.subscribe((champion) => {
+      this.champion = champion;
+    });
+  }
 
   getExtendedTooltip(index: number): string {
     let spell = this.champion.spells[index];

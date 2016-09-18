@@ -208,10 +208,6 @@ export class StatsService {
   }
 
   addStat(stats: Array<any>, stat: Stat, time: number, flat: boolean) {
-    let statSample = stats[stat.name].find((s) => {
-      return s.time === time;
-    });
-
     for (let index in stats[stat.name]) {
       let sample = stats[stat.name][index];
       if (sample.time === time) {

@@ -1,12 +1,9 @@
-import {NgFor, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {ItemBundle} from './item-bundle';
-import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'items-from',
-  directives: [NgFor, NgIf, ItemComponent, ItemsFromComponent],
   template: `
     <div *ngFor="let bundle of items">
       <hr class="up">

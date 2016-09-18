@@ -1,4 +1,3 @@
-import {NgIf} from '@angular/common';
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -6,7 +5,6 @@ import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'main',
-  directives: [NgIf],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./main.css').toString()],
   template: `

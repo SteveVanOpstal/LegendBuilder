@@ -1,12 +1,9 @@
-import {NgClass, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
-import {Colors, IconRankComponent} from '../../assets/icon-rank.component';
-import {DDragonDirective} from '../../misc/ddragon.directive';
+import {Colors} from '../../assets/icon-rank.component';
 
 @Component({
   selector: 'mastery',
-  directives: [NgIf, NgClass, DDragonDirective, IconRankComponent],
   template: `
     <div *ngIf="data" [ngClass]="{enabled: enabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()" (dragend)="dragEnd()">
       <icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></icon-rank>
@@ -33,11 +30,11 @@ export class MasteryComponent implements OnChanges {
 
   constructor() {}
 
-  public ngOnChanges() {
+  ngOnChanges() {
     this.changed();
   }
 
-  public enable() {
+  enable() {
     if (this.enabled) {
       return;
     }
@@ -49,7 +46,7 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public disable() {
+  disable() {
     if (!this.enabled || this.rank > 0) {
       return;
     }
@@ -57,24 +54,24 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public lock() {
+  lock() {
     this.locked = true;
   }
 
-  public unlock() {
+  unlock() {
     this.locked = false;
   }
 
-  public getRank() {
+  getRank() {
     return this.rank;
   }
 
-  public addRank() {
+  addRank() {
     this.rank++;
     this.changed();
   }
 
-  public setRank(rank: number) {
+  setRank(rank: number) {
     if (!this.enabled) {
       return;
     }
@@ -82,14 +79,14 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public getMaxRank() {
+  getMaxRank() {
     if (!this.data || !this.data.ranks) {
       return 0;
     }
     return this.data.ranks;
   }
 
-  public rankAdd() {
+  rankAdd() {
     if (!this.enabled) {
       return;
     }
@@ -97,15 +94,15 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  public getActive() {
+  getActive() {
     return this.active;
   }
 
-  public getColor() {
+  getColor() {
     return this.color;
   }
 
-  public rankRemove() {
+  rankRemove() {
     if (!this.enabled || this.locked) {
       return;
     }
@@ -116,15 +113,15 @@ export class MasteryComponent implements OnChanges {
     this.changed();
   }
 
-  private clicked() {
+  clicked() {
     this.rankAdd();
   }
 
-  private dragEnd() {
+  dragEnd() {
     this.rankAdd();
   }
 
-  private rightClicked() {
+  rightClicked() {
     this.rankRemove();
     return false;  // stop context menu from appearing
   }

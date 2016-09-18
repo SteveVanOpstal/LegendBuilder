@@ -1,4 +1,3 @@
-import {NgClass} from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
@@ -6,11 +5,8 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 import {BuildService} from '../services/build.service';
 
-import {ItemComponent} from './item.component';
-
 @Component({
   selector: 'item-slot',
-  directives: [NgClass, ItemComponent],
   template: `
     <template ngFor let-item [ngForOf]="items">
       <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)"></item>
@@ -51,6 +47,12 @@ export class ItemSlotComponent implements OnInit {
       return true;
     }
     return from.indexOf(item.id.toString()) > -1;
+  }
+
+  // TODO: move to itemComponent when angular allows events on <template>
+  rightClicked(item: Item) {
+    this.removeItem(item);
+    return false;  // stop context menu from appearing
   }
 
   private addTime(item: Item) {
@@ -102,11 +104,5 @@ export class ItemSlotComponent implements OnInit {
       }
     }
     return -1;
-  }
-
-  // TODO: move to itemComponent when angular allows events on <template>
-  private rightClicked(item: Item) {
-    this.removeItem(item);
-    return false;  // stop context menu from appearing
   }
 }
