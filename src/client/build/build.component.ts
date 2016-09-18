@@ -15,7 +15,7 @@ import {StatsService} from './services/stats.service';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph [champion]="champion"></graph>
+    <graph></graph>
     <masteries></masteries>
     <items #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
@@ -48,7 +48,10 @@ export class BuildComponent implements OnInit {
 
     this.lolApi.getChampion(this.championKey)
         .subscribe(
-            res => this.champion = res,
+            res => {
+              this.champion = res;
+              this.build.champion.notify(res);
+            },
             error => {
               this.error = true;
               this.loading = false;

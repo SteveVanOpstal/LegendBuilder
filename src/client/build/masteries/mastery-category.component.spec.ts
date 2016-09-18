@@ -1,13 +1,16 @@
-import {async, ComponentFixture, inject, TestBed, TestComponentBuilder} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute} from '../../testing';
 
-import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
 const data = {
   name: 'Ferocity',
@@ -38,22 +41,22 @@ describe('MasteryCategoryComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService,
-
-        MasteriesComponent, MasteryCategoryComponent
+        LolApiService, MasteryCategoryComponent
+      ],
+      declarations: [
+        MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
+        DDragonDirective
       ]
     });
   });
 
   let component: MasteryCategoryComponent;
-  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteryCategoryComponent)
-        .then((fixture: ComponentFixture<MasteryCategoryComponent>) => {
-          component = fixture.componentInstance;
-          component.data = data;
-          fixture.detectChanges();
-        });
-  })));
+  beforeEach(() => {
+    let fixture = TestBed.createComponent(MasteryCategoryComponent);
+    component = fixture.componentInstance;
+    component.data = data;
+    fixture.detectChanges();
+  });
 
   it('should enable next tier when previous tier has a rank more than zero', () => {
     let tier1 = component.children.toArray()[0];
