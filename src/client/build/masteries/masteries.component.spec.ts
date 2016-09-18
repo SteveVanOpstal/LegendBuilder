@@ -3,7 +3,10 @@ import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {IconErrorComponent} from '../../assets/icon-error.component';
+import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
+import {IconRefreshComponent} from '../../assets/icon-refresh.component';
 import {DDragonDirective} from '../../misc/ddragon.directive';
 import {ErrorComponent} from '../../misc/error.component';
 import {LoadingComponent} from '../../misc/loading.component';
@@ -94,7 +97,8 @@ let providers = () => {
       ],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
-        LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, DDragonDirective
+        LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
+        IconRefreshComponent, IconErrorComponent, DDragonDirective
       ]
     });
   });
