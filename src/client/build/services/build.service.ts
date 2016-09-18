@@ -32,6 +32,7 @@ export class BuildService {
   samples: Observer<Samples> = new Observer<Samples>();
   pickedItems: Observer<Array<Item>> = new Observer<Array<Item>>();
   stats: Observer<Array<any>> = new Observer<Array<any>>();
+  champion: Observer<any> = new Observer<any>();
 
   constructor() {}
 }

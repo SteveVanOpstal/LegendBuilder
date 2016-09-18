@@ -1,4 +1,3 @@
-import {provide} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
 import {MockEvent, MockKeyboardEvent} from '../../testing';
@@ -9,8 +8,10 @@ describe('FiltersComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provide(Event, {useValue: new MockEvent()}),
-        provide(KeyboardEvent, {useValue: new MockKeyboardEvent()}), FiltersComponent
+        {provide: Event, useValue: new MockEvent()},
+        {provide: KeyboardEvent, useValue: new MockKeyboardEvent()},
+
+        FiltersComponent
       ]
     });
   });

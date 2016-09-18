@@ -1,15 +1,14 @@
-import {async, ComponentFixture, inject, TestBed, TestComponentBuilder} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {Colors} from '../../assets/icon-rank.component';
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute} from '../../testing';
 
-import {MasteriesComponent} from './masteries.component';
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
 const data = {
@@ -33,20 +32,19 @@ describe('MasteryComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent,
-        MasteryComponent
-      ]
+        LolApiService
+      ],
+      declarations: [MasteryComponent, IconRankComponent, DDragonDirective]
     });
   });
 
   let component: MasteryComponent;
-  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteryComponent).then((fixture: ComponentFixture<MasteryComponent>) => {
-      component = fixture.componentInstance;
-      component.data = data;
-      fixture.detectChanges();
-    });
-  })));
+  beforeEach(() => {
+    let fixture = TestBed.createComponent(MasteryComponent);
+    component = fixture.componentInstance;
+    component.data = data;
+    fixture.detectChanges();
+  });
 
   it('should disable when there is no data', () => {
     spyOn(component, 'disable');

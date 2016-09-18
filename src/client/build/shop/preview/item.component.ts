@@ -14,11 +14,11 @@ export class ItemComponent {
   @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
-  private selectItem(item: Item) {
+  selectItem(item: Item) {
     this.itemSelected.emit(item);
   }
 
-  private pickItem(item: Item) {
+  pickItem(item: Item) {
     this.itemPicked.emit(item);
     return false;  // stop context menu from appearing
   }
