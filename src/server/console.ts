@@ -16,9 +16,9 @@ export class ColorConsole {
     }
   }
 
-  public debug(message?: any, ...optionalParams: any[]): void {
+  public assert(message?: any, ...optionalParams: any[]): void {
     optionalParams.unshift(chalk.blue(this.format(message, 'DBG')));
-    console.debug.apply(this, optionalParams);
+    console.assert.apply(this, optionalParams);
   }
 
   public error(message?: any, ...optionalParams: any[]): void {

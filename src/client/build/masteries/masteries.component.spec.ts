@@ -1,27 +1,37 @@
-import {async, ComponentFixture, inject, TestBed, TestComponentBuilder} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
+import {IconErrorComponent} from '../../assets/icon-error.component';
+import {IconLoadComponent} from '../../assets/icon-load.component';
+import {IconRankComponent} from '../../assets/icon-rank.component';
+import {IconRefreshComponent} from '../../assets/icon-refresh.component';
+import {DDragonDirective} from '../../misc/ddragon.directive';
+import {ErrorComponent} from '../../misc/error.component';
+import {LoadingComponent} from '../../misc/loading.component';
+import {RetryComponent} from '../../misc/retry.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier.component';
+import {MasteryComponent} from './mastery.component';
 
-class MockMasteryCategoryComponent extends MasteryCategoryComponent {
-  public rank: number = 0;
-  public enabled: boolean = false;
-  getRank(): number {
-    return this.rank;
-  }
-  enable() {
-    this.enabled = true;
-  }
-  disable() {
-    this.enabled = false;
-  }
-}
+// class MockMasteryCategoryComponent extends MasteryCategoryComponent {
+//   public rank: number = 0;
+//   public enabled: boolean = false;
+//   getRank(): number {
+//     return this.rank;
+//   }
+//   enable() {
+//     this.enabled = true;
+//   }
+//   disable() {
+//     this.enabled = false;
+//   }
+// }
 
 const masteriesData = {
   tree: {
@@ -83,7 +93,12 @@ let providers = () => {
           deps: [MockBackend, BaseRequestOptions]
         },
 
-        LolApiService, MasteryCategoryComponent, MasteriesComponent
+        LolApiService, MasteriesComponent
+      ],
+      declarations: [
+        MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
+        LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
+        IconRefreshComponent, IconErrorComponent, DDragonDirective
       ]
     });
   });
@@ -93,14 +108,13 @@ describe('MasteriesComponent', () => {
   providers();
 
   let component: MasteriesComponent;
-  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteriesComponent).then((fixture: ComponentFixture<MasteriesComponent>) => {
-      fixture.detectChanges();
-      component = fixture.componentInstance;
-      component.data = masteriesDataAltered;
-      fixture.detectChanges();
-    });
-  })));
+  beforeEach(() => {
+    let fixture = TestBed.createComponent(MasteriesComponent);
+    fixture.detectChanges();
+    component = fixture.componentInstance;
+    component.data = masteriesDataAltered;
+    fixture.detectChanges();
+  });
 
   it('should be initialised', () => {
     expect(component.data).toBeDefined();
