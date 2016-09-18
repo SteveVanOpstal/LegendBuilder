@@ -55,9 +55,8 @@ module.exports = webpackMerge(commonConfig, {
 
   plugins: [
     new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
-    new CommonsChunkPlugin({name: ['vendor', 'polyfills']}), new WebpackMd5Hash()
-    /*new DedupePlugin() // TODO: add when webpack/webpack #2644 is fixed */,
-    new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
+    new CommonsChunkPlugin({name: ['vendor', 'polyfills']}), new WebpackMd5Hash(),
+    new DedupePlugin(), new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html',
       chunksSortMode: 'dependency',
