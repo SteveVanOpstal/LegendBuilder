@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed, TestComponentBuilder} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -37,14 +37,12 @@ describe('MasteryTierComponent', () => {
   });
 
   let component: MasteryTierComponent;
-  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(MasteryTierComponent)
-        .then((fixture: ComponentFixture<MasteryTierComponent>) => {
-          component = fixture.componentInstance;
-          component.data = data;
-          fixture.detectChanges();
-        });
-  })));
+  beforeEach(() => {
+    let fixture = TestBed.createComponent(MasteryTierComponent);
+    component = fixture.componentInstance;
+    component.data = data;
+    fixture.detectChanges();
+  });
 
   it('should add mastery rank', () => {
     let mastery = component.children.toArray()[0];
