@@ -1,12 +1,9 @@
-import {NgClass, NgFor} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {Item} from '../item';
 import {Path} from './graph.component';
 
 @Component({
   selector: 'legend',
-  directives: [NgFor, NgClass],
   template: `
     <ul (mouseleave)="mouseLeave()">
       <li *ngFor="let path of paths">

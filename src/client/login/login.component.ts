@@ -1,12 +1,9 @@
-import {NgIf} from '@angular/common';
 import {Component, ViewEncapsulation} from '@angular/core';
 
-import {ErrorComponent} from '../misc/error.component';
 import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'login',
-  directives: [NgIf, ErrorComponent],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./login.css').toString()],
   template: `

@@ -6,9 +6,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend, MockRouter} from '../testing';
 
-import {ChampionsComponent} from './champions.component';
+import {ChampionComponent} from './champion.component';
 
-describe('ChampionsComponent', () => {
+describe('ChampionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -24,12 +24,12 @@ describe('ChampionsComponent', () => {
 
         {provide: Router, useValue: new MockRouter()},
 
-        LolApiService, ChampionsComponent
+        LolApiService, ChampionComponent
       ]
     });
   });
 
-  it('should call getData() on contruct', inject([ChampionsComponent], (component) => {
+  it('should call getData() on contruct', inject([ChampionComponent], (component) => {
        spyOn(component, 'getData');
        expect(component.getData).not.toHaveBeenCalled();
        component.ngOnInit();
@@ -38,7 +38,7 @@ describe('ChampionsComponent', () => {
 
   it('should get champions',
      async(inject(
-         [MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+         [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
            mockBackend.subscribe(false, {});
 
            expect(component.champions).not.toBeDefined();
@@ -54,7 +54,7 @@ describe('ChampionsComponent', () => {
 
   it('should not get champions',
      async(inject(
-         [MockBackend, ChampionsComponent, LolApiService], (mockBackend, component, service) => {
+         [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
            mockBackend.subscribe();
 
            expect(component.champions).not.toBeDefined();
@@ -70,7 +70,7 @@ describe('ChampionsComponent', () => {
          })));
 
   it('should navigate when \'Enter\' is hit and one champion is available',
-     inject([ChampionsComponent], (component) => {
+     inject([ChampionComponent], (component) => {
        spyOn(component.router, 'navigate').and.callFake(() => {
          return {
            catch: (callback) => {
@@ -92,7 +92,7 @@ describe('ChampionsComponent', () => {
      }));
 
   it('should not navigate when \'Enter\' is hit and multiple champions are available',
-     inject([ChampionsComponent], (component) => {
+     inject([ChampionComponent], (component) => {
        spyOn(component.router, 'navigate').and.callFake(() => {
          return {
            catch: (callback) => {

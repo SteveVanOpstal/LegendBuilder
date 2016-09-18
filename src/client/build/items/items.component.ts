@@ -7,7 +7,6 @@ import {ItemSlotComponent} from './item-slot.component';
 
 @Component({
   selector: 'items',
-  directives: [ItemSlotComponent],
   template: `
     <item-slot [id]="0"></item-slot>
     <item-slot [id]="1"></item-slot>
@@ -23,7 +22,7 @@ export class ItemsComponent {
 
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
 
-  constructor(private buildService: BuildService) {}
+  constructor(private build: BuildService) {}
 
   addItemSlotComponent(slot: ItemSlotComponent) {
     this.children.toArray()[slot.id] = slot;
@@ -49,6 +48,6 @@ export class ItemsComponent {
     this.children.toArray().forEach((itemSlot) => {
       this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
     });
-    this.buildService.pickedItems.notify(this.pickedItems);
+    this.build.pickedItems.notify(this.pickedItems);
   }
 }

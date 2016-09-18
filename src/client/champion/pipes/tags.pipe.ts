@@ -22,6 +22,9 @@ export class TagsPipe implements PipeTransform {
   }
 
   private exclude(array: Array<string>, exclude: string) {
+    // if (typeof array !== 'object') {
+    //   return [];
+    // }
     let index: number = array.indexOf(exclude);
     if (index > -1) {
       array.splice(index, 1);

@@ -1,4 +1,3 @@
-import {NgIf} from '@angular/common';
 import {Component, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -6,7 +5,6 @@ import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   selector: 'summoner',
-  directives: [NgIf],
   providers: [LolApiService],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./summoner.css').toString()],

@@ -1,35 +1,10 @@
-import {NgClass, NgFor, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {IconEyeComponent} from '../../assets/icon-eye.component';
-import {CapitalizePipe} from '../../misc/capitalize.pipe';
-import {LoadingComponent} from '../../misc/loading.component';
-import {RetryComponent} from '../../misc/retry.component';
 import {ToIterablePipe} from '../../misc/to-iterable.pipe';
 import {LolApiService} from '../../services/lolapi.service';
-import {ItemsComponent} from '../items/items.component';
-
-import {ItemComponent} from './item.component';
-import {ChampionPipe} from './pipes/champion.pipe';
-import {HidePipe} from './pipes/hide.pipe';
-import {MapPipe} from './pipes/map.pipe';
-import {NamePipe} from './pipes/name.pipe';
-import {SortPipe} from './pipes/sort.pipe';
-import {TagsPipe} from './pipes/tags.pipe';
-import {TranslatePipe} from './pipes/translate.pipe';
-import {PreviewComponent} from './preview/preview.component';
 
 @Component({
   selector: 'shop',
-  providers: [LolApiService, ItemsComponent],
-  directives: [
-    NgFor, NgIf, NgClass, PreviewComponent, ItemComponent, LoadingComponent, RetryComponent,
-    IconEyeComponent
-  ],
-  pipes: [
-    ToIterablePipe, TranslatePipe, CapitalizePipe, MapPipe, ChampionPipe, HidePipe, TagsPipe,
-    NamePipe, SortPipe
-  ],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -101,6 +76,30 @@ export class ShopComponent implements OnInit {
         () => this.loading = false);
   }
 
+  tagChanged(event: Event) {
+    if (!event || !event.target) {
+      return;
+    }
+    let input: any = event.target;
+    if (input.checked) {
+      this.tags.push(input.value);
+    } else {
+      let index: number = this.tags.indexOf(input.value);
+      if (index > -1) {
+        this.tags.splice(index, 1);
+      }
+    }
+  }
+
+  selectItem(pickedItem: Object) {
+    this.pickedItem = pickedItem;
+  }
+
+  pickItem(pickedItem: Object) {
+    this.itemPicked.emit(pickedItem);
+    return false;  // stop context menu from appearing
+  }
+
   // ngOnChanges(changes: SimpleChanges) {
   //   if (!changes['pickedItems'] || !changes['pickedItems'].currentValue) {
   //     return;
@@ -137,28 +136,4 @@ export class ShopComponent implements OnInit {
   //   });
   //   return exceededGroups;
   // }
-
-  private tagChanged(event: Event) {
-    if (!event || !event.target) {
-      return;
-    }
-    let input: any = event.target;
-    if (input.checked) {
-      this.tags.push(input.value);
-    } else {
-      let index: number = this.tags.indexOf(input.value);
-      if (index > -1) {
-        this.tags.splice(index, 1);
-      }
-    }
-  }
-
-  private selectItem(pickedItem: Object) {
-    this.pickedItem = pickedItem;
-  }
-
-  private pickItem(pickedItem: Object) {
-    this.itemPicked.emit(pickedItem);
-    return false;  // stop context menu from appearing
-  }
 }

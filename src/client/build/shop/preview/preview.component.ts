@@ -1,15 +1,10 @@
-import {NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 import {Item} from '../../item';
-
 import {ItemBundle} from './item-bundle';
-import {ItemComponent} from './item.component';
-import {ItemsFromComponent} from './items-from.component';
 
 @Component({
   selector: 'preview',
-  directives: [NgIf, ItemComponent, ItemsFromComponent],
   template: `
     <div class="into">
       <template ngFor let-item [ngForOf]="itemsInto">
@@ -45,6 +40,16 @@ export class PreviewComponent implements OnChanges {
     this.itemsInto = this.getItemsInto(this.item);
   }
 
+  selectItem(item: Item) {
+    this.item = item;
+    this.ngOnChanges();
+  }
+
+  pickItem(item: Item) {
+    this.itemPicked.emit(item);
+    return false;  // stop context menu from appearing
+  }
+
   private getItemsFrom(baseItem: Item): Array<ItemBundle>|undefined {
     let items = this.getItems(baseItem.from);
     if (!items || !items.length) {
@@ -68,15 +73,5 @@ export class PreviewComponent implements OnChanges {
     return this.items.filter((item: Item) => {
       return itemIds.indexOf(item.id.toString()) > -1;
     });
-  }
-
-  private selectItem(item: Item) {
-    this.item = item;
-    this.ngOnChanges();
-  }
-
-  private pickItem(item: Item) {
-    this.itemPicked.emit(item);
-    return false;  // stop context menu from appearing
   }
 }

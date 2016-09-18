@@ -1,28 +1,18 @@
-import {NgFor, NgIf} from '@angular/common';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {DDragonDirective} from '../misc/ddragon.directive';
-import {LoadingComponent} from '../misc/loading.component';
-import {RetryComponent} from '../misc/retry.component';
 import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {LolApiService} from '../services/lolapi.service';
 
-import {BarComponent} from './bar/bar.component';
-import {FiltersComponent} from './filters/filters.component';
 import {NamePipe} from './pipes/name.pipe';
 import {SortPipe} from './pipes/sort.pipe';
 import {TagsPipe} from './pipes/tags.pipe';
 
 @Component({
-  selector: 'champions',
-  pipes: [ToIterablePipe, NamePipe, SortPipe, TagsPipe],
+  selector: 'champion',
   providers: [LolApiService],
-  directives: [
-    NgFor, NgIf, FiltersComponent, BarComponent, LoadingComponent, RetryComponent, DDragonDirective
-  ],
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./champions.css').toString()],
+  styles: [require('./champion.css').toString()],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
     <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
@@ -41,7 +31,7 @@ import {TagsPipe} from './pipes/tags.pipe';
     <retry [error]="error" (retry)="getData()"></retry>`
 })
 
-export class ChampionsComponent implements OnInit {
+export class ChampionComponent implements OnInit {
   private champions: Array<Object>;
   private loading: boolean = true;
   private error: boolean = false;
@@ -50,11 +40,20 @@ export class ChampionsComponent implements OnInit {
   private sort: string;
   private tags: Array<string> = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, public lolApi: LolApiService) {
-  }
+  constructor(
+      private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.getData();
+  }
+
+  enterHit() {
+    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
+    if (filteredChampions && filteredChampions.length === 1) {
+      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
+        this.error = true;
+      });
+    }
   }
 
   private getData() {
@@ -65,15 +64,6 @@ export class ChampionsComponent implements OnInit {
       this.error = true;
       this.loading = false;
     }, () => this.loading = false);
-  }
-
-  private enterHit() {
-    let filteredChampions: any = this.filter(this.champions, this.name, this.sort, this.tags);
-    if (filteredChampions && filteredChampions.length === 1) {
-      this.router.navigate([filteredChampions[0].key], {relativeTo: this.route}).catch(() => {
-        this.error = true;
-      });
-    }
   }
 
   private filter(champions: any, name: string, sort: string, tags: Array<string>): Array<Object> {

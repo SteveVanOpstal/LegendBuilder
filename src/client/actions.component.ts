@@ -1,4 +1,3 @@
-import {NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
@@ -7,7 +6,6 @@ import {AuthService} from './services/auth.service';
 @Component({
   selector: 'actions',
   providers: [AuthService],
-  directives: [NgIf],
   template: `
     <button [routerLink]="['login']" *ngIf="active()"><span class="align-center">Login</span></button>
     <button [routerLink]="['signup']" *ngIf="active()"><span class="align-center">Sign up</span></button>`

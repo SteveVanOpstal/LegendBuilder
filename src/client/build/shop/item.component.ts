@@ -1,10 +1,7 @@
 import {Component, Input} from '@angular/core';
 
-import {DDragonDirective} from '../../misc/ddragon.directive';
-
 @Component({
   selector: 'item',
-  directives: [DDragonDirective],
   template: `
     <img [ddragon]="'item/' + item.image.full">
     <div>
