@@ -4,8 +4,6 @@
     "auth0-js": "registry:dt/auth0-js#0.0.0+20160830143606",
     "colors": "registry:dt/colors#0.6.0-1+20160501135139",
     "core-js": "registry:dt/core-js#0.0.0+20160317120654",
-    "jasmine": "registry:dt/jasmine#2.2.0+20160505161446",
-    "node": "registry:dt/node#6.0.0+20160709114037",
     "selenium-webdriver": "registry:dt/selenium-webdriver#2.44.0+20160317120654"
   },
   "dependencies": {
