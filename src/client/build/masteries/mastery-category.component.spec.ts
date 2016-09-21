@@ -4,8 +4,8 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
+import {DDragonDirective} from '../../shared/ddragon.directive';
 import {MockActivatedRoute} from '../../testing';
 
 import {MasteryCategoryComponent} from './mastery-category.component';

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {ToIterablePipe} from '../../misc/to-iterable.pipe';
 import {LolApiService} from '../../services/lolapi.service';
+import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 
 @Component({
   selector: 'shop',

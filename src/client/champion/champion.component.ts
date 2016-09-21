@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {ToIterablePipe} from '../misc/to-iterable.pipe';
 import {LolApiService} from '../services/lolapi.service';
+import {ToIterablePipe} from '../shared/to-iterable.pipe';
 
 import {NamePipe} from './pipes/name.pipe';
 import {SortPipe} from './pipes/sort.pipe';

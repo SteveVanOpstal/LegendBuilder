@@ -5,8 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 
 import {Colors} from '../../assets/icon-rank.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
-import {DDragonDirective} from '../../misc/ddragon.directive';
 import {LolApiService} from '../../services/lolapi.service';
+import {DDragonDirective} from '../../shared/ddragon.directive';
 import {MockActivatedRoute} from '../../testing';
 
 import {MasteryComponent} from './mastery.component';

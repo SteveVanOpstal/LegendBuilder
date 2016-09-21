@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Path} from './graph.component';
+import {Path} from '../graph.component';
 
 @Component({
   selector: 'legend',

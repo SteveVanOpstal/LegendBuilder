@@ -7,11 +7,11 @@ import {IconErrorComponent} from '../../assets/icon-error.component';
 import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
-import {DDragonDirective} from '../../misc/ddragon.directive';
-import {ErrorComponent} from '../../misc/error.component';
-import {LoadingComponent} from '../../misc/loading.component';
-import {RetryComponent} from '../../misc/retry.component';
 import {LolApiService} from '../../services/lolapi.service';
+import {DDragonDirective} from '../../shared/ddragon.directive';
+import {ErrorComponent} from '../../shared/error.component';
+import {LoadingComponent} from '../../shared/loading.component';
+import {RetryComponent} from '../../shared/retry.component';
 import {MockActivatedRoute, MockMockBackend} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';

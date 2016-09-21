@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
-import {tim} from '../../misc/tim';
-import {BuildService} from '../services/build.service';
+import {tim} from '../../../shared/tim';
+import {BuildService} from '../../services/build.service';
 
 @Component({
   selector: 'g[ability-sequence]',
