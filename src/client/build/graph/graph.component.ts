@@ -1,4 +1,4 @@
-import {AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
@@ -14,19 +14,18 @@ export interface Path {
   enabled: boolean;
   preview: boolean;
   name: string;
-  obj: Line<[number, number]>;
+  d: Line<[number, number]>;
 }
 
 @Component({
   selector: 'graph',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <legend [paths]="paths"></legend>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
       <g ability-sequence [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
       <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
         <g class="lines">
-          <path *ngFor="let path of paths" [ngClass]="'line ' + path.name + (path.enabled ? ' enabled' : '') + (path.preview ? ' preview' : '')"></path>
+          <path *ngFor="let path of paths" [attr.d]="path.d" [ngClass]="'line ' + path.name + (path.enabled ? ' enabled' : '') + (path.preview ? ' preview' : '')"></path>
         </g>
         <g class="axes">
           <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
@@ -39,7 +38,7 @@ export interface Path {
     </svg>`
 })
 
-export class GraphComponent implements OnInit, AfterContentChecked {
+export class GraphComponent implements OnInit {
   private samples: Samples;
   @Input() private stats: any;
 
@@ -98,10 +97,6 @@ export class GraphComponent implements OnInit, AfterContentChecked {
     });
   }
 
-  ngAfterContentChecked() {
-    this.updatePaths();
-  }
-
   createAxes() {
     this.xScaleTime.create();
     this.xAxisTime.create(this.xScaleTime);
@@ -120,17 +115,11 @@ export class GraphComponent implements OnInit, AfterContentChecked {
     this.paths = [];
     for (let index in this.samples) {
       this.paths.push(
-          {enabled: true, preview: false, name: index, obj: this.lineSamples(this.samples[index])});
+          {enabled: true, preview: false, name: index, d: this.lineSamples(this.samples[index])});
     }
     for (let index in this.stats) {
       this.paths.push(
-          {enabled: true, preview: false, name: index, obj: this.lineStats(this.stats[index])});
-    }
-  }
-
-  updatePaths() {
-    for (let path of this.paths) {
-      this.svg.select('.line.' + path.name).attr('d', path.obj);
+          {enabled: true, preview: false, name: index, d: this.lineStats(this.stats[index])});
     }
   }
 
