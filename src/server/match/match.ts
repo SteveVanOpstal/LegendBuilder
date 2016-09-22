@@ -308,6 +308,10 @@ export class Match {
       return 0;
     }
 
+    if (index === 0) {
+      return callback(frames[0]);
+    }
+
     let lowerFrame = frames[index - 1];
     let upperFrame = frames[index];
 
