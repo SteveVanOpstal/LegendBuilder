@@ -89,7 +89,7 @@
     "@angular/platform-browser": "2.0.0",
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0",
-    "angular2-cookie": "1.2.2",
+    "angular2-cookie": "1.2.4",
     "angular2-jwt": "0.1.23",
     "async": "2.0.1",
     "auth0-js": "7.2.0",
