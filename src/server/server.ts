@@ -164,7 +164,7 @@ export class Server {
     try {
       json = JSON.parse(data);
     } catch (e) {
-      let error: HttpError = {status: 500, message: e.status};
+      let error: HttpError = {status: 500, message: e.message};
       this.handleResponseError(console, options, error, callback);
       return;
     }
