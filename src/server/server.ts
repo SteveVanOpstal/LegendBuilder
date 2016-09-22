@@ -140,8 +140,8 @@ export class Server {
     let req = http.request(
         options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on(
-        'error',
-        (e) => this.handleResponseError(console, options, {status: 500, message: e}, callback));
+        'error', (e) => this.handleResponseError(
+                     console, options, {status: 500, message: e.message}, callback));
     req.end();
   }
 
@@ -164,7 +164,7 @@ export class Server {
     try {
       json = JSON.parse(data);
     } catch (e) {
-      let error: HttpError = {status: 500, message: e};
+      let error: HttpError = {status: 500, message: e.status};
       this.handleResponseError(console, options, error, callback);
       return;
     }
