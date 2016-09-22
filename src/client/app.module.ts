@@ -4,12 +4,10 @@ import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {AccountModule} from './account/account.module';
 import {ActionsComponent} from './actions.component';
 import {AppComponent} from './app.component';
 import {ROUTES} from './app.routes';
 import {AssetsModule} from './assets/assets.module';
-import {AuthModule} from './auth/auth.module';
 import {BuildModule} from './build/build.module';
 import {ChampionModule} from './champion/champion.module';
 import {LoginModule} from './login/login.module';
@@ -22,7 +20,7 @@ import {SummonerModule} from './summoner/summoner.module';
 @NgModule({
   imports: [
     BrowserModule, CommonModule, RouterModule.forRoot(ROUTES), HttpModule, AssetsModule,
-    SharedModule, AccountModule, AuthModule, BuildModule, ChampionModule, LoginModule, MainModule,
+    SharedModule, BuildModule, ChampionModule, LoginModule, MainModule,
     RegionModule, SignupModule, SummonerModule
   ],
   declarations: [AppComponent, ActionsComponent],

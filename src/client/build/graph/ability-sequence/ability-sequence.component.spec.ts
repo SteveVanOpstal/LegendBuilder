@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {BuildService} from '../services/build.service';
+import {BuildService} from '../../services/build.service';
 
 import {AbilitySequenceComponent} from './ability-sequence.component';
 
