@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.10"></a>
+# [1.0.0-alpha.10](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.9...1.0.0-alpha.10) (2016-09-22)
+
+
+### Bug Fixes
+
+* **client:** incorrect includes ([0fc8559](https://github.com/SteveVanOpstal/LegendBuilder/commit/0fc8559))
+* **console:** console.debug does not exist ([c4515b9](https://github.com/SteveVanOpstal/LegendBuilder/commit/c4515b9))
+* **graph:** paths not loading ([1d61d79](https://github.com/SteveVanOpstal/LegendBuilder/commit/1d61d79))
+* **IE:** add angular shims ([18c9d2c](https://github.com/SteveVanOpstal/LegendBuilder/commit/18c9d2c))
+* **logo:** alignment errors ([17c6200](https://github.com/SteveVanOpstal/LegendBuilder/commit/17c6200))
+* **match:** error on frame zero ([fcbfecd](https://github.com/SteveVanOpstal/LegendBuilder/commit/fcbfecd))
+* incorrect imports ([bed14e2](https://github.com/SteveVanOpstal/LegendBuilder/commit/bed14e2))
+* use CustomEvent instead of click event ([ba2ef05](https://github.com/SteveVanOpstal/LegendBuilder/commit/ba2ef05))
+* **server:** incorrect message type on HttpError ([0ccf9fd](https://github.com/SteveVanOpstal/LegendBuilder/commit/0ccf9fd))
+* **server:** incorrect message type on HttpError (continued) ([1ab1a1b](https://github.com/SteveVanOpstal/LegendBuilder/commit/1ab1a1b))
+* **server:** TypeError on async.retry ([dc683f0](https://github.com/SteveVanOpstal/LegendBuilder/commit/dc683f0))
+* **style:** svg scales ([70ed9ba](https://github.com/SteveVanOpstal/LegendBuilder/commit/70ed9ba))
+* **summoner:** crash on error response ([dc93214](https://github.com/SteveVanOpstal/LegendBuilder/commit/dc93214))
+* **zone:** incorrect proxy import ([5d64d7a](https://github.com/SteveVanOpstal/LegendBuilder/commit/5d64d7a))
+* **zone.js:** imports incorrect ([9a7a289](https://github.com/SteveVanOpstal/LegendBuilder/commit/9a7a289))
+
+
+### Features
+
+* **angular:** update to angular 2.0.0 ([55ae39a](https://github.com/SteveVanOpstal/LegendBuilder/commit/55ae39a))
+* **angular:** update to angular 2.0.0-rc.5 ([1678fb0](https://github.com/SteveVanOpstal/LegendBuilder/commit/1678fb0))
+* **angular:** update to angular 2.0.0-rc.6 ([8d5c599](https://github.com/SteveVanOpstal/LegendBuilder/commit/8d5c599))
+* **boot:** use modules ([4bd12d2](https://github.com/SteveVanOpstal/LegendBuilder/commit/4bd12d2))
+* **build:** add a data service ([d1c2616](https://github.com/SteveVanOpstal/LegendBuilder/commit/d1c2616))
+* **ddragon:** reimplement OnChanges ([95a6bfe](https://github.com/SteveVanOpstal/LegendBuilder/commit/95a6bfe))
+* **error:** add a default message ([6749a23](https://github.com/SteveVanOpstal/LegendBuilder/commit/6749a23))
+* **graph:** create curves for stats ([b31a2b5](https://github.com/SteveVanOpstal/LegendBuilder/commit/b31a2b5))
+* add authorization ([6ee0fd3](https://github.com/SteveVanOpstal/LegendBuilder/commit/6ee0fd3))
+* use angular 2 modules ([dba8ce9](https://github.com/SteveVanOpstal/LegendBuilder/commit/dba8ce9))
+* **graph:** highlight on preview ([1a144c4](https://github.com/SteveVanOpstal/LegendBuilder/commit/1a144c4))
+* **match:** continue on request failure ([df0c33f](https://github.com/SteveVanOpstal/LegendBuilder/commit/df0c33f))
+* **match:** improve error handling ([0956f77](https://github.com/SteveVanOpstal/LegendBuilder/commit/0956f77))
+* **svg:** .svg as components, .svg imports ([ed32ad1](https://github.com/SteveVanOpstal/LegendBuilder/commit/ed32ad1))
+
+
+### Performance Improvements
+
+* **css:** page based styles ([db28f4f](https://github.com/SteveVanOpstal/LegendBuilder/commit/db28f4f))
+* css and html minification ([8390a1d](https://github.com/SteveVanOpstal/LegendBuilder/commit/8390a1d))
+* **webpack:** mangle function names ([7670aa0](https://github.com/SteveVanOpstal/LegendBuilder/commit/7670aa0))
+
+
+
 <a name="1.0.0-alpha.9"></a>
 # [1.0.0-alpha.9](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.8...1.0.0-alpha.9) (2016-08-01)
 
