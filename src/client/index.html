@@ -19,21 +19,32 @@
 </head>
 
 <body>
-  <div class="header">
+  <header>
     <div class="align-center">
-      <%= require('./assets/images/logo.svg') %>
+      <a href="/"><%= require('./assets/images/logo.svg') %></a>
       <h1>Legend Builder</h1>
-      <span class="alpha">Alpha</span>
+      <a href="https://github.com/SteveVanOpstal/LegendBuilder/releases" class="alpha">Alpha</a>
     </div>
     <actions></actions>
-  </div>
-  <div class="content">
+  </header>
+  <section class="content">
     <app>
       <div class="loading">
         <%= require('./assets/images/load.svg') %>
       </div>
     </app>
-  </div>
+  </section>
+  <footer>
+    <nav class="align-center">
+      <a href="/about">about</a>
+      <span>-</span>
+      <a href="https://github.com/SteveVanOpstal/LegendBuilder">github</a>
+      <span>-</span>
+      <a href="https://gitter.im/SteveVanOpstal/LegendBuilder">gitter</a>
+      <span>-</span>
+      <a href="https://www.reddit.com/r/legendbuilder">reddit</a>
+    </nav>
+  </footer>
 
   <% if (webpackConfig.metadata.ENV === 'development') { %>
   <!-- Webpack Dev Server reload -->
