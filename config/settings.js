@@ -6,7 +6,7 @@ try {
 } catch (e) {
 }
 
-module.exports.settings = helpers.merge(settings, {
+var exports = helpers.merge(settings, {
   httpServer: {host: 'localhost', port: 8080},
   staticServer: {host: 'localhost', port: 8081},
   matchServer: {host: 'localhost', port: 8082, sampleSize: 32},
@@ -17,4 +17,7 @@ module.exports.settings = helpers.merge(settings, {
     'static-data': 'v1.2',
   },
   gameTime: 60 * 60 * 1000
-});
+})
+
+exports['settings'] = exports;
+module.exports = exports

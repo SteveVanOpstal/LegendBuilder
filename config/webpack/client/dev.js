@@ -1,5 +1,5 @@
 var helpers = require('../../../helpers');
-var settings = require('../../settings').settings;
+const settings = require('../../settings');
 const commonConfig = require('../common.js');
 
 const webpackMerge = require('webpack-merge');
