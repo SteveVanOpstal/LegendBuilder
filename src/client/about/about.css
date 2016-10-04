@@ -1,0 +1,33 @@
+about h2 {
+  font-size: 2em;
+}
+
+about p {
+  margin: 2px 10px;
+}
+
+about span {
+    width: 220px;
+    display: inline-block;
+}
+
+about a {
+  text-decoration: underline;
+}
+
+about img {
+  height: 100px;
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+}
+
+about .contributor {
+  display: inline-block;
+  margin: 10px;
+}
+
+about .contributor p {
+  font-size: 12px;
+  margin: 10px 0;
+  text-align: center;
+}
