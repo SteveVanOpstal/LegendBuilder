@@ -89,6 +89,7 @@
     "@angular/router": "3.0.0",
     "@types/async": "2.0.32",
     "@types/auth0-js": "0.0.4",
+    "@types/core-js": "^0.9.34",
     "@types/d3-axis": "1.0.5",
     "@types/d3-scale": "1.0.4",
     "@types/d3-selection": "1.0.4",
