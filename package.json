@@ -56,7 +56,7 @@
     "match-server:dev": "npm run build:server:dev && node build/dist/server/match-server.js",
     "match-server:prod": "npm run build:server:prod && node build/dist/server/match-server.js",
     "clang-format": "./node_modules/.bin/clang-format",
-    "format": "npm run clang-format -- --glob=\"@(src|config)/**/*.@(ts|js)\" -i",
+    "format": "npm run clang-format -- --glob=\"@(src|config)/**/!(browser-providers.conf).@(ts|js)\" -i",
     "format:client": "npm run clang-format -- --glob=\"src/client/**/*.@(ts|js)\" -i",
     "format:server": "npm run clang-format -- --glob=\"src/server/**/*.@(ts|js)\" -i",
     "lint": "./node_modules/.bin/tslint src/**/*.ts",
