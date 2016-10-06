@@ -108,6 +108,7 @@
     "d3-selection": "1.0.2",
     "d3-shape": "1.0.3",
     "dateformat": "1.0.12",
+    "loader-utils": "0.2.16", /* remove when webpack/webpack#3060 is fixed */
     "lru-cache": "4.0.1",
     "reflect-metadata": "0.1.8",
     "rxjs": "5.0.0-beta.12",
