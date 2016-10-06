@@ -1,6 +1,6 @@
 var helpers = require('../../../helpers');
 var settings = require('../../settings');
-const commonConfig = require('../common.js');
+const common = require('../common');
 
 const webpackMerge = require('webpack-merge');
 
@@ -18,31 +18,17 @@ var CompressionPlugin = require('compression-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
-const METADATA = webpackMerge(commonConfig.metadata, {
-  host: settings.httpServer.host || 'localhost',
-  port: settings.httpServer.port || 8080,
-  ENV: ENV
-});
-
-module.exports = webpackMerge(commonConfig, {
-  metadata: METADATA,
-  devtool: 'source-map',
-  debug: false,
-
+module.exports = webpackMerge(common, {
   entry: {
     polyfills: helpers.root('src/client/polyfills.ts'),
     vendor: helpers.root('src/client/vendor.ts'),
     boot: helpers.root('src/client/boot.ts')
   },
 
-  output: {
-    path: helpers.root('build/dist/client'),
-    filename: '[name].[chunkhash].bundle.js',
-    sourceMapFilename: '[name].[chunkhash].bundle.map'
-  },
+  output: {path: helpers.root('build/dist/client'), filename: '[name].[chunkhash].bundle.js'},
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
@@ -60,6 +46,7 @@ module.exports = webpackMerge(commonConfig, {
     new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html',
+      title: 'Legend Builder',
       chunksSortMode: 'dependency',
       minify: {
         collapseWhitespace: true,
@@ -67,6 +54,12 @@ module.exports = webpackMerge(commonConfig, {
         removeOptionalTags: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true
+      },
+      options: {
+        baseUrl: '/',
+        host: settings.httpServer.host,
+        port: settings.httpServer.port,
+        ENV: ENV
       }
     }),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}),

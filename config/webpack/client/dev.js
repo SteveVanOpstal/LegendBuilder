@@ -1,6 +1,6 @@
 var helpers = require('../../../helpers');
 const settings = require('../../settings');
-const commonConfig = require('../common.js');
+const common = require('../common');
 
 const webpackMerge = require('webpack-merge');
 
@@ -14,18 +14,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
-const METADATA = webpackMerge(commonConfig.metadata, {
-  title: commonConfig.metadata.title + ' [DEV]',
-  host: settings.httpServer.host || 'localhost',
-  port: settings.httpServer.port || 8080,
-  ENV: ENV
-});
-
-module.exports = webpackMerge(commonConfig, {
-  metadata: METADATA,
+module.exports = webpackMerge(common, {
   devtool: 'source-map',
-  // cache: true,
-  debug: true,
+  cache: true,
 
   entry: {
     polyfills: helpers.root('src/client/polyfills.ts'),
@@ -41,17 +32,8 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
-    preLoaders: [{
-      test: /\.js$/,
-      loader: 'source-map-loader',
-      exclude: [
-        // these packages have problems with their sourcemaps
-        helpers.root('node_modules/rxjs'),
-        helpers.root('node_modules/@angular'),
-      ]
-    }],
-
-    loaders: [
+    rules: [
+      {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'},
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
       {test: /\.svg$/, loader: 'raw'}, {test: /\.css$/, loader: 'css?minimize'}
     ]
@@ -61,24 +43,25 @@ module.exports = webpackMerge(commonConfig, {
     new ForkCheckerPlugin(), new OccurrenceOrderPlugin(true),
     new CommonsChunkPlugin({name: ['vendor', 'polyfills']}),
     new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
-    new HtmlWebpackPlugin({template: 'src/client/index.html', chunksSortMode: 'dependency'}),
+    new HtmlWebpackPlugin({
+      template: 'src/client/index.html',
+      title: 'Legend Builder [DEV]',
+      chunksSortMode: 'dependency',
+      options: {
+        baseUrl: '/',
+        host: settings.httpServer.host,
+        port: settings.httpServer.port,
+        ENV: ENV
+      }
+    }),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ],
 
   devServer: {
-    port: METADATA.port,
-    host: METADATA.host,
+    port: settings.httpServer.port,
+    host: settings.httpServer.host,
     historyApiFallback: true,
     outputPath: helpers.root('../build/dist/client'),
     watchOptions: {aggregateTimeout: 300, poll: 1000}
-  },
-
-  node: {
-    global: 'window',
-    process: true,
-    crypto: 'empty',
-    module: false,
-    clearImmediate: false,
-    setImmediate: false
   }
 });

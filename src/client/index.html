@@ -2,16 +2,16 @@
 <html>
 
 <head>
-  <title><%= webpackConfig.metadata.title %></title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= webpackConfig.metadata.title %>">
+  <meta name="description" content="An advanced League of Legends champion builder">
 
   <link rel="shortcut icon" href="/images/favicon.ico" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
 
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
+  <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
 
   <style>
     <%= require('./base.css') %>
@@ -46,9 +46,9 @@
     </nav>
   </footer>
 
-  <% if (webpackConfig.metadata.ENV === 'development') { %>
+  <% if (htmlWebpackPlugin.options.ENV === 'development') { %>
   <!-- Webpack Dev Server reload -->
-  <script src="http://<%= webpackConfig.metadata.host %>:<%= webpackConfig.metadata.port %>/webpack-dev-server.js"></script>
+  <script src="http://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
   <% } %>
 </body>
 

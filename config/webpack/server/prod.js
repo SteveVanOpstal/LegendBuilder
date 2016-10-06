@@ -1,5 +1,5 @@
 var helpers = require('../../../helpers');
-const commonConfig = require('../common.js');
+const common = require('../common');
 
 const webpackMerge = require('webpack-merge');
 
@@ -11,11 +11,7 @@ var OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin'
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
-const METADATA = webpackMerge(commonConfig.metadata, {ENV: ENV});
-
-module.exports = webpackMerge(commonConfig, {
-  metadata: METADATA,
-  debug: false,
+module.exports = webpackMerge(common, {
   target: 'node',
 
   entry: {
@@ -26,8 +22,7 @@ module.exports = webpackMerge(commonConfig, {
   output: {path: helpers.root('build/dist/server'), filename: '[name].js'},
 
   module: {
-    loaders:
-        [{test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}]
+    rules: [{test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}]
   },
 
   plugins: [
@@ -36,7 +31,7 @@ module.exports = webpackMerge(commonConfig, {
   ],
 
   node: {
-    global: 'window',
+    global: false,
     process: false,
     crypto: 'empty',
     module: false,
