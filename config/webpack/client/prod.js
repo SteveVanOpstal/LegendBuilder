@@ -32,7 +32,7 @@ module.exports = webpackMerge(common, {
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
-        query: {'compilerOptions': {'removeComments': true}},
+        options: {'compilerOptions': {'removeComments': true}},
         exclude: [/\.(spec|e2e)\.ts$/]
       },
       {test: /\.svg$/, loader: 'raw'}, {test: /\.css$/, loader: 'css?minimize'}
