@@ -3,10 +3,10 @@
 !/config/build
 /node_modules
 /coverage
-/typings
 __pycache__
 
-*.log
+npm-debug.log
+npm-debug.log.*
 
 .api.key
 .settings.json

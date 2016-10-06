@@ -6,7 +6,7 @@ import {LevelScale} from '../scales/level';
 import {Axis} from './axis';
 
 export class LevelAxisLine implements Axis {
-  private axis: d3.Axis;
+  private axis: d3.Axis<any>;
 
   create(scale: LevelScale): void {
     this.axis = d3.axisBottom(scale.get())
@@ -14,20 +14,20 @@ export class LevelAxisLine implements Axis {
                     .tickValues(config.levelXp);
   }
 
-  get(): d3.Axis {
+  get(): d3.Axis<any> {
     return this.axis;
   }
 }
 
 export class LevelAxisText implements Axis {
-  private axis: d3.Axis;
+  private axis: d3.Axis<any>;
 
   create(scale: LevelScale): void {
     this.axis = d3.axisBottom(scale.get())
                     .tickSize(-config.height + config.margin.top + config.margin.bottom);
   }
 
-  get(): d3.Axis {
+  get(): d3.Axis<any> {
     return this.axis;
   }
 

@@ -4,5 +4,5 @@ import {Scale} from '../scales/scale';
 
 export interface Axis {
   create(scale: Scale): void;
-  get(): d3.Axis;
+  get(): d3.Axis<any>;
 }
