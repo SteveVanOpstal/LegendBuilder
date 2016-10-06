@@ -4,6 +4,7 @@ import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
+import {AboutModule} from './about/about.module';
 import {ActionsComponent} from './actions.component';
 import {AppComponent} from './app.component';
 import {ROUTES} from './app.routes';
@@ -20,8 +21,8 @@ import {SummonerModule} from './summoner/summoner.module';
 @NgModule({
   imports: [
     BrowserModule, CommonModule, RouterModule.forRoot(ROUTES), HttpModule, AssetsModule,
-    SharedModule, BuildModule, ChampionModule, LoginModule, MainModule,
-    RegionModule, SignupModule, SummonerModule
+    SharedModule, AboutModule, BuildModule, ChampionModule, LoginModule, MainModule, RegionModule,
+    SignupModule, SummonerModule
   ],
   declarations: [AppComponent, ActionsComponent],
   bootstrap: [AppComponent, ActionsComponent]
