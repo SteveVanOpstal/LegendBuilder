@@ -4,6 +4,7 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Observable} from 'rxjs';
 
+import {settings} from '../../../config/settings';
 import {LolApiService} from '../services/lolapi.service';
 import {MockActivatedRoute, MockMockBackend} from '../testing';
 
@@ -158,17 +159,10 @@ describe('LolApiService', () => {
        service.getUrl(region => service.linkStaticData(region))
            .subscribe(
                (urlResolved) => {
-                 expect(urlResolved).toBe('http://localhost:8081/static-data/euw/v1.2');
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-
-       service.staticServer = {host: 'test', port: 5};
-       service.getUrl(region => service.linkStaticData(region))
-           .subscribe(
-               (urlResolved) => {
-                 expect(urlResolved).toBe('http://test:5/static-data/euw/v1.2');
+                 expect(urlResolved)
+                     .toBe(
+                         'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
+                         '/static-data/euw/v1.2');
                },
                () => {
                  fail('unexpected failure');
@@ -180,17 +174,10 @@ describe('LolApiService', () => {
        service.getUrl(region => service.linkMatchData(region))
            .subscribe(
                (urlResolved) => {
-                 expect(urlResolved).toBe('http://localhost:8082/euw');
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-
-       service.matchServer = {host: 'test', port: 5};
-       service.getUrl(region => service.linkMatchData(region))
-           .subscribe(
-               (urlResolved) => {
-                 expect(urlResolved).toBe('http://test:5/euw');
+                 expect(urlResolved)
+                     .toBe(
+                         'http://' + settings.matchServer.host + ':' + settings.matchServer.port +
+                         '/euw');
                },
                () => {
                  fail('unexpected failure');
