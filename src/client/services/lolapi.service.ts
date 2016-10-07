@@ -7,8 +7,10 @@ import {settings} from '../../../config/settings';
 
 @Injectable()
 export class LolApiService {
-  public staticServer = settings.staticServer;
-  public matchServer = settings.matchServer;
+  public links = {
+    static: 'http://' + settings.staticServer.host + ':' + settings.staticServer.port,
+    match: 'http://' + settings.matchServer.host + ':' + settings.matchServer.port
+  };
 
   private cachedObservables: Array<Observable<any>> = new Array<Observable<any>>();
 
@@ -106,18 +108,10 @@ export class LolApiService {
 
 
   private linkStaticData(region: string) {
-    return this.linkStaticServer() + '/static-data/' + region + '/v1.2';
+    return this.links.static + '/static-data/' + region + '/v1.2';
   }
 
   private linkMatchData(region: string) {
-    return this.linkMatchServer() + '/' + region;
-  }
-
-  private linkStaticServer() {
-    return 'http://' + this.staticServer.host + ':' + this.staticServer.port;
-  }
-
-  private linkMatchServer() {
-    return 'http://' + this.matchServer.host + ':' + this.matchServer.port;
+    return this.links.match + '/' + region;
   }
 }
