@@ -55,12 +55,7 @@ module.exports = webpackMerge(common, {
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true
       },
-      options: {
-        baseUrl: '/',
-        host: settings.httpServer.host,
-        port: settings.httpServer.port,
-        ENV: ENV
-      }
+      baseUrl: '/'
     }),
     new DefinePlugin({'ENV': JSON.stringify(ENV)}),
     new UglifyJsPlugin({beautify: false, mangle: true, comments: false}),

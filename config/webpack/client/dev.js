@@ -47,12 +47,10 @@ module.exports = webpackMerge(common, {
       template: 'src/client/index.html',
       title: 'Legend Builder [DEV]',
       chunksSortMode: 'dependency',
-      options: {
-        baseUrl: '/',
-        host: settings.httpServer.host,
-        port: settings.httpServer.port,
-        ENV: ENV
-      }
+      ENV: ENV,
+      baseUrl: '/',
+      host: settings.httpServer.host,
+      port: settings.httpServer.port
     }),
     new DefinePlugin({'ENV': JSON.stringify(ENV)})
   ],
