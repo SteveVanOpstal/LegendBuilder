@@ -37,7 +37,6 @@ export class RegionComponent implements OnInit {
     this.lolApi.getRegions().subscribe(
         res => {
           this.regions = res;
-          this.regions.push({name: 'Public Beta Environment', slug: 'pbe'});
         },
         error => {
           this.error = true;

@@ -42,7 +42,12 @@ export class LolApiService {
   }
 
   public getRegions(): Observable<any> {
-    return this.cache('http://status.leagueoflegends.com/shards');
+    return this.cache('http://status.leagueoflegends.com/shards').map(res => {
+      res.push({name: 'Public Beta Environment', slug: 'pbe'});
+      return res;
+    });
+  }
+
   public getRealm(): Observable<any> {
     return this.get(region => this.linkStaticData(region) + '/realm');
   }
