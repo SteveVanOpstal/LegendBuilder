@@ -1,12 +1,10 @@
 import {TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
-import {MockActivatedRoute} from '../../testing';
+import {MockMockBackend, TestModule} from '../../testing';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -31,22 +29,15 @@ describe('MasteryCategoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, MockBackend, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, MasteryCategoryComponent
       ],
       declarations: [
         MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
         DDragonDirective
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 

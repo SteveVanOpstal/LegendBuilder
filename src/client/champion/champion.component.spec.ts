@@ -1,10 +1,8 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend, MockRouter} from '../testing';
+import {MockMockBackend, TestModule} from '../testing';
 
 import {ChampionComponent} from './champion.component';
 
@@ -12,20 +10,11 @@ describe('ChampionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-
-        {provide: Router, useValue: new MockRouter()},
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, ChampionComponent
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 
@@ -39,7 +28,7 @@ describe('ChampionComponent', () => {
   it('should get champions',
      async(inject(
          [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe(false, {});
+           mockBackend.success();
 
            expect(component.champions).not.toBeDefined();
            component.getData();
@@ -55,7 +44,7 @@ describe('ChampionComponent', () => {
   it('should not get champions',
      async(inject(
          [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe();
+           mockBackend.error();
 
            expect(component.champions).not.toBeDefined();
            component.getData();

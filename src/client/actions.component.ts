@@ -5,7 +5,6 @@ import {AuthService} from './services/auth.service';
 
 @Component({
   selector: 'actions',
-  providers: [AuthService],
   template: `
     <button [routerLink]="['login']" *ngIf="active()"><span class="align-center">Login</span></button>
     <button [routerLink]="['signup']" *ngIf="active()"><span class="align-center">Sign up</span></button>`

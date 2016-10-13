@@ -9,10 +9,9 @@ import {PreviewComponent} from './preview.component';
 
 
 @NgModule({
-  imports: [CommonModule, SharedModule],
   declarations: [PreviewComponent, ItemsFromComponent, ItemComponent],
-  exports: [PreviewComponent],
-  providers: []
+  imports: [CommonModule, SharedModule],
+  exports: [PreviewComponent]
 })
 export class PreviewModule {
 }

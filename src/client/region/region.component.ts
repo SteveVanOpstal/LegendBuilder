@@ -4,7 +4,6 @@ import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   selector: 'region',
-  providers: [LolApiService],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./region.css').toString()],
   template: `
@@ -25,7 +24,7 @@ export class RegionComponent implements OnInit {
   private loading: boolean = true;
   private error: boolean = false;
 
-  constructor(public lolApi: LolApiService) {}
+  constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.getData();

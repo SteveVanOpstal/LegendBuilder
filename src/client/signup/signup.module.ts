@@ -6,10 +6,9 @@ import {SharedModule} from '../shared/shared.module';
 import {SignupComponent} from './signup.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule],
   declarations: [SignupComponent],
-  exports: [SignupComponent],
-  providers: []
+  imports: [CommonModule, SharedModule],
+  exports: [SignupComponent]
 })
 export class SignupModule {
 }

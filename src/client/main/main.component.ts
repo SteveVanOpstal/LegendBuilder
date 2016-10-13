@@ -1,8 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AuthService} from '../services/auth.service';
-
 @Component({
   selector: 'main',
   encapsulation: ViewEncapsulation.None,
@@ -12,5 +10,5 @@ import {AuthService} from '../services/auth.service';
 })
 
 export class MainComponent {
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private router: Router) {}
 }

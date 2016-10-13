@@ -1,10 +1,8 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../testing';
+import {MockMockBackend, TestModule} from '../testing';
 
 import {BuildComponent} from './build.component';
 import {BuildService} from './services/build.service';
@@ -14,18 +12,11 @@ describe('BuildComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, StatsService, BuildService, BuildComponent
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 
@@ -55,7 +46,7 @@ describe('BuildComponent', () => {
   it('should handle a champion request',
      async(
          inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe(false, {});
+           mockBackend.success();
 
            expect(component.champion).not.toBeDefined();
            component.getData();
@@ -71,7 +62,7 @@ describe('BuildComponent', () => {
   it('should handle a champion error',
      async(
          inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe();
+           mockBackend.error();
 
            expect(component.champion).not.toBeDefined();
            component.getData();
@@ -89,7 +80,7 @@ describe('BuildComponent', () => {
      async(
          inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
            let samples = {xp: [0, 1], gold: [0, 1]};
-           mockBackend.subscribe(false, samples);
+           mockBackend.success(samples);
 
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
@@ -107,9 +98,6 @@ describe('BuildComponent', () => {
   it('should handle a match error',
      async(
          inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           let samples = {xp: [0, 1], gold: [0, 1]};
-           mockBackend.subscribe();
-
            component.getMatchData('');
            return service.getMatchData('', '', 0, 0)
                .subscribe(
@@ -117,8 +105,7 @@ describe('BuildComponent', () => {
                      fail('unexpected success');
                    },
                    () => {
-                     component.build.samples.subscribe((result) => {
-                       expect(result).not.toHaveEqualContent(samples);
+                     component.build.samples.subscribe(() => {
                        expect(component.error).toBeTruthy();
                      });
                    });

@@ -1,5 +1,11 @@
 export class MockRouter {
+  routerState: any = {snapshot: {root: {children: [{url: [{path: 'build'}, {path: 'euw'}]}]}}};
+
   constructor() {}
+
+  setRegion(region: string) {
+    this.routerState = {snapshot: {root: {children: [{url: [{path: 'build'}, {path: region}]}]}}};
+  }
 
   navigate(commands: any[], extras?: any): any {}
 }

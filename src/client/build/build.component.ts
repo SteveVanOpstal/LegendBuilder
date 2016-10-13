@@ -3,11 +3,11 @@ import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {LolApiService} from '../services/lolapi.service';
+
 import {BuildService} from './services/build.service';
 import {StatsService} from './services/stats.service';
 
 @Component({
-  providers: [BuildService, StatsService, LolApiService],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./build.css').toString()],
   template: `
