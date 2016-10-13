@@ -1,6 +1,6 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute, Params} from '@angular/router';
+import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {LolApiService} from '../services/lolapi.service';
@@ -100,30 +100,9 @@ describe('LolApiService', () => {
                });
      })));
 
-  it('should handle a missing region',
-     async(inject([ActivatedRoute, LolApiService], (route, service) => {
-       route.params = Observable.create((observer) => {
-         let params: Params = {'not region': ''};
-         observer.next(params);
-         observer.complete();
-       });
-
-       service.getRealm().subscribe(
-           res => {
-             fail('unexpected success');
-           },
-           (error) => {
-             expect(error).not.toBeDefined();
-           });
-     })));
-
   it('should handle an incorrect region',
-     async(inject([ActivatedRoute, LolApiService], (route, service) => {
-       route.params = Observable.create((observer) => {
-         let params: Params = {'region': 'not euw'};
-         observer.next(params);
-         observer.complete();
-       });
+     async(inject([Router, LolApiService], (router, service) => {
+       router.setRegion('not a region');
 
        service.getRealm().subscribe(
            res => {

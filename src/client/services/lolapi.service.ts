@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
@@ -14,14 +14,37 @@ export class LolApiService {
 
   private cachedObservables: Array<Observable<any>> = new Array<Observable<any>>();
 
-  constructor(private route: ActivatedRoute, private http: Http) {}
+  constructor(private http: Http, private router: Router) {}
 
-  public getRealm(): Observable<any> {
-    return this.get(region => this.linkStaticData(region) + '/realm');
+  public getRegion(): Observable<string> {
+    return Observable.create(observer => {
+      let region = this.router.routerState.snapshot.root.children[0].url[1].path;
+      if (region) {
+        region = region.toLowerCase();
+        this.getRegions().subscribe(
+            (regions: Array<string>) => {
+              if (regions.some((r: any) => {
+                    return r.slug === region;
+                  })) {
+                observer.next(region);
+                observer.complete();
+              } else {
+                observer.error();
+              }
+            },
+            () => {
+              observer.error();
+            });
+      } else {
+        observer.error();
+      }
+    });
   }
 
   public getRegions(): Observable<any> {
     return this.cache('http://status.leagueoflegends.com/shards');
+  public getRealm(): Observable<any> {
+    return this.get(region => this.linkStaticData(region) + '/realm');
   }
 
   public getChampions(): Observable<any> {
@@ -83,29 +106,6 @@ export class LolApiService {
   private getUrl(url: (region: string) => string): Observable<string> {
     return this.getRegion().map(region => url(region));
   }
-
-  private getRegion(): Observable<string> {
-    return Observable.create(observer => {
-      this.route.params.subscribe(params => {
-        if (!params['region']) {
-          observer.error();
-          return;
-        }
-        this.getRegions().subscribe((regions: Array<string>) => {
-          let region = params['region'].toLowerCase();
-          if (regions.some((r: any) => {
-                return r.slug === region;
-              })) {
-            observer.next(region);
-            observer.complete();
-            return;
-          }
-          observer.error();
-        });
-      });
-    });
-  }
-
 
   private linkStaticData(region: string) {
     return this.links.static + '/static-data/' + region + '/v1.2';
