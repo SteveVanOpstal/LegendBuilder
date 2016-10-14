@@ -3,7 +3,6 @@ import {Http} from '@angular/http';
 
 @Component({
   selector: 'about',
-  providers: [],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./about.css').toString()],
   template: `

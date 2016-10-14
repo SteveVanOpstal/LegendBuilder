@@ -1,10 +1,8 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../../testing';
+import {MockMockBackend, TestModule} from '../../testing';
 
 import {ShopComponent} from './shop.component';
 
@@ -16,20 +14,11 @@ describe('ShopComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-
-        {provide: Event, useValue: new MockEvent()},
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, ShopComponent
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 
@@ -52,15 +41,15 @@ describe('ShopComponent', () => {
   it('should get items',
      async(
          inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe(false, []);
+           mockBackend.success();
 
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);
            component.getData();
            service.getItems().subscribe(
                () => {
-                 expect(component.items).not.toHaveEqualContent([]);
-                 expect(component.originalItems).not.toHaveEqualContent([]);
+                 expect(component.items).not.toHaveEqualContent({});
+                 expect(component.originalItems).not.toHaveEqualContent({});
                },
                () => {
                  fail('unexpected failure');
@@ -70,7 +59,7 @@ describe('ShopComponent', () => {
   it('should not get items',
      async(
          inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe();
+           mockBackend.error();
 
            expect(component.items).toHaveEqualContent([]);
            expect(component.originalItems).toHaveEqualContent([]);

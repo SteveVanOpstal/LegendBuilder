@@ -1,41 +1,27 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute, Params} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {LolApiService} from '../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../testing';
+import {MockMockBackend, TestModule} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService
-      ]
+      ],
+      imports: [TestModule]
     });
   });
-
-  beforeEach(async(inject([MockBackend], (mockBackend) => {
-    mockBackend.subscribe(false, {test: true});
-  })));
 
   it('should get realm data', async(inject([LolApiService], (service) => {
        service.getRealm().subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -57,7 +43,6 @@ describe('LolApiService', () => {
        service.getChampions().subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -68,7 +53,6 @@ describe('LolApiService', () => {
        service.getChampion(0).subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -79,7 +63,6 @@ describe('LolApiService', () => {
        service.getItems().subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -90,7 +73,6 @@ describe('LolApiService', () => {
        service.getMasteries().subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -101,7 +83,6 @@ describe('LolApiService', () => {
        service.getSummonerId('', '').subscribe(
            res => {
              expect(res).toBeDefined();
-             expect(res.test).toBeTruthy();
            },
            () => {
              fail('unexpected failure');
@@ -113,37 +94,15 @@ describe('LolApiService', () => {
            .subscribe(
                res => {
                  expect(res).toBeDefined();
-                 expect(res.test).toBeTruthy();
                },
                () => {
                  fail('unexpected failure');
                });
      })));
 
-  it('should handle a missing region',
-     async(inject([ActivatedRoute, LolApiService], (route, service) => {
-       route.params = Observable.create((observer) => {
-         let params: Params = {'not region': ''};
-         observer.next(params);
-         observer.complete();
-       });
-
-       service.getRealm().subscribe(
-           res => {
-             fail('unexpected success');
-           },
-           (error) => {
-             expect(error).not.toBeDefined();
-           });
-     })));
-
   it('should handle an incorrect region',
-     async(inject([ActivatedRoute, LolApiService], (route, service) => {
-       route.params = Observable.create((observer) => {
-         let params: Params = {'region': 'not euw'};
-         observer.next(params);
-         observer.complete();
-       });
+     async(inject([Router, LolApiService], (router, service) => {
+       router.setRegion('not a region');
 
        service.getRealm().subscribe(
            res => {

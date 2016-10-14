@@ -12,11 +12,11 @@ import {RetryComponent} from './retry.component';
 import {ToIterablePipe} from './to-iterable.pipe';
 
 @NgModule({
-  imports: [CommonModule, AssetsModule],
   declarations: [
     CapitalizePipe, DDragonDirective, ErrorComponent, HelpComponent, LoadingComponent,
     RetryComponent, ToIterablePipe
   ],
+  imports: [CommonModule, AssetsModule],
   exports: [
     CapitalizePipe, DDragonDirective, ErrorComponent, HelpComponent, LoadingComponent,
     RetryComponent, ToIterablePipe

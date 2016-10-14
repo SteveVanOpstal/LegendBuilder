@@ -6,17 +6,25 @@ export class MockMockBackend extends MockBackend {
     super();
   }
 
-  subscribe(error: boolean = true, body?: any) {
+  success(body: string|Object|ArrayBuffer|Blob = {}) {
+    this.subscribe((connection: MockConnection) => {
+      connection.mockRespond(new Response(new ResponseOptions({status: 200, body: body})));
+    });
+  }
+
+  error() {
+    this.subscribe((connection: MockConnection) => {
+      connection.mockError();
+    });
+  }
+
+  private subscribe(callback: (connection: MockConnection) => void) {
     this.connections.subscribe((connection: MockConnection) => {
       if (connection.request.url === 'http://status.leagueoflegends.com/shards') {
         connection.mockRespond(
             new Response(new ResponseOptions({status: 200, body: [{'slug': 'euw'}]})));
       } else {
-        if (error) {
-          connection.mockError();
-        } else {
-          connection.mockRespond(new Response(new ResponseOptions({status: 200, body: body})));
-        }
+        callback(connection);
       }
     });
   }

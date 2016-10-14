@@ -1,11 +1,9 @@
 import {ElementRef} from '@angular/core';
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../testing';
+import {MockMockBackend, TestModule} from '../testing';
 
 import {DDragonDirective} from './ddragon.directive';
 
@@ -59,20 +57,12 @@ let realm = {
 function addCommonProviders<T>(elementRefType: {new (): T}) {
   TestBed.configureTestingModule({
     providers: [
+      {provide: MockBackend, useValue: new MockMockBackend()},
       {provide: ElementRef, useValue: new elementRefType()},
 
-      {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-      BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => {
-          return new Http(backend, defaultOptions);
-        },
-        deps: [MockBackend, BaseRequestOptions]
-      },
-
       LolApiService, DDragonDirective
-    ]
+    ],
+    imports: [TestModule]
   });
 }
 
@@ -93,7 +83,7 @@ describe('DDragonDirective:style', () => {
 
   it('should set requested image',
      async(inject([MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
-       mockBackend.subscribe(false, realm);
+       // mockBackend.success(realm);
        directive.image = 'test.png';
        directive.ngOnInit();
 
@@ -123,7 +113,7 @@ describe('DDragonDirective:src', () => {
   it('should set requested image',
      async(inject(
          [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
-           mockBackend.subscribe(false, realm);
+           // mockBackend.success(realm);
            directive.image = 'test.png';
            directive.ngOnInit();
 
@@ -152,7 +142,7 @@ describe('DDragonDirective:xlink', () => {
   it('should set requested image',
      async(inject(
          [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
-           mockBackend.subscribe(false, realm);
+           // mockBackend.success(realm);
            directive.image = 'test.png';
            directive.ngOnInit();
 
@@ -230,7 +220,7 @@ describe('DDragonDirective', () => {
   it('should update image',
      async(inject(
          [MockBackend, DDragonDirective, LolApiService], (mockBackend, directive, service) => {
-           mockBackend.subscribe(false, realm);
+           // mockBackend.success(realm);
            spyOn(directive, 'setImage');
            expect(directive.setImage).not.toHaveBeenCalled();
            directive.ngOnInit();

@@ -3,11 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {SummonerComponent} from './summoner.component';
 
-@NgModule({
-  imports: [CommonModule],
-  declarations: [SummonerComponent],
-  exports: [SummonerComponent],
-  providers: []
-})
+@NgModule(
+    {declarations: [SummonerComponent], imports: [CommonModule], exports: [SummonerComponent]})
 export class SummonerModule {
 }

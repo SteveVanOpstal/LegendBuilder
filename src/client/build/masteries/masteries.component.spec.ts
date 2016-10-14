@@ -1,7 +1,5 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {IconErrorComponent} from '../../assets/icon-error.component';
 import {IconLoadComponent} from '../../assets/icon-load.component';
@@ -12,12 +10,13 @@ import {DDragonDirective} from '../../shared/ddragon.directive';
 import {ErrorComponent} from '../../shared/error.component';
 import {LoadingComponent} from '../../shared/loading.component';
 import {RetryComponent} from '../../shared/retry.component';
-import {MockActivatedRoute, MockMockBackend} from '../../testing';
+import {MockMockBackend, TestModule} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
+
 
 // class MockMasteryCategoryComponent extends MasteryCategoryComponent {
 //   public rank: number = 0;
@@ -83,15 +82,7 @@ let providers = () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, MasteriesComponent
       ],
@@ -99,7 +90,8 @@ let providers = () => {
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
         LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
         IconRefreshComponent, IconErrorComponent, DDragonDirective
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 };
@@ -196,7 +188,7 @@ describe('MasteriesComponent', () => {
      async(inject(
          [MockBackend, MasteriesComponent, LolApiService],
          (mockBackend, component: MasteriesComponent, service: LolApiService) => {
-           mockBackend.subscribe(false, masteriesData);
+           mockBackend.success(masteriesData);
 
            component.ngOnInit();
            return service.getMasteries().subscribe(
@@ -211,7 +203,7 @@ describe('MasteriesComponent', () => {
   it('should not get masteries',
      async(inject(
          [MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.subscribe();
+           mockBackend.error();
 
            spyOn(component, 'transformData');
            expect(component.transformData).not.toHaveBeenCalled();

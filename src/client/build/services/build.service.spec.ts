@@ -1,10 +1,8 @@
 import {inject, TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {LolApiService} from '../../services/lolapi.service';
-import {MockActivatedRoute, MockMockBackend} from '../../testing';
+import {MockMockBackend, TestModule} from '../../testing';
 
 import {BuildService} from './build.service';
 
@@ -13,18 +11,11 @@ describe('BuildService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, {provide: MockBackend, useValue: new MockMockBackend()}, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, BuildService
-      ]
+      ],
+      imports: [TestModule]
     });
   });
 

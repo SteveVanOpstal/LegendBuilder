@@ -1,12 +1,10 @@
 import {TestBed} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {ActivatedRoute} from '@angular/router';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
-import {MockActivatedRoute} from '../../testing';
+import {MockMockBackend, TestModule} from '../../testing';
 
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
@@ -20,19 +18,12 @@ describe('MasteryTierComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
-
-        BaseRequestOptions, MockBackend, {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        {provide: MockBackend, useValue: new MockMockBackend()},
 
         LolApiService, MasteryTierComponent
       ],
-      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonDirective]
+      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonDirective],
+      imports: [TestModule]
     });
   });
 

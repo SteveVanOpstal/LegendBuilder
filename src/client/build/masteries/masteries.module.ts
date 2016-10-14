@@ -10,11 +10,10 @@ import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
 @NgModule({
-  imports: [CommonModule, AssetsModule, SharedModule],
   declarations:
       [MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent],
-  exports: [MasteriesComponent],
-  providers: []
+  imports: [CommonModule, AssetsModule, SharedModule],
+  exports: [MasteriesComponent]
 })
 export class MasteriesModule {
 }

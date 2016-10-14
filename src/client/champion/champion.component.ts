@@ -10,7 +10,6 @@ import {TagsPipe} from './pipes/tags.pipe';
 
 @Component({
   selector: 'champion',
-  providers: [LolApiService],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./champion.css').toString()],
   template: `

@@ -7,10 +7,9 @@ import {SharedModule} from '../shared/shared.module';
 import {RegionComponent} from './region.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SharedModule],
   declarations: [RegionComponent],
-  exports: [RegionComponent],
-  providers: []
+  imports: [CommonModule, RouterModule, SharedModule],
+  exports: [RegionComponent]
 })
 export class RegionModule {
 }

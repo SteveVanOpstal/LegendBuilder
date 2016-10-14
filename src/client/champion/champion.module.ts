@@ -4,18 +4,15 @@ import {RouterModule} from '@angular/router';
 
 import {SharedModule} from '../shared/shared.module';
 
-import {BarComponent} from './bar/bar.component';
+import {BarModule} from './bar/bar.module';
 import {ChampionComponent} from './champion.component';
-import {FiltersComponent} from './filters/filters.component';
-import {NamePipe} from './pipes/name.pipe';
-import {SortPipe} from './pipes/sort.pipe';
-import {TagsPipe} from './pipes/tags.pipe';
+import {FiltersModule} from './filters/filters.module';
+import {PipesModule} from './pipes/pipes.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SharedModule],
-  declarations: [ChampionComponent, FiltersComponent, BarComponent, NamePipe, SortPipe, TagsPipe],
-  exports: [ChampionComponent],
-  providers: []
+  declarations: [ChampionComponent],
+  imports: [CommonModule, RouterModule, SharedModule, BarModule, FiltersModule, PipesModule],
+  exports: [ChampionComponent]
 })
 export class ChampionModule {
 }

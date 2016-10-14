@@ -94,10 +94,7 @@
     "@types/d3-scale": "1.0.4",
     "@types/d3-selection": "1.0.4",
     "@types/d3-shape": "1.0.5",
-    "@types/jasmine": "2.2.34",
     "@types/node": "6.0.39",
-    "@types/protractor": "1.5.19",
-    "@types/selenium-webdriver": "2.44.29",
     "angular2-jwt": "0.1.24",
     "async": "2.0.1",
     "auth0-js": "7.2.1",
@@ -116,6 +113,9 @@
     "zone.js": "0.6.23"
   },
   "devDependencies": {
+    "@types/jasmine": "2.2.34",
+    "@types/protractor": "1.5.19",
+    "@types/selenium-webdriver": "2.44.29",
     "awesome-typescript-loader": "^2.2.4",
     "clang-format": "^1.0.44",
     "codelyzer": "^0.0.28",

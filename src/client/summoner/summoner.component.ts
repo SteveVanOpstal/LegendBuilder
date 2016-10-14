@@ -5,7 +5,6 @@ import {LolApiService} from '../services/lolapi.service';
 
 @Component({
   selector: 'summoner',
-  providers: [LolApiService],
   encapsulation: ViewEncapsulation.None,
   styles: [require('./summoner.css').toString()],
   template: `

@@ -8,14 +8,13 @@ import {IconRankComponent} from './icon-rank.component';
 import {IconRefreshComponent} from './icon-refresh.component';
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [
     IconErrorComponent, IconEyeComponent, IconLoadComponent, IconRankComponent, IconRefreshComponent
   ],
+  imports: [CommonModule],
   exports: [
     IconErrorComponent, IconEyeComponent, IconLoadComponent, IconRankComponent, IconRefreshComponent
-  ],
-  providers: []
+  ]
 })
 export class AssetsModule {
 }
