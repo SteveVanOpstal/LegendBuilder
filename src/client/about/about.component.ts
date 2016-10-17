@@ -8,7 +8,7 @@ import {Http} from '@angular/http';
   template: `
     <section>
       <h2>About</h2>
-      <p>Legend Builder is an <a href="https://github.com/SteveVanOpstal/LegendBuilder">open source</a> champion builder for <a href="">League of Legends</a>.</p>
+      <p>Legend Builder is an <a href="https://github.com/SteveVanOpstal/LegendBuilder">open source</a> champion builder for <a href="http://leagueoflegends.com">League of Legends</a>.</p>
       <p>There is no guarantee that the software will fulfill your champion building dreams, but with your help we can get it there.</p>
       <ul>
         <li><span>You can <b>report a bug</b></span> by entering an <a href="https://github.com/SteveVanOpstal/LegendBuilder/issues">issue</a></li>
