@@ -21,10 +21,10 @@ import {Http} from '@angular/http';
     </section>
     <section *ngIf="ready">
       <h2>Contributors</h2>
-      <div class="contributor" *ngFor="let contributor of contributors">
+      <a class="contributor" *ngFor="let contributor of contributors" [attr.href]="contributor.html_url">
         <img [attr.src]="contributor.avatar_url"/>
         <p>{{contributor.login}}</p>
-      </div>
+      </a>
     </section>
     <section>
       <h2>Legal</h2>
