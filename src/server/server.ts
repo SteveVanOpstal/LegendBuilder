@@ -11,7 +11,7 @@ import {settings} from '../../config/settings';
 
 let apiKey = '';
 try {
-  apiKey = require('raw!../../.api.key');
+  apiKey = require('raw!../../.api.key').replace(/^\s+|\s+$/g, '');
 } catch (e) {
 }
 
