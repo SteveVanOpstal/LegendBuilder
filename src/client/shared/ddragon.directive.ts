@@ -15,7 +15,9 @@ export class DDragonDirective implements OnInit, OnChanges {
   @Input() x: number = -1;
   @Input() y: number = -1;
 
-  private defaultImg: string = '/images/hourglass.svg';
+  private defaultImg: string =
+      'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
+
   private realm: string = '';
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {}
