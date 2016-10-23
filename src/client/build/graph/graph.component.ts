@@ -56,7 +56,7 @@ export class GraphComponent implements OnInit {
             return this.xScaleTime.get()(
                 i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
           })
-          .y((d) => {
+          .y((d: any) => {
             return this.yScaleSamples.get()(d);
           });
 
