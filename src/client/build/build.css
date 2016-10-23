@@ -21,28 +21,46 @@
 /* abilities */
 
 abilities {
-  min-height: 450px;
-}
-
-abilities .ability {
   display: flex;
 }
 
-abilities .ability img {
-  height: 48px;
-  padding: 21px;
+abilities > div {
+  position: absolute;
+  width: 74px;
 }
 
-abilities .ability.ult img {
-  height: 64px;
-  padding: 13px;
+abilities .ability {
+  display: block;
+  height: 36px;
+  padding: 2px;
+}
+
+abilities .ability:not(.ult) {
+  margin-left: 5px;
+}
+
+abilities .ability.ult {
+  height: 46px;
+  padding: 2px;
+}
+
+abilities .x.axis.level-line text,
+abilities .x.axis.level-text line {
+  display: none;
+}
+
+abilities .x.axis .domain {
+  stroke: none;
+}
+
+abilities .x.axis.level-line > g:first-of-type > line {
+  display: none;
 }
 
 
 /* graph */
 
 graph {
-  display: flex;
   margin-bottom: 20px;
 }
 
@@ -51,15 +69,6 @@ graph .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}
-
-graph .x.axis.level line {
-  /*fill: #e7e7e7;*/
-}
-
-graph .x.axis.level-line text,
-graph .x.axis.level-text line {
-  display: none;
 }
 
 graph .x.axis path {
@@ -85,18 +94,18 @@ graph .line:nth-of-type(1) {
 }
 
 graph .line:nth-of-type(2) {
-  stroke: #aa7625;
-}
-
-graph .line:nth-of-type(3) {
   stroke: #B7AF1F;
 }
 
-/*graph .line:nth-of-type(4) {
+/*graph .line:nth-of-type(3) {
   stroke: #C19E20;
+}*/
+
+graph .line:nth-of-type(3) {
+  stroke: #AA7625;
 }
 
-graph .line:nth-of-type(5) {
+/*graph .line:nth-of-type(5) {
   stroke: #aa7625;
 }*/
 
@@ -108,31 +117,39 @@ graph .line:nth-of-type(5) {
   stroke: #AA3322;
 }
 
-/*graph .line:nth-of-type(8) {
-  stroke: #AA2456;
-}*/
-
 graph .line:nth-of-type(6) {
-  stroke: #AD1FC1;
+  stroke: #C12362;
 }
 
 graph .line:nth-of-type(7) {
-  stroke: #5A21AA;
+  stroke: #AD1FC1;
 }
 
 graph .line:nth-of-type(8) {
-  stroke: #374DC1;
+  stroke: #961FD8;
 }
 
 graph .line:nth-of-type(9) {
-  stroke: #397EAA;
+  stroke: #5A21AA;
 }
 
 graph .line:nth-of-type(10) {
-  stroke: #37C1B8;
+  stroke: #374DC1;
 }
 
 graph .line:nth-of-type(11) {
+  stroke: #397EAA;
+}
+
+graph .line:nth-of-type(12) {
+  stroke: #38BAD8;
+}
+
+graph .line:nth-of-type(13) {
+  stroke: #37C1B8;
+}
+
+graph .line:nth-of-type(14) {
   stroke: #36AA6B;
 }
 
@@ -140,8 +157,16 @@ graph .line:nth-of-type(11) {
   stroke: #39C13C;
 }*/
 
-graph .line:nth-of-type(12) {
+graph .line:nth-of-type(15) {
   stroke: #7AAA3B;
+}
+
+graph .line:nth-of-type(16) {
+  stroke: #C1B73F;
+}
+
+graph .line:nth-of-type(17) {
+  stroke: #B7953D;
 }
 
 /* graph - legend */
@@ -151,18 +176,16 @@ graph legend {
 }
 
 graph legend ul {
-  display: block;
   margin: 0;
   padding: 0;
 }
 
 graph legend li {
-  display: block;
+  display: inline-block;
 }
 
 graph legend li button {
   display: block;
-  width: 50px;
 }
 
 graph legend li:nth-of-type(1) button {
@@ -170,11 +193,11 @@ graph legend li:nth-of-type(1) button {
 }
 
 graph legend li:nth-of-type(2) button {
-  background-color: #aa7625 !important;
+  background-color: #B7AF1F !important;
 }
 
 graph legend li:nth-of-type(3) button {
-  background-color: #B7AF1F !important;
+  background-color: #AA7625 !important;
 }
 
 graph legend li:nth-of-type(4) button {
@@ -186,31 +209,51 @@ graph legend li:nth-of-type(5) button {
 }
 
 graph legend li:nth-of-type(6) button {
-  background-color: #AD1FC1 !important;
+  background-color: #C12362 !important;
 }
 
 graph legend li:nth-of-type(7) button {
-  background-color: #5A21AA !important;
+  background-color: #AD1FC1 !important;
 }
 
 graph legend li:nth-of-type(8) button {
-  background-color: #374DC1 !important;
+  background-color: #961FD8 !important;
 }
 
 graph legend li:nth-of-type(9) button {
-  background-color: #397EAA !important;
+  background-color: #5A21AA !important;
 }
 
 graph legend li:nth-of-type(10) button {
-  background-color: #37C1B8 !important;
+  background-color: #374DC1 !important;
 }
 
 graph legend li:nth-of-type(11) button {
-  background-color: #36AA6B !important;
+  background-color: #397EAA !important;
 }
 
 graph legend li:nth-of-type(12) button {
+  background-color: #38BAD8 !important;
+}
+
+graph legend li:nth-of-type(13) button {
+  background-color: #37C1B8 !important;
+}
+
+graph legend li:nth-of-type(14) button {
+  background-color: #36AA6B !important;
+}
+
+graph legend li:nth-of-type(15) button {
   background-color: #7AAA3B !important;
+}
+
+graph legend li:nth-of-type(16) button {
+  background-color: #C1B73F !important;
+}
+
+graph legend li:nth-of-type(17) button {
+  background-color: #B7953D !important;
 }
 
 graph legend li button:not(.enabled):hover {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {Item} from '../item';
-import {Samples} from '../samples';
+import {Item} from '../build/item';
+import {Samples} from '../build/samples';
 
 type Trigger<T> = (subject: T) => void;
 type Triggers<T> = Array<Trigger<T>>;
@@ -20,9 +20,9 @@ export class Observer<T> {
   notify(subject: T): void {
     this.subject = subject;
     if (this.triggers) {
-      this.triggers.forEach(trigger => {
+      for (let trigger of this.triggers) {
         trigger(subject);
-      });
+      }
     }
   }
 }

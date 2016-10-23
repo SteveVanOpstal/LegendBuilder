@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
+import {BuildService} from '../../services/build.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
-import {BuildService} from '../services/build.service';
 
 @Component({
   selector: 'item-slot',
@@ -21,7 +21,9 @@ export class ItemSlotComponent implements OnInit {
   constructor(private build: BuildService) {}
 
   ngOnInit() {
-    this.build.samples.subscribe(samples => this.samples);
+    this.build.samples.subscribe(samples => {
+      this.samples = samples;
+    });
   }
 
   addItem(item: Item) {

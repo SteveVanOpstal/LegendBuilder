@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
+import {BuildService} from '../../services/build.service';
 import {Item} from '../item';
-import {BuildService} from '../services/build.service';
 
 import {ItemSlotComponent} from './item-slot.component';
 

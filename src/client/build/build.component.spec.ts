@@ -1,12 +1,12 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
+import {BuildService} from '../services/build.service';
 import {LolApiService} from '../services/lolapi.service';
+import {StatsService} from '../services/stats.service';
 import {MockMockBackend, TestModule} from '../testing';
 
 import {BuildComponent} from './build.component';
-import {BuildService} from './services/build.service';
-import {StatsService} from './services/stats.service';
 
 describe('BuildComponent', () => {
   beforeEach(() => {

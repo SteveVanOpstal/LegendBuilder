@@ -1,10 +1,10 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {LolApiService} from '../../services/lolapi.service';
-import {MockMockBackend, TestModule} from '../../testing';
+import {MockMockBackend, TestModule} from '../testing';
 
 import {BuildService} from './build.service';
+import {LolApiService} from './lolapi.service';
 
 
 describe('BuildService', () => {

@@ -1,15 +1,23 @@
+import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
 import {BuildService} from '../../services/build.service';
+import {MockElementRef} from '../../testing';
 
-import {AbilitySequenceComponent} from './ability-sequence.component';
+import {AbilitiesComponent} from './abilities.component';
 
-describe('AbilitySequenceComponent', () => {
+describe('AbilitiesComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [AbilitySequenceComponent, BuildService]});
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: ElementRef, useValue: new MockElementRef()},
+
+        AbilitiesComponent, BuildService
+      ]
+    });
   });
 
-  beforeEach(inject([AbilitySequenceComponent], (component) => {
+  beforeEach(inject([AbilitiesComponent], (component) => {
     component.champion = {
       stats: {attackrange: 175, mpperlevel: 47, mp: 334},
       spells: [{
@@ -21,12 +29,12 @@ describe('AbilitySequenceComponent', () => {
     };
   }));
 
-  it('should create a tooltip', inject([AbilitySequenceComponent], (component) => {
+  it('should create a tooltip', inject([AbilitiesComponent], (component) => {
        let extendedTooltip = component.getExtendedTooltip(0);
        expect(extendedTooltip).toBe('0.6 50 175');
      }));
 
-  it('should handle tooltip errors', inject([AbilitySequenceComponent], (component) => {
+  it('should handle tooltip errors', inject([AbilitiesComponent], (component) => {
        component.champion.spells[0].sanitizedTooltip = '{{f10}}';
        let extendedTooltip = component.getExtendedTooltip(0);
        expect(extendedTooltip).toBe('[[error]]');

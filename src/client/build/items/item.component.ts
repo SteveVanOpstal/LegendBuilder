@@ -13,7 +13,7 @@ import {Item} from '../item';
 
 export class ItemComponent implements OnInit {
   @Input() item: Item;
-  private xScaleTime = new TimeScale();
+  private xScaleTime = new TimeScale([0, 1380]);
 
   constructor(private el: ElementRef) {}
 

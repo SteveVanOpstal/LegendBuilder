@@ -3,12 +3,11 @@ import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
+import {BuildService} from '../../services/build.service';
 import {Samples} from '../samples';
-import {BuildService} from '../services/build.service';
 
-import {DataAxis, LevelAxisLine, LevelAxisText, TimeAxis} from './axes';
-import {config} from './config';
-import {DataScale, LevelScale, TimeScale} from './scales';
+import {DataAxis, TimeAxis} from './axes';
+import {DataScale, TimeScale} from './scales';
 
 export interface Path {
   enabled: boolean;
@@ -21,18 +20,15 @@ export interface Path {
   selector: 'graph',
   template: `
     <legend [paths]="paths"></legend>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" [attr.viewBox]="'0 0 ' +  config.width + ' ' + config.height">
-      <g ability-sequence [attr.transform]="'translate(0,' + (config.graphHeight + config.margin.top + config.margin.bottom) + ')'"></g>
-      <g [attr.transform]="'translate(' + config.margin.left + ',' + config.margin.top + ')'">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" viewBox="0 0 1500 400">
+      <g transform="translate(60,20)">
         <g class="lines">
-          <path *ngFor="let path of paths" [attr.d]="path.d" [ngClass]="'line ' + path.name + (path.enabled ? ' enabled' : '') + (path.preview ? ' preview' : '')"></path>
+          <path *ngFor="let path of paths" [attr.d]="path.d" class="line {{path.name}}" [ngClass]="{enabled: path.enabled, preview: path.preview}"></path>
         </g>
         <g class="axes">
-          <g class="x axis time" [attr.transform]="'translate(0,' + config.graphHeight + ')'"></g>
-          <g class="x axis level-line" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
-          <g class="x axis level-text" [attr.transform]="'translate(0,' + (config.height - config.margin.top - config.margin.bottom) + ')'"></g>
+          <g class="x axis time" transform="translate(0,380)"></g>
           <g class="y axis left"></g>
-          <g class="y axis right" [attr.transform]="'translate(' + config.graphWidth + ',0)'"></g>
+          <g class="y axis right" transform="translate(1380,0)"></g>
         </g>
       </g>
     </svg>`
@@ -42,18 +38,13 @@ export class GraphComponent implements OnInit {
   private samples: Samples;
   @Input() private stats: any;
 
-  private config = config;
-
   private svg: any;
 
-  private xScaleTime = new TimeScale();
-  private xScaleLevel = new LevelScale();
-  private yScaleSamples = new DataScale();
-  private yScaleStats = new DataScale();
+  private xScaleTime = new TimeScale([0, 1380]);
+  private yScaleSamples = new DataScale([380, 0]);
+  private yScaleStats = new DataScale([380, 0]);
 
-  private xAxisTime = new TimeAxis();
-  private xAxisLevelLine = new LevelAxisLine();
-  private xAxisLevelText = new LevelAxisText();
+  private xAxisTime = new TimeAxis(380);
   private yAxisLeft = new DataAxis();
   private yAxisRight = new DataAxis();
 
@@ -73,7 +64,7 @@ export class GraphComponent implements OnInit {
                                .x((d) => {
                                  return this.xScaleTime.get()(d['time']);
                                })
-                               .y((d) => {
+                               .y((d, i, a) => {
                                  return this.yScaleStats.get()(d['value']);
                                })
                                .curve(curveStepAfter);
@@ -92,7 +83,6 @@ export class GraphComponent implements OnInit {
       this.samples = samples;
       if (this.svg) {
         this.createPaths();
-        this.createLevelScale();
       }
     });
   }
@@ -120,33 +110,6 @@ export class GraphComponent implements OnInit {
     for (let index in this.stats) {
       this.paths.push(
           {enabled: true, preview: false, name: index, d: this.lineStats(this.stats[index])});
-    }
-  }
-
-  createLevelScale() {
-    if (!this.samples.xp.length) {
-      return;
-    }
-
-    this.xScaleLevel.create();
-    this.xScaleLevel.update(this.samples);
-
-    this.xAxisLevelLine.create(this.xScaleLevel);
-    this.xAxisLevelText.create(this.xScaleLevel);
-
-    this.xAxisLevelText.update(this.samples);
-
-    this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine.get());
-    this.svg.select('.x.axis.level-text').call(this.xAxisLevelText.get());
-
-    for (let i = 1; i <= 4; i++) {
-      this.svg.selectAll('.x.axis.level-text .tick')
-          .append('foreignObject')
-          .attr('y', -23 - (50 * (i - 1)) - (i >= 2 ? 5 : 0) - this.config.margin.bottom)
-          .attr('x', -10)
-          .append('xhtml:label')
-          .append('xhtml:input')
-          .attr('type', 'checkbox');
     }
   }
 }

@@ -7,7 +7,7 @@ import {Path} from '../graph.component';
   template: `
     <ul (mouseleave)="mouseLeave()">
       <li *ngFor="let path of paths">
-        <button [ngClass]="{ enabled: path.enabled }" [attr.name]="path.name" type="button"
+        <button [ngClass]="{enabled: path.enabled}" [attr.name]="path.name" type="button"
           (mouseenter)="mouseEnter(path)"
           (mouseleave)="mouseLeave(path)"
           (mousedown)="mouseDown(path)"

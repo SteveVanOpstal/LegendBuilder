@@ -1,8 +1,8 @@
 import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
+import {BuildService} from '../../services/build.service';
 import {MockElementRef} from '../../testing';
-import {BuildService} from '../services/build.service';
 
 import {GraphComponent} from './graph.component';
 

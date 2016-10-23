@@ -2,10 +2,9 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
+import {BuildService} from '../services/build.service';
 import {LolApiService} from '../services/lolapi.service';
-
-import {BuildService} from './services/build.service';
-import {StatsService} from './services/stats.service';
+import {StatsService} from '../services/stats.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -16,6 +15,7 @@ import {StatsService} from './services/stats.service';
       <h2>{{champion?.name}}</h2>
     </div>
     <graph></graph>
+    <abilities></abilities>
     <masteries></masteries>
     <items #items></items>
     <shop (itemPicked)="items.addItem($event)"></shop>
