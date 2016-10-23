@@ -5,6 +5,10 @@ region > div {
   border-radius: 10px;
 }
 
+region a:hover {
+  text-decoration: none;
+}
+
 region h2 {
 	margin-top: 0;
 }
