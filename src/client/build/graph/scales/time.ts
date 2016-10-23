@@ -1,16 +1,15 @@
-import {scaleLinear} from 'd3-scale';
+import * as d3 from 'd3-scale';
 
 import {settings} from '../../../../../config/settings';
-import {config} from '../config';
 import {Scale} from './scale';
 
 export class TimeScale implements Scale {
-  private scale;
+  public scale: d3.ScaleLinear<number, number>;
 
-  constructor() {}
+  constructor(private range: number[]) {}
 
   create() {
-    this.scale = scaleLinear().domain([0, settings.gameTime]).range([0, config.graphWidth]);
+    this.scale = d3.scaleLinear().domain([0, settings.gameTime]).range(this.range);
   }
 
   get() {

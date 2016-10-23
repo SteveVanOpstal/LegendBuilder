@@ -38,7 +38,7 @@ let modes = {
   ],
   'server': ['build:server'],
   'server_test': ['test:server'],
-  'coverage': ['test:client', 'coveralls'],
+  'coverage': ['test:client', 'coverage'],
   'e2e': ['e2e']
 }
 

@@ -1,14 +1,15 @@
-import {scaleLinear} from 'd3-scale';
+import * as d3 from 'd3-scale';
 
 import {Samples} from '../../samples';
-import {config} from '../config';
 import {Scale} from './scale';
 
 export class LevelScale implements Scale {
-  private scale;
+  public scale: d3.ScaleLinear<number, number>;
+
+  constructor(private range: number[]) {}
 
   create() {
-    this.scale = scaleLinear().range([0, config.graphWidth]);
+    this.scale = d3.scaleLinear().range(this.range);
   }
 
   get() {

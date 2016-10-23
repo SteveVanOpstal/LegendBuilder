@@ -1,15 +1,14 @@
-var helpers = require('../../../helpers');
-const common = require('../common');
-
-const webpackMerge = require('webpack-merge');
+var helpers = require('../../helpers');
 
 /* plugins */
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
-module.exports = webpackMerge(common, {
+module.exports = {
   devtool: 'inline-source-map',
+
+  resolve: {extensions: ['.ts', '.js'], modules: ['node_modules']},
 
   module: {
     rules: [
@@ -25,4 +24,4 @@ module.exports = webpackMerge(common, {
   },
 
   plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})]
-});
+}

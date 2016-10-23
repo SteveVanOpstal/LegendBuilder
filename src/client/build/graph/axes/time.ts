@@ -6,10 +6,10 @@ import {TimeScale} from '../scales/time';
 import {Axis} from './axis';
 
 export class TimeAxis implements Axis {
+  public axis: d3.Axis<any>;
   private timeMarks: Array<number> = [];
-  private axis: d3.Axis<any>;
 
-  constructor() {
+  constructor(private tickSize: number) {
     let i: number = 0;
     while (i <= settings.gameTime) {
       this.timeMarks.push(i);
@@ -19,7 +19,7 @@ export class TimeAxis implements Axis {
 
   create(scale: TimeScale) {
     this.axis = d3.axisTop(scale.get())
-                    .tickSize(config.graphHeight)
+                    .tickSize(this.tickSize)
                     .tickValues(this.timeMarks)
                     .tickFormat((d: number) => {
                       return d === 0 ? '' :

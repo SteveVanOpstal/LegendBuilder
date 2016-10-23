@@ -1,23 +1,22 @@
-import {inject, TestBed} from '@angular/core/testing';
-
 import {TimeScale} from '../scales/time';
 
 import {TimeAxis} from './time';
 
 describe('TimeAxis', () => {
+  let component: TimeAxis;
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [TimeAxis]});
+    component = new TimeAxis(123);
   });
 
-  it('should set axis on create', inject([TimeAxis], (component) => {
-       expect(component.axis).not.toBeDefined();
-       component.create(new TimeScale());
-       expect(component.axis).toBeDefined();
-     }));
+  it('should set axis on create', () => {
+    expect(component.axis).not.toBeDefined();
+    component.create(new TimeScale([0, 380]));
+    expect(component.axis).toBeDefined();
+  });
 
-  it('should return axis on get', inject([TimeAxis], (component) => {
-       expect(component.axis).not.toBeDefined();
-       component.create(new TimeScale());
-       expect(component.get()).toHaveEqualContent(component.axis);
-     }));
+  it('should return axis on get', () => {
+    expect(component.axis).not.toBeDefined();
+    component.create(new TimeScale([0, 380]));
+    expect(component.get()).toHaveEqualContent(component.axis);
+  });
 });

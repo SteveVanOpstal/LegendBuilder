@@ -1,5 +1,13 @@
 export class MockRouter {
-  routerState: any = {snapshot: {root: {children: [{url: [{path: 'build'}, {path: 'euw'}]}]}}};
+  routerState: any = {
+    snapshot: {
+      root: {
+        children: [
+          {url: [{path: 'build'}, {path: 'euw'}, {path: 'DinosHaveNoLife'}, {path: 'Velkoz'}]}
+        ]
+      }
+    }
+  };
 
   constructor() {}
 
