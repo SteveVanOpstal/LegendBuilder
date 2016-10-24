@@ -78,7 +78,7 @@
     "s3:upload": "node config/build/s3.js",
     "reddit-release": "python src/reddit/release.py",
     "release": "npm run standard-version && npm run reddit-release",
-    "rimraf":"./node_modules/.bin/rimraf",
+    "rimraf": "./node_modules/.bin/rimraf",
     "coveralls": "./node_modules/.bin/coveralls",
     "webpack": "./node_modules/.bin/webpack --progress --profile",
     "webpack-dev-server": "./node_modules/.bin/webpack-dev-server --inline --progress --profile",
@@ -86,7 +86,7 @@
     "tslint": "./node_modules/.bin/tslint",
     "webdriver-manager": "./node_modules/.bin/webdriver-manager",
     "protractor": "./node_modules/.bin/protractor",
-    "karma":"./node_modules/.bin/karma",
+    "karma": "./node_modules/.bin/karma",
     "standard-version": "./node_modules/.bin/standard-version"
   },
   "dependencies": {
@@ -156,6 +156,7 @@
     "sauce-connect-launcher": "^0.17.0",
     "source-map-loader": "^0.1.5",
     "standard-version": "^3.0.0",
+    "svgo-loader": "^1.1.2",
     "tslint": "^3.15.0",
     "webpack": "2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.0",

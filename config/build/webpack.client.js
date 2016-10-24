@@ -38,7 +38,7 @@ module.exports = function(options) {
           options: {'compilerOptions': {'removeComments': !options.dev}},
           exclude: [/\.(spec|e2e)\.ts$/]
         },
-        {test: /\.svg$/, loader: 'raw'}, {test: /\.css$/, loader: 'css?minimize'},
+        {test: /\.svg$/, loader: ['raw-loader', 'svgo-loader']}, {test: /\.css$/, loader: 'css?minimize'},
         {test: /\.json$/, loader: 'json-loader'}
       ]
     },
