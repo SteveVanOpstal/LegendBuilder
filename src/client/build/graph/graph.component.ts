@@ -3,7 +3,7 @@ import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {Samples} from '../samples';
 
 import {DataAxis, TimeAxis} from './axes';
@@ -20,7 +20,7 @@ export interface Path {
   selector: 'graph',
   template: `
     <legend [paths]="paths"></legend>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 1500 400">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1500 400">
       <g transform="translate(60,20)">
         <g class="lines">
           <path *ngFor="let path of paths" [attr.d]="path.d" class="line {{path.name}}" [ngClass]="{enabled: path.enabled, preview: path.preview}"></path>
@@ -69,7 +69,7 @@ export class GraphComponent implements OnInit {
                                })
                                .curve(curveStepAfter);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: BuildService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: DataService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
