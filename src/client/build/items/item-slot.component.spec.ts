@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 
 import {settings} from '../../../../config/settings';
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {StatsService} from '../../services/stats.service';
 
 import {ItemSlotComponent} from './item-slot.component';
@@ -10,7 +10,7 @@ import {ItemsComponent} from './items.component';
 describe('ItemSlotComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
-        {providers: [BuildService, StatsService, ItemsComponent, ItemSlotComponent]});
+        {providers: [DataService, StatsService, ItemsComponent, ItemSlotComponent]});
   });
 
   let item1;

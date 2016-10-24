@@ -1,7 +1,7 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {BuildService} from '../services/build.service';
+import {DataService} from '../services/data.service';
 import {LolApiService} from '../services/lolapi.service';
 import {StatsService} from '../services/stats.service';
 import {MockMockBackend, TestModule} from '../testing';
@@ -14,7 +14,7 @@ describe('BuildComponent', () => {
       providers: [
         {provide: MockBackend, useValue: new MockMockBackend()},
 
-        LolApiService, StatsService, BuildService, BuildComponent
+        LolApiService, StatsService, DataService, BuildComponent
       ],
       imports: [TestModule]
     });

@@ -3,17 +3,17 @@ import {MockBackend} from '@angular/http/testing';
 
 import {MockMockBackend, TestModule} from '../testing';
 
-import {BuildService} from './build.service';
+import {DataService} from './data.service';
 import {LolApiService} from './lolapi.service';
 
 
-describe('BuildService', () => {
+describe('DataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {provide: MockBackend, useValue: new MockMockBackend()},
 
-        LolApiService, BuildService
+        LolApiService, DataService
       ],
       imports: [TestModule]
     });
@@ -31,7 +31,7 @@ describe('BuildService', () => {
     stats: {}
   };
 
-  it('should be notified (subscribe, notify)', inject([BuildService], (service) => {
+  it('should be notified (subscribe, notify)', inject([DataService], (service) => {
        let trigger = jasmine.createSpy('trigger');
        expect(trigger).not.toHaveBeenCalled();
        service.pickedItems.subscribe(trigger);
@@ -40,7 +40,7 @@ describe('BuildService', () => {
        expect(trigger).toHaveBeenCalledWith(item);
      }));
 
-  it('should be notified (notify, subscribe)', inject([BuildService], (service) => {
+  it('should be notified (notify, subscribe)', inject([DataService], (service) => {
        let trigger = jasmine.createSpy('trigger');
        expect(trigger).not.toHaveBeenCalled();
        service.pickedItems.notify(item);
@@ -49,7 +49,7 @@ describe('BuildService', () => {
        expect(trigger).toHaveBeenCalledWith(item);
      }));
 
-  it('should be notified (multiple subscribers)', inject([BuildService], (service) => {
+  it('should be notified (multiple subscribers)', inject([DataService], (service) => {
        let trigger1 = jasmine.createSpy('trigger');
        let trigger2 = jasmine.createSpy('trigger');
        let trigger3 = jasmine.createSpy('trigger');
@@ -68,7 +68,7 @@ describe('BuildService', () => {
        expect(trigger3).toHaveBeenCalledWith(item);
      }));
 
-  it('should not be notified', inject([BuildService], (service) => {
+  it('should not be notified', inject([DataService], (service) => {
        let trigger = jasmine.createSpy('trigger');
        expect(trigger).not.toHaveBeenCalled();
        service.pickedItems.subscribe(trigger);

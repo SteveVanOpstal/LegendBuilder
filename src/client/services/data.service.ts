@@ -7,7 +7,7 @@ type Trigger<T> = (subject: T) => void;
 type Triggers<T> = Array<Trigger<T>>;
 
 export class Observer<T> {
-  private subject: T;
+  public subject: T;
   private triggers: Triggers<T> = [];
 
   subscribe(trigger: Trigger<T>): void {
@@ -28,7 +28,7 @@ export class Observer<T> {
 }
 
 @Injectable()
-export class BuildService {
+export class DataService {
   samples: Observer<Samples> = new Observer<Samples>();
   pickedItems: Observer<Array<Item>> = new Observer<Array<Item>>();
   stats: Observer<Array<any>> = new Observer<Array<any>>();

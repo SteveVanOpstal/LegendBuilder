@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {tim} from '../../shared/tim';
 import {LevelAxisLine, LevelAxisText} from '../graph/axes';
 import {LevelScale} from '../graph/scales';
@@ -40,7 +40,7 @@ export class AbilitiesComponent implements OnInit {
   private xAxisLevelLine = new LevelAxisLine(200);
   private xAxisLevelText = new LevelAxisText(200);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: BuildService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: DataService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');

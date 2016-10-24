@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {Item} from '../item';
 
 import {ItemSlotComponent} from './item-slot.component';
@@ -22,7 +22,7 @@ export class ItemsComponent {
 
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
 
-  constructor(private build: BuildService) {}
+  constructor(private build: DataService) {}
 
   addItemSlotComponent(slot: ItemSlotComponent) {
     this.children.toArray()[slot.id] = slot;

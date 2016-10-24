@@ -1,7 +1,7 @@
 import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {MockElementRef} from '../../testing';
 
 import {AbilitiesComponent} from './abilities.component';
@@ -12,7 +12,7 @@ describe('AbilitiesComponent', () => {
       providers: [
         {provide: ElementRef, useValue: new MockElementRef()},
 
-        AbilitiesComponent, BuildService
+        AbilitiesComponent, DataService
       ]
     });
   });

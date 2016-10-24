@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
-import {BuildService} from '../../services/build.service';
+import {DataService} from '../../services/data.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
@@ -18,7 +18,7 @@ export class ItemSlotComponent implements OnInit {
   private samples: Samples;
   private items: Array<Item> = new Array<Item>();
 
-  constructor(private build: BuildService) {}
+  constructor(private build: DataService) {}
 
   ngOnInit() {
     this.build.samples.subscribe(samples => {

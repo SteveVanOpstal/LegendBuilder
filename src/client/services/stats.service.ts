@@ -5,7 +5,7 @@ import {settings} from '../../../config/settings';
 import {config} from '../build/graph/config';
 import {Item} from '../build/item';
 import {Samples} from '../build/samples';
-import {BuildService} from '../services/build.service';
+import {DataService} from '../services/data.service';
 
 import {LolApiService} from './lolapi.service';
 
@@ -48,7 +48,7 @@ export class StatsService {
   private itemStats: Array<{item: Item, stats: Array<Stat>}>;
   private championStats: Array<Stat>;
 
-  constructor(private router: Router, private build: BuildService, private lolApi: LolApiService) {
+  constructor(private router: Router, private build: DataService, private lolApi: LolApiService) {
     build.pickedItems.subscribe(items => this.processItemStats(items));
     build.samples.subscribe(samples => this.calculateLevelTimeMarks(samples));
     let championKey = this.router.routerState.snapshot.root.children[0].url[3].path;

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {settings} from '../../../config/settings';
-import {BuildService} from '../services/build.service';
+import {DataService} from '../services/data.service';
 import {LolApiService} from '../services/lolapi.service';
 import {StatsService} from '../services/stats.service';
 
@@ -31,7 +31,7 @@ export class BuildComponent implements OnInit {
 
 
   constructor(
-      private route: ActivatedRoute, private stats: StatsService, private build: BuildService,
+      private route: ActivatedRoute, private stats: StatsService, private build: DataService,
       private lolApi: LolApiService) {}
 
   ngOnInit() {

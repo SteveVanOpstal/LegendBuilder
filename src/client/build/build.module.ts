@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
-import {BuildService} from '../services/build.service';
+import {DataService} from '../services/data.service';
 import {StatsService} from '../services/stats.service';
 import {SharedModule} from '../shared/shared.module';
 
@@ -13,7 +13,7 @@ import {MasteriesModule} from './masteries/masteries.module';
 import {ShopModule} from './shop/shop.module';
 
 @NgModule({
-  providers: [StatsService, BuildService],
+  providers: [StatsService, DataService],
   declarations: [BuildComponent, AbilitiesComponent],
   imports: [CommonModule, SharedModule, GraphModule, ItemsModule, MasteriesModule, ShopModule],
   exports: [BuildComponent]
