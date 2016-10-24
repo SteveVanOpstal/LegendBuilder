@@ -14,7 +14,7 @@ import {Samples} from '../samples';
       <img *ngFor="let spell of champion?.spells; let i = index" [id]="spell.image.full" class="ability" [ngClass]="{ult : i == 3}"
         [title]="getExtendedTooltip(i)" [ddragon]="'spell/' + spell.image.full"/>
     </div>-->
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1500 220" width="100%" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 220" width="100%" height="100%">
       <g [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
         <image [id]="spell.image.full" [ddragon]="'spell/' + spell.image.full" [attr.x]="i == 3 ? 0 : 5" [attr.y]="(i * 50)" [attr.height]="i == 3 ? 50 : 40" [attr.width]="i == 3 ? 50 : 40">
           <title>{{getExtendedTooltip(i)}}</title>
