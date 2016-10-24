@@ -49,7 +49,7 @@ module.exports = function(options) {
       /*new webpack.optimize.DedupePlugin(), // TODO: add when webpack/webpack #2644 is fixed */
       new atl.ForkCheckerPlugin(), new atl.TsConfigPathsPlugin(),
       new CompressionPlugin({algorithm: 'gzip', test: /\.js$|\.html$/, threshold: 256}),
-      new CopyWebpackPlugin([{from: 'src/client/assets/images', to: 'images'}]),
+      new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
       new HtmlWebpackPlugin({
         template: 'src/client/index.html',
         title: 'Legend Builder' + options.dev ? ' [DEV]' : '',
