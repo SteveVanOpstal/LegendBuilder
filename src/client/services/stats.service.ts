@@ -4,23 +4,23 @@ import {Router} from '@angular/router';
 import {settings} from '../../../config/settings';
 import {config} from '../build/graph/config';
 import {Item} from '../build/item';
-import {Samples} from '../build/samples';
 import {DataService} from '../services/data.service';
 
 import {LolApiService} from './lolapi.service';
 
-interface Stat {
+export interface Stat {
   name: string;
   value: number;
+  time: number;
   flat: boolean;
   perLevel: boolean;
 }
 
-type Stats = Array<Object>;
+type Stats = Array<Array<number>>;
 
 @Injectable()
 export class StatsService {
-  private levelTimeMarks: Array<number>;
+  levelTimeMarks: Array<number>;
 
   private translator: Object = {
     MPPool: 'MP',
@@ -45,48 +45,74 @@ export class StatsService {
     crit: 'Critical Strike'
   };
 
-  private itemStats: Array<{item: Item, stats: Array<Stat>}>;
-  private championStats: Array<Stat>;
+  private stats: Array<Stat>;
+  private items: Array<Item>;
+  private champion: any;
 
   constructor(private router: Router, private build: DataService, private lolApi: LolApiService) {
-    build.pickedItems.subscribe(items => this.processItemStats(items));
-    build.samples.subscribe(samples => this.calculateLevelTimeMarks(samples));
+    build.pickedItems.subscribe(items => {
+      this.items = items;
+      this.process();
+    });
+    build.samples.subscribe(samples => {
+      let lastXpMark = samples.xp[samples.xp.length - 1];
+      if (!lastXpMark) {
+        return;
+      }
+      this.levelTimeMarks = [];
+      for (let xpMark of config.levelXp) {
+        this.levelTimeMarks.push(Math.round(xpMark / lastXpMark * settings.gameTime));
+      }
+      this.process();
+    });
     let championKey = this.router.routerState.snapshot.root.children[0].url[3].path;
-    this.lolApi.getChampion(championKey).subscribe(res => this.processChampionStats(res));
+    this.lolApi.getChampion(championKey).subscribe(champion => {
+      this.champion = champion;
+      this.process();
+    });
   }
 
-  processItemStats(items: Array<Item>) {
-    this.translateItems(items);
-    this.calculate();
+  private process() {
+    if (!this.levelTimeMarks || this.levelTimeMarks.length <= 0) {
+      return;
+    }
+
+    this.stats = [];
+    this.translateItemStats();
+    this.translateChampionStats();
+
+    let stats = this.calculate();
+
+    stats = this.makeIterable(stats);
+    this.build.stats.notify(stats);
   }
 
-  translateItems(items: Array<Item>) {
-    this.itemStats = [];
-    for (let item of items) {
-      this.translateItem(item);
+  private translateItemStats() {
+    if (this.items) {
+      for (let item of this.items) {
+        this.stats = this.stats.concat(this.translateStats(item.stats, item.time));
+      }
     }
   }
 
-  translateItem(item: Item) {
-    this.itemStats.push({item: item, stats: this.translateStats(item.stats)});
+  private translateChampionStats() {
+    if (this.champion) {
+      this.stats = this.stats.concat(this.translateStats(this.champion.stats));
+    }
   }
 
-  processChampionStats(champion: any) {
-    this.championStats = this.translateStats(champion.stats);
-    this.calculate();
-  }
-
-  translateStats(stats: any): any {
+  private translateStats(stats: any, time: number = 0): any {
     let result = [];
     for (let name in stats) {
       let stat = this.parseName(name);
       stat.value = stats[name];
+      stat.time = time;
       result.push(stat);
     }
     return result;
   }
 
-  parseName(name: string): Stat {
+  private parseName(name: string): Stat {
     if (name.indexOf('r') === 0) {
       name = name.substr(1);
     }
@@ -110,106 +136,109 @@ export class StatsService {
       name = name.substr(0, name.length - 3);
     }
 
-
     let translation = this.translator[name];
     if (translation) {
       name = this.translator[name];
     } else {
       for (let i = 1; i < name.length; i++) {
         let char = name[i];
-        if (char === char.toUpperCase()) {
+        let charPrev = name[i - 1];
+        if (char === char.toUpperCase() && charPrev === charPrev.toLowerCase()) {
           name = name.substr(0, i) + ' ' + name.substr(i);
           i++;
         }
       }
     }
 
-    return {name: name, value: 0, flat: flat, perLevel: perLevel};
+    return {name: name, value: 0, time: 0, flat: flat, perLevel: perLevel};
   }
 
-  calculate() {
+  private calculate(): Stats {
+    if (!this.stats || this.stats.length <= 0) {
+      return [];
+    }
+
+    let statsFlat: Stats = this.getStats(true);
+    let statsPercent: Stats = this.getStats(false);
+
     let stats = [];
-
-    if (this.championStats) {
-      for (let stat of this.championStats) {
-        if (!stats[stat.name]) {
-          stats[stat.name] = {};
-          stats[stat.name][0] = 0;
-        }
+    for (let nameFlat in statsFlat) {
+      let times = Object.keys(statsFlat[nameFlat]);
+      if (statsPercent[nameFlat]) {
+        let timesPercentage = Object.keys(statsPercent[nameFlat]);
+        times = times.concat(timesPercentage);
       }
-      this.calculateStats(this.championStats, stats);
-    }
-
-    if (this.itemStats) {
-      for (let item of this.itemStats) {
-        for (let stat of item.stats) {
-          if (!stats[stat.name]) {
-            stats[stat.name] = {};
-            stats[stat.name][0] = 0;
-          }
-        }
-        this.calculateStats(item.stats, stats, item.item.time);
+      for (let time of times.filter((value, index, array) => {
+             return array.indexOf(value) === index;
+           })) {
+        this.cumulateStats(stats, statsFlat, statsPercent, nameFlat, parseInt(time, 10));
       }
     }
-
-    stats = this.makeIterative(stats);
-    this.build.stats.notify(stats);
+    return stats;
   }
 
-  calculateStats(stats: Array<Stat>, resultStats: Stats, time: number = 0): void {
-    // flat
-    for (let stat of stats) {
-      if (stat.flat) {
+  private getStats(flat: boolean){
+    let result: Stats = [];
+    for (let stat of this.stats) {
+      if (stat.flat === flat) {
         if (stat.perLevel) {
-          this.addStatPerLevel(resultStats, stat, time);
+          this.addStatPerLevel(result, stat.name, stat.value, stat.time);
         } else {
-          this.addStat(resultStats, stat, time);
+          this.addStat(result, stat.name, stat.value, stat.time);
         }
       }
     }
-
-    // percentage
-    for (let stat of stats) {
-      if (!stat.flat) {
-        if (stat.perLevel) {
-          this.addStatPerLevel(resultStats, stat, time);
-        } else {
-          this.addStat(resultStats, stat, time);
-        }
-      }
-    }
+    return result;
   }
 
-  addStatPerLevel(stats: Stats, stat: Stat, time: number = 0) {
+  private addStatPerLevel(stats: Stats, name: string, value: number, time: number) {
     if (this.levelTimeMarks) {
       for (let t of this.levelTimeMarks) {
         if (t >= time) {
-          this.addStat(stats, stat, t);
+          this.addStat(stats, name, value, t);
         }
       }
     }
   }
 
-  addStat(stats: Stats, stat: Stat, time: number) {
-    if (stats[stat.name] && stats[stat.name][time]) {
-      let sample = stats[stat.name][time];
-      stats[stat.name][time] = stat.flat ? sample + stat.value : sample * stat.value;
+  private addStat(stats: Stats, name: string, value: number, time: number) {
+    if (!stats[name]) {
+      stats[name] = {};
+      stats[name][0] = 0;
+    }
+
+    if (stats[name][time]) {
+      let sample = stats[name][time];
+      stats[name][time] = sample + value;
     } else {
-      stats[stat.name][time] = stat.value;
+      stats[name][time] = value;
     }
   }
 
-  calculateLevelTimeMarks(samples: Samples) {
-    let lastXpMark = samples.xp[samples.xp.length - 1];
-    this.levelTimeMarks = [];
-    for (let xpMark of config.levelXp) {
-      this.levelTimeMarks.push(xpMark / lastXpMark * settings.gameTime);
+  private cumulateStats(
+      stats: Stats, statsFlat: Stats, statsPercent: Stats, name: string, time: number) {
+    let valueFlat = this.cumulatedStat(statsFlat, name, time);
+    let valuePercent = this.cumulatedStat(statsPercent, name, time);
+    if (valueFlat > 0) {
+      let value = Math.round((valueFlat * (1 + valuePercent)) * 100) / 100;
+      this.addStat(stats, name, value, time);
     }
-    this.calculate();
   }
 
-  makeIterative(stats: Stats): Array<Array<{time: number, value: number}>> {
-    let result = [];
+  private cumulatedStat(stats: Stats, name: string, time: number) {
+    let value = 0;
+    if (stats[name]) {
+      for (let t in stats[name]) {
+        if (parseInt(t, 10) <= time) {
+          value += stats[name][t];
+        }
+      }
+    }
+    return value;
+  }
+
+  private makeIterable(stats: Stats): any {
+    let result = {};
     for (let name in stats) {
       let arr = Array<{time: number, value: number}>();
       for (let time in stats[name]) {
@@ -218,11 +247,6 @@ export class StatsService {
       arr.sort((a, b) => {
         return a.time > b.time ? 1 : -1;
       });
-      let value = 0;
-      for (let index in arr) {
-        value += arr[index].value;
-        arr[index].value = value;
-      }
       result[name] = arr;
     }
     return result;
