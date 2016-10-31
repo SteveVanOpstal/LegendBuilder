@@ -51,10 +51,6 @@ export class AboutComponent {
         .cache()
         .subscribe(
             res => {
-              // // remove greenkeeperio-bot
-              // res = res.filter((contributor) => {
-              //   return contributor.id !== 14790466;
-              // })
               this.contributors = res;
             },
             null,
