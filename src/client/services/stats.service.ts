@@ -177,7 +177,7 @@ export class StatsService {
     return stats;
   }
 
-  private getStats(flat: boolean){
+  private getStats(flat: boolean) {
     let result: Stats = [];
     for (let stat of this.stats) {
       if (stat.flat === flat) {
