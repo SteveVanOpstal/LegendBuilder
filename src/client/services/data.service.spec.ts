@@ -1,22 +1,13 @@
 import {inject, TestBed} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
 
-import {MockMockBackend, TestModule} from '../testing';
+import {TestModule} from '../testing';
 
 import {DataService} from './data.service';
-import {LolApiService} from './lolapi.service';
 
 
 describe('DataService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, DataService
-      ],
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule({providers: [DataService], imports: [TestModule]});
   });
 
   let item = {

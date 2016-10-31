@@ -5,12 +5,11 @@ import {IconErrorComponent} from '../../assets/icon-error.component';
 import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
-import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
 import {ErrorComponent} from '../../shared/error.component';
 import {LoadingComponent} from '../../shared/loading.component';
 import {RetryComponent} from '../../shared/retry.component';
-import {MockMockBackend, TestModule} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -81,11 +80,7 @@ const masteriesDataAltered = [
 let providers = () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, MasteriesComponent
-      ],
+      providers: [MasteriesComponent],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
         LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
@@ -185,36 +180,19 @@ describe('MasteriesComponent', () => {
   providers();
 
   it('should get masteries',
-     async(inject(
-         [MockBackend, MasteriesComponent, LolApiService],
-         (mockBackend, component: MasteriesComponent, service: LolApiService) => {
-           mockBackend.success(masteriesData);
-
-           component.ngOnInit();
-           return service.getMasteries().subscribe(
-               () => {
-                 expect(component.data).toHaveEqualContent(masteriesDataAltered);
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-         })));
+     async(inject([MockBackend, MasteriesComponent], (backend, component: MasteriesComponent) => {
+       component.ngOnInit();
+       backend.success(masteriesData);
+       expect(component.data).toHaveEqualContent(masteriesDataAltered);
+     })));
 
   it('should not get masteries',
-     async(inject(
-         [MockBackend, MasteriesComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.error();
-
-           spyOn(component, 'transformData');
-           expect(component.transformData).not.toHaveBeenCalled();
-           component.ngOnInit();
-           return service.getMasteries().subscribe(
-               () => {
-                 fail('unexpected success');
-               },
-               () => {
-                 expect(component.transformData).not.toHaveBeenCalled();
-                 expect(component.error).toBeTruthy();
-               });
-         })));
+     async(inject([MockBackend, MasteriesComponent], (backend, component) => {
+       spyOn(component, 'transformData');
+       expect(component.transformData).not.toHaveBeenCalled();
+       component.ngOnInit();
+       backend.error();
+       expect(component.transformData).not.toHaveBeenCalled();
+       expect(component.error).toBeTruthy();
+     })));
 });

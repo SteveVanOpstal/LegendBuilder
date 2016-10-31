@@ -1,21 +1,13 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
 import {LolApiService} from '../services/lolapi.service';
-import {MockMockBackend, TestModule} from '../testing';
+import {TestModule} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService
-      ],
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule({imports: [TestModule]});
   });
 
   it('should get realm data', async(inject([LolApiService], (service) => {
@@ -114,32 +106,17 @@ describe('LolApiService', () => {
      })));
 
   it('should get the correct resolved link to the static-server',
-     async(inject([LolApiService], (service) => {
-       service.getUrl(region => service.linkStaticData(region))
-           .subscribe(
-               (urlResolved) => {
-                 expect(urlResolved)
-                     .toBe(
-                         'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
-                         '/static-data/euw/v1.2');
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-     })));
+     inject([LolApiService], (service) => {
+       expect(service.linkStaticData('region'))
+           .toBe(
+               'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
+               '/static-data/region/v1.2');
+     }));
 
   it('should get the correct resolved link to the match-server',
-     async(inject([LolApiService], (service) => {
-       service.getUrl(region => service.linkMatchData(region))
-           .subscribe(
-               (urlResolved) => {
-                 expect(urlResolved)
-                     .toBe(
-                         'http://' + settings.matchServer.host + ':' + settings.matchServer.port +
-                         '/euw');
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-     })));
+     inject([LolApiService], (service) => {
+       expect(service.linkMatchData('region'))
+           .toBe(
+               'http://' + settings.matchServer.host + ':' + settings.matchServer.port + '/region');
+     }));
 });

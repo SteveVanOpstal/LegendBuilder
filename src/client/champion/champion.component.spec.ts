@@ -1,21 +1,14 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {LolApiService} from '../services/lolapi.service';
-import {MockMockBackend, TestModule} from '../testing';
+import {TestModule} from '../testing';
 
 import {ChampionComponent} from './champion.component';
 
+
 describe('ChampionComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, ChampionComponent
-      ],
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule({providers: [ChampionComponent], imports: [TestModule]});
   });
 
   it('should call getData() on contruct', inject([ChampionComponent], (component) => {
@@ -26,37 +19,22 @@ describe('ChampionComponent', () => {
      }));
 
   it('should get champions',
-     async(inject(
-         [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.success();
-
-           expect(component.champions).not.toBeDefined();
-           component.getData();
-           return service.getChampions().subscribe(
-               () => {
-                 expect(component.champions).toBeDefined();
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-         })));
+     async(inject([MockBackend, ChampionComponent], (backend, component) => {
+       expect(component.champions).not.toBeDefined();
+       component.getData();
+       backend.success();
+       expect(component.champions).toBeDefined();
+       expect(component.error).toBeFalsy();
+     })));
 
   it('should not get champions',
-     async(inject(
-         [MockBackend, ChampionComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.error();
-
-           expect(component.champions).not.toBeDefined();
-           component.getData();
-           return service.getChampions().subscribe(
-               () => {
-                 fail('unexpected success');
-               },
-               () => {
-                 expect(component.champions).not.toBeDefined();
-                 expect(component.error).toBeTruthy();
-               });
-         })));
+     async(inject([MockBackend, ChampionComponent], (backend, component) => {
+       expect(component.champions).not.toBeDefined();
+       component.getData();
+       backend.error();
+       expect(component.champions).not.toBeDefined();
+       expect(component.error).toBeTruthy();
+     })));
 
   it('should navigate when \'Enter\' is hit and one champion is available',
      inject([ChampionComponent], (component) => {

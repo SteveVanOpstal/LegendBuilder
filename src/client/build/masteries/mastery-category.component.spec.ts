@@ -1,10 +1,8 @@
 import {TestBed} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
-import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
-import {MockMockBackend, TestModule} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -28,11 +26,7 @@ const data = {
 describe('MasteryCategoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, MasteryCategoryComponent
-      ],
+      providers: [MasteryCategoryComponent],
       declarations: [
         MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
         DDragonDirective

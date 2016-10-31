@@ -1,10 +1,10 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {LolApiService} from '../../services/lolapi.service';
-import {MockMockBackend, TestModule} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {ShopComponent} from './shop.component';
+
 
 class MockEvent {
   public target: any;
@@ -12,14 +12,7 @@ class MockEvent {
 
 describe('ShopComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, ShopComponent
-      ],
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule({providers: [ShopComponent], imports: [TestModule]});
   });
 
   // let pickedItem1 = {id: 1, group: 'PinkWards'};
@@ -30,49 +23,30 @@ describe('ShopComponent', () => {
     groups: [{MaxGroupOwnable: 2, key: 'PinkWards'}, {MaxGroupOwnable: -1, key: 'DoransItems'}]
   };
 
-  it('should get data',
-     inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
+  it('should get data', inject([MockBackend, ShopComponent], (backend, component) => {
        spyOn(component, 'getData');
        expect(component.getData).not.toHaveBeenCalled();
        component.ngOnInit();
        expect(component.getData).toHaveBeenCalled();
      }));
 
-  it('should get items',
-     async(
-         inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.success();
+  it('should get items', async(inject([MockBackend, ShopComponent], (backend, component) => {
+       expect(component.items).toHaveEqualContent([]);
+       expect(component.originalItems).toHaveEqualContent([]);
+       component.getData();
+       backend.success();
+       expect(component.items).not.toHaveEqualContent({});
+       expect(component.originalItems).not.toHaveEqualContent({});
+     })));
 
-           expect(component.items).toHaveEqualContent([]);
-           expect(component.originalItems).toHaveEqualContent([]);
-           component.getData();
-           service.getItems().subscribe(
-               () => {
-                 expect(component.items).not.toHaveEqualContent({});
-                 expect(component.originalItems).not.toHaveEqualContent({});
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-         })));
-
-  it('should not get items',
-     async(
-         inject([MockBackend, ShopComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.error();
-
-           expect(component.items).toHaveEqualContent([]);
-           expect(component.originalItems).toHaveEqualContent([]);
-           component.getData();
-           service.getItems().subscribe(
-               () => {
-                 fail('unexpected success');
-               },
-               () => {
-                 expect(component.items).toHaveEqualContent([]);
-                 expect(component.originalItems).toHaveEqualContent([]);
-               });
-         })));
+  it('should not get items', async(inject([MockBackend, ShopComponent], (backend, component) => {
+       expect(component.items).toHaveEqualContent([]);
+       expect(component.originalItems).toHaveEqualContent([]);
+       component.getData();
+       backend.error();
+       expect(component.items).toHaveEqualContent([]);
+       expect(component.originalItems).toHaveEqualContent([]);
+     })));
 
   it('should add tags', inject([ShopComponent, Event], (component, event) => {
        expect(component.tags).not.toContain('HEALTH');

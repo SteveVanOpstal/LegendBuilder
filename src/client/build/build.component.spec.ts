@@ -2,22 +2,15 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
 import {DataService} from '../services/data.service';
-import {LolApiService} from '../services/lolapi.service';
 import {StatsService} from '../services/stats.service';
-import {MockMockBackend, TestModule} from '../testing';
+import {TestModule} from '../testing';
 
 import {BuildComponent} from './build.component';
 
 describe('BuildComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService, StatsService, DataService, BuildComponent
-      ],
-      imports: [TestModule]
-    });
+    TestBed.configureTestingModule(
+        {providers: [StatsService, DataService, BuildComponent], imports: [TestModule]});
   });
 
 
@@ -44,70 +37,38 @@ describe('BuildComponent', () => {
      }));
 
   it('should handle a champion request',
-     async(
-         inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.success();
-
-           expect(component.champion).not.toBeDefined();
-           component.getData();
-           return service.getChampion('VelKoz').subscribe(
-               () => {
-                 expect(component.champion).toBeDefined();
-               },
-               () => {
-                 fail('unexpected failure');
-               });
-         })));
+     async(inject([MockBackend, BuildComponent], (backend, component) => {
+       expect(component.champion).not.toBeDefined();
+       component.getData();
+       backend.success();
+       expect(component.champion).toBeDefined();
+     })));
 
   it('should handle a champion error',
-     async(
-         inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           mockBackend.error();
-
-           expect(component.champion).not.toBeDefined();
-           component.getData();
-           return service.getChampion('VelKoz').subscribe(
-               () => {
-                 fail('unexpected success');
-               },
-               () => {
-                 expect(component.champion).not.toBeDefined();
-                 expect(component.error).toBeTruthy();
-               });
-         })));
+     async(inject([MockBackend, BuildComponent], (backend, component) => {
+       expect(component.champion).not.toBeDefined();
+       component.getData();
+       backend.error();
+       expect(component.champion).not.toBeDefined();
+       expect(component.error).toBeTruthy();
+     })));
 
   it('should handle a match request',
-     async(
-         inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           let samples = {xp: [0, 1], gold: [0, 1]};
-           mockBackend.success(samples);
-
-           component.getMatchData('');
-           return service.getMatchData('', '', 0, 0)
-               .subscribe(
-                   () => {
-                     component.build.samples.subscribe((result) => {
-                       expect(result).toHaveEqualContent(samples);
-                     });
-                   },
-                   () => {
-                     fail('unexpected failure');
-                   });
-         })));
+     async(inject([MockBackend, BuildComponent], (backend, component) => {
+       let samples = {xp: [0, 1], gold: [0, 1]};
+       component.getMatchData('');
+       backend.success(samples);
+       component.build.samples.subscribe((result) => {
+         expect(result).toHaveEqualContent(samples);
+       });
+     })));
 
   it('should handle a match error',
-     async(
-         inject([MockBackend, BuildComponent, LolApiService], (mockBackend, component, service) => {
-           component.getMatchData('');
-           return service.getMatchData('', '', 0, 0)
-               .subscribe(
-                   () => {
-                     fail('unexpected success');
-                   },
-                   () => {
-                     component.build.samples.subscribe(() => {
-                       expect(component.error).toBeTruthy();
-                     });
-                   });
-         })));
+     async(inject([MockBackend, BuildComponent], (backend, component) => {
+       component.getMatchData('');
+       backend.error();
+       component.build.samples.subscribe(() => {
+         expect(component.error).toBeTruthy();
+       });
+     })));
 });

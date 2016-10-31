@@ -1,11 +1,9 @@
 import {TestBed} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
 
 import {Colors} from '../../assets/icon-rank.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
-import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
-import {MockMockBackend, TestModule} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {MasteryComponent} from './mastery.component';
 
@@ -19,11 +17,6 @@ const data = {
 describe('MasteryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {provide: MockBackend, useValue: new MockMockBackend()},
-
-        LolApiService
-      ],
       declarations: [MasteryComponent, IconRankComponent, DDragonDirective],
       imports: [TestModule]
     });
