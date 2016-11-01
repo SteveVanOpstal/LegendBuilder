@@ -49,12 +49,12 @@ export class StatsService {
   private items: Array<Item>;
   private champion: any;
 
-  constructor(private router: Router, private build: DataService, private lolApi: LolApiService) {
-    build.pickedItems.subscribe(items => {
+  constructor(private router: Router, private data: DataService, private lolApi: LolApiService) {
+    data.pickedItems.subscribe(items => {
       this.items = items;
       this.process();
     });
-    build.samples.subscribe(samples => {
+    data.samples.subscribe(samples => {
       let lastXpMark = samples.xp[samples.xp.length - 1];
       if (!lastXpMark) {
         return;
@@ -84,7 +84,7 @@ export class StatsService {
     let stats = this.calculate();
 
     stats = this.makeIterable(stats);
-    this.build.stats.notify(stats);
+    this.data.stats.notify(stats);
   }
 
   private translateItemStats() {
@@ -247,6 +247,8 @@ export class StatsService {
       arr.sort((a, b) => {
         return a.time > b.time ? 1 : -1;
       });
+      var last = arr[arr.length - 1];
+      arr.push({time: settings.gameTime, value: last.value});
       result[name] = arr;
     }
     return result;
