@@ -3,16 +3,14 @@ import {inject, TestBed} from '@angular/core/testing';
 import {ChampionPipe} from './champion.pipe';
 
 describe('Shop ChampionPipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [ChampionPipe]});
-  });
-
   let items = [];
   let item1 = {};
   let item2 = {};
   let item3 = {};
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [ChampionPipe]});
+
     item1 = {id: 1, requiredChampion: 5};
     item2 = {id: 2, requiredChampion: 3};
     item3 = {id: 3};

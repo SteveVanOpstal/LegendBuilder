@@ -15,15 +15,14 @@ const data = {
 };
 
 describe('MasteryComponent', () => {
+  let component: MasteryComponent;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MasteryComponent, IconRankComponent, DDragonDirective],
       imports: [TestModule]
     });
-  });
 
-  let component: MasteryComponent;
-  beforeEach(() => {
     let fixture = TestBed.createComponent(MasteryComponent);
     component = fixture.componentInstance;
     component.data = data;
