@@ -63,12 +63,7 @@ function addCommonProviders<T>(elementRefType: {new (): T}) {
 
 xdescribe('DDragonDirective:style', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: ElementRef, useValue: new MockImageElementRef()}, DDragonDirective, LolApiService
-      ],
-      imports: [TestModule]
-    });
+    addCommonProviders(MockImageElementRef);
   });
 
   beforeEach(inject([DDragonDirective], (directive) => {
@@ -81,7 +76,6 @@ xdescribe('DDragonDirective:style', () => {
        directive.ngOnInit();
        backend.success(realm);
        expect(directive.el.nativeElement.getAttribute('style')).toBe(directive.defaultImg);
-       expect(true).toBeTruthy();
      }));
 
   it('should set requested image',

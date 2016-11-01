@@ -1,14 +1,12 @@
-import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
-import {MockElementRef} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {ItemComponent} from './item.component';
 
 describe('ItemComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule(
-        {providers: [ItemComponent, {provide: ElementRef, useValue: new MockElementRef()}]});
+    TestBed.configureTestingModule({providers: [ItemComponent], imports: [TestModule]});
   });
 
   it('should be initialised', inject([ItemComponent], (component) => {

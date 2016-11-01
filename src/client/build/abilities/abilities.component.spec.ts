@@ -1,20 +1,14 @@
-import {ElementRef} from '@angular/core';
 import {inject, TestBed} from '@angular/core/testing';
 
 import {DataService} from '../../services/data.service';
-import {MockElementRef} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {AbilitiesComponent} from './abilities.component';
 
 describe('AbilitiesComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: ElementRef, useValue: new MockElementRef()},
-
-        AbilitiesComponent, DataService
-      ]
-    });
+    TestBed.configureTestingModule(
+        {providers: [AbilitiesComponent, DataService], imports: [TestModule]});
   });
 
   beforeEach(inject([AbilitiesComponent], (component) => {
