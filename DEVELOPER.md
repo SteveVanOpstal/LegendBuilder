@@ -95,11 +95,3 @@ A plugin for VSCode is available: [xaver.clang-format](https://marketplace.visua
 npm install clang-format -g
 ext install clang-format
 ```
-
-Possible settings (windows):
-```JSON
-{
-  "clang-format.executable": "%USERPROFILE%/AppData/Roaming/npm/node_modules/clang-format/bin/win32/clang-format",
-  "clang-format.style": ".clang-format"
-}
-```
