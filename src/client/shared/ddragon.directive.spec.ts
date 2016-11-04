@@ -85,7 +85,8 @@ xdescribe('DDragonDirective:style', () => {
        backend.success(realm);
        expect(directive.el.nativeElement.getAttribute('style'))
            .toBe(
-               'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 1px 1px;');
+               'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png)\
+ 1px 1px;');
      })));
 });
 
@@ -142,7 +143,8 @@ describe('DDragonDirective', () => {
   it('should create a correct style string', inject([DDragonDirective], (directive) => {
        let result = directive.buildStyle('test.png', realm, 0, 0);
        expect(result).toBe(
-           'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png) 0px 0px;');
+           'background:url(http://ddragon.leagueoflegends.com/cdn/[realm-version]/img/test.png)\
+ 0px 0px;');
      }));
 
   it('should use a default url when image or realm is unavailable',
