@@ -12,11 +12,17 @@ import {Samples} from '../samples';
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 220" width="100%" height="100%">
       <g [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
-        <image [id]="spell.image.full" [ddragon]="'spell/' + spell.image.full" [attr.x]="i == 3 ? 0 : 5" [attr.y]="(i * 50)" [attr.height]="i == 3 ? 50 : 40" [attr.width]="i == 3 ? 50 : 40">
+        <image [id]="spell.image.full"
+               [ddragon]="'spell/' + spell.image.full"
+               [attr.x]="i == 3 ? 0 : 5"
+               [attr.y]="(i * 50)"
+               [attr.height]="i == 3 ? 50 : 40"
+               [attr.width]="i == 3 ? 50 : 40">
           <title>{{getExtendedTooltip(i)}}</title>
         </image>
         <g fill="gray">
-          <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30"></rect>
+          <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30">
+          </rect>
         </g>
       </g>
       <g transform="translate(60,0)">

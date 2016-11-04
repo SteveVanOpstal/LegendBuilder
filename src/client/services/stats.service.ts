@@ -247,7 +247,7 @@ export class StatsService {
       arr.sort((a, b) => {
         return a.time > b.time ? 1 : -1;
       });
-      var last = arr[arr.length - 1];
+      let last = arr[arr.length - 1];
       arr.push({time: settings.gameTime, value: last.value});
       result[name] = arr;
     }

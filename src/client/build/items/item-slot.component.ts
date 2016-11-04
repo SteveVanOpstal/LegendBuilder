@@ -9,7 +9,8 @@ import {Samples} from '../samples';
   selector: 'item-slot',
   template: `
     <template ngFor let-item [ngForOf]="items">
-      <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)"></item>
+      <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)">
+      </item>
     </template>`
 })
 

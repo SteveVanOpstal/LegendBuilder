@@ -12,7 +12,9 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
         <p class="noselect">{{category.header | translate | capitalize}}</p>
         <hr>
         <label *ngFor="let tag of category.tags">
-          <input *ngIf="tag != '_SORTINDEX'" type="checkbox" value="{{tag}}" (change)="tagChanged($event)">
+          <input *ngIf="tag != '_SORTINDEX'"
+                 type="checkbox" value="{{tag}}"
+                 (change)="tagChanged($event)">
           <span *ngIf="tag != '_SORTINDEX'">{{tag | translate | capitalize}}</span>
         </label>
       </div>
@@ -26,15 +28,24 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
           </button>
         </div>
         <div class="items">
-          <template ngFor let-item [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
-            <item [item]="item" [ngClass]="{disabled: item.disabled}" [attr.title]="item.description" (click)="selectItem(item)" (contextmenu)="pickItem(item)"></item>
+          <template ngFor let-item
+                    [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
+            <item [item]="item"
+                  [ngClass]="{disabled: item.disabled}"
+                  [attr.title]="item.description"
+                  (click)="selectItem(item)"
+                  (contextmenu)="pickItem(item)">
+            </item>
           </template>
           <loading [loading]="loading"></loading>
           <retry [error]="error" (retry)="getData()"></retry>
         </div>
       </div>
       <div class="right">
-        <preview [item]="pickedItem" [items]="items | map:11 | champion:123" (itemPicked)="pickItem(item)"></preview>
+        <preview [item]="pickedItem"
+                 [items]="items | map:11 | champion:123"
+                 (itemPicked)="pickItem(item)">
+        </preview>
       </div>
     </div>`
 })

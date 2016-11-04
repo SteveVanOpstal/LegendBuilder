@@ -14,7 +14,8 @@ import {TagsPipe} from './pipes/tags.pipe';
   styles: [require('./champion.css').toString()],
   template: `
     <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
-    <div class="champion" *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
+    <div class="champion"
+         *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
       <a id="{{champion.id}}" [routerLink]="[champion.key]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">

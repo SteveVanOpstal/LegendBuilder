@@ -9,7 +9,11 @@ export class Colors {
 @Component({
   selector: 'icon-rank',
   template: `
-    <svg xmlns="http://www.w3.org/2000/svg" *ngIf="maxRank > 1" class="rank" width="30" height="16" xmlns="http://www.w3.org/2000/svg">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         *ngIf="maxRank > 1"
+         class="rank"
+         width="30"
+         height="16">
       <defs>
         <radialGradient cy="10%" fy="0%" id="radialGradient">
           <stop offset="0%" [attr.stop-color]="color"/>
@@ -19,7 +23,9 @@ export class Colors {
       <rect x="0" y="0" width="30" height="16"/>
       <rect x="7" y="1" width="16" height="14" opacity="0.7" fill="url(#radialGradient)"/>
       <rect x="1" y="1" width="28" height="14" [attr.stroke]="color" fill="none" stroke-width="1"/>
-      <text x="15" y="12" [attr.fill]="color" text-anchor="middle" font-size="12">{{rank + '/' + maxRank}}</text>
+      <text x="15" y="12" [attr.fill]="color" text-anchor="middle" font-size="12">
+        {{rank + '/' + maxRank}}
+      </text>
     </svg>`
 })
 

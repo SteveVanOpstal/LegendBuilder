@@ -1,4 +1,5 @@
-import {MockHostResponseFailure, MockHostResponseSuccess, MockServer, MockServerResponse} from '../testing';
+import {MockHostResponseFailure, MockHostResponseSuccess} from '../testing';
+import {MockServer, MockServerResponse} from '../testing';
 
 import {Summoner} from './summoner';
 

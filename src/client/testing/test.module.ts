@@ -6,7 +6,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../services/lolapi.service';
 
-import {MockActivatedRoute, MockElementRef, MockEvent, MockKeyboardEvent, MockMockBackend, MockRouter} from './';
+import {MockActivatedRoute, MockElementRef, MockEvent} from './';
+import {MockKeyboardEvent, MockMockBackend, MockRouter} from './';
 
 @NgModule({
   providers: [

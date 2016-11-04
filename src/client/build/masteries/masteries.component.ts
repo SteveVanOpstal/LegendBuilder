@@ -9,7 +9,12 @@ import {MasteryComponent} from './mastery.component';
 @Component({
   selector: 'masteries',
   template: `
-    <mastery-category [class]="category.name + ' noselect'" [data]="category" *ngFor="let category of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery-category>
+    <mastery-category [class]="category.name + ' noselect'"
+                      [data]="category"
+                      *ngFor="let category of data"
+                      (rankAdded)="rankAdd($event)"
+                      (rankRemoved)="rankRemove($event)">
+    </mastery-category>
     <loading [loading]="loading"></loading>
     <retry [error]="error" (retry)="getData()"></retry>`
 })

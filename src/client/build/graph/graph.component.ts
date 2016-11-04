@@ -23,7 +23,11 @@ export interface Path {
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1500 400">
       <g transform="translate(60,20)">
         <g class="lines">
-          <path *ngFor="let path of paths" [attr.d]="path.d" class="line {{path.name}}" [ngClass]="{enabled: path.enabled, preview: path.preview}"></path>
+          <path *ngFor="let path of paths"
+                [attr.d]="path.d"
+                class="line {{path.name}}"
+                [ngClass]="{enabled: path.enabled, preview: path.preview}">
+          </path>
         </g>
         <g class="axes">
           <g class="x axis time" transform="translate(0,380)"></g>

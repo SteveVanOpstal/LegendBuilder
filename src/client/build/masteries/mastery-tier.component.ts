@@ -10,7 +10,12 @@ type EventData = {
 @Component({
   selector: 'mastery-tier',
   template: `
-    <mastery [data]="mastery" [enabled]="index == 0" *ngFor="let mastery of data" (rankAdded)="rankAdd($event)" (rankRemoved)="rankRemove($event)"></mastery>`
+    <mastery [data]="mastery"
+             [enabled]="index == 0"
+             *ngFor="let mastery of data"
+             (rankAdded)="rankAdd($event)"
+             (rankRemoved)="rankRemove($event)">
+    </mastery>`
 })
 
 export class MasteryTierComponent {

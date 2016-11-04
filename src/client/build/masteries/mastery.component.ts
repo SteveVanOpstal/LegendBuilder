@@ -5,7 +5,11 @@ import {Colors} from '../../assets/icon-rank.component';
 @Component({
   selector: 'mastery',
   template: `
-    <div *ngIf="data" [ngClass]="{enabled: enabled, active: active}" (click)="clicked()" (contextmenu)="rightClicked()" (dragend)="dragEnd()">
+    <div *ngIf="data"
+         [ngClass]="{enabled: enabled, active: active}"
+         (click)="clicked()"
+         (contextmenu)="rightClicked()"
+         (dragend)="dragEnd()">
       <icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></icon-rank>
       <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
       <div class="description">

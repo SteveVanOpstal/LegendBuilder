@@ -129,7 +129,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
 * We follow [Google's JavaScript Style Guide][js-style-guide], but wrap all code at
-  **200 characters**. An automated formatter is available, see
+  **100 characters**. An automated formatter is available, see
   [DEVELOPER.md](DEVELOPER.md#clang-format).
 
 ## <a name="commit"></a> Commit Message Guidelines

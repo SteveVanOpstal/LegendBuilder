@@ -8,7 +8,11 @@ import {ItemBundle} from './item-bundle';
   template: `
     <div class="into">
       <template ngFor let-item [ngForOf]="itemsInto">
-        <item [item]="item" [attr.title]="item.name" (itemSelected)="selectItem(item)" (itemPicked)="itemPicked"></item>
+        <item [item]="item"
+              [attr.title]="item.name"
+              (itemSelected)="selectItem(item)"
+              (itemPicked)="itemPicked">
+        </item>
       </template>
     </div>
     <div class="tree">
@@ -18,7 +22,10 @@ import {ItemBundle} from './item-bundle';
       </div>
       <div class="from">
         <hr *ngIf="itemsFrom?.length" class="down">
-        <items-from [items]="itemsFrom" (itemSelected)="selectItem($event)" (itemPicked)="itemPicked"></items-from>
+        <items-from [items]="itemsFrom"
+                    (itemSelected)="selectItem($event)"
+                    (itemPicked)="itemPicked">
+        </items-from>
       </div>
       <p class="description">{{item?.description}}</p>
     </div>`
