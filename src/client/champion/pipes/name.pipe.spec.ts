@@ -3,13 +3,11 @@ import {inject, TestBed} from '@angular/core/testing';
 import {NamePipe} from './name.pipe';
 
 describe('NamePipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [NamePipe]});
-  });
-
   let champions = [];
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [NamePipe]});
+
     champions = [{name: 'Amumu'}, {name: 'Ahri'}, {name: 'Vel\'Koz'}];
   });
 

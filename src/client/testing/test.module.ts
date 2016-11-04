@@ -1,16 +1,18 @@
 import {NgModule} from '@angular/core';
+import {ElementRef} from '@angular/core';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../services/lolapi.service';
 
-import {MockActivatedRoute, MockEvent, MockKeyboardEvent, MockMockBackend, MockRouter} from './';
+import {MockActivatedRoute, MockElementRef, MockEvent, MockKeyboardEvent, MockMockBackend, MockRouter} from './';
 
 @NgModule({
   providers: [
     {provide: ActivatedRoute, useValue: new MockActivatedRoute()},
     {provide: MockBackend, useValue: new MockMockBackend()},
+    {provide: ElementRef, useValue: new MockElementRef()},
     {provide: Router, useValue: new MockRouter()},
 
     BaseRequestOptions, {

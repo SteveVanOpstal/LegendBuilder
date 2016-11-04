@@ -3,16 +3,14 @@ import {inject, TestBed} from '@angular/core/testing';
 import {TagsPipe} from './tags.pipe';
 
 describe('Shop TagsPipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [TagsPipe]});
-  });
-
   let items = [];
   let item1 = {};
   let item2 = {};
   let item3 = {};
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [TagsPipe]});
+
     item1 = {id: 1, tags: ['CooldownReduction', 'Health']};
     item2 = {id: 2, tags: ['Armor', 'Health']};
     item3 = {id: 3};

@@ -3,10 +3,6 @@ import {inject, TestBed} from '@angular/core/testing';
 import {SortPipe} from './sort.pipe';
 
 describe('SortPipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [SortPipe]});
-  });
-
   let champions = [];
   let champion1 = {id: 1, name: 'Amumu', info: {attack: 1, magic: 8, defense: 6, difficulty: 3}};
   let champion2 = {id: 2, name: 'Ahri', info: {attack: 3, magic: 8, defense: 4, difficulty: 5}};
@@ -17,6 +13,7 @@ describe('SortPipe', () => {
   };
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [SortPipe]});
     champions = [champion1, champion2, champion3];
   });
 

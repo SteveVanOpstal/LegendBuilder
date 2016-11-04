@@ -24,6 +24,8 @@ const data = {
 };
 
 describe('MasteryCategoryComponent', () => {
+  let component: MasteryCategoryComponent;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MasteryCategoryComponent],
@@ -33,10 +35,7 @@ describe('MasteryCategoryComponent', () => {
       ],
       imports: [TestModule]
     });
-  });
 
-  let component: MasteryCategoryComponent;
-  beforeEach(() => {
     let fixture = TestBed.createComponent(MasteryCategoryComponent);
     component = fixture.componentInstance;
     component.data = data;

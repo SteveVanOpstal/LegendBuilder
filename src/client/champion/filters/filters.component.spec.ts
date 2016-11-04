@@ -1,19 +1,12 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {MockEvent, MockKeyboardEvent} from '../../testing';
+import {TestModule} from '../../testing';
 
 import {FiltersComponent} from './filters.component';
 
 describe('FiltersComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {provide: Event, useValue: new MockEvent()},
-        {provide: KeyboardEvent, useValue: new MockKeyboardEvent()},
-
-        FiltersComponent
-      ]
-    });
+    TestBed.configureTestingModule({providers: [FiltersComponent], imports: [TestModule]});
   });
 
   it('should not emit tagsChange on incorrect event',

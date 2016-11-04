@@ -69,21 +69,22 @@ export class GraphComponent implements OnInit {
                                })
                                .curve(curveStepAfter);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: DataService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private data: DataService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
 
-    this.build.stats.subscribe((stats) => {
-      this.stats = stats;
-      this.createPaths();
-    });
-    this.build.samples.subscribe((samples: Samples) => {
+    this.data.samples.subscribe((samples: Samples) => {
       this.samples = samples;
       if (this.svg) {
         this.createPaths();
       }
+    });
+
+    this.data.stats.subscribe((stats) => {
+      this.stats = stats;
+      this.createPaths();
     });
   }
 

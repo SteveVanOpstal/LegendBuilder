@@ -3,10 +3,6 @@ import {inject, TestBed} from '@angular/core/testing';
 import {MapPipe} from './map.pipe';
 
 describe('Shop MapPipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [MapPipe]});
-  });
-
   let items = [];
   let item1 = {};
   let item2 = {};
@@ -14,6 +10,8 @@ describe('Shop MapPipe', () => {
   let item4 = {};
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [MapPipe]});
+
     item1 = {id: 1, maps: {1: true}};
     item2 = {id: 2, maps: {1: true, 2: true}};
     item3 = {id: 3, maps: {1: false}};

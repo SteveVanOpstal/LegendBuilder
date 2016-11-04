@@ -3,16 +3,14 @@ import {inject, TestBed} from '@angular/core/testing';
 import {HidePipe} from './hide.pipe';
 
 describe('Shop HidePipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [HidePipe]});
-  });
-
   let items = [];
   let item1 = {};
   let item2 = {};
   let item3 = {};
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [HidePipe]});
+
     item1 = {id: 1, hideFromAll: true};
     item2 = {id: 2, hideFromAll: false};
     item3 = {id: 3};

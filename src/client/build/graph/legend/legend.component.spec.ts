@@ -2,7 +2,7 @@ import {inject, TestBed} from '@angular/core/testing';
 
 import {LegendComponent} from './legend.component';
 
-describe('GraphComponent', () => {
+describe('LegendComponent', () => {
   let path1;
   let path2;
 

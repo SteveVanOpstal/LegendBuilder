@@ -13,16 +13,15 @@ const data = [
 ];
 
 describe('MasteryTierComponent', () => {
+  let component: MasteryTierComponent;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MasteryTierComponent],
       declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonDirective],
       imports: [TestModule]
     });
-  });
 
-  let component: MasteryTierComponent;
-  beforeEach(() => {
     let fixture = TestBed.createComponent(MasteryTierComponent);
     component = fixture.componentInstance;
     component.data = data;

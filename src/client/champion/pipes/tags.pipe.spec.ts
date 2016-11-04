@@ -3,16 +3,14 @@ import {inject, TestBed} from '@angular/core/testing';
 import {TagsPipe} from './tags.pipe';
 
 describe('TagsPipe', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [TagsPipe]});
-  });
-
   let champions = [];
   let champion1 = {name: 'Amumu', tags: ['Tank', 'Mage']};
   let champion2 = {name: 'Ahri', tags: ['Mage', 'Assassin']};
   let champion3 = {name: 'Tryndamere', tags: ['Fighter', 'Melee', 'Assassin']};
 
   beforeEach(() => {
+    TestBed.configureTestingModule({providers: [TagsPipe]});
+
     champions = [champion1, champion2, champion3];
   });
 
