@@ -9,7 +9,6 @@ enum AttributeType {
 }
 
 @Directive({selector: '[ddragon]'})
-
 export class DDragonDirective implements OnInit, OnChanges {
   @Input('ddragon') image: string;
   @Input() x: number = -1;

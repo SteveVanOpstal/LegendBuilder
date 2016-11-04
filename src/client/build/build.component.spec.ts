@@ -13,7 +13,6 @@ describe('BuildComponent', () => {
         {providers: [StatsService, DataService, BuildComponent], imports: [TestModule]});
   });
 
-
   it('should be initialised', inject([BuildComponent], (component) => {
        component.ngOnInit();
        expect(component.championKey).toBe('VelKoz');

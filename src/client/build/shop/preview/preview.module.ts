@@ -7,7 +7,6 @@ import {ItemComponent} from './item.component';
 import {ItemsFromComponent} from './items-from.component';
 import {PreviewComponent} from './preview.component';
 
-
 @NgModule({
   declarations: [PreviewComponent, ItemsFromComponent, ItemComponent],
   imports: [CommonModule, SharedModule],

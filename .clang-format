@@ -1,9 +1,3 @@
 Language:                                   JavaScript
 BasedOnStyle:                               Google
 ColumnLimit:                                100
-AllowAllParametersOfDeclarationOnNextLine:  false
-AllowShortBlocksOnASingleLine:              false
-AllowShortCaseLabelsOnASingleLine:          false
-AllowShortFunctionsOnASingleLine:           Empty
-AllowShortIfStatementsOnASingleLine:        false
-AllowShortLoopsOnASingleLine:               false

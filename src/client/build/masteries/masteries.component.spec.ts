@@ -16,7 +16,6 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
-
 // class MockMasteryCategoryComponent extends MasteryCategoryComponent {
 //   public rank: number = 0;
 //   public enabled: boolean = false;

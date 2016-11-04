@@ -29,7 +29,6 @@ export class BuildComponent implements OnInit {
   private loading: boolean = true;
   private error: boolean = false;
 
-
   constructor(
       private route: ActivatedRoute, private stats: StatsService, private build: DataService,
       private lolApi: LolApiService) {}

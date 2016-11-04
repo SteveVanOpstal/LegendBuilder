@@ -16,13 +16,15 @@ try {
   window.CustomEvent = CustomEvent;  // expose definition to window
 }
 
-
 // * Angular *
-// TODO: wait for Angular to add shims_for_ie.js to a package and import it here.
-//       or add dependencies to the packages mentioned below (@source) and import them here.
+// TODO: wait for Angular to add shims_for_ie.js to a package and import it
+// here.
+//       or add dependencies to the packages mentioned below (@source) and
+//       import them here.
 
 // function.name (all IE)
-/*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
+/*! @source
+ * http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
 if (!Object.hasOwnProperty('name')) {
   Object.defineProperty(Function.prototype, 'name', {
     get: function() {
@@ -37,7 +39,8 @@ if (!Object.hasOwnProperty('name')) {
 }
 
 // URL polyfill for SystemJS (all IE)
-/*! @source https://github.com/ModuleLoader/es6-module-loader/blob/master/src/url-polyfill.js*/
+/*! @source
+ * https://github.com/ModuleLoader/es6-module-loader/blob/master/src/url-polyfill.js*/
 // from https://gist.github.com/Yaffle/1088850
 (function(global) {
   function URLPolyfill(url, baseURL) {
@@ -100,8 +103,7 @@ if (!Object.hasOwnProperty('name')) {
     }
 
     // convert windows file URLs to use /
-    if (protocol == 'file:')
-      pathname = pathname.replace(/\\/g, '/');
+    if (protocol == 'file:') pathname = pathname.replace(/\\/g, '/');
 
     this.origin = protocol + (protocol !== '' || host !== '' ? '//' : '') + host;
     this.href = protocol + (protocol !== '' || host !== '' ? '//' : '') +
@@ -231,16 +233,11 @@ if ('document' in self && !('classList' in document.createElement('_'))) {
 };
 
 // console mock (IE9)
-if (!window.console)
-  window.console = {};
-if (!window.console.log)
-  window.console.log = function() {};
-if (!window.console.error)
-  window.console.error = function() {};
-if (!window.console.warn)
-  window.console.warn = function() {};
-if (!window.console.assert)
-  window.console.assert = function() {};
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function() {};
+if (!window.console.error) window.console.error = function() {};
+if (!window.console.warn) window.console.warn = function() {};
+if (!window.console.assert) window.console.assert = function() {};
 
 // RequestAnimationFrame (IE9, Android 4.1, 4.2, 4.3)
 /*! @author Paul Irish */
@@ -248,7 +245,8 @@ if (!window.console.assert)
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 
-// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino
+// Zijdel
 
 // MIT license
 
@@ -273,7 +271,8 @@ if (!window.console.assert)
 }());
 
 // Typed Array (IE9)
-/*! @source https://github.com/inexorabletash/polyfill/blob/master/typedarray.js */
+/*! @source https://github.com/inexorabletash/polyfill/blob/master/typedarray.js
+ */
 /*
  Copyright (c) 2010, Linden Research, Inc.
  Copyright (c) 2014, Joshua Bell
@@ -322,7 +321,8 @@ if (!window.console.assert)
   'use strict';
   var undefined = (void 0);  // Paranoia
 
-  // Beyond this value, index getters/setters (i.e. array[0], array[1]) are so slow to
+  // Beyond this value, index getters/setters (i.e. array[0], array[1]) are so
+  // slow to
   // create, and consume so much memory, that the browser appears frozen.
   var MAX_ARRAY_LENGTH = 1e5;
 
@@ -342,7 +342,8 @@ if (!window.console.assert)
     }
   }
 
-  // Class returns internal [[Class]] property, used to avoid cross-frame instanceof issues:
+  // Class returns internal [[Class]] property, used to avoid cross-frame
+  // instanceof issues:
   function Class(v) {
     return Object.prototype.toString.call(v).replace(/^\[object *|\]$/g, '');
   }
@@ -350,8 +351,7 @@ if (!window.console.assert)
     return typeof o === 'function';
   }
   function ToObject(v) {
-    if (v === null || v === undefined)
-      throw TypeError();
+    if (v === null || v === undefined) throw TypeError();
     return Object(v);
   }
   function ToInt32(v) {
@@ -367,9 +367,11 @@ if (!window.console.assert)
 
   // emulate ES5 getter/setter API using legacy APIs
   // http://blogs.msdn.com/b/ie/archive/2010/09/07/transitioning-existing-code-to-the-es5-getter-setter-apis.aspx
-  // (second clause tests for Object.defineProperty() in IE<9 that only supports extending DOM
+  // (second clause tests for Object.defineProperty() in IE<9 that only supports
+  // extending DOM
   // prototypes, but
-  // note that IE<9 does not support __defineGetter__ or __defineSetter__ so it just renders the
+  // note that IE<9 does not support __defineGetter__ or __defineSetter__ so it
+  // just renders the
   // method harmless)
 
   (function() {
@@ -384,33 +386,30 @@ if (!window.console.assert)
 
     if (!orig || dom_only) {
       Object.defineProperty = function(o, prop, desc) {
-        // In IE8 try built-in implementation for defining properties on DOM prototypes.
-        if (orig)
-          try {
+        // In IE8 try built-in implementation for defining properties on DOM
+        // prototypes.
+        if (orig) try {
             return orig(o, prop, desc);
           } catch (_) {
           }
-        if (o !== Object(o))
-          throw TypeError('Object.defineProperty called on non-object');
+        if (o !== Object(o)) throw TypeError('Object.defineProperty called on non-object');
         if (Object.prototype.__defineGetter__ && ('get' in desc))
           Object.prototype.__defineGetter__.call(o, prop, desc.get);
         if (Object.prototype.__defineSetter__ && ('set' in desc))
           Object.prototype.__defineSetter__.call(o, prop, desc.set);
-        if ('value' in desc)
-          o[prop] = desc.value;
+        if ('value' in desc) o[prop] = desc.value;
         return o;
       };
     }
   }());
 
-  // ES5: Make obj[index] an alias for obj._getter(index)/obj._setter(index, value)
+  // ES5: Make obj[index] an alias for obj._getter(index)/obj._setter(index,
+  // value)
   // for index in 0 ... obj.length
   function makeArrayAccessors(obj) {
-    if ('TYPED_ARRAY_POLYFILL_NO_ARRAY_ACCESSORS' in global)
-      return;
+    if ('TYPED_ARRAY_POLYFILL_NO_ARRAY_ACCESSORS' in global) return;
 
-    if (obj.length > MAX_ARRAY_LENGTH)
-      throw RangeError('Array too large for polyfill');
+    if (obj.length > MAX_ARRAY_LENGTH) throw RangeError('Array too large for polyfill');
 
     function makeArrayAccessor(index) {
       Object.defineProperty(obj, index, {
@@ -432,7 +431,8 @@ if (!window.console.assert)
   }
 
   // Internal conversion functions:
-  //    pack<Type>()   - take a number (interpreted as Type), output a byte array
+  //    pack<Type>()   - take a number (interpreted as Type), output a byte
+  //    array
   //    unpack<Type>() - take a byte array, output a Type-like number
 
   function as_signed(value, bits) {
@@ -496,10 +496,8 @@ if (!window.console.assert)
 
     function roundToEven(n) {
       var w = floor(n), f = n - w;
-      if (f < 0.5)
-        return w;
-      if (f > 0.5)
-        return w + 1;
+      if (f < 0.5) return w;
+      if (f > 0.5) return w + 1;
       return w % 2 ? w + 1 : w;
     }
 
@@ -632,13 +630,11 @@ if (!window.console.assert)
 
     function ArrayBuffer(length) {
       length = ToInt32(length);
-      if (length < 0)
-        throw RangeError('ArrayBuffer size is not a small enough positive integer.');
+      if (length < 0) throw RangeError('ArrayBuffer size is not a small enough positive integer.');
       Object.defineProperty(this, 'byteLength', {value: length});
       Object.defineProperty(this, '_bytes', {value: Array(length)});
 
-      for (var i = 0; i < length; i += 1)
-        this._bytes[i] = 0;
+      for (var i = 0; i < length; i += 1) this._bytes[i] = 0;
     }
 
     global.ArrayBuffer = global.ArrayBuffer || ArrayBuffer;
@@ -652,8 +648,7 @@ if (!window.console.assert)
       if (!arguments.length || typeof arguments[0] !== 'object') {
         return (function(length) {
                  length = ToInt32(length);
-                 if (length < 0)
-                   throw RangeError('length is not a small enough positive integer.');
+                 if (length < 0) throw RangeError('length is not a small enough positive integer.');
                  Object.defineProperty(this, 'length', {value: length});
                  Object.defineProperty(
                      this, 'byteLength', {value: length * this.BYTES_PER_ELEMENT});
@@ -668,8 +663,7 @@ if (!window.console.assert)
       if (arguments.length >= 1 && Type(arguments[0]) === 'object' &&
           arguments[0] instanceof $TypedArray$) {
         return (function(typedArray) {
-                 if (this.constructor !== typedArray.constructor)
-                   throw TypeError();
+                 if (this.constructor !== typedArray.constructor) throw TypeError();
 
                  var byteLength = typedArray.length * this.BYTES_PER_ELEMENT;
                  Object.defineProperty(this, 'buffer', {value: new ArrayBuffer(byteLength)});
@@ -677,8 +671,7 @@ if (!window.console.assert)
                  Object.defineProperty(this, 'byteOffset', {value: 0});
                  Object.defineProperty(this, 'length', {value: typedArray.length});
 
-                 for (var i = 0; i < this.length; i += 1)
-                   this._setter(i, typedArray._getter(i));
+                 for (var i = 0; i < this.length; i += 1) this._setter(i, typedArray._getter(i));
 
                })
             .apply(this, arguments);
@@ -710,8 +703,7 @@ if (!window.console.assert)
         return (function(buffer, byteOffset, length) {
 
                  byteOffset = ToUint32(byteOffset);
-                 if (byteOffset > buffer.byteLength)
-                   throw RangeError('byteOffset out of range');
+                 if (byteOffset > buffer.byteLength) throw RangeError('byteOffset out of range');
 
                  // The given byteOffset must be a multiple of the element
                  // size of the specific type, otherwise an exception is raised.
@@ -771,12 +763,10 @@ if (!window.console.assert)
     // WebIDL: getter type (unsigned long index);
     Object.defineProperty($TypedArray$.prototype, '_getter', {
       value: function(index) {
-        if (arguments.length < 1)
-          throw SyntaxError('Not enough arguments');
+        if (arguments.length < 1) throw SyntaxError('Not enough arguments');
 
         index = ToUint32(index);
-        if (index >= this.length)
-          return undefined;
+        if (index >= this.length) return undefined;
 
         var bytes = [], i, o;
         for (i = 0, o = this.byteOffset + index * this.BYTES_PER_ELEMENT;
@@ -793,12 +783,10 @@ if (!window.console.assert)
     // WebIDL: setter void (unsigned long index, type value);
     Object.defineProperty($TypedArray$.prototype, '_setter', {
       value: function(index, value) {
-        if (arguments.length < 2)
-          throw SyntaxError('Not enough arguments');
+        if (arguments.length < 2) throw SyntaxError('Not enough arguments');
 
         index = ToUint32(index);
-        if (index >= this.length)
-          return;
+        if (index >= this.length) return;
 
         var bytes = this._pack(value), i, o;
         for (i = 0, o = this.byteOffset + index * this.BYTES_PER_ELEMENT;
@@ -872,16 +860,13 @@ if (!window.console.assert)
     // %TypedArray%.prototype.every ( callbackfn, thisArg = undefined )
     Object.defineProperty($TypedArray$.prototype, 'every', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         var thisArg = arguments[1];
         for (var i = 0; i < len; i++) {
-          if (!callbackfn.call(thisArg, t._getter(i), i, t))
-            return false;
+          if (!callbackfn.call(thisArg, t._getter(i), i, t)) return false;
         }
         return true;
       }
@@ -923,18 +908,15 @@ if (!window.console.assert)
     // %TypedArray%.prototype.filter ( callbackfn, thisArg = undefined )
     Object.defineProperty($TypedArray$.prototype, 'filter', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         var res = [];
         var thisp = arguments[1];
         for (var i = 0; i < len; i++) {
           var val = t._getter(i);  // in case fun mutates this
-          if (callbackfn.call(thisp, val, i, t))
-            res.push(val);
+          if (callbackfn.call(thisp, val, i, t)) res.push(val);
         }
         return new this.constructor(res);
       }
@@ -946,15 +928,13 @@ if (!window.console.assert)
         var o = ToObject(this);
         var lenValue = o.length;
         var len = ToUint32(lenValue);
-        if (!IsCallable(predicate))
-          throw TypeError();
+        if (!IsCallable(predicate)) throw TypeError();
         var t = arguments.length > 1 ? arguments[1] : undefined;
         var k = 0;
         while (k < len) {
           var kValue = o._getter(k);
           var testResult = predicate.call(t, kValue, k, o);
-          if (Boolean(testResult))
-            return kValue;
+          if (Boolean(testResult)) return kValue;
           ++k;
         }
         return undefined;
@@ -967,15 +947,13 @@ if (!window.console.assert)
         var o = ToObject(this);
         var lenValue = o.length;
         var len = ToUint32(lenValue);
-        if (!IsCallable(predicate))
-          throw TypeError();
+        if (!IsCallable(predicate)) throw TypeError();
         var t = arguments.length > 1 ? arguments[1] : undefined;
         var k = 0;
         while (k < len) {
           var kValue = o._getter(k);
           var testResult = predicate.call(t, kValue, k, o);
-          if (Boolean(testResult))
-            return k;
+          if (Boolean(testResult)) return k;
           ++k;
         }
         return -1;
@@ -985,27 +963,22 @@ if (!window.console.assert)
     // %TypedArray%.prototype.forEach ( callbackfn, thisArg = undefined )
     Object.defineProperty($TypedArray$.prototype, 'forEach', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         var thisp = arguments[1];
-        for (var i = 0; i < len; i++)
-          callbackfn.call(thisp, t._getter(i), i, t);
+        for (var i = 0; i < len; i++) callbackfn.call(thisp, t._getter(i), i, t);
       }
     });
 
     // %TypedArray%.prototype.indexOf (searchElement, fromIndex = 0 )
     Object.defineProperty($TypedArray$.prototype, 'indexOf', {
       value: function(searchElement) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (len === 0)
-          return -1;
+        if (len === 0) return -1;
         var n = 0;
         if (arguments.length > 0) {
           n = Number(arguments[1]);
@@ -1015,8 +988,7 @@ if (!window.console.assert)
             n = (n > 0 || -1) * floor(abs(n));
           }
         }
-        if (n >= len)
-          return -1;
+        if (n >= len) return -1;
         var k = n >= 0 ? n : max(len - abs(n), 0);
         for (; k < len; k++) {
           if (t._getter(k) === searchElement) {
@@ -1030,13 +1002,11 @@ if (!window.console.assert)
     // %TypedArray%.prototype.join ( separator )
     Object.defineProperty($TypedArray$.prototype, 'join', {
       value: function(separator) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
         var tmp = Array(len);
-        for (var i = 0; i < len; ++i)
-          tmp[i] = t._getter(i);
+        for (var i = 0; i < len; ++i) tmp[i] = t._getter(i);
         return tmp.join(separator === undefined ? ',' : separator);  // Hack for IE7
       }
     });
@@ -1044,15 +1014,14 @@ if (!window.console.assert)
     // %TypedArray%.prototype.keys ( )
     // -- defined in es6.js to shim browsers w/ native TypedArrays
 
-    // %TypedArray%.prototype.lastIndexOf ( searchElement, fromIndex = this.length-1 )
+    // %TypedArray%.prototype.lastIndexOf ( searchElement, fromIndex =
+    // this.length-1 )
     Object.defineProperty($TypedArray$.prototype, 'lastIndexOf', {
       value: function(searchElement) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (len === 0)
-          return -1;
+        if (len === 0) return -1;
         var n = len;
         if (arguments.length > 1) {
           n = Number(arguments[1]);
@@ -1064,8 +1033,7 @@ if (!window.console.assert)
         }
         var k = n >= 0 ? min(n, len - 1) : len - abs(n);
         for (; k >= 0; k--) {
-          if (t._getter(k) === searchElement)
-            return k;
+          if (t._getter(k) === searchElement) return k;
         }
         return -1;
       }
@@ -1077,17 +1045,14 @@ if (!window.console.assert)
     // %TypedArray%.prototype.map ( callbackfn, thisArg = undefined )
     Object.defineProperty($TypedArray$.prototype, 'map', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         var res = [];
         res.length = len;
         var thisp = arguments[1];
-        for (var i = 0; i < len; i++)
-          res[i] = callbackfn.call(thisp, t._getter(i), i, t);
+        for (var i = 0; i < len; i++) res[i] = callbackfn.call(thisp, t._getter(i), i, t);
         return new this.constructor(res);
       }
     });
@@ -1095,15 +1060,12 @@ if (!window.console.assert)
     // %TypedArray%.prototype.reduce ( callbackfn [, initialValue] )
     Object.defineProperty($TypedArray$.prototype, 'reduce', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         // no value to return if no initial value and an empty array
-        if (len === 0 && arguments.length === 1)
-          throw TypeError();
+        if (len === 0 && arguments.length === 1) throw TypeError();
         var k = 0;
         var accumulator;
         if (arguments.length >= 2) {
@@ -1122,15 +1084,12 @@ if (!window.console.assert)
     // %TypedArray%.prototype.reduceRight ( callbackfn [, initialValue] )
     Object.defineProperty($TypedArray$.prototype, 'reduceRight', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         // no value to return if no initial value, empty array
-        if (len === 0 && arguments.length === 1)
-          throw TypeError();
+        if (len === 0 && arguments.length === 1) throw TypeError();
         var k = len - 1;
         var accumulator;
         if (arguments.length >= 2) {
@@ -1149,8 +1108,7 @@ if (!window.console.assert)
     // %TypedArray%.prototype.reverse ( )
     Object.defineProperty($TypedArray$.prototype, 'reverse', {
       value: function() {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
         var half = floor(len / 2);
@@ -1169,8 +1127,7 @@ if (!window.console.assert)
     // WebIDL: void set(sequence<type> array, optional unsigned long offset);
     Object.defineProperty($TypedArray$.prototype, 'set', {
       value: function(index, value) {
-        if (arguments.length < 1)
-          throw SyntaxError('Not enough arguments');
+        if (arguments.length < 1) throw SyntaxError('Not enough arguments');
         var array, sequence, offset, len, i, s, d, byteOffset, byteLength, tmp;
 
         if (typeof arguments[0] === 'object' && arguments[0].constructor === this.constructor) {
@@ -1246,12 +1203,10 @@ if (!window.console.assert)
     // %TypedArray%.prototype.some ( callbackfn, thisArg = undefined )
     Object.defineProperty($TypedArray$.prototype, 'some', {
       value: function(callbackfn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
-        if (!IsCallable(callbackfn))
-          throw TypeError();
+        if (!IsCallable(callbackfn)) throw TypeError();
         var thisp = arguments[1];
         for (var i = 0; i < len; i++) {
           if (callbackfn.call(thisp, t._getter(i), i, t)) {
@@ -1265,19 +1220,16 @@ if (!window.console.assert)
     // %TypedArray%.prototype.sort ( comparefn )
     Object.defineProperty($TypedArray$.prototype, 'sort', {
       value: function(comparefn) {
-        if (this === undefined || this === null)
-          throw TypeError();
+        if (this === undefined || this === null) throw TypeError();
         var t = Object(this);
         var len = ToUint32(t.length);
         var tmp = Array(len);
-        for (var i = 0; i < len; ++i)
-          tmp[i] = t._getter(i);
+        for (var i = 0; i < len; ++i) tmp[i] = t._getter(i);
         if (comparefn)
           tmp.sort(comparefn);
         else
           tmp.sort();  // Hack for IE8/9
-        for (i = 0; i < len; ++i)
-          t._setter(i, tmp[i]);
+        for (i = 0; i < len; ++i) t._setter(i, tmp[i]);
         return t;
       }
     });
@@ -1396,12 +1348,10 @@ if (!window.console.assert)
     //                     optional unsigned long byteOffset,
     //                     optional unsigned long byteLength)
     function DataView(buffer, byteOffset, byteLength) {
-      if (!(buffer instanceof ArrayBuffer || Class(buffer) === 'ArrayBuffer'))
-        throw TypeError();
+      if (!(buffer instanceof ArrayBuffer || Class(buffer) === 'ArrayBuffer')) throw TypeError();
 
       byteOffset = ToUint32(byteOffset);
-      if (byteOffset > buffer.byteLength)
-        throw RangeError('byteOffset out of range');
+      if (byteOffset > buffer.byteLength) throw RangeError('byteOffset out of range');
 
       if (byteLength === undefined)
         byteLength = buffer.byteLength - byteOffset;
@@ -1432,11 +1382,9 @@ if (!window.console.assert)
 
         var uint8Array = new Uint8Array(this.buffer, byteOffset, arrayType.BYTES_PER_ELEMENT),
             bytes = [];
-        for (var i = 0; i < arrayType.BYTES_PER_ELEMENT; i += 1)
-          bytes.push(r(uint8Array, i));
+        for (var i = 0; i < arrayType.BYTES_PER_ELEMENT; i += 1) bytes.push(r(uint8Array, i));
 
-        if (Boolean(littleEndian) === Boolean(IS_BIG_ENDIAN))
-          bytes.reverse();
+        if (Boolean(littleEndian) === Boolean(IS_BIG_ENDIAN)) bytes.reverse();
 
         return r(new arrayType(new Uint8Array(bytes).buffer), 0);
       };
@@ -1461,12 +1409,10 @@ if (!window.console.assert)
         var typeArray = new arrayType([value]), byteArray = new Uint8Array(typeArray.buffer),
             bytes = [], i, byteView;
 
-        for (i = 0; i < arrayType.BYTES_PER_ELEMENT; i += 1)
-          bytes.push(r(byteArray, i));
+        for (i = 0; i < arrayType.BYTES_PER_ELEMENT; i += 1) bytes.push(r(byteArray, i));
 
         // Flip if necessary
-        if (Boolean(littleEndian) === Boolean(IS_BIG_ENDIAN))
-          bytes.reverse();
+        if (Boolean(littleEndian) === Boolean(IS_BIG_ENDIAN)) bytes.reverse();
 
         // Write them
         byteView = new Uint8Array(this.buffer, byteOffset, arrayType.BYTES_PER_ELEMENT);

@@ -10,7 +10,6 @@ import {RegionComponent} from './region/region.component';
 import {SignupComponent} from './signup/signup.component';
 import {SummonerComponent} from './summoner/summoner.component';
 
-
 @NgModule({
   imports: [RouterModule.forRoot([
     {path: '', component: MainComponent}, {path: 'about', component: AboutComponent},

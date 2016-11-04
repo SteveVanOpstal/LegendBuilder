@@ -8,7 +8,6 @@ import {SortPipe} from './sort.pipe';
 import {TagsPipe} from './tags.pipe';
 import {TranslatePipe} from './translate.pipe';
 
-
 @NgModule({
   declarations: [ChampionPipe, HidePipe, MapPipe, NamePipe, SortPipe, TagsPipe, TranslatePipe],
   exports: [ChampionPipe, HidePipe, MapPipe, NamePipe, SortPipe, TagsPipe, TranslatePipe]

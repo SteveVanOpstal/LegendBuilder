@@ -5,7 +5,6 @@ import {TestModule} from '../testing';
 
 import {ChampionComponent} from './champion.component';
 
-
 describe('ChampionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [ChampionComponent], imports: [TestModule]});

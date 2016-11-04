@@ -9,7 +9,6 @@ import {MockMockBackend, MockRouter, TestModule} from '../testing';
 
 import {StatsService} from './stats.service';
 
-
 describe('StatsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({

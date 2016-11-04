@@ -9,7 +9,6 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 
-
 module.exports = function(options) {
   if (!options) {
     options = {};
@@ -38,15 +37,16 @@ module.exports = function(options) {
           options: {'compilerOptions': {'removeComments': !options.dev}},
           exclude: [/\.(spec|e2e)\.ts$/]
         },
-        {test: /\.svg$/, loader: ['raw-loader', 'svgo-loader']}, {test: /\.css$/, loader: 'css?minimize'},
-        {test: /\.json$/, loader: 'json-loader'}
+        {test: /\.svg$/, loader: ['raw-loader', 'svgo-loader']},
+        {test: /\.css$/, loader: 'css?minimize'}, {test: /\.json$/, loader: 'json-loader'}
       ]
     },
 
     plugins: [
       new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
       new webpack.optimize.CommonsChunkPlugin({name: ['vendor', 'polyfills']}),
-      /*new webpack.optimize.DedupePlugin(), // TODO: add when webpack/webpack #2644 is fixed */
+      /*new webpack.optimize.DedupePlugin(), // TODO: add when webpack/webpack
+         #2644 is fixed */
       new atl.ForkCheckerPlugin(), new atl.TsConfigPathsPlugin(),
       new CompressionPlugin({algorithm: 'gzip', test: /\.js$|\.html$/, threshold: 256}),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
