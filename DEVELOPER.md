@@ -6,7 +6,7 @@ All commands mentioned should be ran from the project root.
 
 ## Prerequisite Software
 
-* [Git](http://git-scm.com) and/or the **GitHub app** (for [Mac or Windows](http://desktop.github.com)).
+* [Git](http://git-scm.com) (a **GitHub app** exists for [Mac or Windows](http://desktop.github.com), but use whatever you prefer).
 * [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager).
 
 ## Getting started
@@ -50,10 +50,10 @@ This project runs two servers to retrieve data from the [Riot Games API](https:/
 This is a guide on how to set them up.
 
 #### 3.1 Create `.api.key`
-Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you automagically have an api key.
+Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you have an api key.
 Create a file named `.api.key` and add the key to it (no newline). Place it at the root of the project.
 
-#### 3.3 Run
+#### 3.2 Run
 ```
 npm run static-server
 npm run match-server
@@ -62,7 +62,6 @@ npm run match-server
 ### 4. Run a HTTP server (webpack-dev-server)
 I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) which is included as a packages.
 
-#### 4.1 Run
 ```
 npm run server
 ```
@@ -84,26 +83,23 @@ Every release a python script will generate a post on reddit. To improve this sc
 
 ## <a name="clang-format"></a> ClangFormat
 ClangFormat will format the code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
-The following command will format all .ts files:
+The following command will format all `.ts` files:
 ```
 npm run format
 ```
 
 ### Visual Studio Code
-When using VSCode the command can be integrated in the IDE as a task:
+A plugin for VSCode is available: [xaver.clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
 
+```
+npm install clang-format -g
+ext install clang-format
+```
+
+Possible settings (windows):
 ```JSON
 {
-  "version": "0.1.0",
-  "command": "npm",
-  "isShellCommand": true,
-  "suppressTaskName": true,
-  "tasks": [
-    {
-      "taskName": "format",
-      "args": ["run", "clang-format", "--", "${file}", "-i" ],
-      "showOutput": "never"
-    }
-  ]
+  "clang-format.executable": "%USERPROFILE%/AppData/Roaming/npm/node_modules/clang-format/bin/win32/clang-format",
+  "clang-format.style": ".clang-format"
 }
 ```
