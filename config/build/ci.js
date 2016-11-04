@@ -1,13 +1,10 @@
 'use strict';
 
-let spawnSync = require('child_process').spawnSync;
-let async = require('async');
+let spawn = require('child_process').spawn;
 let browsers = require('../browser-providers.conf.js');
-let sauce = require('./sauce.js');
 
 const readline = require('readline');
 let rl = readline.createInterface({input: process.stdin, output: process.stdout});
-
 
 if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
   if (process.env.TRAVIS) {
@@ -20,7 +17,6 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
     process.env.TUNNEL_IDENTIFIER = 'Local ' + time;
   }
 }
-
 
 /* configuration */
 
@@ -49,7 +45,6 @@ else {
   selectMode();
 }
 
-
 function selectMode() {
   console.log('\nSelect one of the following modes you want to run: ');
 
@@ -64,6 +59,7 @@ function selectMode() {
 
   rl.question('\nType in a number: ', (answer) => {
     process.env.CI_MODE = getMode(parseInt(answer));
+    rl.pause();
 
     if (validMode(process.env.CI_MODE)) {
       execute(modes[process.env.CI_MODE]);
@@ -93,47 +89,36 @@ function getMode(index) {
   return '';
 }
 
-
 /* execute */
 
 function execute(scripts) {
   console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
 
-  execute_scripts(scripts);
-}
-
-
-// todo: remove this and create npm scripts 'sauce:open' and 'sauce:close'. Currently not possible
-// due to sauce_process variable / asyncness.
-function execute_scripts(scripts) {
-  if (scripts[0] === 'sauce:open') {
-    sauce.open(
-        function(sauce_process) {
-          let status = spawn_processes(scripts.splice(1, scripts.length - 2));
-          sauce.close(sauce_process, function() {
-            exit(status);
-          });
-        },
-        function() {
-          execute_scripts(scripts);
-        });
-  } else {
-    let status = spawn_processes(scripts);
-    exit(status);
-  }
+  spawn_processes(scripts);
 }
 
 function spawn_processes(scripts) {
-  for (let script of scripts) {
-    let status = spawn_process(script);
-    if (status !== 0) {
-      return status;
-    }
+  let script = scripts.shift();
+  if (!script) {
+    exit(0);
+  } else {
+    spawn_process(
+        script,
+        () => {
+          spawn_processes(scripts);
+        },
+        (status) => {
+          if (status) {
+            exit(status);
+          } else {
+            console.log('Exit status unknown');
+            process.exit(1);
+          }
+        });
   }
-  return 0;
 }
 
-function spawn_process(script) {
+function spawn_process(script, cb_done, cb_error) {
   let command = 'npm';
   if (/^win/.test(process.platform)) {
     command += '.cmd';
@@ -141,18 +126,22 @@ function spawn_process(script) {
 
   console.log('\nStarting \'npm run ' + script + '\'..');
 
-  let child = spawnSync(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
+  let child = spawn(command, ['run'].concat(script.split(' ')), {stdio: 'inherit'});
 
-  console.log('\nExit status ' + child.status + ' on \'' + script + '\'');
+  child.on('exit', (status) => {
+    console.log('\nExit status ' + status + ' on \'' + script + '\'');
+    if (status === 0) {
+      cb_done();
+    } else {
+      cb_error(status);
+    }
+  });
 
-  if (child.error) {
-    console.log('Error \'' + child.error + '\' on \'' + script + '\'');
-    return child.status === 0 ? 1 : child.status;
-  }
-
-  return child.status;
+  child.on('error', (error) => {
+    console.log('Error \'' + error + '\' on \'' + script + '\'');
+    cb_error();
+  });
 }
-
 
 /* misc */
 
@@ -167,12 +156,6 @@ function pad(input) {
 }
 
 function exit(status) {
-  rl.pause();
-
-  let message = 'Exit status ' + status;
-  if (status === 0) {
-    console.log(message);
-  } else {
-    throw new Error(message);
-  }
+  console.log('Exit status ' + status);
+  process.exit(status);
 }

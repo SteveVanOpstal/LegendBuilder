@@ -1,63 +1,69 @@
-let sauceConnectLauncher = require('sauce-connect-launcher');
+let spawn = require('child_process').spawn;
 let fs = require('fs');
 
+create_dir('build');
+create_dir('build/log');
+
 module.exports = {
-  open: function(done, error) {
+  open: () => {
     console.log('SauceLabs: starting ' + process.env.BUILD + '..');
 
-    // create folder structure
-    try {
-      fs.mkdirSync('build');
-      fs.mkdirSync('build/log');
-    } catch (e) {
-      if (e.code !== 'EEXIST')
-        throw e;
+    let command = 'npm';
+    if (/^win/.test(process.platform)) {
+      command += '.cmd';
     }
 
-    sauceConnectLauncher(
-        {
-          tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
-          logfile: 'build/log/' + process.env.BUILD + '.log',
-          verbose: true
-        },
-        function(err, sauce_process) {
-          if (err) {
-            let message = 'SauceLabs: start failed, \'' + err.message + '\'';
-            if (typeof error === 'function') {
-              console.log(message);
-              error(err);
-            } else {
-              throw new Error(message);
-            }
-          } else {
-            console.log('SauceLabs: running');
-            if (typeof done === 'function') {
-              done(sauce_process);
-            }
-          }
-        });
-  },
-  close: function(sauce_process, done) {
-    console.log('SauceLabs: stopping..');
+    let child = spawn(command, ['run', 'sauce-connect'], {detached: true, stdio: 'ignore'});
+    child.pid;
 
-    sauce_process.close(function() {
-      console.log('SauceLabs: stopped');
-      if (typeof done === 'function') {
-        done();
-      }
+    child.on('exit', (status) => {
+      process.exit(status);
     });
+
+    child.unref();
+
+    wait_for_file('build/log/' + process.env.BUILD + '.pid');
+  },
+  close: () => {
+    console.log('SauceLabs: stopping..');
+    let pid = read_pid('build/log/' + process.env.BUILD + '.pid');
+    process.kill(pid);
   }
 };
 
+function create_dir(path) {
+  try {
+    fs.mkdirSync(path);
+  } catch (e) {
+    if (e.code !== 'EEXIST') throw e;
+  }
+}
+
+let repeats = 0;
+function wait_for_file(path, timeout_seconds) {
+  timeout = timeout_seconds ? timeout_seconds : 60;
+  fs.open(path, 'r', (err, fd) => {
+    if (err) {
+      repeats++;
+      if (repeats <= timeout) {
+        process.stdout.write('.');
+        setTimeout(wait_for_file, 1000, path);
+      } else {
+        repeats = 0;
+      }
+    }
+  });
+}
+
+function read_pid(path) {
+  let data = fs.readFileSync(path);
+  return parseInt(data, 10);
+}
 
 if (require.main === module) {
-  if (process.argv[2] == '--open') {
-    module.exports.open();
-  } else if (process.argv[2] == '--close') {
+  if (process.argv[2] == '--close') {
     module.exports.close();
   } else {
-    console.log('missing argument:');
-    console.log('  * --open');
-    console.log('  * --close');
+    module.exports.open();
   }
 }
