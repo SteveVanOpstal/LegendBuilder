@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.11"></a>
+# [1.0.0-alpha.11](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.10...1.0.0-alpha.11) (2016-11-05)
+
+
+### Bug Fixes
+
+* **about:** add a link to league of legends homepage ([05fc164](https://github.com/SteveVanOpstal/LegendBuilder/commit/05fc164))
+* **graph:** samples line type error ([9178fc5](https://github.com/SteveVanOpstal/LegendBuilder/commit/9178fc5))
+* **npm:** remove comment ([939a0a3](https://github.com/SteveVanOpstal/LegendBuilder/commit/939a0a3))
+* **region:** css incorrect underline ([04304bb](https://github.com/SteveVanOpstal/LegendBuilder/commit/04304bb))
+* **stats:** statistics incorrect ([bd22cd3](https://github.com/SteveVanOpstal/LegendBuilder/commit/bd22cd3))
+* **webpack:** workaround for issue webpack/webpack[#3060](https://github.com/SteveVanOpstal/LegendBuilder/issues/3060) ([94baab0](https://github.com/SteveVanOpstal/LegendBuilder/commit/94baab0))
+
+
+### Features
+
+* add about page ([f9f1f5d](https://github.com/SteveVanOpstal/LegendBuilder/commit/f9f1f5d))
+* add footer ([85a6e27](https://github.com/SteveVanOpstal/LegendBuilder/commit/85a6e27))
+* **about:** add a link to the contributor github page ([7a6a940](https://github.com/SteveVanOpstal/LegendBuilder/commit/7a6a940))
+* **server:** allow newline in .api.key ([714f3b7](https://github.com/SteveVanOpstal/LegendBuilder/commit/714f3b7))
+* **stats:** repeat the last stat on gametime ([df042fa](https://github.com/SteveVanOpstal/LegendBuilder/commit/df042fa))
+
+
+### Performance Improvements
+
+* **ddragon:** change hourglass link to utf-8 encoded string ([2eeeaf9](https://github.com/SteveVanOpstal/LegendBuilder/commit/2eeeaf9))
+
+
+
 <a name="1.0.0-alpha.10"></a>
 # [1.0.0-alpha.10](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.9...1.0.0-alpha.10) (2016-09-22)
 
