@@ -16,20 +16,6 @@ import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
-// class MockMasteryCategoryComponent extends MasteryCategoryComponent {
-//   public rank: number = 0;
-//   public enabled: boolean = false;
-//   getRank(): number {
-//     return this.rank;
-//   }
-//   enable() {
-//     this.enabled = true;
-//   }
-//   disable() {
-//     this.enabled = false;
-//   }
-// }
-
 const masteriesData = {
   tree: {
     Ferocity: [
