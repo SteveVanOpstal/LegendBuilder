@@ -10,30 +10,22 @@ var CIconfiguration = {
   'IE':           { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'IE-1':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE-2':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Edge':         { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Edge':         { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
   'Android':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Android-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-3':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-4':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Safari':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Safari':       { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
   'Safari-1':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Safari-2':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Safari-3':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'iOS':          { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'iOS':          { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
   'iOS-1':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'iOS-2':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'iOS-3':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: false}}
 };
 
 var customLaunchers = {
-  'DartiumWithWebPlatform': {
-    base: 'Dartium',
-    flags: ['--enable-experimental-web-platform-features'] },
-  'ChromeNoSandbox': {
-    base: 'Chrome',
-    flags: ['--no-sandbox'] },
   'SL_CHROMEBETA': {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -68,49 +60,37 @@ var customLaunchers = {
     base: 'SauceLabs',
     browserName: 'safari',
     platform: 'OS X 10.11',
-    version: '10.0'
+    version: '10'
   },
   'SL_SAFARI-1': {
     base: 'SauceLabs',
     browserName: 'safari',
     platform: 'OS X 10.11',
-    version: '9.0'
+    version: '9'
   },
   'SL_SAFARI-2': {
     base: 'SauceLabs',
     browserName: 'safari',
     platform: 'OS X 10.10',
-    version: '8.0'
-  },
-  'SL_SAFARI-3': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platform: 'OS X 10.9',
-    version: '7.0'
+    version: '8'
   },
   'SL_IOS': {
     base: 'SauceLabs',
     browserName: 'iphone',
-    platform: 'OS X 10.0',
-    version: '10.0'
+    platform: 'OS X 10.10',
+    version: '10'
   },
   'SL_IOS-1': {
     base: 'SauceLabs',
     browserName: 'iphone',
-    platform: 'OS X 10.0',
-    version: '9.3'
+    platform: 'OS X 10.10',
+    version: '9.1'
   },
   'SL_IOS-2': {
     base: 'SauceLabs',
     browserName: 'iphone',
-    platform: 'OS X 10.0',
+    platform: 'OS X 10.10',
     version: '8.4'
-  },
-  'SL_IOS-3': {
-    base: 'SauceLabs',
-    browserName: 'iphone',
-    platform: 'OS X 10.0',
-    version: '7.1'
   },
   'SL_IE': {
     base: 'SauceLabs',
