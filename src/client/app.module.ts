@@ -5,7 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AUTH_PROVIDERS} from 'angular2-jwt';
 
 import {AboutModule} from './about/about.module';
-import {ActionsComponent} from './actions.component';
+// import {ActionsComponent} from './actions.component';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app.routing';
 import {AssetsModule} from './assets/assets.module';
@@ -22,13 +22,13 @@ import {SummonerModule} from './summoner/summoner.module';
 
 @NgModule({
   providers: [LolApiService, AUTH_PROVIDERS, AuthService],
-  declarations: [AppComponent, ActionsComponent],
+  declarations: [AppComponent /*, ActionsComponent*/],
   imports: [
     BrowserModule, CommonModule, AppRoutingModule, HttpModule, AssetsModule, SharedModule,
     AboutModule, BuildModule, ChampionModule, LoginModule, MainModule, RegionModule, SignupModule,
     SummonerModule
   ],
-  bootstrap: [AppComponent, ActionsComponent]
+  bootstrap: [AppComponent /*, ActionsComponent*/]
 })
 export class AppModule {
 }
