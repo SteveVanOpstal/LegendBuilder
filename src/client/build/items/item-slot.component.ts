@@ -19,10 +19,10 @@ export class ItemSlotComponent implements OnInit {
   private samples: Samples;
   private items: Array<Item> = new Array<Item>();
 
-  constructor(private build: DataService) {}
+  constructor(private data: DataService) {}
 
   ngOnInit() {
-    this.build.samples.subscribe(samples => {
+    this.data.samples.subscribe(samples => {
       this.samples = samples;
     });
   }

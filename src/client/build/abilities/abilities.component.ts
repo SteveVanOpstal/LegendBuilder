@@ -42,14 +42,14 @@ export class AbilitiesComponent implements OnInit {
   private xAxisLevelLine = new LevelAxisLine(200);
   private xAxisLevelText = new LevelAxisText(200);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private build: DataService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private data: DataService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
-    this.build.champion.subscribe((champion) => {
+    this.data.champion.subscribe((champion) => {
       this.champion = champion;
     });
-    this.build.samples.subscribe((samples: Samples) => {
+    this.data.samples.subscribe((samples: Samples) => {
       this.samples = samples;
       this.createLevelScale();
     });

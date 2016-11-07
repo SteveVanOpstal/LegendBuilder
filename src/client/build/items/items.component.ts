@@ -22,7 +22,7 @@ export class ItemsComponent {
 
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
 
-  constructor(private build: DataService) {}
+  constructor(private data: DataService) {}
 
   addItemSlotComponent(slot: ItemSlotComponent) {
     this.children.toArray()[slot.id] = slot;
@@ -48,6 +48,6 @@ export class ItemsComponent {
     this.children.toArray().forEach((itemSlot) => {
       this.pickedItems = this.pickedItems.concat(itemSlot.getItems());
     });
-    this.build.pickedItems.notify(this.pickedItems);
+    this.data.pickedItems.notify(this.pickedItems);
   }
 }

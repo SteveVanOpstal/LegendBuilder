@@ -57,7 +57,7 @@ describe('BuildComponent', () => {
        let samples = {xp: [0, 1], gold: [0, 1]};
        component.getMatchData('');
        backend.success(samples);
-       component.build.samples.subscribe((result) => {
+       component.data.samples.subscribe((result) => {
          expect(result).toHaveEqualContent(samples);
        });
      })));
@@ -66,7 +66,7 @@ describe('BuildComponent', () => {
      async(inject([MockBackend, BuildComponent], (backend, component) => {
        component.getMatchData('');
        backend.error();
-       component.build.samples.subscribe(() => {
+       component.data.samples.subscribe(() => {
          expect(component.error).toBeTruthy();
        });
      })));

@@ -30,7 +30,7 @@ export class BuildComponent implements OnInit {
   private error: boolean = false;
 
   constructor(
-      private route: ActivatedRoute, private stats: StatsService, private build: DataService,
+      private route: ActivatedRoute, private stats: StatsService, private data: DataService,
       private lolApi: LolApiService) {}
 
   ngOnInit() {
@@ -49,7 +49,7 @@ export class BuildComponent implements OnInit {
         .subscribe(
             res => {
               this.champion = res;
-              this.build.champion.notify(res);
+              this.data.champion.notify(res);
             },
             error => {
               this.error = true;
@@ -65,7 +65,7 @@ export class BuildComponent implements OnInit {
         .getMatchData(value, this.championKey, settings.gameTime, settings.matchServer.sampleSize)
         .subscribe(
             res => {
-              this.build.samples.notify(res);
+              this.data.samples.notify(res);
             },
             error => {
               this.error = true;
