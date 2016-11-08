@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 import {Path} from '../graph.component';
 
@@ -18,9 +18,22 @@ import {Path} from '../graph.component';
     </ul>`
 })
 
-export class LegendComponent {
+export class LegendComponent implements OnChanges {
   @Input() private paths = new Array<Path>();
   private dragging: boolean = false;
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let path_curr of changes['paths'].currentValue) {
+      let found_paths = changes['paths'].previousValue.filter((path: Path) => {
+        return path.name === path_curr.name;
+      });
+
+      if (found_paths.length === 1) {
+        let path_prev: Path = found_paths[0];
+        path_curr.enabled = path_prev.enabled;
+      }
+    }
+  }
 
   mouseEnter(path: Path) {
     path.preview = true;

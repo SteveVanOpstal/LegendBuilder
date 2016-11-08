@@ -1,56 +1,73 @@
 import {inject, TestBed} from '@angular/core/testing';
+import {line} from 'd3-shape';
+
+import {Path} from '../graph.component';
 
 import {LegendComponent} from './legend.component';
 
 describe('LegendComponent', () => {
-  let path1;
-  let path2;
-
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [LegendComponent]});
   });
 
+  let changes;
   beforeEach(inject([LegendComponent], (component) => {
-    path1 = {enabled: false, preview: false, name: 'test', obj: {}};
-    path2 = {enabled: true, preview: true, name: 'test', obj: {}};
-    component.paths = [path1, path2];
+    const paths: Array<Path> = [
+      {enabled: false, preview: false, name: 'test1', d: line()},
+      {enabled: true, preview: true, name: 'test2', d: line()}
+    ];
+
+    changes = {
+      paths: {
+        currentValue: [
+          {enabled: false, preview: false, name: 'test3', d: line()},
+          {enabled: false, preview: false, name: 'test2', d: line()}
+        ],
+        previousValue: paths
+      }
+    };
+
+    component.paths = paths;
   }));
 
-  it('should initialise', inject([LegendComponent], (component) => {}));
+  it('should keep enabled states on changes', inject([LegendComponent], (component) => {
+       component.ngOnChanges(changes);
+       expect(changes['paths'].currentValue).toHaveEqualContent([
+         {enabled: false, preview: false, name: 'test3', d: line()},
+         {enabled: true, preview: false, name: 'test2', d: line()}
+       ]);
+     }));
 
-  it('should preview when hovering on disabled paths', inject([LegendComponent], (component) => {
-       expect(path1.preview).toBeFalsy();
-       component.mouseEnter(path1);
-       expect(path1.preview).toBeTruthy();
-       component.mouseLeave(path1);  // leaving button
-       expect(path1.preview).toBeFalsy();
+  it('should preview when hovering', inject([LegendComponent], (component) => {
+       expect(component.paths[0].preview).toBeFalsy();
+       component.mouseEnter(component.paths[0]);
+       expect(component.paths[0].preview).toBeTruthy();
+       component.mouseLeave(component.paths[0]);  // leaving button
+       expect(component.paths[0].preview).toBeFalsy();
 
-       component.mouseEnter(path1);
-       expect(path1.preview).toBeTruthy();
+       component.mouseEnter(component.paths[1]);
+       expect(component.paths[1].preview).toBeTruthy();
        component.mouseLeave(undefined);  // leaving the button area
-       expect(path1.preview).toBeFalsy();
+       expect(component.paths[1].preview).toBeFalsy();
      }));
 
-  it('should toggle enabled/disabled when dragging', inject([LegendComponent], (component) => {
-       expect(path1.enabled).toBeFalsy();
-       path2.enabled = false;
-       expect(path2.enabled).toBeFalsy();
-       component.mouseDown(path2);
-       expect(path1.enabled).toBeFalsy();
-       expect(path2.enabled).toBeTruthy();
-       component.mouseEnter(path1);
-       expect(path1.enabled).toBeTruthy();
-       component.mouseEnter(path2);
-       expect(path2.enabled).toBeFalsy();
+  it('should toggle enabled when dragging', inject([LegendComponent], (component) => {
+       expect(component.paths[0].enabled).toBeFalsy();
+       component.mouseDown(component.paths[1]);
+       expect(component.paths[0].enabled).toBeFalsy();
+       expect(component.paths[1].enabled).toBeFalsy();
+       component.mouseEnter(component.paths[0]);
+       expect(component.paths[0].enabled).toBeTruthy();
+       component.mouseEnter(component.paths[1]);
+       expect(component.paths[1].enabled).toBeTruthy();
      }));
 
-  it('should not toggle enabled/disabled when not dragging',
-     inject([LegendComponent], (component) => {
-       expect(path1.enabled).toBeFalsy();
-       expect(path2.enabled).toBeTruthy();
-       component.mouseEnter(path1);
-       expect(path1.enabled).toBeFalsy();
-       component.mouseEnter(path2);
-       expect(path2.enabled).toBeTruthy();
+  it('should not toggle enabled when not dragging', inject([LegendComponent], (component) => {
+       expect(component.paths[0].enabled).toBeFalsy();
+       expect(component.paths[1].enabled).toBeTruthy();
+       component.mouseEnter(component.paths[0]);
+       expect(component.paths[0].enabled).toBeFalsy();
+       component.mouseEnter(component.paths[1]);
+       expect(component.paths[1].enabled).toBeTruthy();
      }));
 });
