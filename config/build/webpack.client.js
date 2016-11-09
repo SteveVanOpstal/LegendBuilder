@@ -52,7 +52,7 @@ module.exports = function(options) {
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
       new HtmlWebpackPlugin({
         template: 'src/client/index.html',
-        title: 'Legend Builder' + options.dev ? ' [DEV]' : '',
+        title: 'Legend Builder' + (options.dev ? ' [DEV]' : ''),
         chunksSortMode: 'dependency',
         minify: options.dev ? false : {
           collapseWhitespace: true,
