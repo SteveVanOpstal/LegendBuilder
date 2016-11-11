@@ -25,12 +25,15 @@ describe('AbilitiesComponent', () => {
 
   let champion = {
     stats: {attackrange: 175, mpperlevel: 47, mp: 334},
-    spells: [{
-      effect:
-          [undefined, [50, 75, 100, 125, 150], [35, 35, 35, 35, 35], [0.3, 0.35, 0.4, 0.45, 0.5]],
-      vars: [{link: 'spelldamage', coeff: [0.6], key: 'a1'}],
-      sanitizedTooltip: '{{ a1 }} {{ e1 }} {{ f1 }}'
-    }]
+    spells: [
+      {
+        effect:
+            [undefined, [50, 75, 100, 125, 150], [35, 35, 35, 35, 35], [0.3, 0.35, 0.4, 0.45, 0.5]],
+        vars: [{link: 'spelldamage', coeff: [0.6], key: 'a1'}],
+        sanitizedTooltip: '{{ a1 }} {{ e1 }} {{ f1 }}'
+      },
+      {sanitizedTooltip: '{{f10}}'}
+    ]
   };
 
   it('should create a tooltip', inject([DataService], (data) => {
@@ -46,8 +49,7 @@ describe('AbilitiesComponent', () => {
        data.champion.notify(champion);
        expect(component.champion).toHaveEqualContent(champion);
        component.champion = champion;
-       component.champion.spells[0].sanitizedTooltip = '{{f10}}';
-       let extendedTooltip = component.getExtendedTooltip(0);
+       let extendedTooltip = component.getExtendedTooltip(1);
        expect(extendedTooltip).toBe('[[error]]');
      }));
 
