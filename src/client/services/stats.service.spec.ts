@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Item} from '../build/item';
 import {Samples} from '../build/samples';
 import {DataService} from '../services/data.service';
+import {LolApiService} from '../services/lolapi.service';
 import {MockMockBackend, MockRouter, TestModule} from '../testing';
 
 import {StatsService} from './stats.service';
@@ -12,7 +13,8 @@ import {StatsService} from './stats.service';
 describe('StatsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{provide: Router, useValue: new MockRouter()}, StatsService, DataService],
+      providers:
+          [{provide: Router, useValue: new MockRouter()}, StatsService, DataService, LolApiService],
       imports: [TestModule]
     });
   });

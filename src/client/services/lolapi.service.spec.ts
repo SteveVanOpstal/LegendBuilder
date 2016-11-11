@@ -7,7 +7,7 @@ import {TestModule} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({imports: [TestModule]});
+    TestBed.configureTestingModule({providers: [LolApiService], imports: [TestModule]});
   });
 
   it('should get realm data', async(inject([LolApiService], (service) => {

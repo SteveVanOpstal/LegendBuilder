@@ -1,6 +1,7 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
+import {LolApiService} from '../../services/lolapi.service';
 import {TestModule} from '../../testing';
 
 import {ShopComponent} from './shop.component';
@@ -11,7 +12,8 @@ class MockEvent {
 
 describe('ShopComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [ShopComponent], imports: [TestModule]});
+    TestBed.configureTestingModule(
+        {providers: [ShopComponent, LolApiService], imports: [TestModule]});
   });
 
   // let pickedItem1 = {id: 1, group: 'PinkWards'};

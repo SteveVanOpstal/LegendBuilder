@@ -2,6 +2,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
 import {DataService} from '../services/data.service';
+import {LolApiService} from '../services/lolapi.service';
 import {StatsService} from '../services/stats.service';
 import {TestModule} from '../testing';
 
@@ -9,8 +10,10 @@ import {BuildComponent} from './build.component';
 
 describe('BuildComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule(
-        {providers: [StatsService, DataService, BuildComponent], imports: [TestModule]});
+    TestBed.configureTestingModule({
+      providers: [BuildComponent, StatsService, DataService, LolApiService],
+      imports: [TestModule]
+    });
   });
 
   it('should be initialised', inject([BuildComponent], (component) => {

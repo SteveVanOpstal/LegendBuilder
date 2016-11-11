@@ -5,6 +5,7 @@ import {IconErrorComponent} from '../../assets/icon-error.component';
 import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
+import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
 import {ErrorComponent} from '../../shared/error.component';
 import {LoadingComponent} from '../../shared/loading.component';
@@ -65,7 +66,7 @@ const masteriesDataAltered = [
 let providers = () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MasteriesComponent],
+      providers: [MasteriesComponent, LolApiService],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
         LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
