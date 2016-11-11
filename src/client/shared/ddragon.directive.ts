@@ -45,7 +45,7 @@ export class DDragonDirective implements OnInit, OnChanges {
         this.el.nativeElement.setAttribute('src', image);
         break;
       default:
-        this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', image);
+        this.el.nativeElement.setAttribute('href', image);
     }
   }
 
