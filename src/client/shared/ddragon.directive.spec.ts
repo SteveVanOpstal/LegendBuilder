@@ -122,15 +122,14 @@ describe('DDragonDirective', () => {
     });
 
     it('should initialise with a default image', () => {
-      expect(directive.el.nativeElement.getAttribute('style'))
-          .toBe('background:url(' + defaultImage + ') 1px 1px;');
+      expect(directive.el.nativeElement.style.background).toBe('url(' + defaultImage + ') 1px 1px');
     });
 
     it('should set requested image', async(inject([MockBackend], (backend) => {
          directive.ngOnInit();
          backend.success(realm);
-         expect(directive.el.nativeElement.getAttribute('style'))
-             .toBe('background:url(http://url/cdn/[realm-version]/img/test.png) 1px 1px;');
+         expect(directive.el.nativeElement.style.background)
+             .toBe('url(http://url/cdn/[realm-version]/img/test.png) 1px 1px');
        })));
   });
 
@@ -142,14 +141,13 @@ describe('DDragonDirective', () => {
     });
 
     it('should initialise with a default image', () => {
-      expect(directive.el.nativeElement.getAttribute('src')).toBe(defaultImage);
+      expect(directive.el.nativeElement.src).toBe(defaultImage);
     });
 
     it('should set requested image', async(inject([MockBackend], (backend) => {
          directive.ngOnInit();
          backend.success(realm);
-         expect(directive.el.nativeElement.getAttribute('src'))
-             .toBe('http://url/cdn/[realm-version]/img/test.png');
+         expect(directive.el.nativeElement.src).toBe('http://url/cdn/[realm-version]/img/test.png');
        })));
   });
 
