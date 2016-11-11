@@ -1,4 +1,4 @@
-export {MockElementRef, MockNativeElement} from './core';
+export {MockElementRef} from './core';
 export {CoreModule} from './core.module';
 export {MockEvent, MockKeyboardEvent} from './event';
 export {EventModule} from './event.module';

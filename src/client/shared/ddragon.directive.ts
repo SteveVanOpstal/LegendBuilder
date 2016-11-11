@@ -8,52 +8,44 @@ enum AttributeType {
   xlink
 }
 
+export let defaultImage: string =
+    'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
+
 @Directive({selector: '[ddragon]'})
 export class DDragonDirective implements OnInit, OnChanges {
   @Input('ddragon') image: string;
   @Input() x: number = -1;
   @Input() y: number = -1;
 
-  private defaultImg: string =
-      'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
-
-  private realm: string = '';
+  private realm: any = undefined;
 
   constructor(private el: ElementRef, private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.setImage(this.defaultImg);
-    this.lolApi.getRealm().subscribe((realm) => {
+    this.setImage(defaultImage);
+    this.lolApi.getRealm().subscribe((realm: any) => {
       this.realm = realm;
-      this.setImage(this.buildImage(realm));
+      this.setImage(this.buildImage(this.image, this.realm));
     });
   }
 
   ngOnChanges() {
     if (this.realm) {
-      this.setImage(this.buildImage(this.realm));
+      this.setImage(this.buildImage(this.image, this.realm));
     }
   }
 
   setImage(image: string) {
     switch (this.getType()) {
       case AttributeType.style:
-        this.el.nativeElement.setAttribute('style', image);
+        let style = 'background:url(' + image + ') ' + this.x + 'px ' + this.y + 'px;';
+        this.el.nativeElement.setAttribute('style', style);
         break;
       case AttributeType.src:
         this.el.nativeElement.setAttribute('src', image);
         break;
       default:
         this.el.nativeElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', image);
-    }
-  }
-
-  private buildImage(realm: any) {
-    switch (this.getType()) {
-      case AttributeType.style:
-        return this.buildStyle(this.image, realm, this.x, this.y);
-      default:
-        return this.buildUrl(this.image, realm);
     }
   }
 
@@ -67,13 +59,9 @@ export class DDragonDirective implements OnInit, OnChanges {
     }
   }
 
-  private buildStyle(image: string, realm: any, x: number, y: number): string {
-    return 'background:url(' + this.buildUrl(image, realm) + ') ' + x + 'px ' + y + 'px;';
-  }
-
-  private buildUrl(image: string, realm: any): string {
+  private buildImage(image: string|undefined, realm: any|undefined): string {
     if (!image || !realm) {
-      return this.defaultImg;
+      return defaultImage;
     }
 
     let type = image.substr(0, image.lastIndexOf('/'));
