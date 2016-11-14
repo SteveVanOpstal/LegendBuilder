@@ -38,10 +38,17 @@ let modes = {
   'e2e': ['e2e']
 }
 
+for (let index in browsers.customLaunchers) {
+  let browser = browsers.customLaunchers[index];
+  modes
+      [index + ' (' + browser.browserName + ' ' + browser.version + ')' +
+       (browser.platform ? '(' + browser.platform + ')' : '')] =
+          ['sauce:open', 'test:client -- --browsers=' + index, 'sauce:close'];
+}
+
 if (validMode(process.env.CI_MODE)) {
   execute(modes[process.env.CI_MODE]);
-}
-else {
+} else {
   selectMode();
 }
 
@@ -50,7 +57,7 @@ function selectMode() {
 
   let i = 0;
   for (let m in modes) {
-    console.log('  ' + i + ' - \'' + m + '\'');
+    console.log('  ' + i + ' \'' + m + '\'');
     for (let index in modes[m]) {
       console.log('    * ' + modes[m][index]);
     }
