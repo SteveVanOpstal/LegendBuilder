@@ -38,7 +38,7 @@ let modes = {
   'e2e': ['e2e']
 }
 
-for (let index in browsers.customLaunchers) {
+for (let index of browsers.saucelabsAliases.ALL) {
   let browser = browsers.customLaunchers[index];
   modes
       [index + ' (' + browser.browserName + ' ' + browser.version + ')' +
@@ -57,9 +57,11 @@ function selectMode() {
 
   let i = 0;
   for (let m in modes) {
-    console.log('  ' + i + ' \'' + m + '\'');
-    for (let index in modes[m]) {
-      console.log('    * ' + modes[m][index]);
+    console.log('  ' + i + '. ' + m);
+    if (process.argv[2] == '-m' || process.argv[2] == '--mode_details') {
+      for (let index in modes[m]) {
+        console.log('    * ' + modes[m][index]);
+      }
     }
     i++;
   }
