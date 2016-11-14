@@ -122,16 +122,16 @@ describe('DDragonDirective', () => {
     });
 
     it('should initialise with a default image', () => {
-      expect(directive.el.nativeElement.style.background)
-          .toMatch(new RegExp('url ?\\("?' + RegExp.escape(defaultImage) + '"?\\) 1px 1px'));
+      expect(directive.el.nativeElement.style.background).toContain(defaultImage);
+      expect(directive.el.nativeElement.style.background).toContain('1px 1px');
     });
 
     it('should set requested image', async(inject([MockBackend], (backend) => {
          directive.ngOnInit();
          backend.success(realm);
          expect(directive.el.nativeElement.style.background)
-             .toMatch(new RegExp(
-                 /url ?\("?http:\/\/url\/cdn\/\[realm-version\]\/img\/test\.png"?\) 1px 1px/));
+             .toContain('http://url/cdn/[realm-version]/img/test.png');
+         expect(directive.el.nativeElement.style.background).toContain('1px 1px');
        })));
   });
 
