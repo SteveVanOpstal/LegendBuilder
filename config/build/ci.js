@@ -106,10 +106,11 @@ function execute(scripts) {
   spawn_processes(scripts);
 }
 
+let exit_status = 0;
 function spawn_processes(scripts) {
   let script = scripts.shift();
   if (!script) {
-    exit(0);
+    exit(exit_status);
   } else {
     spawn_process(
         script,
@@ -118,11 +119,12 @@ function spawn_processes(scripts) {
         },
         (status) => {
           if (status) {
-            exit(status);
+            exit_status = status;
           } else {
             console.log('Exit status unknown');
-            process.exit(1);
+            exit_status = 1;
           }
+          spawn_processes(scripts);
         });
   }
 }
