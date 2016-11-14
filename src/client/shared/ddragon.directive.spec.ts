@@ -1,4 +1,4 @@
-import {Component, DebugElement /*, ElementRef*/} from '@angular/core';
+import {Component, DebugElement} from '@angular/core';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 import {By} from '@angular/platform-browser';
@@ -122,14 +122,16 @@ describe('DDragonDirective', () => {
     });
 
     it('should initialise with a default image', () => {
-      expect(directive.el.nativeElement.style.background).toBe('url(' + defaultImage + ') 1px 1px');
+      expect(directive.el.nativeElement.style.background)
+          .toMatch(new RegExp('url ?\\("?' + RegExp.escape(defaultImage) + '"?\\) 1px 1px'));
     });
 
     it('should set requested image', async(inject([MockBackend], (backend) => {
          directive.ngOnInit();
          backend.success(realm);
          expect(directive.el.nativeElement.style.background)
-             .toBe('url(http://url/cdn/[realm-version]/img/test.png) 1px 1px');
+             .toMatch(new RegExp(
+                 /url ?\("?http:\/\/url\/cdn\/\[realm-version\]\/img\/test\.png"?\) 1px 1px/));
        })));
   });
 
