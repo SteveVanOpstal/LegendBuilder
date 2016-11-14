@@ -132,19 +132,19 @@ describe('MasteryComponent', () => {
   it('should add rank on click', () => {
     spyOn(component, 'rankAdd');
     expect(component.rankAdd).not.toHaveBeenCalled();
-    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('click'));
+    component.clicked();
     expect(component.rankAdd).toHaveBeenCalled();
   });
   it('should add rank on drag', () => {
     spyOn(component, 'rankAdd');
     expect(component.rankAdd).not.toHaveBeenCalled();
-    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('dragend'));
+    component.dragEnd();
     expect(component.rankAdd).toHaveBeenCalled();
   });
   it('should remove rank on right click', () => {
     spyOn(component, 'rankRemove');
     expect(component.rankRemove).not.toHaveBeenCalled();
-    document.getElementsByTagName('div').item(1).dispatchEvent(new CustomEvent('contextmenu'));
+    component.rightClicked();
     expect(component.rankRemove).toHaveBeenCalled();
   });
 });
