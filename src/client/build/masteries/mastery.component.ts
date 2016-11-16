@@ -14,7 +14,7 @@ import {Colors} from '../../assets/icon-rank.component';
       <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>
-        <p>{{data.description[0]}}</p>
+        <p [innerHTML]="description">loading..</p>
       </div>
     </div>`
 })
@@ -26,16 +26,16 @@ export class MasteryComponent implements OnChanges {
   @Output() rankAdded: EventEmitter<any> = new EventEmitter<any>();
   @Output() rankRemoved: EventEmitter<any> = new EventEmitter<any>();
 
+  private description: string;
+
   private rank: number = 0;
   private color: string = Colors.gray;
 
   private active: boolean = false;
   private locked: boolean = false;
 
-  constructor() {}
-
   ngOnChanges() {
-    this.changed();
+    this.update();
   }
 
   enable() {
@@ -47,7 +47,7 @@ export class MasteryComponent implements OnChanges {
       return;
     }
     this.enabled = true;
-    this.changed();
+    this.update();
   }
 
   disable() {
@@ -55,7 +55,7 @@ export class MasteryComponent implements OnChanges {
       return;
     }
     this.enabled = false;
-    this.changed();
+    this.update();
   }
 
   lock() {
@@ -72,7 +72,7 @@ export class MasteryComponent implements OnChanges {
 
   addRank() {
     this.rank++;
-    this.changed();
+    this.update();
   }
 
   setRank(rank: number) {
@@ -80,7 +80,7 @@ export class MasteryComponent implements OnChanges {
       return;
     }
     this.rank = rank;
-    this.changed();
+    this.update();
   }
 
   getMaxRank() {
@@ -95,7 +95,7 @@ export class MasteryComponent implements OnChanges {
       return;
     }
     this.rankAdded.emit(this);
-    this.changed();
+    this.update();
   }
 
   getActive() {
@@ -114,7 +114,7 @@ export class MasteryComponent implements OnChanges {
       this.rank--;
     }
     this.rankRemoved.emit(this);
-    this.changed();
+    this.update();
   }
 
   clicked() {
@@ -130,13 +130,29 @@ export class MasteryComponent implements OnChanges {
     return false;  // stop context menu from appearing
   }
 
-  private changed() {
+  private update() {
     if (this.enabled) {
       this.active = this.rank !== 0;
       this.color = this.active ? Colors.yellow : Colors.blue;
     } else {
       this.active = false;
       this.color = Colors.gray;
+    }
+
+    if (this.data.description) {
+      if (this.data.description.length === 1) {
+        this.description = this.data.description[0];
+      } else if (this.rank === 0) {
+        let description = '';
+        for (let i in this.data.description) {
+          description += 'Mastery level ' + (parseInt(i, 10) + 1) + ':<br>';
+          description += this.data.description[i];
+          description += '<br><br>';
+        }
+        this.description = description;
+      } else {
+        this.description = this.data.description[this.rank - 1];
+      }
     }
   }
 }

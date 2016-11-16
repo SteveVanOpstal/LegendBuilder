@@ -682,7 +682,29 @@ lb-preview hr.down {
   margin: 0 auto -18px auto;
 }
 
-/* items-from */
+lb-preview .description {
+  color: #88C3C7;
+}
+
+lb-preview .description stats {
+  color: #98BFB8;
+}
+
+lb-preview .description unique,
+lb-preview .description active {
+  color: #965C1E;
+}
+
+lb-preview .description grouplimit {
+  color: #79C979;
+}
+
+lb-preview .description rules {
+  font-style: italic;
+  color: #666;
+}
+
+/* lb-items-from */
 
 lb-items-from {
   display: flex;

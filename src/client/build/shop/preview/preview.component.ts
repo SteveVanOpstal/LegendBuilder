@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 import {Item} from '../../item';
 import {ItemBundle} from './item-bundle';
@@ -27,7 +28,7 @@ import {ItemBundle} from './item-bundle';
                     (itemPicked)="itemPicked">
         </lb-items-from>
       </div>
-      <p class="description">{{item?.description}}</p>
+      <p class="description" [innerHTML]="description">loading..</p>
     </div>`
 })
 
@@ -39,10 +40,17 @@ export class PreviewComponent implements OnChanges {
   private itemsFrom: Array<ItemBundle>|undefined = undefined;
   private itemsInto: Array<Item>|undefined = undefined;
 
+  private description: SafeHtml;
+
+  constructor(private sanitizer: DomSanitizer) {}
+
   ngOnChanges() {
     if (!this.item) {
       return;
     }
+
+    this.description = this.sanitizer.bypassSecurityTrustHtml(this.item.description);
+
     this.itemsFrom = this.getItemsFrom(this.item);
     this.itemsInto = this.getItemsInto(this.item);
   }

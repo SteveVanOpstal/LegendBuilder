@@ -18,7 +18,7 @@ import {Samples} from '../samples';
                [attr.y]="(i * 50)"
                [attr.height]="i == 3 ? 50 : 40"
                [attr.width]="i == 3 ? 50 : 40">
-          <title>{{getExtendedTooltip(i)}}</title>
+          <title [innerHTML]="spell.extendedTooltip"></title>
         </image>
         <g fill="gray">
           <rect x="10" [attr.y]="5 + (i * 50) + (i == 3 ? 5 : 0)" [attr.width]="width" height="30">
@@ -48,6 +48,7 @@ export class AbilitiesComponent implements OnInit {
     this.svg = select(this.elementRef.nativeElement).select('svg');
     this.data.champion.subscribe((champion) => {
       this.champion = champion;
+      this.update();
     });
     this.data.samples.subscribe((samples: Samples) => {
       this.samples = samples;
@@ -55,9 +56,10 @@ export class AbilitiesComponent implements OnInit {
     });
   }
 
-  getExtendedTooltip(index: number): string {
-    let spell = this.champion.spells[index];
-    return this.applyEffects(spell);
+  private update(): void {
+    for (let spell of this.champion.spells) {
+      spell.extendedTooltip = this.applyEffects(spell);
+    }
   }
 
   private applyEffects(spell: any) {
@@ -85,7 +87,7 @@ export class AbilitiesComponent implements OnInit {
       effects[attrname] = stats[attrname];
     }
 
-    return tim(spell.sanitizedTooltip, effects);
+    return tim(spell.tooltip, effects);
   }
 
   private getStats(): Array<string> {
