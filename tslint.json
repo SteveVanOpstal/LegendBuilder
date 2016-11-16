@@ -159,7 +159,8 @@
     "use-pipe-transform-interface": true,
     "pipe-naming": [
       true,
-      "camelCase"
+      "camelCase",
+      "lb"
     ],
     "component-class-suffix": true,
     "directive-class-suffix": true,

@@ -8,14 +8,14 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="let category of data?.tree | toIterable">
-        <p class="noselect">{{category.header | translate | capitalize}}</p>
+      <div class="category" *ngFor="let category of data?.tree | lbToIterable">
+        <p class="noselect">{{category.header | lbTranslate | lbCapitalize}}</p>
         <hr>
         <label *ngFor="let tag of category.tags">
           <input *ngIf="tag != '_SORTINDEX'"
                  type="checkbox" value="{{tag}}"
                  (change)="tagChanged($event)">
-          <span *ngIf="tag != '_SORTINDEX'">{{tag | translate | capitalize}}</span>
+          <span *ngIf="tag != '_SORTINDEX'">{{tag | lbTranslate | lbCapitalize}}</span>
         </label>
       </div>
     </div>
@@ -28,8 +28,13 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
           </button>
         </div>
         <div class="items">
-          <template ngFor let-item
-                    [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
+          <template ngFor let-item [ngForOf]="items
+                                               | lbMap:11
+                                               | lbChampion:123
+                                               | lbHide
+                                               | lbTags:tags
+                                               | lbName:name
+                                               | lbSort">
             <lb-item [item]="item"
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
@@ -43,7 +48,7 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
       </div>
       <div class="right">
         <lb-preview [item]="pickedItem"
-                 [items]="items | map:11 | champion:123"
+                 [items]="items | lbMap:11 | lbChampion:123"
                  (itemPicked)="pickItem(item)">
         </lb-preview>
       </div>

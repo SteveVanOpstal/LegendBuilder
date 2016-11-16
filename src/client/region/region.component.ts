@@ -9,7 +9,7 @@ import {LolApiService} from '../services/lolapi.service';
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>
-    <button *ngFor="let region of regions | toIterable">
+    <button *ngFor="let region of regions | lbToIterable">
       <a [routerLink]="[region.slug]">
         <span>{{region.slug | uppercase}}</span>
         <span>{{region.name}}</span>

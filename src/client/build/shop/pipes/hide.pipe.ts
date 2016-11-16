@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'hide', pure: false})
+@Pipe({name: 'lbHide', pure: false})
 
 export class HidePipe implements PipeTransform {
   transform(items: Array<any>) {

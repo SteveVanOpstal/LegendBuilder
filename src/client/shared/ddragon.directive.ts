@@ -11,9 +11,9 @@ enum AttributeType {
 export let defaultImage: string =
     'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
 
-@Directive({selector: '[ddragon]'})
+@Directive({selector: '[lbDDragon]'})
 export class DDragonDirective implements OnInit, OnChanges {
-  @Input('ddragon') image: string;
+  @Input('lbDDragon') image: string;
   @Input() x: number = -1;
   @Input() y: number = -1;
 

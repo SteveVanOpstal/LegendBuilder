@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'toIterable'})
+@Pipe({name: 'lbToIterable'})
 
 export class ToIterablePipe implements PipeTransform {
   transform(values: any): any[] {

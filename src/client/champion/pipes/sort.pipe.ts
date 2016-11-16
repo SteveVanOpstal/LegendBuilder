@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'sort', pure: false})
+@Pipe({name: 'lbSort', pure: false})
 
 export class SortPipe implements PipeTransform {
   private prevSort: string;

@@ -11,7 +11,7 @@ import {Colors} from '../../assets/icon-rank.component';
          (contextmenu)="rightClicked()"
          (dragend)="dragEnd()">
       <lb-icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></lb-icon-rank>
-      <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
+      <img [attr.alt]="data.name" [lbDDragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>
         <p [innerHTML]="description">loading..</p>

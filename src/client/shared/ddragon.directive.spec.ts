@@ -11,9 +11,9 @@ import {DDragonDirective, defaultImage} from './ddragon.directive';
 
 @Component({
   template: `
-  <img [ddragon]="'test.png'" [x]="1" [y]="1">
-  <img [ddragon]="'test.png'">
-  <svg xmlns="http://www.w3.org/2000/svg"><image [ddragon]="'test.png'"></image></svg>`
+  <img [lbDDragon]="'test.png'" [x]="1" [y]="1">
+  <img [lbDDragon]="'test.png'">
+  <svg xmlns="http://www.w3.org/2000/svg"><image [lbDDragon]="'test.png'"></image></svg>`
 })
 class TestComponent {
 }

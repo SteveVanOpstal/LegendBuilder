@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'name'})
+@Pipe({name: 'lbName'})
 
 export class NamePipe implements PipeTransform {
   transform(champions: Array<any>, name) {

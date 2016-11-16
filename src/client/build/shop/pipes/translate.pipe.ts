@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'translate'})
+@Pipe({name: 'lbTranslate'})
 
 export class TranslatePipe implements PipeTransform {
   translator: Object = {

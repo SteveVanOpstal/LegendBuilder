@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'tags', pure: false})
+@Pipe({name: 'lbTags', pure: false})
 
 export class TagsPipe implements PipeTransform {
   transform(champions: Array<any>, tags) {
@@ -22,9 +22,6 @@ export class TagsPipe implements PipeTransform {
   }
 
   private exclude(array: Array<string>, exclude: string) {
-    // if (typeof array !== 'object') {
-    //   return [];
-    // }
     let index: number = array.indexOf(exclude);
     if (index > -1) {
       array.splice(index, 1);

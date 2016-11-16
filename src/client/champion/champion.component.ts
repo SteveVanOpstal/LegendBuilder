@@ -15,10 +15,13 @@ import {TagsPipe} from './pipes/tags.pipe';
   template: `
     <lb-filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()">
     </lb-filters>
-    <div class="champion"
-         *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
+    <div class="champion" *ngFor="let champion of champions?.data
+                                  | lbToIterable
+                                  | lbName:name
+                                  | lbSort:sort
+                                  | lbTags:tags">
       <a id="{{champion.id}}" [routerLink]="[champion.key]" *ngIf="!loading">
-        <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
+        <img class="nodrag" [lbDDragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>
           <lb-bar title="Attack Damage" class="attack"  [value]="champion.info.attack"></lb-bar>
