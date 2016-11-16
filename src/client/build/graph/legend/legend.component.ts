@@ -23,14 +23,14 @@ export class LegendComponent implements OnChanges {
   private dragging: boolean = false;
 
   ngOnChanges(changes: SimpleChanges) {
-    for (let path_curr of changes['paths'].currentValue) {
-      let found_paths = changes['paths'].previousValue.filter((path: Path) => {
-        return path.name === path_curr.name;
+    for (let currentPath of changes['paths'].currentValue) {
+      let foundPaths = changes['paths'].previousValue.filter((path: Path) => {
+        return path.name === currentPath.name;
       });
 
-      if (found_paths.length === 1) {
-        let path_prev: Path = found_paths[0];
-        path_curr.enabled = path_prev.enabled;
+      if (foundPaths.length === 1) {
+        let previousPath: Path = foundPaths[0];
+        currentPath.enabled = previousPath.enabled;
       }
     }
   }
