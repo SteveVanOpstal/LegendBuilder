@@ -8,5 +8,5 @@ export interface Item {
   image?: {full: string};
   tags?: Array<string>;
   stats?: any;
-  description: string;
+  description?: string;
 }

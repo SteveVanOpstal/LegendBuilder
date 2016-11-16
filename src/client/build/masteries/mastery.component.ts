@@ -139,7 +139,7 @@ export class MasteryComponent implements OnChanges {
       this.color = Colors.gray;
     }
 
-    if (this.data.description) {
+    if (this.data && this.data.description) {
       if (this.data.description.length === 1) {
         this.description = this.data.description[0];
       } else if (this.rank === 0) {
@@ -150,8 +150,10 @@ export class MasteryComponent implements OnChanges {
           description += '<br><br>';
         }
         this.description = description;
-      } else {
+      } else if (this.rank <= this.data.description.length) {
         this.description = this.data.description[this.rank - 1];
+      } else {
+        this.description = this.data.description[this.data.description.length - 1];
       }
     }
   }

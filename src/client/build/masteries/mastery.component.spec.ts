@@ -16,7 +16,7 @@ const data = {
 };
 
 describe('MasteryComponent', () => {
-  let component: MasteryComponent;
+  let component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,7 +41,7 @@ describe('MasteryComponent', () => {
   });
 
   it('should not disable when it has a rank', () => {
-    spyOn(component, 'changed');
+    spyOn(component, 'update');
     component.enabled = true;
     component.setRank(1);
     component.disable();
@@ -146,5 +146,33 @@ describe('MasteryComponent', () => {
     expect(component.rankRemove).not.toHaveBeenCalled();
     component.rightClicked();
     expect(component.rankRemove).toHaveBeenCalled();
+  });
+
+  it('should add the mastery description', () => {
+    component.data.description = ['test'];
+    component.update();
+    expect(component.description).toBe('test');
+  });
+
+  it('should add all mastery descriptions when not selected', () => {
+    component.data.description = ['test1', 'test2'];
+    component.rank = 0;
+    component.update();
+    expect(component.description)
+        .toBe('Mastery level 1:<br>test1<br><br>Mastery level 2:<br>test2<br><br>');
+  });
+
+  it('should add the mastery description of the associated rank', () => {
+    component.data.description = ['test1', 'test2'];
+    component.rank = 2;
+    component.update();
+    expect(component.description).toBe('test2');
+  });
+
+  it('should add the mastery description of the associated rank', () => {
+    component.data.description = ['test1', 'test2'];
+    component.rank = 3;
+    component.update();
+    expect(component.description).toBe('test2');
   });
 });
