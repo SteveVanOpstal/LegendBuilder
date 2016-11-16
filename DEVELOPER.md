@@ -13,7 +13,7 @@ All commands mentioned should be ran from the project root.
 
 ### 1. Install packages
 All packages for this project can be retrieved by executing following command:
-```
+```shell
 npm install
 ```
 
@@ -54,15 +54,14 @@ Create an account at [developer.riotgames.com](https://developer.riotgames.com/)
 Create a file named `.api.key` and add the key to it (no newline). Place it at the root of the project.
 
 #### 3.2 Run
-```
+```shell
 npm run static-server
 npm run match-server
 ```
 
 ### 4. Run a HTTP server (webpack-dev-server)
 I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) which is included as a packages.
-
-```
+```shell
 npm run server
 ```
 
@@ -84,14 +83,30 @@ Every release a python script will generate a post on reddit. To improve this sc
 ## <a name="clang-format"></a> ClangFormat
 ClangFormat will format the code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
 The following command will format all `.ts` files:
-```
+```shell
 npm run format
 ```
 
 ### Visual Studio Code
 A plugin for VSCode is available: [xaver.clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
-
-```
+```shell
 npm install clang-format -g
 ext install clang-format
+```
+
+## <a name="tslint"></a> TSLint / Codelyzer
+TSLint and Codelyzer will perform static code analysis to improve the readability and cohesion of the project.
+
+### Visual Studio Code
+A plugin for VSCode is available: [eg2.tslint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+```shell
+ext install tslint
+```
+
+Following User Settings are required:
+```JSON
+{
+  "tslint.rulesDirectory": "./node_modules/codelyzer",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
 ```
