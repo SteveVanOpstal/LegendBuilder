@@ -2,7 +2,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'main',
+  selector: 'lb-main',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./main.css').toString()],
   template: `

@@ -9,26 +9,27 @@ import {SortPipe} from './pipes/sort.pipe';
 import {TagsPipe} from './pipes/tags.pipe';
 
 @Component({
-  selector: 'champion',
+  selector: 'lb-champion',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./champion.css').toString()],
   template: `
-    <filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()"></filters>
+    <lb-filters [(name)]="name" [(tags)]="tags" [(sort)]="sort" (enterHit)="enterHit()">
+    </lb-filters>
     <div class="champion"
          *ngFor="let champion of champions?.data | toIterable | name:name | sort:sort | tags:tags">
       <a id="{{champion.id}}" [routerLink]="[champion.key]" *ngIf="!loading">
         <img class="nodrag" [ddragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>
-          <bar title="Attack Damage" class="attack"     [value]="champion.info.attack"></bar>
-          <bar title="Ability Power" class="magic"      [value]="champion.info.magic"></bar>
-          <bar title="Defense"       class="defense"    [value]="champion.info.defense"></bar>
-          <bar title="Difficulty"    class="difficulty" [value]="champion.info.difficulty"></bar>
+          <lb-bar title="Attack Damage" class="attack"  [value]="champion.info.attack"></lb-bar>
+          <lb-bar title="Ability Power" class="magic"   [value]="champion.info.magic"></lb-bar>
+          <lb-bar title="Defense"       class="defense" [value]="champion.info.defense"></lb-bar>
+          <lb-bar title="Difficulty" class="difficulty" [value]="champion.info.difficulty"></lb-bar>
         </div>
       </a>
     </div>
-    <loading [loading]="loading"></loading>
-    <retry [error]="error" (retry)="getData()"></retry>`
+    <lb-loading [loading]="loading"></lb-loading>
+    <lb-retry [error]="error" (retry)="getData()"></lb-retry>`
 })
 
 export class ChampionComponent implements OnInit {

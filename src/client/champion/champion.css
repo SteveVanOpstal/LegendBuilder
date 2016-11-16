@@ -2,37 +2,37 @@
   background-color: #FFF;
 }
 
-champion {
+lb-champion {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-champion p {
+lb-champion p {
   font-size: 1em;
 }
 
-champion .champion {
+lb-champion .champion {
   height: 275px;
   margin: -1px -2px;
 }
 
-champion .champion:hover {
+lb-champion .champion:hover {
   -webkit-filter: brightness(1.2);
   filter: brightness(1.2);
 }
 
-champion .champion:hover img {
+lb-champion .champion:hover img {
   -webkit-filter: grayscale(0);
   filter: grayscale(0);
 }
 
-champion .champion a {
+lb-champion .champion a {
   display: block;
   text-decoration: none;
 }
 
-champion .champion img {
+lb-champion .champion img {
   width: 150px;
   height: 273px;
   -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
@@ -44,12 +44,12 @@ champion .champion img {
   background-color: #EEE;
 }
 
-champion .champion .info p {
+lb-champion .champion .info p {
   z-index: 10;
   margin: 5px;
 }
 
-champion .champion .info {
+lb-champion .champion .info {
   position: absolute;
   width: 134px;
   height: 72px;
@@ -64,74 +64,74 @@ champion .champion .info {
   border-bottom-right-radius: 10px;
 }
 
-champion .champion .info bar {
+lb-champion .champion .info lb-bar {
   padding-left: 5px;
 }
 
-champion .champion .info bar.attack > div {
+lb-champion .champion .info lb-bar.attack > div {
   background-color: #5C1F1F;
 }
 
-champion .champion .info bar.defense > div {
+lb-champion .champion .info lb-bar.defense > div {
   background-color: #163A16;
 }
 
-champion .champion .info bar.magic > div {
+lb-champion .champion .info lb-bar.magic > div {
   background-color: #1B3556;
 }
 
-champion .champion .info bar.difficulty > div {
+lb-champion .champion .info lb-bar.difficulty > div {
   background-color: #411A52;
 }
 
 
-/* filters */
+/* lb-filters */
 
-filters {
+lb-filters {
   display: flex;
   width: 100%;
 }
 
-filters > div {
+lb-filters > div {
   width: 37%;
 }
 
-filters > div.center {
+lb-filters > div.center {
   width: 25%;
 }
 
-filters label {
+lb-filters label {
   margin: 8px;
   text-align: initial;
   display: inline-block;
 }
 
-filters .center {
+lb-filters .center {
   max-width: 250px;
 }
 
-filters .center input[type="text"] {
+lb-filters .center input[type="text"] {
   width: 100%;
 }
 
-filters .center label {
+lb-filters .center label {
   margin: 20px 0 0 0;
   width: 5em;
   text-align: center;
 }
 
-filters .left > .align-center,
-filters .right > .align-center {
+lb-filters .left > .align-center,
+lb-filters .right > .align-center {
   width: 85%;
   padding: 20px;
   text-align: center;
 }
 
-filters .left label {
+lb-filters .left label {
   width: 120px;
 }
 
-filters .right label {
+lb-filters .right label {
   width: 155px;
 }
 
@@ -139,7 +139,7 @@ filters .right label {
 /* @media */
 
 @media (max-width: 1350px) {
-  champion .champion
+  lb-champion .champion
   {
     width: 100px;
     height: 181px;
@@ -147,14 +147,14 @@ filters .right label {
     padding: 5px;
   }
 
-  champion .champion img {
+  lb-champion .champion img {
     width: 100px;
     height: 181px;
     -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
     clip-path: inset(3px 3px 3px 3px round 5px);
   }
 
-  champion .champion .info {
+  lb-champion .champion .info {
     font-size: 0.8em;
     width: inherit;
     height: inherit;
@@ -165,27 +165,27 @@ filters .right label {
     border-top-right-radius: 5px;
   }
   
-  champion .champion .info bar {
+  lb-champion .champion .info lb-bar {
     display: none;
   }
 }
 
 @media (max-width: 850px) {
-  filters .center
+  lb-filters .center
   {
     width: 100% !important;
   }
 }
 
 @media (max-width: 600px) {
-  filters .left,
-  filters .right {
+  lb-filters .left,
+  lb-filters .right {
     display: none;
   }
-  filters .center {
+  lb-filters .center {
     width: 100% !important;
   }
-  filters .center div {
+  lb-filters .center div {
     width: 100% !important;
   }
 }

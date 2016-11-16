@@ -4,7 +4,7 @@ import {LolApiService} from '../../services/lolapi.service';
 import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 
 @Component({
-  selector: 'shop',
+  selector: 'lb-shop',
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -24,28 +24,28 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
         <div class="search">
           <input type="text" name="name" placeholder="Name" (keyup)="name=$event.target.value">
           <button type="button" name="show-disabled" title="Display hidden items">
-            <icon-eye></icon-eye>
+            <lb-icon-eye></lb-icon-eye>
           </button>
         </div>
         <div class="items">
           <template ngFor let-item
                     [ngForOf]="items | map:11 | champion:123 | hide | tags:tags | name:name | sort">
-            <item [item]="item"
+            <lb-item [item]="item"
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
                   (click)="selectItem(item)"
                   (contextmenu)="pickItem(item)">
-            </item>
+            </lb-item>
           </template>
-          <loading [loading]="loading"></loading>
-          <retry [error]="error" (retry)="getData()"></retry>
+          <lb-loading [loading]="loading"></lb-loading>
+          <lb-retry [error]="error" (retry)="getData()"></lb-retry>
         </div>
       </div>
       <div class="right">
-        <preview [item]="pickedItem"
+        <lb-preview [item]="pickedItem"
                  [items]="items | map:11 | champion:123"
                  (itemPicked)="pickItem(item)">
-        </preview>
+        </lb-preview>
       </div>
     </div>`
 })

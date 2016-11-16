@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LolApiService} from '../services/lolapi.service';
 
 @Component({
-  selector: 'summoner',
+  selector: 'lb-summoner',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./summoner.css').toString()],
   template: `

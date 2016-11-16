@@ -1,19 +1,19 @@
-region > div {
+lb-region > div {
 	width: 226px;
   padding: 20px;
   background-color: #FFF;
   border-radius: 10px;
 }
 
-region a:hover {
+lb-region a:hover {
   text-decoration: none;
 }
 
-region h2 {
+lb-region h2 {
 	margin-top: 0;
 }
 
-region button {
+lb-region button {
   display: block;
 	width: 226px;
 	margin: 5px 0;
@@ -21,13 +21,13 @@ region button {
   text-align: left;
 }
 
-region span {
+lb-region span {
 	padding: 7px;
 	display: inline-block;
 	text-align: left;
 }
 
-region button > a > span:first-child {
+lb-region button > a > span:first-child {
 	width: 40px;
 	border-right: 1px dotted #CCC;
 }

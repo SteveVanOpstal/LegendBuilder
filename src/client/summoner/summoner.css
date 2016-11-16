@@ -1,14 +1,14 @@
-summoner {
+lb-summoner {
   display: flex;
 }
 
-summoner > div {
+lb-summoner > div {
   width: 250px;
   padding: 20px;
   background-color: #FFF;
   border-radius: 10px;
 }
 
-summoner input[type="text"] {
+lb-summoner input[type="text"] {
   padding: 5px 8px;
 }

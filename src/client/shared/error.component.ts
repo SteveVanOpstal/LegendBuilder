@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'error',
+  selector: 'lb-error',
   template: `
   <p *ngIf="error" class="error-item">
-    <icon-error class="error"></icon-error>
+    <lb-icon-error class="error"></lb-icon-error>
     <span class="error error-text">{{message}}</span>
   </p>`
 })

@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Item} from '../../item';
 
 @Component({
-  selector: 'item',
+  selector: 'lb-item',
   template: `
     <img [ddragon]="'item/' + item?.image?.full"
          (click)="selectItem(item)"

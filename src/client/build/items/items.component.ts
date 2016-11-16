@@ -6,14 +6,14 @@ import {Item} from '../item';
 import {ItemSlotComponent} from './item-slot.component';
 
 @Component({
-  selector: 'items',
+  selector: 'lb-items',
   template: `
-    <item-slot [id]="0"></item-slot>
-    <item-slot [id]="1"></item-slot>
-    <item-slot [id]="2"></item-slot>
-    <item-slot [id]="3"></item-slot>
-    <item-slot [id]="4"></item-slot>
-    <item-slot [id]="5"></item-slot>`
+    <lb-item-slot [id]="0"></lb-item-slot>
+    <lb-item-slot [id]="1"></lb-item-slot>
+    <lb-item-slot [id]="2"></lb-item-slot>
+    <lb-item-slot [id]="3"></lb-item-slot>
+    <lb-item-slot [id]="4"></lb-item-slot>
+    <lb-item-slot [id]="5"></lb-item-slot>`
 })
 
 export class ItemsComponent {

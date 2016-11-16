@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-@Component({selector: 'icon-error', template: require('./images/error.svg')})
+@Component({selector: 'lb-icon-error', template: require('./images/error.svg')})
 
 export class IconErrorComponent {
 }

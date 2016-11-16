@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'bar',
+  selector: 'lb-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div *ngFor="let val of repeat()"></div>`
 })

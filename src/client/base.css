@@ -139,14 +139,14 @@ footer a:hover {
   user-drag: none;
 }
 
-/* bar */
+/* lb-bar */
 
-bar {
+lb-bar {
   display: flex;
   height: 10px;
 }
 
-bar > div {
+lb-bar > div {
   display: inline-block;
   width: 10px;
   height: 8px;

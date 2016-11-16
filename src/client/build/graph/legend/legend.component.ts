@@ -3,7 +3,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Path} from '../graph.component';
 
 @Component({
-  selector: 'legend',
+  selector: 'lb-legend',
   template: `
     <ul (mouseleave)="mouseLeave()">
       <li *ngFor="let path of paths">

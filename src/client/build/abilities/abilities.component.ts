@@ -8,7 +8,7 @@ import {LevelScale} from '../graph/scales';
 import {Samples} from '../samples';
 
 @Component({
-  selector: 'abilities',
+  selector: 'lb-abilities',
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 220" width="100%" height="100%">
       <g [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">

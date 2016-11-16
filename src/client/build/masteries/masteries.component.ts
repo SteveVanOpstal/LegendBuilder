@@ -7,16 +7,16 @@ import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
 
 @Component({
-  selector: 'masteries',
+  selector: 'lb-masteries',
   template: `
-    <mastery-category [class]="category.name + ' noselect'"
+    <lb-mastery-category [class]="category.name + ' noselect'"
                       [data]="category"
                       *ngFor="let category of data"
                       (rankAdded)="rankAdd($event)"
                       (rankRemoved)="rankRemove($event)">
-    </mastery-category>
-    <loading [loading]="loading"></loading>
-    <retry [error]="error" (retry)="getData()"></retry>`
+    </lb-mastery-category>
+    <lb-loading [loading]="loading"></lb-loading>
+    <lb-retry [error]="error" (retry)="getData()"></lb-retry>`
 })
 
 export class MasteriesComponent implements OnInit {

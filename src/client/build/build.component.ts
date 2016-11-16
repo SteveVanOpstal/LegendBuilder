@@ -14,13 +14,13 @@ import {StatsService} from '../services/stats.service';
       <img *ngIf="champion" [ddragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
-    <graph></graph>
-    <abilities></abilities>
-    <masteries></masteries>
-    <items #items></items>
-    <shop (itemPicked)="items.addItem($event)"></shop>
-    <loading [loading]="loading"></loading>
-    <retry [error]="error" (retry)="getData()"></retry>`
+    <lb-graph></lb-graph>
+    <lb-abilities></lb-abilities>
+    <lb-masteries></lb-masteries>
+    <lb-items #items></lb-items>
+    <lb-shop (itemPicked)="items.addItem($event)"></lb-shop>
+    <lb-loading [loading]="loading"></lb-loading>
+    <lb-retry [error]="error" (retry)="getData()"></lb-retry>`
 })
 
 export class BuildComponent implements OnInit {

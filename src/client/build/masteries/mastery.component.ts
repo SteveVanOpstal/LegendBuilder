@@ -3,14 +3,14 @@ import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {Colors} from '../../assets/icon-rank.component';
 
 @Component({
-  selector: 'mastery',
+  selector: 'lb-mastery',
   template: `
     <div *ngIf="data"
          [ngClass]="{enabled: enabled, active: active}"
          (click)="clicked()"
          (contextmenu)="rightClicked()"
          (dragend)="dragEnd()">
-      <icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></icon-rank>
+      <lb-icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></lb-icon-rank>
       <img [attr.alt]="data.name" [ddragon]="'mastery/' + data.image.full">
       <div class="description">
         <h2>{{data.name}}</h2>

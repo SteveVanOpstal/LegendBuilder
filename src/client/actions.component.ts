@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from './services/auth.service';
 
 @Component({
-  selector: 'actions',
+  selector: 'lb-actions',
   template: `
     <button [routerLink]="['login']" *ngIf="active()">
       <span class="align-center">Login</span>

@@ -2,7 +2,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {Http} from '@angular/http';
 
 @Component({
-  selector: 'about',
+  selector: 'lb-about',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./about.css').toString()],
   template: `

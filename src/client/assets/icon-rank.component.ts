@@ -7,7 +7,7 @@ export class Colors {
 }
 
 @Component({
-  selector: 'icon-rank',
+  selector: 'lb-icon-rank',
   template: `
     <svg xmlns="http://www.w3.org/2000/svg"
          *ngIf="maxRank > 1"

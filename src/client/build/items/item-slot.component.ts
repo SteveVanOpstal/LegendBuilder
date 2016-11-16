@@ -6,11 +6,13 @@ import {Item} from '../item';
 import {Samples} from '../samples';
 
 @Component({
-  selector: 'item-slot',
+  selector: 'lb-item-slot',
   template: `
     <template ngFor let-item [ngForOf]="items">
-      <item [item]="item" [ngClass]="{disabled: item.disabled}" (contextmenu)="rightClicked(item)">
-      </item>
+      <lb-item [item]="item"
+               [ngClass]="{disabled: item.disabled}"
+               (contextmenu)="rightClicked(item)">
+      </lb-item>
     </template>`
 })
 

@@ -3,7 +3,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {LolApiService} from '../services/lolapi.service';
 
 @Component({
-  selector: 'region',
+  selector: 'lb-region',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./region.css').toString()],
   template: `

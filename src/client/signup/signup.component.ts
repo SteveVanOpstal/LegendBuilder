@@ -3,7 +3,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 
 @Component({
-  selector: 'signup',
+  selector: 'lb-signup',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./signup.css').toString()],
   template: `
@@ -33,7 +33,7 @@ import {AuthService} from '../services/auth.service';
                src="//cdn.auth0.com/oss/badges/a0-badge-light.png">
         </a>
       </div>
-      <error [error]="auth.error()" [message]="auth.error().message"></error>
+      <lb-error [error]="auth.error()" [message]="auth.error().message"></lb-error>
     </div>`
 })
 

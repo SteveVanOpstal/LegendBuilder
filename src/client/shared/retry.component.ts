@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'retry',
+  selector: 'lb-retry',
   template: `
   <p *ngIf="error" class="error-item">
-    <error [error]="error"></error>
+    <lb-error [error]="error"></lb-error>
     <button (click)="retryClicked()">
       <p>Retry </p>
-      <icon-refresh></icon-refresh>
+      <lb-icon-refresh></lb-icon-refresh>
     </button>
   </p>`
 })

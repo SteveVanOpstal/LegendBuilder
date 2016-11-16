@@ -130,9 +130,25 @@
       true,
       "camelCase"
     ],
+    "component-selector-name": [
+      true,
+      "kebab-case"
+    ],
     "directive-selector-type": [
       true,
       "attribute"
+    ],
+    "component-selector-type": [
+      true,
+      "element"
+    ],
+    "directive-selector-prefix": [
+      true,
+      "lb"
+    ],
+    "component-selector-prefix": [
+      true,
+      "lb"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,

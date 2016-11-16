@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'loading',
+  selector: 'lb-loading',
   template: `
-    <icon-load *ngIf="loading"></icon-load>`
+    <lb-icon-load *ngIf="loading"></lb-icon-load>`
 })
 
 export class LoadingComponent {

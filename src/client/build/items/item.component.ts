@@ -4,7 +4,7 @@ import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
 
 @Component({
-  selector: 'item',
+  selector: 'lb-item',
   template: `
     <img [ddragon]="'item/' + item.image.full">
     <p *ngIf="item.bundle > 1" class="bundle">x{{item.bundle}}</p>

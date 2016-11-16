@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'item',
+  selector: 'lb-item',
   template: `
     <img [ddragon]="'item/' + item.image.full">
     <div>

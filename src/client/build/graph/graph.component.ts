@@ -17,9 +17,9 @@ export interface Path {
 }
 
 @Component({
-  selector: 'graph',
+  selector: 'lb-graph',
   template: `
-    <legend [paths]="paths"></legend>
+    <lb-legend [paths]="paths"></lb-legend>
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1500 400">
       <g transform="translate(60,20)">
         <g class="lines">

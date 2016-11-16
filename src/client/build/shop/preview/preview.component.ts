@@ -4,28 +4,28 @@ import {Item} from '../../item';
 import {ItemBundle} from './item-bundle';
 
 @Component({
-  selector: 'preview',
+  selector: 'lb-preview',
   template: `
     <div class="into">
       <template ngFor let-item [ngForOf]="itemsInto">
-        <item [item]="item"
+        <lb-item [item]="item"
               [attr.title]="item.name"
               (itemSelected)="selectItem(item)"
               (itemPicked)="itemPicked">
-        </item>
+        </lb-item>
       </template>
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">
         <h2>{{item.name}}</h2>
-        <item [item]="item" (itemPicked)="itemPicked"></item>
+        <lb-item [item]="item" (itemPicked)="itemPicked"></lb-item>
       </div>
       <div class="from">
         <hr *ngIf="itemsFrom?.length" class="down">
-        <items-from [items]="itemsFrom"
+        <lb-items-from [items]="itemsFrom"
                     (itemSelected)="selectItem($event)"
                     (itemPicked)="itemPicked">
-        </items-from>
+        </lb-items-from>
       </div>
       <p class="description">{{item?.description}}</p>
     </div>`
