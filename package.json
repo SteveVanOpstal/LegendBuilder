@@ -136,7 +136,7 @@
     "compression-webpack-plugin": "^0.3.1",
     "copy-webpack-plugin": "^4.0.0",
     "coveralls": "^2.11.13",
-    "css-loader": "^0.25.0",
+    "css-loader": "^0.26.0",
     "glob": "^7.0.3",
     "html-webpack-plugin": "^2.14.0",
     "istanbul-instrumenter-loader": "0.2.0",
