@@ -27,10 +27,6 @@ export class RegionComponent implements OnInit {
   constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.getData();
-  }
-
-  private getData() {
     this.loading = true;
     this.error = false;
 

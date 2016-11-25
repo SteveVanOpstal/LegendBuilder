@@ -32,7 +32,7 @@ import {TagsPipe} from './pipes/tags.pipe';
       </a>
     </div>
     <lb-loading [loading]="loading"></lb-loading>
-    <lb-retry [error]="error" (retry)="getData()"></lb-retry>`
+    <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
 })
 
 export class ChampionComponent implements OnInit {
@@ -48,7 +48,18 @@ export class ChampionComponent implements OnInit {
       private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.getData();
+    this.loading = true;
+    this.error = false;
+
+    this.lolApi.getChampions().subscribe(
+        res => {
+          this.champions = res;
+          this.loading = false;
+        },
+        error => {
+          this.error = true;
+          this.loading = false;
+        });
   }
 
   enterHit() {
@@ -58,16 +69,6 @@ export class ChampionComponent implements OnInit {
         this.error = true;
       });
     }
-  }
-
-  private getData() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getChampions().subscribe(res => this.champions = res, error => {
-      this.error = true;
-      this.loading = false;
-    }, () => this.loading = false);
   }
 
   private filter(champions: any, name: string, sort: string, tags: Array<string>): Array<Object> {

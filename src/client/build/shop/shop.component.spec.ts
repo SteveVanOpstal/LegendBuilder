@@ -24,17 +24,10 @@ describe('ShopComponent', () => {
     groups: [{MaxGroupOwnable: 2, key: 'PinkWards'}, {MaxGroupOwnable: -1, key: 'DoransItems'}]
   };
 
-  it('should get data', inject([MockBackend, ShopComponent], (backend, component) => {
-       spyOn(component, 'getData');
-       expect(component.getData).not.toHaveBeenCalled();
-       component.ngOnInit();
-       expect(component.getData).toHaveBeenCalled();
-     }));
-
   it('should get items', async(inject([MockBackend, ShopComponent], (backend, component) => {
        expect(component.items).toHaveEqualContent([]);
        expect(component.originalItems).toHaveEqualContent([]);
-       component.getData();
+       component.ngOnInit();
        backend.success();
        expect(component.items).not.toHaveEqualContent({});
        expect(component.originalItems).not.toHaveEqualContent({});
@@ -43,7 +36,7 @@ describe('ShopComponent', () => {
   it('should not get items', async(inject([MockBackend, ShopComponent], (backend, component) => {
        expect(component.items).toHaveEqualContent([]);
        expect(component.originalItems).toHaveEqualContent([]);
-       component.getData();
+       component.ngOnInit();
        backend.error();
        expect(component.items).toHaveEqualContent([]);
        expect(component.originalItems).toHaveEqualContent([]);

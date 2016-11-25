@@ -12,17 +12,10 @@ describe('ChampionComponent', () => {
         {providers: [ChampionComponent, LolApiService], imports: [TestModule]});
   });
 
-  it('should call getData() on contruct', inject([ChampionComponent], (component) => {
-       spyOn(component, 'getData');
-       expect(component.getData).not.toHaveBeenCalled();
-       component.ngOnInit();
-       expect(component.getData).toHaveBeenCalled();
-     }));
-
   it('should get champions',
      async(inject([MockBackend, ChampionComponent], (backend, component) => {
        expect(component.champions).not.toBeDefined();
-       component.getData();
+       component.ngOnInit();
        backend.success();
        expect(component.champions).toBeDefined();
        expect(component.error).toBeFalsy();
@@ -31,7 +24,7 @@ describe('ChampionComponent', () => {
   it('should not get champions',
      async(inject([MockBackend, ChampionComponent], (backend, component) => {
        expect(component.champions).not.toBeDefined();
-       component.getData();
+       component.ngOnInit();
        backend.error();
        expect(component.champions).not.toBeDefined();
        expect(component.error).toBeTruthy();

@@ -43,7 +43,7 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
             </lb-item>
           </template>
           <lb-loading [loading]="loading"></lb-loading>
-          <lb-retry [error]="error" (retry)="getData()"></lb-retry>
+          <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>
         </div>
       </div>
       <div class="right">
@@ -72,10 +72,6 @@ export class ShopComponent implements OnInit {
   constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.getData();
-  }
-
-  getData() {
     this.loading = true;
     this.error = false;
 

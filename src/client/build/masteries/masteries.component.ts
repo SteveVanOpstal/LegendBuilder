@@ -16,7 +16,7 @@ import {MasteryComponent} from './mastery.component';
                       (rankRemoved)="rankRemove($event)">
     </lb-mastery-category>
     <lb-loading [loading]="loading"></lb-loading>
-    <lb-retry [error]="error" (retry)="getData()"></lb-retry>`
+    <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
 })
 
 export class MasteriesComponent implements OnInit {
@@ -30,7 +30,18 @@ export class MasteriesComponent implements OnInit {
   constructor(private lolApi: LolApiService) {}
 
   public ngOnInit() {
-    this.getData();
+    this.loading = true;
+    this.error = false;
+
+    this.lolApi.getMasteries().subscribe(
+        res => {
+          this.data = this.transformData(res);
+          this.loading = false;
+        },
+        error => {
+          this.error = true;
+          this.loading = false;
+        });
   }
 
   public enable() {
@@ -67,21 +78,6 @@ export class MasteriesComponent implements OnInit {
     if (this.getRank() === 29) {
       this.enable();
     }
-  }
-
-  private getData() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getMasteries().subscribe(
-        res => {
-          this.data = this.transformData(res);
-        },
-        error => {
-          this.error = true;
-          this.loading = false;
-        },
-        () => this.loading = false);
   }
 
   private transformData(newMasteries: any) {
