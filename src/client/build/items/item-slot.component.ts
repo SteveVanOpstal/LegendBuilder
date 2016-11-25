@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
-import {DataService} from '../../services/data.service';
+import {LolApiService} from '../../services/lolapi.service';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
@@ -21,10 +21,10 @@ export class ItemSlotComponent implements OnInit {
   private samples: Samples;
   private items: Array<Item> = new Array<Item>();
 
-  constructor(private data: DataService) {}
+  constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.data.samples.subscribe(samples => {
+    this.lolApi.getCurrentMatchData().subscribe(samples => {
       this.samples = samples;
     });
   }

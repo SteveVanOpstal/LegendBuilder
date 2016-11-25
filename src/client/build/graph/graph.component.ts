@@ -1,9 +1,10 @@
-import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {DataService} from '../../services/data.service';
+import {LolApiService} from '../../services/lolapi.service';
+import {Stats, StatsService} from '../../services/stats.service';
 import {Samples} from '../samples';
 
 import {DataAxis, TimeAxis} from './axes';
@@ -38,10 +39,7 @@ export interface Path {
     </svg>`
 })
 
-export class GraphComponent implements OnInit {
-  private samples: Samples;
-  @Input() private stats: any;
-
+export class GraphComponent implements OnInit, OnChanges {
   private svg: any;
 
   private xScaleTime = new TimeScale([0, 1380]);
@@ -73,26 +71,30 @@ export class GraphComponent implements OnInit {
                                })
                                .curve(curveStepAfter);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private data: DataService) {}
+  constructor(
+      @Inject(ElementRef) private elementRef: ElementRef, private lolApi: LolApiService,
+      private stats: StatsService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
     this.createAxes();
 
-    this.data.samples.subscribe((samples: Samples) => {
-      this.samples = samples;
-      if (this.svg) {
-        this.createPaths();
-      }
+    this.stats.stats.subscribe((stats) => {
+      this.addStats(stats);
     });
 
-    this.data.stats.subscribe((stats) => {
-      this.stats = stats;
-      this.createPaths();
+    this.lolApi.getCurrentMatchData().subscribe((samples: Samples) => {
+      if (this.svg) {
+        this.addSamples(samples);
+      }
     });
   }
 
-  createAxes() {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+  }
+
+  private createAxes() {
     this.xScaleTime.create();
     this.xAxisTime.create(this.xScaleTime);
 
@@ -106,15 +108,34 @@ export class GraphComponent implements OnInit {
     this.svg.select('.y.axis.right').call(this.yAxisRight.get());
   }
 
-  createPaths() {
-    this.paths = [];
-    for (let index in this.samples) {
-      this.paths.push(
-          {enabled: true, preview: false, name: index, d: this.lineSamples(this.samples[index])});
+  private addSamples(samples: Samples) {
+    this.addPaths(samples, this.lineSamples);
+  }
+
+  private addStats(stats: Stats) {
+    this.addPaths(stats, this.lineStats);
+  }
+
+  private addPaths(
+      paths: any /*{[name: string]: Array<number>} Microsoft/TypeScript#5683 */, line) {
+    for (let index in paths) {
+      this.addPath(paths, line, index);
     }
-    for (let index in this.stats) {
-      this.paths.push(
-          {enabled: true, preview: false, name: index, d: this.lineStats(this.stats[index])});
+  }
+
+  private addPath(paths: any, line, name: string) {
+    let foundPath = this.findPath(name);
+
+    if (foundPath) {
+      foundPath.d = line(paths[name]);
+    } else {
+      this.paths.push({enabled: true, preview: false, name: name, d: line(paths[name])});
     }
+  }
+
+  private findPath(name: string): Path {
+    return this.paths.find((path) => {
+      return path.name === name;
+    });
   }
 }

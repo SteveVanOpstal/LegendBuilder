@@ -2,7 +2,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
-import {LolApiService} from '../services/lolapi.service';
+import {Endpoint, LolApiService} from '../services/lolapi.service';
 import {TestModule} from '../testing';
 
 describe('LolApiService', () => {
@@ -92,6 +92,36 @@ describe('LolApiService', () => {
                });
      })));
 
+  it('should get current region', async(inject([LolApiService], (service) => {
+       service.getCurrentRegion().subscribe(
+           res => {
+             expect(res).toBe('euw');
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get current champion', async(inject([LolApiService], (service) => {
+       service.getCurrentChampion().subscribe(
+           res => {
+             expect(res).toBeDefined();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
+  it('should get current matchData', async(inject([LolApiService], (service) => {
+       service.getCurrentMatchData().subscribe(
+           res => {
+             expect(res).toBeDefined();
+           },
+           () => {
+             fail('unexpected failure');
+           });
+     })));
+
   it('should handle an incorrect region',
      async(inject([Router, LolApiService], (router, service) => {
        router.setRegion('not a region');
@@ -101,13 +131,13 @@ describe('LolApiService', () => {
              fail('unexpected success');
            },
            (error) => {
-             expect(error).not.toBeDefined();
+             expect(error).toHaveEqualContent(Error('Region does not exist'));
            });
      })));
 
   it('should get the correct resolved link to the static-server',
      inject([LolApiService], (service) => {
-       expect(service.linkStaticData('region'))
+       expect(service.getEndpoint(Endpoint.static, 'region'))
            .toBe(
                'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
                '/static-data/region/v1.2');
@@ -115,8 +145,18 @@ describe('LolApiService', () => {
 
   it('should get the correct resolved link to the match-server',
      inject([LolApiService], (service) => {
-       expect(service.linkMatchData('region'))
+       expect(service.getEndpoint(Endpoint.match, 'region'))
            .toBe(
                'http://' + settings.matchServer.host + ':' + settings.matchServer.port + '/region');
+     }));
+
+  it('should not get incorrect params', inject([LolApiService], (service) => {
+       service.getParam(5).subscribe(
+           res => {
+             fail('unexpected success');
+           },
+           (error) => {
+             expect(error).toHaveEqualContent(Error('Incorrect parameter'));
+           });
      }));
 });

@@ -1,20 +1,22 @@
-import {inject, TestBed} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
+import {Response, ResponseOptions} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
-import {DataService} from '../../services/data.service';
+import {LolApiService} from '../../services/lolapi.service';
 import {DDragonDirective} from '../../shared/ddragon.directive';
 import {TestModule} from '../../testing';
 import {Samples} from '../samples';
 
 import {AbilitiesComponent} from './abilities.component';
 
-describe('AbilitiesComponent', () => {
+xdescribe('AbilitiesComponent', () => {
   let samples: Samples = {xp: [17000], gold: []};
 
   let component;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AbilitiesComponent, DDragonDirective],
-      providers: [AbilitiesComponent, DataService],
+      providers: [AbilitiesComponent, LolApiService],
       imports: [TestModule]
     });
 
@@ -36,35 +38,45 @@ describe('AbilitiesComponent', () => {
     ]
   };
 
-  it('should create a tooltip', inject([DataService], (data) => {
+  it('should create a tooltip', async(inject([MockBackend], (backend) => {
+       spyOn(component, 'update');
+       spyOn(component, 'createLevelScale');
+       backend.success(champion);
+       backend.success(samples);
        component.ngOnInit();
-       data.champion.notify(champion);
-       expect(component.champion).toHaveEqualContent(champion);
-       component.update();
-       expect(champion.spells[0]['extendedTooltip']).toBe('0.6 50 175');
-     }));
+       component.lolApi.getCurrentChampion().subscribe(() => {
+         console.log('test');
+         expect(component.champion).toHaveEqualContent(champion);
+         expect(component.update).toHaveBeenCalled();
+         expect(champion.spells[0]['extendedTooltip']).toBe('0.6 50 175');
+       });
+       component.lolApi.getCurrentMatchData().subscribe(() => {
+         console.log('test2');
+         expect(component.createLevelScale).toHaveBeenCalled();
+       });
+     })));
 
-  it('should handle tooltip errors', inject([DataService], (data) => {
+  it('should handle tooltip errors', async(inject([MockBackend], (backend) => {
+       backend.success(champion);
        component.ngOnInit();
-       data.champion.notify(champion);
        expect(component.champion).toHaveEqualContent(champion);
        component.champion = champion;
        component.update();
        expect(champion.spells[1]['extendedTooltip']).toBe('[[error]]');
-     }));
+     })));
 
-  it('should handle samples', inject([DataService], (data) => {
+  it('should handle samples', async(inject([MockBackend], (backend) => {
        spyOn(component.xScaleLevel, 'update');
-       data.samples.notify(samples);
+       backend.success(samples);
        component.ngOnInit();
        expect(component.samples).toHaveEqualContent(samples);
        expect(component.xScaleLevel.update).toHaveBeenCalled();
-     }));
+     })));
 
-  it('should not handle empty samples', inject([DataService], (data) => {
+  it('should not handle empty samples', async(inject([MockBackend], (backend) => {
        spyOn(component.xScaleLevel, 'update');
-       data.samples.notify({xp: []});
+       backend.success({xp: []});
        component.ngOnInit();
        expect(component.xScaleLevel.update).not.toHaveBeenCalled();
-     }));
+     })));
 });

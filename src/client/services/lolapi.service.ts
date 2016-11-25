@@ -5,41 +5,16 @@ import {Observable} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
 
+export enum Endpoint {
+  static,
+  match
+}
+
 @Injectable()
 export class LolApiService {
-  public links = {
-    static: 'http://' + settings.staticServer.host + ':' + settings.staticServer.port,
-    match: 'http://' + settings.matchServer.host + ':' + settings.matchServer.port
-  };
-
   private cachedObservables: Array<Observable<any>> = new Array<Observable<any>>();
 
   constructor(private http: Http, private router: Router) {}
-
-  public getRegion(): Observable<string> {
-    return Observable.create(observer => {
-      let region = this.router.routerState.snapshot.root.children[0].url[1].path;
-      if (region) {
-        region = region.toLowerCase();
-        this.getRegions().subscribe(
-            (regions: Array<string>) => {
-              if (regions.some((r: any) => {
-                    return r.slug === region;
-                  })) {
-                observer.next(region);
-                observer.complete();
-              } else {
-                observer.error();
-              }
-            },
-            () => {
-              observer.error();
-            });
-      } else {
-        observer.error();
-      }
-    });
-  }
 
   public getRegions(): Observable<any> {
     return this.cache('http://status.leagueoflegends.com/shards').map(res => {
@@ -49,56 +24,56 @@ export class LolApiService {
   }
 
   public getRealm(): Observable<any> {
-    return this.get(region => this.linkStaticData(region) + '/realm');
+    return this.get(Endpoint.static, '/realm');
   }
 
   public getChampions(): Observable<any> {
-    return this.get(region => this.linkStaticData(region) + '/champion?champData=info,tags');
+    return this.get(Endpoint.static, '/champion?champData=info,tags');
   }
 
   public getChampion(championKey: string): Observable<any> {
     return this.get(
-        region => this.linkStaticData(region) + '/champion/' + championKey +
+        Endpoint.static, '/champion/' + championKey +
             '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
   }
 
   public getItems(): Observable<any> {
-    return this.get(region => this.linkStaticData(region) + '/item?itemListData=all');
+    return this.get(Endpoint.static, '/item?itemListData=all');
   }
 
   public getMasteries(): Observable<any> {
-    return this.get(region => this.linkStaticData(region) + '/mastery?masteryListData=all');
+    return this.get(Endpoint.static, '/mastery?masteryListData=all');
   }
 
   public getSummonerId(summonerName: string): Observable<any> {
-    return this.get(region => this.linkMatchData(region) + '/summoner/' + summonerName);
+    return this.get(Endpoint.match, '/summoner/' + summonerName);
   }
 
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
       Observable<any> {
     return this.get(
-        region => this.linkMatchData(region) + '/match/' + summonerName + '/' + championKey +
-            '?gameTime=' + gameTime + '&samples=' + samples);
+        Endpoint.match, '/match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
+            '&samples=' + samples);
   }
 
-  private get(url: (region: string) => string): Observable<any> {
-    return Observable.create(observer => {
-      this.getUrl(url).subscribe(
-          (urlResolved: string) => {
-            this.cache(urlResolved)
-                .subscribe(
-                    res => {
-                      observer.next(res);
-                      observer.complete();
-                    },
-                    () => {
-                      observer.error();
-                    });
-          },
-          () => {
-            observer.error();
-          });
-    });
+  public getCurrentRegion(): Observable<string> {
+    return this.getParam(1).mergeMap((region) => this.checkRegion(region));
+  }
+
+  public getCurrentChampion(): Observable<any> {
+    return this.getParam(3).mergeMap((championKey) => this.getChampion(championKey));
+  }
+
+  public getCurrentMatchData(): Observable<any> {
+    return this.getParam(2).mergeMap(
+        (summonerName) => this.getParam(3).mergeMap(
+            (championKey) => this.getMatchData(
+                summonerName, championKey, settings.gameTime, settings.matchServer.sampleSize)));
+  }
+
+
+  private get(endpoint: Endpoint, url: string): Observable<any> {
+    return this.getUrl(endpoint, url).mergeMap((urlResolved) => this.cache(urlResolved));
   }
 
   private cache(url: string): Observable<any> {
@@ -108,15 +83,40 @@ export class LolApiService {
     return this.cachedObservables[url].map(res => res.json());
   }
 
-  private getUrl(url: (region: string) => string): Observable<string> {
-    return this.getRegion().map(region => url(region));
+  private getUrl(endpoint: Endpoint, url: string): Observable<string> {
+    return this.getCurrentRegion().map(region => this.getEndpoint(endpoint, region) + url);
   }
 
-  private linkStaticData(region: string) {
-    return this.links.static + '/static-data/' + region + '/v1.2';
+  private getEndpoint(endpoint: Endpoint, region: string): string {
+    switch (endpoint) {
+      case Endpoint.static:
+        return 'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
+            '/static-data/' + region + '/v1.2';
+      default:
+        return 'http://' + settings.matchServer.host + ':' + settings.matchServer.port + '/' +
+            region;
+    }
   }
 
-  private linkMatchData(region: string) {
-    return this.links.match + '/' + region;
+  private getParam(index: number): Observable<string> {
+    return this.router.routerState.root.children[0].url.map((url) => {
+      if (index < url.length) {
+        return url[index].path;
+      } else {
+        throw Error('Incorrect parameter');
+      }
+    });
+  }
+
+  private checkRegion(region: string): Observable<string> {
+    return this.getRegions().map((regions: Array<string>) => {
+      if (regions.find((r: any) => {
+            return r.slug === region;
+          })) {
+        return region;
+      } else {
+        throw Error('Region does not exist');
+      }
+    });
   }
 }

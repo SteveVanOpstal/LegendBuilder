@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {ToIterablePipe} from '../../shared/to-iterable.pipe';
@@ -57,7 +57,6 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 
 export class ShopComponent implements OnInit {
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
-  @Input() pickedItems: Array<Object>;
 
   private loading: boolean = true;
   private error: boolean = false;
@@ -80,12 +79,12 @@ export class ShopComponent implements OnInit {
           this.data = res;
           this.items = new ToIterablePipe().transform(res.data);
           this.originalItems = this.items;
+          this.loading = false;
         },
         error => {
           this.error = true;
           this.loading = false;
-        },
-        () => this.loading = false);
+        });
   }
 
   tagChanged(event: Event) {

@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
-import {DataService} from '../../services/data.service';
+import {LolApiService} from '../../services/lolapi.service';
 import {tim} from '../../shared/tim';
 import {LevelAxisLine, LevelAxisText} from '../graph/axes';
 import {LevelScale} from '../graph/scales';
@@ -35,25 +35,21 @@ import {Samples} from '../samples';
 export class AbilitiesComponent implements OnInit {
   private svg: any;
 
-  private samples: Samples;
   private champion: any;
 
   private xScaleLevel = new LevelScale([0, 1380]);
   private xAxisLevelLine = new LevelAxisLine(200);
   private xAxisLevelText = new LevelAxisText(200);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private data: DataService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
-    this.data.champion.subscribe((champion) => {
+    this.lolApi.getCurrentChampion().subscribe((champion) => {
       this.champion = champion;
       this.update();
     });
-    this.data.samples.subscribe((samples: Samples) => {
-      this.samples = samples;
-      this.createLevelScale();
-    });
+    this.lolApi.getCurrentMatchData().subscribe(samples => this.createLevelScale(samples));
   }
 
   private update(): void {
@@ -100,18 +96,18 @@ export class AbilitiesComponent implements OnInit {
     return stats;
   }
 
-  private createLevelScale() {
-    if (!this.samples.xp.length) {
+  private createLevelScale(samples: Samples) {
+    if (!samples || !samples.xp || !samples.xp.length) {
       return;
     }
 
     this.xScaleLevel.create();
-    this.xScaleLevel.update(this.samples);
+    this.xScaleLevel.update(samples);
 
     this.xAxisLevelLine.create(this.xScaleLevel);
     this.xAxisLevelText.create(this.xScaleLevel);
 
-    this.xAxisLevelText.update(this.samples);
+    this.xAxisLevelText.update(samples);
 
     this.svg.select('.x.axis.level-line').call(this.xAxisLevelLine.get());
     this.svg.select('.x.axis.level-text').call(this.xAxisLevelText.get());
