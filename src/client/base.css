@@ -173,7 +173,7 @@ help .content {
   display: flex;
 }
 
-.icon.load {
+.icon-load {
   padding: 10px;
   animation: spin 0.8s linear infinite;
   fill:#AAA;
