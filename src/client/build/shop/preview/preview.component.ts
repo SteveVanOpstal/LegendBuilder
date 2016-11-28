@@ -37,10 +37,10 @@ export class PreviewComponent implements OnChanges {
   @Input() items: Array<Item>;
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
-  private itemsFrom: Array<ItemBundle>|undefined = undefined;
-  private itemsInto: Array<Item>|undefined = undefined;
+  itemsFrom: Array<ItemBundle>|undefined = undefined;
+  itemsInto: Array<Item>|undefined = undefined;
 
-  private description: SafeHtml;
+  description: SafeHtml;
 
   constructor(private sanitizer: DomSanitizer) {}
 

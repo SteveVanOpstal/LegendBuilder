@@ -131,7 +131,7 @@ describe('LolApiService', () => {
              fail('unexpected success');
            },
            (error) => {
-             expect(error).toHaveEqualContent(Error('Region does not exist'));
+             expect(error.message).toHaveEqualContent('Region does not exist');
            });
      })));
 
@@ -156,7 +156,7 @@ describe('LolApiService', () => {
              fail('unexpected success');
            },
            (error) => {
-             expect(error).toHaveEqualContent(Error('Incorrect parameter'));
+             expect(error.message).toHaveEqualContent('Incorrect parameter');
            });
      }));
 });

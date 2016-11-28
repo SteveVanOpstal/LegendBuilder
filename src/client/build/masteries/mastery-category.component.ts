@@ -29,7 +29,7 @@ export class MasteryCategoryComponent {
 
   @ViewChildren(MasteryTierComponent) children: QueryList<MasteryTierComponent>;
 
-  private totalRank: number = 0;
+  totalRank: number = 0;
 
   constructor() {}
 

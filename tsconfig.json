@@ -8,7 +8,9 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "removeComments": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noUnusedLocals": true
+    // "noUnusedParameters": true,
     // "noImplicitThis": true,
     // "strictNullChecks": false
   },

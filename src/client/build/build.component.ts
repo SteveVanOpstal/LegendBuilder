@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {LolApiService} from '../services/lolapi.service';
+import {ItemsComponent} from './items/items.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -20,9 +21,10 @@ import {LolApiService} from '../services/lolapi.service';
 })
 
 export class BuildComponent implements OnInit {
-  private champion: any;
-  private loading: boolean = true;
-  private error: boolean = false;
+  items: ItemsComponent;
+  champion: any;
+  loading: boolean = true;
+  error: boolean = false;
 
   constructor(private lolApi: LolApiService) {}
 

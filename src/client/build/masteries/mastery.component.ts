@@ -26,12 +26,12 @@ export class MasteryComponent implements OnChanges {
   @Output() rankAdded: EventEmitter<any> = new EventEmitter<any>();
   @Output() rankRemoved: EventEmitter<any> = new EventEmitter<any>();
 
-  private description: string;
+  description: string;
 
-  private rank: number = 0;
-  private color: string = Colors.gray;
+  rank: number = 0;
+  color: string = Colors.gray;
 
-  private active: boolean = false;
+  active: boolean = false;
   private locked: boolean = false;
 
   ngOnChanges() {

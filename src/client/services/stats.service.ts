@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
@@ -57,7 +56,7 @@ export class StatsService {
   private items: any;
   private champion: any;
 
-  constructor(private router: Router, private lolApi: LolApiService) {
+  constructor(private lolApi: LolApiService) {
     this.lolApi.getCurrentMatchData().subscribe(samples => {
       this.createLevelTimeMarks(samples);
       this.process();

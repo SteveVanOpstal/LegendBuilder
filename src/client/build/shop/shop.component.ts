@@ -58,15 +58,16 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 export class ShopComponent implements OnInit {
   @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
 
-  private loading: boolean = true;
-  private error: boolean = false;
+  loading: boolean = true;
+  error: boolean = false;
 
-  private tags: Array<string> = [];
+  tags: Array<string> = [];
+  name: string;
 
-  private data: Object;
-  private items: Array<any> = [];
+  data: Object;
+  items: Array<any> = [];
+  pickedItem: Object;
   private originalItems: Array<any> = [];
-  private pickedItem: Object;
 
   constructor(private lolApi: LolApiService) {}
 
@@ -81,7 +82,7 @@ export class ShopComponent implements OnInit {
           this.originalItems = this.items;
           this.loading = false;
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
         });
