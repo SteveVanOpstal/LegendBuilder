@@ -64,7 +64,7 @@
     "lint:client:test": "npm run tslint -- src/client/**/*.spec.ts src/client/**/testing/**/*.ts",
     "lint:server:test": "npm run tslint -- src/server/**/*.spec.ts src/server/**/testing/**/*.ts",
     "lint:test": "npm run tslint -- src/**/*.spec.ts src/**/testing/**/*.ts",
-    "lint:e2e": " src/**/*.e2e.ts",
+    "lint:e2e": "npm run lint src/**/*.e2e.ts",
     "webdriver:update": "npm run webdriver-manager -- update",
     "pree2e": "npm run lint:e2e && npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor -- config/protractor.conf.js",
