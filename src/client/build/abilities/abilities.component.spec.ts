@@ -1,5 +1,4 @@
 import {async, inject, TestBed} from '@angular/core/testing';
-import {Response, ResponseOptions} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
 import {LolApiService} from '../../services/lolapi.service';
