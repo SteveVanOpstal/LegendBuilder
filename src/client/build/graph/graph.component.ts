@@ -40,6 +40,8 @@ export interface Path {
 })
 
 export class GraphComponent implements OnInit, OnChanges {
+  paths = new Array<Path>();
+
   private svg: any;
 
   private xScaleTime = new TimeScale([0, 1380]);
@@ -49,8 +51,6 @@ export class GraphComponent implements OnInit, OnChanges {
   private xAxisTime = new TimeAxis(380);
   private yAxisLeft = new DataAxis();
   private yAxisRight = new DataAxis();
-
-  private paths = new Array<Path>();
 
   private lineSamples: any =
       line()

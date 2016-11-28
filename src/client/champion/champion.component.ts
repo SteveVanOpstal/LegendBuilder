@@ -36,13 +36,13 @@ import {TagsPipe} from './pipes/tags.pipe';
 })
 
 export class ChampionComponent implements OnInit {
-  private champions: Array<Object>;
-  private loading: boolean = true;
-  private error: boolean = false;
+  champions: Array<Object>;
+  loading: boolean = true;
+  error: boolean = false;
 
-  private name: string;
-  private sort: string;
-  private tags: Array<string> = [];
+  name: string;
+  sort: string;
+  tags: Array<string> = [];
 
   constructor(
       private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
@@ -56,7 +56,7 @@ export class ChampionComponent implements OnInit {
           this.champions = res;
           this.loading = false;
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
         });

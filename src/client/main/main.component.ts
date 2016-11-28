@@ -1,5 +1,4 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'lb-main',
@@ -10,5 +9,4 @@ import {Router} from '@angular/router';
 })
 
 export class MainComponent {
-  constructor(private router: Router) {}
 }

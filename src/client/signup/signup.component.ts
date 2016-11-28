@@ -38,5 +38,8 @@ import {AuthService} from '../services/auth.service';
 })
 
 export class SignupComponent {
-  constructor(private auth: AuthService) {}
+  email: string;
+  password: string;
+
+  constructor(auth: AuthService) {}
 }

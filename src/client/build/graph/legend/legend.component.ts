@@ -19,8 +19,8 @@ import {Path} from '../graph.component';
 })
 
 export class LegendComponent implements OnChanges {
-  @Input() private paths = new Array<Path>();
-  private dragging: boolean = false;
+  @Input() paths = new Array<Path>();
+  dragging: boolean = false;
 
   ngOnChanges(changes: SimpleChanges) {
     for (let currentPath of changes['paths'].currentValue) {

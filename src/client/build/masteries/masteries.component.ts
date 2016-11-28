@@ -13,7 +13,7 @@ import {MasteryComponent} from './mastery.component';
                       [data]="category"
                       *ngFor="let category of data"
                       (rankAdded)="rankAdd($event)"
-                      (rankRemoved)="rankRemove($event)">
+                      (rankRemoved)="rankRemove()">
     </lb-mastery-category>
     <lb-loading [loading]="loading"></lb-loading>
     <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
@@ -24,8 +24,8 @@ export class MasteriesComponent implements OnInit {
   children: QueryList<MasteryCategoryComponent>;
   data: Object;
 
-  private loading: boolean = true;
-  private error: boolean = false;
+  loading: boolean = true;
+  error: boolean = false;
 
   constructor(private lolApi: LolApiService) {}
 
@@ -38,7 +38,7 @@ export class MasteriesComponent implements OnInit {
           this.data = this.transformData(res);
           this.loading = false;
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
         });
@@ -74,7 +74,7 @@ export class MasteriesComponent implements OnInit {
     }
   }
 
-  public rankRemove(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
+  public rankRemove() {
     if (this.getRank() === 29) {
       this.enable();
     }

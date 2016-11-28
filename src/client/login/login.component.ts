@@ -34,5 +34,5 @@ import {AuthService} from '../services/auth.service';
 })
 
 export class LoginComponent {
-  constructor(private auth: AuthService) {}
+  constructor(auth: AuthService) {}
 }
