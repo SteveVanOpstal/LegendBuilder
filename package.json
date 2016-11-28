@@ -120,7 +120,7 @@
     "d3-shape": "1.0.4",
     "dateformat": "1.0.12",
     "loader-utils": "0.2.16",
-    "lru-cache": "4.0.1",
+    "lru-cache": "4.0.2",
     "reflect-metadata": "0.1.8",
     "rxjs": "5.0.0-beta.12",
     "typescript": "2.0.10",
