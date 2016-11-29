@@ -21,9 +21,11 @@
 <body>
   <header>
     <div class="align-center">
-      <a href="/"><%= require('./assets/images/logo.svg') %></a>
-      <h1>Legend Builder</h1>
-      <a href="https://github.com/SteveVanOpstal/LegendBuilder/releases" class="alpha">Alpha</a>
+      <a href="/" class="logo"><%= require('./assets/images/logo.svg') %></a>
+      <div>
+        <h1>Legend Builder</h1>
+        <a href="https://github.com/SteveVanOpstal/LegendBuilder/releases" class="version <%= htmlWebpackPlugin.options.version %>"><%= htmlWebpackPlugin.options.version %></a>
+      </div>
     </div>
     <!--<lb-actions></lb-actions>-->
   </header>
