@@ -6,10 +6,6 @@ import {TestModule} from '../../testing';
 
 import {ShopComponent} from './shop.component';
 
-class MockEvent {
-  public target: any;
-}
-
 describe('ShopComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
