@@ -2,7 +2,9 @@
 <html>
 
 <head>
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +16,7 @@
   <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
 
   <style>
-    <%= require('./base.css') %>
+    <%=require('./base.css') %>
   </style>
 </head>
 
@@ -47,9 +49,9 @@
   </footer>
 
   <% if (htmlWebpackPlugin.options.ENV === 'development') { %>
-  <!-- Webpack Dev Server reload -->
-  <script src="http://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
-  <% } %>
+    <!-- Webpack Dev Server reload -->
+    <script src="http://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
+    <% } %>
 </body>
 
 </html>
