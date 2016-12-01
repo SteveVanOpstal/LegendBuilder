@@ -1,11 +1,14 @@
+import os
 import praw
 import json
 import re
 from settings import settings
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
 CHANGELOG_LOCATION = './CHANGELOG.md'
-HEADER_LOCATION = './src/reddit/header.md'
-FOOTER_LOCATION = './src/reddit/footer.md'
+HEADER_LOCATION = dir_path + '/header.md'
+FOOTER_LOCATION = dir_path + '/footer.md'
 
 reddit = praw.Reddit(user_agent='LegendBuilderBot by /u/%s' % (settings['REDDIT_USERNAME']))
 reddit.login(settings['REDDIT_USERNAME'], settings['REDDIT_PASSWORD'], disable_warning=True)
