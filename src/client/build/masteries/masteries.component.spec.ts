@@ -125,19 +125,15 @@ describe('MasteriesComponent', () => {
   it('should enable when rank is 29', () => {
     spyOn(component, 'enable');
     expect(component.enable).not.toHaveBeenCalled();
-    let tier = component.children.toArray()[0].children.toArray()[0];
-    let mastery = tier.children.toArray()[0];
-    mastery.setRank(29);
-    component.rankRemove({tier: tier, mastery: mastery});
+    component.children.toArray()[0].children.toArray()[0].children.toArray()[0].setRank(29);
+    component.rankRemove();
     expect(component.enable).toHaveBeenCalled();
   });
   it('should not enable when rank is not 29', () => {
     spyOn(component, 'enable');
     expect(component.enable).not.toHaveBeenCalled();
-    let tier = component.children.toArray()[0].children.toArray()[0];
-    let mastery = tier.children.toArray()[0];
-    mastery.setRank(30);
-    component.rankRemove({tier: tier, mastery: mastery});
+    component.children.toArray()[0].children.toArray()[0].children.toArray()[0].setRank(30);
+    component.rankRemove();
     expect(component.enable).not.toHaveBeenCalled();
   });
 

@@ -4,17 +4,20 @@
 
 .title {
   display: flex;
-  background-color: #DDD;
+  margin-top: -80px;
+  padding-left: 30px;
+  width: 400px;
+  height: 80px;
 }
 
 .title img {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
 }
 
 .title h2 {
-  font-size: 2em;
-  padding-left: 30px;
+  font-size: 1.8em;
+  margin: 32px 0 0 12px;
 }
 
 
@@ -171,12 +174,8 @@ lb-graph .line:nth-of-type(17) {
 
 /* lb-graph - lb-legend */
 
-lb-graph lb-legend {
-  margin: 10px;
-}
-
 lb-graph lb-legend ul {
-  margin: 0;
+  margin: 10px;
   padding: 0;
 }
 
@@ -758,11 +757,22 @@ lb-items-from > div:first-of-type:last-of-type > lb-item:before {
   }
 }
 
-/*@media (max-width: 1350px) {
-  lb-shop .items lb-item {
-    width: 48%;
+@media (max-width: 1350px) {
+  .title {
+    margin-top: -60px;
+    height: 60px;
   }
-}*/
+
+  .title img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .title h2 {
+    font-size: 1.4em;
+    margin: 20px 0 0 10px;
+  }
+}
 
 @media (max-width: 800px) {
   lb-shop .left {

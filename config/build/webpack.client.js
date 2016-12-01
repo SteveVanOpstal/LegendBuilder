@@ -1,5 +1,6 @@
 var helpers = require('../../helpers');
 var settings = require('../settings');
+var package = require('../../package.json');
 
 /* plugins */
 var webpack = require('webpack');
@@ -64,7 +65,8 @@ module.exports = function(options) {
         baseUrl: '/',
         host: settings.httpServer.host,
         port: settings.httpServer.port,
-        ENV: ENV
+        ENV: ENV,
+        version: package.version
       }),
       new WebpackMd5Hash()
     ]
