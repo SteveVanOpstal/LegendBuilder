@@ -80,7 +80,7 @@
     "sauce:open": "npm run sauce",
     "sauce:close": "npm run sauce -- --close",
     "s3:upload": "node config/build/s3.js",
-    "reddit-release": "python src/reddit/release.py",
+    "reddit-release": "python config/build/reddit/release.py",
     "release": "npm run standard-version && npm run reddit-release",
     "rimraf": "./node_modules/.bin/rimraf",
     "coveralls": "./node_modules/.bin/coveralls",

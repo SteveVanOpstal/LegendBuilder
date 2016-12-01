@@ -1,3 +1,5 @@
+import os
 import json
-with open('./src/reddit/.settings.json') as settingsFile:
+dir_path = os.path.dirname(os.path.realpath(__file__))
+with open(dir_path + '/.settings.json') as settingsFile:
   settings = json.load(settingsFile)
