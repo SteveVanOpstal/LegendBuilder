@@ -110,7 +110,7 @@
     "@types/d3-selection": "1.0.4",
     "@types/d3-shape": "1.0.5",
     "@types/node": "6.0.39",
-    "angular2-jwt": "0.1.25",
+    "angular2-jwt": "0.1.26",
     "async": "2.1.4",
     "auth0-js": "7.5.0",
     "chalk": "1.1.3",
