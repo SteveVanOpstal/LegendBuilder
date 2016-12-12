@@ -1,14 +1,11 @@
 import {inject, TestBed} from '@angular/core/testing';
 
+import {StatsService} from '../../services/stats.service';
 import {ItemsComponent} from './items.component';
-
-// class MockItemSlotComponent implements ItemSlotComponent {
-
-// }
 
 describe('ItemsComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [ItemsComponent]});
+    TestBed.configureTestingModule({providers: [ItemsComponent, StatsService]});
   });
 
   beforeEach(inject([ItemsComponent], (component) => {
@@ -18,14 +15,4 @@ describe('ItemsComponent', () => {
       {'id': 2003, 'gold': {'total': 50}}, {'id': 2003, 'gold': {'total': 50}}
     ];
   }));
-
-  // it('should add item', inject([ItemsComponent], (component) => {
-  //   spyOn(component, 'addTime');
-  //   spyOn(component, 'addBundle');
-  //   expect(component.addTime).not.toHaveBeenCalled();
-  //   expect(component.addBundle).not.toHaveBeenCalled();
-  //   component.ngDoCheck();
-  //   expect(component.addTime).toHaveBeenCalled();
-  //   expect(component.addBundle).toHaveBeenCalled();
-  // }));
 });
