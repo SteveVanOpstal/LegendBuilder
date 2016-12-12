@@ -1,6 +1,6 @@
 var s3 = require('s3');
 var glob = require('glob');
-var helpers = require('../../helpers');
+var helpers = require('../helpers');
 
 function error(done, message) {
   return function(err) {

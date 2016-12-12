@@ -1,5 +1,5 @@
 var settings = require('./settings');
-var helpers = require('../helpers');
+var helpers = require('./helpers');
 
 var BROWSER_CAPS = {
   Chrome: {

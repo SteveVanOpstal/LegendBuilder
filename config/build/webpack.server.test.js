@@ -1,6 +1,6 @@
 var glob = require('glob');
 
-var helpers = require('../../helpers');
+var helpers = require('../helpers');
 
 /* plugins */
 var DefinePlugin = require('webpack/lib/DefinePlugin');

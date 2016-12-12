@@ -1,4 +1,4 @@
-var helpers = require('../../helpers');
+var helpers = require('../helpers');
 var settings = require('../settings');
 var package = require('../../package.json');
 
