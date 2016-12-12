@@ -20,7 +20,7 @@ npm install
 ### 2. Configuration (optional)
 A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
 These are the default values that can be altered via an override:
-```Javascript
+```JavaScript
 {
   httpServer: {
     host: 'localhost',
@@ -81,14 +81,14 @@ Every release a python script will generate a post on reddit. To improve this sc
 ```
 
 ## <a name="clang-format"></a> ClangFormat
-ClangFormat will format the code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
+ClangFormat will format `TypeScript` and `JavaScript` code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
 The following command will format all `.ts` files:
 ```shell
 npm run format
 ```
 
 ### Visual Studio Code
-A plugin for VSCode is available: [xaver.clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
+A plugin for VSCode is available: [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
 ```shell
 ext install clang-format
 ```
@@ -100,15 +100,35 @@ Following VSCode settings are required:
 }
 ```
 
+## <a name="tslint"></a> CSScomb
+CSScomb will format `CSS` code according to the style-guide ([CONTRIBUTING.md](CONTRIBUTING#rules)) of this project.
+The following command will format all `.css` files:
+```shell
+npm run format:css
+```
+
+### Visual Studio Code
+A plugin for VSCode is available: [CSScomb](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-csscomb)
+```shell
+ext install vscode-csscomb
+```
+
+Following VSCode settings are required:
+```JSON
+{
+  "csscomb.preset": "./config/csscomb.json"
+}
+```
+
 ## <a name="tslint"></a> TSLint / Codelyzer
-TSLint and Codelyzer will perform static code analysis to improve the readability and cohesion.
+TSLint and Codelyzer will perform static code analysis to improve the readability and cohesion of the code.
 The following command will check all `.ts` files:
 ```shell
 npm run lint
 ```
 
 ### Visual Studio Code
-A plugin for VSCode is available: [eg2.tslint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+A plugin for VSCode is available: [TSLint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
 ```shell
 ext install tslint
 ```

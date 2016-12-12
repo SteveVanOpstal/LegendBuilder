@@ -1,8 +1,8 @@
 lb-region > div {
-	width: 226px;
-  padding: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 10px;
+  padding: 20px;
+  width: 226px;
 }
 
 lb-region a:hover {
@@ -10,24 +10,24 @@ lb-region a:hover {
 }
 
 lb-region h2 {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 lb-region button {
   display: block;
-	width: 226px;
-	margin: 5px 0;
-	padding: 0;
+  margin: 5px 0;
+  padding: 0;
   text-align: left;
+  width: 226px;
 }
 
 lb-region span {
-	padding: 7px;
-	display: inline-block;
-	text-align: left;
+  display: inline-block;
+  padding: 7px;
+  text-align: left;
 }
 
 lb-region button > a > span:first-child {
-	width: 40px;
-	border-right: 1px dotted #CCC;
+  border-right: 1px dotted #ccc;
+  width: 40px;
 }

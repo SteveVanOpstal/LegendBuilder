@@ -5,10 +5,10 @@ lb-login .auth0-badge {
 }
 
 lb-login > div {
-  width: 250px;
-  padding: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 10px;
+  padding: 20px;
+  width: 250px;
 }
 
 lb-login .actions,
@@ -22,24 +22,24 @@ lb-login .actions p {
 
 lb-login .email,
 lb-login .password {
-  padding: 0px 8px;
+  padding: 0 8px;
 }
 
 lb-login .email label {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 lb-login button {
   display: inline;
-  width: 100px;
   height: 40px;
+  width: 100px;
 }
 
-lb-login input[type="text"],
-lb-login input[type="password"] {
-  width: 100%;
+lb-login input[type='text'],
+lb-login input[type='password'] {
+  margin: 0 -8px;
   padding: 5px 8px;
-  margin: 0px -8px;
+  width: 100%;
 }
 
 lb-login label {

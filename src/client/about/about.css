@@ -7,8 +7,8 @@ lb-about p {
 }
 
 lb-about span {
-    width: 220px;
-    display: inline-block;
+  display: inline-block;
+  width: 220px;
 }
 
 lb-about a {
@@ -16,9 +16,9 @@ lb-about a {
 }
 
 lb-about img {
-  height: 100px;
   -webkit-clip-path: circle(50% at 50% 50%);
-  clip-path: circle(50% at 50% 50%);
+          clip-path: circle(50% at 50% 50%);
+  height: 100px;
 }
 
 lb-about .contributor {

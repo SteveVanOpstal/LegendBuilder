@@ -5,10 +5,10 @@ lb-signup .auth0-badge {
 }
 
 lb-signup > div {
-  width: 250px;
-  padding: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 10px;
+  padding: 20px;
+  width: 250px;
 }
 
 lb-signup .actions,
@@ -23,24 +23,24 @@ lb-signup .actions p {
 lb-signup .email,
 lb-signup .password,
 lb-signup .password-repeat {
-  padding: 0px 8px;
+  padding: 0 8px;
 }
 
 lb-signup .email label {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 lb-signup button {
   display: inline;
-  width: 100px;
   height: 40px;
+  width: 100px;
 }
 
-lb-signup input[type="text"],
-lb-signup input[type="password"] {
-  width: 100%;
+lb-signup input[type='text'],
+lb-signup input[type='password'] {
+  margin: 0 -8px;
   padding: 5px 8px;
-  margin: 0px -8px;
+  width: 100%;
 }
 
 lb-signup label {

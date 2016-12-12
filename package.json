@@ -58,6 +58,7 @@
     "format": "npm run clang-format -- --glob=\"@(src|config)/**/!(browser-providers.conf).@(ts|js)\" -i",
     "format:client": "npm run clang-format -- --glob=\"src/client/**/*.@(ts|js)\" -i",
     "format:server": "npm run clang-format -- --glob=\"src/server/**/*.@(ts|js)\" -i",
+    "format:css": "npm run csscomb -- src",
     "lint": "npm run tslint -- src/**/*.ts",
     "lint:client": "npm run tslint -- src/client/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
     "lint:server": "npm run tslint -- src/server/**/*.ts -e **/*.spec.ts -e **/*.e2e.ts -e **/testing/**",
@@ -92,7 +93,8 @@
     "webdriver-manager": "./node_modules/.bin/webdriver-manager",
     "protractor": "./node_modules/.bin/protractor",
     "karma": "./node_modules/.bin/karma",
-    "standard-version": "./node_modules/.bin/standard-version"
+    "standard-version": "./node_modules/.bin/standard-version",
+    "csscomb": "./node_modules/.bin/csscomb -c ./config/csscomb.json"
   },
   "dependencies": {
     "@angular/common": "2.2.3",
@@ -138,6 +140,7 @@
     "copy-webpack-plugin": "^4.0.0",
     "coveralls": "^2.11.13",
     "css-loader": "^0.26.0",
+    "csscomb": "^3.1.7",
     "glob": "^7.0.3",
     "html-webpack-plugin": "^2.14.0",
     "istanbul-instrumenter-loader": "1.1.0",

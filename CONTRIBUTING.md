@@ -128,9 +128,8 @@ from the main (upstream) repository:
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
-* We follow [Google's JavaScript Style Guide][js-style-guide], but wrap all code at
-  **100 characters**. An automated formatter is available, see
-  [DEVELOPER.md](DEVELOPER.md#clang-format).
+* We follow [Google's JavaScript Style Guide][js-style-guide] and [Google's CSS Style Guide](html-css-style-guide),
+  but wrap all code at **100 characters**. An automated formatter is available, see [DEVELOPER.md](DEVELOPER.md#clang-format).
 
 ## <a name="commit"></a> Commit Message Guidelines
 
@@ -216,4 +215,5 @@ closes #1
 [jsfiddle]: http://jsfiddle.net/
 [plunker]: http://plnkr.co/edit
 [runnable]: http://runnable.com/
-[js-style-guide]: https://google.github.io/styleguide/javascriptguide.xml
+[js-style-guide]: https://google.github.io/styleguide/jsguide.html
+[html-css-style-guide]: https://google.github.io/styleguide/htmlcssguide.xml
