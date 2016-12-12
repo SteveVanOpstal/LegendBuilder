@@ -90,12 +90,22 @@ npm run format
 ### Visual Studio Code
 A plugin for VSCode is available: [xaver.clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
 ```shell
-npm install clang-format -g
 ext install clang-format
 ```
 
+Following VSCode settings are required:
+```JSON
+{
+  "clang-format.executable": "./node_modules/clang-format/bin/[platform]/clang-format"
+}
+```
+
 ## <a name="tslint"></a> TSLint / Codelyzer
-TSLint and Codelyzer will perform static code analysis to improve the readability and cohesion of the project.
+TSLint and Codelyzer will perform static code analysis to improve the readability and cohesion.
+The following command will check all `.ts` files:
+```shell
+npm run lint
+```
 
 ### Visual Studio Code
 A plugin for VSCode is available: [eg2.tslint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
@@ -103,10 +113,10 @@ A plugin for VSCode is available: [eg2.tslint](https://marketplace.visualstudio.
 ext install tslint
 ```
 
-Following User Settings are required:
+Following VSCode settings are required:
 ```JSON
 {
-  "tslint.rulesDirectory": "./node_modules/codelyzer",
+  "tslint.configFile": "./config/tslint.json",
   "typescript.tsdk": "node_modules/typescript/lib"
 }
 ```
