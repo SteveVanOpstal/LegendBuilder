@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {ToIterablePipe} from '../../shared/to-iterable.pipe';
+import {Item} from '../item';
 
 @Component({
   selector: 'lb-shop',
@@ -47,16 +48,16 @@ import {ToIterablePipe} from '../../shared/to-iterable.pipe';
         </div>
       </div>
       <div class="right">
-        <lb-preview [item]="pickedItem"
+        <lb-preview [item]="selectedItem"
                  [items]="items | lbMap:11 | lbChampion:123"
-                 (itemPicked)="pickItem(item)">
+                 (itemPicked)="pickItem($event)">
         </lb-preview>
       </div>
     </div>`
 })
 
 export class ShopComponent implements OnInit {
-  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
 
   loading: boolean = true;
   error: boolean = false;
@@ -65,9 +66,9 @@ export class ShopComponent implements OnInit {
   name: string;
 
   data: Object;
-  items: Array<any> = [];
-  pickedItem: Object;
-  private originalItems: Array<any> = [];
+  items: Array<Item> = [];
+  selectedItem: Item;
+  private originalItems: Array<Item> = [];
 
   constructor(private lolApi: LolApiService) {}
 
@@ -103,12 +104,12 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  selectItem(pickedItem: Object) {
-    this.pickedItem = pickedItem;
+  selectItem(item: Item) {
+    this.selectedItem = item;
   }
 
-  pickItem(pickedItem: Object) {
-    this.itemPicked.emit(pickedItem);
+  pickItem(item: Item) {
+    this.itemPicked.emit(item);
     return false;  // stop context menu from appearing
   }
 

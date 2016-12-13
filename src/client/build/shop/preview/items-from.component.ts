@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
+import {Item} from '../../item';
 import {ItemBundle} from './item-bundle';
 
 @Component({
@@ -7,17 +8,28 @@ import {ItemBundle} from './item-bundle';
   template: `
     <div *ngFor="let bundle of items">
       <hr class="up">
-      <lb-item [item]="bundle.item" [attr.title]="bundle.item.name"></lb-item>
+      <lb-item [item]="bundle.item" [attr.title]="bundle.item.name"
+               (itemSelected)="selectItem($event)"
+               (itemPicked)="pickItem($event)"></lb-item>
       <hr *ngIf="bundle.children" class="down">
       <lb-items-from [items]="bundle.children"
-                  (itemSelected)="itemSelected.emit($event)"
-                  (itemPicked)="itemPicked.emit($event)">
+                     (itemSelected)="selectItem($event)"
+                     (itemPicked)="pickItem($event)">
       </lb-items-from>
     </div>`
 })
 
 export class ItemsFromComponent {
   @Input() items: Array<ItemBundle>;
-  @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
-  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemSelected: EventEmitter<Item> = new EventEmitter<Item>();
+  @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
+
+  selectItem(item: Item) {
+    this.itemSelected.emit(item);
+  }
+
+  pickItem(item: Item) {
+    this.itemPicked.emit(item);
+    return false;  // stop context menu from appearing
+  }
 }

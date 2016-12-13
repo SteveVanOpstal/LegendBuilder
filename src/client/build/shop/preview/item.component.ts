@@ -15,8 +15,8 @@ import {Item} from '../../item';
 
 export class ItemComponent {
   @Input() item: Item;
-  @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
-  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemSelected: EventEmitter<Item> = new EventEmitter<Item>();
+  @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
 
   selectItem(item: Item) {
     this.itemSelected.emit(item);

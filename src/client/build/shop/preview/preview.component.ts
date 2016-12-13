@@ -11,21 +11,21 @@ import {ItemBundle} from './item-bundle';
       <template ngFor let-item [ngForOf]="itemsInto">
         <lb-item [item]="item"
               [attr.title]="item.name"
-              (itemSelected)="selectItem(item)"
-              (itemPicked)="itemPicked">
+              (itemSelected)="selectItem($event)"
+              (itemPicked)="pickItem($event)">
         </lb-item>
       </template>
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">
         <h2>{{item.name}}</h2>
-        <lb-item [item]="item" (itemPicked)="itemPicked"></lb-item>
+        <lb-item [item]="item" (itemPicked)="pickItem($event)"></lb-item>
       </div>
       <div class="from">
         <hr *ngIf="itemsFrom?.length" class="down">
         <lb-items-from [items]="itemsFrom"
                     (itemSelected)="selectItem($event)"
-                    (itemPicked)="itemPicked">
+                    (itemPicked)="pickItem($event)">
         </lb-items-from>
       </div>
       <p class="description" [innerHTML]="description">loading..</p>
@@ -35,7 +35,7 @@ import {ItemBundle} from './item-bundle';
 export class PreviewComponent implements OnChanges {
   @Input() item: Item;
   @Input() items: Array<Item>;
-  @Output() itemPicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
 
   itemsFrom: Array<ItemBundle>|undefined = undefined;
   itemsInto: Array<Item>|undefined = undefined;
