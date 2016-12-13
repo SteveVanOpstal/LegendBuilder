@@ -110,6 +110,7 @@ export class ShopComponent implements OnInit {
   }
 
   pickItem(item: Item) {
+    this.selectedItem = item;
     this.itemPicked.emit(item);
     return false;  // stop context menu from appearing
   }
