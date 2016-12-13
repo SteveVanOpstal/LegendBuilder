@@ -19,7 +19,10 @@ import {ItemBundle} from './item-bundle';
     <div class="tree">
       <div class="item" *ngIf="item">
         <h2>{{item.name}}</h2>
-        <lb-item [item]="item" (itemPicked)="pickItem($event)"></lb-item>
+        <lb-item [item]="item"
+                 (itemPicked)="pickItem($event)"
+                 (dblclick)="pickItem(item)">
+        </lb-item>
       </div>
       <div class="from">
         <hr *ngIf="itemsFrom?.length" class="down">

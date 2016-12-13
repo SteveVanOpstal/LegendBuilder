@@ -40,7 +40,8 @@ import {Item} from '../item';
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
                   (click)="selectItem(item)"
-                  (contextmenu)="pickItem(item)">
+                  (contextmenu)="pickItem(item)"
+                  (dblclick)="pickItem(item)">
             </lb-item>
           </template>
           <lb-loading [loading]="loading"></lb-loading>
