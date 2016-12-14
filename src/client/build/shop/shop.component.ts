@@ -40,8 +40,8 @@ import {Item} from '../item';
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
                   (click)="selectItem(item)"
-                  (contextmenu)="pickItem(item)"
-                  (dblclick)="pickItem(item)">
+                  (contextmenu)="pickItem(item);selectItem(item)"
+                  (dblclick)="pickItem(item);selectItem(item)">
             </lb-item>
           </template>
           <lb-loading [loading]="loading"></lb-loading>
@@ -107,10 +107,10 @@ export class ShopComponent implements OnInit {
 
   selectItem(item: Item) {
     this.selectedItem = item;
+    return false;  // stop context menu from appearing
   }
 
   pickItem(item: Item) {
-    this.selectedItem = item;
     this.itemPicked.emit(item);
     return false;  // stop context menu from appearing
   }
