@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {Item} from '../item';
@@ -16,9 +16,10 @@ import {Item} from '../item';
 
 export class ItemSlotComponent implements OnInit {
   @Input() id: number;
+  @Output() itemRemoved: EventEmitter<Item> = new EventEmitter<Item>();
   items = Array<Item>();
 
-  private allItems;
+  private allItems: any;
 
   constructor(private lolApi: LolApiService) {}
 
@@ -28,21 +29,38 @@ export class ItemSlotComponent implements OnInit {
     });
   }
 
-  compatible(item: Item) {
+  compatible(subject: Item): boolean {
     if (!this.items.length) {
       return true;
     }
-    let item2 = this.items[this.items.length - 1];
-    return this.buildsFrom(item, item2);
+    return this.compatibleWithItem(subject) || this.compatibleWithConsumable(subject) ||
+        this.compatibleWithTime(subject);
   }
 
-  // TODO: move to itemComponent when angular allows events on <template>
-  rightClicked(item: Item) {
-    // this.removeItem(item);
+  rightClicked(item: Item): boolean {
+    this.removeItem(item);
     return false;  // stop context menu from appearing
   }
 
-  private buildsFrom(subject: Item, item: Item) {
+  removeItem(item: Item) {
+    this.itemRemoved.emit(item);
+  }
+
+  private compatibleWithItem(subject: Item): boolean {
+    let lastItem = this.items[this.items.length - 1];
+    return this.buildsFrom(subject, lastItem);
+  }
+
+  private compatibleWithConsumable(subject: Item): boolean {
+    let lastItem = this.items[this.items.length - 1];
+    return lastItem.consumed;
+  }
+
+  private compatibleWithTime(subject: Item): boolean {
+    return false;
+  }
+
+  private buildsFrom(subject: Item, item: Item): boolean {
     let from = subject.from;
     if (!from) {
       return false;

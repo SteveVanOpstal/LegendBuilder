@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, ElementRef, Input} from '@angular/core';
 
 import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
@@ -11,17 +11,21 @@ import {Item} from '../item';
     <p class="gold">{{item.gold.total ? item.gold.total : ''}}</p>`
 })
 
-export class ItemComponent implements OnInit {
+export class ItemComponent implements DoCheck {
   @Input() item: Item;
+  itemPrev: Item;
   private xScaleTime = new TimeScale([0, 1380]);
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    this.xScaleTime.create();
+  }
 
-  ngOnInit() {
-    if (this.item.time) {
-      this.xScaleTime.create();
-      this.el.nativeElement.setAttribute(
-          'style', 'left: ' + this.xScaleTime.get()(this.item.time) + 'px');
+  ngDoCheck() {
+    if (!this.item) {
+      return;
     }
+    let offset = this.xScaleTime.get()(this.item.time);
+    this.el.nativeElement.setAttribute('style', 'left: ' + offset + 'px');
+    this.itemPrev = this.item;
   }
 }
