@@ -538,6 +538,7 @@ lb-items lb-item > img {
 }
 
 lb-items lb-item .bundle {
+  background-color: rgba(0,0,0,.7);
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
   color: #866b00;

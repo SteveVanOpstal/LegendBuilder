@@ -10,4 +10,6 @@ export interface Item {
   description?: string;
   stacks?: number;
   consumed?: boolean;
+
+  bundle?: number;
 }

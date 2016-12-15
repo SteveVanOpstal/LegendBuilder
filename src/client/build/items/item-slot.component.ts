@@ -33,8 +33,7 @@ export class ItemSlotComponent implements OnInit {
     if (!this.items.length) {
       return true;
     }
-    return this.compatibleWithItem(subject) || this.compatibleWithConsumable(subject) ||
-        this.compatibleWithTime(subject);
+    return this.compatibleWithItem(subject) || this.compatibleWithConsumable(subject);
   }
 
   rightClicked(item: Item): boolean {
@@ -53,11 +52,12 @@ export class ItemSlotComponent implements OnInit {
 
   private compatibleWithConsumable(subject: Item): boolean {
     let lastItem = this.items[this.items.length - 1];
-    return lastItem.consumed;
-  }
 
-  private compatibleWithTime(subject: Item): boolean {
-    return false;
+    if (lastItem.time !== subject.time) {
+      return lastItem.consumed;
+    } else {
+      return lastItem.consumed && lastItem.id === subject.id && lastItem.bundle < lastItem.stacks;
+    }
   }
 
   private buildsFrom(subject: Item, item: Item): boolean {
@@ -74,19 +74,4 @@ export class ItemSlotComponent implements OnInit {
 
     return from.indexOf(item.id.toString()) > -1;
   }
-
-  // private addBundle(item: Item) {
-  //   if (!this.items || !this.items.length) {
-  //     return;
-  //   }
-
-  //   item.bundle = 1;
-  //   for (let index = 0; index < this.items.length - 1; index++) {
-  //     if (item.id === this.items[index].id && item.time === this.items[index].time) {
-  //       item.bundle++;
-  //       this.items.splice(index + 1, 1);
-  //       index--;
-  //     }
-  //   }
-  // }
 }

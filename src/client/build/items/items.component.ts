@@ -8,9 +8,18 @@ import {Samples} from '../samples';
 
 import {ItemSlotComponent} from './item-slot.component';
 
-export interface SlotItem {
+export class SlotItem {
   item: Item;
   slotId: number;
+
+  constructor(item: Item, slotId: number) {
+    this.item = Object.assign({}, item);
+    this.slotId = slotId;
+  }
+
+  equals(slotId: number, item: Item) {
+    return this.slotId === slotId && this.item.id === item.id && this.item.time === item.time;
+  }
 }
 
 @Component({
@@ -35,8 +44,10 @@ export class ItemsComponent implements OnInit {
   }
 
   addItem(item: Item) {
+    this.addTime(item);
+    item.bundle = 1;
     let slotId = this.findSlot(item);
-    let slotItem = {item: Object.assign({}, item), slotId: slotId};
+    let slotItem = new SlotItem(item, slotId);
     this.slotItems.push(slotItem);
     this.update();
   }
@@ -45,12 +56,30 @@ export class ItemsComponent implements OnInit {
     for (let i in this.slotItems) {
       let index = parseInt(i, 10);
       let slotItem = this.slotItems[index];
-      if (slotItem.slotId === slotId && slotItem.item.time === item.time) {
+      if (slotItem.equals(slotId, item)) {
         this.slotItems.splice(index, 1);
         break;
       }
     }
+    this.updateTimes();
     this.update();
+  }
+
+  getTotalGold() {
+    let gold = 0;
+    for (let slotItem of this.slotItems) {
+      gold += slotItem.item.gold.total;
+    }
+    return gold;
+  }
+
+  private addTime(item: Item) {
+    if (!this.samples) {
+      return;
+    }
+    item.time = this.getTime(
+        this.samples.gold, this.getTotalGold() + item.gold.total, settings.gameTime,
+        settings.matchServer.sampleSize);
   }
 
   private findSlot(item: Item): number {
@@ -63,7 +92,7 @@ export class ItemsComponent implements OnInit {
   }
 
   private update() {
-    this.updateTimes();
+    this.updateBundles();
     this.updateItemSlots();
     this.updatePickedItems();
   }
@@ -78,6 +107,22 @@ export class ItemsComponent implements OnInit {
           this.samples.gold, goldOffset + slotItem.item.gold.total, settings.gameTime,
           settings.matchServer.sampleSize);
       goldOffset += slotItem.item.gold.total;
+    }
+  }
+
+  private updateBundles() {
+    for (let index1 = 0; index1 < this.slotItems.length; index1++) {
+      let slotItem1 = this.slotItems[index1];
+      for (let index2 = 0; index2 < this.slotItems.length; index2++) {
+        let slotItem2 = this.slotItems[index2];
+        if (slotItem1.item.time < slotItem2.item.time) {
+          break;
+        } else if (slotItem1.equals(slotItem2.slotId, slotItem2.item) && index1 !== index2) {
+          slotItem1.item.bundle++;
+          this.slotItems.splice(index2, 1);
+          index2--;
+        }
+      }
     }
   }
 
