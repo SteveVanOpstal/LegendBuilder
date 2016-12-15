@@ -61,6 +61,7 @@ export class PreviewComponent implements OnChanges {
   selectItem(item: Item) {
     this.item = item;
     this.ngOnChanges();
+    return false;  // stop context menu from appearing
   }
 
   pickItem(item: Item) {

@@ -3,6 +3,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LolApiService} from '../../services/lolapi.service';
 import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 import {Item} from '../item';
+import {PreviewComponent} from './preview/preview.component';
 
 @Component({
   selector: 'lb-shop',
@@ -39,9 +40,9 @@ import {Item} from '../item';
             <lb-item [item]="item"
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
-                  (click)="selectItem(item)"
-                  (contextmenu)="pickItem(item);selectItem(item)"
-                  (dblclick)="pickItem(item);selectItem(item)">
+                  (click)="preview.selectItem(item)"
+                  (contextmenu)="pickItem(item);preview.selectItem(item)"
+                  (dblclick)="pickItem(item);preview.selectItem(item)">
             </lb-item>
           </template>
           <lb-loading [loading]="loading"></lb-loading>
@@ -49,9 +50,9 @@ import {Item} from '../item';
         </div>
       </div>
       <div class="right">
-        <lb-preview [item]="selectedItem"
-                 [items]="items | lbMap:11 | lbChampion:123"
-                 (itemPicked)="pickItem($event)">
+        <lb-preview #preview
+                    [items]="items | lbMap:11 | lbChampion:123"
+                    (itemPicked)="pickItem($event)">
         </lb-preview>
       </div>
     </div>`
@@ -59,6 +60,8 @@ import {Item} from '../item';
 
 export class ShopComponent implements OnInit {
   @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
+
+  preview: PreviewComponent;
 
   loading: boolean = true;
   error: boolean = false;
@@ -68,7 +71,6 @@ export class ShopComponent implements OnInit {
 
   data: Object;
   items: Array<Item> = [];
-  selectedItem: Item;
   private originalItems: Array<Item> = [];
 
   constructor(private lolApi: LolApiService) {}
@@ -103,11 +105,6 @@ export class ShopComponent implements OnInit {
         this.tags.splice(index, 1);
       }
     }
-  }
-
-  selectItem(item: Item) {
-    this.selectedItem = item;
-    return false;  // stop context menu from appearing
   }
 
   pickItem(item: Item) {
