@@ -528,6 +528,14 @@ lb-items {
   height: 300px;
 }
 
+lb-items:before {
+  background-color: #f3f3f3;
+  content: '';
+  height: 300px;
+  position: absolute;
+  width: 52px;
+}
+
 lb-items lb-item {
   display: inline-block;
   position: relative;

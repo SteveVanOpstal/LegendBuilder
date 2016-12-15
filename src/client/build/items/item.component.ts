@@ -25,6 +25,9 @@ export class ItemComponent implements DoCheck {
       return;
     }
     let offset = this.xScaleTime.get()(this.item.time);
+    if (offset > 0) {
+      offset += 60;
+    }
     this.el.nativeElement.setAttribute('style', 'left: ' + offset + 'px');
     this.itemPrev = this.item;
   }
