@@ -538,6 +538,7 @@ lb-items:before {
 
 lb-items lb-item {
   display: inline-block;
+  margin: 2.5px 0;
   position: relative;
 }
 

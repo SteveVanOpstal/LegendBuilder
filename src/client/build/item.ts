@@ -1,6 +1,5 @@
 export interface Item {
   id: number;
-  time?: number;
   from?: Array<string>;
   into?: Array<string>;
   gold: {total: number};
@@ -11,5 +10,6 @@ export interface Item {
   stacks?: number;
   consumed?: boolean;
 
+  time?: number;
   bundle?: number;
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {Item} from '../item';
@@ -15,7 +15,6 @@ import {Item} from '../item';
 })
 
 export class ItemSlotComponent implements OnInit {
-  @Input() id: number;
   @Output() itemRemoved: EventEmitter<Item> = new EventEmitter<Item>();
   items = Array<Item>();
 

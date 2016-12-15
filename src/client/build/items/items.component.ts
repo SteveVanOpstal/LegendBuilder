@@ -8,31 +8,17 @@ import {Samples} from '../samples';
 
 import {ItemSlotComponent} from './item-slot.component';
 
-export class SlotItem {
-  item: Item;
-  slotId: number;
-
-  constructor(item: Item, slotId: number) {
-    this.item = Object.assign({}, item);
-    this.slotId = slotId;
-  }
-
-  equals(slotId: number, item: Item) {
-    return this.slotId === slotId && this.item.id === item.id && this.item.time === item.time;
-  }
-}
-
 @Component({
   selector: 'lb-items',
   template: `
     <template ngFor let-i [ngForOf]="[0,1,2,3,4,5]">
-      <lb-item-slot [id]="i" (itemRemoved)="removeItem(i, $event)"></lb-item-slot>
+      <lb-item-slot (itemRemoved)="removeItem(i, $event)"></lb-item-slot>
     </template>`
 })
 
 export class ItemsComponent implements OnInit {
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
-  slotItems: Array<SlotItem> = Array<SlotItem>();
+  items = Array<Item>();
   private samples: Samples;
 
   constructor(private stats: StatsService, private lolApi: LolApiService) {}
@@ -44,96 +30,83 @@ export class ItemsComponent implements OnInit {
   }
 
   addItem(item: Item) {
-    this.addTime(item);
     item.bundle = 1;
-    let slotId = this.findSlot(item);
-    let slotItem = new SlotItem(item, slotId);
-    this.slotItems.push(slotItem);
+    this.items.push(Object.assign({}, item));
     this.update();
   }
 
   removeItem(slotId: number, item: Item) {
-    for (let i in this.slotItems) {
-      let index = parseInt(i, 10);
-      let slotItem = this.slotItems[index];
-      if (slotItem.equals(slotId, item)) {
-        this.slotItems.splice(index, 1);
+    for (let index in this.items) {
+      let itemCurrent = this.items[index];
+      if (item.id === itemCurrent.id && item.time === itemCurrent.time) {
+        this.items.splice(parseInt(index, 10), 1);
         break;
       }
     }
-    this.updateTimes();
     this.update();
   }
 
-  getTotalGold() {
-    let gold = 0;
-    for (let slotItem of this.slotItems) {
-      gold += slotItem.item.gold.total;
-    }
-    return gold;
-  }
-
-  private addTime(item: Item) {
-    if (!this.samples) {
-      return;
-    }
-    item.time = this.getTime(
-        this.samples.gold, this.getTotalGold() + item.gold.total, settings.gameTime,
-        settings.matchServer.sampleSize);
-  }
-
-  private findSlot(item: Item): number {
-    let s = this.children.toArray().find((slot: ItemSlotComponent) => {
-      return slot.compatible(item);
-    });
-    if (s) {
-      return s.id;
-    }
-  }
-
   private update() {
-    this.updateBundles();
-    this.updateItemSlots();
-    this.updatePickedItems();
+    let result = [];
+    result = this.updateTimes(this.items);
+    result = this.updateBundles(result);
+    this.updateSlots(result);
+    this.updatePickedItems(result);
   }
 
-  private updateTimes() {
+  private updateTimes(items: Array<Item>): Array<Item> {
+    let result = items;
     if (!this.samples) {
       return;
     }
     let goldOffset = 0;
-    for (let slotItem of this.slotItems) {
-      slotItem.item.time = this.getTime(
-          this.samples.gold, goldOffset + slotItem.item.gold.total, settings.gameTime,
+    for (let item of result) {
+      item.time = this.getTime(
+          this.samples.gold, goldOffset + item.gold.total, settings.gameTime,
           settings.matchServer.sampleSize);
-      goldOffset += slotItem.item.gold.total;
+      goldOffset += item.gold.total;
     }
+    return result;
   }
 
-  private updateBundles() {
-    for (let index1 = 0; index1 < this.slotItems.length; index1++) {
-      let slotItem1 = this.slotItems[index1];
-      for (let index2 = 0; index2 < this.slotItems.length; index2++) {
-        let slotItem2 = this.slotItems[index2];
-        if (slotItem1.item.time < slotItem2.item.time) {
-          break;
-        } else if (slotItem1.equals(slotItem2.slotId, slotItem2.item) && index1 !== index2) {
-          slotItem1.item.bundle++;
-          this.slotItems.splice(index2, 1);
-          index2--;
-        }
+  private updateBundles(items: Array<Item>): Array<Item> {
+    let result = this.clone(items);
+    for (let index = 0; index < result.length - 1; index++) {
+      let itemCurrent = result[index];
+      let itemNext = result[index + 1];
+
+      if (itemCurrent.id === itemNext.id && itemCurrent.bundle < itemCurrent.stacks) {
+        itemCurrent.bundle++;
+        result.splice(index + 1, 1);
+        index--;
+      }
+    }
+    return result;
+  }
+
+  private updateSlots(items: Array<Item>): void {
+    this.children.forEach((slot: ItemSlotComponent) => {
+      slot.items = [];
+    });
+    for (let item of items) {
+      let slot = this.findSlot(item);
+      if (slot) {
+        slot.items.push(item);
       }
     }
   }
 
-  private updateItemSlots() {
-    this.children.toArray().forEach((slot: ItemSlotComponent) => {
-      slot.items = this.getItemsForSlot(slot.id);
-    });
+  private updatePickedItems(items: Array<Item>): void {
+    this.stats.pickedItems.next(items);
   }
 
-  private updatePickedItems() {
-    this.stats.pickedItems.next(this.getItems());
+
+  private clone(items: Array<Item>): Array<Item> {
+    let result = [];
+    for (let item of items) {
+      result.push(Object.assign({}, item));
+    }
+    return result;
   }
 
   private getTime(frames: Array<number>, value: number, totalTime: number, sampleSize: number):
@@ -166,19 +139,9 @@ export class ItemsComponent implements OnInit {
     return -1;
   }
 
-  private getItemsForSlot(slotId: number): Array<Item> {
-    return this.slotItems
-        .filter((slotItem: SlotItem) => {
-          return slotItem.slotId === slotId;
-        })
-        .map((slotItem: SlotItem) => {
-          return slotItem.item;
-        });
-  }
-
-  private getItems(): Array<Item> {
-    return this.slotItems.map((slotItem: SlotItem) => {
-      return slotItem.item;
+  private findSlot(item: Item): ItemSlotComponent|undefined {
+    return this.children.toArray().find((slot: ItemSlotComponent) => {
+      return slot.compatible(item);
     });
   }
 }
