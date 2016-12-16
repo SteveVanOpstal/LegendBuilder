@@ -622,6 +622,20 @@ lb-item-slot {
   height: 50px;
 }
 
+lb-items lb-item-slot .dropzone {
+  display: inline-block;
+  height: 45px;
+  margin: 2.5px 0;
+}
+
+lb-items lb-item-slot.dragging .dropzone {
+  background-color: #ddd;
+}
+
+lb-items lb-item-slot.dragging .dropzone.draghover {
+  background-color: cadetblue;
+}
+
 /* lb-preview */
 
 lb-preview {

@@ -1,4 +1,4 @@
-import {Component, DoCheck, ElementRef, Input} from '@angular/core';
+import {Component, DoCheck, Input} from '@angular/core';
 
 import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
@@ -14,9 +14,10 @@ import {Item} from '../item';
 export class ItemComponent implements DoCheck {
   @Input() item: Item;
   itemPrev: Item;
+  offset: number;
   private xScaleTime = new TimeScale([0, 1380]);
 
-  constructor(private el: ElementRef) {
+  constructor() {
     this.xScaleTime.create();
   }
 
@@ -24,11 +25,10 @@ export class ItemComponent implements DoCheck {
     if (!this.item) {
       return;
     }
-    let offset = this.xScaleTime.get()(this.item.time);
-    if (offset > 0) {
-      offset += 60;
+    this.offset = this.xScaleTime.get()(this.item.time);
+    if (this.offset > 0) {
+      this.offset += 60;
     }
-    this.el.nativeElement.setAttribute('style', 'left: ' + offset + 'px');
     this.itemPrev = this.item;
   }
 }

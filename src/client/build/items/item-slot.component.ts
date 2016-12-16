@@ -3,20 +3,41 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LolApiService} from '../../services/lolapi.service';
 import {Item} from '../item';
 
+import {ItemComponent} from './item.component';
+
 @Component({
   selector: 'lb-item-slot',
   template: `
     <template ngFor let-item [ngForOf]="items">
-      <lb-item [item]="item"
-               [ngClass]="{disabled: item.disabled}"
-               (contextmenu)="rightClicked(item)">
+      <div class="dropzone"
+           [style.width]="lbItem.offset + 'px'"
+           [ngClass]="{draghover: draghover}"
+           (dragenter)="draghover=true"
+           (dragleave)="draghover=false"
+           (dragover)="dragover()"
+           (drop)="drop(item)">
+      </div>
+      <lb-item #lbItem
+               [item]="item"
+               [ngClass]="{disabled: item.disabled, dragging: dragging}"
+               (contextmenu)="rightClicked(item)"
+               draggable="true"
+               (dragstart)="dragstart(item)"
+               (dragend)="dragend()">
       </lb-item>
     </template>`
 })
 
 export class ItemSlotComponent implements OnInit {
   @Output() itemRemoved: EventEmitter<Item> = new EventEmitter<Item>();
+  @Output() itemDragStart: EventEmitter<Item> = new EventEmitter<Item>();
+  @Output() itemDragEnd: EventEmitter<any> = new EventEmitter<any>();
+  @Output() itemDrop: EventEmitter<Item> = new EventEmitter<Item>();
   items = Array<Item>();
+
+  lbItem: ItemComponent;
+  dragging = false;
+  draghover = false;
 
   private allItems: any;
 
@@ -36,12 +57,27 @@ export class ItemSlotComponent implements OnInit {
   }
 
   rightClicked(item: Item): boolean {
-    this.removeItem(item);
+    this.itemRemoved.emit(item);
     return false;  // stop context menu from appearing
   }
 
-  removeItem(item: Item) {
-    this.itemRemoved.emit(item);
+  dragstart(item: Item) {
+    this.dragging = true;
+    this.itemDragStart.emit(item);
+  }
+
+  dragover() {
+    return false;  // allow drop
+  }
+
+  dragend() {
+    this.dragging = false;
+    this.itemDragEnd.emit(null);
+  }
+
+  drop(item: Item) {
+    this.dragging = false;
+    this.itemDrop.emit(item);
   }
 
   private compatibleWithItem(subject: Item): boolean {
