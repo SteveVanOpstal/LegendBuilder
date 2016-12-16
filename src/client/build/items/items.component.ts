@@ -76,7 +76,7 @@ export class ItemsComponent implements OnInit {
     this.switchItem(this.dragged, item);
   }
 
-  private getItemIndex(id: number, time: number): number|undefined {
+  private getItemIndex(id: string, time: number): number|undefined {
     for (let index in this.items) {
       let item = this.items[index];
       if (id === item.id && time === item.time) {
@@ -95,34 +95,32 @@ export class ItemsComponent implements OnInit {
   }
 
   private updateBundles(items: Array<Item>): Array<Item> {
-    let result = items;
-    for (let index = 0; index < result.length - 1; index++) {
-      let itemCurrent = result[index];
-      let itemNext = result[index + 1];
+    for (let index = 0; index < items.length - 1; index++) {
+      let itemCurrent = items[index];
+      let itemNext = items[index + 1];
 
       if (itemCurrent.id === itemNext.id && itemCurrent.bundle < itemCurrent.stacks) {
         itemCurrent.bundle++;
-        result.splice(index + 1, 1);
+        items.splice(index + 1, 1);
         index--;
       }
     }
-    return result;
+    return items;
   }
 
   private updateTimes(items: Array<Item>): Array<Item> {
-    let result = items;
     if (!this.samples) {
       return;
     }
     let goldOffset = 0;
-    for (let item of result) {
       let itemGold = (item.gold.total * item.bundle);
+    for (let item of items) {
       item.time = this.getTime(
           this.samples.gold, goldOffset + itemGold, settings.gameTime,
           settings.matchServer.sampleSize);
       goldOffset += itemGold;
     }
-    return result;
+    return items;
   }
 
   private updateOriginalItems(items: Array<Item>) {

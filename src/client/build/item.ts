@@ -1,5 +1,5 @@
 export interface Item {
-  id: number;
+  id: string;
   from?: Array<string>;
   into?: Array<string>;
   gold: {total: number};
