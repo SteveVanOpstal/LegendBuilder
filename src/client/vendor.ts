@@ -1,12 +1,14 @@
-// Angular 2
-import '@angular/platform-browser';
+// angular
+import '@angular/common';
+import '@angular/compiler';
 import '@angular/core';
 import '@angular/http';
+import '@angular/platform-browser';
+import '@angular/platform-browser-dynamic';
 import '@angular/router';
 
-// RxJS
+// rxjs
 import 'rxjs/Rx';
-import 'rxjs/Observable';
 
 // d3
 import 'd3-axis';

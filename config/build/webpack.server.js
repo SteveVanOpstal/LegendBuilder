@@ -2,7 +2,7 @@ var helpers = require('../helpers');
 
 /* plugins */
 var webpack = require('webpack');
-var atl = require('awesome-typescript-loader');
+var {CheckerPlugin} = require('awesome-typescript-loader');
 
 module.exports = function(options) {
   if (!options) {
@@ -32,8 +32,8 @@ module.exports = function(options) {
     },
 
     plugins: [
-      new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}), new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.OccurrenceOrderPlugin(true), new atl.ForkCheckerPlugin()
+      new CheckerPlugin(), new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
+      new webpack.optimize.OccurrenceOrderPlugin(true)
     ],
 
     node: {

@@ -78,7 +78,7 @@ export class LolApiService {
 
   private cache(url: string): Observable<any> {
     if (!this.cachedObservables[url]) {
-      this.cachedObservables[url] = this.http.get(url).cache();
+      this.cachedObservables[url] = this.http.get(url);
     }
     return this.cachedObservables[url].map(res => res.json());
   }

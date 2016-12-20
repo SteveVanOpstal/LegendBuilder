@@ -40,7 +40,7 @@ export class ItemsComponent implements OnInit {
 
   addItem(item: Item) {
     item.bundle = 1;
-    this.items.push(Object.assign({}, item));
+    this.items.push({...item});
     this.update();
   }
 
@@ -152,7 +152,7 @@ export class ItemsComponent implements OnInit {
   private clone(items: Array<Item>): Array<Item> {
     let result = [];
     for (let item of items) {
-      result.push(Object.assign({}, item));
+      result.push({...item});
     }
     return result;
   }

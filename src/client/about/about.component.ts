@@ -93,7 +93,6 @@ export class AboutComponent {
   constructor(private http: Http) {
     this.http.get('https://api.github.com/repos/SteveVanOpstal/LegendBuilder/contributors')
         .map(res => res.json())
-        .cache()
         .subscribe(
             res => {
               this.contributors = res;

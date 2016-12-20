@@ -4,7 +4,7 @@ var package = require('../../package.json');
 
 /* plugins */
 var webpack = require('webpack');
-var atl = require('awesome-typescript-loader');
+var {CheckerPlugin} = require('awesome-typescript-loader');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -28,7 +28,10 @@ module.exports = function(options) {
       boot: helpers.root('src/client/boot.ts')
     },
 
-    output: {path: helpers.root('build/dist/client'), filename: '[name].[chunkhash].bundle.js'},
+    output: {
+      path: helpers.root('build/dist/client'),
+      filename: options.dev ? '[name].bundle.js' : '[name].[chunkhash].bundle.js'
+    },
 
     module: {
       rules: [
@@ -39,17 +42,15 @@ module.exports = function(options) {
           exclude: [/\.(spec|e2e)\.ts$/]
         },
         {test: /\.svg$/, loader: ['raw-loader', 'svgo-loader']},
-        {test: /\.css$/, loader: 'css?minimize'}, {test: /\.json$/, loader: 'json-loader'}
+        {test: /\.css$/, loader: 'css-loader?minimize'}, {test: /\.json$/, loader: 'json-loader'}
       ]
     },
 
     plugins: [
       new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
-      new webpack.optimize.CommonsChunkPlugin({name: ['vendor', 'polyfills']}),
-      /*new webpack.optimize.DedupePlugin(), // TODO: add when webpack/webpack
-         #2644 is fixed */
-      new atl.ForkCheckerPlugin(), new atl.TsConfigPathsPlugin(),
-      new CompressionPlugin({algorithm: 'gzip', test: /\.js$|\.html$/, threshold: 256}),
+      new webpack.optimize.CommonsChunkPlugin({name: ['vendor.angular', 'vendor', 'polyfills']}),
+      new CheckerPlugin(),
+      new CompressionPlugin({algorithm: 'gzip', test: /\.(js|html)$/, threshold: 256}),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
       new HtmlWebpackPlugin({
         template: 'src/client/index.html',
@@ -67,9 +68,10 @@ module.exports = function(options) {
         port: settings.httpServer.port,
         ENV: ENV,
         version: package.version
-      }),
-      new WebpackMd5Hash()
-    ]
+      })
+    ],
+
+    performance: {hints: !options.dev}
   };
 
   if (options.dev) {
@@ -77,12 +79,11 @@ module.exports = function(options) {
       port: settings.httpServer.port,
       host: settings.httpServer.host,
       historyApiFallback: true,
-      outputPath: helpers.root('../build/dist/client'),
       watchOptions: {aggregateTimeout: 300, poll: 1000}
     }
   } else {
-    config.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({beautify: false, mangle: true, comments: false}));
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle: true}));
+    config.plugins.push(new WebpackMd5Hash());
   }
 
   return config;

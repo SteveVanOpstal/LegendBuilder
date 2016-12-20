@@ -17,8 +17,8 @@ export class AuthService {
   constructor(private router: Router) {
     let result = this.auth0.parseHash(window.location.hash);
 
-    if (result && result.id_token) {
-      localStorage.setItem('id_token', result.id_token);
+    if (result && result.idToken) {
+      localStorage.setItem('id_token', result.idToken);
       this.router.navigate(['/home']);
     } else if (result && result.state) {
       this._error = result.state;

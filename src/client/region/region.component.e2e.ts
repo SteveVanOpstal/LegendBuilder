@@ -1,4 +1,5 @@
-'use strict';
+import {browser, by, element} from 'protractor';
+
 describe('RegionComponent', () => {
 
   // Temporary fix for zone.js issue #234

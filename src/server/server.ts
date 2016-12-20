@@ -11,7 +11,7 @@ import {settings} from '../../config/settings';
 
 let apiKey = '';
 try {
-  apiKey = require('raw!../../.api.key').replace(/^\s+|\s+$/g, '');
+  apiKey = require('raw-loader!../../.api.key').replace(/^\s+|\s+$/g, '');
 } catch (e) {
 }
 

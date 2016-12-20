@@ -1,4 +1,4 @@
-/*
+/*!
   Legend Builder - An advanced League Of Legends champion builder
   Copyright (C) 2016 Steve Van Opstal (https://github.com/SteveVanOpstal)
 

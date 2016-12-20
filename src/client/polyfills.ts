@@ -1,6 +1,5 @@
 // core-js
 import 'core-js';
-import 'core-js/es6';
 
 // shims_for_ie
 import '../../config/shims_for_IE.js';

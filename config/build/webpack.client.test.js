@@ -13,7 +13,7 @@ module.exports = {
   module: {
     rules: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/]},
-      {test: /\.css|.svg$/, loader: 'raw'}, {
+      {test: /\.css|.svg$/, loader: 'raw-loader'}, {
         test: /\.(js|ts)$/,
         enforce: 'post',
         loader: 'istanbul-instrumenter-loader',
