@@ -127,7 +127,7 @@ describe('LolApiService', () => {
        router.setRegion('not a region');
 
        service.getRealm().subscribe(
-           res => {
+           () => {
              fail('unexpected success');
            },
            (error) => {
@@ -152,7 +152,7 @@ describe('LolApiService', () => {
 
   it('should not get incorrect params', inject([LolApiService], (service) => {
        service.getParam(5).subscribe(
-           res => {
+           () => {
              fail('unexpected success');
            },
            (error) => {

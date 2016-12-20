@@ -41,5 +41,5 @@ export class SignupComponent {
   email: string;
   password: string;
 
-  constructor(auth: AuthService) {}
+  constructor(public auth: AuthService) {}
 }

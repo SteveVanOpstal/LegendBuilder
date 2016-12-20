@@ -6,7 +6,7 @@ export class MockServerResponse {
     this.buffer = buffer;
     return true;
   }
-  writeHead(statusCode: number, headers?: any): void {
+  writeHead(_statusCode: number, headers?: any): void {
     this.headers = headers;
   }
   getHeader(name: string): string {

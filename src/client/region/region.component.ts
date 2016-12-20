@@ -34,7 +34,7 @@ export class RegionComponent implements OnInit {
         res => {
           this.regions = res;
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
         },

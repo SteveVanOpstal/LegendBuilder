@@ -104,8 +104,7 @@ describe('DDragonDirective', () => {
        expect(directive.setImage).not.toHaveBeenCalled();
      }));
 
-  it('should update image when a change occurs',
-     async(inject([MockBackend, DDragonDirective], (backend, directive) => {
+  it('should update image when a change occurs', async(inject([DDragonDirective], (directive) => {
        spyOn(directive, 'setImage');
        expect(directive.setImage).not.toHaveBeenCalled();
        directive.realm = realm;

@@ -36,7 +36,7 @@ export class SummonerComponent {
                 this.error = true;
               }
             },
-            error => {
+            () => {
               this.error = true;
             });
   }

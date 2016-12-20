@@ -96,10 +96,9 @@ describe('StatsService', () => {
        expect(service.levelTimeMarks).not.toBeDefined();
      })));
 
-  it('should not process when there are no samples',
-     async(inject([MockBackend, StatsService], (backend, service) => {
+  it('should not process when there are no samples', async(inject([StatsService], (service) => {
        service.pickedItems.next(undefined);
-       service.stats.subscribe((stats) => {
+       service.stats.subscribe(() => {
          fail('unexpected success');
        });
      })));

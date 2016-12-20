@@ -54,7 +54,7 @@ export class GraphComponent implements OnInit, OnChanges {
 
   private lineSamples: any =
       line()
-          .x((d, i) => {
+          .x((_, i) => {
             return this.xScaleTime.get()(
                 i * (settings.gameTime / (settings.matchServer.sampleSize - 1)));
           })
@@ -66,7 +66,7 @@ export class GraphComponent implements OnInit, OnChanges {
                                .x((d) => {
                                  return this.xScaleTime.get()(d['time']);
                                })
-                               .y((d, i, a) => {
+                               .y((d) => {
                                  return this.yScaleStats.get()(d['value']);
                                })
                                .curve(curveStepAfter);

@@ -115,7 +115,7 @@ export class Server {
     let console = new ColorConsole();
     async.retry(
         opts || {times: 1, interval: 0},
-        (cb: any, results: any) => {
+        (cb: any) => {
           let req = https.request(options, (res: IncomingMessage) => {
             cb(undefined, res);
           });

@@ -8,15 +8,14 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "removeComments": false,
+    "noImplicitThis": false,
     "noImplicitAny": false,
-    "noUnusedLocals": true
-    // "noUnusedParameters": true,
-    // "noImplicitThis": true,
-    // "strictNullChecks": false
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": false
   },
   "include": [
-    "src/**/*.ts",
-    "src/custom-typings.d.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

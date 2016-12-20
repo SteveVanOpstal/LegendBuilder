@@ -34,7 +34,7 @@ export class MockServer extends Server {
     super('', 1234);
   }
 
-  public sendRequest(url: string, region: string, callback: (response: HostResponse) => void):
+  public sendRequest(url: string, _region: string, callback: (response: HostResponse) => void):
       void {
     callback(this.getResponse(url));
   }

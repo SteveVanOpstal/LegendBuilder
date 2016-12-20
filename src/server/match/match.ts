@@ -142,7 +142,7 @@ export class Match {
     for (let match of matches) {
       i++;
       matchRequests.push(reflect((cb) => {
-        this.getMatch(region, summonerId, match.matchId, (err: HttpError, results: any) => {
+        this.getMatch(region, match.matchId, (err: HttpError, results: any) => {
           if (err) {
             cb(Error(err.message), results);
           } else {
@@ -155,7 +155,7 @@ export class Match {
       }
     }
 
-    parallel(matchRequests, (err: Error, results: Array<any>) => {
+    parallel(matchRequests, (_err: Error, results: Array<any>) => {
       let data = {interval: 120000, matches: []};
       let ind = 0;
       for (let index in results) {
@@ -212,7 +212,7 @@ export class Match {
     });
   }
 
-  private getMatch(region: string, summonerId: number, matchId: number, callback: CallBack) {
+  private getMatch(region: string, matchId: number, callback: CallBack) {
     let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.match + '/match/' +
         matchId + '?includeTimeline=true';
     this.server.sendRequest(path, region, (res: HostResponse) => {

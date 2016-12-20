@@ -14,7 +14,7 @@ export class MockRouter {
     this.routerState = this.routerState_();
   }
 
-  navigate(commands: any[], extras?: any): any {}
+  navigate(_commands: any[], _extras?: any): any {}
 
   private routerState_(): any {
     return {

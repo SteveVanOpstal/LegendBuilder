@@ -150,7 +150,7 @@ export class ItemsComponent implements OnInit {
 
 
   private clone(items: Array<Item>): Array<Item> {
-    let result = [];
+    let result: Array<Item> = [];
     for (let item of items) {
       result.push({...item});
     }
