@@ -71,7 +71,7 @@ module.exports = function(options) {
       })
     ],
 
-    performance: {hints: !options.dev}
+    performance: {hints: options.dev ? false : 'warning'}
   };
 
   if (options.dev) {
