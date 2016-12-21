@@ -447,7 +447,7 @@ lb-shop .left label {
 
 lb-shop .left input[type='checkbox']:checked + span,
 lb-shop .left label:hover {
-  background-color: cadetblue;
+  background-color: #5f9ea0;
   display: block;
 }
 
@@ -494,7 +494,7 @@ lb-shop .search button {
 
 lb-shop .items {
   align-content: flex-start;
-  background-color: cadetblue;
+  background-color: #5f9ea0;
   border: 1px solid #ccc;
   display: flex;
   flex-wrap: wrap;
@@ -633,13 +633,13 @@ lb-items lb-item-slot.dragging .dropzone {
 }
 
 lb-items lb-item-slot.dragging .dropzone.draghover {
-  background-color: cadetblue;
+  background-color: #5f9ea0;
 }
 
 /* lb-preview */
 
 lb-preview {
-  background-color: cadetblue;
+  background-color: #5f9ea0;
   border: 1px solid #ccc;
   display: block;
   margin: 5px 0;

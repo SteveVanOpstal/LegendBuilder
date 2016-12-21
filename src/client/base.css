@@ -46,7 +46,6 @@ header > .align-center > div {
 
 .version {
   align-self: flex-end;
-  background-color: #2b6094;
   background-color: #5f9ea0;
   border-radius: 5px;
   color: white;
@@ -217,7 +216,7 @@ label {
 }
 
 input[type='textbox']:checked {
-  background-color: cadetblue !important;
+  background-color: #5f9ea0 !important;
 }
 
 /* button */
@@ -246,7 +245,7 @@ button > a {
 }
 
 button:hover:not(:disabled) {
-  background-color: cadetblue;
+  background-color: #5f9ea0;
   color: #fff;
   fill: #fff;
 }
