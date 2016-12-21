@@ -55,12 +55,10 @@ header > .align-center > div {
   transform: rotate(10deg);
 }
 
-[class*=alpha] {
+.version[class*=-alpha],
+.version[class*=-beta],
+.version[class*=-rc] {
   background-color: #a11720;
-}
-
-[class*=beta] {
-  background-color: #246935;
 }
 
 header a:hover {
