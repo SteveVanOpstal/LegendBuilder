@@ -52,6 +52,9 @@ module.exports = function(options) {
       new CheckerPlugin(),
       new CompressionPlugin({algorithm: 'gzip', test: /\.(js|html)$/, threshold: 256}),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
+      new CopyWebpackPlugin([{from: 'src/client/assets/images/logo.svg', to: 'logo.svg'}]),
+      new CopyWebpackPlugin(
+          [{from: 'src/client/manifest.webmanifest', to: 'manifest.webmanifest'}]),
       new HtmlWebpackPlugin({
         template: 'src/client/index.html',
         title: 'Legend Builder' + (options.dev ? ' [DEV]' : ''),

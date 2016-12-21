@@ -9,6 +9,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An advanced League of Legends champion builder">
+  <meta name="theme-color" content="#5f9ea0">
+
+  <link rel="manifest" href="manifest.webmanifest">
 
   <link rel="shortcut icon" href="/favicon.ico" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
@@ -16,17 +19,21 @@
   <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
 
   <style>
-    <%=require('./base.css') %>
+    <%= require('./base.css') %>
   </style>
 </head>
 
 <body>
   <header>
     <div class="align-center">
-      <a href="/" class="logo"><%= require('./assets/images/logo.svg') %></a>
+      <a href="/" class="logo">
+        <%= require('./assets/images/logo.svg') %>
+      </a>
       <div>
         <h1>Legend Builder</h1>
-        <a href="https://github.com/SteveVanOpstal/LegendBuilder/releases" class="version <%= htmlWebpackPlugin.options.version %>"><%= htmlWebpackPlugin.options.version %></a>
+        <a href="https://github.com/SteveVanOpstal/LegendBuilder/releases" class="version <%= htmlWebpackPlugin.options.version %>">
+          <%= htmlWebpackPlugin.options.version %>
+        </a>
       </div>
     </div>
     <!--<lb-actions></lb-actions>-->
