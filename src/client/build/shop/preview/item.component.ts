@@ -5,7 +5,8 @@ import {Item} from '../../item';
 @Component({
   selector: 'lb-item',
   template: `
-    <img [lbDDragon]="'item/' + item?.image?.full"
+    <img [attr.alt]="item.name"
+         [lbDDragon]="'item/' + item?.image?.full"
          (click)="selectItem(item)"
          (contextmenu)="pickItem(item)">
     <p class="gold" (click)="selectItem(item)" (contextmenu)="pickItem(item)">

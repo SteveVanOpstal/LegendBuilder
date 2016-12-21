@@ -21,7 +21,9 @@ import {TagsPipe} from './pipes/tags.pipe';
                                   | lbSort:sort
                                   | lbTags:tags">
       <a id="{{champion.id}}" [routerLink]="[champion.key]" *ngIf="!loading">
-        <img class="nodrag" [lbDDragon]="'champion/loading/' + champion.key + '_0.jpg'">
+        <img [attr.alt]="champion.name"
+             class="nodrag"
+             [lbDDragon]="'champion/loading/' + champion.key + '_0.jpg'">
         <div class="info">
           <p class="nodrag noselect">{{champion.name}}</p>
           <lb-bar title="Attack Damage" class="attack"  [value]="champion.info.attack"></lb-bar>

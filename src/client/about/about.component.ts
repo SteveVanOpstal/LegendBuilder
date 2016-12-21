@@ -47,7 +47,7 @@ import {Http} from '@angular/http';
       <a class="contributor"
          *ngFor="let contributor of contributors"
          [attr.href]="contributor.html_url">
-        <img [attr.src]="contributor.avatar_url"/>
+        <img alt="avatar" [attr.src]="contributor.avatar_url"/>
         <p>{{contributor.login}}</p>
       </a>
     </section>

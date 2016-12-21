@@ -8,7 +8,9 @@ import {ItemsComponent} from './items/items.component';
   styles: [require('./build.css').toString()],
   template: `
     <div class="title">
-      <img *ngIf="champion" [lbDDragon]="'champion/' + champion?.image?.full">
+      <img *ngIf="champion"
+           [attr.alt]="champion?.name"
+           [lbDDragon]="'champion/' + champion?.image?.full">
       <h2>{{champion?.name}}</h2>
     </div>
     <lb-graph></lb-graph>

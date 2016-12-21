@@ -27,9 +27,9 @@ import {AuthService} from '../services/auth.service';
       </div>
       <div class="auth0-badge">
         <a class="align-center" href="https://auth0.com/">
-          <img width="200"
+          <img alt="JWT Auth for open source projects"
+               width="200"
                height="66.6"
-               alt="JWT Auth for open source projects"
                src="//cdn.auth0.com/oss/badges/a0-badge-light.png">
         </a>
       </div>
