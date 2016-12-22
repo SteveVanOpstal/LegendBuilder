@@ -130,7 +130,6 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",
-    "@types/selenium-webdriver": "^2.53.36",
     "awesome-typescript-loader": "^3.0.0-beta.17",
     "clang-format": "^1.0.44",
     "codelyzer": "^2.0.0-beta.3",
