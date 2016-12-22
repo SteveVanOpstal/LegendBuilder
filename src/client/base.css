@@ -1,17 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400&text=LegndBuildr');
+
 body {
   background-color: #e5e5e5;
-  font-family: Roboto, 'Segoe UI', serif;
+  font-family: 'Segoe UI', Arial, serif;
   margin: 0;
 }
 
 h1 {
   display: inline-block;
+  font-family: Roboto, 'Segoe UI', Arial, serif;
   font-size: 2.8em;
-  margin: 2px 8px 0 16px;
+  margin: 0 8px 0 10px;
   min-width: 300px;
 }
 
 h2 {
+  font-family: Arial, 'Segoe UI', serif;
   font-size: 1.5em;
 }
 
@@ -50,9 +54,9 @@ header > .align-center > div {
   border-radius: 5px;
   color: white;
   font-size: .8em;
-  margin: -61px -22px 0 0;
-  padding: 2px 5px;
-  transform: rotate(10deg);
+  margin: -62px -15px 0 0;
+  padding: 0 5px 2px;
+  transform: rotate(12deg);
 }
 
 .version[class*=-alpha],
@@ -205,7 +209,7 @@ input[type='checkbox'] {
 label {
   cursor: pointer;
   display: block;
-  font-size: 1.2em;
+  font-size: 1.1em;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
