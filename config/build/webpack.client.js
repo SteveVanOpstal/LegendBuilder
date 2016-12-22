@@ -76,14 +76,15 @@ module.exports = function(options) {
 
     performance: {hints: !options.dev},
 
-  if (options.dev) {
-    config.devServer = {
+    devServer: {
       port: settings.httpServer.port,
       host: settings.httpServer.host,
       historyApiFallback: true,
       watchOptions: {aggregateTimeout: 300, poll: 1000}
     }
-  } else {
+  };
+
+  if (!options.dev) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({mangle: true}));
     config.plugins.push(new WebpackMd5Hash());
   }
