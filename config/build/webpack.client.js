@@ -74,8 +74,7 @@ module.exports = function(options) {
       })
     ],
 
-    performance: {hints: options.dev ? false : 'warning'}
-  };
+    performance: {hints: !options.dev},
 
   if (options.dev) {
     config.devServer = {
