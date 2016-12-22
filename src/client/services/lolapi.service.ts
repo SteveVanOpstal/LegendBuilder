@@ -17,14 +17,20 @@ export class LolApiService {
   constructor(private http: Http, private router: Router) {}
 
   public getRegions(): Observable<any> {
-    return this.cache('http://status.leagueoflegends.com/shards').map(res => {
+    return this.cache('https://status.leagueoflegends.com/shards').map(res => {
       res.push({name: 'Public Beta Environment', slug: 'pbe'});
       return res;
     });
   }
 
   public getRealm(): Observable<any> {
-    return this.get(Endpoint.static, '/realm');
+    return this.get(Endpoint.static, '/realm').map(res => {
+      // both http and https are supported, realm data will return http
+      if (res.cdn) {
+        res.cdn = res.cdn.replace('http://', 'https://');
+      }
+      return res;
+    });
   }
 
   public getChampions(): Observable<any> {
@@ -90,10 +96,10 @@ export class LolApiService {
   private getEndpoint(endpoint: Endpoint, region: string): string {
     switch (endpoint) {
       case Endpoint.static:
-        return 'http://' + settings.staticServer.host + ':' + settings.staticServer.port +
+        return 'https://' + settings.staticServer.host + ':' + settings.staticServer.port +
             '/static-data/' + region + '/v1.2';
       default:
-        return 'http://' + settings.matchServer.host + ':' + settings.matchServer.port + '/' +
+        return 'https://' + settings.matchServer.host + ':' + settings.matchServer.port + '/' +
             region;
     }
   }

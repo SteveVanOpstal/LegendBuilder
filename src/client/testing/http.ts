@@ -8,7 +8,7 @@ export class MockMockBackend extends MockBackend {
     super();
     this.connections.subscribe(c => {
       this.connection = c;
-      if (this.connection.request.url === 'http://status.leagueoflegends.com/shards') {
+      if (this.connection.request.url === 'https://status.leagueoflegends.com/shards') {
         this.connection.mockRespond(
             new Response(new ResponseOptions({status: 200, body: [{'slug': 'euw'}]})));
       }

@@ -1,4 +1,4 @@
-import * as http from 'http';
+import * as fs from 'fs';
 import {IncomingMessage, ServerResponse} from 'http';
 import * as https from 'https';
 import * as url from 'url';
@@ -11,9 +11,14 @@ import {settings} from '../../config/settings';
 
 let apiKey = '';
 try {
-  apiKey = require('raw-loader!../../.api.key').replace(/^\s+|\s+$/g, '');
+  apiKey = fs.readFileSync('./secure/.api.key').toString().replace(/^\s+|\s+$/g, '');
 } catch (e) {
 }
+
+const ssl = {
+  key: fs.readFileSync('./secure/key.pem'),
+  cert: fs.readFileSync('./secure/cert.pem')
+};
 
 export interface HostResponse {
   data: string;
@@ -41,7 +46,7 @@ export class Server {
 
   public headers = {
     'Access-Control-Allow-Origin':
-        'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
+        'https://' + settings.httpServer.host + ':' + settings.httpServer.port,
     'content-type': 'application/json'
   };
 
@@ -68,12 +73,12 @@ export class Server {
       maxAge: 1000 * 60 * 60 * 2
     }));
 
-    this.merge({Origin: 'http://' + this.host + ':' + this.port}, this.options.headers);
+    this.merge({Origin: 'https://' + this.host + ':' + this.port}, this.options.headers);
   }
 
   public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     this.preRun();
-    let server = http.createServer((request: IncomingMessage, response: ServerResponse) => {
+    let server = https.createServer(ssl, (request: IncomingMessage, response: ServerResponse) => {
       this.handleRequest(request, response, callback);
     });
     server.listen(this.port, this.host);
@@ -137,7 +142,7 @@ export class Server {
   private sendHttpRequest(
       options: https.RequestOptions, callback: (response: HostResponse) => void) {
     let console = new ColorConsole();
-    let req = http.request(
+    let req = https.request(
         options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
     req.on(
         'error', (e) => this.handleResponseError(
@@ -227,14 +232,14 @@ export class Server {
 
   private getRegions(callback: (regions: Array<string>) => void) {
     let options = {
-      path: 'http://status.leagueoflegends.com/shards',
+      path: 'https://status.leagueoflegends.com/shards',
       hostname: 'status.leagueoflegends.com',
       method: 'GET',
       headers: {
         'User-Agent': 'Legend-Builder',
         'Accept-Language': 'en-US',
         'Accept-Charset': 'ISO-8859-1,utf-8',
-        Origin: 'http://' + this.host + ':' + this.port
+        Origin: 'https://' + this.host + ':' + this.port
       }
     };
 

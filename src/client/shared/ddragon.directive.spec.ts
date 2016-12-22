@@ -20,7 +20,7 @@ class TestComponent {
 
 let realm = {
   'v': '[realm-version]',
-  'cdn': 'http://url/cdn',
+  'cdn': 'https://url/cdn',
   'n': {
     'champion': '[champion-version]',
     'profileicon': '[profileicon-version]',
@@ -69,32 +69,32 @@ describe('DDragonDirective', () => {
 
   it('should create a correct url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('test.png', realm);
-       expect(result).toBe('http://url/cdn/[realm-version]/img/test.png');
+       expect(result).toBe('https://url/cdn/[realm-version]/img/test.png');
      }));
 
   it('should create a correct \'ui\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('ui/test.png', realm);
-       expect(result).toBe('http://url/cdn/5.5.1/img/ui/test.png');
+       expect(result).toBe('https://url/cdn/5.5.1/img/ui/test.png');
      }));
 
   it('should create a correct \'champion\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('champion/test.png', realm);
-       expect(result).toBe('http://url/cdn/[champion-version]/img/champion/test.png');
+       expect(result).toBe('https://url/cdn/[champion-version]/img/champion/test.png');
      }));
 
   it('should create a correct \'profileicon\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('profileicon/test.png', realm);
-       expect(result).toBe('http://url/cdn/[profileicon-version]/img/profileicon/test.png');
+       expect(result).toBe('https://url/cdn/[profileicon-version]/img/profileicon/test.png');
      }));
 
   it('should create a correct \'junk\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('junk/test.png', realm);
-       expect(result).toBe('http://url/cdn/[realm-version]/img/junk/test.png');
+       expect(result).toBe('https://url/cdn/[realm-version]/img/junk/test.png');
      }));
 
   it('should create a correct \'champion/loading\' url', inject([DDragonDirective], (directive) => {
        let result = directive.buildImage('champion/loading/test.png', realm);
-       expect(result).toBe('http://url/cdn/img/champion/loading/test.png');
+       expect(result).toBe('https://url/cdn/img/champion/loading/test.png');
      }));
 
   it('should not update image without realm', inject([DDragonDirective], (directive) => {
@@ -129,7 +129,7 @@ describe('DDragonDirective', () => {
          directive.ngOnInit();
          backend.success(realm);
          expect(directive.el.nativeElement.style.background)
-             .toContain('http://url/cdn/[realm-version]/img/test.png');
+             .toContain('https://url/cdn/[realm-version]/img/test.png');
          expect(directive.el.nativeElement.style.background).toContain('1px 1px');
        })));
   });
@@ -148,7 +148,8 @@ describe('DDragonDirective', () => {
     it('should set requested image', async(inject([MockBackend], (backend) => {
          directive.ngOnInit();
          backend.success(realm);
-         expect(directive.el.nativeElement.src).toBe('http://url/cdn/[realm-version]/img/test.png');
+         expect(directive.el.nativeElement.src)
+             .toBe('https://url/cdn/[realm-version]/img/test.png');
        })));
   });
 
@@ -167,7 +168,7 @@ describe('DDragonDirective', () => {
          directive.ngOnInit();
          backend.success(realm);
          expect(directive.el.nativeElement.getAttribute('href'))
-             .toBe('http://url/cdn/[realm-version]/img/test.png');
+             .toBe('https://url/cdn/[realm-version]/img/test.png');
        })));
   });
 });
