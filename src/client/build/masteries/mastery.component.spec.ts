@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {Colors} from '../../assets/icon-rank.component';
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
-import {DDragonDirective} from '../../shared/ddragon.directive';
+import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
 
 import {MasteryComponent} from './mastery.component';
@@ -21,7 +21,7 @@ describe('MasteryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [LolApiService],
-      declarations: [MasteryComponent, IconRankComponent, DDragonDirective],
+      declarations: [MasteryComponent, IconRankComponent, DDragonPipe],
       imports: [TestModule]
     });
 

@@ -6,7 +6,7 @@ import {Item} from '../item';
 @Component({
   selector: 'lb-item',
   template: `
-    <img [attr.alt]="item.name" [lbDDragon]="'item/' + item.image.full">
+    <img [attr.alt]="item.name" [attr.src]="'item/' + item.image.full | lbDDragon">
     <p *ngIf="item.bundle > 1" class="bundle">x{{item.bundle}}</p>
     <p class="gold">{{item.gold.total ? item.gold.total : ''}}</p>`
 })

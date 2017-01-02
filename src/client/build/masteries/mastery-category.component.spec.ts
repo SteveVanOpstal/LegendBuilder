@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
-import {DDragonDirective} from '../../shared/ddragon.directive';
+import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
@@ -32,7 +32,7 @@ describe('MasteryCategoryComponent', () => {
       providers: [MasteryCategoryComponent, LolApiService],
       declarations: [
         MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
-        DDragonDirective
+        DDragonPipe
       ],
       imports: [TestModule]
     });
