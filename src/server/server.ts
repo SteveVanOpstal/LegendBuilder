@@ -250,30 +250,30 @@ export class Server {
     });
   }
 
-  private getChampions(
-      region: string,
-      callback: (err, result: {region: string, champions?: Array<number>}) => void) {
-    let championUrl = this.config.protocol + this.getHostname() + '/api/lol/static-data/' + region +
-        '/' + settings.apiVersions['static-data'] + '/champion';
+  private getChampions =
+      (region: string,
+       callback: (err, result: {region: string, champions?: Array<number>}) => void) => {
+        let championUrl = this.config.protocol + this.getHostname() + '/api/lol/static-data/' +
+            region + '/' + settings.apiVersions['static-data'] + '/champion';
 
-    championUrl = this.addApiKey(championUrl);
+        championUrl = this.addApiKey(championUrl);
 
-    let options: https.RequestOptions = {path: championUrl};
-    this.merge(this.options, options);
+        let options: https.RequestOptions = {path: championUrl};
+        this.merge(this.options, options);
 
-    this.sendHttpsRequest(options, (response: HostResponse) => {
-      if (response.success) {
-        let champions = [];
-        for (let championKey in response.json.data) {
-          champions[championKey.toLowerCase()] = response.json.data[championKey].id;
-        }
-        callback(undefined, {region: region, champions: champions});
-      } else {
-        console.error('Unable to get champion data for ' + region);
-        callback(true, {region: region});
+        this.sendHttpsRequest(options, (response: HostResponse) => {
+          if (response.success) {
+            let champions = [];
+            for (let championKey in response.json.data) {
+              champions[championKey.toLowerCase()] = response.json.data[championKey].id;
+            }
+            callback(undefined, {region: region, champions: champions});
+          } else {
+            console.error('Unable to get champion data for ' + region);
+            callback(true, {region: region});
+          }
+        });
       }
-    });
-  }
 
   private handleChampions =
       (err, result) => {
