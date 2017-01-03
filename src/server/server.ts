@@ -19,7 +19,7 @@ function readFile(file: string) {
   }
 }
 
-let apiKey = readFile('./secure/.api.key').toString().replace(/^\s+|\s+$/g, '');
+let apiKey = readFile('./secure/api.key').toString().replace(/^\s+|\s+$/g, '');
 let ssl = {key: readFile('./secure/key.pem'), cert: readFile('./secure/cert.pem')};
 
 

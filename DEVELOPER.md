@@ -49,9 +49,9 @@ These are the default values that can be altered via an override:
 This project runs two servers to retrieve data from the [Riot Games API](https://developer.riotgames.com/).
 This is a guide on how to set them up.
 
-#### 3.1 Create `.api.key`
+#### 3.1 Create `api.key`
 Create an account at [developer.riotgames.com](https://developer.riotgames.com/). Now you have an api key.
-Create a file named `.api.key` and add the key to it (no newline). Place it at the root of the project.
+Create a file named `api.key` and add the key to it (no newline). Place it at the root of the project.
 
 #### 3.2 Run
 ```shell
