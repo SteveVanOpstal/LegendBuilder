@@ -139,17 +139,6 @@ export class Server {
         });
   }
 
-  private sendHttpRequest(
-      options: https.RequestOptions, callback: (response: HostResponse) => void) {
-    let console = new ColorConsole();
-    let req = https.request(
-        options, (res: IncomingMessage) => this.handleResponse(console, options, res, callback));
-    req.on(
-        'error', (e) => this.handleResponseError(
-                     console, options, {status: 500, message: e.message}, callback));
-    req.end();
-  }
-
   private handleResponse(
       console: ColorConsole, options: https.RequestOptions, res: IncomingMessage,
       callback: (response: HostResponse) => void) {
@@ -243,7 +232,7 @@ export class Server {
       }
     };
 
-    this.sendHttpRequest(options, (res) => {
+    this.sendHttpsRequest(options, (res) => {
       if (res.success) {
         let regions = [];
         for (let index in res.json) {
