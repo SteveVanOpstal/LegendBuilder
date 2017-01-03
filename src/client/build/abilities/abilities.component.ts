@@ -17,7 +17,7 @@ import {Samples} from '../samples';
           </rect>
         </g>
         <image [id]="spell.image.full"
-               [lbDDragon]="'spell/' + spell.image.full"
+               [attr.href]="'spell/' + spell.image.full | lbDDragon"
                [attr.x]="i == 3 ? 0 : 5"
                [attr.y]="(i * 50)"
                [attr.height]="i == 3 ? 50 : 40"

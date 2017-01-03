@@ -10,7 +10,7 @@ import {ItemsComponent} from './items/items.component';
     <div class="title">
       <img *ngIf="champion"
            [attr.alt]="champion?.name"
-           [lbDDragon]="'champion/' + champion?.image?.full">
+           [attr.src]="'champion/' + champion?.image?.full | lbDDragon">
       <h2>{{champion?.name}}</h2>
     </div>
     <lb-graph></lb-graph>

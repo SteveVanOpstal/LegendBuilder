@@ -84,7 +84,8 @@ export class LolApiService {
 
   private cache(url: string): Observable<any> {
     if (!this.cachedObservables[url]) {
-      this.cachedObservables[url] = Observable.defer(() => this.http.get(url)).publish().refCount();
+      this.cachedObservables[url] =
+          Observable.defer(() => this.http.get(url)).publishReplay().refCount();
     }
     return this.cachedObservables[url].take(1).map(res => res.json());
   }

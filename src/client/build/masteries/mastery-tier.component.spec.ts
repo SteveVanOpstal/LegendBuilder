@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
-import {DDragonDirective} from '../../shared/ddragon.directive';
+import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
 
 import {MasteryTierComponent} from './mastery-tier.component';
@@ -19,7 +19,7 @@ describe('MasteryTierComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MasteryTierComponent, LolApiService],
-      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonDirective],
+      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonPipe],
       imports: [TestModule]
     });
 
