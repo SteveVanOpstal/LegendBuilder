@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.12"></a>
+# [1.0.0-alpha.12](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.11...v1.0.0-alpha.12) (2017-01-03)
+
+
+### Bug Fixes
+
+* **items:** item undefined ([aa44bdf](https://github.com/SteveVanOpstal/LegendBuilder/commit/aa44bdf))
+* **lolapi:** request are not cached ([f7b0971](https://github.com/SteveVanOpstal/LegendBuilder/commit/f7b0971))
+* **lolapi:** requests are not cached ([dd8a6a1](https://github.com/SteveVanOpstal/LegendBuilder/commit/dd8a6a1))
+* **preview:** mouse events do not trigger ([105b3aa](https://github.com/SteveVanOpstal/LegendBuilder/commit/105b3aa))
+* **reddit:** paths are incorrect ([95e7434](https://github.com/SteveVanOpstal/LegendBuilder/commit/95e7434))
+* **server:** config undefined ([c3e3e27](https://github.com/SteveVanOpstal/LegendBuilder/commit/c3e3e27))
+* **shop:** item not selectable ([9639efe](https://github.com/SteveVanOpstal/LegendBuilder/commit/9639efe))
+
+
+### Features
+
+* **css:** increase color contrast ([33dc813](https://github.com/SteveVanOpstal/LegendBuilder/commit/33dc813))
+* **css:** pre-release colors ([4f59945](https://github.com/SteveVanOpstal/LegendBuilder/commit/4f59945))
+* **header:** add version ([0cb8e8e](https://github.com/SteveVanOpstal/LegendBuilder/commit/0cb8e8e))
+* **items:** add bundling ([2d2211c](https://github.com/SteveVanOpstal/LegendBuilder/commit/2d2211c))
+* **items:** add gold offset ([5a93c84](https://github.com/SteveVanOpstal/LegendBuilder/commit/5a93c84))
+* **items:** add offset for non start items ([78eb687](https://github.com/SteveVanOpstal/LegendBuilder/commit/78eb687))
+* **items:** change item order (drag-drop) ([84aa55d](https://github.com/SteveVanOpstal/LegendBuilder/commit/84aa55d))
+* **items:** improve gold offsets ([78e2178](https://github.com/SteveVanOpstal/LegendBuilder/commit/78e2178))
+* **legend:** persistant button enabled states ([9265198](https://github.com/SteveVanOpstal/LegendBuilder/commit/9265198))
+* add webmanifest ([b286e21](https://github.com/SteveVanOpstal/LegendBuilder/commit/b286e21))
+* end HTTP support ([1d7af59](https://github.com/SteveVanOpstal/LegendBuilder/commit/1d7af59))
+* fill alt tags of image elements ([957b699](https://github.com/SteveVanOpstal/LegendBuilder/commit/957b699))
+* https ([4b82ef2](https://github.com/SteveVanOpstal/LegendBuilder/commit/4b82ef2))
+* use angular sanitization ([48c859b](https://github.com/SteveVanOpstal/LegendBuilder/commit/48c859b))
+* **preview:** do not preview a picked item at from/into ([e8f5ef3](https://github.com/SteveVanOpstal/LegendBuilder/commit/e8f5ef3))
+* **preview:** double click to pick an item ([99abecb](https://github.com/SteveVanOpstal/LegendBuilder/commit/99abecb))
+* **preview:** preview the last picked item ([8a76714](https://github.com/SteveVanOpstal/LegendBuilder/commit/8a76714))
+* **server:** make all files optional ([c903baf](https://github.com/SteveVanOpstal/LegendBuilder/commit/c903baf))
+
+
+### Performance Improvements
+
+* reduce impact of google font ([e0eb489](https://github.com/SteveVanOpstal/LegendBuilder/commit/e0eb489))
+
+
+
 <a name="1.0.0-alpha.11"></a>
 # [1.0.0-alpha.11](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.10...1.0.0-alpha.11) (2016-11-05)
 
