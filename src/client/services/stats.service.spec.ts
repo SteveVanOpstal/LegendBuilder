@@ -45,12 +45,12 @@ describe('StatsService', () => {
   };
 
   let items: Array<Item> = [
-    {id: 1, gold: {total: 0}, time: 0, stats: {rFlatMPModPerLevel: 4.1667}},
-    {id: 1, gold: {total: 0}, time: 10, stats: {rFlatMagicDamageMod: 15, FlatMPPool: 250}},
-    {id: 2, gold: {total: 0}, time: 673412, stats: {PercentMovementSpeedPerLevel: 0.002167}},
-    {id: 3, gold: {total: 0}, time: 1296000, stats: {PercentMPPoolMod: 0.2, FlatMagicDamageMod: 5}},
-    {id: 4, gold: {total: 0}, time: 2750000, stats: {FlatMovementSpeedMod: 100}},
-    {id: 5, gold: {total: 0}, time: 2420000, stats: {FlatMovementSpeedMod: 100}}
+    {id: '1', gold: {total: 0}, time: 0, stats: {rFlatMPModPerLevel: 4.1667}},
+    {id: '1', gold: {total: 0}, time: 10, stats: {rFlatMagicDamageMod: 15, FlatMPPool: 250}},
+    {id: '2', gold: {total: 0}, time: 673412, stats: {PercentMovementSpeedPerLevel: 0.002167}},
+    {id: '3', gold: {total: 0}, time: 1296000, stats: {PercentMPPool: 0.2, FlatMagicDamage: 5}},
+    {id: '4', gold: {total: 0}, time: 2750000, stats: {FlatMovementSpeedMod: 100}},
+    {id: '5', gold: {total: 0}, time: 2420000, stats: {FlatMovementSpeedMod: 100}}
   ];
 
   let itemStatsResults = {
