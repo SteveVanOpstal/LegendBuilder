@@ -9,16 +9,19 @@ import * as async from 'async';
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
 
-let apiKey = '';
-try {
-  apiKey = fs.readFileSync('./secure/.api.key').toString().replace(/^\s+|\s+$/g, '');
-} catch (e) {
+function readFile(file: string) {
+  try {
+    return fs.readFileSync(file);
+  } catch (e) {
+    let console = new ColorConsole();
+    console.error(file + ' missing');
+    return '';
+  }
 }
 
-const ssl = {
-  key: fs.readFileSync('./secure/key.pem'),
-  cert: fs.readFileSync('./secure/cert.pem')
-};
+let apiKey = readFile('./secure/.api.key').toString().replace(/^\s+|\s+$/g, '');
+let ssl = {key: readFile('./secure/key.pem'), cert: readFile('./secure/cert.pem')};
+
 
 export interface HostResponse {
   data: string;
