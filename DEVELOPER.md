@@ -11,13 +11,13 @@ All commands mentioned should be ran from the project root.
 
 ## <a name="start"></a> Getting started
 
-### 1. Install packages
+### <a name="install"></a> 1. Install packages
 All packages for this project can be retrieved by executing following command:
 ```shell
 npm install
 ```
 
-### 2. Configuration (optional)
+### <a name="config"></a> 2. Configuration (optional)
 A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
 These are the default values that can be altered via an override:
 ```JavaScript
@@ -45,7 +45,7 @@ These are the default values that can be altered via an override:
 }
 ```
 
-### 3. Setup node servers
+### <a name="setup"></a> 3. Setup node servers
 This project runs two servers to retrieve data from the [Riot Games API](https://developer.riotgames.com/).
 This is a guide on how to set them up.
 
@@ -55,6 +55,9 @@ Create a file named `api.key` and add the key to it.
 Place it in a `./secure` folder.
 
 #### 3.2 Create `cert.pem` and `key.pem`
+Create a certificate and private key (see [3.2.1](DEVELOPER.md#lets-encrypt) or [3.2.2](DEVELOPER.md#openssl)), name them `cert.pem` and `key.pem` respectively.
+Place them in a `./secure` folder.
+
 We limit ourselves to HTTPS and do not support HTTP (even in development). 
 The advantages:
  - No need for two types of the same server
@@ -64,12 +67,10 @@ The advantages:
 The disadvantages:
  - requires certificates (in development this can be annoying)
 
-Create a certificate and private key (see [3.2.1](DEVELOPER.md#lets-encrypt) or [3.2.2](DEVELOPER.md#openssl)), name them `cert.pem` and `key.pem` respectively.
-Place them in a `./secure` folder.
-
 ##### <a name="lets-encrypt"></a> 3.2.1 Let's Encrypt
 The certificates provided by [Let's Encrypt](https://letsencrypt.org/) are free and are [trusted by almost all browsers](https://letsencrypt.org/docs/certificate-compatibility/).
 Find yourself an [ACME client](https://letsencrypt.org/docs/client-options/) and generate a certificate.
+Certificates issued by [Let's Encrypt](https://letsencrypt.org/) last 90 days, automating certificate renewal will save you time.
 
 ##### <a name="openssl"></a> 3.2.2 OpenSSL
 With OpenSSL you can create self signed certificates like this:
@@ -78,17 +79,13 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 ```
 The browser will warn you that the website is insecure but as you are running this locally you can ignore this.
 
-#### 3.2 Run
+### <a name="start"></a> 4. Start
+The following script will start all the servers necessary to develop/test/debug.
 ```shell
-npm run static-server
-npm run match-server
+npm run start
 ```
+Now you can open the website in your browsers using '[https://localhost:8080](https://localhost:8080)' (can be another url depending on your [http-server configuration](DEVELOPER.md#config)).
 
-### 4. Run a HTTP server (webpack-dev-server)
-I recommend the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) which is included as a package.
-```shell
-npm run server
-```
 
 ## <a name="reddit"></a> Reddit Release
 Every release a python script will generate a post on reddit. To improve this script or to create new scripts the following software is required:
