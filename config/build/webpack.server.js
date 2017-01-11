@@ -1,6 +1,7 @@
 var helpers = require('../helpers');
 
 /* plugins */
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var webpack = require('webpack');
 var {CheckerPlugin} = require('awesome-typescript-loader');
 
@@ -32,7 +33,8 @@ module.exports = function(options) {
     },
 
     plugins: [
-      new CheckerPlugin(), new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
+      new CleanWebpackPlugin(['build/dist/server'], {root: helpers.root('')}), new CheckerPlugin(),
+      new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
       new webpack.optimize.OccurrenceOrderPlugin(true)
     ],
 

@@ -4,6 +4,7 @@ var package = require('../../package.json');
 
 /* plugins */
 var webpack = require('webpack');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var {CheckerPlugin} = require('awesome-typescript-loader');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -47,6 +48,8 @@ module.exports = function(options) {
     },
 
     plugins: [
+      new CleanWebpackPlugin(
+          options.profile || options.server ? [] : ['build/dist/client'], {root: helpers.root()}),
       new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
       new webpack.optimize.CommonsChunkPlugin({name: ['vendor.angular', 'vendor', 'polyfills']}),
       new CheckerPlugin(),

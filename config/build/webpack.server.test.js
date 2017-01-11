@@ -3,6 +3,7 @@ var glob = require('glob');
 var helpers = require('../helpers');
 
 /* plugins */
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
@@ -35,7 +36,10 @@ module.exports = function(options) {
       ]
     },
 
-    plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})],
+    plugins: [
+      new CleanWebpackPlugin(['build/spec/server'], {root: helpers.root('')}),
+      new DefinePlugin({'ENV': JSON.stringify(ENV)})
+    ],
 
     node: {
       global: false,
