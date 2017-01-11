@@ -1,9 +1,6 @@
 let spawn = require('child_process').spawn;
 let fs = require('fs');
 
-create_dir('build');
-create_dir('build/log');
-
 module.exports = {
   open: () => {
     console.log('SauceLabs: starting ' + process.env.BUILD + '..');
@@ -14,7 +11,6 @@ module.exports = {
     }
 
     let child = spawn(command, ['run', 'sauce-connect'], {detached: true, stdio: 'ignore'});
-    child.pid;
 
     child.on('exit', (status) => {
       process.exit(status);
@@ -30,14 +26,6 @@ module.exports = {
     process.kill(pid);
   }
 };
-
-function create_dir(path) {
-  try {
-    fs.mkdirSync(path);
-  } catch (e) {
-    if (e.code !== 'EEXIST') throw e;
-  }
-}
 
 let repeats = 0;
 function wait_for_file(path, timeout_seconds) {
