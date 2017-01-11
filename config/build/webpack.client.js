@@ -23,15 +23,31 @@ module.exports = function(options) {
 
     resolve: {extensions: ['.ts', '.js'], modules: [helpers.root('src/client'), 'node_modules']},
 
-    entry: {
-      polyfills: helpers.root('src/client/polyfills.ts'),
-      vendor: helpers.root('src/client/vendor.ts'),
-      boot: helpers.root('src/client/boot.ts')
-    },
+    entry: {boot: helpers.root('src/client/boot.ts')},
 
     output: {
       path: helpers.root('build/dist/client'),
       filename: options.dev ? '[name].bundle.js' : '[name].[chunkhash].bundle.js'
+    },
+
+    externals: {
+      '@angular/common': 'ng.common',
+      '@angular/compiler': 'ng.compiler',
+      '@angular/core': 'ng.core',
+      '@angular/http': 'ng.http',
+      '@angular/platform-browser': 'ng.platformBrowser',
+      '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
+      '@angular/router': 'ng.router',
+      'd3-array': 'd3',
+      'd3-axis': 'd3',
+      'd3-scale': 'd3',
+      'd3-selection': 'd3',
+      'd3-shape': 'd3',
+      'd3-format': 'd3',
+      'rxjs/Rx': 'Rx',
+      'zone.js': 'Zone',
+      'core-js': '',
+      'reflect-metadata': 'Reflect'
     },
 
     module: {
@@ -50,9 +66,7 @@ module.exports = function(options) {
     plugins: [
       new CleanWebpackPlugin(
           options.profile || options.server ? [] : ['build/dist/client'], {root: helpers.root()}),
-      new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
-      new webpack.optimize.CommonsChunkPlugin({name: ['vendor.angular', 'vendor', 'polyfills']}),
-      new CheckerPlugin(),
+      new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}), new CheckerPlugin(),
       new CompressionPlugin({algorithm: 'gzip', test: /\.(js|html)$/, threshold: 256}),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/logo.svg', to: 'logo.svg'}]),

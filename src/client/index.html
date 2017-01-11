@@ -57,7 +57,30 @@
   <% if (htmlWebpackPlugin.options.ENV === 'development') { %>
     <!-- Webpack Dev Server reload -->
     <script src="https://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
-    <% } %>
+  <% } %>
+
+  <script src="https://unpkg.com/core-js@2.4.1/client/shim.min.js"></script>
+  <script src="https://unpkg.com/zone.js@0.7.4/dist/zone.min.js"></script>
+  <script src="https://unpkg.com/reflect-metadata@0.1.8"></script>
+  <script src="https://unpkg.com/rxjs@5.0.0-rc.4/bundles/Rx.min.js"></script>
+
+  <script src="https://unpkg.com/@angular/core@2.3.1/bundles/core.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/common@2.3.1/bundles/common.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/compiler@2.3.1/bundles/compiler.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser@2.3.1/bundles/platform-browser.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser-dynamic@2.3.1/bundles/platform-browser-dynamic.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/http@2.3.1/bundles/http.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/router@3.3.1/bundles/router.umd.min.js"></script>
+
+  <script src="https://unpkg.com/d3-path@1.0.3"></script>
+  <script src="https://unpkg.com/d3-format@1.0.2"></script>
+  <script src="https://unpkg.com/d3-array@1.0.2"></script>
+  <script src="https://unpkg.com/d3-color@1.0.2"></script>
+  <script src="https://unpkg.com/d3-interpolate@1.1.2"></script>
+  <script src="https://unpkg.com/d3-axis@1.0.4"></script>
+  <script src="https://unpkg.com/d3-scale@1.0.4"></script>
+  <script src="https://unpkg.com/d3-selection@1.0.3"></script>
+  <script src="https://unpkg.com/d3-shape@1.0.4"></script>
 </body>
 
 </html>
