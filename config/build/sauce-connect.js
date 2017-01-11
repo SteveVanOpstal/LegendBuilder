@@ -14,7 +14,7 @@ module.exports = {
         (err, sauce_process) => {
           if (sauce_process) {
             sauce_process.on('exit', (status) => {
-              console.log('SauceLabs: stopped');
+              console.log('SauceLabs: stopped (' + status + ')');
               process.exit(status);
             });
           }

@@ -1,6 +1,8 @@
 let spawn = require('child_process').spawn;
 let fs = require('fs');
 
+let path = 'build/log/' + process.env.BUILD + '.pid';
+
 module.exports = {
   open: () => {
     console.log('SauceLabs: starting ' + process.env.BUILD + '..');
@@ -13,32 +15,46 @@ module.exports = {
     let child = spawn(command, ['run', 'sauce-connect'], {detached: true, stdio: 'ignore'});
 
     child.on('exit', (status) => {
+      console.log('SauceLabs: stopped (' + status + ')');
       process.exit(status);
     });
 
     child.unref();
 
-    wait_for_file('build/log/' + process.env.BUILD + '.pid');
+    console.log(path + ': waiting..');
+    wait_for_file(
+        path,
+        () => {
+          console.log('SauceLabs: running');
+        },
+        () => {
+          console.log('SauceLabs: start failed');
+          process.exit(1);
+        });
   },
   close: () => {
     console.log('SauceLabs: stopping..');
-    let pid = read_pid('build/log/' + process.env.BUILD + '.pid');
+    let pid = read_pid(path);
     process.kill(pid);
   }
 };
 
 let repeats = 0;
-function wait_for_file(path, timeout_seconds) {
-  timeout = timeout_seconds ? timeout_seconds : 60;
-  fs.open(path, 'r', (err, fd) => {
+function wait_for_file(path, done, error) {
+  fs.access(path, fs.constants.F_OK, (err) => {
     if (err) {
       repeats++;
-      if (repeats <= timeout) {
+      if (repeats <= 180) {
         process.stdout.write('.');
-        setTimeout(wait_for_file, 1000, path);
+        setTimeout(wait_for_file, 1000, path, done, error);
       } else {
-        repeats = 0;
+        process.stdout.write('\n');
+        error();
       }
+    } else {
+      process.stdout.write('\n');
+      console.log(path + ': ready');
+      done();
     }
   });
 }
