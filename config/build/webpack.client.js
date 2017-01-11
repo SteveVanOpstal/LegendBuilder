@@ -73,7 +73,7 @@ module.exports = function(options) {
       new CopyWebpackPlugin(
           [{from: 'src/client/manifest.webmanifest', to: 'manifest.webmanifest'}]),
       new HtmlWebpackPlugin({
-        template: 'src/client/index.html',
+        template: 'src/client/index.ejs',
         title: 'Legend Builder' + (options.dev ? ' [DEV]' : ''),
         chunksSortMode: 'dependency',
         minify: options.dev ? false : {
