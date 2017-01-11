@@ -16,7 +16,7 @@
   },
   "homepage": "http://legendbuilder.io/",
   "scripts": {
-    "preclean": "npm run rimraf coverage build node_modules",
+    "preclean": "npm run rimraf coverage build node_modules || true",
     "clean": "npm cache clean",
     "mkdir:build": "mkdir build || true",
     "mkdir:build:log": "mkdir build\\log || true",
