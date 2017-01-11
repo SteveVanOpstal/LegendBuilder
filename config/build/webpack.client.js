@@ -39,7 +39,7 @@ module.exports = function(options) {
         {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
           test: /\.ts$/,
           loader: 'awesome-typescript-loader',
-          options: {'compilerOptions': {'removeComments': !options.dev}},
+          options: {compilerOptions: {removeComments: !options.dev}, silent: options.profile},
           exclude: [/\.(spec|e2e)\.ts$/]
         },
         {test: /\.svg$/, loader: ['raw-loader', 'svgo-loader']},
