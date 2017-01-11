@@ -1,7 +1,9 @@
 Error.stackTraceLimit = Infinity;
 
-require('core-js/es6');
-require('core-js/es7');
+require('core-js/es6/object');
+require('core-js/es6/array');
+require('core-js/es6/string');
+require('core-js/stage/pre');
 
 require('zone.js/dist/zone');
 require('zone.js/dist/proxy');
