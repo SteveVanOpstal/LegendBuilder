@@ -127,7 +127,7 @@
     "rxjs": "5.0.1",
     "typescript": "2.1.4",
     "webfontloader": "1.6.27",
-    "zone.js": "0.7.2"
+    "zone.js": "0.7.5"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",
