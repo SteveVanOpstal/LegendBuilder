@@ -1,7 +1,7 @@
 var jasmineMatchers = require('jasmine-matchers-loader');
 
 jasmineMatchers.add({
-  toHaveEqualContent: function(key, actual) {
+  toHaveEqualContent: (key, actual) => {
     return JSON.stringify(key) === JSON.stringify(actual);
   }
 });

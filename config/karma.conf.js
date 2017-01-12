@@ -2,7 +2,7 @@ var browserProvidersConf = require('./browser-providers.conf.js');
 var webpackConfig = require('./build/webpack.client.test.js');
 var helpers = require('./helpers');
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     frameworks: ['jasmine'],
     files: [{pattern: 'karma-test-shim.js', watched: false}],

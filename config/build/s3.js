@@ -3,7 +3,7 @@ var glob = require('glob');
 var helpers = require('../helpers');
 
 function error(done, message) {
-  return function(err) {
+  return (err) => {
     console.error('S3: ' + message + ', \'', err.stack + '\'');
     if (typeof done === 'function') {
       done(true);
@@ -12,7 +12,7 @@ function error(done, message) {
 }
 
 function progress(actor, message) {
-  return function() {
+  return () => {
     if (actor.progressTotal > 0) {
       console.log(
           'S3: ' + message + '.. ' + actor.progressAmount + '/' + actor.progressTotal + ' (' +
@@ -22,7 +22,7 @@ function progress(actor, message) {
 }
 
 function end(done, message) {
-  return function() {
+  return () => {
     console.log('S3: ' + message);
     if (typeof done === 'function') {
       done(false);
@@ -82,7 +82,7 @@ function uploadFiles(client) {
       continue;
     }
 
-    if (!skip.some(function(skipFile) {
+    if (!skip.some((skipFile) => {
           return skipFile === remoteFile;
         })) {
       uploadFile(client, file, remoteFile);
@@ -91,7 +91,7 @@ function uploadFiles(client) {
 }
 
 module.exports = {
-  upload: function(done) {
+  upload: (done) => {
     if (process.env.TRAVIS_PULL_REQUEST !== 'false') {
       if (typeof done === 'function') {
         done(false);
@@ -107,7 +107,7 @@ module.exports = {
       }
     });
 
-    deleteFiles(client, function(error) {
+    deleteFiles(client, (error) => {
       if (!error) {
         uploadFiles(client);
       }

@@ -11,7 +11,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 
-module.exports = function(options) {
+module.exports = (options) => {
   if (!options) {
     options = {};
   }

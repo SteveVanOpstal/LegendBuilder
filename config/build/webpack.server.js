@@ -5,7 +5,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var webpack = require('webpack');
 var {CheckerPlugin} = require('awesome-typescript-loader');
 
-module.exports = function(options) {
+module.exports = (options) => {
   if (!options) {
     options = {};
   }

@@ -8,7 +8,7 @@ var DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
-module.exports = function(options) {
+module.exports = (options) => {
   if (!options) {
     options = {};
   }

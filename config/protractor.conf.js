@@ -29,7 +29,7 @@ exports.config = {
 
   multiCapabilities: [BROWSER_CAPS.Firefox, BROWSER_CAPS.Chrome],
 
-  onPrepare: function() {
+  onPrepare: () => {
     browser.ignoreSynchronization = true;
   },
 
