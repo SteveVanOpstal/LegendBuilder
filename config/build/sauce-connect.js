@@ -1,6 +1,9 @@
 let sauceConnectLauncher = require('sauce-connect-launcher');
 let fs = require('fs');
 
+create_dir('build');
+create_dir('build/log');
+
 retry_counter = 0;
 
 module.exports = {
@@ -34,6 +37,14 @@ module.exports = {
         });
   }
 };
+
+function create_dir(path) {
+  try {
+    fs.mkdirSync(path);
+  } catch (e) {
+    if (e.code !== 'EEXIST') throw e;
+  }
+}
 
 function write_pid(path) {
   fd = fs.openSync(path, 'w');
