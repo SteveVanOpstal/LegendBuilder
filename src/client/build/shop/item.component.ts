@@ -3,7 +3,9 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'lb-item',
   template: `
-    <img [attr.alt]="item.name" [attr.src]="'item/' + item.image.full | lbDDragon">
+    <img [attr.alt]="item.name"
+         [attr.src]="'sprite/' + item.image.sprite | lbDDragon"
+         [style.object-position]="'-' + item.image.x + 'px -' + item.image.y + 'px'">
     <div>
       <p class="name">{{item.name}}</p>
       <div class="gold">

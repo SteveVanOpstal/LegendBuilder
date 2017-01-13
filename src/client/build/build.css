@@ -562,10 +562,8 @@ lb-items lb-item .bundle {
 
 lb-item {
   background-color: #eee;
-  border-radius: 5px;
   cursor: pointer;
   display: flex;
-  height: 45px;
   margin: 2.5px;
   -webkit-user-select: none;/* Chrome/Safari */
      -moz-user-select: none;/* Firefox */
@@ -575,9 +573,15 @@ lb-item {
 }
 
 lb-item > img {
-  border-radius: 5px;
   display: inline-block;
-  height: 45px;
+  object-fit: none;
+}
+
+lb-item,
+lb-item > img {
+  border-radius: 5px;
+  height: 48px;
+  width: 48px;
 }
 
 lb-item .name {
@@ -680,6 +684,19 @@ lb-preview .item > lb-item img {
   width: 64px;
 }
 
+lb-preview .item > lb-item img {
+  border-radius: 5px;
+  height: 48px;
+  margin: 8px 0 0 8px;
+  object-fit: none;
+  transform: scale(1.33);
+  width: 48px;
+}
+
+lb-preview .item > lb-item p.gold {
+  margin-top: -13px;
+}
+
 lb-preview .item > lb-item {
   display: block;
   margin: 0 auto;
@@ -752,20 +769,21 @@ lb-items-from lb-item:hover {
 lb-items-from > div > lb-item:before {
   border: 1px solid;
   content: '';
+  cursor: default;
   position: absolute;
   width: 60px;
 }
 
 lb-items-from > div:first-of-type > lb-item:before {
-  margin: -12px 0 6px 22px;
+  margin: -12px 0 6px 23px;
 }
 
 lb-items-from > div:last-of-type > lb-item:before {
-  margin: -12px 0 6px -40px;
+  margin: -12px 0 6px -39px;
 }
 
 lb-items-from > div:not(:first-of-type):not(:last-of-type) > lb-item:before {
-  margin: -12px 0 0 -40px;
+  margin: -12px 0 0 -39px;
   width: 120px;
 }
 
