@@ -37,8 +37,6 @@ module.exports = (config) => {
       testName: 'Legend Builder',
       retryLimit: 3,
       startConnect: false,
-      recordVideo: false,
-      recordScreenshots: false,
       options: {
         'selenium-version': '2.53.0',
         'command-timeout': 120,
