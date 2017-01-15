@@ -6,8 +6,8 @@ import {Item} from '../../item';
   selector: 'lb-item',
   template: `
     <img [attr.alt]="item.name"
-         [attr.src]="(sprite ? 'sprite/'+item.image.sprite : 'item/' + item.image.full) | lbDDragon"
-         [style.object-position]="sprite ? '-' + item.image.x + 'px -' + item.image.y + 'px' : ''"
+         [attr.src]="'sprite/' + item.image.sprite | lbDDragon"
+         [style.object-position]="'-' + item.image.x + 'px -' + item.image.y + 'px'"
          (click)="selectItem(item)"
          (contextmenu)="pickItem(item)">
     <p class="gold" (click)="selectItem(item)" (contextmenu)="pickItem(item)">
