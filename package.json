@@ -124,7 +124,7 @@
     "d3-shape": "1.0.4",
     "dateformat": "1.0.12",
     "lru-cache": "4.0.2",
-    "rxjs": "5.0.1",
+    "rxjs": "5.1.0",
     "typescript": "2.1.4",
     "webfontloader": "1.6.27",
     "zone.js": "0.7.2"
