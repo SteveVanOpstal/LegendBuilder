@@ -22,6 +22,8 @@ Legend Builder is currently in **Alpha**.
 
 #### Contributing
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/SteveVanOpstal/LegendBuilder.svg)](https://greenkeeper.io/)
+
 Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages. Take a look at the [contributing guidelines](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/CONTRIBUTING.md) for more information.
 
 A detailed guide on how to setup the project is available at [DEVELOPER.md](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/DEVELOPER.md).
