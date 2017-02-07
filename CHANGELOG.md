@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **reddit:** paths are incorrect ([95e7434](https://github.com/SteveVanOpstal/LegendBuilder/commit/95e7434))
 * **server:** config undefined ([c3e3e27](https://github.com/SteveVanOpstal/LegendBuilder/commit/c3e3e27))
 * **shop:** item not selectable ([9639efe](https://github.com/SteveVanOpstal/LegendBuilder/commit/9639efe))
+* **shop:** item image does not show at full width ([2ab668a](https://github.com/SteveVanOpstal/LegendBuilder/commit/2ab668a))
 
 
 ### Features
@@ -37,11 +38,19 @@ All notable changes to this project will be documented in this file. See [standa
 * **preview:** double click to pick an item ([99abecb](https://github.com/SteveVanOpstal/LegendBuilder/commit/99abecb))
 * **preview:** preview the last picked item ([8a76714](https://github.com/SteveVanOpstal/LegendBuilder/commit/8a76714))
 * **server:** make all files optional ([c903baf](https://github.com/SteveVanOpstal/LegendBuilder/commit/c903baf))
+* **auth:** remove incomplete authorization feature ([9b22df6](https://github.com/SteveVanOpstal/LegendBuilder/commit/9b22df6))
+* async load fonts ([da0a624](https://github.com/SteveVanOpstal/LegendBuilder/commit/da0a624))
+* **css:** improve alternative fonts ([d76a071](https://github.com/SteveVanOpstal/LegendBuilder/commit/d76a071))
+* **shop:** improve responsive design ([a21ba6a](https://github.com/SteveVanOpstal/LegendBuilder/commit/a21ba6a))
 
 
 ### Performance Improvements
 
 * reduce impact of google font ([e0eb489](https://github.com/SteveVanOpstal/LegendBuilder/commit/e0eb489))
+* load modules externally ([3157592](https://github.com/SteveVanOpstal/LegendBuilder/commit/3157592))
+* remove shims ([7766dc3](https://github.com/SteveVanOpstal/LegendBuilder/commit/7766dc3))
+* **index:** use minified d3 packages ([93dfdec](https://github.com/SteveVanOpstal/LegendBuilder/commit/93dfdec))
+* **items:** use sprites ([baae41f](https://github.com/SteveVanOpstal/LegendBuilder/commit/baae41f))
 
 
 
