@@ -12,6 +12,7 @@
 [![Build Status](https://travis-ci.org/SteveVanOpstal/LegendBuilder.svg?branch=master)](https://travis-ci.org/SteveVanOpstal/LegendBuilder)
 [![Coverage Status](https://coveralls.io/repos/github/SteveVanOpstal/LegendBuilder/badge.svg)](https://coveralls.io/github/SteveVanOpstal/LegendBuilder)
 [![Dependency Status](https://img.shields.io/david/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder) [![devDependency Status](https://img.shields.io/david/dev/SteveVanOpstal/LegendBuilder.svg)](https://david-dm.org/SteveVanOpstal/LegendBuilder?type=dev)
+[![Greenkeeper badge](https://badges.greenkeeper.io/SteveVanOpstal/LegendBuilder.svg)](https://greenkeeper.io/)
 [![License](https://img.shields.io/github/license/SteveVanOpstal/LegendBuilder.svg)](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/SteveVanOpstal/LegendBuilder.svg)](https://gitter.im/SteveVanOpstal/LegendBuilder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
