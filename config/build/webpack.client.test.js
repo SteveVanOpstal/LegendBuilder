@@ -8,6 +8,8 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 module.exports = {
   devtool: 'inline-source-map',
 
+  entry: helpers.root('/config/karma-test-shim.js'),
+
   resolve: {extensions: ['.ts', '.js'], modules: ['node_modules']},
 
   module: {
