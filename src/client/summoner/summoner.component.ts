@@ -19,7 +19,7 @@ import {LolApiService} from '../services/lolapi.service';
 })
 
 export class SummonerComponent {
-  private error: boolean = false;
+  error: boolean = false;
 
   constructor(
       private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}

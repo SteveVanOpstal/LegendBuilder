@@ -87,8 +87,8 @@ import {Http} from '@angular/http';
 })
 
 export class AboutComponent {
-  private ready: boolean = false;
-  private contributors: any;
+  ready: boolean = false;
+  contributors: any;
 
   constructor(private http: Http) {
     this.http.get('https://api.github.com/repos/SteveVanOpstal/LegendBuilder/contributors')
