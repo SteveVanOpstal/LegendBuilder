@@ -97,7 +97,7 @@
   "dependencies": {
     "@angular/common": "2.4.5",
     "@angular/compiler": "2.4.5",
-    "@angular/core": "2.4.5",
+    "@angular/core": "2.4.7",
     "@angular/http": "2.4.5",
     "@angular/platform-browser": "2.4.5",
     "@angular/platform-browser-dynamic": "2.4.5",
