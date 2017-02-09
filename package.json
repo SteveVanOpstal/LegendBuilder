@@ -125,7 +125,7 @@
     "dateformat": "2.0.0",
     "lru-cache": "4.0.2",
     "rxjs": "5.1.0",
-    "typescript": "2.1.5",
+    "typescript": "2.1.6",
     "webfontloader": "1.6.27",
     "zone.js": "0.7.6"
   },
