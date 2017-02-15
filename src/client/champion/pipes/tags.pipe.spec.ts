@@ -2,7 +2,7 @@ import {inject, TestBed} from '@angular/core/testing';
 
 import {TagsPipe} from './tags.pipe';
 
-describe('TagsPipe', () => {
+describe('Champion TagsPipe', () => {
   let champions = [];
   let champion1 = {name: 'Amumu', tags: ['Tank', 'Mage']};
   let champion2 = {name: 'Ahri', tags: ['Mage', 'Assassin']};

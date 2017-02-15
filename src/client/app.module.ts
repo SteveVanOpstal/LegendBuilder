@@ -8,7 +8,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app.routing';
 import {AssetsModule} from './assets/assets.module';
 import {BuildModule} from './build/build.module';
-import {ChampionModule} from './champion/champion.module';
+import {ChampionsModule} from './champion/champions.module';
 import {MainModule} from './main/main.module';
 import {RegionModule} from './region/region.module';
 import {LolApiService} from './services/lolapi.service';
@@ -20,7 +20,7 @@ import {SummonerModule} from './summoner/summoner.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule, CommonModule, AppRoutingModule, HttpModule, AssetsModule, SharedModule,
-    AboutModule, BuildModule, ChampionModule, MainModule, RegionModule, SummonerModule
+    AboutModule, BuildModule, ChampionsModule, MainModule, RegionModule, SummonerModule
   ],
   bootstrap: [AppComponent]
 })

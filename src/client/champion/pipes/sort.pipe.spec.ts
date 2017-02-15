@@ -2,7 +2,7 @@ import {inject, TestBed} from '@angular/core/testing';
 
 import {SortPipe} from './sort.pipe';
 
-describe('SortPipe', () => {
+describe('Champion SortPipe', () => {
   let champions = [];
   let champion1 = {id: 1, name: 'Amumu', info: {attack: 1, magic: 8, defense: 6, difficulty: 3}};
   let champion2 = {id: 2, name: 'Ahri', info: {attack: 3, magic: 8, defense: 4, difficulty: 5}};
@@ -30,11 +30,6 @@ describe('SortPipe', () => {
   it('should not filter on \'\'', inject([SortPipe], (pipe) => {
        let result = pipe.transform(champions, '');
        expect(result).toHaveEqualContent([champion2, champion1, champion3]);  // alphabetical order
-     }));
-
-  it('should not filter on invalid champions', inject([SortPipe], (pipe) => {
-       let result = pipe.transform(undefined, ['attack']);
-       expect(result).toBe(undefined);
      }));
 
   it('should order by \'attack\'', inject([SortPipe], (pipe) => {

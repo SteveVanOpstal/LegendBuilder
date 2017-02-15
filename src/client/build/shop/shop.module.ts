@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {NgPipesModule} from 'ng-pipes';
 
 import {AssetsModule} from '../../assets/assets.module';
 import {SharedModule} from '../../shared/shared.module';
@@ -11,7 +12,7 @@ import {ShopComponent} from './shop.component';
 
 @NgModule({
   declarations: [ShopComponent, ItemComponent],
-  imports: [CommonModule, AssetsModule, SharedModule, PreviewModule, PipesModule],
+  imports: [CommonModule, NgPipesModule, AssetsModule, SharedModule, PreviewModule, PipesModule],
   exports: [ShopComponent]
 })
 export class ShopModule {

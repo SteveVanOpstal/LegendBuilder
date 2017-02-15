@@ -3,7 +3,7 @@ import {RouterModule} from '@angular/router';
 
 import {AboutComponent} from './about/about.component';
 import {BuildComponent} from './build/build.component';
-import {ChampionComponent} from './champion/champion.component';
+import {ChampionsComponent} from './champion/champions.component';
 // import {LoginComponent} from './login/login.component';
 import {MainComponent} from './main/main.component';
 import {RegionComponent} from './region/region.component';
@@ -16,7 +16,7 @@ import {SummonerComponent} from './summoner/summoner.component';
     // {path: 'login', component: LoginComponent}, {path: 'signup', component: SignupComponent},
     {path: 'build', component: RegionComponent},
     {path: 'build/:region', component: SummonerComponent},
-    {path: 'build/:region/:summoner', component: ChampionComponent},
+    {path: 'build/:region/:summoner', component: ChampionsComponent},
     {path: 'build/:region/:summoner/:champion', component: BuildComponent}
   ])],
   exports: [RouterModule]

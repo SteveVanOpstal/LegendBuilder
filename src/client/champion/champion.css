@@ -2,37 +2,37 @@
   background-color: #fff;
 }
 
-lb-champion {
+lb-champions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-lb-champion p {
+lb-champions p {
   font-size: 1em;
 }
 
-lb-champion .champion {
+lb-champions lb-champion {
   height: 275px;
   margin: -1px -2px;
 }
 
-lb-champion .champion:hover {
+lb-champions lb-champion:hover {
   -webkit-filter: brightness(1.2);
           filter: brightness(1.2);
 }
 
-lb-champion .champion:hover img {
+lb-champions lb-champion:hover img {
   -webkit-filter: grayscale(0);
           filter: grayscale(0);
 }
 
-lb-champion .champion a {
+lb-champions lb-champion a {
   display: block;
   text-decoration: none;
 }
 
-lb-champion .champion img {
+lb-champions lb-champion img {
   background-color: #e5e5e5;
   clip: rect(8px 8px 0px 8px);
   -webkit-clip-path: inset(8px 8px 0px 8px round 10px);
@@ -43,12 +43,12 @@ lb-champion .champion img {
   width: 150px;
 }
 
-lb-champion .champion .info p {
+lb-champions lb-champion .info p {
   margin: 5px;
   z-index: 10;
 }
 
-lb-champion .champion .info {
+lb-champions lb-champion .info {
   background-color: rgba(0,0,0,.7);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -63,23 +63,23 @@ lb-champion .champion .info {
   width: 134px;
 }
 
-lb-champion .champion .info lb-bar {
+lb-champions lb-champion .info lb-bar {
   padding-left: 5px;
 }
 
-lb-champion .champion .info lb-bar.attack > div {
+lb-champions lb-champion .info lb-bar.attack > div {
   background-color: #5c1f1f;
 }
 
-lb-champion .champion .info lb-bar.defense > div {
+lb-champions lb-champion .info lb-bar.defense > div {
   background-color: #163a16;
 }
 
-lb-champion .champion .info lb-bar.magic > div {
+lb-champions lb-champion .info lb-bar.magic > div {
   background-color: #1b3556;
 }
 
-lb-champion .champion .info lb-bar.difficulty > div {
+lb-champions lb-champion .info lb-bar.difficulty > div {
   background-color: #411a52;
 }
 
@@ -138,21 +138,21 @@ lb-filters .right label {
 /* @media */
 
 @media (max-width: 1350px) {
-  lb-champion .champion {
+  lb-champions lb-champion {
     height: 181px;
     margin: initial;
     padding: 5px;
     width: 100px;
   }
 
-  lb-champion .champion img {
+  lb-champions lb-champion img {
     -webkit-clip-path: inset(3px 3px 3px 3px round 5px);
             clip-path: inset(3px 3px 3px 3px round 5px);
     height: 181px;
     width: 100px;
   }
 
-  lb-champion .champion .info {
+  lb-champions lb-champion .info {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 5px;
@@ -162,7 +162,7 @@ lb-filters .right label {
     width: inherit;
   }
 
-  lb-champion .champion .info lb-bar {
+  lb-champions lb-champion .info lb-bar {
     display: none;
   }
 }

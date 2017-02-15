@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
-import {ToIterablePipe} from '../../shared/to-iterable.pipe';
 import {Item} from '../item';
 import {PreviewComponent} from './preview/preview.component';
 
@@ -10,7 +9,7 @@ import {PreviewComponent} from './preview/preview.component';
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="let category of data?.tree | lbToIterable">
+      <div class="category" *ngFor="let category of tree | toArray">
         <p class="noselect">{{category.header | lbTranslate | lbCapitalize}}</p>
         <hr>
         <label *ngFor="let tag of category.tags">
@@ -31,6 +30,7 @@ import {PreviewComponent} from './preview/preview.component';
         </div>
         <div class="items">
           <template ngFor let-item [ngForOf]="items
+                                               | toArray
                                                | lbMap:11
                                                | lbChampion:123
                                                | lbHide
@@ -51,7 +51,7 @@ import {PreviewComponent} from './preview/preview.component';
       </div>
       <div class="right">
         <lb-preview #preview
-                    [items]="items | lbMap:11 | lbChampion:123"
+                    [items]="items | toArray | lbMap:11 | lbChampion:123"
                     (itemPicked)="pickItem($event)">
         </lb-preview>
       </div>
@@ -69,8 +69,8 @@ export class ShopComponent implements OnInit {
   tags: Array<string> = [];
   name: string;
 
-  data: Object;
   items: Array<Item> = [];
+  tree: Array<Item> = [];
   private originalItems: Array<Item> = [];
 
   constructor(private lolApi: LolApiService) {}
@@ -81,8 +81,8 @@ export class ShopComponent implements OnInit {
 
     this.lolApi.getItems().subscribe(
         res => {
-          this.data = res;
-          this.items = new ToIterablePipe().transform(res.data);
+          this.items = res.data;
+          this.tree = res.tree;
           this.originalItems = this.items;
           this.loading = false;
         },

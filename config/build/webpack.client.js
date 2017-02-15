@@ -44,6 +44,7 @@ module.exports = (options) => {
       'd3-selection': 'd3',
       'd3-shape': 'd3',
       'd3-format': 'd3',
+      'ng-pipes': 'ng.pipes',
       'rxjs/Rx': 'Rx',
       'zone.js': 'Zone',
       'core-js': '',
