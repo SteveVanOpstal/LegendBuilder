@@ -8,22 +8,29 @@ export let defaultImage: string =
 
 @Pipe({name: 'lbDDragon', pure: false})
 export class DDragonPipe implements PipeTransform {
-  image: SafeUrl = '';
+  resolvedImage: SafeUrl = '';
+  image: string = '';
 
   constructor(private lolApi: LolApiService, sanitizer: DomSanitizer) {
-    this.image = sanitizer.bypassSecurityTrustUrl(defaultImage);
+    this.resolvedImage = sanitizer.bypassSecurityTrustUrl(defaultImage);
   }
 
   transform(image: string): any {
+    if (this.image === image) {
+      return this.resolvedImage;
+    }
+    this.image = image;
+
     this.lolApi.getRealm().subscribe((realm: any) => {
-      this.image = this.buildImage(image, realm);
+      this.resolvedImage = this.buildImage(this.image, realm);
     });
-    return this.image;
+
+    return this.resolvedImage;
   }
 
   private buildImage(image: string, realm: any): string|SafeUrl {
     if (!image || !realm) {
-      return this.image;
+      return this.resolvedImage;
     }
 
     let type = image.substr(0, image.lastIndexOf('/'));
@@ -35,7 +42,7 @@ export class DDragonPipe implements PipeTransform {
       return '/5.5.1';
     }
 
-    if (type === 'champion/loading') {
+    if (type.indexOf('champion/') !== -1) {
       return '';
     }
 
