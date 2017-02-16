@@ -59,30 +59,30 @@
     <script src="https://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
   <% } %>
 
-  <script src="https://unpkg.com/core-js@2.4.1/client/shim.min.js"></script>
-  <script src="https://unpkg.com/zone.js@0.7.4/dist/zone.min.js"></script>
-  <script src="https://unpkg.com/reflect-metadata@0.1.8"></script>
-  <script src="https://unpkg.com/rxjs@5.0.0-rc.4/bundles/Rx.min.js"></script>
+  <script src="https://unpkg.com/core-js@<%= htmlWebpackPlugin.options.dependencies['core-js'] %>/client/shim.min.js"></script>
+  <script src="https://unpkg.com/zone.js@<%= htmlWebpackPlugin.options.dependencies['zone.js'] %>/dist/zone.min.js"></script>
+  <script src="https://unpkg.com/reflect-metadata@<%= htmlWebpackPlugin.options.dependencies['reflect-metadata'] %>"></script>
+  <script src="https://unpkg.com/rxjs@<%= htmlWebpackPlugin.options.dependencies['rxjs'] %>/bundles/Rx.min.js"></script>
 
-  <script src="https://unpkg.com/@angular/core@2.4.1/bundles/core.umd.js"></script>
-  <script src="https://unpkg.com/@angular/common@2.4.1/bundles/common.umd.js"></script>
-  <script src="https://unpkg.com/@angular/compiler@2.4.1/bundles/compiler.umd.min.js"></script>
-  <script src="https://unpkg.com/@angular/platform-browser@2.4.1/bundles/platform-browser.umd.min.js"></script>
-  <script src="https://unpkg.com/@angular/platform-browser-dynamic@2.4.1/bundles/platform-browser-dynamic.umd.min.js"></script>
-  <script src="https://unpkg.com/@angular/http@2.4.1/bundles/http.umd.min.js"></script>
-  <script src="https://unpkg.com/@angular/router@3.4.1/bundles/router.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/core@<%= htmlWebpackPlugin.options.dependencies['@angular/core'] %>/bundles/core.umd.js"></script>
+  <script src="https://unpkg.com/@angular/common@<%= htmlWebpackPlugin.options.dependencies['@angular/common'] %>/bundles/common.umd.js"></script>
+  <script src="https://unpkg.com/@angular/compiler@<%= htmlWebpackPlugin.options.dependencies['@angular/compiler'] %>/bundles/compiler.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser@<%= htmlWebpackPlugin.options.dependencies['@angular/platform-browser'] %>/bundles/platform-browser.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser-dynamic@<%= htmlWebpackPlugin.options.dependencies['@angular/platform-browser-dynamic'] %>/bundles/platform-browser-dynamic.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/http@<%= htmlWebpackPlugin.options.dependencies['@angular/http'] %>/bundles/http.umd.min.js"></script>
+  <script src="https://unpkg.com/@angular/router@<%= htmlWebpackPlugin.options.dependencies['@angular/router'] %>/bundles/router.umd.min.js"></script>
   
-  <script src="https://unpkg.com/ng-pipes@0.1.1/dist/ng-pipes.umd.js"></script>
+  <script src="https://unpkg.com/ng-pipes@<%= htmlWebpackPlugin.options.dependencies['ng-pipes'] %>/dist/ng-pipes.umd.js"></script>
 
-  <script src="https://unpkg.com/d3-path@1.0.3/build/d3-path.min.js"></script>
-  <script src="https://unpkg.com/d3-format@1.0.2/build/d3-format.min.js"></script>
-  <script src="https://unpkg.com/d3-array@1.0.2/build/d3-array.min.js"></script>
-  <script src="https://unpkg.com/d3-color@1.0.2/build/d3-color.min.js"></script>
-  <script src="https://unpkg.com/d3-interpolate@1.1.2/build/d3-interpolate.min.js"></script>
-  <script src="https://unpkg.com/d3-axis@1.0.4/build/d3-axis.min.js"></script>
-  <script src="https://unpkg.com/d3-scale@1.0.4/build/d3-scale.min.js"></script>
-  <script src="https://unpkg.com/d3-selection@1.0.3/build/d3-selection.min.js"></script>
-  <script src="https://unpkg.com/d3-shape@1.0.4/build/d3-shape.min.js"></script>
+  <script src="https://unpkg.com/d3-path@<%= htmlWebpackPlugin.options.dependencies['d3-path'] %>/build/d3-path.min.js"></script>
+  <script src="https://unpkg.com/d3-format@<%= htmlWebpackPlugin.options.dependencies['d3-format'] %>/build/d3-format.min.js"></script>
+  <script src="https://unpkg.com/d3-array@<%= htmlWebpackPlugin.options.dependencies['d3-array'] %>/build/d3-array.min.js"></script>
+  <script src="https://unpkg.com/d3-color@<%= htmlWebpackPlugin.options.dependencies['d3-color'] %>/build/d3-color.min.js"></script>
+  <script src="https://unpkg.com/d3-interpolate@<%= htmlWebpackPlugin.options.dependencies['d3-interpolate'] %>/build/d3-interpolate.min.js"></script>
+  <script src="https://unpkg.com/d3-axis@<%= htmlWebpackPlugin.options.dependencies['d3-axis'] %>/build/d3-axis.min.js"></script>
+  <script src="https://unpkg.com/d3-scale@<%= htmlWebpackPlugin.options.dependencies['d3-scale'] %>/build/d3-scale.min.js"></script>
+  <script src="https://unpkg.com/d3-selection@<%= htmlWebpackPlugin.options.dependencies['d3-selection'] %>/build/d3-selection.min.js"></script>
+  <script src="https://unpkg.com/d3-shape@<%= htmlWebpackPlugin.options.dependencies['d3-shape'] %>/build/d3-shape.min.js"></script>
 </body>
 
 </html>

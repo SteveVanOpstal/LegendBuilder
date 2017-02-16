@@ -88,7 +88,8 @@ module.exports = (options) => {
         host: settings.httpServer.host,
         port: settings.httpServer.port,
         ENV: ENV,
-        version: package.version
+        version: package.version,
+        dependencies: package.dependencies
       })
     ],
 
@@ -98,7 +99,8 @@ module.exports = (options) => {
       port: settings.httpServer.port,
       host: settings.httpServer.host,
       historyApiFallback: true,
-      watchOptions: {aggregateTimeout: 300, poll: 1000}
+      watchOptions: {aggregateTimeout: 300, poll: 1000},
+      headers: {'Cache-Control': 'public, max-age=31536000'}
     }
   };
 
