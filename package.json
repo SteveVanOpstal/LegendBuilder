@@ -95,7 +95,7 @@
     "conventional-github-releaser": "./node_modules/.bin/conventional-github-releaser -p angular"
   },
   "dependencies": {
-    "@angular/common": "2.4.5",
+    "@angular/common": "2.4.7",
     "@angular/compiler": "2.4.5",
     "@angular/core": "2.4.5",
     "@angular/http": "2.4.5",
