@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {Item} from '../item';
@@ -60,8 +60,7 @@ import {PreviewComponent} from './preview/preview.component';
 
 export class ShopComponent implements OnInit {
   @Output() itemPicked: EventEmitter<Item> = new EventEmitter<Item>();
-
-  preview: PreviewComponent;
+  @ViewChild(PreviewComponent) preview: PreviewComponent;
 
   loading: boolean = true;
   error: boolean = false;
@@ -110,6 +109,10 @@ export class ShopComponent implements OnInit {
   pickItem(item: Item) {
     this.itemPicked.emit(item);
     return false;  // stop context menu from appearing
+  }
+
+  selectItem(item: Item) {
+    this.preview.selectItem(item);
   }
 
   // ngOnChanges(changes: SimpleChanges) {

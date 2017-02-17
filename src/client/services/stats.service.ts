@@ -88,7 +88,16 @@ export class StatsService {
   private translateItemStats(stats: StatArray): StatArray {
     if (this.items) {
       for (let item of this.items) {
-        stats = stats.concat(this.translateStats(item.stats, item.time));
+        // remove stats that belong to items that builds into this item
+        let itemStats = {...item.stats};
+        for (let containedItem of item.contains) {
+          for (let stat in containedItem.stats) {
+            if (itemStats[stat]) {
+              itemStats[stat] -= containedItem.stats[stat];
+            }
+          }
+        }
+        stats = stats.concat(this.translateStats(itemStats, item.time));
       }
     }
     return stats;

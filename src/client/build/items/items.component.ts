@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
 import {LolApiService} from '../../services/lolapi.service';
@@ -13,6 +13,7 @@ import {ItemSlotComponent} from './item-slot.component';
   template: `
     <template ngFor let-i [ngForOf]="[0,1,2,3,4,5]">
       <lb-item-slot [ngClass]="{dragging: dragging}"
+                    (itemSelected)="itemSelected.emit($event)"
                     (itemRemoved)="removeItem($event)"
                     (itemDragStart)="itemDragStart($event)"
                     (itemDragEnd)="itemDragEnd()"
@@ -22,6 +23,7 @@ import {ItemSlotComponent} from './item-slot.component';
 })
 
 export class ItemsComponent implements OnInit {
+  @Output() itemSelected: EventEmitter<Item> = new EventEmitter<Item>();
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
   items = Array<Item>();
 
@@ -29,10 +31,14 @@ export class ItemsComponent implements OnInit {
   dragged: Item;
 
   private samples: Samples;
+  private allItems: any;
 
   constructor(private stats: StatsService, private lolApi: LolApiService) {}
 
   ngOnInit() {
+    this.lolApi.getItems().subscribe(res => {
+      this.allItems = res.data;
+    });
     this.lolApi.getCurrentMatchData().subscribe(samples => {
       this.samples = samples;
     });
@@ -88,6 +94,7 @@ export class ItemsComponent implements OnInit {
   private update() {
     let result = this.clone(this.items);
     result = this.updateBundles(result);
+    result = this.updateDiscounts(result);
     result = this.updateTimes(result);
     this.updateOriginalItems(result);
     this.updateSlots(result);
@@ -108,13 +115,40 @@ export class ItemsComponent implements OnInit {
     return items;
   }
 
+  private updateDiscounts(items: Array<Item>): Array<Item> {
+    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+      let item = items[itemIndex];
+      item.discount = 0;
+      item.contains = [];
+      item.contained = false;
+      for (let searchItemIndex = 0; searchItemIndex < itemIndex; searchItemIndex++) {
+        let searchItem = items[searchItemIndex];
+        if (!item.from || !searchItem || searchItem.contained) {
+          continue;
+        }
+        let itemFromIds = this.getItemsFrom(item).filter((itemFrom: string) => {
+          return itemFrom.toString() === searchItem.id.toString();
+        });
+        let itemContainsIds = item.contains.filter((itemContains) => {
+          return itemContains.id === searchItem.id;
+        });
+        if (itemFromIds.length > itemContainsIds.length) {
+          item.discount += searchItem.gold.total;
+          searchItem.contained = true;
+          item.contains.push({...searchItem});
+        }
+      }
+    }
+    return items;
+  }
+
   private updateTimes(items: Array<Item>): Array<Item> {
     if (!this.samples) {
       return;
     }
     let goldOffset = 0;
     for (let item of items) {
-      let itemGold = (item.gold.total * item.bundle);
+      let itemGold = (item.gold.total * item.bundle) - item.discount;
       item.time = this.getTime(
           this.samples.gold, goldOffset + itemGold, settings.gameTime,
           settings.matchServer.sampleSize);
@@ -157,6 +191,20 @@ export class ItemsComponent implements OnInit {
     return result;
   }
 
+  private getItemsFrom(baseItem: Item): Array<string> {
+    if (!baseItem.from || !baseItem.from.length) {
+      return [];
+    }
+    let items: Array<Item> = baseItem.from.map((id: string) => {
+      return this.allItems[id];
+    });
+    let arr = Array<string>();
+    for (let item of items) {
+      arr = arr.concat(item.id, this.getItemsFrom(item));
+    }
+    return arr;
+  }
+
   private getTime(frames: Array<number>, value: number, totalTime: number, sampleSize: number):
       number {
     let index = this.getUpperIndex(frames, value);
@@ -189,7 +237,33 @@ export class ItemsComponent implements OnInit {
 
   private findSlot(item: Item): ItemSlotComponent|undefined {
     return this.children.toArray().find((slot: ItemSlotComponent) => {
-      return slot.compatible(item);
+      return slot.compatible(item) || this.compatible(slot);
     });
+  }
+
+  private compatible(slot: ItemSlotComponent): boolean {
+    let lastItem = slot.lastItem();
+    if (!lastItem.contained) {
+      return false;
+    }
+    let childSlot = this.children.toArray().find((child: ItemSlotComponent) => {
+      return this.lastItemEquals(child, lastItem);
+    });
+    return childSlot !== undefined;
+  }
+
+  private lastItemEquals(slot: ItemSlotComponent, item: Item): boolean {
+    let lastSlotItem = slot.lastItem();
+    if (!lastSlotItem || !lastSlotItem.contains.length) {
+      return false;
+    }
+    return this.contains(lastSlotItem, item);
+  }
+
+  private contains(item, item2): boolean {
+    return item.contains.find((containedItem: Item) => {
+      return this.getItemIndex(containedItem.id, containedItem.time) ===
+          this.getItemIndex(item2.id, item2.time);
+    }) !== undefined;
   }
 }

@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {LolApiService} from '../services/lolapi.service';
 import {ItemsComponent} from './items/items.component';
+import {ShopComponent} from './shop/shop.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -16,14 +17,15 @@ import {ItemsComponent} from './items/items.component';
     <lb-graph></lb-graph>
     <lb-abilities></lb-abilities>
     <lb-masteries></lb-masteries>
-    <lb-items #items></lb-items>
-    <lb-shop (itemPicked)="items.addItem($event)"></lb-shop>
+    <lb-items (itemSelected)="shop.selectItem($event)" #items></lb-items>
+    <lb-shop (itemPicked)="items.addItem($event)" #shop></lb-shop>
     <lb-loading [loading]="loading"></lb-loading>
     <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
 })
 
 export class BuildComponent implements OnInit {
   items: ItemsComponent;
+  shop: ShopComponent;
   champion: any;
   loading: boolean = true;
   error: boolean = false;

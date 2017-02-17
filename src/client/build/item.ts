@@ -12,4 +12,8 @@ export interface Item {
 
   time?: number;
   bundle?: number;
+  offset?: number;
+  discount?: number;
+  contained?: boolean;
+  contains?: Array<Item>;
 }

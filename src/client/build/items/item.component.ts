@@ -1,6 +1,5 @@
-import {Component, DoCheck, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
-import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
 
 @Component({
@@ -10,27 +9,16 @@ import {Item} from '../item';
          [attr.src]="'sprite/'+item.image.sprite | lbDDragon"
          [style.object-position]="'-' + item.image.x + 'px -' + item.image.y + 'px'">
     <p *ngIf="item.bundle > 1" class="bundle">x{{item.bundle}}</p>
-    <p class="gold">{{item.gold.total ? item.gold.total : ''}}</p>`
+    <p class="gold" [ngClass]="{reduced : item?.discount}">
+      <span class="total">
+        {{ item?.gold?.total ? item?.gold?.total : '' }}
+      </span>
+      <span class="discount" *ngIf="item?.gold.total && item?.discount">
+        {{ item?.gold?.total - item?.discount }}
+      </span>
+    </p>`
 })
 
-export class ItemComponent implements DoCheck {
+export class ItemComponent {
   @Input() item: Item;
-  itemPrev: Item;
-  offset: number;
-  private xScaleTime = new TimeScale([0, 1380]);
-
-  constructor() {
-    this.xScaleTime.create();
-  }
-
-  ngDoCheck() {
-    if (!this.item) {
-      return;
-    }
-    this.offset = this.xScaleTime.get()(this.item.time);
-    if (this.offset > 0) {
-      this.offset += 60;
-    }
-    this.itemPrev = this.item;
-  }
 }

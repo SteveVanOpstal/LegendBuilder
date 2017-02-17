@@ -606,6 +606,25 @@ lb-item .gold p {
   margin: 0 -8px;
 }
 
+lb-item .gold.reduced .total {
+  color: #c20100;
+  display: none;
+  text-decoration: line-through;
+}
+
+lb-item:hover .gold.reduced .total {
+  display: inherit;
+}
+
+lb-item:hover .gold.reduced {
+  margin: 14px 0 0;
+}
+
+lb-item .gold.reduced {
+  display: flex;
+  flex-direction: column;
+}
+
 lb-item:hover {
   background-color: #ccc;
 }
@@ -615,10 +634,17 @@ lb-item-slot lb-item p.gold {
   background-color: rgba(0,0,0,.7);
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
-  margin: 30px 0 0 0;
   min-width: 0;
   padding: 0 2px;
   position: absolute;
+}
+
+lb-preview lb-item p.gold {
+  margin: 30px 0 0 0;
+}
+
+lb-item-slot lb-item p.gold {
+  margin: 31px 0 0 0;
 }
 
 /* lb-item-slot */
