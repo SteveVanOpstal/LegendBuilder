@@ -93,7 +93,7 @@ module.exports = (options) => {
       })
     ],
 
-    performance: {hints: !options.dev},
+    performance: {hints: options.dev ? false : 'error'},
 
     devServer: {
       port: settings.httpServer.port,

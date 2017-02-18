@@ -175,7 +175,7 @@
     "standard-version": "^4.0.0",
     "svgo-loader": "^1.1.2",
     "tslint": "^4.1.1",
-    "webpack": "^2.1.0-beta.28",
+    "webpack": "^2.2.1",
     "webpack-dev-server": "^2.1.0-beta.10",
     "webpack-md5-hash": "^0.0.5"
   }
