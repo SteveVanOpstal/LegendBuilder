@@ -48,7 +48,8 @@ module.exports = (options) => {
       'rxjs/Rx': 'Rx',
       'zone.js': 'Zone',
       'core-js': '',
-      'reflect-metadata': 'Reflect'
+      'reflect-metadata': 'Reflect',
+      'webfontloader': 'WebFont'
     },
 
     module: {
