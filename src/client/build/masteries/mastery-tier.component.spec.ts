@@ -1,12 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 
-import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
 
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
+import {RankComponent} from './rank.component';
 
 const data = [
   {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null,
@@ -19,7 +19,7 @@ describe('MasteryTierComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MasteryTierComponent, LolApiService],
-      declarations: [MasteryTierComponent, MasteryComponent, IconRankComponent, DDragonPipe],
+      declarations: [MasteryTierComponent, MasteryComponent, RankComponent, DDragonPipe],
       imports: [TestModule]
     });
 

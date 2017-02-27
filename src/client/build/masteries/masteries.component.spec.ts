@@ -3,7 +3,6 @@ import {MockBackend} from '@angular/http/testing';
 
 import {IconErrorComponent} from '../../assets/icon-error.component';
 import {IconLoadComponent} from '../../assets/icon-load.component';
-import {IconRankComponent} from '../../assets/icon-rank.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
@@ -16,6 +15,7 @@ import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
+import {RankComponent} from './rank.component';
 
 const masteriesData = {
   tree: {
@@ -69,7 +69,7 @@ let providers = () => {
       providers: [MasteriesComponent, LolApiService],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
-        LoadingComponent, RetryComponent, ErrorComponent, IconRankComponent, IconLoadComponent,
+        LoadingComponent, RetryComponent, ErrorComponent, RankComponent, IconLoadComponent,
         IconRefreshComponent, IconErrorComponent, DDragonPipe
       ],
       imports: [TestModule]

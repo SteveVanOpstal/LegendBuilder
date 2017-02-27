@@ -8,10 +8,13 @@ import {MasteriesComponent} from './masteries.component';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
+import {RankComponent} from './rank.component';
 
 @NgModule({
-  declarations:
-      [MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent],
+  declarations: [
+    MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
+    RankComponent
+  ],
   imports: [CommonModule, AssetsModule, SharedModule],
   exports: [MasteriesComponent]
 })

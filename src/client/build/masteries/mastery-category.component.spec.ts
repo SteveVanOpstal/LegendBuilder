@@ -1,6 +1,5 @@
 import {TestBed} from '@angular/core/testing';
 
-import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
@@ -8,6 +7,7 @@ import {TestModule} from '../../testing';
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';
 import {MasteryComponent} from './mastery.component';
+import {RankComponent} from './rank.component';
 
 const data = {
   name: 'Ferocity',
@@ -31,8 +31,7 @@ describe('MasteryCategoryComponent', () => {
     TestBed.configureTestingModule({
       providers: [MasteryCategoryComponent, LolApiService],
       declarations: [
-        MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, IconRankComponent,
-        DDragonPipe
+        MasteryCategoryComponent, MasteryTierComponent, MasteryComponent, RankComponent, DDragonPipe
       ],
       imports: [TestModule]
     });

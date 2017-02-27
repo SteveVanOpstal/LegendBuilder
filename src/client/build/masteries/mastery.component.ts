@@ -1,16 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
-import {Colors} from '../../assets/icon-rank.component';
-
 @Component({
   selector: 'lb-mastery',
   template: `
     <div *ngIf="data"
-         [ngClass]="{enabled: enabled, active: active}"
+         [ngClass]="{enabled: enabled, active: active, ranked: data.ranks > 1}"
          (click)="clicked()"
          (contextmenu)="rightClicked()"
          (dragend)="dragEnd()">
-      <lb-icon-rank [rank]="rank" [maxRank]="data.ranks" [color]="color"></lb-icon-rank>
+      <lb-rank *ngIf="data.ranks > 1 && rank > 0" [rank]="rank" [maxRank]="data.ranks"></lb-rank>
       <img [attr.alt]="data.name" [attr.src]="'mastery/' + data.image.full | lbDDragon">
       <div class="description">
         <h2>{{data.name}}</h2>
@@ -26,10 +24,10 @@ export class MasteryComponent implements OnChanges {
   @Output() rankAdded: EventEmitter<any> = new EventEmitter<any>();
   @Output() rankRemoved: EventEmitter<any> = new EventEmitter<any>();
 
+  name: string;
   description: string;
 
   rank: number = 0;
-  color: string = Colors.gray;
 
   active: boolean = false;
   private locked: boolean = false;
@@ -102,10 +100,6 @@ export class MasteryComponent implements OnChanges {
     return this.active;
   }
 
-  getColor() {
-    return this.color;
-  }
-
   rankRemove() {
     if (!this.enabled || this.locked) {
       return;
@@ -133,28 +127,98 @@ export class MasteryComponent implements OnChanges {
   private update() {
     if (this.enabled) {
       this.active = this.rank !== 0;
-      this.color = this.active ? Colors.yellow : Colors.blue;
     } else {
       this.active = false;
-      this.color = Colors.gray;
     }
 
     if (this.data && this.data.description) {
       if (this.data.description.length === 1) {
         this.description = this.data.description[0];
       } else if (this.rank === 0) {
-        let description = '';
-        for (let i in this.data.description) {
-          description += 'Mastery level ' + (parseInt(i, 10) + 1) + ':<br>';
-          description += this.data.description[i];
-          description += '<br><br>';
-        }
-        this.description = description;
+        this.description = this.createBurns(this.data.description);
       } else if (this.rank <= this.data.description.length) {
         this.description = this.data.description[this.rank - 1];
       } else {
         this.description = this.data.description[this.data.description.length - 1];
       }
     }
+  }
+
+  private createBurns(descriptions: Array<string>): string {
+    let chops = this.chopAll(descriptions);
+    let result = '';
+    for (let index in chops[0]) {
+      let mergedChops = this.mergeChops(chops, parseInt(index, 10));
+      if (this.AllEqual(mergedChops)) {
+        result += chops[0][index];
+      } else {
+        result += this.burn(mergedChops);
+      }
+    }
+    return result;
+  }
+
+  private mergeChops(chops: Array<Array<string>>, index: number): Array<string> {
+    let result = Array<string>();
+    for (let c of chops) {
+      result.push(c[index]);
+    }
+    return result;
+  }
+
+  private AllEqual(array: Array<string>): boolean {
+    let ref = array[0];
+    for (let str of array) {
+      if (ref.indexOf(str) < 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private burn(array: Array<string>): string {
+    return array.join('/');
+  }
+
+  private chopAll(descriptions: Array<string>): Array<Array<string>> {
+    let result = [];
+    for (let description of descriptions) {
+      result.push(this.chop(description));
+    }
+    return result;
+  }
+
+  private chop(description: string): Array<string> {
+    let result = Array<string>();
+    let start = 0;
+    let numericSequence = this.isNumeric(description, 0);
+    for (let index = 0; index < description.length; index++) {
+      let numeric = this.isNumeric(description, index);
+      if ((numericSequence && !numeric) || (!numericSequence && numeric)) {
+        result.push(description.substr(start, index - start));
+        start = index;
+        numericSequence = !numericSequence;
+      }
+    }
+    result.push(description.substr(start));
+    return result;
+  }
+
+  private isNumeric(str: string, index: number): boolean {
+    let char = str[index];
+    if (char === ' ') {
+      return false;
+    }
+    if (this.isNumber(char)) {
+      return true;
+    }
+    if (char === '.' && (this.isNumber(str[index - 1]) || this.isNumber(str[index + 1]))) {
+      return true;
+    }
+    return false;
+  }
+
+  private isNumber(char: string) {
+    return !isNaN(Number(char.charAt(0)));
   }
 }

@@ -1,12 +1,11 @@
 import {TestBed} from '@angular/core/testing';
 
-import {Colors} from '../../assets/icon-rank.component';
-import {IconRankComponent} from '../../assets/icon-rank.component';
 import {LolApiService} from '../../services/lolapi.service';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
 import {TestModule} from '../../testing';
 
 import {MasteryComponent} from './mastery.component';
+import {RankComponent} from './rank.component';
 
 const data = {
   id: 0,
@@ -21,7 +20,7 @@ describe('MasteryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [LolApiService],
-      declarations: [MasteryComponent, IconRankComponent, DDragonPipe],
+      declarations: [MasteryComponent, RankComponent, DDragonPipe],
       imports: [TestModule]
     });
 
@@ -96,19 +95,16 @@ describe('MasteryComponent', () => {
     expect(component.getRank()).toBe(2);
   });
 
-  it('should set active and color when enabled', () => {
+  it('should set active when enabled', () => {
     component.enable();
     component.setRank(1);
     expect(component.getActive()).toBeTruthy();
-    expect(component.getColor()).toBe(Colors.yellow);
     component.setRank(0);
     expect(component.getActive()).toBeFalsy();
-    expect(component.getColor()).toBe(Colors.blue);
   });
-  it('should set active and color when disabled', () => {
+  it('should set active when disabled', () => {
     component.disable();
     expect(component.getActive()).toBeFalsy();
-    expect(component.getColor()).toBe(Colors.gray);
   });
 
   it('should trigger tier rankAdd event', () => {
@@ -158,8 +154,7 @@ describe('MasteryComponent', () => {
     component.data.description = ['test1', 'test2'];
     component.rank = 0;
     component.update();
-    expect(component.description)
-        .toBe('Mastery level 1:<br>test1<br><br>Mastery level 2:<br>test2<br><br>');
+    expect(component.description).toBe('test1/2');
   });
 
   it('should add the mastery description of the associated rank', () => {

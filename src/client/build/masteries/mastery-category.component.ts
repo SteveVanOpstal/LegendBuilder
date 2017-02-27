@@ -11,13 +11,15 @@ type EventData = {
 @Component({
   selector: 'lb-mastery-category',
   template: `
+    <p class="total">{{totalRank}}</p>
+    <hr>
+    <p class="name">{{data.name}}</p>
     <lb-mastery-tier [data]="tier"
                   [index]="i"
                   *ngFor="let tier of data.tiers; let i = index"
                   (rankAdded)="rankAdd($event)"
                   (rankRemoved)="rankRemove($event)">
-    </lb-mastery-tier>
-    <p class="total">{{data.name + ': ' + totalRank}}</p>`
+    </lb-mastery-tier>`
 })
 
 export class MasteryCategoryComponent {
