@@ -59,6 +59,8 @@
     <script src="https://<%= htmlWebpackPlugin.options.host %>:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
   <% } %>
 
+  <script src="https://unpkg.com/webfontloader@<%= htmlWebpackPlugin.options.dependencies['webfontloader'] %>"></script>
+
   <script src="https://unpkg.com/core-js@<%= htmlWebpackPlugin.options.dependencies['core-js'] %>/client/shim.min.js"></script>
   <script src="https://unpkg.com/zone.js@<%= htmlWebpackPlugin.options.dependencies['zone.js'] %>/dist/zone.min.js"></script>
   <script src="https://unpkg.com/reflect-metadata@<%= htmlWebpackPlugin.options.dependencies['reflect-metadata'] %>"></script>
