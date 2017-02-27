@@ -5,6 +5,7 @@ import {settings} from '../../../config/settings';
 import {config} from '../build/graph/config';
 import {Item} from '../build/item';
 import {Samples} from '../build/samples';
+import {TranslatePipe} from '../shared/translate.pipe';
 
 import {LolApiService} from './lolapi.service';
 
@@ -30,31 +31,10 @@ export class StatsService {
 
   private levelTimeMarks: Array<number>;
 
-  private translator: Object = {
-    MPPool: 'MP',
-    HPPool: 'HP',
-    EnergyPool: 'Energy',
-    EXPBonus: 'Experience Bonus',
-    CritDamage: 'Critical Strike',
-    CritChance: 'Critical Strike Chance',
-    TimeDead: 'Time spend Dead',
-    GoldPer10: 'Gold per 10 seconds',
-
-    mp: 'MP',
-    hp: 'HP',
-    hpregen: 'HP regen',
-    mpregen: 'MP regen',
-    attackdamage: 'Attack Damage',
-    attackrange: 'Attack Range',
-    attackspeed: 'Attack Speed',
-    spellblock: 'Spell Block',
-    movespeed: 'Movement Speed',
-    attackspeedoffset: 'Attack Speed Offset',
-    crit: 'Critical Strike'
-  };
-
-  private items: any;
+  private items: Array<Item>;
   private champion: any;
+
+  private translator: TranslatePipe;
 
   constructor(private lolApi: LolApiService) {
     this.lolApi.getCurrentMatchData().subscribe(samples => {
@@ -69,6 +49,8 @@ export class StatsService {
       this.items = items;
       this.process();
     });
+
+    this.translator = new TranslatePipe(lolApi);
   }
 
   private process() {
@@ -122,21 +104,16 @@ export class StatsService {
   }
 
   private parseName(name: string): Stat {
-    if (name.indexOf('r') === 0) {
-      name = name.substr(1);
-    }
-
     let flat = true;
-    if (name.indexOf('Percent') === 0) {
+    if (name.indexOf('Percent') >= 0) {
       flat = false;
       name = name.substr(7);
     } else if (name.indexOf('Flat') === 0) {
-      flat = true;
       name = name.substr(4);
     }
 
     let perLevel = false;
-    if (name.indexOf('PerLevel') > 0 || name.indexOf('perlevel') > 0) {
+    if (name.indexOf('PerLevel') >= 0 || name.indexOf('perlevel') >= 0) {
       perLevel = true;
       name = name.substr(0, name.length - 8);
     }
@@ -145,18 +122,19 @@ export class StatsService {
       name = name.substr(0, name.length - 3);
     }
 
-    let translation = this.translator[name];
-    if (translation) {
-      name = this.translator[name];
-    } else {
-      for (let i = 1; i < name.length; i++) {
-        let char = name[i];
-        let charPrev = name[i - 1];
-        if (char === char.toUpperCase() && charPrev === charPrev.toLowerCase()) {
-          name = name.substr(0, i) + ' ' + name.substr(i);
-          i++;
-        }
+    name = this.translator.transform(name);
+
+    for (let i = 1; i < name.length; i++) {
+      let char = name[i];
+      let charPrev = name[i - 1];
+      if (char === char.toUpperCase() && charPrev === charPrev.toLowerCase()) {
+        name = name.substr(0, i) + ' ' + name.substr(i);
+        i++;
       }
+    }
+
+    if (name[0] !== name[0].toUpperCase()) {
+      name = name[0].toUpperCase() + name.substr(1);
     }
 
     return {name: name, value: 0, time: 0, flat: flat, perLevel: perLevel};

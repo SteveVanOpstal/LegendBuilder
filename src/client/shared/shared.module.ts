@@ -8,11 +8,16 @@ import {DDragonPipe} from './ddragon.pipe';
 import {ErrorComponent} from './error.component';
 import {LoadingComponent} from './loading.component';
 import {RetryComponent} from './retry.component';
+import {TranslatePipe} from './translate.pipe';
 
 @NgModule({
-  declarations: [CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent],
+  declarations: [
+    CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent, TranslatePipe
+  ],
   imports: [CommonModule, AssetsModule],
-  exports: [CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent]
+  exports: [
+    CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent, TranslatePipe
+  ]
 })
 export class SharedModule {
 }

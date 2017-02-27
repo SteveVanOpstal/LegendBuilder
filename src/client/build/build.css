@@ -297,12 +297,16 @@ lb-masteries .Resolve lb-mastery > div h2 {
   color: #46a1eb;
 }
 
+lb-masteries .name,
 lb-masteries .total {
-  color: #fff;
+  color: #aaa;
   font-size: 2em;
-  font-variant: small-caps;
   margin: 0 10px;
   width: 100%;
+}
+
+lb-masteries .name {
+  font-variant: small-caps;
 }
 
 lb-masteries p {
@@ -313,19 +317,27 @@ lb-masteries p {
 
 lb-mastery-category {
   background-repeat: no-repeat;
+  border: 1px solid #bbb;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5px;
+  margin: 0 20px;
   padding: 10px;
   width: 33%;
+}
+
+lb-mastery-category hr {
+  border: 1px solid #bbb;
+  width: 100%;
 }
 
 /* lb-mastery-tier */
 
 lb-mastery-tier {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 /* lb-mastery */
@@ -335,23 +347,23 @@ lb-mastery {
   width: 48px;
 }
 
+lb-mastery > div > img {
+  height: 48px;
+  width: 48px;
+}
+
+lb-mastery > div.ranked img {
+  height: 40px;
+  width: 40px;
+}
+
+lb-mastery > div:not(.ranked) img {
+  clip-path: circle(47% at 50% 50%);
+}
+
 lb-mastery > div:not(.active) img {
   -webkit-filter: grayscale(100%);
           filter: grayscale(100%);
-}
-
-
-lb-mastery > div:before {
-  border: 2px solid #777;
-  content: '';
-  height: 48px;
-  position: absolute;
-  width: 48px;
-  z-index: 10;
-}
-
-lb-mastery > div.enabled:before {
-  border: 2px solid #4387de;
 }
 
 lb-mastery > div.enabled {
@@ -360,7 +372,7 @@ lb-mastery > div.enabled {
 
 lb-mastery .rank {
   cursor: pointer;
-  margin: 40px 0 0 26px;
+  margin: 30px 0 0 16px;
   position: absolute;
   z-index: 20;
 }
@@ -369,24 +381,17 @@ lb-mastery > div:not(.enabled) .rank {
   cursor: default;
 }
 
-lb-mastery > div > img {
-  border: 2px solid #777;
-  height: 48px;
-  width: 48px;
-}
-
 lb-mastery .description {
   background-color: #000;
   border: 3px solid #aa7625;
   border-radius: 5px;
   display: none;
   font-size: 12px;
-  margin: 5px 55px;
+  margin: -63px 0;
   max-width: 500px;
   padding: 10px;
   position: absolute;
-  -webkit-transition: opacity .25s ease-in;
-          transition: opacity .25s ease-in;
+  transform: translate(-50%, -100%);
   z-index: 30;
 }
 

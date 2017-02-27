@@ -33,6 +33,10 @@ export class LolApiService {
     });
   }
 
+  public getLanguageStrings(): Observable<any> {
+    return this.get(Endpoint.static, '/language-strings');
+  }
+
   public getChampions(): Observable<any> {
     return this.get(Endpoint.static, '/champion?champData=info,tags');
   }
