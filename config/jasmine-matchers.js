@@ -1,4 +1,4 @@
-var jasmineMatchers = require('jasmine-matchers-loader');
+let jasmineMatchers = require('jasmine-matchers-loader');
 
 jasmineMatchers.add({
   toHaveEqualContent: function(key, actual) {

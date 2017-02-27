@@ -1,16 +1,16 @@
-var helpers = require('../helpers');
+let helpers = require('../helpers');
 
 /* plugins */
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var webpack = require('webpack');
-var {CheckerPlugin} = require('awesome-typescript-loader');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let webpack = require('webpack');
+let {CheckerPlugin} = require('awesome-typescript-loader');
 
 module.exports = (options) => {
   if (!options) {
     options = {};
   }
 
-  var ENV = process.env.ENV = process.env.NODE_ENV = options.dev ? 'development' : 'production';
+  let ENV = process.env.ENV = process.env.NODE_ENV = options.dev ? 'development' : 'production';
 
   return {
     target: 'node',

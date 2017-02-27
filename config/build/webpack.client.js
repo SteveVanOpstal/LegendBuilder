@@ -1,22 +1,22 @@
-var helpers = require('../helpers');
-var settings = require('../settings');
-var package = require('../../package.json');
+let helpers = require('../helpers');
+let settings = require('../settings');
+let pkg = require('../../package.json');
 
 /* plugins */
-var webpack = require('webpack');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var {CheckerPlugin} = require('awesome-typescript-loader');
-var CompressionPlugin = require('compression-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackMd5Hash = require('webpack-md5-hash');
+let webpack = require('webpack');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let {CheckerPlugin} = require('awesome-typescript-loader');
+let CompressionPlugin = require('compression-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let WebpackMd5Hash = require('webpack-md5-hash');
 
 module.exports = (options) => {
   if (!options) {
     options = {};
   }
 
-  var ENV = process.env.ENV = process.env.NODE_ENV = options.dev ? 'development' : 'production';
+  let ENV = process.env.ENV = process.env.NODE_ENV = options.dev ? 'development' : 'production';
 
   let config = {
     devtool: 'source-map',
@@ -88,8 +88,8 @@ module.exports = (options) => {
         host: settings.httpServer.host,
         port: settings.httpServer.port,
         ENV: ENV,
-        version: package.version,
-        dependencies: package.dependencies
+        version: pkg.version,
+        dependencies: pkg.dependencies
       })
     ],
 

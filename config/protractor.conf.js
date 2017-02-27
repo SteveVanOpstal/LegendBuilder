@@ -1,7 +1,7 @@
-var settings = require('./settings');
-var helpers = require('./helpers');
+let settings = require('./settings');
+let helpers = require('./helpers');
 
-var BROWSER_CAPS = {
+let BROWSER_CAPS = {
   Chrome: {
     browserName: 'chrome',
     chromeOptions: {

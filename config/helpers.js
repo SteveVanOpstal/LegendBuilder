@@ -1,4 +1,4 @@
-var path = require('path');
+let path = require('path');
 
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
@@ -9,7 +9,7 @@ function merge(src, target) {
   if (!target) {
     return src;
   }
-  for (var prop in src) {
+  for (let prop in src) {
     target[prop] = src[prop];
   }
   return target;

@@ -1,6 +1,6 @@
-var s3 = require('s3');
-var glob = require('glob');
-var helpers = require('../helpers');
+let s3 = require('s3');
+let glob = require('glob');
+let helpers = require('../helpers');
 
 function error(done, message) {
   return (err) => {
@@ -99,7 +99,7 @@ module.exports = {
       return;
     }
 
-    var client = s3.createClient({
+    let client = s3.createClient({
       s3Options: {
         accessKeyId: process.env.ARTIFACTS_KEY,
         secretAccessKey: process.env.ARTIFACTS_SECRET,

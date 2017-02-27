@@ -1,12 +1,12 @@
-var helpers = require('./helpers');
+let helpers = require('./helpers');
 
-var settings = {};
+let settings = {};
 try {
   settings = req('json!./.settings.json');
 } catch (e) {
 }
 
-var exports = helpers.merge(settings, {
+let exports = helpers.merge(settings, {
   httpServer: {host: 'localhost', port: 8080},
   staticServer: {host: 'localhost', port: 8081},
   matchServer: {host: 'localhost', port: 8082, sampleSize: 32},

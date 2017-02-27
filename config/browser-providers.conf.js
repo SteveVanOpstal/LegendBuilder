@@ -1,6 +1,6 @@
 // Unique place to configure the browsers which are used in the different CI jobs in Sauce Labs (SL).
 // If the target is set to null, then the browser is not run anywhere during CI.
-var CIconfiguration = {
+let CIconfiguration = {
   'ChromeBeta':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Chrome':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Chrome-1':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
@@ -25,7 +25,7 @@ var CIconfiguration = {
   'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: false}}
 };
 
-var customLaunchers = {
+let customLaunchers = {
   'SL_CHROMEBETA': {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -148,7 +148,7 @@ var customLaunchers = {
   }
 };
 
-var saucelabsAliases = {
+let saucelabsAliases = {
   'ALL': Object.keys(customLaunchers).filter(function(item) {return customLaunchers[item].base == 'SauceLabs';}),
   'CI_TEST_REQUIRED': buildConfiguration('unitTest', 'SL', true),
   'CI_TEST_OPTIONAL': buildConfiguration('unitTest', 'SL', false),
@@ -164,7 +164,7 @@ module.exports = {
 function buildConfiguration(type, target, required) {
   return Object.keys(CIconfiguration)
     .filter((item) => {
-      var conf = CIconfiguration[item][type];
+      let conf = CIconfiguration[item][type];
       return conf.required === required && conf.target === target;
     })
     .map((item) => {

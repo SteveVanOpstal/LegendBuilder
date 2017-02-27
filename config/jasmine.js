@@ -1,5 +1,5 @@
-var Jasmine = require('jasmine');
-var jasmine = new Jasmine();
+let Jasmine = require('jasmine');
+let jasmine = new Jasmine();
 
 require('./jasmine-matchers.js');
 

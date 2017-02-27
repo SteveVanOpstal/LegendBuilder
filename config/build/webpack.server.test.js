@@ -1,10 +1,10 @@
-var glob = require('glob');
+let glob = require('glob');
 
-var helpers = require('../helpers');
+let helpers = require('../helpers');
 
 /* plugins */
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 

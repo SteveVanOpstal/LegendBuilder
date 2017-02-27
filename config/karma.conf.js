@@ -1,6 +1,6 @@
-var browserProvidersConf = require('./browser-providers.conf.js');
-var webpackConfig = require('./build/webpack.client.test.js');
-var helpers = require('./helpers');
+let browserProvidersConf = require('./browser-providers.conf.js');
+let webpackConfig = require('./build/webpack.client.test.js');
+let helpers = require('./helpers');
 
 module.exports = (config) => {
   config.set({

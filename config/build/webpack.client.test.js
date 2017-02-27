@@ -1,7 +1,7 @@
-var helpers = require('../helpers');
+let helpers = require('../helpers');
 
 /* plugins */
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+let DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
