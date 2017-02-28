@@ -16,12 +16,12 @@ require('rxjs/Rx');
 require('./jasmine-matchers');
 require('./shims_for_IE');
 
-let appContext = require.context('../src/client', true, /\.spec\.ts/);
+var appContext = require.context('../src/client', true, /\.spec\.ts/);
 
 appContext.keys().forEach(appContext);
 
-let testing = require('@angular/core/testing');
-let browser = require('@angular/platform-browser-dynamic/testing');
+var testing = require('@angular/core/testing');
+var browser = require('@angular/platform-browser-dynamic/testing');
 
 testing.TestBed.initTestEnvironment(
     browser.BrowserDynamicTestingModule, browser.platformBrowserDynamicTesting());
