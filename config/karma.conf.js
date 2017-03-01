@@ -7,7 +7,6 @@ module.exports = (config) => {
     frameworks: ['jasmine'],
     files: [{pattern: 'karma-test-shim.js', watched: false}],
 
-    port: 9876,
     browsers: ['PhantomJS'],
     concurrency: 1,
     customLaunchers: browserProvidersConf.customLaunchers,
@@ -39,9 +38,9 @@ module.exports = (config) => {
       startConnect: false,
       options: {
         'selenium-version': '2.53.0',
-        'command-timeout': 120,
-        'idle-timeout': 120,
-        'max-duration': 900
+        'command-timeout': 600,
+        'idle-timeout': 600,
+        'max-duration': 5400,
       }
     },
 
@@ -49,10 +48,11 @@ module.exports = (config) => {
     webpackMiddleware: {stats: 'errors-only'},
     webpackServer: {noInfo: true},
 
-    captureTimeout: 40000,
-    browserDisconnectTimeout: 40000,
+    port: 9876,
+    captureTimeout: 180000,
+    browserDisconnectTimeout: 180000,
     browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 40000
+    browserNoActivityTimeout: 300000,
   });
 
   if (process.env.TRAVIS) {
