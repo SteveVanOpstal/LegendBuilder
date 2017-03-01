@@ -14,8 +14,6 @@ var CIconfiguration = {
   'Android':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Android-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Android-3':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Android-4':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Safari':       { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
   'Safari-1':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Safari-2':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
@@ -133,18 +131,6 @@ var customLaunchers = {
     browserName: 'android',
     platform: 'Linux',
     version: 'latest-2'
-  },
-  'SL_ANDROID-3': {
-    base: 'SauceLabs',
-    browserName: 'android',
-    platform: 'Linux',
-    version: 'latest-3'
-  },
-  'SL_ANDROID-4': {
-    base: 'SauceLabs',
-    browserName: 'android',
-    platform: 'Linux',
-    version: 'latest-4'
   }
 };
 
