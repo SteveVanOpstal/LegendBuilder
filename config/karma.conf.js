@@ -33,6 +33,8 @@ module.exports = (config) => {
     sauceLabs: {
       build: process.env.BUILD,
       tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
+      recordVideo: !process.env.TRAVIS,
+      recordScreenshots: !process.env.TRAVIS,
       testName: 'Legend Builder',
       retryLimit: 3,
       startConnect: false,
