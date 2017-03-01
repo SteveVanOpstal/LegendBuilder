@@ -12,7 +12,9 @@ module.exports = {
         {
           tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
           logfile: 'build/log/' + process.env.BUILD + '.log',
-          verbose: true
+          verbose: true,
+          noSslBumpDomains: 'all'  // android runs into certificate errors due to SSL bumping,
+                                   // this argument disables SSL bumping on all domains
         },
         (err, sauce_process) => {
           if (sauce_process) {
