@@ -15,8 +15,8 @@ import {ShopComponent} from './shop/shop.component';
       <h2>{{champion?.name}}</h2>
     </div>
     <lb-graph></lb-graph>
-    <lb-abilities></lb-abilities>
-    <lb-masteries></lb-masteries>
+    <!--<lb-abilities></lb-abilities>
+    <lb-masteries></lb-masteries>-->
     <lb-items (itemSelected)="shop.selectItem($event)" #items></lb-items>
     <lb-shop (itemPicked)="items.addItem($event)" #shop></lb-shop>
     <lb-loading [loading]="loading"></lb-loading>
