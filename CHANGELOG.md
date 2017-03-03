@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.13"></a>
+# [1.0.0-alpha.13](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.12...v1.0.0-alpha.13) (2017-03-03)
+
+
+### Bug Fixes
+
+* make members publicaly available for templates (codelyzer) ([35240cc](https://github.com/SteveVanOpstal/LegendBuilder/commit/35240cc))
+* **helpers:** Unexpected token: name (helpers) ([ec730fb](https://github.com/SteveVanOpstal/LegendBuilder/commit/ec730fb))
+* **package:** update typescript to version 2.1.6 ([#105](https://github.com/SteveVanOpstal/LegendBuilder/issues/105)) ([656900a](https://github.com/SteveVanOpstal/LegendBuilder/commit/656900a))
+* **settings:** Cannot read property 'host' of undefined ([5391790](https://github.com/SteveVanOpstal/LegendBuilder/commit/5391790))
+* **settings:** Identifier 'exports' has already been declared ([fda90c3](https://github.com/SteveVanOpstal/LegendBuilder/commit/fda90c3))
+
+
+### Features
+
+* **items:** item discounts ([c2674c2](https://github.com/SteveVanOpstal/LegendBuilder/commit/c2674c2))
+* **masteries:** update to league client v7 ([16716a4](https://github.com/SteveVanOpstal/LegendBuilder/commit/16716a4))
+* **title:** screen width adaptation ([961f0ae](https://github.com/SteveVanOpstal/LegendBuilder/commit/961f0ae))
+* **translate-pipe:** use language-strings (Riot Games API) ([bfb977a](https://github.com/SteveVanOpstal/LegendBuilder/commit/bfb977a))
+
+
+
 <a name="1.0.0-alpha.12"></a>
 # [1.0.0-alpha.12](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.11...v1.0.0-alpha.12) (2017-01-03)
 
