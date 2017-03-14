@@ -29,7 +29,7 @@ import {PreviewComponent} from './preview/preview.component';
           </button>
         </div>
         <div class="items">
-          <template ngFor let-item [ngForOf]="items
+          <ng-template ngFor let-item [ngForOf]="items
                                                | toArray
                                                | lbMap:11
                                                | lbChampion:123
@@ -44,7 +44,7 @@ import {PreviewComponent} from './preview/preview.component';
                   (contextmenu)="pickItem(item);preview.selectItem(item)"
                   (dblclick)="pickItem(item);preview.selectItem(item)">
             </lb-item>
-          </template>
+          </ng-template>
           <lb-loading [loading]="loading"></lb-loading>
           <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>
         </div>

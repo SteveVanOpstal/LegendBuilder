@@ -11,7 +11,7 @@ import {ItemSlotComponent} from './item-slot.component';
 @Component({
   selector: 'lb-items',
   template: `
-    <template ngFor let-i [ngForOf]="[0,1,2,3,4,5]">
+    <ng-template ngFor let-i [ngForOf]="[0,1,2,3,4,5]">
       <lb-item-slot [ngClass]="{dragging: dragging}"
                     (itemSelected)="itemSelected.emit($event)"
                     (itemRemoved)="removeItem($event)"
@@ -19,7 +19,7 @@ import {ItemSlotComponent} from './item-slot.component';
                     (itemDragEnd)="itemDragEnd()"
                     (itemDrop)="itemDrop($event)">
       </lb-item-slot>
-    </template>`
+    </ng-template>`
 })
 
 export class ItemsComponent implements OnInit {

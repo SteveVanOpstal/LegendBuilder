@@ -8,13 +8,13 @@ import {ItemBundle} from './item-bundle';
   selector: 'lb-preview',
   template: `
     <div class="into">
-      <template ngFor let-item [ngForOf]="itemsInto">
+      <ng-template ngFor let-item [ngForOf]="itemsInto">
         <lb-item [item]="item"
               [attr.title]="item.name"
               (itemSelected)="selectItem($event)"
               (itemPicked)="pickItem($event)">
         </lb-item>
-      </template>
+      </ng-template>
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">

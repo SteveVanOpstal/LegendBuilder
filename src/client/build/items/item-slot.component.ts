@@ -10,7 +10,7 @@ import {ItemComponent} from './item.component';
 @Component({
   selector: 'lb-item-slot',
   template: `
-    <template ngFor let-item [ngForOf]="items">
+    <ng-template ngFor let-item [ngForOf]="items">
       <div class="dropzone"
            [style.width]="item.offset + 'px'"
            [ngClass]="{draghover: draghover}"
@@ -28,7 +28,7 @@ import {ItemComponent} from './item.component';
                (dragstart)="itemDragStart.emit(item)"
                (dragend)="itemDragEnd.emit(null)">
       </lb-item>
-    </template>`
+    </ng-template>`
 })
 
 export class ItemSlotComponent implements OnInit, DoCheck {
