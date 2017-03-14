@@ -2,7 +2,7 @@
 
 export function tim(template: string, data: Object) {
   let pattern = new RegExp('{ ?{\\s*([a-z0-9_][\\.a-z0-9_]*)\\s*} ?}', 'gi');
-  return template.replace(pattern, (tag, token) => {
+  return template.replace(pattern, (_tag, token) => {
     let path = token.split('.');
     let len = path.length;
 
@@ -10,7 +10,6 @@ export function tim(template: string, data: Object) {
       let lookup = data[path[i]];
 
       if (lookup === undefined) {
-        console.error('tim: unresolved ' + tag + ' in ' + template);
         return '[[error]]';
       }
 

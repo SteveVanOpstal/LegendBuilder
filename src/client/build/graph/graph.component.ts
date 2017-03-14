@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 import {curveStepAfter, Line, line} from 'd3-shape';
 
@@ -39,7 +39,7 @@ export interface Path {
     </svg>`
 })
 
-export class GraphComponent implements OnInit, OnChanges {
+export class GraphComponent implements OnInit {
   paths = new Array<Path>();
 
   private svg: any;
@@ -88,10 +88,6 @@ export class GraphComponent implements OnInit, OnChanges {
         this.addSamples(samples);
       }
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 
   private createAxes() {

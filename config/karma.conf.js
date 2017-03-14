@@ -1,4 +1,4 @@
-let browserProvidersConf = require('./browser-providers.conf.js');
+let browserProvidersConfig = require('./browser-providers.conf.js');
 let webpackConfig = require('./build/webpack.client.test.js');
 let helpers = require('./helpers');
 
@@ -9,7 +9,7 @@ module.exports = (config) => {
 
     browsers: ['PhantomJS'],
     concurrency: 1,
-    customLaunchers: browserProvidersConf.customLaunchers,
+    customLaunchers: browserProvidersConfig.customLaunchers,
     singleRun: true,
     logLevel: config.LOG_DEBUG,
 
@@ -39,7 +39,6 @@ module.exports = (config) => {
       retryLimit: 3,
       startConnect: false,
       options: {
-        'selenium-version': '2.53.0',
         'command-timeout': 600,
         'idle-timeout': 600,
         'max-duration': 5400,
@@ -55,6 +54,7 @@ module.exports = (config) => {
     browserDisconnectTimeout: 180000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 300000,
+    browserConsoleLogOptions: { terminal: false }
   });
 
   if (process.env.TRAVIS) {

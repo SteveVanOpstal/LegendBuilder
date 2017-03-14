@@ -14,13 +14,12 @@ var CIconfiguration = {
   'Android':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Android-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'Safari':       { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
+  'Safari':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Safari-1':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Safari-2':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'iOS':          { unitTest: {target: null, required: true }, e2e: {target: null, required: false}},
+  'iOS':          { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'iOS-1':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'iOS-2':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
-  'WindowsPhone': { unitTest: {target: null, required: false}, e2e: {target: null, required: false}}
+  'iOS-2':        { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}}
 };
 
 var customLaunchers = {
@@ -32,12 +31,12 @@ var customLaunchers = {
   'SL_CHROME': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '52'
+    version: '56'
   },
   'SL_CHROME-1': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '51'
+    version: '55'
   },
   'SL_FIREFOXBETA': {
     base: 'SauceLabs',
@@ -47,18 +46,18 @@ var customLaunchers = {
   'SL_FIREFOX': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: '46'
+    version: '51'
   },
   'SL_FIREFOX-1': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: '45'
+    version: '50'
   },
   'SL_SAFARI': {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'OS X 10.11',
-    version: '10'
+    platform: 'OS X 10.12',
+    version: '10.0'
   },
   'SL_SAFARI-1': {
     base: 'SauceLabs',
@@ -76,7 +75,7 @@ var customLaunchers = {
     base: 'SauceLabs',
     browserName: 'iphone',
     platform: 'OS X 10.10',
-    version: '10'
+    version: '10.0'
   },
   'SL_IOS-1': {
     base: 'SauceLabs',

@@ -44,13 +44,11 @@ xdescribe('AbilitiesComponent', () => {
        backend.success(samples);
        component.ngOnInit();
        component.lolApi.getCurrentChampion().subscribe(() => {
-         console.log('test');
          expect(component.champion).toHaveEqualContent(champion);
          expect(component.update).toHaveBeenCalled();
          expect(champion.spells[0]['extendedTooltip']).toBe('0.6 50 175');
        });
        component.lolApi.getCurrentMatchData().subscribe(() => {
-         console.log('test2');
          expect(component.createLevelScale).toHaveBeenCalled();
        });
      })));
