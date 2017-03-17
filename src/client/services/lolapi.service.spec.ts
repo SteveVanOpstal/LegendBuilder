@@ -139,16 +139,14 @@ describe('LolApiService', () => {
      inject([LolApiService], (service) => {
        expect(service.getEndpoint(Endpoint.static, 'region'))
            .toBe(
-               'https://' + settings.staticServer.host + ':' + settings.staticServer.port +
-               '/static-data/region/v1.2');
+               'https://' + settings.domain + '/staticapi/static-data/region/v1.2');
      }));
 
   it('should get the correct resolved link to the match-server',
      inject([LolApiService], (service) => {
        expect(service.getEndpoint(Endpoint.match, 'region'))
            .toBe(
-               'https://' + settings.matchServer.host + ':' + settings.matchServer.port +
-               '/region');
+             'https://' + settings.domain + '/matchapi/region');
      }));
 
   it('should not get incorrect params', inject([LolApiService], (service) => {

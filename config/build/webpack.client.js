@@ -86,8 +86,8 @@ module.exports = (options) => {
           removeStyleLinkTypeAttributes: true
         },
         baseUrl: '/',
-        host: settings.httpServer.host,
-        port: settings.httpServer.port,
+        host: settings.host,
+        port: settings.port,
         ENV: ENV,
         version: pkg.version,
         dependencies: pkg.dependencies
@@ -97,11 +97,25 @@ module.exports = (options) => {
     performance: {hints: options.dev ? false : 'error'},
 
     devServer: {
-      port: settings.httpServer.port,
-      host: settings.httpServer.host,
+      port: settings.port,
+      host: settings.host,
       historyApiFallback: true,
       watchOptions: {aggregateTimeout: 300, poll: 1000},
-      headers: {'Cache-Control': 'public, max-age=31536000'}
+      headers: {'Cache-Control': 'public, max-age=31536000'},
+      proxy: {
+        '/staticapi': {
+          target: 'https://127.0.0.1:' + settings.static.port,
+          pathRewrite: {'^/staticapi' : ''},
+          changeOrigin: true,
+          secure: false
+        },
+        '/matchapi': {
+          target: 'https://127.0.0.1:' + settings.match.port,
+          pathRewrite: {'^/matchapi' : ''},
+          changeOrigin: true,
+          secure: false
+        }
+      }
     }
   };
 

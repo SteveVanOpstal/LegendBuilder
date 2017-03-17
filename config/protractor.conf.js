@@ -16,7 +16,7 @@ let BROWSER_CAPS = {
 };
 
 exports.config = {
-  baseUrl: 'http://' + settings.httpServer.host + ':' + settings.httpServer.port,
+  baseUrl: 'https://' + settings.domain,
 
   specs: [helpers.root('src/**/*.e2e.ts')],
   exclude: [],

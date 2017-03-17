@@ -78,7 +78,7 @@ export class LolApiService {
     return this.getParam(2).mergeMap(
         (summonerName) => this.getParam(3).mergeMap(
             (championKey) => this.getMatchData(
-                summonerName, championKey, settings.gameTime, settings.matchServer.sampleSize)));
+                summonerName, championKey, settings.gameTime, settings.match.sampleSize)));
   }
 
 
@@ -101,11 +101,9 @@ export class LolApiService {
   private getEndpoint(endpoint: Endpoint, region: string): string {
     switch (endpoint) {
       case Endpoint.static:
-        return 'https://' + settings.staticServer.host + ':' + settings.staticServer.port +
-            '/static-data/' + region + '/v1.2';
+        return 'https://' + settings.domain + '/staticapi/static-data/' + region + '/v1.2';
       default:
-        return 'https://' + settings.matchServer.host + ':' + settings.matchServer.port + '/' +
-            region;
+        return 'https://' + settings.domain + '/matchapi/' + region;
     }
   }
 

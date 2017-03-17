@@ -22,16 +22,12 @@ A few servers are set up for this project and the settings for them are availabl
 These are the default values that can be altered via an override:
 ```JavaScript
 {
-  httpServer: {
-    host: 'localhost',
-    port: 8080
-  },
-  staticServer: {
-    host: 'localhost',
+  host: '127.0.0.1',
+  port: 80,
+  static: {
     port: 8081
   },
-  matchServer: {
-    host: 'localhost',
+  match: {
     port: 8082,
     sampleSize: 32
   },
@@ -39,7 +35,7 @@ These are the default values that can be altered via an override:
     'summoner': 'v1.4',
     'matchlist': 'v2.2',
     'match': 'v2.2',
-    'static-data': 'v1.2',
+    'static-data': 'v1.2'
   },
   gameTime: 45 * 60 * 1000
 }

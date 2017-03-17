@@ -59,7 +59,7 @@ describe('ItemsComponent', () => {
         component.addTime(item2);
         expect(item2.time)
             .toBe(
-                (settings.gameTime / settings.matchServer.sampleSize) / component.samples.gold[1] *
+                (settings.gameTime / settings.match.sampleSize) / component.samples.gold[1] *
                 item2.gold.total);
       }));
 

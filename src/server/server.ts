@@ -48,8 +48,7 @@ export class Server {
   public champions: Array<Array<string>> = [];
 
   public headers = {
-    'Access-Control-Allow-Origin':
-        'https://' + settings.httpServer.host + ':' + settings.httpServer.port,
+    'Access-Control-Allow-Origin': 'https://' + settings.domain,
     'content-type': 'application/json'
   };
 
@@ -67,7 +66,7 @@ export class Server {
 
   private cache;
 
-  constructor(private host: string, private port: number, cacheSettings?: any) {
+  constructor(private port: number, cacheSettings?: any) {
     this.cache = lru(this.merge(cacheSettings, {
       max: 1048000,
       length: (n) => {
@@ -76,7 +75,7 @@ export class Server {
       maxAge: 1000 * 60 * 60 * 2
     }));
 
-    this.merge({Origin: 'https://' + this.host + ':' + this.port}, this.options.headers);
+    this.merge({Origin: 'https://' + settings.domain}, this.options.headers);
   }
 
   public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
@@ -84,8 +83,8 @@ export class Server {
     let server = https.createServer(ssl, (request: IncomingMessage, response: ServerResponse) => {
       this.handleRequest(request, response, callback);
     });
-    server.listen(this.port, this.host);
-    console.log(this.host + ':' + this.port);
+    server.listen(this.port);
+    console.log('listening on port: ' + this.port);
   }
 
   public sendRequest(
@@ -231,7 +230,7 @@ export class Server {
         'User-Agent': 'Legend-Builder',
         'Accept-Language': 'en-US',
         'Accept-Charset': 'ISO-8859-1,utf-8',
-        Origin: 'https://' + this.host + ':' + this.port
+        Origin: 'https://' + settings.domain
       }
     };
 

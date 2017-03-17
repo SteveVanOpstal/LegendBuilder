@@ -151,7 +151,7 @@ export class ItemsComponent implements OnInit {
       let itemGold = (item.gold.total * item.bundle) - item.discount;
       item.time = this.getTime(
           this.samples.gold, goldOffset + itemGold, settings.gameTime,
-          settings.matchServer.sampleSize);
+          settings.match.sampleSize);
       goldOffset += itemGold;
     }
     return items;

@@ -3,7 +3,7 @@ import {IncomingMessage, ServerResponse} from 'http';
 import {settings} from '../../../config/settings';
 import {getPathname, HostResponse, Server} from '../server';
 
-let server = new Server(settings.staticServer.host, settings.staticServer.port);
+let server = new Server(settings.static.port);
 
 let baseUrl = server.getBaseUrl();
 

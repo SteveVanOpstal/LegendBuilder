@@ -50,7 +50,7 @@ describe('Match', () => {
     let serverResponse: any = new MockServerResponse();
 
     match.get(
-        'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.matchServer.sampleSize,
+        'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.match.sampleSize,
         incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');

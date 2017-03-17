@@ -1,7 +1,10 @@
 export declare module settings {
-  let httpServer: {host: string, port: number};
-  let staticServer: {host: string, port: number};
-  let matchServer: {host: string, port: number, sampleSize: number};
+  let host: string
+  let port: number;
+  let domain: string;
+  let static: {port: number};
+  let match: {port: number, sampleSize: number};
+  let sampleSize: number;
   let apiVersions: {
     summoner: string,
     matchlist: string,

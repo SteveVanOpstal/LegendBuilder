@@ -31,7 +31,7 @@ export class MockServer extends Server {
   public mockCache: {url: string, data: any} = {url: '', data: ''};
 
   constructor() {
-    super('', 1234);
+    super(1234);
   }
 
   public sendRequest(url: string, _region: string, callback: (response: HostResponse) => void):
