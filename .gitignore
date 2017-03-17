@@ -8,8 +8,9 @@ __pycache__
 npm-debug.log
 npm-debug.log.*
 
-.settings.json
 .pyc
+
+settings.json
 
 /secure
 *.key
