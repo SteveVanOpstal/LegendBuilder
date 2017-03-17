@@ -18,7 +18,7 @@ npm install
 ```
 
 ### <a name="config"></a> 2. Configuration (optional)
-A few servers are set up for this project and the settings for them are available in the `src/server/.settings.json` file.
+A few servers are set up for this project and the settings for them are available in the `src/server/settings.json` file.
 These are the default values that can be altered via an override:
 ```JavaScript
 {
@@ -93,7 +93,7 @@ Every release a python script will generate a post on reddit. To improve this sc
 * [Python](https://www.python.org/downloads/), (version `>=3.5.1`). It should include [pip](https://pypi.python.org/pypi/pip) (Pip Installs Packages). 
   * [praw](https://praw.readthedocs.org) (`pip install praw`)
 
-`src/reddit/.settings.json`:
+`src/reddit/settings.json`:
 ```JSON
 {
   "SUBREDDIT": "LegendBuilder",

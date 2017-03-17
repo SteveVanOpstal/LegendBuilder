@@ -2,7 +2,7 @@ var helpers = require('./helpers');
 
 var settings = {};
 try {
-  settings = req('json!./.settings.json');
+  settings = require('./settings.json');
 } catch (e) {
 }
 
