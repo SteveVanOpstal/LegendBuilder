@@ -138,7 +138,7 @@
     "zone.js": "0.7.6"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.38",
+    "@types/jasmine": "2.5.45",
     "@types/webpack": "^2.1.0",
     "awesome-typescript-loader": "^3.0.0-beta.17",
     "clang-format": "^1.0.44",
