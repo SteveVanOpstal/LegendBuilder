@@ -10,8 +10,9 @@ import {Summoner} from './summoner';
 let config = {
   matches: {min: 2, max: 5},
   minDuration: 20 * 60,
-  default: {gameTime: 80 * 60 * 1000, sampleSize: 8},
   fill: {sampleTime: 20 * 60 * 1000}
+  gameTime: {default: 45 * 60 * 1000, max: 60 * 60 * 1000},
+  sampleSize: {default: 32, max: 64},
 };
 
 namespace Errors {
@@ -58,11 +59,17 @@ export class Match {
     });
   }
 
+  private limit(subject: number, def: number, max: number): number {
+    subject = isNaN(subject) ? def : subject;
+    subject = subject > max ? max : subject;
+    return subject;
+  }
+
   private getData(
       region: string, summonerName: string, championKey: string, gameTime: number,
       sampleSize: number, callback: (response: HostResponse) => void) {
-    gameTime = isNaN(gameTime) ? config.default.gameTime : gameTime;
-    sampleSize = isNaN(sampleSize) ? config.default.sampleSize : sampleSize;
+    gameTime = this.limit(gameTime, config.gameTime.default, config.gameTime.max);
+    sampleSize = this.limit(sampleSize, config.sampleSize.default, config.sampleSize.max);
     let stepSize = gameTime / (sampleSize - 1);
 
     waterfall(
