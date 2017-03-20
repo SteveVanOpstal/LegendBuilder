@@ -1,0 +1,15 @@
+[Unit]
+Description=Node.js Static server
+
+[Service]
+ExecStart=/usr/bin/node /legendbuilder/build/dist/server/static-server.js
+WorkingDirectory=/legendbuilder
+Restart=always
+RestartSec=5                        # Restart service after 5 seconds if node service crashes
+StandardOutput=syslog               # Output to syslog
+StandardError=syslog                # Output to syslog
+SyslogIdentifier=nodejs-static
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
