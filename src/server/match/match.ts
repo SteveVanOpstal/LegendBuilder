@@ -9,10 +9,11 @@ import {Summoner} from './summoner';
 
 let config = {
   matches: {min: 2, max: 5},
-  minDuration: 20 * 60,
-  fill: {sampleTime: 20 * 60 * 1000}
-  gameTime: {default: 45 * 60 * 1000, max: 60 * 60 * 1000},
-  sampleSize: {default: 32, max: 64},
+  matchDuration: {min: 18 * 60},
+  gameTime: {default: 45 * 60 * 1000, min: 30 * 60 * 1000, max: 60 * 60 * 1000},
+  sampleSize: {default: 32, min: 8, max: 64},
+  sampleTimeFrame: 10 * 60 * 1000,
+  frameInterval: {max: 2 * 60 * 1000}
 };
 
 namespace Errors {
@@ -59,17 +60,18 @@ export class Match {
     });
   }
 
-  private limit(subject: number, def: number, max: number): number {
-    subject = isNaN(subject) ? def : subject;
-    subject = subject > max ? max : subject;
+  private limit(subject: number, setting: {default: number, min: number, max: number}): number {
+    subject = isNaN(subject) ? setting.default : subject;
+    subject = subject < setting.min ? setting.min : subject;
+    subject = subject > setting.max ? setting.max : subject;
     return subject;
   }
 
   private getData(
       region: string, summonerName: string, championKey: string, gameTime: number,
       sampleSize: number, callback: (response: HostResponse) => void) {
-    gameTime = this.limit(gameTime, config.gameTime.default, config.gameTime.max);
-    sampleSize = this.limit(sampleSize, config.sampleSize.default, config.sampleSize.max);
+    gameTime = this.limit(gameTime, config.gameTime);
+    sampleSize = this.limit(sampleSize, config.sampleSize);
     let stepSize = gameTime / (sampleSize - 1);
 
     waterfall(
@@ -163,7 +165,7 @@ export class Match {
     }
 
     parallel(matchRequests, (_err: Error, results: Array<any>) => {
-      let data = {interval: 120000, matches: []};
+      let data = {interval: config.frameInterval.max, matches: []};
       let ind = 0;
       for (let index in results) {
         if (results[index].error) {
@@ -177,9 +179,9 @@ export class Match {
           continue;
         }
 
-        if (result.matchDuration < config.minDuration) {
+        if (result.matchDuration < config.matchDuration.min) {
           colorConsole.warn(
-              'Match duration too short (%d/%d).', result.matchDuration, config.minDuration);
+              'Match duration too short (%d/%d).', result.matchDuration, config.matchDuration.min);
           continue;
         }
 
@@ -255,7 +257,7 @@ export class Match {
   }
 
   private getAverageTrend(frames: Frames, interval: number, callback: (frame: any) => number) {
-    let sampleSize = config.fill.sampleTime / interval;
+    let sampleSize = config.sampleTimeFrame / interval;
     let delta = 0;
     for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
       if (frames[j] && frames[j - 1]) {
