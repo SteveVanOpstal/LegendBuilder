@@ -6,7 +6,6 @@ let pkg = require('../../package.json');
 let webpack = require('webpack');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let {CheckerPlugin} = require('awesome-typescript-loader');
-let CompressionPlugin = require('compression-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let WebpackMd5Hash = require('webpack-md5-hash');
@@ -69,7 +68,6 @@ module.exports = (options) => {
       new CleanWebpackPlugin(
           options.profile || options.server ? [] : ['build/dist/client'], {root: helpers.root()}),
       new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}), new CheckerPlugin(),
-      new CompressionPlugin({algorithm: 'gzip', test: /\.(js|html)$/, threshold: 256}),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/favicon.ico', to: 'favicon.ico'}]),
       new CopyWebpackPlugin([{from: 'src/client/assets/images/logo.svg', to: 'logo.svg'}]),
       new CopyWebpackPlugin(
@@ -105,13 +103,13 @@ module.exports = (options) => {
       proxy: {
         '/staticapi': {
           target: 'https://127.0.0.1:' + settings.static.port,
-          pathRewrite: {'^/staticapi' : ''},
+          pathRewrite: {'^/staticapi': ''},
           changeOrigin: true,
           secure: false
         },
         '/matchapi': {
           target: 'https://127.0.0.1:' + settings.match.port,
-          pathRewrite: {'^/matchapi' : ''},
+          pathRewrite: {'^/matchapi': ''},
           changeOrigin: true,
           secure: false
         }
