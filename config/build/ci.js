@@ -117,7 +117,8 @@ let exit_status = 0;
 function spawn_processes(scripts) {
   let script = scripts.shift();
   if (!script) {
-    exit(exit_status);
+    console.log('Exit status ' + exit_status);
+    process.exit(exit_status);
   } else {
     spawn_process(
         script,
@@ -171,9 +172,4 @@ function timestamp(input, length) {
 
 function pad(input) {
   return '00'.substring(0, 2 - input.toString().length) + input;
-}
-
-function exit(status) {
-  console.log('Exit status ' + status);
-  process.exit(status);
 }
