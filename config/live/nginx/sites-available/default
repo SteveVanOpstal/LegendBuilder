@@ -1,0 +1,12 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name legendbuilder.io www.legendbuilder.io;
+
+  root /www;
+
+  # locations
+  location ~ /.well-known {
+    allow all;
+  }
+}
