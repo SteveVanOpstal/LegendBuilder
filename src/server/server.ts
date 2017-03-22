@@ -5,6 +5,7 @@ import * as url from 'url';
 
 let lru = require('lru-cache');
 import * as async from 'async';
+import * as minimist from 'minimist';
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
@@ -19,8 +20,10 @@ function readFile(file: string) {
   }
 }
 
-let apiKey = readFile('./secure/api.key').toString().replace(/^\s+|\s+$/g, '');
-let ssl = {key: readFile('./secure/key.pem'), cert: readFile('./secure/cert.pem')};
+let argv = minimist(process.argv.slice(2));
+
+let apiKey = readFile(argv['api']).toString().replace(/^\s+|\s+$/g, '');
+let ssl = {cert: readFile(argv['cert']), key: readFile(argv['key'])};
 
 
 export interface HostResponse {
