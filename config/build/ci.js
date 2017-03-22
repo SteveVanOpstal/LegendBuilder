@@ -108,12 +108,12 @@ function getMode(index) {
 
 /* execute */
 
+let exit_status = 0;
 function execute(scripts) {
   console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
   spawn_processes(scripts);
 }
 
-let exit_status = 0;
 function spawn_processes(scripts) {
   let script = scripts.shift();
   if (!script) {
