@@ -24,7 +24,7 @@ export class LolApiService {
   }
 
   public getRealm(): Observable<any> {
-    return this.get(Endpoint.static, '/realm').map(res => {
+    return this.get(Endpoint.static, 'static-data', '/realm').map(res => {
       // both http and https are supported, realm data will return http
       if (res.cdn) {
         res.cdn = res.cdn.replace('http://', 'https://');
@@ -34,36 +34,36 @@ export class LolApiService {
   }
 
   public getLanguageStrings(): Observable<any> {
-    return this.get(Endpoint.static, '/language-strings');
+    return this.get(Endpoint.static, 'static-data', '/language-strings');
   }
 
   public getChampions(): Observable<any> {
-    return this.get(Endpoint.static, '/champion?champData=info,tags');
+    return this.get(Endpoint.static, 'static-data', '/champion?champData=info,tags');
   }
 
   public getChampion(championKey: string): Observable<any> {
     return this.get(
-        Endpoint.static, '/champion/' + championKey +
+        Endpoint.static, 'static-data', '/champion/' + championKey +
             '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
   }
 
   public getItems(): Observable<any> {
-    return this.get(Endpoint.static, '/item?itemListData=all');
+    return this.get(Endpoint.static, 'static-data', '/item?itemListData=all');
   }
 
   public getMasteries(): Observable<any> {
-    return this.get(Endpoint.static, '/mastery?masteryListData=all');
+    return this.get(Endpoint.static, 'static-data', '/mastery?masteryListData=all');
   }
 
   public getSummonerId(summonerName: string): Observable<any> {
-    return this.get(Endpoint.match, '/summoner/' + summonerName);
+    return this.get(Endpoint.match, null, '/summoner/' + summonerName);
   }
 
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
       Observable<any> {
     return this.get(
-        Endpoint.match, '/match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
-            '&samples=' + samples);
+        Endpoint.match, null, '/match/' + summonerName + '/' + championKey + '?gameTime=' +
+            gameTime + '&samples=' + samples);
   }
 
   public getCurrentRegion(): Observable<string> {
@@ -82,8 +82,8 @@ export class LolApiService {
   }
 
 
-  private get(endpoint: Endpoint, url: string): Observable<any> {
-    return this.getUrl(endpoint, url).mergeMap((urlResolved) => this.cache(urlResolved));
+  private get(endpoint: Endpoint, api: string, url: string): Observable<any> {
+    return this.getUrl(endpoint, api, url).mergeMap((urlResolved) => this.cache(urlResolved));
   }
 
   private cache(url: string): Observable<any> {
@@ -94,14 +94,15 @@ export class LolApiService {
     return this.cachedObservables[url].take(1).map(res => res.json());
   }
 
-  private getUrl(endpoint: Endpoint, url: string): Observable<string> {
-    return this.getCurrentRegion().map(region => this.getEndpoint(endpoint, region) + url);
+  private getUrl(endpoint: Endpoint, api: string, url: string): Observable<string> {
+    return this.getCurrentRegion().map(region => this.getEndpoint(endpoint, api, region) + url);
   }
 
-  private getEndpoint(endpoint: Endpoint, region: string): string {
+  private getEndpoint(endpoint: Endpoint, api: string, region: string): string {
     switch (endpoint) {
       case Endpoint.static:
-        return 'https://' + settings.domain + '/staticapi/static-data/' + region + '/v1.2';
+        return 'https://' + settings.domain + '/staticapi/' + api + '/' + region +
+            settings.apiVersions[api];
       default:
         return 'https://' + settings.domain + '/matchapi/' + region;
     }
