@@ -54,6 +54,7 @@ for (let index of browsers.saucelabsAliases.ALL) {
           ['sauce:open', 'test:client -- --browsers=' + index, 'sauce:close'];
 }
 
+let exit_status = 0;
 if (validMode(process.env.CI_MODE)) {
   execute(modes[process.env.CI_MODE]);
 } else {
@@ -108,7 +109,6 @@ function getMode(index) {
 
 /* execute */
 
-let exit_status = 0;
 function execute(scripts) {
   console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
   spawn_processes(scripts);
