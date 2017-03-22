@@ -14,28 +14,36 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
   } else {
     let time = timestamp();
     process.env.BUILD = 'Local (' + time + ')';
-    process.env.TUNNEL_IDENTIFIER = 'Local ' + time;
+    process.env.TUNNEL_IDENTIFIER = 'Local' + time;
   }
 }
 
 /* configuration */
 
 let modes = {
-  'client': ['build:client', 's3:upload'],
-  'sl_client_test_required': [
+  build: ['build'],
+  upload: [],
+  sl_client_test_required: [
     'sauce:open',
     'test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_REQUIRED.join(','),
     'sauce:close'
   ],
-  'sl_client_test_optional': [
+  sl_client_test_optional: [
     'sauce:open',
     'test:client -- --browsers=' + browsers.saucelabsAliases.CI_TEST_OPTIONAL.join(','),
     'sauce:close'
   ],
-  'server': ['build:server'],
-  'server_test': ['test:server'],
-  'coverage': ['test:client', 'coverage'],
-  'e2e': ['e2e']
+  server_test: ['test:server'],
+  coverage: ['test:client', 'coverage'],
+  e2e: ['e2e']
+};
+
+// only on release (or manual)
+if (!process.env.TRAVIS ||
+    (process.env.TRAVIS_PULL_REQUEST === 'false' && process.env.TRAVIS_TAG.length > 0)) {
+  modes.upload = modes.upload.concat([
+    'build', 's3:delete', 's3:upload ./config/live/ ./config', 's3:upload ./build/dist/ ./dist'
+  ]);
 }
 
 for (let index of browsers.saucelabsAliases.ALL) {
@@ -60,7 +68,7 @@ function selectMode() {
     console.log('  ' + i + '. ' + m);
     if (process.argv[2] == '-m' || process.argv[2] == '--mode_details') {
       for (let index in modes[m]) {
-        console.log('    * ' + modes[m][index]);
+        console.log('    * npm run ' + modes[m][index]);
       }
     }
     i++;
@@ -102,7 +110,6 @@ function getMode(index) {
 
 function execute(scripts) {
   console.log('\nStarting \'' + process.env.CI_MODE + '\'..');
-
   spawn_processes(scripts);
 }
 

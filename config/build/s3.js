@@ -5,9 +5,7 @@ let helpers = require('../helpers');
 function error(done, message) {
   return (err) => {
     console.error('S3: ' + message + ', \'', err.stack + '\'');
-    if (typeof done === 'function') {
-      done(true);
-    }
+    done(true);
   }
 }
 
@@ -24,31 +22,23 @@ function progress(actor, message) {
 function end(done, message) {
   return () => {
     console.log('S3: ' + message);
-    if (typeof done === 'function') {
-      done(false);
-    }
+    done(false);
   }
 }
 
-function deleteFiles(client, done) {
-  deleter = client.deleteDir({Bucket: process.env.ARTIFACTS_BUCKET});
+function deleteFiles(client, remoteDir, done) {
+  deleter = client.deleteDir({Bucket: process.env.ARTIFACTS_BUCKET, Prefix: remoteDir});
 
   deleter.on('error', error(done, 'unable to delete'));
   deleter.on('progress', progress(deleter, 'deleting'));
   deleter.on('end', end(done, 'files deleted'));
 }
 
-function uploadFile(client, file, remoteFile, params, done) {
+function uploadFile(client, file, remoteFile, done) {
   uploader = client.uploadFile({
     localFile: file,
     deleteRemoved: true,
-    s3Params: helpers.merge(
-        {
-          Bucket: process.env.ARTIFACTS_BUCKET,
-          Key: remoteFile,
-          CacheControl: 'public, max-age=172800'
-        },
-        params)
+    s3Params: helpers.merge({Bucket: process.env.ARTIFACTS_BUCKET, Key: remoteFile})
   });
 
   uploader.on('error', error(done, 'unable to sync (' + file + ')'));
@@ -56,65 +46,77 @@ function uploadFile(client, file, remoteFile, params, done) {
   uploader.on('end', end(done, 'artifact upload succesfull'));
 }
 
-function uploadFiles(client) {
-  let files = glob.sync('./build/dist/client/**/*', {nodir: true});
-  let base = 'build/dist/client/';
-  let skip = [];
-
-  // gzipped javascript files
+function uploadFiles(client, dir, remoteDir, done) {
+  let files = glob.sync(dir + '**/*', {nodir: true});
   for (let file of files) {
-    remoteFile = file.substring(file.indexOf(base) + base.length);
-
-    if (file.indexOf('.gz') === file.length - 3) {
-      remoteFile = remoteFile.substring(0, remoteFile.length - 3);
-      skip.push(remoteFile);
-      uploadFile(
-          client, file, remoteFile,
-          {ContentEncoding: 'gzip', ContentType: 'application/javascript'});
-    }
-  }
-
-  // other files
-  for (let file of files) {
-    remoteFile = file.substring(file.indexOf(base) + base.length);
-
-    if (file.indexOf('.gz') === file.length - 3) {
-      continue;
-    }
-
-    if (!skip.some((skipFile) => {
-          return skipFile === remoteFile;
-        })) {
-      uploadFile(client, file, remoteFile);
-    }
+    remoteFile = remoteDir + file.substring(file.indexOf(dir) + dir.length);
+    uploadFile(client, file, remoteFile, done);
   }
 }
 
+function cleanDirectory(dir) {
+  dir = dir.replace(/^(\.)/, '');
+  dir = dir.replace(/^(\/)/, '');
+  if (dir.substring(dir.length - 1) !== '/') {
+    dir += '/';
+  }
+  return dir;
+}
+
+let client = s3.createClient({
+  s3Options: {
+    accessKeyId: process.env.ARTIFACTS_KEY,
+    secretAccessKey: process.env.ARTIFACTS_SECRET,
+    region: 'eu-west-1'
+  }
+});
+
 module.exports = {
-  upload: (done) => {
-    if (process.env.TRAVIS_PULL_REQUEST !== 'false') {
-      if (typeof done === 'function') {
-        done(false);
-      }
-      return;
+  upload: (dir, remoteDir, done) => {
+    if (typeof done !== 'function') {
+      done = (err) => {};
     }
 
-    let client = s3.createClient({
-      s3Options: {
-        accessKeyId: process.env.ARTIFACTS_KEY,
-        secretAccessKey: process.env.ARTIFACTS_SECRET,
-        region: 'eu-west-1'
-      }
-    });
+    if (!dir) {
+      console.error('directory argument required `node s3.js ./dir/');
+      return;
+    } else {
+      dir = cleanDirectory(dir);
+      console.log('uploading files from: ' + dir);
+    }
 
-    deleteFiles(client, (error) => {
-      if (!error) {
-        uploadFiles(client);
-      }
-    });
+    if (!remoteDir) {
+      remoteDir = '';
+      console.log('uploading files to: root');
+    } else {
+      remoteDir = cleanDirectory(remoteDir);
+      console.log('uploading files to: ' + remoteDir);
+    }
+
+    uploadFiles(client, dir, remoteDir, done);
+  },
+  delete: (remoteDir, done) => {
+    if (typeof done !== 'function') {
+      done = (err) => {};
+    }
+
+    if (!remoteDir) {
+      remoteDir = '';
+      console.log('deleting files in: root');
+    } else {
+      console.log('deleting files in: ' + remoteDir);
+    }
+
+    deleteFiles(client, remoteDir, done);
   }
 };
 
 if (require.main === module) {
-  module.exports.upload();
+  if (process.argv[2] === '--upload') {
+    module.exports.upload(process.argv[3], process.argv[4]);
+  } else if (process.argv[2] === '--delete') {
+    module.exports.delete(process.argv[3]);
+  } else {
+    console.error('unknown mode');
+  }
 }
