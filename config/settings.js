@@ -10,16 +10,11 @@ console.log('user settings:');
 console.log(settings);
 
 var exportSettings = helpers.merge(settings, {
-  host: '127.0.0.1',
-  port: 80,
+  host: 'legendbuilder.io',
+  port: null,
   static: {port: 8081},
   match: {port: 8082, sampleSize: 32},
-  apiVersions: {
-    'summoner': 'v1.4',
-    'matchlist': 'v2.2',
-    'match': 'v2.2',
-    'static-data': 'v1.2'
-  },
+  apiVersions: {'summoner': 'v1.4', 'matchlist': 'v2.2', 'match': 'v2.2', 'static-data': 'v1.2'},
   gameTime: 45 * 60 * 1000
 });
 

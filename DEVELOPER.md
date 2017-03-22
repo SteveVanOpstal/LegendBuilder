@@ -22,8 +22,8 @@ A few servers are set up for this project and the settings for them are availabl
 These are the default values that can be altered via an override:
 ```JavaScript
 {
-  host: '127.0.0.1',
-  port: 80,
+  host: 'legendbuilder.io',
+  port: null,
   static: {
     port: 8081
   },
