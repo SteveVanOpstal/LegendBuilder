@@ -1,0 +1,13 @@
+[Unit]
+Description=Certificate auto renewal service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'letsencrypt renew --agree-tos'
+WorkingDirectory=/
+StandardOutput=syslog               # Output to syslog
+StandardError=syslog                # Output to syslog
+SyslogIdentifier=certbot
+
+[Install]
+WantedBy=multi-user.target
