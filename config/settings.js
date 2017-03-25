@@ -6,9 +6,6 @@ try {
 } catch (e) {
 }
 
-console.log('user settings:');
-console.log(settings);
-
 var exportSettings = helpers.merge(settings, {
   host: 'legendbuilder.io',
   port: null,
