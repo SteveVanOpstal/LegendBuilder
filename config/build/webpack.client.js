@@ -15,7 +15,42 @@ module.exports = (options) => {
     options = {};
   }
 
-  let ENV = process.env.ENV = process.env.NODE_ENV = options.dev ? 'development' : 'production';
+  let ENV = process.env.ENV = process.env.NODE_ENV = 'production';
+
+  let externals = {
+    'webfontloader': {global: 'WebFont', path: ''},
+    'core-js': {global: '', path: '/client/shim.min.js'},
+    'zone.js': {global: 'Zone', path: '/dist/zone.min.js'},
+    'reflect-metadata': {global: 'Reflect', path: ''},
+    'rxjs': {global: 'Rx', path: '/bundles/Rx.min.js'},
+    '@angular/core': {global: 'ng.core', path: '/bundles/core.umd.min.js'},
+    '@angular/common': {global: 'ng.common', path: '/bundles/common.umd.min.js'},
+    '@angular/compiler': {global: 'ng.compiler', path: '/bundles/compiler.umd.min.js'},
+    '@angular/platform-browser':
+        {global: 'ng.platformBrowser', path: '/bundles/platform-browser.umd.min.js'},
+    '@angular/platform-browser-dynamic':
+        {global: 'ng.platformBrowserDynamic', path: '/bundles/platform-browser-dynamic.umd.min.js'},
+    '@angular/http': {global: 'ng.http', path: '/bundles/http.umd.min.js'},
+    '@angular/router': {global: 'ng.router', path: '/bundles/router.umd.min.js'},
+    'ng-pipes': {global: 'ng.pipes', path: '/dist/ng-pipes.umd.min.js'},
+    'd3-path': {global: 'd3', path: '/build/d3-path.min.js'},
+    'd3-format': {global: 'd3', path: '/build/d3-format.min.js'},
+    'd3-array': {global: 'd3', path: '/build/d3-array.min.js'},
+    'd3-color': {global: 'd3', path: '/build/d3-color.min.js'},
+    'd3-interpolate': {global: 'd3', path: '/build/d3-interpolate.min.js'},
+    'd3-axis': {global: 'd3', path: '/build/d3-axis.min.js'},
+    'd3-scale': {global: 'd3', path: '/build/d3-scale.min.js'},
+    'd3-selection': {global: 'd3', path: '/build/d3-selection.min.js'},
+    'd3-shape': {global: 'd3', path: '/build/d3-shape.min.js'},
+  };
+
+  let dependencies = {};
+  let globals = {};
+  for (let name in externals) {
+    let external = externals[name];
+    dependencies[name] = 'https://unpkg.com/' + name + '@' + pkg.dependencies[name] + external.path;
+    globals[name] = external.global;
+  }
 
   let config = {
     devtool: 'source-map',
@@ -29,27 +64,7 @@ module.exports = (options) => {
       filename: options.dev ? '[name].bundle.js' : '[name].[chunkhash].bundle.js'
     },
 
-    externals: {
-      '@angular/common': 'ng.common',
-      '@angular/compiler': 'ng.compiler',
-      '@angular/core': 'ng.core',
-      '@angular/http': 'ng.http',
-      '@angular/platform-browser': 'ng.platformBrowser',
-      '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
-      '@angular/router': 'ng.router',
-      'd3-array': 'd3',
-      'd3-axis': 'd3',
-      'd3-scale': 'd3',
-      'd3-selection': 'd3',
-      'd3-shape': 'd3',
-      'd3-format': 'd3',
-      'ng-pipes': 'ng.pipes',
-      'rxjs/Rx': 'Rx',
-      'zone.js': 'Zone',
-      'core-js': '',
-      'reflect-metadata': 'Reflect',
-      'webfontloader': 'WebFont'
-    },
+    externals: globals,
 
     module: {
       rules: [
@@ -88,7 +103,7 @@ module.exports = (options) => {
         port: settings.port,
         ENV: ENV,
         version: pkg.version,
-        dependencies: pkg.dependencies
+        dependencies: dependencies
       })
     ],
 

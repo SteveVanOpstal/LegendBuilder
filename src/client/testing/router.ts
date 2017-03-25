@@ -1,5 +1,5 @@
 import {UrlSegment} from '@angular/router';
-import {Observable, Observer} from 'rxjs/Rx';
+import {Observable, Observer} from 'rxjs';
 
 export class MockRouter {
   routerState: any = {};

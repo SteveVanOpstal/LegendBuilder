@@ -12,7 +12,7 @@ require('zone.js/dist/fake-async-test');
 require('zone.js/dist/sync-test');
 require('zone.js/dist/jasmine-patch');
 
-require('rxjs/Rx');
+require('rxjs');
 require('./jasmine-matchers');
 require('./shims_for_IE');
 
