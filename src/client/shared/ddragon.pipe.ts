@@ -11,11 +11,13 @@ export class DDragonPipe implements PipeTransform {
   resolvedImage: SafeUrl = '';
   image: string = '';
 
-  constructor(private lolApi: LolApiService, sanitizer: DomSanitizer) {
-    this.resolvedImage = sanitizer.bypassSecurityTrustUrl(defaultImage);
-  }
 
-  transform(image: string): any {
+  constructor(private lolApi: LolApiService, private sanitizer: DomSanitizer) {}
+
+  transform(image: string, addDefault: boolean = true): any {
+    if (!this.resolvedImage && addDefault) {
+      this.resolvedImage = this.sanitizer.bypassSecurityTrustUrl(defaultImage);
+    }
     if (this.image === image) {
       return this.resolvedImage;
     }

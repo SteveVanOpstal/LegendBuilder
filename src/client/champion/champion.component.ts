@@ -6,7 +6,12 @@ import {Component, Input} from '@angular/core';
     <a id="{{champion?.id}}" [routerLink]="[champion?.key]">
       <img [attr.alt]="champion?.name"
             class="nodrag"
-            [attr.src]="'champion/loading/' + champion?.key + '_0.jpg' | lbDDragon">
+            [attr.src]="'champion/' + champion?.image?.full | lbDDragon"
+            [attr.srcset]="
+            ('champion/' + champion?.image?.full | lbDDragon:false) + ' 1350w, ' + 
+            ('champion/loading/' + champion?.key + '_0.jpg' | lbDDragon:false) + ' 2000w'"
+            [style.height]="imageHeight"
+            (load)="loaded($event)">
       <div class="info">
         <p class="nodrag noselect">{{champion?.name}}</p>
         <lb-bar title="Attack Damage" class="attack"  [value]="champion?.info.attack"></lb-bar>
@@ -18,5 +23,18 @@ import {Component, Input} from '@angular/core';
 })
 
 export class ChampionComponent {
-  @Input() champion: {key: ''};
+  @Input() champion: any;
+  imageHeight: string = '';
+
+  loaded(event: Event) {
+    let img: any = event.target;
+    if (!img.currentSrc) {
+      return;
+    }
+    if (img.currentSrc.indexOf('champion/loading') > 0) {
+      this.imageHeight = '';
+    } else {
+      this.imageHeight = '100px';
+    }
+  }
 }

@@ -48,7 +48,7 @@ describe('DDragonPipe', () => {
      inject([DDragonPipe], (pipe) => {
        let result = pipe.buildImage('test.png', undefined);
        expect(result).toBeDefined();
-       result = pipe.buildImage('test.png', undefined);
+       result = pipe.buildImage(undefined, realm);
        expect(result).toBeDefined();
      }));
 

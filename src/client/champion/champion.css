@@ -13,7 +13,6 @@ lb-champions p {
 }
 
 lb-champions lb-champion {
-  height: 275px;
   margin: -1px -2px;
 }
 
@@ -139,7 +138,6 @@ lb-filters .right label {
 
 @media (max-width: 1350px) {
   lb-champions lb-champion {
-    height: 181px;
     margin: initial;
     padding: 5px;
     width: 100px;
