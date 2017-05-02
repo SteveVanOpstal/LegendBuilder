@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.14"></a>
+# [1.0.0-alpha.14](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.13...v1.0.0-alpha.14) (2017-04-03)
+
+
+### Bug Fixes
+
+* **ci:** upload script breaks ([6a29866](https://github.com/SteveVanOpstal/LegendBuilder/commit/6a29866))
+* **ci:** upload script breaks on exit ([de61d90](https://github.com/SteveVanOpstal/LegendBuilder/commit/de61d90))
+* **ci:** upload script breaks on exit status 0 ([bcddcf2](https://github.com/SteveVanOpstal/LegendBuilder/commit/bcddcf2))
+* **lolapi:** static endpoint incorrect ([dd8b872](https://github.com/SteveVanOpstal/LegendBuilder/commit/dd8b872))
+
+
+### Features
+
+* automated certificate renewal ([85af033](https://github.com/SteveVanOpstal/LegendBuilder/commit/85af033))
+* **lolapi:** get api version from the settings ([821d9eb](https://github.com/SteveVanOpstal/LegendBuilder/commit/821d9eb))
+* **match-server:** add more limits ([882b301](https://github.com/SteveVanOpstal/LegendBuilder/commit/882b301))
+* **match-server:** limit gameTime and samples ([0fad27b](https://github.com/SteveVanOpstal/LegendBuilder/commit/0fad27b))
+* **server:** key file locations as cl arguments ([067490f](https://github.com/SteveVanOpstal/LegendBuilder/commit/067490f))
+* **server:** one domain for all ([32ea47f](https://github.com/SteveVanOpstal/LegendBuilder/commit/32ea47f))
+
+
+### Performance Improvements
+
+* **champions:** limit data use for small devices ([38c720d](https://github.com/SteveVanOpstal/LegendBuilder/commit/38c720d))
+
+
+
 <a name="1.0.0-alpha.13"></a>
 # [1.0.0-alpha.13](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.12...v1.0.0-alpha.13) (2017-03-03)
 

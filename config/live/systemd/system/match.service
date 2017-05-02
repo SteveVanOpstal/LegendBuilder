@@ -2,7 +2,7 @@
 Description=Node.js Match server
 
 [Service]
-ExecStart=/usr/bin/node /srv/match-server.js --api=api.key --cert=/etc/letsencrypt/live/legendbuilder.io/fullchain.pem --key=/etc/letsencrypt/live/legendbuilder.io/privkey.pem
+ExecStart=/usr/bin/node /srv/match-server.js --api=/srv/api.key --cert=/etc/letsencrypt/live/legendbuilder.io/fullchain.pem --key=/etc/letsencrypt/live/legendbuilder.io/privkey.pem
 WorkingDirectory=/
 Restart=always
 RestartSec=5                        # Restart service after 5 seconds if node service crashes

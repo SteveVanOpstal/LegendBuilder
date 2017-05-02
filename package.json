@@ -1,6 +1,6 @@
 {
   "name": "legend-builder",
-  "version": "1.0.0-alpha.13",
+  "version": "1.0.0-alpha.14",
   "description": "An advanced League Of Legends champion builder",
   "bugs": {
     "url": "https://github.com/SteveVanOpstal/LegendBuilder/issues"
@@ -96,14 +96,14 @@
     "conventional-github-releaser": "./node_modules/.bin/conventional-github-releaser -p angular"
   },
   "dependencies": {
-    "@angular/animations": "4.0.0-rc.3",
-    "@angular/common": "4.0.0-rc.3",
-    "@angular/compiler": "4.0.0-rc.3",
-    "@angular/core": "4.0.0-rc.3",
-    "@angular/http": "4.0.0-rc.3",
-    "@angular/platform-browser": "4.0.0-rc.3",
-    "@angular/platform-browser-dynamic": "4.0.0-rc.3",
-    "@angular/router": "4.0.0-rc.3",
+    "@angular/animations": "4.0.0-rc.5",
+    "@angular/common": "4.0.0-rc.5",
+    "@angular/compiler": "4.0.0-rc.5",
+    "@angular/core": "4.0.0-rc.5",
+    "@angular/http": "4.0.0-rc.5",
+    "@angular/platform-browser": "4.0.0-rc.5",
+    "@angular/platform-browser-dynamic": "4.0.0-rc.5",
+    "@angular/router": "4.0.0-rc.5",
     "@types/async": "2.0.38",
     "@types/core-js": "0.9.35",
     "@types/d3-array": "1.0.7",
@@ -138,7 +138,7 @@
     "rxjs": "5.1.0",
     "typescript": "2.1.6",
     "webfontloader": "1.6.27",
-    "zone.js": "0.7.6"
+    "zone.js": "0.8.5"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.45",
