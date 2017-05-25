@@ -43,8 +43,8 @@ export class LolApiService {
 
   public getChampion(championKey: string): Observable<any> {
     return this.get(
-        Endpoint.static, 'static-data', '/champion/' + championKey +
-            '?champData=allytips,altimages,image,partype,passive,spells,stats,tags');
+        Endpoint.static, 'static-data',
+        '/champion/' + championKey + '?champData=allytips,image,passive,spells,stats,tags');
   }
 
   public getItems(): Observable<any> {
