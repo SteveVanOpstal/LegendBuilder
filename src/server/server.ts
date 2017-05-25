@@ -4,7 +4,7 @@ import * as https from 'https';
 import * as url from 'url';
 
 let lru = require('lru-cache');
-import * as async from 'async';
+import {retry, parallel, reflect} from 'async';
 import * as minimist from 'minimist';
 
 import {ColorConsole} from './console';
@@ -48,14 +48,12 @@ export interface HttpError {
 }
 
 export class Server {
-  public champions: Array<Array<string>> = [];
+  champions: Array<Array<string>> = [];
 
-  public headers = {
-    'Access-Control-Allow-Origin': 'https://' + settings.domain,
-    'content-type': 'application/json'
-  };
+  headers = {'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'};
 
-  public config = {protocol: 'https://', hostname: '.api.pvp.net', apiKey: apiKey};
+  protocol = 'https://';
+  hostname = '.api.pvp.net';
 
   private options: https.RequestOptions = {
     hostname: 'global.api.pvp.net',
@@ -71,7 +69,7 @@ export class Server {
 
   constructor(private port: number, cacheSettings?: any) {
     this.cache = lru(this.merge(cacheSettings, {
-      max: 1048000,
+      max: 1048576,
       length: (n) => {
         return n.length * 2;
       },
@@ -103,12 +101,11 @@ export class Server {
   }
 
   public getBaseUrl(region?: string) {
-    return this.config.protocol + this.getHostname(region) + '/api/lol' +
-        (region ? '/' + region : '');
+    return this.protocol + this.getHostname(region) + '/api/lol' + (region ? '/' + region : '');
   }
 
   public getHostname(region?: string) {
-    return (region ? region : 'global') + this.config.hostname;
+    return (region ? region : 'global') + this.hostname;
   }
 
   public setCache(url: string, data: any): void {
@@ -123,7 +120,7 @@ export class Server {
       options: https.RequestOptions, callback: (response: HostResponse) => void,
       opts?: {times: number, interval: number}) {
     let console = new ColorConsole();
-    async.retry(
+    retry(
         opts || {times: 1, interval: 0},
         (cb: any) => {
           let req = https.request(options, (res: IncomingMessage) => {
@@ -217,10 +214,33 @@ export class Server {
 
   private preRun() {
     this.getRegions((regions: Array<string>) => {
+      let requests = [];
       for (let region of regions) {
         this.champions[region] = [];
-        this.getChampions(region, this.handleChampions);
+        requests.push(reflect((cb) => {
+          retry(
+              {
+                times: Infinity,
+                interval: (retryCount) => {
+                  let interval = 500 * Math.pow(2, retryCount);
+                  return interval < 60000 ? interval : 60000;
+                }
+              },
+              (callback: any) => {
+                this.getChampions(region, callback);
+              },
+              cb);
+        }));
       }
+
+      parallel(requests, (_error: Error, results: Array<any>) => {
+        for (let result of results) {
+          if (result.error) {
+          } else {
+            this.champions[result.value.region] = result.value.champions;
+          }
+        }
+      });
     });
   }
 
@@ -252,39 +272,28 @@ export class Server {
     });
   }
 
-  private getChampions =
-      (region: string,
-       callback: (err, result: {region: string, champions?: Array<number>}) => void) => {
-        let championUrl = this.config.protocol + this.getHostname() + '/api/lol/static-data/' +
-            region + '/' + settings.apiVersions['static-data'] + '/champion';
+  private getChampions(region: string, callback: any) {
+    let championUrl = this.protocol + this.getHostname() + '/api/lol/static-data/' + region + '/' +
+        settings.apiVersions['static-data'] + '/champion';
 
-        championUrl = this.addApiKey(championUrl);
+    championUrl = this.addApiKey(championUrl);
 
-        let options: https.RequestOptions = {path: championUrl};
-        this.merge(this.options, options);
+    let options: https.RequestOptions = {path: championUrl};
+    this.merge(this.options, options);
 
-        this.sendHttpsRequest(options, (response: HostResponse) => {
-          if (response.success) {
-            let champions = [];
-            for (let championKey in response.json.data) {
-              champions[championKey.toLowerCase()] = response.json.data[championKey].id;
-            }
-            callback(undefined, {region: region, champions: champions});
-          } else {
-            console.error('Unable to get champion data for ' + region);
-            callback(true, {region: region});
-          }
-        });
-      }
-
-  private handleChampions =
-      (err, result) => {
-        if (err) {
-          setTimeout(this.getChampions, 10 * 1000, result.region, this.handleChampions);
-          return;
+    this.sendHttpsRequest(options, (response: HostResponse) => {
+      if (response.success) {
+        let champions = [];
+        for (let championKey in response.json.data) {
+          champions[championKey.toLowerCase()] = response.json.data[championKey].id;
         }
-        this.champions[result.region] = result.champions;
+        callback(undefined, {region: region, champions: champions});
+      } else {
+        console.error('Unable to get champion data for ' + region);
+        callback(true);
       }
+    });
+  }
 
   private transformPath(path: string, region: string): string {
     path = this.replaceChampion(path, region);
@@ -325,7 +334,7 @@ export class Server {
   }
 
   private addApiKey(path: string): string {
-    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + this.config.apiKey;
+    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + apiKey;
     return path;
   }
 

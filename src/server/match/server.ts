@@ -6,7 +6,7 @@ import {getPathname, getQuery, Server} from '../server';
 import {Match} from './match';
 import {Summoner} from './summoner';
 
-let server = new Server(settings.match.port, {maxAge: 1000 * 60 * 60 * 10});
+let server = new Server(settings.match.port, {max: 268435456, maxAge: 1000 * 60 * 60 * 12});
 
 let summoner = new Summoner(server);
 let match = new Match(server);
