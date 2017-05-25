@@ -9,13 +9,13 @@ describe('DataAxis', () => {
 
   it('should set axis on create', () => {
     expect(component.axis).not.toBeDefined();
-    component.create(new DataScale([400, 0]));
+    component.create(new DataScale([400, 0], [0, 0]));
     expect(component.get()).toBeDefined();
   });
 
   it('should return axis on get', () => {
     expect(component.axis).not.toBeDefined();
-    component.create(new DataScale([400, 0]));
+    component.create(new DataScale([400, 0], [0, 0]));
     expect(component.get()).toHaveEqualContent(component.axis);
   });
 });

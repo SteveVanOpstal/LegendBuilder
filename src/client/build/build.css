@@ -69,7 +69,6 @@ lb-graph {
 lb-graph .axis path,
 lb-graph .axis line {
   fill: none;
-  shape-rendering: crispEdges;
   stroke: #000;
 }
 
@@ -89,85 +88,99 @@ lb-graph .line {
   stroke-width: 2px;
 }
 
+/* lb-graph - focus */
+
+lb-graph .overlay {
+  fill: none;
+}
+
+lb-graph .focus:not(.enabled) {
+  display: none;
+}
+
+/*lb-graph .focus {
+  fill: none;
+}*/
+
 /* lb-graph - lines */
 
-lb-graph .line:nth-of-type(1) {
+lb-graph g:nth-of-type(1) .line {
   stroke: #026561;
 }
 
-lb-graph .line:nth-of-type(2) {
+lb-graph g:nth-of-type(2) .line {
   stroke: #b7af1f;
 }
 
-/*lb-graph .line:nth-of-type(3) {
+/*lb-graph g:nth-of-type(3) .line {
   stroke: #C19E20;
 }*/
 
-lb-graph .line:nth-of-type(3) {
+lb-graph g:nth-of-type(3) .line {
   stroke: #aa7625;
 }
 
-/*lb-graph .line:nth-of-type(5) {
+/*lb-graph g:nth-of-type(5) .line {
   stroke: #aa7625;
 }*/
 
-lb-graph .line:nth-of-type(4) {
+lb-graph g:nth-of-type(4) .line {
   stroke: #c15c20;
 }
 
-lb-graph .line:nth-of-type(5) {
+lb-graph g:nth-of-type(5) .line {
   stroke: #a32;
 }
 
-lb-graph .line:nth-of-type(6) {
+lb-graph g:nth-of-type(6) .line {
   stroke: #c12362;
 }
 
-lb-graph .line:nth-of-type(7) {
+lb-graph g:nth-of-type(7) .line {
   stroke: #ad1fc1;
 }
 
-lb-graph .line:nth-of-type(8) {
+lb-graph g:nth-of-type(8) .line {
   stroke: #961fd8;
 }
 
-lb-graph .line:nth-of-type(9) {
+lb-graph g:nth-of-type(9) .line {
   stroke: #5a21aa;
 }
 
-lb-graph .line:nth-of-type(10) {
+lb-graph g:nth-of-type(10) .line {
   stroke: #374dc1;
 }
 
-lb-graph .line:nth-of-type(11) {
+lb-graph g:nth-of-type(11) .line {
   stroke: #397eaa;
 }
 
-lb-graph .line:nth-of-type(12) {
+lb-graph g:nth-of-type(12) .line {
   stroke: #38bad8;
 }
 
-lb-graph .line:nth-of-type(13) {
+lb-graph g:nth-of-type(13) .line {
   stroke: #37c1b8;
 }
 
-lb-graph .line:nth-of-type(14) {
+lb-graph g:nth-of-type(14) .line {
   stroke: #36aa6b;
 }
 
-/*lb-graph .line:nth-of-type(12) {
+/*lb-graph g:nth-of-type(12) .line {
   stroke: #39C13C;
 }*/
 
-lb-graph .line:nth-of-type(15) {
+lb-graph g:nth-of-type(15) .line {
   stroke: #7aaa3b;
 }
 
-lb-graph .line:nth-of-type(16) {
+lb-graph g:nth-of-type(16) .line {
   stroke: #c1b73f;
 }
 
-lb-graph .line:nth-of-type(17) {
+lb-graph g:nth-of-type(17) .line {
   stroke: #b7953d;
 }
 
@@ -425,12 +438,13 @@ lb-mastery .description h2 {
 lb-shop {
   /* height: 750px; */
   display: flex;
+  min-width: 100%;
 }
 
 
 lb-shop .left {
   display: inline-block;
-  min-width: 170px;
+  min-width: 14%;
   padding: 5px;
   top: 0;
 }
@@ -457,6 +471,7 @@ lb-shop .left label:hover {
 
 lb-shop .right-container {
   display: flex;
+  min-width: 85%;
 }
 
 lb-shop .middle {
@@ -827,6 +842,15 @@ lb-items-from > div:first-of-type:last-of-type > lb-item:before {
 @media (max-width: 1650px) {
   lb-shop .items lb-item {
     width: 48%;
+  }
+
+  lb-shop .left {
+    min-width: 19%;
+  }
+
+  lb-shop .right-container {
+    display: flex;
+    min-width: 80%;
   }
 }
 

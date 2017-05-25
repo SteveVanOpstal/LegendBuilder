@@ -44,12 +44,10 @@ export class ItemSlotComponent implements OnInit, DoCheck {
   lbItem: ItemComponent;
   draghover = false;
 
-  private xScaleTime = new TimeScale([0, 1380]);
+  private xScaleTime = new TimeScale([0, 1420]);
   private allItems: any;
 
-  constructor(private lolApi: LolApiService) {
-    this.xScaleTime.create();
-  }
+  constructor(private lolApi: LolApiService) {}
 
   ngOnInit() {
     this.lolApi.getItems().subscribe(res => {

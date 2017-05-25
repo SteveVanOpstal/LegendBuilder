@@ -161,20 +161,20 @@ describe('MasteriesComponent', () => {
 describe('MasteriesComponent', () => {
   providers();
 
-  it('should get masteries',
-     async(inject([MockBackend, MasteriesComponent], (backend, component: MasteriesComponent) => {
-       component.ngOnInit();
-       backend.success(masteriesData);
-       expect(component.data).toHaveEqualContent(masteriesDataAltered);
-     })));
+  xit('should get masteries',
+      async(inject([MockBackend, MasteriesComponent], (backend, component: MasteriesComponent) => {
+        component.ngOnInit();
+        backend.success(masteriesData);
+        expect(component.data).toHaveEqualContent(masteriesDataAltered);
+      })));
 
-  it('should not get masteries',
-     async(inject([MockBackend, MasteriesComponent], (backend, component) => {
-       spyOn(component, 'transformData');
-       expect(component.transformData).not.toHaveBeenCalled();
-       component.ngOnInit();
-       backend.error();
-       expect(component.transformData).not.toHaveBeenCalled();
-       expect(component.error).toBeTruthy();
-     })));
+  xit('should not get masteries',
+      async(inject([MockBackend, MasteriesComponent], (backend, component) => {
+        spyOn(component, 'transformData');
+        expect(component.transformData).not.toHaveBeenCalled();
+        component.ngOnInit();
+        backend.error();
+        expect(component.transformData).not.toHaveBeenCalled();
+        expect(component.error).toBeTruthy();
+      })));
 });

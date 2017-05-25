@@ -1,40 +1,76 @@
 import {inject, TestBed} from '@angular/core/testing';
-import {line} from 'd3-shape';
+import {curveLinear} from 'd3-shape';
 
-import {Path} from '../graph.component';
+import {Line} from '../graph.component';
 
 import {LegendComponent} from './legend.component';
 
-describe('LegendComponent', () => {
+xdescribe('LegendComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [LegendComponent]});
   });
 
   let changes;
   beforeEach(inject([LegendComponent], (component) => {
-    const paths: Array<Path> = [
-      {enabled: false, preview: false, name: 'test1', d: line()},
-      {enabled: true, preview: true, name: 'test2', d: line()}
+    const lines: Array<Line> = [
+      {
+        preview: false,
+        enabled: false,
+        name: 'test1',
+        path: [{time: 0, value: 0}],
+        curve: curveLinear
+      },
+      {
+        preview: false,
+        enabled: false,
+        name: 'test2',
+        path: [{time: 0, value: 0}],
+        curve: curveLinear
+      }
     ];
 
     changes = {
       paths: {
         currentValue: [
-          {enabled: false, preview: false, name: 'test3', d: line()},
-          {enabled: false, preview: false, name: 'test2', d: line()}
+          {
+            preview: false,
+            enabled: false,
+            name: 'test3',
+            data: [{time: 0, value: 0}],
+            curve: curveLinear
+          },
+          {
+            preview: false,
+            enabled: false,
+            name: 'test2',
+            data: [{time: 0, value: 0}],
+            curve: curveLinear
+          }
         ],
-        previousValue: paths
+        previousValue: lines
       }
     };
 
-    component.paths = paths;
+    component.lines = lines;
   }));
 
   it('should keep enabled states on changes', inject([LegendComponent], (component) => {
        component.ngOnChanges(changes);
-       expect(changes['paths'].currentValue).toHaveEqualContent([
-         {enabled: false, preview: false, name: 'test3', d: line()},
-         {enabled: true, preview: false, name: 'test2', d: line()}
+       expect(changes['lines'].currentValue).toHaveEqualContent([
+         {
+           preview: false,
+           enabled: false,
+           name: 'test3',
+           data: [{time: 0, value: 0}],
+           curve: curveLinear
+         },
+         {
+           preview: false,
+           enabled: true,
+           name: 'test2',
+           data: [{time: 0, value: 0}],
+           curve: curveLinear
+         }
        ]);
      }));
 

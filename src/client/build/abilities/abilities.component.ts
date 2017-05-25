@@ -37,7 +37,7 @@ export class AbilitiesComponent implements OnInit {
 
   private champion: any;
 
-  private xScaleLevel = new LevelScale([0, 1380]);
+  private xScaleLevel = new LevelScale([0, 1420]);
   private xAxisLevelLine = new LevelAxisLine(200);
   private xAxisLevelText = new LevelAxisText(200);
 

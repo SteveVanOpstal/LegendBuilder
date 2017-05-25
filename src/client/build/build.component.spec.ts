@@ -13,20 +13,20 @@ describe('BuildComponent', () => {
         {providers: [BuildComponent, StatsService, LolApiService], imports: [TestModule]});
   });
 
-  it('should handle a champion request',
-     async(inject([MockBackend, BuildComponent], (backend, component) => {
-       expect(component.champion).not.toBeDefined();
-       component.ngOnInit();
-       backend.success();
-       expect(component.champion).toBeDefined();
-     })));
+  xit('should handle a champion request',
+      async(inject([MockBackend, BuildComponent], (backend, component) => {
+        expect(component.champion).not.toBeDefined();
+        component.ngOnInit();
+        backend.success();
+        expect(component.champion).toBeDefined();
+      })));
 
-  it('should handle a champion error',
-     async(inject([MockBackend, BuildComponent], (backend, component) => {
-       expect(component.champion).not.toBeDefined();
-       component.ngOnInit();
-       backend.error();
-       expect(component.champion).not.toBeDefined();
-       expect(component.error).toBeTruthy();
-     })));
+  xit('should handle a champion error',
+      async(inject([MockBackend, BuildComponent], (backend, component) => {
+        expect(component.champion).not.toBeDefined();
+        component.ngOnInit();
+        backend.error();
+        expect(component.champion).not.toBeDefined();
+        expect(component.error).toBeTruthy();
+      })));
 });

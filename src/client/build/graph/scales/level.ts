@@ -6,7 +6,7 @@ import {Scale} from './scale';
 export class LevelScale implements Scale {
   public scale: d3.ScaleLinear<number, number>;
 
-  constructor(private range: number[]) {}
+  constructor(private range: [number, number]) {}
 
   create() {
     this.scale = d3.scaleLinear().range(this.range);

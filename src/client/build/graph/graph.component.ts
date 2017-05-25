@@ -1,136 +1,158 @@
-import {Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {select} from 'd3-selection';
-import {curveStepAfter, Line, line} from 'd3-shape';
+import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
 import {LolApiService} from '../../services/lolapi.service';
-import {Stats, StatsService} from '../../services/stats.service';
+import {StatsService} from '../../services/stats.service';
 import {Samples} from '../samples';
 
-import {DataAxis, TimeAxis} from './axes';
-import {DataScale, TimeScale} from './scales';
+import {TimeAxis} from './axes';
+import {LineComponent} from './line.component';
+import {TimeScale} from './scales';
 
-export interface Path {
+export interface Line {
   enabled: boolean;
   preview: boolean;
   name: string;
-  d: Line<[number, number]>;
+  path: Array<{time: number, value: number}>;
+  curve: CurveFactory;
 }
 
 @Component({
   selector: 'lb-graph',
   template: `
-    <lb-legend [paths]="paths"></lb-legend>
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1500 400">
+    <lb-legend [lines]="lines"></lb-legend>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="100%"
+         height="100%"
+         viewBox="0 0 1500 400"
+         (mousemove)="mousemove($event)"
+         (mouseover)="mouseover()"
+         (mouseout)="mouseout()">
       <g transform="translate(60,20)">
+        <g></g> 
         <g class="lines">
-          <path *ngFor="let path of paths"
-                [attr.d]="path.d"
-                class="line {{path.name}}"
-                [ngClass]="{enabled: path.enabled, preview: path.preview}">
-          </path>
+          <g lbLine [line]="line" *ngFor="let line of lines"></g>
         </g>
         <g class="axes">
           <g class="x axis time" transform="translate(0,380)"></g>
-          <g class="y axis left"></g>
-          <g class="y axis right" transform="translate(1380,0)"></g>
         </g>
+        <rect class="overlay" width="1500" height="400"></rect>
       </g>
     </svg>`
 })
 
 export class GraphComponent implements OnInit {
-  paths = new Array<Path>();
+  lines = new Array<Line>();
+  @ViewChildren(LineComponent) lineComponents: QueryList<LineComponent>;
 
   private svg: any;
+  private focus: any;
+  private overlay: any;
 
-  private xScaleTime = new TimeScale([0, 1380]);
-  private yScaleSamples = new DataScale([380, 0]);
-  private yScaleStats = new DataScale([380, 0]);
+  private xScaleTime = new TimeScale([0, 1420]);
+  private xAxisTime = new TimeAxis(380, this.xScaleTime);
 
-  private xAxisTime = new TimeAxis(380);
-  private yAxisLeft = new DataAxis();
-  private yAxisRight = new DataAxis();
-
-  private lineSamples: any =
-      line()
-          .x((_, i) => {
-            return this.xScaleTime.get()(
-                i * (settings.gameTime / (settings.match.sampleSize - 1)));
-          })
-          .y((d: any) => {
-            return this.yScaleSamples.get()(d);
-          });
-
-  private lineStats: any = line()
-                               .x((d) => {
-                                 return this.xScaleTime.get()(d['time']);
-                               })
-                               .y((d) => {
-                                 return this.yScaleStats.get()(d['value']);
-                               })
-                               .curve(curveStepAfter);
+  private mouseOffsetX: number;
 
   constructor(
       @Inject(ElementRef) private elementRef: ElementRef, private lolApi: LolApiService,
-      private stats: StatsService) {}
+      private statsService: StatsService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
-    this.createAxes();
+    this.focus = this.svg.select('.focus');
+    this.overlay = this.svg.select('.overlay');
+    this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
-    this.stats.stats.subscribe((stats) => {
-      this.addStats(stats);
+    this.statsService.stats.subscribe((stats) => {
+      this.updateLines(stats, curveStepAfter);
     });
 
     this.lolApi.getCurrentMatchData().subscribe((samples: Samples) => {
       if (this.svg) {
-        this.addSamples(samples);
+        this.updateSamples(samples);
       }
     });
   }
 
-  private createAxes() {
-    this.xScaleTime.create();
-    this.xAxisTime.create(this.xScaleTime);
+  mousemove(event: MouseEvent) {
+    if (Math.abs(event.offsetX - this.mouseOffsetX) < 1) {
+      return;
+    }
+    this.mouseOffsetX = event.offsetX;
 
-    this.yScaleSamples.create();
-    this.yAxisLeft.create(this.yScaleSamples);
-    this.yScaleStats.create([0, 3000]);
-    this.yAxisRight.create(this.yScaleStats, false);
-
-    this.svg.select('.x.axis.time').call(this.xAxisTime.get());
-    this.svg.select('.y.axis.left').call(this.yAxisLeft.get());
-    this.svg.select('.y.axis.right').call(this.yAxisRight.get());
+    let offsetX = this.xScaleTime.get().invert(event.offsetX - 60);
+    this.lineComponents.forEach(line => {
+      line.mousemove(event.offsetX - 60, offsetX);
+    });
   }
 
-  private addSamples(samples: Samples) {
-    this.addPaths(samples, this.lineSamples);
+  mouseover() {
+    this.lineComponents.forEach(line => {
+      line.mouseover();
+    });
   }
 
-  private addStats(stats: Stats) {
-    this.addPaths(stats, this.lineStats);
+  mouseout() {
+    this.lineComponents.forEach(line => {
+      line.mouseout();
+    });
   }
 
-  private addPaths(
-      paths: any /*{[name: string]: Array<number>} Microsoft/TypeScript#5683 */, line) {
-    for (let index in paths) {
-      this.addPath(paths, line, index);
+  // @HostListener('window:resize')
+  // onResize() {
+  //   this.xScaleTime.update([0, this.svg.node().getBBox().width]);
+  // }
+
+  private updateSamples(samples: Samples) {
+    let paths = {};
+    for (let name in samples) {
+      paths[name] = [];
+      for (let i in samples[name]) {
+        let index = parseInt(i, 10);
+        let time = index * (settings.gameTime / (settings.match.sampleSize - 1));
+        let value = samples[name][index];
+        paths[name].push({time: time, value: value});
+      }
+    }
+    this.updateLines(paths, curveLinear);
+  }
+
+  private updateLines(
+      paths: {[name: string]: Array<{time: number, value: number}>}, curve: CurveFactory) {
+    for (let name in paths) {
+      this.updateLine(paths[name], curve, name);
+    }
+
+    for (let index = 0; index < this.lines.length; index++) {
+      if (this.lines[index].curve !== curve) {
+        continue;
+      }
+      let deleteLine = Object.keys(paths).findIndex((name) => {
+        return name === this.lines[index].name;
+      }) < 0;
+      if (deleteLine) {
+        this.lines.splice(index, 1);
+        index--;
+      }
     }
   }
 
-  private addPath(paths: any, line, name: string) {
-    let foundPath = this.findPath(name);
-
-    if (foundPath) {
-      foundPath.d = line(paths[name]);
+  private updateLine(
+      path: Array<{time: number, value: number}>, curve: CurveFactory, name: string) {
+    let lineIndex = this.findLine(name);
+    if (lineIndex >= 0 && this.lines[lineIndex].path !== path) {
+      let line = {...this.lines[lineIndex]};
+      line.path = path;
+      this.lines[lineIndex] = line;
     } else {
-      this.paths.push({enabled: true, preview: false, name: name, d: line(paths[name])});
+      this.lines.push({preview: false, enabled: true, name: name, path: path, curve: curve});
     }
   }
-
-  private findPath(name: string): Path {
-    return this.paths.find((path) => {
+  private findLine(name: string): number {
+    return this.lines.findIndex((path) => {
       return path.name === name;
     });
   }

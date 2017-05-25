@@ -12,23 +12,23 @@ describe('ChampionsComponent', () => {
         {providers: [ChampionsComponent, LolApiService], imports: [TestModule]});
   });
 
-  it('should get champions',
-     async(inject([MockBackend, ChampionsComponent], (backend, component) => {
-       expect(component.champions).toHaveEqualContent({});
-       component.ngOnInit();
-       backend.success();
-       expect(component.champions).not.toHaveEqualContent({});
-       expect(component.error).toBeFalsy();
-     })));
+  xit('should get champions',
+      async(inject([MockBackend, ChampionsComponent], (backend, component) => {
+        expect(component.champions).toHaveEqualContent({});
+        component.ngOnInit();
+        backend.success();
+        expect(component.champions).not.toHaveEqualContent({});
+        expect(component.error).toBeFalsy();
+      })));
 
-  it('should not get champions',
-     async(inject([MockBackend, ChampionsComponent], (backend, component) => {
-       expect(component.champions).toHaveEqualContent({});
-       component.ngOnInit();
-       backend.error();
-       expect(component.champions).toHaveEqualContent({});
-       expect(component.error).toBeTruthy();
-     })));
+  xit('should not get champions',
+      async(inject([MockBackend, ChampionsComponent], (backend, component) => {
+        expect(component.champions).toHaveEqualContent({});
+        component.ngOnInit();
+        backend.error();
+        expect(component.champions).toHaveEqualContent({});
+        expect(component.error).toBeTruthy();
+      })));
 
   xit('should navigate when \'Enter\' is hit and one champion is available',
       inject([ChampionsComponent], (component) => {

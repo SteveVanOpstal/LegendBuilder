@@ -1,60 +1,60 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
-import {Path} from '../graph.component';
+import {Line} from '../graph.component';
 
 @Component({
   selector: 'lb-legend',
   template: `
     <ul (mouseleave)="mouseLeave()">
-      <li *ngFor="let path of paths">
-        <button [ngClass]="{enabled: path.enabled}" [attr.name]="path.name" type="button"
-          (mouseenter)="mouseEnter(path)"
-          (mouseleave)="mouseLeave(path)"
-          (mousedown)="mouseDown(path)"
+      <li *ngFor="let line of lines">
+        <button [ngClass]="{enabled: line.enabled}" [attr.name]="line.name" type="button"
+          (mouseenter)="mouseEnter(line)"
+          (mouseleave)="mouseLeave(line)"
+          (mousedown)="mouseDown(line)"
           (mouseup)="dragging=false">
-          {{ path.name }}
+          {{ line.name }}
         </button>
       </li>
     </ul>`
 })
 
 export class LegendComponent implements OnChanges {
-  @Input() paths = new Array<Path>();
+  @Input() lines = new Array<Line>();
   dragging: boolean = false;
 
   ngOnChanges(changes: SimpleChanges) {
-    for (let currentPath of changes['paths'].currentValue) {
-      let foundPaths = changes['paths'].previousValue.filter((path: Path) => {
-        return path.name === currentPath.name;
+    for (let currentLine of changes['lines'].currentValue) {
+      let foundLines = changes['lines'].previousValue.filter((line: Line) => {
+        return line.name === currentLine.name;
       });
 
-      if (foundPaths.length === 1) {
-        let previousPath: Path = foundPaths[0];
-        currentPath.enabled = previousPath.enabled;
+      if (foundLines.length === 1) {
+        let previousLine: Line = foundLines[0];
+        currentLine.enabled = previousLine.enabled;
       }
     }
   }
 
-  mouseEnter(path: Path) {
-    path.preview = true;
+  mouseEnter(line: Line) {
+    line.preview = true;
     if (this.dragging) {
-      path.enabled = !path.enabled;
+      line.enabled = !line.enabled;
     }
   }
 
-  mouseLeave(path: Path|undefined) {
-    if (!path) {
+  mouseLeave(line: Line|undefined) {
+    if (!line) {
       this.dragging = false;
-      for (let p of this.paths) {
+      for (let p of this.lines) {
         p.preview = false;
       }
     } else {
-      path.preview = false;
+      line.preview = false;
     }
   }
 
-  mouseDown(path: Path) {
-    path.enabled = !path.enabled;
+  mouseDown(line: Line) {
+    line.enabled = !line.enabled;
     this.dragging = true;
   }
 }

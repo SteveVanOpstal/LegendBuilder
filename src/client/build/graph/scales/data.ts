@@ -5,13 +5,15 @@ import {Scale} from './scale';
 export class DataScale implements Scale {
   public scale: d3.ScaleLinear<number, number>;
 
-  constructor(private range: number[]) {}
-
-  create(domain: [number, number] = [0, 30000]) {
-    this.scale = d3.scaleLinear().domain(domain).range(this.range);
+  constructor(range: [number, number], domain: [number, number]) {
+    this.scale = d3.scaleLinear().range(range).domain(domain);
   }
 
   get() {
     return this.scale;
+  }
+
+  update(domain: [number, number]) {
+    this.scale.domain(domain);
   }
 }
