@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 
 import {Item} from '../build/item';
 import {Samples} from '../build/samples';
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 import {MockRouter, TestModule} from '../testing';
 
 import {StatsService} from './stats.service';

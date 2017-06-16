@@ -1,6 +1,6 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 
-import {LolApiService} from '../../services/lolapi.service';
+import {LolApiService} from '../../services';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
 import {MasteryTierComponent} from './mastery-tier.component';

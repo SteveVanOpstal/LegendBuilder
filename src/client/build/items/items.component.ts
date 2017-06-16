@@ -1,8 +1,7 @@
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
-import {LolApiService} from '../../services/lolapi.service';
-import {StatsService} from '../../services/stats.service';
+import {LolApiService, PickedItemsService, StatsService} from '../../services';
 import {Item} from '../item';
 import {Samples} from '../samples';
 

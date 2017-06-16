@@ -3,8 +3,7 @@ import {select} from 'd3-selection';
 import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {LolApiService} from '../../services/lolapi.service';
-import {StatsService} from '../../services/stats.service';
+import {LolApiService, StatsService} from '../../services';
 import {Samples} from '../samples';
 
 import {TimeAxis} from './axes';

@@ -2,7 +2,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
-import {Endpoint, LolApiService} from '../services/lolapi.service';
+import {Endpoint, LolApiService} from '../services';
 import {TestModule} from '../testing';
 
 describe('LolApiService', () => {

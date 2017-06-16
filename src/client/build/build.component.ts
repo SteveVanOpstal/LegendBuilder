@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 import {ItemsComponent} from './items/items.component';
 import {ShopComponent} from './shop/shop.component';
 

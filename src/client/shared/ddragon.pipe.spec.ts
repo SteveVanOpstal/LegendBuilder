@@ -3,7 +3,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 import {CoreModule, HttpModule, MockActivatedRoute, MockRouter} from '../testing';
 
 import {DDragonPipe, defaultImage} from './ddragon.pipe';

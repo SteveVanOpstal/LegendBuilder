@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
-import {LolApiService} from '../../services/lolapi.service';
+import {LolApiService} from '../../services';
 import {tim} from '../../shared/tim';
 import {LevelAxisLine, LevelAxisText} from '../graph/axes';
 import {LevelScale} from '../graph/scales';

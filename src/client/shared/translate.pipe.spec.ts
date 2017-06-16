@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 import {CoreModule, HttpModule, MockActivatedRoute, MockRouter} from '../testing';
 
 import {TranslatePipe} from './translate.pipe';

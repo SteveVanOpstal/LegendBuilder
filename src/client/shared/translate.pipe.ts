@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 
 @Pipe({name: 'lbTranslate'})
 

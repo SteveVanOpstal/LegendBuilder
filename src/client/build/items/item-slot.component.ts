@@ -1,7 +1,7 @@
 import {Component, DoCheck, EventEmitter, OnInit, Output} from '@angular/core';
 import {QueryList, ViewChildren} from '@angular/core';
 
-import {LolApiService} from '../../services/lolapi.service';
+import {LolApiService} from '../../services';
 import {TimeScale} from '../graph/scales';
 import {Item} from '../item';
 

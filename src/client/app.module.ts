@@ -11,7 +11,7 @@ import {BuildModule} from './build/build.module';
 import {ChampionsModule} from './champion/champions.module';
 import {MainModule} from './main/main.module';
 import {RegionModule} from './region/region.module';
-import {LolApiService} from './services/lolapi.service';
+import {LolApiService} from './services';
 import {SharedModule} from './shared/shared.module';
 import {SummonerModule} from './summoner/summoner.module';
 

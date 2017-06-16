@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../services/lolapi.service';
+import {LolApiService} from '../services';
 
 @Component({
   selector: 'lb-summoner',
