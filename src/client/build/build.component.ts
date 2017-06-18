@@ -18,7 +18,7 @@ import {ShopComponent} from './shop/shop.component';
     <!--<lb-abilities></lb-abilities>
     <lb-masteries></lb-masteries>-->
     <lb-items (itemSelected)="shop.selectItem($event)" #items></lb-items>
-    <lb-shop (itemPicked)="items.addItem($event)" #shop></lb-shop>
+    <lb-shop #shop></lb-shop>
     <lb-loading [loading]="loading"></lb-loading>
     <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
 })

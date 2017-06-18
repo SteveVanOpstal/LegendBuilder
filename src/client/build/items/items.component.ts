@@ -32,7 +32,14 @@ export class ItemsComponent implements OnInit {
   private samples: Samples;
   private allItems: any;
 
-  constructor(private stats: StatsService, private lolApi: LolApiService) {}
+  constructor(
+      private stats: StatsService, private lolApi: LolApiService,
+      private pickedItems: PickedItemsService) {
+    pickedItems.items.subscribe(items => {
+      this.items = items;
+      this.update();
+    });
+  }
 
   ngOnInit() {
     this.lolApi.getItems().subscribe(res => {
@@ -43,28 +50,8 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  addItem(item: Item) {
-    item.bundle = 1;
-    this.items.push({...item});
-    this.update();
-  }
-
   removeItem(item: Item) {
-    let index = this.getItemIndex(item.id, item.time);
-    if (index !== undefined) {
-      this.items.splice(index, 1);
-      this.update();
-    }
-  }
-
-  switchItem(source: Item, target: Item) {
-    let indexSource = this.getItemIndex(source.id, source.time);
-    let indexTarget = this.getItemIndex(target.id, target.time);
-    if (indexSource && indexSource !== indexTarget) {
-      this.items.splice(indexSource, 1);
-      this.items.splice(indexSource < indexTarget ? indexTarget - 1 : indexTarget, 0, source);
-      this.update();
-    }
+    this.pickedItems.remove(item);
   }
 
   itemDragStart(item: Item) {
@@ -78,16 +65,7 @@ export class ItemsComponent implements OnInit {
 
   itemDrop(item: Item) {
     this.dragging = false;
-    this.switchItem(this.dragged, item);
-  }
-
-  private getItemIndex(id: string, time: number): number|undefined {
-    for (let index in this.items) {
-      let item = this.items[index];
-      if (id === item.id && time === item.time) {
-        return parseInt(index, 10);
-      }
-    }
+    this.pickedItems.move(this.dragged, item);
   }
 
   private update() {
@@ -101,10 +79,15 @@ export class ItemsComponent implements OnInit {
   }
 
   private updateBundles(items: Array<Item>): Array<Item> {
+    for (let item of items) {
+      if (!item.bundle) {
+        item.bundle = 1;
+      }
+    }
+
     for (let index = 0; index < items.length - 1; index++) {
       let itemCurrent = items[index];
       let itemNext = items[index + 1];
-
       if (itemCurrent.id === itemNext.id && itemCurrent.bundle < itemCurrent.stacks) {
         itemCurrent.bundle++;
         items.splice(index + 1, 1);
@@ -165,6 +148,9 @@ export class ItemsComponent implements OnInit {
   }
 
   private updateSlots(items: Array<Item>): void {
+    if (!items) {
+      return;
+    }
     this.children.forEach((slot: ItemSlotComponent) => {
       slot.items = [];
     });
@@ -190,7 +176,7 @@ export class ItemsComponent implements OnInit {
   }
 
   private getItemsFrom(baseItem: Item): Array<string> {
-    if (!baseItem.from || !baseItem.from.length) {
+    if (!baseItem.from || !baseItem.from.length || !this.allItems) {
       return [];
     }
     let items: Array<Item> = baseItem.from.map((id: string) => {
@@ -255,13 +241,6 @@ export class ItemsComponent implements OnInit {
     if (!lastSlotItem || !lastSlotItem.contains.length) {
       return false;
     }
-    return this.contains(lastSlotItem, item);
-  }
-
-  private contains(item, item2): boolean {
-    return item.contains.find((containedItem: Item) => {
-      return this.getItemIndex(containedItem.id, containedItem.time) ===
-          this.getItemIndex(item2.id, item2.time);
-    }) !== undefined;
+    return this.pickedItems.contains(lastSlotItem, item);
   }
 }

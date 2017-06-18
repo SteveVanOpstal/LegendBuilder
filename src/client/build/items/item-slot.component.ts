@@ -105,7 +105,7 @@ export class ItemSlotComponent implements OnInit, DoCheck {
 
   private buildsFrom(subject: Item, item: Item): boolean {
     let from = subject.from;
-    if (!from) {
+    if (!from || !this.allItems) {
       return false;
     }
 
