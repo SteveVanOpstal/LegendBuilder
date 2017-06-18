@@ -158,7 +158,7 @@ describe('MasteriesComponent', () => {
   });
 });
 
-describe('MasteriesComponent', () => {
+xdescribe('MasteriesComponent', () => {
   providers();
 
   xit('should get masteries',
