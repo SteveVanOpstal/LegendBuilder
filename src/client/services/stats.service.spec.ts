@@ -121,26 +121,26 @@ describe('StatsService', () => {
         });
       })));
 
-  it('should process item stats', async(inject([MockBackend, StatsService], (backend, service) => {
-       backend.success(
-           'https://localhost:8082/euw/match/DinosHaveNoLife/Velkoz?gameTime=2700000&samples=32',
-           samples);
-       backend.success(
-           'https://localhost:8081/static-data/euw/v1.2/champion/Velkoz?champData=' +
-               'allytips,altimages,image,partype,passive,spells,stats,tags',
-           items);
-       // backend.run();
-       service.stats.subscribe(
-           (stats) => {
-             // done();
-             console.log(stats);
-             console.log(itemStatsResults);
-             expect(stats).toHaveEqualContent(itemStatsResults);
-           },
-           () => {
-             // done();
-             console.log('failure');
-             fail('unexpected failure');
-           });
-     })));
+  xit('should process item stats', async(inject([MockBackend, StatsService], (backend, service) => {
+        backend.success(
+            'https://localhost:8082/euw/match/DinosHaveNoLife/Velkoz?gameTime=2700000&samples=32',
+            samples);
+        backend.success(
+            'https://localhost:8081/static-data/euw/v1.2/champion/Velkoz?champData=' +
+                'allytips,altimages,image,partype,passive,spells,stats,tags',
+            items);
+        // backend.run();
+        service.stats.subscribe(
+            (stats) => {
+              // done();
+              console.log(stats);
+              console.log(itemStatsResults);
+              expect(stats).toHaveEqualContent(itemStatsResults);
+            },
+            () => {
+              // done();
+              console.log('failure');
+              fail('unexpected failure');
+            });
+      })));
 });
