@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.15"></a>
+# [1.0.0-alpha.15](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.14...v1.0.0-alpha.15) (2017-06-19)
+
+
+### Features
+
+* **server:** inifinite champion retries at increasing interval ([1513bdb](https://github.com/SteveVanOpstal/LegendBuilder/commit/1513bdb))
+* **services:** add PickedItemService ([2a6b806](https://github.com/SteveVanOpstal/LegendBuilder/commit/2a6b806))
+
+
+
 <a name="1.0.0-alpha.14"></a>
 # [1.0.0-alpha.14](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.13...v1.0.0-alpha.14) (2017-04-03)
 
