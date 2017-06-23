@@ -24,7 +24,7 @@ import {PreviewComponent} from './preview/preview.component';
     <div class="right-container">
       <div class="middle">
         <div class="search">
-          <input type="text" name="name" placeholder="Name" (keyup)="name=$event.target.value">
+          <input type="text" name="item name" placeholder="Item name" (keyup)="name=$event.target.value">
           <button type="button" name="show-disabled" title="Display hidden items">
             <lb-icon-eye></lb-icon-eye>
           </button>
