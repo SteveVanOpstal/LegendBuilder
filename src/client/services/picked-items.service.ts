@@ -61,7 +61,12 @@ export class PickedItemsService {
 
   private updateQuery(items: Array<Item>) {
     let urlTree = this.getUrlTree();
-    urlTree.queryParams['q'] = this.encodeItems(items);
+    let encodedItems = this.encodeItems(items);
+    if (encodedItems.length <= 0) {
+      urlTree.queryParams = {};
+    } else {
+      urlTree.queryParams['q'] = encodedItems;
+    }
     let url = this.serializer.serialize(urlTree);
     this.location.replaceState(url);
   }
