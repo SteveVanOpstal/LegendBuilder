@@ -4,11 +4,13 @@ import * as https from 'https';
 import * as url from 'url';
 
 let lru = require('lru-cache');
-import {retry, parallel, reflect} from 'async';
+import {retry} from 'async';
 import * as minimist from 'minimist';
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
+
+console.error('Running in \'' + process.env.NODE_ENV + '\'');
 
 function readFile(file: string) {
   try {
@@ -53,17 +55,7 @@ export class Server {
   headers = {'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'};
 
   protocol = 'https://';
-  hostname = '.api.pvp.net';
-
-  private options: https.RequestOptions = {
-    hostname: 'global.api.pvp.net',
-    method: 'GET',
-    headers: {
-      'User-Agent': 'Legend-Builder',
-      'Accept-Language': 'en-US',
-      'Accept-Charset': 'ISO-8859-1,utf-8'
-    }
-  };
+  hostname = '.api.riotgames.com';
 
   private cache;
 
@@ -75,8 +67,6 @@ export class Server {
       },
       maxAge: 1000 * 60 * 60 * 2
     }));
-
-    this.merge({Origin: 'https://' + settings.domain}, this.options.headers);
   }
 
   public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
@@ -94,18 +84,18 @@ export class Server {
     url = this.transformPath(url, region);
 
     let options: https.RequestOptions = {path: url};
-    this.merge(this.options, options);
-    options.hostname = url.indexOf('global') > 0 ? this.getHostname() : this.getHostname(region);
+    this.merge(this.getOptions(region), options);
+    options.hostname = this.getHostname(region);
 
     this.sendHttpsRequest(options, callback, opts);
   }
 
-  public getBaseUrl(region?: string) {
-    return this.protocol + this.getHostname(region) + '/api/lol' + (region ? '/' + region : '');
+  public getBaseUrl(region: string) {
+    return this.protocol + this.getHostname(region) + '/lol/';
   }
 
-  public getHostname(region?: string) {
-    return (region ? region : 'global') + this.hostname;
+  public getHostname(region: string) {
+    return region + this.hostname;
   }
 
   public setCache(url: string, data: any): void {
@@ -156,6 +146,12 @@ export class Server {
   private handleResponseSuccess(
       console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any,
       callback: (response: HostResponse) => void) {
+    if (res.statusCode !== 200) {
+      let error: HttpError = {status: res.statusCode, message: res.statusMessage};
+      this.handleResponseError(console, options, error, callback);
+      return;
+    }
+
     let json;
     try {
       json = JSON.parse(data);
@@ -213,79 +209,41 @@ export class Server {
   }
 
   private preRun() {
-    this.getRegions((regions: Array<string>) => {
-      let requests = [];
-      for (let region of regions) {
-        this.champions[region] = [];
-        requests.push(reflect((cb) => {
-          retry(
-              {
-                times: Infinity,
-                interval: (retryCount) => {
-                  let interval = 500 * Math.pow(2, retryCount);
-                  return interval < 60000 ? interval : 60000;
-                }
-              },
-              (callback: any) => {
-                this.getChampions(region, callback);
-              },
-              cb);
-        }));
-      }
-
-      parallel(requests, (_error: Error, results: Array<any>) => {
-        for (let result of results) {
-          if (result.error) {
-          } else {
-            this.champions[result.value.region] = result.value.champions;
-          }
-        }
-      });
-    });
-  }
-
-  private getRegions(callback: (regions: Array<string>) => void) {
-    let options = {
-      path: 'https://status.leagueoflegends.com/shards',
-      hostname: 'status.leagueoflegends.com',
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Legend-Builder',
-        'Accept-Language': 'en-US',
-        'Accept-Charset': 'ISO-8859-1,utf-8',
-        Origin: 'https://' + settings.domain
-      }
-    };
-
-    this.sendHttpsRequest(options, (res) => {
-      if (res.success) {
-        let regions = [];
-        for (let index in res.json) {
-          let region = res.json[index];
-          regions.push(region.slug);
-        }
-        callback(regions);
-      } else {
-        console.error('Unable to get regions');
-        process.exit(1);
-      }
-    });
+    for (let region of settings.api.regions) {
+      this.champions[region] = [];
+      retry(
+          {
+            times: Infinity,
+            interval: (retryCount) => {
+              let interval = 500 * Math.pow(2, retryCount);
+              return interval < 60000 ? interval : 60000;
+            }
+          },
+          (callback: any) => {
+            this.getChampions(region, callback);
+          },
+          (err, result) => {
+            if (!err) {
+              this.champions[result.region] = result.champions;
+            }
+          });
+    }
   }
 
   private getChampions(region: string, callback: any) {
-    let championUrl = this.protocol + this.getHostname() + '/api/lol/static-data/' + region + '/' +
-        settings.apiVersions['static-data'] + '/champion';
+    let championUrl = this.getBaseUrl(region) + 'static-data/' +
+        settings.api.versions['static-data'] + '/champions';
 
     championUrl = this.addApiKey(championUrl);
 
     let options: https.RequestOptions = {path: championUrl};
-    this.merge(this.options, options);
+    this.merge(this.getOptions(region), options);
 
     this.sendHttpsRequest(options, (response: HostResponse) => {
       if (response.success) {
         let champions = [];
         for (let championKey in response.json.data) {
-          champions[championKey.toLowerCase()] = response.json.data[championKey].id;
+          champions[championKey] = response.json.data[championKey].id;
         }
         callback(undefined, {region: region, champions: champions});
       } else {
@@ -314,14 +272,13 @@ export class Server {
   }
 
   private getChampionKey(path: string): string {
-    let parsedPath = url.parse(path, true);
-    let pathname = parsedPath.pathname.split('/');
-    let type = pathname[6];
-    if (type === 'champion') {
-      return pathname[7];
+    let pathname = getPathname(path);
+    if (pathname[4] === 'champions') {
+      return pathname[5];
     }
-    if (type === 'by-summoner') {
-      return parsedPath.query.championIds;
+    if (pathname[4] === 'matchlists') {
+      let query = getQuery(path);
+      return query.champion;
     }
     return undefined;
   }
@@ -330,7 +287,7 @@ export class Server {
     if (!this.champions[region]) {
       return 0;
     }
-    return this.champions[region][championKey.toLowerCase()];
+    return this.champions[region][championKey];
   }
 
   private addApiKey(path: string): string {
@@ -347,5 +304,18 @@ export class Server {
       return path;
     }
     return path.substr(0, apiKeyPostion + 8) + '***';
+  }
+
+  private getOptions(region: string): https.RequestOptions {
+    return {
+      hostname: this.getHostname(region),
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Legend-Builder',
+        'Accept-Language': 'en-US',
+        'Accept-Charset': 'ISO-8859-1,utf-8',
+        'Origin': 'https://' + settings.domain
+      }
+    };
   }
 }

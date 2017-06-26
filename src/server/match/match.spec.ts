@@ -7,36 +7,45 @@ describe('Match', () => {
   let server: MockServer;
   let match: Match;
 
-  let responseSummoner = {
-    url: 'summoner',
-    message: new MockHostResponseSuccess(JSON.stringify({'DinosHaveNoLife': {'id': 42457671}}))
+  let responseSummoners = {
+    url: 'summoners',
+    message: new MockHostResponseSuccess(JSON.stringify({'accountId': 123}))
   };
 
-  let responseMatchList = {
-    url: 'matchlist',
-    message: new MockHostResponseSuccess(JSON.stringify(
-        {'matches': [{'matchId': 2701428538}, {'matchId': 2698839638}, {'matchId': 2695882481}]}))
+  let responseMatchLists = {
+    url: 'matchlists/by-account',
+    message: new MockHostResponseSuccess(JSON.stringify({
+      'matches': [{'gameId': 2701428538}, {'gameId': 2698839638}, {'gameId': 2695882481}],
+      'totalGames': 3
+    }))
   };
 
   let responseMatch = {
-    url: 'match',
+    url: 'matches',
     message: new MockHostResponseSuccess(JSON.stringify({
-      'timeline': {
-        'frameInterval': 60000,
-        'frames': [
-          {'timestamp': 0, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
-          {'timestamp': 60047, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
-          {'timestamp': 120058, 'participantFrames': {'1': {'totalGold': 538, 'xp': 206}}},
-          {'timestamp': 180094, 'participantFrames': {'1': {'totalGold': 808, 'xp': 706}}}
-        ]
-      },
       'participantIdentities': [{
-        'player': {'summonerName': 'DinosHaveNoLife', 'summonerId': 42457671},
+        'player': {'summonerName': 'DinosHaveNoLife', 'currentAccountId': 123},
         'participantId': 1
       }],
+      'gameDuration': 2250,
       'mapId': 11
     }))
   };
+
+  let responseTimelines = {
+    url: 'timelines',
+    message: new MockHostResponseSuccess(JSON.stringify({
+      'frameInterval': 60000,
+      'frames': [
+        {'timestamp': 0, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
+        {'timestamp': 60047, 'participantFrames': {'1': {'totalGold': 500, 'xp': 0}}},
+        {'timestamp': 120058, 'participantFrames': {'1': {'totalGold': 538, 'xp': 206}}},
+        {'timestamp': 180094, 'participantFrames': {'1': {'totalGold': 808, 'xp': 706}}}
+      ]
+    }))
+  };
+
+
 
   beforeEach(() => {
     server = new MockServer();
@@ -44,8 +53,8 @@ describe('Match', () => {
     server.headers = {test: 'test'};
   });
 
-  it('should get the summoner id', () => {
-    server.responses = [responseSummoner, responseMatchList, responseMatch];
+  it('should get frames', () => {
+    server.responses = [responseSummoners, responseMatchLists, responseMatch, responseTimelines];
     let incomingMessage: any = {url: 'test'};
     let serverResponse: any = new MockServerResponse();
 
@@ -54,10 +63,18 @@ describe('Match', () => {
         incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe(responseSummoner.message.data);
+    expect(serverResponse.buffer).toBe(JSON.stringify({
+      'xp': [
+        0,    93,   657,  802,  904,  1007, 1109, 1211, 1314, 1416, 1519,
+        1621, 1724, 1826, 1929, 2031, 2134, 2236, 2339, 2441, 2544, 2646,
+        2749, 2851, 2954, 3056, 3159, 3261, 3364, 3466, 3569, 3671
+      ],
+      'gold': [
+        500,  517,  781,  850,  894,  939,  984,  1029, 1073, 1118, 1163,
+        1207, 1252, 1297, 1341, 1386, 1431, 1476, 1520, 1565, 1610, 1654,
+        1699, 1744, 1789, 1833, 1878, 1923, 1967, 2012, 2057, 2102
+      ]
+    }));
     expect(server.mockCache.url).toBe(incomingMessage.url);
-    // expect(server.mockCache.data).toBe(server.response.data);
-    // expect(server.response.success).toBeTruthy();
-    // expect(server.response.data).toBe(server.response.data);
   });
 });

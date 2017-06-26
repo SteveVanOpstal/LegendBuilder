@@ -9,7 +9,7 @@ import {Summoner} from './summoner';
 
 let config = {
   matches: {min: 2, max: 5},
-  matchDuration: {min: 18 * 60},
+  gameDuration: {min: 18 * 60},
   gameTime: {default: 45 * 60 * 1000, min: 30 * 60 * 1000, max: 60 * 60 * 1000},
   sampleSize: {default: 32, min: 8, max: 64},
   sampleTimeFrame: 10 * 60 * 1000,
@@ -78,24 +78,24 @@ export class Match {
         [
           (cb) => {
             this.summoner.getData(region, summonerName, (res: HostResponse) => {
-              if (res.success && res.json[summonerName.toLowerCase()]) {
-                cb(undefined, res.json[summonerName.toLowerCase()].id);
+              if (res.success) {
+                cb(undefined, res.json.accountId);
               } else {
                 callback(res);
               }
             });
           },
-          (summonerId: number, cb) => {
-            this.getMatchList(region, summonerId, championKey, (err: HttpError, results?: any) => {
+          (accountId: number, cb) => {
+            this.getMatchList(region, accountId, championKey, (err: HttpError, results?: any) => {
               if (err) {
                 cb(err);
               } else {
-                cb(undefined, summonerId, results);
+                cb(undefined, accountId, results);
               }
             });
           },
-          (summonerId: number, matches, cb) => {
-            this.getMatches(region, summonerId, matches, cb);
+          (accountId: number, matches, cb) => {
+            this.getMatches(region, accountId, matches, cb);
           }
         ],
         (error: Error, results: any) => {
@@ -130,10 +130,9 @@ export class Match {
         });
   }
 
-  private getMatchList(
-      region: string, summonerId: number, championKey: string, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.matchlist +
-        '/matchlist/by-summoner/' + summonerId + '?championIds=' + championKey;
+  private getMatchList(region: string, accountId: number, championKey: string, callback: CallBack) {
+    let path = this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
+        '/matchlists/by-account/' + accountId + '?champion=' + championKey;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.matches.min) {
         callback(undefined, res.json.matches);
@@ -145,13 +144,13 @@ export class Match {
     }, {times: 2, interval: 2000});
   }
 
-  private getMatches(region: string, summonerId: number, matches: any, callback: CallBack) {
+  private getMatches(region: string, accountId: number, matches: any, callback: CallBack) {
     let matchRequests = [];
     let i = 0;
     for (let match of matches) {
       i++;
       matchRequests.push(reflect((cb) => {
-        this.getMatch(region, match.matchId, (err: HttpError, results: any) => {
+        this.getMatch(region, match.gameId, (err: HttpError, results: any) => {
           if (err) {
             cb(Error(err.message), results);
           } else {
@@ -174,24 +173,26 @@ export class Match {
         }
 
         let result = results[index].value;
-        if (!result || !result.timeline || !result.timeline.frameInterval) {
+        if (!result || !result.timelines || !result.timelines.frames ||
+            !result.timelines.frameInterval) {
           colorConsole.warn('Match data incorrect.');
           continue;
         }
 
-        if (result.matchDuration < config.matchDuration.min) {
+        if (result.match.gameDuration < config.gameDuration.min) {
           colorConsole.warn(
-              'Match duration too short (%d/%d).', result.matchDuration, config.matchDuration.min);
+              'Match duration too short (%d/%d).', result.match.gameDuration,
+              config.gameDuration.min);
           continue;
         }
 
-        if (data.interval > result.timeline.frameInterval) {
-          data.interval = result.timeline.frameInterval;
+        if (data.interval > result.timelines.frameInterval) {
+          data.interval = result.timelines.frameInterval;
         }
 
         let participantId = -1;
-        result.participantIdentities.forEach((participant) => {
-          if (participant.player.summonerId === summonerId) {
+        result.match.participantIdentities.forEach((participant) => {
+          if (participant.player.currentAccountId === accountId) {
             participantId = participant.participantId;
           }
         });
@@ -201,13 +202,13 @@ export class Match {
           continue;
         }
 
-        if (result.timeline.frames.length <= 0) {
+        if (result.timelines.frames.length <= 0) {
           colorConsole.warn('Empty match.');
           continue;
         }
 
         data.matches[ind] = new Array();
-        result.timeline.frames.forEach((frame, frameIndex) => {
+        result.timelines.frames.forEach((frame, frameIndex) => {
           data.matches[ind][frameIndex] = {
             time: frame.timestamp,
             xp: frame.participantFrames[participantId].xp,
@@ -221,16 +222,52 @@ export class Match {
     });
   }
 
-  private getMatch(region: string, matchId: number, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.match + '/match/' +
-        matchId + '?includeTimeline=true';
-    this.server.sendRequest(path, region, (res: HostResponse) => {
-      if (res.success) {
-        callback(undefined, res.json);
-      } else {
-        callback(Errors.matches);
+  private getMatch(region: string, gameId: number, callback: CallBack) {
+    let requests = [];
+    requests.push(reflect((cb) => {
+      this.server.sendRequest(
+          this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match + '/matches/' +
+              gameId,
+          region, (res: HostResponse) => {
+            if (res.success) {
+              cb(undefined, {match: res.json});
+            } else {
+              cb(Errors.matches);
+            }
+          }, {times: 2, interval: 5000});
+    }));
+
+    requests.push(reflect((cb) => {
+      this.server.sendRequest(
+          this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
+              '/timelines/by-match/' + gameId,
+          region, (res: HostResponse) => {
+            if (res.success) {
+              cb(undefined, {timelines: res.json});
+            } else {
+              cb(Errors.matches);
+            }
+          }, {times: 2, interval: 5000});
+    }));
+
+    parallel(requests, (_err: Error, results: Array<any>) => {
+      let output = {match: undefined, timelines: undefined};
+      for (let result of results) {
+        if (result.error) {
+          callback(result.error);
+          return;
+        } else if (result.value) {
+          if (result.value.match) {
+            output.match = result.value.match;
+          } else if (result.value.timelines) {
+            output.timelines = result.value.timelines;
+          } else {
+            callback(Errors.matches);
+          }
+        }
       }
-    }, {times: 2, interval: 5000});
+      callback(undefined, output);
+    });
   }
 
   private fill(matches: Matches, interval: number, limit: number) {

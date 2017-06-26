@@ -10,11 +10,10 @@ export class Summoner {
     this.getData(region, name, (res) => {
       response.writeHead(res.status, this.server.headers);
       if (res.success) {
-        let summoner = res.json[name.toLowerCase()];
-        if (summoner && summoner.id) {
-          let summonerId = summoner.id.toString();
-          response.write(summonerId);
-          this.server.setCache(request.url, summonerId);
+        if (res.json && res.json.accountId) {
+          let accountId = res.json.accountId.toString();
+          response.write(accountId);
+          this.server.setCache(request.url, accountId);
         } else {
           response.write(res.data.toString());
         }
@@ -26,8 +25,8 @@ export class Summoner {
   }
 
   public getData(region: string, name: string, callback: (response: HostResponse) => void) {
-    let path = this.server.getBaseUrl(region) + '/' + settings.apiVersions.summoner +
-        '/summoner/by-name/' + name;
+    let path = this.server.getBaseUrl(region) + 'summoner/' + settings.api.versions.summoner +
+        '/summoners/by-name/' + name;
     this.server.sendRequest(path, region, callback);
   }
 }

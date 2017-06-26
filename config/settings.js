@@ -11,7 +11,10 @@ var exportSettings = helpers.merge(settings, {
   port: null,
   static: {port: 8081},
   match: {port: 8082, sampleSize: 32},
-  apiVersions: {'summoner': 'v1.4', 'matchlist': 'v2.2', 'match': 'v2.2', 'static-data': 'v1.2'},
+  api: {
+    regions: ['ru', 'kr', 'pbe1', 'br1', 'oc1', 'jp1', 'na1', 'eun1', 'euw1', 'tr1', 'la1'],
+    versions: {'summoner': 'v3', 'match': 'v3', 'static-data': 'v3', 'status': 'v3'},
+  },
   gameTime: 45 * 60 * 1000
 });
 

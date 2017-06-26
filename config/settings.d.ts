@@ -5,11 +5,13 @@ export declare module settings {
   let static: {port: number};
   let match: {port: number, sampleSize: number};
   let sampleSize: number;
-  let apiVersions: {
-    summoner: string,
-    matchlist: string,
-    match: string,
-    'static-data': string,
+  let api: {
+    regions: Array<string>,
+    versions: {
+      summoner: string,
+      match: string,
+      'static-data': string,
+    }
   };
   let gameTime: number;
 }

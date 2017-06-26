@@ -12,7 +12,7 @@ import {LolApiService} from '../services';
       <p>
         Enter your summoner name:
         <input type="text" name="name" #summoner>
-        <button (click)="getSummonerId(summoner)">Go</button>
+        <button (click)="getAccountId(summoner)">Go</button>
       </p>
       <p *ngIf="error">Error summoner does not exist</p>
     </div>`
@@ -24,8 +24,8 @@ export class SummonerComponent {
   constructor(
       private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
 
-  getSummonerId(event: HTMLInputElement) {
-    this.lolApi.getSummonerId(event.value)
+  getAccountId(event: HTMLInputElement) {
+    this.lolApi.getAccountId(event.value)
         .subscribe(
             res => {
               if (!isNaN(res)) {

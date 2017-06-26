@@ -71,8 +71,8 @@ describe('LolApiService', () => {
            });
      })));
 
-  it('should get summonerId', async(inject([LolApiService], (service) => {
-       service.getSummonerId('', '').subscribe(
+  it('should get accountId', async(inject([LolApiService], (service) => {
+       service.getAccountId('', '').subscribe(
            res => {
              expect(res).toBeDefined();
            },
@@ -137,14 +137,14 @@ describe('LolApiService', () => {
 
   it('should get the correct resolved link to the static-server',
      inject([LolApiService], (service) => {
-       expect(service.getEndpoint(Endpoint.static, 'static-data', 'region'))
-           .toBe('https://' + settings.domain + '/staticapi/static-data/region/v1.2');
+       expect(service.getEndpoint(Endpoint.static))
+           .toBe('https://' + settings.domain + '/staticapi/');
      }));
 
   it('should get the correct resolved link to the match-server',
      inject([LolApiService], (service) => {
-       expect(service.getEndpoint(Endpoint.match, 'static-data', 'region'))
-           .toBe('https://' + settings.domain + '/matchapi/region');
+       expect(service.getEndpoint(Endpoint.match))
+           .toBe('https://' + settings.domain + '/matchapi/');
      }));
 
   it('should not get incorrect params', inject([LolApiService], (service) => {
