@@ -2,17 +2,17 @@
 // If the target is set to null, then the browser is not run anywhere during CI.
 var CIconfiguration = {
   'Chrome':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Chrome-1':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Chrome-2':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome-1':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Chrome-2':     { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Firefox':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Firefox-1':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Firefox-2':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Firefox-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE':           { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'IE-1':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE-2':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Edge':         { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Edge-1':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Edge-2':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Edge-1':       { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
+  'Edge-2':       { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'Android-1':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'Android-2':    { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
@@ -119,13 +119,13 @@ var customLaunchers = {
     base: 'SauceLabs',
     browserName: 'MicrosoftEdge',
     platform: 'Windows 10',
-    version: 'latest-1'
+    version: '14'
   },
   'SL_EDGE-2': {
     base: 'SauceLabs',
     browserName: 'MicrosoftEdge',
     platform: 'Windows 10',
-    version: 'latest-2'
+    version: '13'
   },
   'SL_ANDROID': {
     base: 'SauceLabs',
