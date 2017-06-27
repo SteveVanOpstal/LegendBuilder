@@ -1,12 +1,12 @@
 // Unique place to configure the browsers which are used in the different CI jobs in Sauce Labs (SL).
 // If the target is set to null, then the browser is not run anywhere during CI.
 var CIconfiguration = {
-  'ChromeBeta':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Chrome':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Chrome-1':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'FirefoxBeta':  { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Firefox':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
-  'Firefox-1':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome':   { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome-1':       { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Chrome-2':     { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox':  { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox-1':      { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
+  'Firefox-2':    { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'IE':           { unitTest: {target: 'SL', required: true }, e2e: {target: null, required: false}},
   'IE-1':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
   'IE-2':         { unitTest: {target: 'SL', required: false}, e2e: {target: null, required: false}},
@@ -23,35 +23,35 @@ var CIconfiguration = {
 };
 
 var customLaunchers = {
-  'SL_CHROMEBETA': {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'beta'
-  },
   'SL_CHROME': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '56'
+    version: '59'
   },
   'SL_CHROME-1': {
     base: 'SauceLabs',
     browserName: 'chrome',
-    version: '55'
+    version: '58'
   },
-  'SL_FIREFOXBETA': {
+  'SL_CHROME-2': {
     base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'beta'
+    browserName: 'chrome',
+    version: '57'
   },
   'SL_FIREFOX': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: '51'
+    version: '54'
   },
   'SL_FIREFOX-1': {
     base: 'SauceLabs',
     browserName: 'firefox',
-    version: '50'
+    version: '53'
+  },
+  'SL_FIREFOX-2': {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: '52'
   },
   'SL_SAFARI': {
     base: 'SauceLabs',
