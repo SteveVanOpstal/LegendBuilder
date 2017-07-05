@@ -25,7 +25,7 @@ namespace Errors {
         ' ranked games with the chosen champion.'
   };
   export const matches: HttpError = {status: 500, message: 'Unable to process match data.'};
-};
+}
 
 interface Frame {
   time: number;

@@ -9,7 +9,7 @@ interface ErrorStackTraceLimit {
 
 // Extend jasmine matchers
 declare namespace jasmine {
-  interface Matchers {
+  interface Matchers<T> {
     toHaveEqualContent(expected: any): boolean;
   }
 }

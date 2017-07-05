@@ -7,10 +7,10 @@ import {Component, Input} from '@angular/core';
          [attr.src]="'sprite/' + item.image.sprite | lbDDragon"
          [style.object-position]="'-' + item.image.x + 'px -' + item.image.y + 'px'">
     <div>
-      <p class="name">{{item.name}}</p>
+      <p class="name">{{ item.name }}</p>
       <div class="gold">
         <img alt="gold" [attr.src]="'ui/gold.png' | lbDDragon">
-        <p>{{item.gold.total ? item.gold.total : 'Free'}}</p>
+        <p>{{ item.gold.total ? item.gold.total : 'Free' }}</p>
       </div>
     </div>`
 })

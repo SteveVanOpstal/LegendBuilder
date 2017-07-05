@@ -11,7 +11,7 @@ import {DataScale, TimeScale} from './scales';
 //     'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
 
 @Component({
-  selector: 'g[lbLine]',
+  selector: 'g[lb-line]',
   template: `
     <svg:path [attr.d]="d"
           class="line {{line?.name}}"
@@ -22,7 +22,7 @@ import {DataScale, TimeScale} from './scales';
            [ngClass]="{enabled: line?.enabled && focus.visible}"
            [attr.transform]="'translate(' + focus.position.x + ',' + focus.position.y + ')'">
       <circle r="4"></circle>
-      <text x="9" dy=".35em">{{focus.text}}</text>
+      <text x="9" dy=".35em">{{ focus.text }}</text>
     </svg:g>
   `
 })

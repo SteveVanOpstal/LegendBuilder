@@ -30,9 +30,8 @@ export interface Line {
          (mouseover)="mouseover()"
          (mouseout)="mouseout()">
       <g transform="translate(60,20)">
-        <g></g> 
         <g class="lines">
-          <g lbLine [line]="line" *ngFor="let line of lines"></g>
+          <g lb-line [line]="line" *ngFor="let line of lines"></g>
         </g>
         <g class="axes">
           <g class="x axis time" transform="translate(0,380)"></g>

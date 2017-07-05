@@ -33,9 +33,9 @@ import {Samples} from '../samples';
 })
 
 export class AbilitiesComponent implements OnInit {
-  private svg: any;
+  champion: any;
 
-  private champion: any;
+  private svg: any;
 
   private xScaleLevel = new LevelScale([0, 1420]);
   private xAxisLevelLine = new LevelAxisLine(200);

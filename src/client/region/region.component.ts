@@ -11,15 +11,15 @@ import {LolApiService} from '../services';
     <h2>Select your region:</h2>
     <button *ngFor="let region of regions | toArray">
       <a [routerLink]="[region.slug]">
-        <span>{{region.slug | uppercase}}</span>
-        <span>{{region.name}}</span>
+        <span>{{ region.slug | uppercase }}</span>
+        <span>{{ region.name }}</span>
       </a>
     </button>
   </div>`
 })
 
 export class RegionComponent implements OnInit {
-  private regions: Array<Object> = [];
+  regions: Array<Object> = [];
 
   private loading: boolean = true;
   private error: boolean = false;

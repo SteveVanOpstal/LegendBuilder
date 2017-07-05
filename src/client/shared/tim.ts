@@ -18,4 +18,4 @@ export function tim(template: string, data: Object) {
       }
     }
   });
-};
+}

@@ -11,7 +11,7 @@ import {Item} from '../../item';
          (click)="selectItem(item)"
          (contextmenu)="pickItem(item)">
     <p class="gold" (click)="selectItem(item)" (contextmenu)="pickItem(item)">
-      {{item?.gold?.total ? item?.gold?.total : ''}}
+      {{ item?.gold?.total ? item?.gold?.total : '' }}
     </p>`
 })
 

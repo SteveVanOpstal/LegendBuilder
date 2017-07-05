@@ -18,7 +18,7 @@ import {ItemBundle} from './item-bundle';
     </div>
     <div class="tree">
       <div class="item" *ngIf="item">
-        <h2>{{item.name}}</h2>
+        <h2>{{ item.name }}</h2>
         <lb-item [item]="item"
                  (itemPicked)="pickItem($event)"
                  (dblclick)="pickItem(item)">

@@ -124,6 +124,13 @@
       "check-separator",
       "check-type"
     ],
+    "angular-whitespace": [
+      true,
+      "check-interpolation",
+      "check-semicolon"
+    ],
+    "banana-in-box": true,
+    "templates-no-negated-async": true,
     "directive-selector": [
       true,
       "attribute",
@@ -132,14 +139,20 @@
     ],
     "component-selector": [
       true,
-      "element",
+      [
+        "element",
+        "attribute"
+      ],
       "lb",
       "kebab-case"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
+    "use-view-encapsulation": false,
     "no-attribute-parameter-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
     "no-forward-ref": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
@@ -150,9 +163,9 @@
     ],
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "import-destructuring-spacing": false,
     "templates-use-public": true,
     "no-access-missing-member": true,
-    "invoke-injectable": true
+    "invoke-injectable": true,
+    "template-to-ng-template": true
   }
 }

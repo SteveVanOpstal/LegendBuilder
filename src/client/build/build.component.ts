@@ -12,7 +12,7 @@ import {ShopComponent} from './shop/shop.component';
       <img *ngIf="champion"
            [attr.alt]="champion?.name"
            [attr.src]="'champion/' + champion?.image?.full | lbDDragon">
-      <h2>{{champion?.name}}</h2>
+      <h2>{{ champion?.name }}</h2>
     </div>
     <lb-graph></lb-graph>
     <!--<lb-abilities></lb-abilities>

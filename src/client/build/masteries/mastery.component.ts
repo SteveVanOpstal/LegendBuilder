@@ -11,7 +11,7 @@ import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
       <lb-rank *ngIf="data.ranks > 1 && rank > 0" [rank]="rank" [maxRank]="data.ranks"></lb-rank>
       <img [attr.alt]="data.name" [attr.src]="'mastery/' + data.image.full | lbDDragon">
       <div class="description">
-        <h2>{{data.name}}</h2>
+        <h2>{{ data.name }}</h2>
         <p [innerHTML]="description">loading..</p>
       </div>
     </div>`

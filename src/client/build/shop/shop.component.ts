@@ -11,20 +11,23 @@ import {PreviewComponent} from './preview/preview.component';
     <div class="left">
       <button type="button" name="all-items">All Items</button>
       <div class="category" *ngFor="let category of tree | toArray">
-        <p class="noselect">{{category.header | lbTranslate | lbCapitalize}}</p>
+        <p class="noselect">{{ category.header | lbTranslate | lbCapitalize }}</p>
         <hr>
         <label *ngFor="let tag of category.tags">
           <input *ngIf="tag != '_SORTINDEX'"
                  type="checkbox" value="{{tag}}"
                  (change)="tagChanged($event)">
-          <span *ngIf="tag != '_SORTINDEX'">{{tag | lbTranslate | lbCapitalize}}</span>
+          <span *ngIf="tag != '_SORTINDEX'">{{ tag | lbTranslate | lbCapitalize }}</span>
         </label>
       </div>
     </div>
     <div class="right-container">
       <div class="middle">
         <div class="search">
-          <input type="text" name="item name" placeholder="Item name" (keyup)="name=$event.target.value">
+          <input type="text"
+                 name="item name"
+                 placeholder="Item name"
+                 (keyup)="name=$event.target.value">
           <button type="button" name="show-disabled" title="Display hidden items">
             <lb-icon-eye></lb-icon-eye>
           </button>

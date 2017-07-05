@@ -5,7 +5,7 @@ import {Component, Input} from '@angular/core';
   template: `
   <p *ngIf="error" class="error-item">
     <lb-icon-error class="error"></lb-icon-error>
-    <span class="error error-text">{{message}}</span>
+    <span class="error error-text">{{ message }}</span>
   </p>`
 })
 

@@ -22,14 +22,14 @@ export class MockRouter {
         children: [{
           url: Observable.create((observer: Observer<UrlSegment[]>) => {
             observer.next([
-              {path: 'build', parameters: {}}, {path: this.region, parameters: {}},
-              {path: 'DinosHaveNoLife', parameters: {}}, {path: 'Velkoz', parameters: {}}
+              new UrlSegment('build', {}), new UrlSegment(this.region, {}),
+              new UrlSegment('DinosHaveNoLife', {}), new UrlSegment('Velkoz', {})
             ]);
           })
         }]
       }
     };
-  };
+  }
 }
 
 export class MockActivatedRoute {
