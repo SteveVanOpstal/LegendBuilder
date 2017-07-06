@@ -8,6 +8,7 @@ All commands mentioned should be ran from the project root.
 
 * [Git](http://git-scm.com) (a **GitHub app** exists for [Mac or Windows](http://desktop.github.com), but use whatever you prefer).
 * [Node.js](http://nodejs.org), (version `>=4.2.1` `<5`). It should include [npm](https://www.npmjs.com/) (node package manager).
+* (optional) [Yarn](https://yarnpkg.com), can be used instead of npm
 
 ## <a name="start"></a> Getting started
 
