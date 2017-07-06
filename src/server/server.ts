@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import {IncomingMessage, ServerResponse} from 'http';
 import * as https from 'https';
-import * as url from 'url';
+import * as nodeurl from 'url';
 
 let lru = require('lru-cache');
 import {retry} from 'async';
@@ -9,8 +9,6 @@ import * as minimist from 'minimist';
 
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
-
-console.error('Running in \'' + process.env.NODE_ENV + '\'');
 
 function readFile(file: string) {
   try {
@@ -36,12 +34,12 @@ export interface HostResponse {
 }
 
 export function getPathname(path: string): Array<string> {
-  let pathname = url.parse(path).pathname;
+  let pathname = nodeurl.parse(path).pathname;
   return pathname.split('/');
 }
 
 export function getQuery(path: string): any {
-  return url.parse(path, true).query;
+  return nodeurl.parse(path, true).query;
 }
 
 export interface HttpError {
@@ -81,12 +79,9 @@ export class Server {
   public sendRequest(
       url: string, region: string, callback: (response: HostResponse) => void,
       opts?: {times: number, interval: number}): void {
-    url = this.transformPath(url, region);
+    let path = this.transformPath(url, region);
 
-    let options: https.RequestOptions = {path: url};
-    this.merge(this.getOptions(region), options);
-    options.hostname = this.getHostname(region);
-
+    let options = this.getOptions(region, {path: path});
     this.sendHttpsRequest(options, callback, opts);
   }
 
@@ -169,7 +164,7 @@ export class Server {
 
     let response: HostResponse =
         {data: data, json: json, status: res.statusCode, success: res.statusCode === 200};
-    console.logHttp(options.method, this.maskApiKey(options.path), res.statusCode);
+    console.logHttp(options.method, options.path, res.statusCode);
     callback(response);
   }
 
@@ -177,7 +172,7 @@ export class Server {
       console: ColorConsole, options: https.RequestOptions, e: HttpError,
       callback: (response: HostResponse) => void) {
     let response: HostResponse = {data: e.message, status: e.status, success: false};
-    console.logHttp(options.method, this.maskApiKey(options.path), e.status, e.message);
+    console.logHttp(options.method, options.path, e.status, e.message);
     callback(response);
   }
 
@@ -234,11 +229,7 @@ export class Server {
     let championUrl = this.getBaseUrl(region) + 'static-data/' +
         settings.api.versions['static-data'] + '/champions';
 
-    championUrl = this.addApiKey(championUrl);
-
-    let options: https.RequestOptions = {path: championUrl};
-    this.merge(this.getOptions(region), options);
-
+    let options = this.getOptions(region, {path: championUrl});
     this.sendHttpsRequest(options, (response: HostResponse) => {
       if (response.success) {
         let champions = [];
@@ -254,9 +245,7 @@ export class Server {
   }
 
   private transformPath(path: string, region: string): string {
-    path = this.replaceChampion(path, region);
-    path = this.addApiKey(path);
-    return path;
+    return this.replaceChampion(path, region);
   }
 
   private replaceChampion(path: string, region: string): string {
@@ -290,32 +279,19 @@ export class Server {
     return this.champions[region][championKey];
   }
 
-  private addApiKey(path: string): string {
-    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + apiKey;
-    return path;
-  }
-
-  private maskApiKey(path: string): string {
-    if (process.env.NODE_ENV === 'development') {
-      return path;
-    }
-    let apiKeyPostion = path.indexOf('api_key=');
-    if (apiKeyPostion === -1) {
-      return path;
-    }
-    return path.substr(0, apiKeyPostion + 8) + '***';
-  }
-
-  private getOptions(region: string): https.RequestOptions {
-    return {
-      hostname: this.getHostname(region),
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Legend-Builder',
-        'Accept-Language': 'en-US',
-        'Accept-Charset': 'ISO-8859-1,utf-8',
-        'Origin': 'https://' + settings.domain
-      }
-    };
+  private getOptions(region: string, options?: https.RequestOptions): https.RequestOptions {
+    return this.merge(
+        {
+          hostname: this.getHostname(region),
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Legend-Builder',
+            'Accept-Language': 'en-US',
+            'Accept-Charset': 'ISO-8859-1,utf-8',
+            'Origin': 'https://' + settings.domain,
+            'X-Riot-Token': apiKey
+          }
+        },
+        options);
   }
 }
