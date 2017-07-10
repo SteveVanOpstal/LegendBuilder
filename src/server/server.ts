@@ -169,7 +169,7 @@ export class Server {
 
     let response: HostResponse =
         {data: data, json: json, status: res.statusCode, success: res.statusCode === 200};
-    console.logHttp(options.method, this.maskApiKey(options.path), res.statusCode);
+    console.logHttp(options.method, options.path, res.statusCode);
     callback(response);
   }
 
@@ -177,7 +177,7 @@ export class Server {
       console: ColorConsole, options: https.RequestOptions, e: HttpError,
       callback: (response: HostResponse) => void) {
     let response: HostResponse = {data: e.message, status: e.status, success: false};
-    console.logHttp(options.method, this.maskApiKey(options.path), e.status, e.message);
+    console.logHttp(options.method, options.path, e.status, e.message);
     callback(response);
   }
 
@@ -231,12 +231,10 @@ export class Server {
   }
 
   private getChampions(region: string, callback: any) {
-    let championUrl = this.getBaseUrl(region) + 'static-data/' +
-        settings.api.versions['static-data'] + '/champions';
-
-    championUrl = this.addApiKey(championUrl);
-
-    let options: https.RequestOptions = {path: championUrl};
+    let options: https.RequestOptions = {
+      path: this.getBaseUrl(region) + 'static-data/' + settings.api.versions['static-data'] +
+          '/champions'
+    };
     this.merge(this.getOptions(region), options);
 
     this.sendHttpsRequest(options, (response: HostResponse) => {
@@ -255,7 +253,6 @@ export class Server {
 
   private transformPath(path: string, region: string): string {
     path = this.replaceChampion(path, region);
-    path = this.addApiKey(path);
     return path;
   }
 
@@ -290,22 +287,6 @@ export class Server {
     return this.champions[region][championKey];
   }
 
-  private addApiKey(path: string): string {
-    path += (path.indexOf('?') < 0 ? '?' : '&') + 'api_key=' + apiKey;
-    return path;
-  }
-
-  private maskApiKey(path: string): string {
-    if (process.env.NODE_ENV === 'development') {
-      return path;
-    }
-    let apiKeyPostion = path.indexOf('api_key=');
-    if (apiKeyPostion === -1) {
-      return path;
-    }
-    return path.substr(0, apiKeyPostion + 8) + '***';
-  }
-
   private getOptions(region: string): https.RequestOptions {
     return {
       hostname: this.getHostname(region),
@@ -314,7 +295,8 @@ export class Server {
         'User-Agent': 'Legend-Builder',
         'Accept-Language': 'en-US',
         'Accept-Charset': 'ISO-8859-1,utf-8',
-        'Origin': 'https://' + settings.domain
+        'Origin': 'https://' + settings.domain,
+        'X-Riot-Token': apiKey
       }
     };
   }
