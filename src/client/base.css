@@ -180,6 +180,7 @@ help .content {
 
 .icon-load {
   animation: spin .8s linear infinite;
+  display: flex;
   fill: #aaa;
   margin: 0 auto;
   padding: 10px;
@@ -310,6 +311,8 @@ button:disabled {
   display: flex;
   font-size: 1.3em;
   justify-content: space-between;
+  margin: 0 auto;
+  max-width: 500px;
   padding: 10px;
 }
 

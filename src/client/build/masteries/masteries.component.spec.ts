@@ -6,9 +6,7 @@ import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
 import {LolApiService} from '../../services';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
-import {ErrorComponent} from '../../shared/error.component';
 import {LoadingComponent} from '../../shared/loading.component';
-import {RetryComponent} from '../../shared/retry.component';
 import {TestModule} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
@@ -69,8 +67,8 @@ let providers = () => {
       providers: [MasteriesComponent, LolApiService],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
-        LoadingComponent, RetryComponent, ErrorComponent, RankComponent, IconLoadComponent,
-        IconRefreshComponent, IconErrorComponent, DDragonPipe
+        LoadingComponent, RankComponent, IconLoadComponent, IconRefreshComponent,
+        IconErrorComponent, DDragonPipe
       ],
       imports: [TestModule]
     });

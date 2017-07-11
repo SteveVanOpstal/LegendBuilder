@@ -15,8 +15,8 @@ import {PreviewComponent} from './preview/preview.component';
         <hr>
         <label *ngFor="let tag of category.tags">
           <input *ngIf="tag != '_SORTINDEX'"
-                 type="checkbox" value="{{tag}}"
-                 (change)="tagChanged($event)">
+                type="checkbox" value="{{tag}}"
+                (change)="tagChanged($event)">
           <span *ngIf="tag != '_SORTINDEX'">{{ tag | lbTranslate | lbCapitalize }}</span>
         </label>
       </div>
@@ -34,13 +34,13 @@ import {PreviewComponent} from './preview/preview.component';
         </div>
         <div class="items">
           <ng-template ngFor let-item [ngForOf]="items
-                                               | toArray
-                                               | lbMap:11
-                                               | lbChampion:123
-                                               | lbHide
-                                               | lbTags:tags
-                                               | lbName:name
-                                               | lbSort">
+                                              | toArray
+                                              | lbMap:11
+                                              | lbChampion:123
+                                              | lbHide
+                                              | lbTags:tags
+                                              | lbName:name
+                                              | lbSort">
             <lb-item [item]="item"
                   [ngClass]="{disabled: item.disabled}"
                   [attr.title]="item.description"
@@ -49,8 +49,7 @@ import {PreviewComponent} from './preview/preview.component';
                   (dblclick)="pickItem(item);preview.selectItem(item)">
             </lb-item>
           </ng-template>
-          <lb-loading [loading]="loading"></lb-loading>
-          <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>
+          <lb-loading [observable]="lolApi.getItems()"></lb-loading>
         </div>
       </div>
       <div class="right">
@@ -65,9 +64,6 @@ import {PreviewComponent} from './preview/preview.component';
 export class ShopComponent implements OnInit {
   @ViewChild(PreviewComponent) preview: PreviewComponent;
 
-  loading: boolean = true;
-  error: boolean = false;
-
   tags: Array<string> = [];
   name: string;
 
@@ -75,23 +71,14 @@ export class ShopComponent implements OnInit {
   tree: Array<Item> = [];
   private originalItems: Array<Item> = [];
 
-  constructor(private lolApi: LolApiService, private pickedItems: PickedItemsService) {}
+  constructor(public lolApi: LolApiService, private pickedItems: PickedItemsService) {}
 
   ngOnInit() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getItems().subscribe(
-        res => {
-          this.items = res.data;
-          this.tree = res.tree;
-          this.originalItems = this.items;
-          this.loading = false;
-        },
-        () => {
-          this.error = true;
-          this.loading = false;
-        });
+    this.lolApi.getItems().subscribe(res => {
+      this.items = res.data;
+      this.tree = res.tree;
+      this.originalItems = this.items;
+    });
   }
 
   tagChanged(event: Event) {

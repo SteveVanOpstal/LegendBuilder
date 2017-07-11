@@ -9,14 +9,14 @@ import {MasteryComponent} from './mastery.component';
 @Component({
   selector: 'lb-masteries',
   template: `
-    <lb-mastery-category [class]="category.name + ' noselect'"
-                      [data]="category"
-                      *ngFor="let category of data"
-                      (rankAdded)="rankAdd($event)"
-                      (rankRemoved)="rankRemove()">
-    </lb-mastery-category>
-    <lb-loading [loading]="loading"></lb-loading>
-    <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
+    <lb-loading [observable]="lolApi.getMasteries()">
+      <lb-mastery-category [class]="category.name + ' noselect'"
+                        [data]="category"
+                        *ngFor="let category of data"
+                        (rankAdded)="rankAdd($event)"
+                        (rankRemoved)="rankRemove()">
+      </lb-mastery-category>
+    </lb-loading>`
 })
 
 export class MasteriesComponent implements OnInit {
@@ -24,24 +24,12 @@ export class MasteriesComponent implements OnInit {
   children: QueryList<MasteryCategoryComponent>;
   data: Object;
 
-  loading: boolean = true;
-  error: boolean = false;
-
-  constructor(private lolApi: LolApiService) {}
+  constructor(public lolApi: LolApiService) {}
 
   public ngOnInit() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getMasteries().subscribe(
-        res => {
-          this.data = this.transformData(res);
-          this.loading = false;
-        },
-        () => {
-          this.error = true;
-          this.loading = false;
-        });
+    this.lolApi.getMasteries().subscribe(res => {
+      this.data = this.transformData(res);
+    });
   }
 
   public enable() {

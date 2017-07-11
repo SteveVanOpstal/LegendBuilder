@@ -21,14 +21,16 @@ export interface Line {
 @Component({
   selector: 'lb-graph',
   template: `
-    <lb-legend [lines]="lines"></lb-legend>
+    <lb-loading [observable]="lolApi.getCurrentMatchData()">
+      <lb-legend [lines]="lines"></lb-legend>
+    </lb-loading>
     <svg xmlns="http://www.w3.org/2000/svg"
-         width="100%"
-         height="100%"
-         viewBox="0 0 1500 400"
-         (mousemove)="mousemove($event)"
-         (mouseover)="mouseover()"
-         (mouseout)="mouseout()">
+        width="100%"
+        height="100%"
+        viewBox="0 0 1500 400"
+        (mousemove)="mousemove($event)"
+        (mouseover)="mouseover()"
+        (mouseout)="mouseout()">
       <g transform="translate(60,20)">
         <g class="lines">
           <g lb-line [line]="line" *ngFor="let line of lines"></g>
@@ -55,8 +57,8 @@ export class GraphComponent implements OnInit {
   private mouseOffsetX: number;
 
   constructor(
-      @Inject(ElementRef) private elementRef: ElementRef, private lolApi: LolApiService,
-      private statsService: StatsService) {}
+      @Inject(ElementRef) private elementRef: ElementRef, public lolApi: LolApiService,
+      private stats: StatsService) {}
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
@@ -64,14 +66,12 @@ export class GraphComponent implements OnInit {
     this.overlay = this.svg.select('.overlay');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
-    this.statsService.stats.subscribe((stats) => {
+    this.stats.stats.subscribe((stats) => {
       this.updateLines(stats, curveStepAfter);
     });
 
     this.lolApi.getCurrentMatchData().subscribe((samples: Samples) => {
-      if (this.svg) {
-        this.updateSamples(samples);
-      }
+      this.updateSamples(samples);
     });
   }
 

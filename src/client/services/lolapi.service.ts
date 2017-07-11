@@ -93,7 +93,10 @@ export class LolApiService {
   private cache(url: string): Observable<any> {
     if (!this.cachedObservables[url]) {
       this.cachedObservables[url] =
-          Observable.defer(() => this.http.get(url)).publishReplay().refCount();
+          Observable.defer(() => this.http.get(url).retryWhen(errors => errors.delay(1000)))
+              .publishReplay()
+              .refCount()
+              .catch((error) => Observable.throw(error.message ? error.message : error.toString()));
     }
     return this.cachedObservables[url].take(1).map(res => res.json());
   }

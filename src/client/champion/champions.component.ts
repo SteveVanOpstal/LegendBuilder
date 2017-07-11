@@ -10,23 +10,21 @@ import {ChampionComponent} from './champion.component';
   encapsulation: ViewEncapsulation.None,
   styles: [require('./champion.css').toString()],
   template: `
-    <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
-    </lb-filters>
-    <lb-champion *ngFor="let champion of champions
-                        | toArray
-                        | fuzzyBy:'name':name
-                        | lbSort:sort
-                        | lbTags:tags"
-                 [champion]="champion">
-    </lb-champion>
-    <lb-loading [loading]="loading"></lb-loading>
-    <lb-retry [error]="error" (retry)="ngOnInit()"></lb-retry>`
+    <lb-loading [observable]="lolApi.getChampions()">
+      <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
+      </lb-filters>
+      <lb-champion *ngFor="let champion of champions
+                          | toArray
+                          | fuzzyBy:'name':name
+                          | lbSort:sort
+                          | lbTags:tags"
+                  [champion]="champion">
+      </lb-champion>
+    </lb-loading>`
 })
 
 export class ChampionsComponent implements OnInit {
   champions: Object = {};
-  loading: boolean = true;
-  error: boolean = false;
 
   tags: Array<string> = [];
   name: string;
@@ -34,30 +32,18 @@ export class ChampionsComponent implements OnInit {
 
   @ViewChildren(ChampionComponent) activeChampions: QueryList<ChampionComponent>;
 
-  constructor(
-      private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
+  constructor(private route: ActivatedRoute, private router: Router, public lolApi: LolApiService) {
+  }
 
   ngOnInit() {
-    this.loading = true;
-    this.error = false;
-
-    this.lolApi.getChampions().subscribe(
-        res => {
-          this.champions = res.data;
-          this.loading = false;
-        },
-        () => {
-          this.error = true;
-          this.loading = false;
-        });
+    this.lolApi.getChampions().subscribe(res => {
+      this.champions = res.data;
+    });
   }
 
   enterHit() {
     if (this.activeChampions && this.activeChampions.length === 1) {
-      this.router.navigate([this.activeChampions.first.champion.key], {relativeTo: this.route})
-          .catch(() => {
-            this.error = true;
-          });
+      this.router.navigate([this.activeChampions.first.champion.key], {relativeTo: this.route});
     }
   }
 }

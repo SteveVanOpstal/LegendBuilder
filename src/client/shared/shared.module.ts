@@ -5,19 +5,13 @@ import {AssetsModule} from '../assets/assets.module';
 
 import {CapitalizePipe} from './capitalize.pipe';
 import {DDragonPipe} from './ddragon.pipe';
-import {ErrorComponent} from './error.component';
 import {LoadingComponent} from './loading.component';
-import {RetryComponent} from './retry.component';
 import {TranslatePipe} from './translate.pipe';
 
 @NgModule({
-  declarations: [
-    CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent, TranslatePipe
-  ],
+  declarations: [CapitalizePipe, DDragonPipe, LoadingComponent, TranslatePipe],
   imports: [CommonModule, AssetsModule],
-  exports: [
-    CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, RetryComponent, TranslatePipe
-  ]
+  exports: [CapitalizePipe, DDragonPipe, LoadingComponent, TranslatePipe]
 })
 export class SharedModule {
 }
