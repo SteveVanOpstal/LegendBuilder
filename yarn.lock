@@ -196,6 +196,10 @@ acorn@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.1.tgz#53fe161111f912ab999ee887a90a0bc52822fd75"
 
+add-matchers@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/add-matchers/-/add-matchers-0.5.0.tgz#502190e4750cd5721618393268b61a157366e765"
+
 adm-zip@0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.4.tgz#a61ed5ae6905c3aea58b3a657d25033091052736"
@@ -3050,10 +3054,6 @@ istanbul@0.x.x, istanbul@^0.4.0:
 jasmine-core@^2.6.4, jasmine-core@~2.6.0:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.6.4.tgz#dec926cd0a9fa287fb6db5c755fa487e74cecac5"
-
-jasmine-matchers-loader@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/jasmine-matchers-loader/-/jasmine-matchers-loader-0.1.0.tgz#dda23db8a3ff99ec3b635be085d875d52f0f0050"
 
 jasmine@^2.5.3:
   version "2.6.0"
