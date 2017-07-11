@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
     <lb-icon-load *ngIf="loading"></lb-icon-load>`
 })
 
-export class LoadingComponent {
+export class LoadingComponent implements OnInit {
   loading: boolean = true;
   @Input() observable = new Observable<any>();
 

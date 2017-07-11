@@ -8,6 +8,6 @@ describe('LoadingComponent', () => {
   });
 
   it('should be initialised', inject([LoadingComponent], (component) => {
-       expect(component.loading).not.toBeDefined();
+       expect(component.loading).toBeTruthy();
      }));
 });
