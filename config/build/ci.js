@@ -18,6 +18,31 @@ if (!process.env.BUILD || !process.env.TUNNEL_IDENTIFIER) {
   }
 }
 
+console.log('\n');
+console.log('          MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('          MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM              MMMMMMMMMM');
+console.log('          MMMM        MMMM              MMMMMMMMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMM                    MMMM');
+console.log('          MMMM        MMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('          MMMM        MMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('          MMMM                                MMMM');
+console.log('          MMMM                                MMMM');
+console.log('          MMMM                                MMMM');
+console.log('          MMMM                                MMMM');
+console.log('          MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('          MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+console.log('\n');
+
+
+
 /* configuration */
 
 let modes = {
