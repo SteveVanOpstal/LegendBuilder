@@ -10,22 +10,6 @@ import * as minimist from 'minimist';
 import {ColorConsole} from './console';
 import {settings} from '../../config/settings';
 
-function readFile(file: string) {
-  try {
-    return fs.readFileSync(file);
-  } catch (e) {
-    let console = new ColorConsole();
-    console.error(file + ' missing');
-    return '';
-  }
-}
-
-let argv = minimist(process.argv.slice(2));
-
-let apiKey = readFile(argv['api']).toString().replace(/^\s+|\s+$/g, '');
-let ssl = {cert: readFile(argv['cert']), key: readFile(argv['key'])};
-
-
 export interface HostResponse {
   data: string;
   json?: any;
@@ -56,24 +40,50 @@ export class Server {
   hostname = '.api.riotgames.com';
 
   private cache;
+  private server;
+  private callb;
+
+  private ssl = {cert: '', key: ''};
+  private apiKey = '';
 
   constructor(private port: number, cacheSettings?: any) {
-    this.cache = lru(this.merge(cacheSettings, {
-      max: 1048576,
-      length: (n) => {
-        return n.length * 2;
-      },
-      maxAge: 1000 * 60 * 60 * 2
-    }));
+    let argv = minimist(process.argv.slice(2));
+
+    this.apiKey = this.readFile(argv['api']);
+    this.watchFile(argv['api'], file => this.apiKey = file.replace(/^\s+|\s+$/g, ''));
+
+    this.ssl.cert = this.readFile(argv['cert']);
+    this.watchFile(argv['cert'], file => {
+      this.ssl.cert = file;
+      this.restart();
+    });
+
+    this.ssl.key = this.readFile(argv['key']);
+    this.watchFile(argv['key'], file => {
+      this.ssl.key = file;
+      this.restart();
+    });
+
+    this.cache = lru(this.merge(
+        cacheSettings, {max: 1048576, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 2}));
   }
 
   public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     this.preRun();
-    let server = https.createServer(ssl, (request: IncomingMessage, response: ServerResponse) => {
-      this.handleRequest(request, response, callback);
-    });
-    server.listen(this.port);
-    console.log('listening on port: ' + this.port);
+    this.callb = callback;
+    this.start(callback);
+  }
+
+  public restart() {
+    if (this.server) {
+      try {
+        this.server.close(() => this.start(this.callb));
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      this.start(this.callb);
+    }
   }
 
   public sendRequest(
@@ -209,7 +219,7 @@ export class Server {
       retry(
           {
             times: Infinity,
-            interval: (retryCount) => {
+            interval: retryCount => {
               let interval = 500 * Math.pow(2, retryCount);
               return interval < 60000 ? interval : 60000;
             }
@@ -222,6 +232,19 @@ export class Server {
               this.champions[result.region] = result.champions;
             }
           });
+    }
+  }
+
+  private start(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
+    try {
+      this.server =
+          https.createServer(this.ssl, (request: IncomingMessage, response: ServerResponse) => {
+            this.handleRequest(request, response, callback);
+          });
+      this.server.listen(this.port);
+      console.log('listening on port: ' + this.port);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -289,9 +312,30 @@ export class Server {
             'Accept-Language': 'en-US',
             'Accept-Charset': 'ISO-8859-1,utf-8',
             'Origin': 'https://' + settings.domain,
-            'X-Riot-Token': apiKey
+            'X-Riot-Token': this.apiKey
           }
         },
         options);
+  }
+
+
+  private readFile(filename: string): string {
+    try {
+      return fs.readFileSync(filename).toString();
+    } catch (e) {
+      let console = new ColorConsole();
+      console.error('`' + filename + '` missing or inaccesible');
+      console.error(e);
+      return undefined;
+    }
+  }
+
+  private watchFile(filename: string, listener: FunctionStringCallback): void {
+    fs.watch(filename, () => {
+      let result = this.readFile(filename);
+      if (result) {
+        listener(result);
+      }
+    });
   }
 }
