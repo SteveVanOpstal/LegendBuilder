@@ -10,9 +10,9 @@ import {ChampionComponent} from './champion.component';
   encapsulation: ViewEncapsulation.None,
   styles: [require('./champion.css').toString()],
   template: `
+    <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
+    </lb-filters>
     <lb-loading [observable]="lolApi.getChampions()">
-      <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
-      </lb-filters>
       <lb-champion *ngFor="let champion of champions
                           | toArray
                           | fuzzyBy:'name':name
@@ -24,7 +24,7 @@ import {ChampionComponent} from './champion.component';
 })
 
 export class ChampionsComponent implements OnInit {
-  champions: Object = {};
+  champions: Array<any> = [];
 
   tags: Array<string> = [];
   name: string;
@@ -36,9 +36,7 @@ export class ChampionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lolApi.getChampions().subscribe(res => {
-      this.champions = res.data;
-    });
+    this.lolApi.getChampions().subscribe(champions => this.champions = champions.data);
   }
 
   enterHit() {

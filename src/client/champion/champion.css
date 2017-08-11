@@ -2,7 +2,7 @@
   background-color: #fff;
 }
 
-lb-champions {
+lb-champions > lb-loading {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
