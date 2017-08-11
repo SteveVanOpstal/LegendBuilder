@@ -31,8 +31,6 @@ export class BuildComponent implements OnInit {
   constructor(public lolApi: LolApiService) {}
 
   ngOnInit() {
-    this.lolApi.getCurrentChampion().subscribe((champion) => {
-      this.champion = champion;
-    });
+    this.lolApi.getCurrentChampion().subscribe(champion => this.champion = champion);
   }
 }
