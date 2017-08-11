@@ -257,7 +257,7 @@ export class Server {
       if (response.success) {
         let champions = [];
         for (let championKey in response.json.data) {
-          champions[championKey] = response.json.data[championKey].id;
+          champions[championKey.toLowerCase()] = response.json.data[championKey].id;
         }
         callback(undefined, {region: region, champions: champions});
       } else {
@@ -299,7 +299,7 @@ export class Server {
     if (!this.champions[region]) {
       return 0;
     }
-    return this.champions[region][championKey];
+    return this.champions[region][championKey.toLowerCase()];
   }
 
   private getOptions(region: string, options?: https.RequestOptions): https.RequestOptions {
