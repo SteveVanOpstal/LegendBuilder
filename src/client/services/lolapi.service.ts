@@ -93,12 +93,38 @@ export class LolApiService {
   private cache(url: string): Observable<any> {
     if (!this.cachedObservables[url]) {
       this.cachedObservables[url] =
-          Observable.defer(() => this.http.get(url).retryWhen(errors => errors.delay(1000)))
+          Observable
+              .defer(() => this.http.get(url).retryWhen(errors => {
+                return errors.zip(Observable.range(1, 4)).flatMap(([error, i]) => {
+                  try {
+                    this.abort('Bad request', error, 400);
+                    this.abort('Unauthorised', error, 401);
+                    this.abort('Forbidden', error, 403);
+                    this.abort('Not Found', error, 404);
+                  } catch (e) {
+                    return Observable.throw(e);
+                  }
+
+                  console.error('Retry attempt [' + i + '/4].. (' + error + ')');
+                  if (i > 3) {
+                    return Observable.throw(error);
+                  }
+                  return Observable.timer(i * 500);
+                });
+              }))
               .publishReplay()
               .refCount()
-              .catch((error) => Observable.throw(error.message ? error.message : error.toString()));
+              .catch(err => Observable.throw(err));
     }
     return this.cachedObservables[url].take(1).map(res => res.json());
+  }
+
+  private abort(name: string, error, statusCode: number) {
+    if (error.status && error.status === statusCode) {
+      let text = name + ', not attempting a retry. (' + error + ')';
+      console.error(text);
+      throw text;
+    }
   }
 
   private getUrl(endpoint: Endpoint, url: string): Observable<string> {
