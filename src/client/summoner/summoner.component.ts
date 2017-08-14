@@ -11,7 +11,7 @@ import {LolApiService} from '../services';
     <div class="align-center">
       <p>
         Enter your summoner name:
-        <input type="text" name="name" #summoner>
+        <input type="text" name="name" #summoner (keyup.enter)="getAccountId(summoner)">
         <button (click)="getAccountId(summoner)">Go</button>
       </p>
       <p *ngIf="error">Error summoner does not exist</p>
