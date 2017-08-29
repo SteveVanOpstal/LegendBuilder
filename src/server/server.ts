@@ -68,13 +68,33 @@ export class Server {
         cacheSettings, {max: 1048576, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 2}));
   }
 
-  public run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
+  readFile(filename: string): string {
+    try {
+      return fs.readFileSync(filename).toString();
+    } catch (e) {
+      let console = new ColorConsole();
+      console.error('`' + filename + '` missing or inaccesible');
+      console.error(e);
+      return undefined;
+    }
+  }
+
+  watchFile(filename: string, listener: FunctionStringCallback): void {
+    fs.watch(filename, () => {
+      let result = this.readFile(filename);
+      if (result) {
+        listener(result);
+      }
+    });
+  }
+
+  run(callback: (req: IncomingMessage, resp: ServerResponse) => void): void {
     this.preRun();
     this.callb = callback;
     this.start(callback);
   }
 
-  public restart() {
+  restart() {
     if (this.server) {
       try {
         this.server.close(() => this.start(this.callb));
@@ -86,24 +106,25 @@ export class Server {
     }
   }
 
-  public sendRequest(
-      url: string, region: string, callback: (response: HostResponse) => void,
-      opts?: {times: number, interval: number}): void {
+  sendRequest(url: string, region: string, callback: (response: HostResponse) => void, opts?: {
+    times: number,
+    interval: number
+  }): void {
     let path = this.transformPath(url, region);
 
     let options = this.getOptions(region, {path: path});
     this.sendHttpsRequest(options, callback, opts);
   }
 
-  public getBaseUrl(region: string) {
+  getBaseUrl(region: string) {
     return this.protocol + this.getHostname(region) + '/lol/';
   }
 
-  public getHostname(region: string) {
+  getHostname(region: string) {
     return region + this.hostname;
   }
 
-  public setCache(url: string, data: any): void {
+  setCache(url: string, data: any): void {
     this.cache.set(url, data);
   }
 
@@ -316,26 +337,5 @@ export class Server {
           }
         },
         options);
-  }
-
-
-  private readFile(filename: string): string {
-    try {
-      return fs.readFileSync(filename).toString();
-    } catch (e) {
-      let console = new ColorConsole();
-      console.error('`' + filename + '` missing or inaccesible');
-      console.error(e);
-      return undefined;
-    }
-  }
-
-  private watchFile(filename: string, listener: FunctionStringCallback): void {
-    fs.watch(filename, () => {
-      let result = this.readFile(filename);
-      if (result) {
-        listener(result);
-      }
-    });
   }
 }

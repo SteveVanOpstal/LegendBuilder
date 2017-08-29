@@ -25,26 +25,27 @@ export class MockHostResponseFailure extends MockHostResponse {
 }
 
 export class MockServer extends Server {
-  public headers;
+  headers;
 
-  public responses: Array<{url: string, message: MockHostResponse}>;
-  public mockCache: {url: string, data: any} = {url: '', data: ''};
+  responses: Array<{url: string, message: MockHostResponse}>;
+  mockCache: {url: string, data: any} = {url: '', data: ''};
 
   constructor() {
     super(1234);
   }
 
-  public sendRequest(url: string, _region: string, callback: (response: HostResponse) => void):
-      void {
+  run(_callback: (req, resp) => void): void {}
+
+  sendRequest(url: string, _region: string, callback: (response: HostResponse) => void): void {
     callback(this.getResponse(url));
   }
 
-  public setCache(url: string, data: any) {
+  setCache(url: string, data: any) {
     this.mockCache.url = url;
     this.mockCache.data = data;
   }
 
-  public getResponse(url: string): MockHostResponse {
+  getResponse(url: string): MockHostResponse {
     for (let response of this.responses) {
       if (url.indexOf(response.url) >= 0) {
         return response.message;
@@ -52,4 +53,10 @@ export class MockServer extends Server {
     }
     throw 'Error in MockServer';
   }
+
+  readFile(_filename: string): string {
+    return '';
+  }
+
+  watchFile(_filename: string, _listener: FunctionStringCallback): void {}
 }
