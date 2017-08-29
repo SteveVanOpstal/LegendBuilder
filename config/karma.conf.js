@@ -4,7 +4,7 @@ let helpers = require('./helpers');
 
 module.exports = (config) => {
   config.set({
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'jasmine-matchers'],
     files: [{pattern: 'karma-test-shim.js', watched: false}],
 
     browsers: ['PhantomJS'],
@@ -15,7 +15,7 @@ module.exports = (config) => {
 
     plugins: [
       'karma-jasmine', 'karma-webpack', 'karma-sauce-launcher', 'karma-phantomjs-launcher',
-      'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage'
+      'karma-sourcemap-loader', 'karma-mocha-reporter', 'karma-coverage', 'karma-jasmine-matchers'
     ],
 
     preprocessors: {'karma-test-shim.js': ['webpack', 'sourcemap']},
@@ -54,7 +54,7 @@ module.exports = (config) => {
     browserDisconnectTimeout: 180000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 300000,
-    browserConsoleLogOptions: { terminal: false }
+    browserConsoleLogOptions: {terminal: false}
   });
 
   if (process.env.TRAVIS) {
