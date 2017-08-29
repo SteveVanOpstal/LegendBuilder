@@ -8,7 +8,7 @@ interface ErrorStackTraceLimit {
 }
 
 // Extend jasmine matchers
-declare namespace jasmine {
+declare module jasmine {
   interface Matchers<T> {
     toHaveEqualContent(expected: any): boolean;
   }
