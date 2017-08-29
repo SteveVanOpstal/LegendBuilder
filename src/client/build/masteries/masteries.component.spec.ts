@@ -6,14 +6,15 @@ import {IconLoadComponent} from '../../assets/icon-load.component';
 import {IconRefreshComponent} from '../../assets/icon-refresh.component';
 import {LolApiService} from '../../services';
 import {DDragonPipe} from '../../shared/ddragon.pipe';
+import {ErrorComponent} from '../../shared/error.component';
 import {LoadingComponent} from '../../shared/loading.component';
 import {TestModule} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
-import {RankComponent} from './rank.component';
+import {MasteryCategoryComponent} from './mastery-category/mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier/mastery-tier.component';
+import {MasteryComponent} from './mastery/mastery.component';
+import {RankComponent} from './mastery/rank.component';
 
 const masteriesData = {
   tree: {
@@ -67,7 +68,7 @@ let providers = () => {
       providers: [MasteriesComponent, LolApiService],
       declarations: [
         MasteriesComponent, MasteryCategoryComponent, MasteryTierComponent, MasteryComponent,
-        LoadingComponent, RankComponent, IconLoadComponent, IconRefreshComponent,
+        LoadingComponent, RankComponent, IconLoadComponent, IconRefreshComponent, ErrorComponent,
         IconErrorComponent, DDragonPipe
       ],
       imports: [TestModule]
