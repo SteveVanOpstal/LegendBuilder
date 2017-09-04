@@ -89,9 +89,9 @@ export class PickedItemsService {
 
   private encodeItem(id: number): string {
     let msbLocation = Math.floor(id / 64);
-    let msb = availableChars.at(msbLocation);
+    let msb = availableChars.charAt(msbLocation);
     let lsbLocation = id - (msbLocation * 64);
-    let lsb = availableChars.at(lsbLocation);
+    let lsb = availableChars.charAt(lsbLocation);
     return msb + lsb;
   }
 
@@ -111,8 +111,8 @@ export class PickedItemsService {
   }
 
   private decodeItem(query: string): number {
-    let msb = availableChars.indexOf(query.at(0));
-    let lsb = availableChars.indexOf(query.at(1));
+    let msb = availableChars.indexOf(query.charAt(0));
+    let lsb = availableChars.indexOf(query.charAt(1));
     return (msb * 64) + lsb;
   }
 
