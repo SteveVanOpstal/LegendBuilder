@@ -81,53 +81,6 @@ Create an account at [developer.riotgames.com](https://developer.riotgames.com/)
 Create a file named `api.key` and add the key to it.
 Place it in a `./secure` folder.
 
-#### 3.2 Create `cert.crt` and `key.pem`
-
-Create a certificate and private key (see [3.2.1](DEVELOPER.md#lets-encrypt) or [3.2.2](DEVELOPER.md#self-signed)), name them `cert.crt` and `cert.key` respectively.
-Place them in a root folder called `./secure`.
-
-We limit ourselves to HTTPS and do not support HTTP (even in development). 
-The advantages:
-
-* No need for two types of the same server
-* Any issues regarding SSL can be found during development
-* HTTP can't accidentally be activated in production
-
-The disadvantages:
-
-* requires certificates (in development this can be annoying)
-
-##### <a name="lets-encrypt"></a> 3.2.1 Let's Encrypt
-
-The certificates provided by [Let's Encrypt](https://letsencrypt.org/) are free and are [trusted by almost all browsers](https://letsencrypt.org/docs/certificate-compatibility/).
-Find yourself an [ACME client](https://letsencrypt.org/docs/client-options/) and generate a certificate.
-Certificates issued by [Let's Encrypt](https://letsencrypt.org/) last 90 days, automating certificate renewal will save you time.
-
-##### <a name="self-signed"></a> 3.2.2 Self signed
-
-###### 3.2.2.1 Open SSL
-With OpenSSL you can create self signed certificates like this:
-
-```bash
-openssl req -x509 -newkey rsa:4096 -keyout cert.key -out cert.crt -days 365 -nodes
-```
-
-The browser will warn you that the website is insecure but as you are running this locally you can ignore this.
-
-###### 3.2.2.2 Self signed with SAN
-
-See [SteveVanOpstal/self-signed-cert](https://github.com/SteveVanOpstal/self-signed-cert)
-
-### <a name="start"></a> 4. Start
-
-The following script will start all the servers necessary to develop/test/debug.
-
-```bash
-npm run start
-```
-
-Now you can open the website in your browsers using '[https://localhost:8080](https://localhost:8080)' (can be another url depending on your [http-server configuration](DEVELOPER.md#config)).
-
 ## <a name="reddit"></a> Reddit Release
 
 Every release a python script will generate a post on reddit. To improve this script or to create new scripts the following software is required:
@@ -219,32 +172,3 @@ Following VSCode settings are required:
   "typescript.tsdk": "node_modules/typescript/lib"
 }
 ```
-
-## <a name="chrome-debugger"></a> Debugger for Chrome (VSCode)
-
-A launch setup similar to the following would probably suffice:
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Chrome localhost",
-      "url": "https://localhost:8080",
-      "webRoot": "${workspaceRoot}"
-    }
-  ]
-}
-```
-
-### <a name="wds"> Error: `[WDS] disconnected!`
-
-Chrome does not accept the self signed certificate of webpack-dev-server as it does not contain a SAN.
-
-1. Execute [SteveVanOpstal/self-signed-cert](https://github.com/SteveVanOpstal/self-signed-cert)
-1. Replace that certificate with the certificate in the `./node_modules/webpack-dev-server/ssl` folder.
-1. Add the certificate to Chrome (`Settings` > `Advanced Settings` > `Certificates` > `Trusted Root Certificates` > `Import..`)
-
-This might not be necessary: A fix is on the way for webpack-dev-server [webpack/webpack-dev-server#987](https://github.com/webpack/webpack-dev-server/pull/987).

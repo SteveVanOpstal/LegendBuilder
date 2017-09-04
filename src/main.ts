@@ -20,11 +20,12 @@ import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {load} from 'webfontloader';
 
-import {AppModule} from './app.module';
+import {AppModule} from './client/app.module';
+import {environment} from './environments/environment';
 
 load({google: {families: ['Roboto:400'], text: 'LegndBuildr'}});
 
-if (ENV === 'production') {
+if (environment.production) {
   enableProdMode();
 }
 

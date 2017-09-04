@@ -31,7 +31,6 @@ a:hover {
   text-decoration: underline;
 }
 
-
 /* header */
 
 header {
@@ -47,39 +46,6 @@ header > .align-center > div {
   display: flex;
   flex-direction: column;
 }
-
-.version {
-  align-self: flex-end;
-  background-color: #5f9ea0;
-  border-radius: 5px;
-  color: white;
-  font-size: .8em;
-  margin: -62px -15px 0 0;
-  padding: 0 5px 2px;
-  transform: rotate(12deg);
-}
-
-.version[class*=-alpha],
-.version[class*=-beta],
-.version[class*=-rc] {
-  background-color: #a11720;
-}
-
-header a:hover {
-  text-decoration: none;
-}
-
-header > actions {
-  float: right;
-  margin-top: -45px;
-  padding-right: 30px;
-}
-
-header > actions > button {
-  margin-left: 5px;
-  width: 90px;
-}
-
 
 /* footer */
 
@@ -107,7 +73,6 @@ footer a:visited {
 footer a:hover {
   color: #222;
 }
-
 
 /* content */
 
@@ -185,6 +150,7 @@ help .content {
   margin: 0 auto;
   padding: 10px;
 }
+
 @keyframes spin {
   100% {
     transform: rotate(360deg);

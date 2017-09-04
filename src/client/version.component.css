@@ -1,0 +1,23 @@
+:host {
+  align-self: flex-end;
+  margin: -62px -15px 0 0;
+  transform: rotate(12deg);
+}
+
+:host a {
+  background-color: #5f9ea0;
+  border-radius: 5px;
+  color: white;
+  font-size: .8em;
+  padding: 0 5px 2px;
+}
+
+:host a[class*=-alpha],
+:host a[class*=-beta],
+:host a[class*=-rc] {
+  background-color: #a11720;
+}
+
+:host a:hover {
+  text-decoration: none;
+}

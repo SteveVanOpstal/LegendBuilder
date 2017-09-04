@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceRoot}/app.js",
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "npm test:client",
+      "runtimeExecutable": "npm",
+      "windows": {
+        "runtimeExecutable": "npm.cmd"
+      },
+      "runtimeArgs": [
+        "run",
+        "test:client"
+      ],
+      "port": 5858,
+      "cwd": "C:/Users/Steve/Documents/Projects/LegendBuilder/",
+      "timeout": 120000
+    },
+    {
+      "name": "Attach",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "sourceMaps": true,
+      "diagnosticLogging": true,
+      "webRoot": "__build__"
+    }
+  ]
+}

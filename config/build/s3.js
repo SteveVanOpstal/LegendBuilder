@@ -27,6 +27,7 @@ function end(done, message) {
 }
 
 function deleteFiles(client, remoteDir, done) {
+  console.log('deleting from: ' + process.env.ARTIFACTS_BUCKET + ', dir: ' + remoteDir);
   deleter = client.deleteDir({Bucket: process.env.ARTIFACTS_BUCKET, Prefix: remoteDir});
 
   deleter.on('error', error(done, 'unable to delete'));

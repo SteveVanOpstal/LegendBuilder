@@ -1,7 +1,7 @@
 'use strict';
 
 let spawn = require('child_process').spawn;
-let browsers = require('../browser-providers.conf.js');
+let browsers = require('../../browser-providers.conf.js');
 
 const readline = require('readline');
 let rl = readline.createInterface({input: process.stdin, output: process.stdout});
@@ -66,9 +66,8 @@ let modes = {
 // only on release (or manual)
 if (!process.env.TRAVIS ||
     (process.env.TRAVIS_PULL_REQUEST === 'false' && process.env.TRAVIS_TAG.length > 0)) {
-  modes.upload = modes.upload.concat([
-    'build', 's3:delete', 's3:upload ./config/live/ ./config', 's3:upload ./build/dist/ ./dist'
-  ]);
+  modes.upload = modes.upload.concat(
+      ['build', 's3:delete', 's3:upload ./config/live/ ./config', 's3:upload ./dist/ ./dist']);
 }
 
 for (let index of browsers.saucelabsAliases.ALL) {

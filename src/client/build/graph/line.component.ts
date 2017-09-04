@@ -2,13 +2,20 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {bisector} from 'd3-array';
 import {curveLinear, line} from 'd3-shape';
 
-import {Line} from './graph.component';
 import {DataScale, TimeScale} from './scales';
 
 
 
 // export let defaultImage: string =
 //     'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
+export interface Line {
+  enabled: boolean;
+  preview: boolean;
+  name: string;
+  path: Array<{time: number, value: number}>;
+  curve: CurveFactory;
+  currentValue: number;
+}
 
 @Component({
   selector: 'g[lb-line]',

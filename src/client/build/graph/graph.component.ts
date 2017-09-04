@@ -7,16 +7,8 @@ import {LolApiService, StatsService} from '../../services';
 import {Samples} from '../samples';
 
 import {TimeAxis} from './axes';
-import {LineComponent} from './line.component';
+import {Line, LineComponent} from './line.component';
 import {TimeScale} from './scales';
-
-export interface Line {
-  enabled: boolean;
-  preview: boolean;
-  name: string;
-  path: Array<{time: number, value: number}>;
-  curve: CurveFactory;
-}
 
 @Component({
   selector: 'lb-graph',

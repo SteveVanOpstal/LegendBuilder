@@ -14,15 +14,16 @@ import {RegionModule} from './region/region.module';
 import {LolApiService} from './services';
 import {SharedModule} from './shared/shared.module';
 import {SummonerModule} from './summoner/summoner.module';
+import {VersionComponent} from './version.component';
 
 @NgModule({
   providers: [LolApiService],
-  declarations: [AppComponent],
+  declarations: [AppComponent, VersionComponent],
   imports: [
     BrowserModule, CommonModule, AppRoutingModule, HttpModule, AssetsModule, SharedModule,
     AboutModule, BuildModule, ChampionsModule, MainModule, RegionModule, SummonerModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, VersionComponent]
 })
 export class AppModule {
 }

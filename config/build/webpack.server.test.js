@@ -1,9 +1,5 @@
 let glob = require('glob');
-
 let helpers = require('../helpers');
-
-/* plugins */
-let CleanWebpackPlugin = require('clean-webpack-plugin');
 let DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
@@ -25,8 +21,13 @@ module.exports = (options) => {
 
     module: {
       rules: [
-        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'},
-        {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.e2e\.ts$/]}, {
+        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
+          test: /\.ts$/,
+          loader: '@ngtools/webpack',
+          exclude: [/\.e2e\.ts$/],
+          options: {tsConfigPath: './tsconfig.json'}
+        },
+        {
           test: /\.(js|ts)$/,
           enforce: 'post',
           loader: 'istanbul-instrumenter-loader',
@@ -36,10 +37,7 @@ module.exports = (options) => {
       ]
     },
 
-    plugins: [
-      new CleanWebpackPlugin(['build/spec/server'], {root: helpers.root('')}),
-      new DefinePlugin({'ENV': JSON.stringify(ENV)})
-    ],
+    plugins: [new DefinePlugin({'ENV': JSON.stringify(ENV)})],
 
     node: {
       global: false,

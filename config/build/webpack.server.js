@@ -1,9 +1,5 @@
 let helpers = require('../helpers');
-
-/* plugins */
-let CleanWebpackPlugin = require('clean-webpack-plugin');
 let webpack = require('webpack');
-let {CheckerPlugin} = require('awesome-typescript-loader');
 
 module.exports = (options) => {
   if (!options) {
@@ -23,17 +19,20 @@ module.exports = (options) => {
       'match-server': helpers.root('src/server/match/server.ts'),
     },
 
-    output: {path: helpers.root('build/dist/server'), filename: '[name].js'},
+    output: {path: helpers.root('dist/server'), filename: '[name].js'},
 
     module: {
       rules: [
-        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'},
-        {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}
+        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
+          test: /\.ts$/,
+          loader: '@ngtools/webpack',
+          exclude: [/\.(spec|e2e)\.ts$/],
+          options: {tsConfigPath: './tsconfig.json'}
+        }
       ]
     },
 
     plugins: [
-      new CleanWebpackPlugin(['build/dist/server'], {root: helpers.root('')}), new CheckerPlugin(),
       new webpack.DefinePlugin({'ENV': JSON.stringify(ENV)}),
       new webpack.optimize.OccurrenceOrderPlugin(true)
     ],
