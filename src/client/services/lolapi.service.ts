@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Headers, Http} from '@angular/http';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
+import {environment} from '../../environments/environment';
 
 export enum Endpoint {
   static,
@@ -17,17 +18,12 @@ export class LolApiService {
   constructor(private http: Http, private router: Router) {}
 
   public getRegions(): Observable<any> {
-    let observables: Array<Observable<any>> = [];
-    for (let region of settings.api.regions) {
-      observables.push(
-          this.cache(this.getEndpoint(Endpoint.static) + region + '/status/shard-data'));
-    }
-    return Observable.forkJoin(observables);
+    return this.cache(this.getEndpoint(Endpoint.static) + 'all/status/shard-data');
   }
 
   public getRealm(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/realms').map(res => {
-      // both http and https are supported, realm data will return http
+      // both http and https are supported but realm data will return http as cdn
       if (res.cdn) {
         res.cdn = res.cdn.replace('http://', 'https://');
       }
@@ -45,8 +41,7 @@ export class LolApiService {
 
   public getChampion(championKey: string): Observable<any> {
     return this.get(
-        Endpoint.static,
-        'static-data/champions/' + championKey +
+        Endpoint.static, 'static-data/champions/' + championKey +
             '?tags=allytips&tags=image&tags=passive&tags=spells&tags=stats&tags=tags');
   }
 
@@ -65,8 +60,7 @@ export class LolApiService {
   public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
       Observable<any> {
     return this.get(
-        Endpoint.match,
-        'match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
+        Endpoint.match, 'match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
             '&samples=' + samples);
   }
 
@@ -121,9 +115,9 @@ export class LolApiService {
 
   private abort(name: string, error, statusCode: number) {
     if (error.status && error.status === statusCode) {
-      let text = name + ', not attempting a retry. (' + error + ')';
+      const text = name + ', not attempting a retry. (' + error + ')';
       console.error(text);
-      throw text;
+      throw Error(text);
     }
   }
 
@@ -134,9 +128,13 @@ export class LolApiService {
   private getEndpoint(endpoint: Endpoint): string {
     switch (endpoint) {
       case Endpoint.static:
-        return 'https://' + settings.domain + '/staticapi/';
+        return environment.production ?
+            'https://' + settings.domain + '/staticapi/' :
+            'https://' + settings.host + ':' + settings.static.port + '/';
       default:
-        return 'https://' + settings.domain + '/matchapi/';
+        return environment.production ?
+            'https://' + settings.domain + '/matchapi/' :
+            'https://' + settings.host + ':' + settings.match.port + '/';
     }
   }
 
@@ -151,8 +149,8 @@ export class LolApiService {
   }
 
   private checkRegion(region: string): Observable<string> {
-    return this.getRegions().map((regions: Array<string>) => {
-      let foundRegion = regions.find((r: any) => {
+    return this.getRegions().map((regions: Array<any>) => {
+      const foundRegion = regions.find((r: any) => {
         return r.slug === region;
       });
       if (foundRegion) {

@@ -1,5 +1,5 @@
-let chalk = require('chalk');
-let dateFormat = require('dateformat');
+const chalk = require('chalk');
+const dateFormat = require('dateformat');
 
 import {tim} from '../client/shared/tim';
 
@@ -8,7 +8,7 @@ export class ColorConsole {
 
   public logHttp(method: string, path: string, statusCode: number, extra?: any) {
     method = this.pad(method, 6);
-    let time = this.pad(this.totalTime() + 'ms', 13);
+    const time = this.pad(this.totalTime() + 'ms', 13);
     if (statusCode !== 200) {
       this.error('%s %s (%d) %s [%s]', method, path, statusCode, time, extra);
     } else {
@@ -47,7 +47,7 @@ export class ColorConsole {
   }
 
   private format(message: any, type: string): string {
-    let timestamp = dateFormat(new Date(), 'HH:MM:ss.L');
+    const timestamp = dateFormat(new Date(), 'HH:MM:ss.L');
     return tim(
         '{{timestamp}} {{type}}: {{message}}',
         {timestamp: timestamp, type: type, message: message});
@@ -58,8 +58,8 @@ export class ColorConsole {
   }
 
   private totalTime() {
-    let diff = process.hrtime(this.timeStart);
-    let diffMs = (diff[0] * 1e9 + diff[1]) / 1000000;
+    const diff = process.hrtime(this.timeStart);
+    const diffMs = (diff[0] * 1e9 + diff[1]) / 1000000;
     return diffMs;
   }
 }

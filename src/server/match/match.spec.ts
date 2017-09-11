@@ -7,12 +7,12 @@ describe('Match', () => {
   let server: MockServer;
   let match: Match;
 
-  let responseSummoners = {
+  const responseSummoners = {
     url: 'summoners',
     message: new MockHostResponseSuccess(JSON.stringify({'accountId': 123}))
   };
 
-  let responseMatchLists = {
+  const responseMatchLists = {
     url: 'matchlists/by-account',
     message: new MockHostResponseSuccess(JSON.stringify({
       'matches': [{'gameId': 2701428538}, {'gameId': 2698839638}, {'gameId': 2695882481}],
@@ -20,7 +20,7 @@ describe('Match', () => {
     }))
   };
 
-  let responseMatch = {
+  const responseMatch = {
     url: 'matches',
     message: new MockHostResponseSuccess(JSON.stringify({
       'participantIdentities': [{
@@ -32,7 +32,7 @@ describe('Match', () => {
     }))
   };
 
-  let responseTimelines = {
+  const responseTimelines = {
     url: 'timelines',
     message: new MockHostResponseSuccess(JSON.stringify({
       'frameInterval': 60000,
@@ -55,8 +55,8 @@ describe('Match', () => {
 
   it('should get frames', () => {
     server.responses = [responseSummoners, responseMatchLists, responseMatch, responseTimelines];
-    let incomingMessage: any = {url: 'test'};
-    let serverResponse: any = new MockServerResponse();
+    const incomingMessage: any = {url: 'test'};
+    const serverResponse: any = new MockServerResponse();
 
     match.get(
         'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.match.sampleSize,

@@ -3,11 +3,12 @@ import {IncomingMessage, ServerResponse} from 'http';
 
 import {settings} from '../../../config/settings';
 import {colorConsole} from '../console';
+import {Helpers} from '../helpers';
 import {HostResponse, HttpError, Server} from '../server';
 
 import {Summoner} from './summoner';
 
-let config = {
+const config = {
   matches: {min: 2, max: 5},
   gameDuration: {min: 18 * 60},
   gameTime: {default: 45 * 60 * 1000, min: 30 * 60 * 1000, max: 60 * 60 * 1000},
@@ -16,16 +17,16 @@ let config = {
   frameInterval: {max: 2 * 60 * 1000}
 };
 
-namespace Errors {
-  export const badRequest: HttpError = {status: 400, message: 'Invalid request.'};
-  export const invalidSummoner: HttpError = {status: 404, message: 'Unable to find summoner.'};
-  export const matchlist: HttpError = {
+const errors = {
+  badRequest: {status: 400, message: 'Invalid request.'},
+  invalidSummoner: {status: 404, message: 'Unable to find summoner.'},
+  matchlist: {
     status: 404,
     message: 'Unable to find sufficient games. Play at least ' + config.matches.min +
         ' ranked games with the chosen champion.'
-  };
-  export const matches: HttpError = {status: 500, message: 'Unable to process match data.'};
-}
+  },
+  matches: {status: 400, message: 'Unable to process match data.'}
+};
 
 interface Frame {
   time: number;
@@ -36,9 +37,7 @@ interface Frame {
 type Frames = Array<Frame>;
 type Matches = Array<Frames>;
 
-interface CallBack {
-  (err: HttpError, results?: any): void;
-}
+type CallBack = (err: HttpError, results?: any) => void;
 
 export class Match {
   private summoner: Summoner;
@@ -51,10 +50,11 @@ export class Match {
       region: string, summonerName: string, championKey: string, gameTime: number,
       sampleSize: number, request: IncomingMessage, response: ServerResponse) {
     this.getData(region, summonerName, championKey, gameTime, sampleSize, (res: HostResponse) => {
-      response.writeHead(res.status, this.server.headers);
-      response.write(res.data);
+      response.writeHead(res.status, Server.headers);
+      const gzip = Helpers.gzip(res.data);
+      response.write(gzip);
       if (res.success) {
-        this.server.setCache(request.url, res.data);
+        this.server.setCache(request.url, gzip);
       }
       response.end();
     });
@@ -72,7 +72,7 @@ export class Match {
       sampleSize: number, callback: (response: HostResponse) => void) {
     gameTime = this.limit(gameTime, config.gameTime);
     sampleSize = this.limit(sampleSize, config.sampleSize);
-    let stepSize = gameTime / (sampleSize - 1);
+    const stepSize = gameTime / (sampleSize - 1);
 
     waterfall(
         [
@@ -100,29 +100,29 @@ export class Match {
         ],
         (error: Error, results: any) => {
           if (!results || !results.matches) {
-            callback({data: error.message, status: 500, success: false});
+            callback({data: error.message, status: 400, success: false});
             return;
           }
 
           if (results.matches.length < config.matches.min) {
             if (error) {
-              callback({data: error.message, status: 500, success: false});
+              callback({data: error.message, status: 400, success: false});
             } else {
               callback({
-                data: Errors.matchlist.message,
-                status: Errors.matchlist.status,
+                data: errors.matchlist.message,
+                status: errors.matchlist.status,
                 success: false
               });
             }
             return;
           }
 
-          let matches = this.fill(results.matches, results.interval, gameTime);
-          let samples = this.getSamples(matches, sampleSize, stepSize);
+          const matches = this.fill(results.matches, results.interval, gameTime);
+          const samples = this.getSamples(matches, sampleSize, stepSize);
 
-          if (ENV === 'development') {
-            samples = this.getDebugSamples(samples, matches, sampleSize, stepSize);
-          }
+          // if (ENV === 'development') {
+          //   samples = this.getDebugSamples(samples, matches, sampleSize, stepSize);
+          // }
 
           results = JSON.stringify(samples);
 
@@ -131,13 +131,13 @@ export class Match {
   }
 
   private getMatchList(region: string, accountId: number, championKey: string, callback: CallBack) {
-    let path = this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
+    const path = Server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
         '/matchlists/by-account/' + accountId + '?champion=' + championKey;
     this.server.sendRequest(path, region, (res: HostResponse) => {
       if (res.success && res.json.totalGames >= config.matches.min) {
         callback(undefined, res.json.matches);
       } else if (res.success) {
-        callback(Errors.matchlist);
+        callback(errors.matchlist);
       } else {
         callback({status: res.status, message: res.data});
       }
@@ -145,9 +145,9 @@ export class Match {
   }
 
   private getMatches(region: string, accountId: number, matches: any, callback: CallBack) {
-    let matchRequests = [];
+    const matchRequests = [];
     let i = 0;
-    for (let match of matches) {
+    for (const match of matches) {
       i++;
       matchRequests.push(reflect((cb) => {
         this.getMatch(region, match.gameId, (err: HttpError, results: any) => {
@@ -164,15 +164,15 @@ export class Match {
     }
 
     parallel(matchRequests, (_err: Error, results: Array<any>) => {
-      let data = {interval: config.frameInterval.max, matches: []};
+      const data = {interval: config.frameInterval.max, matches: []};
       let ind = 0;
-      for (let index in results) {
+      for (const index of Object.keys(results)) {
         if (results[index].error) {
           colorConsole.warn('Match http error.');
           continue;
         }
 
-        let result = results[index].value;
+        const result = results[index].value;
         if (!result || !result.timelines || !result.timelines.frames ||
             !result.timelines.frameInterval) {
           colorConsole.warn('Match data incorrect.');
@@ -223,36 +223,35 @@ export class Match {
   }
 
   private getMatch(region: string, gameId: number, callback: CallBack) {
-    let requests = [];
+    const requests = [];
     requests.push(reflect((cb) => {
       this.server.sendRequest(
-          this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match + '/matches/' +
-              gameId,
+          Server.getBaseUrl(region) + 'match/' + settings.api.versions.match + '/matches/' + gameId,
           region, (res: HostResponse) => {
             if (res.success) {
               cb(undefined, {match: res.json});
             } else {
-              cb(Errors.matches);
+              cb(errors.matches);
             }
           }, {times: 2, interval: 5000});
     }));
 
     requests.push(reflect((cb) => {
       this.server.sendRequest(
-          this.server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
+          Server.getBaseUrl(region) + 'match/' + settings.api.versions.match +
               '/timelines/by-match/' + gameId,
           region, (res: HostResponse) => {
             if (res.success) {
               cb(undefined, {timelines: res.json});
             } else {
-              cb(Errors.matches);
+              cb(errors.matches);
             }
           }, {times: 2, interval: 5000});
     }));
 
     parallel(requests, (_err: Error, results: Array<any>) => {
-      let output = {match: undefined, timelines: undefined};
-      for (let result of results) {
+      const output = {match: undefined, timelines: undefined};
+      for (const result of results) {
         if (result.error) {
           callback(result.error);
           return;
@@ -262,7 +261,7 @@ export class Match {
           } else if (result.value.timelines) {
             output.timelines = result.value.timelines;
           } else {
-            callback(Errors.matches);
+            callback(errors.matches);
           }
         }
       }
@@ -272,17 +271,17 @@ export class Match {
 
   private fill(matches: Matches, interval: number, limit: number) {
     for (let i = 0; i < matches.length; i++) {
-      let frames: Frames = matches[i];
-      let avgTrendXp = this.getAverageTrend(frames, interval, (frame) => {
+      const frames: Frames = matches[i];
+      const avgTrendXp = this.getAverageTrend(frames, interval, (frame) => {
         return frame.xp;
       });
-      let avgTrendGold = this.getAverageTrend(frames, interval, (frame) => {
+      const avgTrendGold = this.getAverageTrend(frames, interval, (frame) => {
         return frame.gold;
       });
 
       // fill up matches
       while (frames[frames.length - 1].time < limit) {
-        let lastFrame = frames[frames.length - 1];
+        const lastFrame = frames[frames.length - 1];
         frames.push({
           time: lastFrame.time + interval,
           xp: lastFrame.xp + avgTrendXp,
@@ -294,7 +293,7 @@ export class Match {
   }
 
   private getAverageTrend(frames: Frames, interval: number, callback: (frame: any) => number) {
-    let sampleSize = config.sampleTimeFrame / interval;
+    const sampleSize = config.sampleTimeFrame / interval;
     let delta = 0;
     for (let j = frames.length - 1; j >= frames.length - sampleSize; j--) {
       if (frames[j] && frames[j - 1]) {
@@ -305,13 +304,13 @@ export class Match {
   }
 
   private getSamples(matches: Matches, sampleSize: number, stepSize: number): any {
-    let samples = {xp: [], gold: []};
+    const samples = {xp: [], gold: []};
     for (let i = 0; i < sampleSize; i++) {
-      let absTime = i * stepSize;
+      const absTime = i * stepSize;
       let absXp = 0;
       let absG = 0;
 
-      for (let frames of matches) {
+      for (const frames of matches) {
         absXp += this.getRelativeOf(frames, absTime, (frame) => {
           return frame.xp;
         });
@@ -326,30 +325,30 @@ export class Match {
     return samples;
   }
 
-  private getDebugSamples(samples: any, matches: Matches, sampleSize: number, stepSize: number) {
-    for (let index in matches) {
-      let frames: Frames = matches[index];
-      samples['xp' + index] = new Array();
-      samples['gold' + index] = new Array();
-      for (let i = 0; i < sampleSize; i++) {
-        let absTime = i * stepSize;
-        samples['xp' + index].push(this.getRelativeOf(frames, absTime, (frame) => {
-          return frame.xp;
-        }));
-        samples['gold' + index].push(this.getRelativeOf(frames, absTime, (frame) => {
-          return frame.gold;
-        }));
-      }
-    }
-    return samples;
-  }
+  // private getDebugSamples(samples: any, matches: Matches, sampleSize: number, stepSize: number) {
+  //   for (let index in matches) {
+  //     let frames: Frames = matches[index];
+  //     samples['xp' + index] = new Array();
+  //     samples['gold' + index] = new Array();
+  //     for (let i = 0; i < sampleSize; i++) {
+  //       let absTime = i * stepSize;
+  //       samples['xp' + index].push(this.getRelativeOf(frames, absTime, (frame) => {
+  //         return frame.xp;
+  //       }));
+  //       samples['gold' + index].push(this.getRelativeOf(frames, absTime, (frame) => {
+  //         return frame.gold;
+  //       }));
+  //     }
+  //   }
+  //   return samples;
+  // }
 
   private getRelativeOf(frames: Frames, time: number, callback: (frame: any) => number): number {
     if (!frames) {
       return 0;
     }
 
-    let index = this.getFrameIndex(frames, time);
+    const index = this.getFrameIndex(frames, time);
     if (index < 0) {
       return 0;
     }
@@ -358,14 +357,14 @@ export class Match {
       return callback(frames[0]);
     }
 
-    let lowerFrame = frames[index - 1];
-    let upperFrame = frames[index];
+    const lowerFrame = frames[index - 1];
+    const upperFrame = frames[index];
 
-    let ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
+    const ratio = (time - lowerFrame.time) / (upperFrame.time - lowerFrame.time);
 
-    let lowerValue = (callback(lowerFrame));
-    let upperValue = (callback(upperFrame));
-    let rel = (upperValue - lowerValue) * ratio;
+    const lowerValue = (callback(lowerFrame));
+    const upperValue = (callback(upperFrame));
+    const rel = (upperValue - lowerValue) * ratio;
 
     return lowerValue + rel;
   }

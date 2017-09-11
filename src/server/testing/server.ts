@@ -1,11 +1,11 @@
 import {HostResponse, Server} from '../server';
 
 export class MockHostResponse implements HostResponse {
-  data: string = '';
-  json: string = '';
+  data = '';
+  json = '';
   status = 200;
-  success: boolean = true;
-  url: string = '';
+  success = true;
+  url = '';
   constructor(data?: string) {
     this.data = data || '';
     if (data) {
@@ -46,12 +46,12 @@ export class MockServer extends Server {
   }
 
   getResponse(url: string): MockHostResponse {
-    for (let response of this.responses) {
+    for (const response of this.responses) {
       if (url.indexOf(response.url) >= 0) {
         return response.message;
       }
     }
-    throw 'Error in MockServer';
+    throw Error('Error in MockServer');
   }
 
   readFile(_filename: string): string {

@@ -17,8 +17,8 @@ describe('Summoner', () => {
     server.responses = [
       {url: 'summoners', message: new MockHostResponseSuccess(JSON.stringify({'accountId': 123}))}
     ];
-    let incomingMessage: any = {url: 'test'};
-    let serverResponse: any = new MockServerResponse();
+    const incomingMessage: any = {url: 'test'};
+    const serverResponse: any = new MockServerResponse();
 
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
 
@@ -30,8 +30,8 @@ describe('Summoner', () => {
 
   it('should not get the summoner id', () => {
     server.responses = [{url: 'summoners', message: new MockHostResponseFailure()}];
-    let incomingMessage: any = {url: 'test'};
-    let serverResponse: any = new MockServerResponse();
+    const incomingMessage: any = {url: 'test'};
+    const serverResponse: any = new MockServerResponse();
 
     summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
 

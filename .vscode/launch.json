@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/app.js",
+      "program": "${workspaceRoot}/dist/server/static-server.js",
       "cwd": "${workspaceRoot}"
     },
     {
