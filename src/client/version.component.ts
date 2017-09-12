@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import pkg from '../../package';
 
 @Component({
   selector: 'lb-version',
@@ -10,5 +11,5 @@ import {Component} from '@angular/core';
 })
 
 export class VersionComponent {
-  pkg = require('../../package.json');
+  pkg = pkg;
 }

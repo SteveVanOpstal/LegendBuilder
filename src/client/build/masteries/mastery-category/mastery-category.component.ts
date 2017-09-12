@@ -23,7 +23,7 @@ interface EventData {
 })
 
 export class MasteryCategoryComponent {
-  @Input() data: Object;
+  @Input() data: {name: string, tiers: Array<any>};
 
   @Output() rankAdded: EventEmitter<EventData> = new EventEmitter<EventData>();
   @Output()

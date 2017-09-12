@@ -1,9 +1,10 @@
 export interface Item {
   id: string;
+  name: string;
   from?: Array<string>;
   into?: Array<string>;
   gold: {total: number};
-  image?: {full: string};
+  image?: {full: string, sprite: string, h: number, w: number, y: number, x: number};
   tags?: Array<string>;
   stats?: any;
   description?: string;

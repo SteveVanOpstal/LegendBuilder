@@ -1,28 +1,25 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
     "module": "es2015",
-    "types": [
-      "node",
-      "webfontloader",
-      "d3-array",
-      "d3-axis",
-      "d3-color",
-      "d3-format",
-      "d3-interpolate",
-      "d3-path",
-      "d3-scale",
-      "d3-selection",
-      "d3-shape"
-    ]
+    "types": []
   },
-  "include": [
-    "../typings.d.ts"
-  ],
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/testing/**.ts",
+    "src/server/**.ts",
+    "**/server/**.ts",
+    "/**/server/**.ts",
+    "**/src/server/**.ts",
+    "./src/server/**.ts",
+    "/src/server/**.ts",
+    "/server/**.ts",
+    "./server/**.ts",
+    "server/**.ts",
+    "server/**/"
   ]
 }

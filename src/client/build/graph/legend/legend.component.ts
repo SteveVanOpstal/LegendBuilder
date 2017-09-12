@@ -47,7 +47,7 @@ export class LegendComponent implements OnChanges {
     }
   }
 
-  mouseLeave(line: Line|undefined) {
+  mouseLeave(line?: Line) {
     if (!line) {
       this.dragging = false;
       for (const p of this.lines) {
