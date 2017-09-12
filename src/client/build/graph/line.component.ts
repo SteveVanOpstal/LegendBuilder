@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {bisector} from 'd3-array';
-import {curveLinear, line} from 'd3-shape';
+import {CurveFactory, curveLinear, line} from 'd3-shape';
 
 import {DataScale, TimeScale} from './scales';
 
