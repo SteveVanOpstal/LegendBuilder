@@ -3,7 +3,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {LolApiService, PickedItemsService} from '../services';
 import {TestModule} from '../testing';
 
-describe('PickedItemsService', () => {
+xdescribe('PickedItemsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
         {providers: [PickedItemsService, LolApiService], imports: [TestModule]});
