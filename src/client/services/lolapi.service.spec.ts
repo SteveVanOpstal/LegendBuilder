@@ -2,11 +2,13 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
 
 import {settings} from '../../../config/settings';
+import {environment} from '../../environments/environment';
 import {Endpoint, LolApiService} from '../services/lolapi.service';
 import {TestModule} from '../testing';
 
 describe('LolApiService', () => {
   beforeEach(() => {
+    environment.production = false;
     TestBed.configureTestingModule({providers: [LolApiService], imports: [TestModule]});
   });
 
@@ -138,11 +140,25 @@ describe('LolApiService', () => {
   it('should get the correct resolved link to the static-server',
      inject([LolApiService], (service) => {
        expect(service.getEndpoint(Endpoint.static))
-           .toBe('https://' + settings.domain + '/staticapi/');
+           .toBe('https://' + settings.domain + ':' + settings.static.port + '/');
      }));
 
   it('should get the correct resolved link to the match-server',
      inject([LolApiService], (service) => {
+       expect(service.getEndpoint(Endpoint.match))
+           .toBe('https://' + settings.domain + ':' + settings.match.port + '/');
+     }));
+
+  it('should get the correct resolved link to the static-server --prod',
+     inject([LolApiService], (service) => {
+       environment.production = true;
+       expect(service.getEndpoint(Endpoint.static))
+           .toBe('https://' + settings.domain + '/staticapi/');
+     }));
+
+  it('should get the correct resolved link to the match-server --prod',
+     inject([LolApiService], (service) => {
+       environment.production = true;
        expect(service.getEndpoint(Endpoint.match))
            .toBe('https://' + settings.domain + '/matchapi/');
      }));

@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {curveLinear} from 'd3-shape';
 
-import {Line} from '../graph.component';
+import {Line} from '../line.component';
 
 import {LegendComponent} from './legend.component';
 
