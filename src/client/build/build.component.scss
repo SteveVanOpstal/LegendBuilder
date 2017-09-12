@@ -1,0 +1,76 @@
+.content {
+  background-color: #fff;
+}
+
+.title {
+  display: flex;
+  height: 80px;
+  margin-top: -80px;
+  padding-left: 30px;
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+
+  h2 {
+    font-size: 1.8em;
+    margin: 32px 0 0 12px;
+  }
+}
+
+lb-preview lb-item p.gold,
+lb-item-slot lb-item p.gold {
+  background-color: rgba(0,0,0,.7);
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  min-width: 0;
+  padding: 0 2px;
+  position: absolute;
+}
+
+lb-preview lb-item p.gold {
+  margin: 30px 0 0 0;
+}
+
+lb-item-slot lb-item p.gold {
+  margin: 31px 0 0 0;
+}
+
+/* media */
+
+@media (max-width: 1300px) {
+  .title {
+    height: 60px;
+    margin-top: -60px;
+
+    img {
+      height: 60px;
+      width: 60px;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      margin: 20px 0 0 10px;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .title h2 {
+    display: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .title {
+    background-color: #ddd;
+    margin-top: 0;
+    padding: 0;
+
+    h2 {
+      display: inherit;
+      font-size: 1.6em;
+    }
+  }
+}

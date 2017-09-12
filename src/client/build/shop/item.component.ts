@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'lb-item',
+  styleUrls: ['./item.component.scss'],
   template: `
     <img [attr.alt]="item.name"
          [attr.src]="'sprite/' + item.image.sprite | lbDDragon"

@@ -11,7 +11,7 @@ export class TagsPipe implements PipeTransform {
     return champions.filter((champion: any) => {
       if (tags && tags.length > 0) {
         champion.tags = this.exclude(champion.tags, 'Melee');
-        for (let tag in tags) {
+        for (const tag in tags) {
           if (champion.tags.indexOf(tags[tag]) === -1) {
             return false;
           }
@@ -22,7 +22,7 @@ export class TagsPipe implements PipeTransform {
   }
 
   private exclude(array: Array<string>, exclude: string) {
-    let index: number = array.indexOf(exclude);
+    const index: number = array.indexOf(exclude);
     if (index > -1) {
       array.splice(index, 1);
     }

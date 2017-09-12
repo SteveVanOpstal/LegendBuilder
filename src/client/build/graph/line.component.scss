@@ -1,0 +1,27 @@
+@mixin generate-colors($color) {
+  @for $count from 1 through 24 {
+    :host:nth-of-type(#{$count}) .line {
+      stroke: desaturate(adjust-hue($color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%) !important;
+    }
+  }
+}
+
+@include generate-colors(hsl(0, 75%, 40%));
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.line:not(.enabled):not(.preview) {
+  stroke: transparent !important;
+}
+
+.line.preview {
+  stroke-width: 3px;
+}
+
+.focus:not(.enabled) {
+  display: none;
+}

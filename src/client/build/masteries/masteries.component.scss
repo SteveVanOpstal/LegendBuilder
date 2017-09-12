@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  height: 480px;
+  justify-content: center;
+  margin: 0 auto;
+  width: 825px;
+}
+
+lb-mastery > div h2 {
+  color: #46a1eb;
+}
+
+.Ferocity lb-mastery > div h2 {
+  color: #b51c00;
+}
+
+.Cunning lb-mastery > div h2 {
+  color: #7b3bd4;
+}
+
+.Resolve lb-mastery > div h2 {
+  color: #46a1eb;
+}
+
+.name,
+.total {
+  color: #aaa;
+  font-size: 2em;
+  margin: 0 10px;
+  width: 100%;
+}
+
+.name {
+  font-variant: small-caps;
+}
+
+p {
+  cursor: default;
+}

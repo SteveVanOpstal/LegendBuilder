@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 @Component({
   selector: 'lb-bar',
+  styleUrls: ['./bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div *ngFor="let val of repeat()"></div>`
 })

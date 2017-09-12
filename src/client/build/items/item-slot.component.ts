@@ -1,4 +1,4 @@
-import {Component, DoCheck, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, DoCheck, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {QueryList, ViewChildren} from '@angular/core';
 
 import {LolApiService} from '../../services';
@@ -9,6 +9,7 @@ import {ItemComponent} from './item.component';
 
 @Component({
   selector: 'lb-item-slot',
+  styleUrls: ['./item-slot.component.scss'],
   template: `
     <ng-template ngFor let-item [ngForOf]="items">
       <div class="dropzone"
@@ -57,7 +58,7 @@ export class ItemSlotComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     let prevOffset = 0;
-    for (let item of this.items) {
+    for (const item of this.items) {
       item.offset = this.xScaleTime.get()(item.time) - prevOffset;
       if (item === this.items[0]) {
         prevOffset += item.offset;
@@ -94,7 +95,7 @@ export class ItemSlotComponent implements OnInit, DoCheck {
   }
 
   private compatibleWithConsumable(subject: Item): boolean {
-    let lastItem = this.lastItem();
+    const lastItem = this.lastItem();
 
     if (lastItem.time !== subject.time) {
       return lastItem.consumed;
@@ -104,12 +105,12 @@ export class ItemSlotComponent implements OnInit, DoCheck {
   }
 
   private buildsFrom(subject: Item, item: Item): boolean {
-    let from = subject.from;
+    const from = subject.from;
     if (!from || !this.allItems) {
       return false;
     }
 
-    for (let i of from) {
+    for (const i of from) {
       if (this.buildsFrom(this.allItems[i], item)) {
         return true;
       }

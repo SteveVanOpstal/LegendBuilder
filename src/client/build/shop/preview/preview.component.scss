@@ -1,0 +1,58 @@
+:host {
+  background-color: #5f9ea0;
+  border: 1px solid #ccc;
+  display: block;
+  margin: 5px 0;
+  min-height: 1100px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.into {
+  display: flex;
+  height: 70px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 2.5px 5px 0 5px;
+}
+
+.tree {
+  padding: 5px;
+}
+
+hr {
+  border: 1px solid;
+  height: 0;
+  margin: 6px 30px -18px 30px;
+}
+
+hr.down {
+  border: 1px solid;
+  height: 10px;
+  margin: 0 auto -18px auto;
+  width: 0;
+}
+
+.description {
+  color: #88c3c7;
+}
+
+.description stats {
+  color: #98bfb8;
+}
+
+.description unique,
+.description active {
+  color: #965c1e;
+}
+
+.description grouplimit {
+  color: #79c979;
+}
+
+.description rules {
+  color: #666;
+  font-style: italic;
+}

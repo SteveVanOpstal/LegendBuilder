@@ -7,6 +7,7 @@ import {PreviewComponent} from './preview/preview.component';
 
 @Component({
   selector: 'lb-shop',
+  styleUrls: ['./shop.component.scss'],
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
@@ -85,11 +86,11 @@ export class ShopComponent implements OnInit {
     if (!event || !event.target) {
       return;
     }
-    let input: any = event.target;
+    const input: any = event.target;
     if (input.checked) {
       this.tags.push(input.value);
     } else {
-      let index: number = this.tags.indexOf(input.value);
+      const index: number = this.tags.indexOf(input.value);
       if (index > -1) {
         this.tags.splice(index, 1);
       }

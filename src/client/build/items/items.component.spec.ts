@@ -25,7 +25,7 @@ describe('ItemsComponent', () => {
 
   beforeEach(inject([ItemsComponent], (component) => {
     item1 = {item: {id: 3341, gold: {total: 0}}, slotId: 0};
-    item1 = {item: {id: 2003, gold: {total: 50}}, slotId: 0};
+    item2 = {item: {id: 2003, gold: {total: 50}}, slotId: 0};
 
     component.samples = {gold: [0, 100, 200, 300]};
     component.slotItems = [item1, item2, item2, item2];

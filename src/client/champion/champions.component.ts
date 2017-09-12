@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../services';
@@ -7,8 +7,7 @@ import {ChampionComponent} from './champion.component';
 
 @Component({
   selector: 'lb-champions',
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./champion.css').toString()],
+  styleUrls: ['./champions.component.scss'],
   template: `
     <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
     </lb-filters>
@@ -28,7 +27,7 @@ export class ChampionsComponent implements OnInit {
 
   tags: Array<string> = [];
   name: string;
-  sort: string = '';
+  sort = '';
 
   @ViewChildren(ChampionComponent) activeChampions: QueryList<ChampionComponent>;
 

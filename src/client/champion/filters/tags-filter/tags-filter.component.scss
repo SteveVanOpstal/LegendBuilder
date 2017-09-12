@@ -1,0 +1,22 @@
+:host {
+  width: 37%;
+}
+
+.align-center {
+  padding: 20px;
+  text-align: center;
+  width: 85%;
+}
+
+label {
+  display: inline-block;
+  margin: 8px;
+  text-align: initial;
+  width: 120px;
+}
+
+@media (max-width: 600px) {
+  :host {
+    display: none;
+  }
+}

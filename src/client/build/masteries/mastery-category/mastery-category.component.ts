@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
+import {MasteryTierComponent} from '../mastery-tier/mastery-tier.component';
+import {MasteryComponent} from '../mastery/mastery.component';
 
-type EventData = {
-  tier: MasteryTierComponent,
-  mastery: MasteryComponent
-};
+interface EventData {
+  tier: MasteryTierComponent;
+  mastery: MasteryComponent;
+}
 
 @Component({
   selector: 'lb-mastery-category',
@@ -31,7 +31,7 @@ export class MasteryCategoryComponent {
 
   @ViewChildren(MasteryTierComponent) children: QueryList<MasteryTierComponent>;
 
-  totalRank: number = 0;
+  totalRank = 0;
 
   constructor() {}
 
@@ -53,8 +53,8 @@ export class MasteryCategoryComponent {
   }
 
   public rankAdd(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
-    let tier = event.tier;
-    let mastery = event.mastery;
+    const tier = event.tier;
+    const mastery = event.mastery;
     if (!tier || !mastery) {
       return;
     }
@@ -70,8 +70,8 @@ export class MasteryCategoryComponent {
   }
 
   public rankRemove(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
-    let tier = event.tier;
-    let mastery = event.mastery;
+    const tier = event.tier;
+    const mastery = event.mastery;
     if (!tier || !mastery) {
       return;
     }
@@ -90,7 +90,7 @@ export class MasteryCategoryComponent {
   }
 
   private forTier(index: number, callback: (masteryTierComponent: MasteryTierComponent) => void) {
-    let tier = this.children.toArray()[index];
+    const tier = this.children.toArray()[index];
     if (!tier) {
       return;
     }

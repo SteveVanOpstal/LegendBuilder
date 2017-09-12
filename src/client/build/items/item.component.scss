@@ -1,0 +1,91 @@
+:host {
+  display: inline-block;
+  margin: 2.5px 0;
+  position: relative;
+}
+
+img {
+  position: absolute;
+}
+
+.bundle {
+  background-color: rgba(0,0,0,.7);
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #866b00;
+  font-size: .8em;
+  margin: 0 0 0 27px;
+  padding: 0 2px;
+  position: absolute;
+}
+
+/* lb-item */
+
+:host {
+  background-color: #eee;
+  cursor: pointer;
+  display: flex;
+  margin: 2.5px;
+  -webkit-user-select: none;/* Chrome/Safari */
+     -moz-user-select: none;/* Firefox */
+      -ms-user-select: none;/* IE10+ */
+       -o-user-select: none;
+          user-select: none;
+
+  img {
+    display: inline-block;
+    object-fit: none;
+  }
+
+  &,
+  & > img {
+    border-radius: 5px;
+    height: 48px;
+    min-width: 48px;
+    width: 48px;
+  }
+
+  .name {
+    width: 200%;
+  }
+
+  .gold {
+    display: flex;
+    font-size: .8em;
+    min-width: 70px;
+  }
+
+  .gold img {
+    display: inline-block;
+    height: 32px;
+    padding-right: 4px;
+    width: 32px;
+  }
+
+  .gold p {
+    margin: 0 -8px;
+  }
+
+  .gold.reduced .total {
+    color: #c20100;
+    display: none;
+    text-decoration: line-through;
+  }
+
+  &:hover .gold.reduced .total {
+    display: inherit;
+  }
+
+  &:hover .gold.reduced {
+    margin: 14px 0 0;
+  }
+
+  .gold.reduced {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:hover {
+    background-color: #ccc;
+  }
+}

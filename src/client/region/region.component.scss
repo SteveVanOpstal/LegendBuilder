@@ -1,0 +1,35 @@
+:host > div {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 226px;
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+h2 {
+  margin-top: 0;
+}
+
+button {
+  display: block;
+  margin: 5px 0;
+  padding: 0;
+  text-align: left;
+  width: 226px;
+}
+
+span {
+  display: inline-block;
+  padding: 7px;
+  text-align: left;
+}
+
+button > a > span:first-child {
+  border-right: 1px dotted #ccc;
+  width: 40px;
+}

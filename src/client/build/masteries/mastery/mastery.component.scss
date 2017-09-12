@@ -1,0 +1,80 @@
+:host {
+  margin: 6px;
+  width: 48px;
+
+  .description {
+    background-color: #000;
+    border: 3px solid #aa7625;
+    border-radius: 5px;
+    display: none;
+    font-size: 12px;
+    margin: -63px 0;
+    max-width: 500px;
+    padding: 10px;
+    position: absolute;
+    transform: translate(-50%, -100%);
+    z-index: 30;
+
+    &:hover {
+      opacity: 0;
+      z-index: 0;
+    }
+
+    p {
+      color: #fff;
+      font-size: 1.2em;
+    }
+
+    ul {
+      color: #fff;
+      margin: 0 0 8px 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+
+  div {
+    &:not(.ranked) img {
+      clip-path: circle(47% at 50% 50%);
+    }
+
+    &:not(.active) img {
+      -webkit-filter: grayscale(100%);
+              filter: grayscale(100%);
+    }
+
+    &:not(.enabled) .rank {
+      cursor: default;
+    }
+
+    &.enabled {
+      cursor: pointer;
+    }
+
+    img {
+      height: 48px;
+      width: 48px;
+    }
+
+    &.ranked img {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  lb-mastery {
+    .rank {
+      cursor: pointer;
+      margin: 30px 0 0 16px;
+      position: absolute;
+      z-index: 20;
+    }
+
+    &:hover .description {
+      display: inherit;
+    }
+  }
+}

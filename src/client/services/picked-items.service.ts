@@ -1,13 +1,13 @@
 import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {DefaultUrlSerializer, UrlTree} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Subject} from 'rxjs/Rx';
 
 import {Item} from '../build/item';
 
 import {LolApiService} from './lolapi.service';
 
-const availableChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-';
+const availableChars: String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-';
 
 @Injectable()
 export class PickedItemsService {
@@ -19,7 +19,7 @@ export class PickedItemsService {
   constructor(lolapi: LolApiService, private location: Location) {
     lolapi.getItems().subscribe((items) => {
       this.originalItems = items.data;
-      let urlTree = this.getUrlTree();
+      const urlTree = this.getUrlTree();
       this.itemIds = this.decodeItems(urlTree.queryParams['q']);
       this.update();
     });
@@ -31,7 +31,7 @@ export class PickedItemsService {
   }
 
   remove(item: Item) {
-    let index = this.getItemIndex(item.id, item.time);
+    const index = this.getItemIndex(item.id, item.time);
     if (index !== undefined) {
       this.itemIds.splice(index, 1);
       this.update();
@@ -39,8 +39,8 @@ export class PickedItemsService {
   }
 
   move(source: Item, target: Item) {
-    let indexSource = this.getItemIndex(source.id, source.time);
-    let indexTarget = this.getItemIndex(target.id, target.time);
+    const indexSource = this.getItemIndex(source.id, source.time);
+    const indexTarget = this.getItemIndex(target.id, target.time);
     if (indexSource && indexSource !== indexTarget) {
       this.itemIds.splice(indexSource, 1);
       this.itemIds.splice(indexSource < indexTarget ? indexTarget - 1 : indexTarget, 0, source);
@@ -60,14 +60,14 @@ export class PickedItemsService {
   }
 
   private updateQuery(items: Array<Item>) {
-    let urlTree = this.getUrlTree();
-    let encodedItems = this.encodeItems(items);
+    const urlTree = this.getUrlTree();
+    const encodedItems = this.encodeItems(items);
     if (encodedItems.length <= 0) {
       urlTree.queryParams = {};
     } else {
       urlTree.queryParams['q'] = encodedItems;
     }
-    let url = this.serializer.serialize(urlTree);
+    const url = this.serializer.serialize(urlTree);
     this.location.replaceState(url);
   }
 
@@ -81,17 +81,17 @@ export class PickedItemsService {
 
   private encodeItemIds(itemIds: Array<number>): string {
     let encode = '';
-    for (let id of itemIds) {
+    for (const id of itemIds) {
       encode += this.encodeItem(id);
     }
     return encode;
   }
 
   private encodeItem(id: number): string {
-    let msbLocation = Math.floor(id / 64);
-    let msb = availableChars.charAt(msbLocation);
-    let lsbLocation = id - (msbLocation * 64);
-    let lsb = availableChars.charAt(lsbLocation);
+    const msbLocation = Math.floor(id / 64);
+    const msb = availableChars.charAt(msbLocation);
+    const lsbLocation = id - (msbLocation * 64);
+    const lsb = availableChars.charAt(lsbLocation);
     return msb + lsb;
   }
 
@@ -100,7 +100,7 @@ export class PickedItemsService {
   }
 
   private decodeItemIds(query: string): Array<number> {
-    let result = new Array<number>();
+    const result = new Array<number>();
     if (!query) {
       return result;
     }
@@ -111,8 +111,8 @@ export class PickedItemsService {
   }
 
   private decodeItem(query: string): number {
-    let msb = availableChars.indexOf(query.charAt(0));
-    let lsb = availableChars.indexOf(query.charAt(1));
+    const msb = availableChars.indexOf(query.charAt(0));
+    const lsb = availableChars.indexOf(query.charAt(1));
     return (msb * 64) + lsb;
   }
 
@@ -123,9 +123,9 @@ export class PickedItemsService {
   }
 
   private idsToItems(itemIds: Array<number>): Array<Item> {
-    let result = new Array<Item>();
-    for (let id of itemIds) {
-      let resultItem = this.originalItems[id];
+    const result = new Array<Item>();
+    for (const id of itemIds) {
+      const resultItem = this.originalItems[id];
       if (resultItem) {
         result.push(resultItem);
       }
@@ -134,8 +134,8 @@ export class PickedItemsService {
   }
 
   private getItemIndex(id: string, time: number): number|undefined {
-    for (let index in this.itemIds) {
-      let item = this.itemIds[index];
+    for (const index of Object.keys(this.itemIds)) {
+      const item = this.itemIds[index];
       if (id === item.id && (time === item.time || time === -1)) {
         return parseInt(index, 10);
       }

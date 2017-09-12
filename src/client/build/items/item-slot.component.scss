@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  height: 50px;
+
+  &.dragging .dropzone {
+    background-color: #ddd;
+  }
+
+  &.dragging .dropzone.draghover {
+    background-color: #5f9ea0;
+  }
+}
+
+.dropzone {
+  display: inline;
+  height: 45px;
+  margin: 2.5px 0;
+}
+
+.filler {
+  display: inline-block;
+  height: 45px;
+  margin: 2.5px 0;
+}

@@ -1,0 +1,105 @@
+:host {
+  overflow: hidden;
+  width: 32%;
+
+  & > div {
+    display: inline-block;
+    margin: 4px 10px;
+    width: 100%;
+
+    & > p {
+      display: inline-block;
+      font-family: sans-serif;
+      font-size: 1em;
+      margin: 0;
+    }
+  }
+}
+
+/* lb-item */
+
+:host {
+  background-color: #eee;
+  cursor: pointer;
+  display: flex;
+  margin: 2.5px;
+  -webkit-user-select: none;/* Chrome/Safari */
+     -moz-user-select: none;/* Firefox */
+      -ms-user-select: none;/* IE10+ */
+       -o-user-select: none;
+          user-select: none;
+
+  img {
+    display: inline-block;
+    object-fit: none;
+  }
+
+  &,
+  & > img {
+    border-radius: 5px;
+    height: 48px;
+    min-width: 48px;
+  }
+
+  .name {
+    width: 200%;
+  }
+
+  .gold {
+    display: flex;
+    font-size: .8em;
+    min-width: 70px;
+  }
+
+  .gold img {
+    display: inline-block;
+    height: 32px;
+    padding-right: 4px;
+    width: 32px;
+  }
+
+  .gold p {
+    margin: 0 -8px;
+  }
+
+  .gold.reduced .total {
+    color: #c20100;
+    display: none;
+    text-decoration: line-through;
+  }
+
+  &:hover .gold.reduced .total {
+    display: inherit;
+  }
+
+  &:hover .gold.reduced {
+    margin: 14px 0 0;
+  }
+
+  .gold.reduced {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:hover {
+    background-color: #ccc;
+  }
+}
+
+@media (max-width: 1650px) {
+  :host {
+    width: 48%;
+  }
+}
+
+@media (max-width: 950px) {
+  :host {
+    width: 96%;
+  }
+}
+
+@media (max-width: 500px) {
+  :host p {
+    font-size: .9em;
+  }
+}

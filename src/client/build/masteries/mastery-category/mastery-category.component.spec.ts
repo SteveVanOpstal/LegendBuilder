@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {LolApiService} from '../../services';
-import {DDragonPipe} from '../../shared/ddragon.pipe';
-import {TestModule} from '../../testing';
+import {LolApiService} from '../../../services';
+import {DDragonPipe} from '../../../shared/ddragon.pipe';
+import {TestModule} from '../../../testing';
+import {MasteryTierComponent} from '../mastery-tier/mastery-tier.component';
+import {MasteryComponent} from '../mastery/mastery.component';
+import {RankComponent} from '../mastery/rank.component';
 
 import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
-import {RankComponent} from './rank.component';
 
 const data = {
   name: 'Ferocity',
@@ -36,17 +36,17 @@ describe('MasteryCategoryComponent', () => {
       imports: [TestModule]
     });
 
-    let fixture = TestBed.createComponent(MasteryCategoryComponent);
+    const fixture = TestBed.createComponent(MasteryCategoryComponent);
     component = fixture.componentInstance;
     component.data = data;
     fixture.detectChanges();
   });
 
   it('should enable next tier when previous tier has a rank more than zero', () => {
-    let tier1 = component.children.toArray()[0];
-    let tier2 = component.children.toArray()[1];
-    let mastery1 = tier1.children.toArray()[0];
-    let mastery2 = tier2.children.toArray()[0];
+    const tier1 = component.children.toArray()[0];
+    const tier2 = component.children.toArray()[1];
+    const mastery1 = tier1.children.toArray()[0];
+    const mastery2 = tier2.children.toArray()[0];
     mastery1.setRank(5);
     mastery2.enabled = false;
     component.enable();
@@ -54,13 +54,13 @@ describe('MasteryCategoryComponent', () => {
   });
 
   it('should lock previous tier when the tier is at max rank', () => {
-    let tier1 = component.children.toArray()[0];
-    let mastery1 = tier1.children.toArray()[0];
+    const tier1 = component.children.toArray()[0];
+    const mastery1 = tier1.children.toArray()[0];
     spyOn(mastery1, 'lock');
     expect(mastery1.lock).not.toHaveBeenCalled();
     mastery1.unlock();
-    let tier2 = component.children.toArray()[1];
-    let mastery2 = tier2.children.toArray()[0];
+    const tier2 = component.children.toArray()[1];
+    const mastery2 = tier2.children.toArray()[0];
     mastery2.enabled = true;
     mastery2.setRank(5);
 
@@ -68,11 +68,11 @@ describe('MasteryCategoryComponent', () => {
     expect(mastery1.lock).toHaveBeenCalled();
   });
   it('should enable next tier when the tier is at max rank', () => {
-    let tier1 = component.children.toArray()[0];
-    let mastery1 = tier1.children.toArray()[0];
+    const tier1 = component.children.toArray()[0];
+    const mastery1 = tier1.children.toArray()[0];
     mastery1.setRank(5);
-    let tier2 = component.children.toArray()[1];
-    let mastery2 = tier2.children.toArray()[0];
+    const tier2 = component.children.toArray()[1];
+    const mastery2 = tier2.children.toArray()[0];
     mastery2.enabled = false;
 
     component.rankAdd({tier: tier1, mastery: mastery1});
@@ -80,24 +80,24 @@ describe('MasteryCategoryComponent', () => {
   });
 
   it('should unlock previous tier when the tier is below max rank', () => {
-    let tier1 = component.children.toArray()[0];
-    let mastery1 = tier1.children.toArray()[0];
+    const tier1 = component.children.toArray()[0];
+    const mastery1 = tier1.children.toArray()[0];
     spyOn(mastery1, 'unlock');
     expect(mastery1.unlock).not.toHaveBeenCalled();
     mastery1.lock();
-    let tier2 = component.children.toArray()[1];
-    let mastery2 = tier2.children.toArray()[0];
+    const tier2 = component.children.toArray()[1];
+    const mastery2 = tier2.children.toArray()[0];
     mastery2.setRank(4);
 
     component.rankRemove({tier: tier2, mastery: mastery2});
     expect(mastery1.unlock).toHaveBeenCalled();
   });
   it('should disable next tier when the tier is below max rank', () => {
-    let tier1 = component.children.toArray()[0];
-    let mastery1 = tier1.children.toArray()[0];
+    const tier1 = component.children.toArray()[0];
+    const mastery1 = tier1.children.toArray()[0];
     mastery1.setRank(4);
-    let tier2 = component.children.toArray()[1];
-    let mastery2 = tier2.children.toArray()[0];
+    const tier2 = component.children.toArray()[1];
+    const mastery2 = tier2.children.toArray()[0];
     mastery2.enabled = true;
 
     component.rankRemove({tier: tier1, mastery: mastery1});
@@ -105,9 +105,9 @@ describe('MasteryCategoryComponent', () => {
   });
 
   it('should lower the other rank in the tier', () => {
-    let tier = component.children.toArray()[0];
-    let mastery1 = tier.children.toArray()[0];
-    let mastery2 = tier.children.toArray()[1];
+    const tier = component.children.toArray()[0];
+    const mastery1 = tier.children.toArray()[0];
+    const mastery2 = tier.children.toArray()[1];
     mastery1.setRank(5);
     mastery2.setRank(1);
     component.rankAdd({tier: tier, mastery: mastery1});
@@ -116,8 +116,8 @@ describe('MasteryCategoryComponent', () => {
 
   it('should not add rank on an invalid event', () => {
     spyOn(component.rankRemoved, 'emit');
-    let tier = component.children.toArray()[0];
-    let mastery = tier.children.toArray()[0];
+    const tier = component.children.toArray()[0];
+    const mastery = tier.children.toArray()[0];
     mastery.setRank(5);
     component.rankAdd({tier: tier, mastery: undefined});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
@@ -126,8 +126,8 @@ describe('MasteryCategoryComponent', () => {
   });
   it('should not remove rank on an invalid event', () => {
     spyOn(component.rankRemoved, 'emit');
-    let tier = component.children.toArray()[0];
-    let mastery = tier.children.toArray()[0];
+    const tier = component.children.toArray()[0];
+    const mastery = tier.children.toArray()[0];
     mastery.setRank(5);
     component.rankRemove({tier: tier, mastery: undefined});
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();

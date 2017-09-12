@@ -1,10 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 
 @Component({
   selector: 'lb-about',
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./about.css').toString()],
+  styleUrls: ['./about.component.scss'],
   template: `
     <section>
       <h2>About</h2>

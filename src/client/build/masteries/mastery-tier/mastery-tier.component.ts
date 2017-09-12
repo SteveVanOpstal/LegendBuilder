@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 
-import {MasteryComponent} from './mastery.component';
+import {MasteryComponent} from '../mastery/mastery.component';
 
-type EventData = {
-  tier: MasteryTierComponent,
-  mastery: MasteryComponent
-};
+interface EventData {
+  tier: MasteryTierComponent;
+  mastery: MasteryComponent;
+}
 
 @Component({
   selector: 'lb-mastery-tier',
@@ -20,7 +20,7 @@ type EventData = {
 
 export class MasteryTierComponent {
   @Input() data: Object;
-  @Input() index: number = 0;
+  @Input() index = 0;
 
   @Output() rankAdded: EventEmitter<EventData> = new EventEmitter<EventData>();
   @Output()
@@ -45,7 +45,7 @@ export class MasteryTierComponent {
   }
 
   public setOtherRank(mastery: MasteryComponent, rank: number) {
-    for (let m of this.children.toArray()) {
+    for (const m of this.children.toArray()) {
       if (mastery !== m && m.getRank() > 0) {
         m.setRank(rank);
         return;

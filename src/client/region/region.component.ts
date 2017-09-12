@@ -1,11 +1,10 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {LolApiService} from '../services';
 
 @Component({
   selector: 'lb-region',
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./region.css').toString()],
+  styleUrls: ['./region.component.scss'],
   template: `
   <div class="align-center">
     <h2>Select your region:</h2>

@@ -1,20 +1,19 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LolApiService} from '../services';
 import {tim} from '../shared/tim';
 
-namespace Errors {
-  export const short: string = 'Summoner name \'{{ name }}\' is too short.';
-  export const long: string = 'Summoner name \'{{ name }}\'.. is too long.';
-  export const invalid: string = 'Summoner name \'{{ name }}\' is invalid.';
-  export const unkown: string = 'Summoner name \'{{ name }}\' unknown.';
-}
+const errors = {
+  short: 'Summoner name \'{{ name }}\' is too short.',
+  long: 'Summoner name \'{{ name }}\'.. is too long.',
+  invalid: 'Summoner name \'{{ name }}\' is invalid.',
+  unkown: 'Summoner name \'{{ name }}\' unknown.'
+};
 
 @Component({
   selector: 'lb-summoner',
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./summoner.css').toString()],
+  styleUrls: ['./summoner.component.scss'],
   template: `
     <div class="align-center">
       <p>
@@ -39,29 +38,29 @@ export class SummonerComponent {
     this.error = false;
     this.loading = true;
     if (name.length < 3) {
-      this.setError(Errors.short, name);
+      this.setError(errors.short, name);
       return;
     }
     if (name.length > 16) {
-      this.setError(Errors.long, name);
+      this.setError(errors.long, name);
       return;
     }
     if (!this.checkValid(name)) {
-      this.setError(Errors.invalid, name);
+      this.setError(errors.invalid, name);
       return;
     }
     this.lolApi.getAccountId(name).subscribe(
         res => {
           if (!isNaN(res)) {
             this.router.navigate([name], {relativeTo: this.route}).catch(() => {
-              this.setError(Errors.unkown, name);
+              this.setError(errors.unkown, name);
             });
           } else {
-            this.setError(Errors.unkown, name);
+            this.setError(errors.unkown, name);
           }
         },
         () => {
-          this.setError(Errors.unkown, name);
+          this.setError(errors.unkown, name);
         });
   }
 

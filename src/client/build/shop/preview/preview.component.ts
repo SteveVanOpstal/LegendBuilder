@@ -6,6 +6,7 @@ import {ItemBundle} from './item-bundle';
 
 @Component({
   selector: 'lb-preview',
+  styleUrls: ['./preview.component.scss'],
   template: `
     <div class="into">
       <ng-template ngFor let-item [ngForOf]="itemsInto">
@@ -70,11 +71,11 @@ export class PreviewComponent implements OnChanges {
   }
 
   private getItemsFrom(baseItem: Item): Array<ItemBundle>|undefined {
-    let items = this.getItems(baseItem.from);
+    const items = this.getItems(baseItem.from);
     if (!items || !items.length) {
       return;
     }
-    let arr = Array<ItemBundle>();
+    const arr = Array<ItemBundle>();
     items.forEach((item: Item) => {
       arr.push({item: item, children: this.getItemsFrom(item)});
     });

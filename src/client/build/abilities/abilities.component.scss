@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+}
+
+:host > div {
+  position: absolute;
+  width: 74px;
+}
+
+.ability {
+  display: block;
+  height: 36px;
+  padding: 2px;
+}
+
+.ability:not(.ult) {
+  margin-left: 5px;
+}
+
+.ability.ult {
+  height: 46px;
+  padding: 2px;
+}
+
+.x.axis.level-line text,
+.x.axis.level-text line {
+  display: none;
+}
+
+.x.axis .domain {
+  stroke: none;
+}
+
+.x.axis.level-line > g:first-of-type > line {
+  display: none;
+}

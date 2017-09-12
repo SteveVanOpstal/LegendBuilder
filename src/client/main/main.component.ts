@@ -1,9 +1,8 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'lb-main',
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./main.css').toString()],
+  styleUrls: ['./main.component.scss'],
   template: `
     <button [routerLink]="['build']"><span class="align-center">Start Building</span></button>`
 })

@@ -18,14 +18,16 @@ xdescribe('LegendComponent', () => {
         enabled: false,
         name: 'test1',
         path: [{time: 0, value: 0}],
-        curve: curveLinear
+        curve: curveLinear,
+        currentValue: 0
       },
       {
         preview: false,
         enabled: false,
         name: 'test2',
         path: [{time: 0, value: 0}],
-        curve: curveLinear
+        curve: curveLinear,
+        currentValue: 0
       }
     ];
 

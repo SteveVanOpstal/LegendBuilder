@@ -1,9 +1,10 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
-import {Line} from '../graph.component';
+import {Line} from '../line.component';
 
 @Component({
   selector: 'lb-legend',
+  styleUrls: ['./legend.component.scss'],
   template: `
     <ul (mouseleave)="mouseLeave()">
       <li *ngFor="let line of lines">
@@ -14,22 +15,26 @@ import {Line} from '../graph.component';
           (mouseup)="dragging=false">
           {{ line.name }}
         </button>
+        <p>{{ line.currentValue }}</p>
       </li>
     </ul>`
 })
 
 export class LegendComponent implements OnChanges {
   @Input() lines = new Array<Line>();
-  dragging: boolean = false;
+  dragging = false;
 
   ngOnChanges(changes: SimpleChanges) {
-    for (let currentLine of changes['lines'].currentValue) {
-      let foundLines = changes['lines'].previousValue.filter((line: Line) => {
+    if (!changes['lines'] || !changes['lines'].previousValue) {
+      return;
+    }
+    for (const currentLine of changes['lines'].currentValue) {
+      const foundLines = changes['lines'].previousValue.filter((line: Line) => {
         return line.name === currentLine.name;
       });
 
       if (foundLines.length === 1) {
-        let previousLine: Line = foundLines[0];
+        const previousLine: Line = foundLines[0];
         currentLine.enabled = previousLine.enabled;
       }
     }
@@ -45,7 +50,7 @@ export class LegendComponent implements OnChanges {
   mouseLeave(line: Line|undefined) {
     if (!line) {
       this.dragging = false;
-      for (let p of this.lines) {
+      for (const p of this.lines) {
         p.preview = false;
       }
     } else {

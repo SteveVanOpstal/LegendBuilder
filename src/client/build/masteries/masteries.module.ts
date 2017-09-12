@@ -5,10 +5,10 @@ import {AssetsModule} from '../../assets/assets.module';
 import {SharedModule} from '../../shared/shared.module';
 
 import {MasteriesComponent} from './masteries.component';
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
-import {RankComponent} from './rank.component';
+import {MasteryCategoryComponent} from './mastery-category/mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier/mastery-tier.component';
+import {MasteryComponent} from './mastery/mastery.component';
+import {RankComponent} from './mastery/rank.component';
 
 @NgModule({
   declarations: [

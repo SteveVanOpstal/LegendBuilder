@@ -12,7 +12,7 @@ import {DDragonPipe, defaultImage} from './ddragon.pipe';
 class TestComponent {
 }
 
-let realm = {
+const realm = {
   'v': '[realm-version]',
   'cdn': 'https://url/cdn',
   'n': {
@@ -39,46 +39,44 @@ describe('DDragonPipe', () => {
       imports: [CoreModule, HttpModule]
     });
 
-    let fixture = TestBed.createComponent(TestComponent);
+    const fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
     testComponent = fixture.debugElement.children[0];
   });
 
   it('should use a default url when image or realm is unavailable',
      inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('test.png', undefined);
-       expect(result).toBeDefined();
-       result = pipe.buildImage(undefined, realm);
-       expect(result).toBeDefined();
+       expect(pipe.buildImage('test.png', undefined)).toBeDefined();
+       expect(pipe.buildImage(undefined, realm)).toBeDefined();
      }));
 
   it('should create a correct url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('test.png', realm);
+       const result = pipe.buildImage('test.png', realm);
        expect(result).toBe('https://url/cdn/[realm-version]/img/test.png');
      }));
 
   it('should create a correct \'ui\' url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('ui/test.png', realm);
+       const result = pipe.buildImage('ui/test.png', realm);
        expect(result).toBe('https://url/cdn/5.5.1/img/ui/test.png');
      }));
 
   it('should create a correct \'champion\' url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('champion/test.png', realm);
+       const result = pipe.buildImage('champion/test.png', realm);
        expect(result).toBe('https://url/cdn/[champion-version]/img/champion/test.png');
      }));
 
   it('should create a correct \'profileicon\' url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('profileicon/test.png', realm);
+       const result = pipe.buildImage('profileicon/test.png', realm);
        expect(result).toBe('https://url/cdn/[profileicon-version]/img/profileicon/test.png');
      }));
 
   it('should create a correct \'junk\' url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('junk/test.png', realm);
+       const result = pipe.buildImage('junk/test.png', realm);
        expect(result).toBe('https://url/cdn/[realm-version]/img/junk/test.png');
      }));
 
   it('should create a correct \'champion/loading\' url', inject([DDragonPipe], (pipe) => {
-       let result = pipe.buildImage('champion/loading/test.png', realm);
+       const result = pipe.buildImage('champion/loading/test.png', realm);
        expect(result).toBe('https://url/cdn/img/champion/loading/test.png');
      }));
 

@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+
+   > div {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+  }
+}
+
+input[type='text'] {
+  padding: 5px 8px;
+}

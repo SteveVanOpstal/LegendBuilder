@@ -5,6 +5,7 @@ import {ItemBundle} from './item-bundle';
 
 @Component({
   selector: 'lb-items-from',
+  styleUrls: ['./items-from.component.scss'],
   template: `
     <div *ngFor="let bundle of items">
       <hr class="up">

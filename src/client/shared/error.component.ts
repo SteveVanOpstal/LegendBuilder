@@ -2,14 +2,15 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'lb-error',
+  styleUrls: ['error.component.scss'],
   template: `
-  <p *ngIf="error" class="error-item">
+  <ng-container *ngIf="error">
     <lb-icon-error class="error"></lb-icon-error>
     <span class="error error-text">{{ message }}</span>
-  </p>`
+  </ng-container>`
 })
 
 export class ErrorComponent {
-  @Input() error: boolean = false;
-  @Input() message: string = 'Something went wrong.. ';
+  @Input() error = false;
+  @Input() message = 'Something went wrong.. ';
 }

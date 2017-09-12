@@ -18,12 +18,12 @@ describe('Shop TagsPipe', () => {
   });
 
   it('should filter', inject([TagsPipe], (pipe) => {
-       let tags = ['Armor'];
+       const tags = ['Armor'];
        expect(pipe.transform(items, tags)).toHaveEqualContent([item2]);
      }));
 
   it('should not filter undefined', inject([TagsPipe], (pipe) => {
-       let tags = ['Armor'];
+       const tags = ['Armor'];
        expect(pipe.transform(undefined, tags)).toBe(undefined);
        expect(pipe.transform(items, undefined)).toBe(items);
      }));

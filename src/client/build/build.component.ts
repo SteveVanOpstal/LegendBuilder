@@ -1,12 +1,12 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {LolApiService} from '../services';
 import {ItemsComponent} from './items/items.component';
 import {ShopComponent} from './shop/shop.component';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  styles: [require('./build.css').toString()],
+  selector: 'lb-build',
+  styleUrls: ['./build.component.scss'],
   template: `
     <div class="title">
       <img *ngIf="champion"

@@ -1,0 +1,31 @@
+:host {
+  background-color: transparent;
+  display: flex;
+  font-size: 1.3em;
+  justify-content: space-between;
+  max-width: 500px;
+  padding: 10px;
+
+  .error-text {
+    line-height: 54px;
+  }
+
+  button {
+    font-size: .8em;
+    margin-left: 20px;
+    padding: 5px;
+  }
+
+  button .icon {
+    padding: 5px 5px 5px 0;
+  }
+
+  .error .icon {
+    padding-top: 10px;
+  }
+
+  .error {
+    color: #900000;
+    fill: #900000;
+  }
+}

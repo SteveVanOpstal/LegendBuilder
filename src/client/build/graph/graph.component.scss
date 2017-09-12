@@ -1,0 +1,19 @@
+:host {
+  margin-bottom: 20px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.x.axis.time line {
+  opacity: .3;
+  stroke: #777;
+  stroke-width: 3px;
+}

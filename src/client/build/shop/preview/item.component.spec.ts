@@ -21,7 +21,7 @@ describe('ItemComponent', () => {
   it('should emit itemPicked event', inject([ItemComponent], (component) => {
        spyOn(component.itemPicked, 'emit');
        expect(component.itemPicked.emit).not.toHaveBeenCalled();
-       let result = component.pickItem({});
+       const result = component.pickItem({});
        expect(result).toBeFalsy();
        expect(component.itemPicked.emit).toHaveBeenCalled();
      }));

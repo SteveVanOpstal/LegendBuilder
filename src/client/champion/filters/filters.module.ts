@@ -2,8 +2,8 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import {FiltersComponent} from './filters.component';
-import {SortFilterComponent} from './sort-filter.component';
-import {TagsFilterComponent} from './tags-filter.component';
+import {SortFilterComponent} from './sort-filter/sort-filter.component';
+import {TagsFilterComponent} from './tags-filter/tags-filter.component';
 
 @NgModule({
   declarations: [FiltersComponent, SortFilterComponent, TagsFilterComponent],

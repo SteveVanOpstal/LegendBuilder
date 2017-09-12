@@ -9,6 +9,7 @@ import {Samples} from '../samples';
 
 @Component({
   selector: 'lb-abilities',
+  styleUrls: ['./abilities.component.scss'],
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 220" width="100%" height="100%">
       <g [ngClass]="{ult : i == 3}" *ngFor="let spell of champion?.spells; let i = index">
@@ -53,17 +54,17 @@ export class AbilitiesComponent implements OnInit {
   }
 
   private update(): void {
-    for (let spell of this.champion.spells) {
+    for (const spell of this.champion.spells) {
       spell.extendedTooltip = this.applyEffects(spell);
     }
   }
 
   private applyEffects(spell: any) {
-    let effects = new Object();
+    const effects = new Object();
 
     if (spell.effect) {
       for (let i = 0; i < spell.effect.length; i++) {
-        let value = spell.effect[i];
+        const value = spell.effect[i];
         if (value) {
           effects['e' + i] = value[0];
         }
@@ -71,15 +72,15 @@ export class AbilitiesComponent implements OnInit {
     }
 
     if (spell.vars) {
-      for (let value of spell.vars) {
+      for (const value of spell.vars) {
         if (value.key && value.coeff) {
           effects[value.key] = value.coeff[0];
         }
       }
     }
 
-    let stats = this.getStats();
-    for (let attrname in stats) {
+    const stats = this.getStats();
+    for (const attrname of Object.keys(stats)) {
       effects[attrname] = stats[attrname];
     }
 
@@ -87,9 +88,9 @@ export class AbilitiesComponent implements OnInit {
   }
 
   private getStats(): Array<string> {
-    let stats = [];
+    const stats = [];
     let i = 0;
-    for (let stat in this.champion.stats) {
+    for (const stat of Object.keys(this.champion.stats)) {
       i++;
       stats['f' + i] = this.champion.stats[stat];
     }

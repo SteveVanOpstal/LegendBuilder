@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject} from 'rxjs/Rx';
 
 import {settings} from '../../../config/settings';
 import {config} from '../build/graph/config';
@@ -19,9 +19,7 @@ interface Stat {
 
 type StatArray = Array<Stat>;
 
-export type Stats = {
-  [name: string]: [{time: number, value: number}]
-};
+export interface Stats { [name: string]: [{time: number, value: number}]; }
 export type Items = Array<Item>;
 
 @Injectable()
@@ -69,11 +67,11 @@ export class StatsService {
 
   private translateItemStats(stats: StatArray): StatArray {
     if (this.items) {
-      for (let item of this.items) {
+      for (const item of this.items) {
         // remove stats that belong to items that builds into this item
-        let itemStats = {...item.stats};
-        for (let containedItem of item.contains) {
-          for (let stat in containedItem.stats) {
+        const itemStats = {...item.stats};
+        for (const containedItem of item.contains) {
+          for (const stat in containedItem.stats) {
             if (itemStats[stat]) {
               itemStats[stat] -= containedItem.stats[stat];
             }
@@ -93,9 +91,9 @@ export class StatsService {
   }
 
   private translateStats(stats: any, time: number = 0): StatArray {
-    let result = [];
-    for (let name in stats) {
-      let stat = this.parseName(name);
+    const result = [];
+    for (const name of Object.keys(stats)) {
+      const stat = this.parseName(name);
       stat.value = stats[name];
       stat.time = time;
       result.push(stat);
@@ -125,8 +123,8 @@ export class StatsService {
     name = this.translator.transform(name);
 
     for (let i = 1; i < name.length; i++) {
-      let char = name[i];
-      let charPrev = name[i - 1];
+      const char = name[i];
+      const charPrev = name[i - 1];
       if (char === char.toUpperCase() && charPrev === charPrev.toLowerCase()) {
         name = name.substr(0, i) + ' ' + name.substr(i);
         i++;
@@ -145,17 +143,17 @@ export class StatsService {
       return [];
     }
 
-    let statsFlat: StatArray = this.getStats(stats, true);
-    let statsPercent: StatArray = this.getStats(stats, false);
+    const statsFlat: StatArray = this.getStats(stats, true);
+    const statsPercent: StatArray = this.getStats(stats, false);
 
-    let result: StatArray = [];
-    for (let nameFlat in statsFlat) {
+    const result: StatArray = [];
+    for (const nameFlat of Object.keys(statsFlat)) {
       let times = Object.keys(statsFlat[nameFlat]);
       if (statsPercent[nameFlat]) {
-        let timesPercentage = Object.keys(statsPercent[nameFlat]);
+        const timesPercentage = Object.keys(statsPercent[nameFlat]);
         times = times.concat(timesPercentage);
       }
-      for (let time of times.filter((value, index, array) => {
+      for (const time of times.filter((value, index, array) => {
              return array.indexOf(value) === index;
            })) {
         this.cumulateStats(result, statsFlat, statsPercent, nameFlat, parseInt(time, 10));
@@ -165,8 +163,8 @@ export class StatsService {
   }
 
   private getStats(stats: StatArray, flat: boolean): StatArray {
-    let result: StatArray = [];
-    for (let stat of stats) {
+    const result: StatArray = [];
+    for (const stat of stats) {
       if (stat.flat === flat) {
         if (stat.perLevel) {
           this.addStatPerLevel(result, stat.name, stat.value, stat.time);
@@ -180,7 +178,7 @@ export class StatsService {
 
   private addStatPerLevel(stats: StatArray, name: string, value: number, time: number) {
     if (this.levelTimeMarks) {
-      for (let t of this.levelTimeMarks) {
+      for (const t of this.levelTimeMarks) {
         if (t >= time) {
           this.addStat(stats, name, value, t);
         }
@@ -195,7 +193,7 @@ export class StatsService {
     }
 
     if (stats[name][time]) {
-      let sample = stats[name][time];
+      const sample = stats[name][time];
       stats[name][time] = sample + value;
     } else {
       stats[name][time] = value;
@@ -204,10 +202,10 @@ export class StatsService {
 
   private cumulateStats(
       stats: StatArray, statsFlat: StatArray, statsPercent: StatArray, name: string, time: number) {
-    let valueFlat = this.cumulatedStat(statsFlat, name, time);
-    let valuePercent = this.cumulatedStat(statsPercent, name, time);
+    const valueFlat = this.cumulatedStat(statsFlat, name, time);
+    const valuePercent = this.cumulatedStat(statsPercent, name, time);
     if (valueFlat > 0) {
-      let value = Math.round((valueFlat * (1 + valuePercent)) * 100) / 100;
+      const value = Math.round((valueFlat * (1 + valuePercent)) * 100) / 100;
       this.addStat(stats, name, value, time);
     }
   }
@@ -215,7 +213,7 @@ export class StatsService {
   private cumulatedStat(stats: StatArray, name: string, time: number) {
     let value = 0;
     if (stats[name]) {
-      for (let t in stats[name]) {
+      for (const t in stats[name]) {
         if (parseInt(t, 10) <= time) {
           value += stats[name][t];
         }
@@ -225,16 +223,16 @@ export class StatsService {
   }
 
   private makeIterable(stats: StatArray): Stats {
-    let result = {};
-    for (let name in stats) {
-      let arr = Array<{time: number, value: number}>();
-      for (let time in stats[name]) {
+    const result = {};
+    for (const name of Object.keys(stats)) {
+      const arr = Array<{time: number, value: number}>();
+      for (const time of Object.keys(stats[name])) {
         arr.push({time: parseInt(time, 10), value: stats[name][time]});
       }
       arr.sort((a, b) => {
         return a.time > b.time ? 1 : -1;
       });
-      let last = arr[arr.length - 1];
+      const last = arr[arr.length - 1];
       arr.push({time: settings.gameTime, value: last.value});
       result[name] = arr;
     }
@@ -242,12 +240,12 @@ export class StatsService {
   }
 
   private createLevelTimeMarks(samples: Samples) {
-    let lastXpMark = samples.xp[samples.xp.length - 1];
+    const lastXpMark = samples.xp[samples.xp.length - 1];
     if (!lastXpMark) {
       return;
     }
     this.levelTimeMarks = [];
-    for (let xpMark of config.levelXp) {
+    for (const xpMark of config.levelXp) {
       this.levelTimeMarks.push(Math.round(xpMark / lastXpMark * settings.gameTime));
     }
   }

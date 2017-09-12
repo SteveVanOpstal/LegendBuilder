@@ -12,6 +12,7 @@ import {TimeScale} from './scales';
 
 @Component({
   selector: 'lb-graph',
+  styleUrls: ['./graph.component.scss'],
   template: `
     <lb-loading [observable]="lolApi.getCurrentMatchData()">
       <lb-legend [lines]="lines"></lb-legend>
@@ -20,9 +21,10 @@ import {TimeScale} from './scales';
         width="100%"
         height="100%"
         viewBox="0 0 1500 400"
-        (mousemove)="mousemove($event)"
-        (mouseover)="mouseover()"
-        (mouseout)="mouseout()">
+        (mousedown)="mousedown($event)"
+        (mouseup)="dragging = false"
+        (mouseleave)="dragging = false"
+        (mousemove)="mousemove($event)">
       <g transform="translate(60,20)">
         <g class="lines">
           <g lb-line [line]="line" *ngFor="let line of lines"></g>
@@ -30,12 +32,12 @@ import {TimeScale} from './scales';
         <g class="axes">
           <g class="x axis time" transform="translate(0,380)"></g>
         </g>
-        <rect class="overlay" width="1500" height="400"></rect>
       </g>
     </svg>`
 })
 
 export class GraphComponent implements OnInit {
+  dragging = false;
   lines = new Array<Line>();
   @ViewChildren(LineComponent) lineComponents: QueryList<LineComponent>;
 
@@ -67,29 +69,40 @@ export class GraphComponent implements OnInit {
     });
   }
 
+  mousedown(event: MouseEvent) {
+    this.dragging = true;
+    this.move(event);
+  }
+
   mousemove(event: MouseEvent) {
+    if (this.dragging) {
+      this.move(event);
+    }
+  }
+
+  move(event: MouseEvent) {
     if (Math.abs(event.offsetX - this.mouseOffsetX) < 1) {
       return;
     }
     this.mouseOffsetX = event.offsetX;
 
-    let offsetX = this.xScaleTime.get().invert(event.offsetX - 60);
+    const offsetX = this.xScaleTime.get().invert(event.offsetX - 60);
     this.lineComponents.forEach(line => {
-      line.mousemove(event.offsetX - 60, offsetX);
+      line.move(event.offsetX - 60, offsetX);
     });
   }
 
-  mouseover() {
-    this.lineComponents.forEach(line => {
-      line.mouseover();
-    });
-  }
+  // mouseover() {
+  //   this.lineComponents.forEach(line => {
+  //     line.mouseover();
+  //   });
+  // }
 
-  mouseout() {
-    this.lineComponents.forEach(line => {
-      line.mouseout();
-    });
-  }
+  // mouseout() {
+  //   this.lineComponents.forEach(line => {
+  //     line.mouseout();
+  //   });
+  // }
 
   // @HostListener('window:resize')
   // onResize() {
@@ -97,13 +110,13 @@ export class GraphComponent implements OnInit {
   // }
 
   private updateSamples(samples: Samples) {
-    let paths = {};
-    for (let name in samples) {
+    const paths = {};
+    for (const name of Object.keys(samples)) {
       paths[name] = [];
-      for (let i in samples[name]) {
-        let index = parseInt(i, 10);
-        let time = index * (settings.gameTime / (settings.match.sampleSize - 1));
-        let value = samples[name][index];
+      for (const i of Object.keys(samples[name])) {
+        const index = parseInt(i, 10);
+        const time = index * (settings.gameTime / (settings.match.sampleSize - 1));
+        const value = samples[name][index];
         paths[name].push({time: time, value: value});
       }
     }
@@ -112,7 +125,7 @@ export class GraphComponent implements OnInit {
 
   private updateLines(
       paths: {[name: string]: Array<{time: number, value: number}>}, curve: CurveFactory) {
-    for (let name in paths) {
+    for (const name of Object.keys(paths)) {
       this.updateLine(paths[name], curve, name);
     }
 
@@ -120,7 +133,7 @@ export class GraphComponent implements OnInit {
       if (this.lines[index].curve !== curve) {
         continue;
       }
-      let deleteLine = Object.keys(paths).findIndex((name) => {
+      const deleteLine = Object.keys(paths).findIndex((name) => {
         return name === this.lines[index].name;
       }) < 0;
       if (deleteLine) {
@@ -132,13 +145,14 @@ export class GraphComponent implements OnInit {
 
   private updateLine(
       path: Array<{time: number, value: number}>, curve: CurveFactory, name: string) {
-    let lineIndex = this.findLine(name);
+    const lineIndex = this.findLine(name);
     if (lineIndex >= 0 && this.lines[lineIndex].path !== path) {
-      let line = {...this.lines[lineIndex]};
+      const line = {...this.lines[lineIndex]};
       line.path = path;
       this.lines[lineIndex] = line;
     } else {
-      this.lines.push({preview: false, enabled: true, name: name, path: path, curve: curve});
+      this.lines.push(
+          {preview: false, enabled: true, name: name, path: path, curve: curve, currentValue: 0});
     }
   }
   private findLine(name: string): number {

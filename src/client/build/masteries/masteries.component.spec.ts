@@ -11,10 +11,10 @@ import {LoadingComponent} from '../../shared/loading.component';
 import {TestModule} from '../../testing';
 
 import {MasteriesComponent} from './masteries.component';
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
-import {RankComponent} from './rank.component';
+import {MasteryCategoryComponent} from './mastery-category/mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier/mastery-tier.component';
+import {MasteryComponent} from './mastery/mastery.component';
+import {RankComponent} from './mastery/rank.component';
 
 const masteriesData = {
   tree: {
@@ -62,7 +62,7 @@ const masteriesDataAltered = [
   }
 ];
 
-let providers = () => {
+const providers = () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MasteriesComponent, LolApiService],
@@ -81,7 +81,7 @@ describe('MasteriesComponent', () => {
 
   let component: MasteriesComponent;
   beforeEach(() => {
-    let fixture = TestBed.createComponent(MasteriesComponent);
+    const fixture = TestBed.createComponent(MasteriesComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
     component.data = masteriesDataAltered;
@@ -94,13 +94,13 @@ describe('MasteriesComponent', () => {
   });
 
   it('should enable', () => {
-    let mastery = component.children.toArray()[0].children.toArray()[0].children.toArray()[0];
+    const mastery = component.children.toArray()[0].children.toArray()[0].children.toArray()[0];
     mastery.enabled = false;
     component.enable();
     expect(mastery.enabled).toBeTruthy();
   });
   it('should disable', () => {
-    let mastery = component.children.toArray()[0].children.toArray()[0].children.toArray()[0];
+    const mastery = component.children.toArray()[0].children.toArray()[0].children.toArray()[0];
     mastery.enabled = true;
     component.disable();
     expect(mastery.enabled).toBeFalsy();
@@ -115,8 +115,8 @@ describe('MasteriesComponent', () => {
   it('should disable when rank is higher than 30', () => {
     spyOn(component, 'disable');
     expect(component.disable).not.toHaveBeenCalled();
-    let tier = component.children.toArray()[0].children.toArray()[0];
-    let mastery = tier.children.toArray()[0];
+    const tier = component.children.toArray()[0].children.toArray()[0];
+    const mastery = tier.children.toArray()[0];
     mastery.setRank(30);
     component.rankAdd({tier: tier, mastery: mastery});
     expect(component.disable).toHaveBeenCalled();
@@ -137,11 +137,11 @@ describe('MasteriesComponent', () => {
   });
 
   it('should remove ranks when the total rank passes 30', () => {
-    let tier1 = component.children.toArray()[0].children.toArray()[0];
-    let tier2 = component.children.toArray()[1].children.toArray()[0];
-    let mastery1 = tier1.children.toArray()[0];
-    let mastery2 = tier1.children.toArray()[1];
-    let mastery3 = tier2.children.toArray()[0];
+    const tier1 = component.children.toArray()[0].children.toArray()[0];
+    const tier2 = component.children.toArray()[1].children.toArray()[0];
+    const mastery1 = tier1.children.toArray()[0];
+    const mastery2 = tier1.children.toArray()[1];
+    const mastery3 = tier2.children.toArray()[0];
     mastery1.setRank(2);
     mastery2.setRank(30);
     component.rankAdd({tier: tier1, mastery: mastery1});

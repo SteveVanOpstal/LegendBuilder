@@ -2,12 +2,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'lb-filters',
+  styleUrls: ['./filters.component.scss'],
   template: `
-    <div class="left">
-      <div class="align-center">
-        <lb-tags-filter [(tags)]="tags"></lb-tags-filter>
-      </div>
-    </div>
+    <lb-tags-filter [(tags)]="tags"></lb-tags-filter>
     <div class="center align-center">
       <div>
         <h2>Pick your champion</h2>
@@ -18,11 +15,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
                (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
     </div>
-    <div class="right">
-      <div class="align-center">
-        <lb-sort-filter [sort]="sort" (sortChange)="sortChange.next($event)"></lb-sort-filter>
-      </div>
-    </div>`
+    <lb-sort-filter [sort]="sort" (sortChange)="sortChange.next($event)"></lb-sort-filter>`
 })
 
 export class FiltersComponent {

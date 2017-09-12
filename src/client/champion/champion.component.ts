@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'lb-champion',
+  styleUrls: ['./champion.component.scss'],
   template: `
     <a id="{{champion?.id}}" [routerLink]="[champion?.key]">
       <img [attr.alt]="champion?.name"
@@ -24,10 +25,10 @@ import {Component, Input} from '@angular/core';
 
 export class ChampionComponent {
   @Input() champion: any;
-  imageHeight: string = '';
+  imageHeight = '';
 
   loaded(event: Event) {
-    let img: any = event.target;
+    const img: any = event.target;
     if (!img.currentSrc) {
       return;
     }

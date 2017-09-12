@@ -33,6 +33,7 @@ testem.log
 yarn-error.log
 *.key
 *.crt
+*.css
 settings*.json
 
 # e2e

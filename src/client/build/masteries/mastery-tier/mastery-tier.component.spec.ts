@@ -1,12 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 
-import {LolApiService} from '../../services';
-import {DDragonPipe} from '../../shared/ddragon.pipe';
-import {TestModule} from '../../testing';
+import {LolApiService} from '../../../services';
+import {DDragonPipe} from '../../../shared/ddragon.pipe';
+import {TestModule} from '../../../testing';
+import {MasteryComponent} from '../mastery/mastery.component';
+import {RankComponent} from '../mastery/rank.component';
 
 import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
-import {RankComponent} from './rank.component';
 
 const data = [
   {id: 0, description: ['test6121'], image: {full: '6121.png'}, ranks: 5}, null,
@@ -23,14 +23,14 @@ describe('MasteryTierComponent', () => {
       imports: [TestModule]
     });
 
-    let fixture = TestBed.createComponent(MasteryTierComponent);
+    const fixture = TestBed.createComponent(MasteryTierComponent);
     component = fixture.componentInstance;
     component.data = data;
     fixture.detectChanges();
   });
 
   it('should add mastery rank', () => {
-    let mastery = component.children.toArray()[0];
+    const mastery = component.children.toArray()[0];
     mastery.enable();
     mastery.setRank(1);
     component.rankAdd(mastery);
@@ -38,7 +38,7 @@ describe('MasteryTierComponent', () => {
   });
 
   it('should set mastery rank to max when rank is zero', () => {
-    let mastery = component.children.toArray()[0];
+    const mastery = component.children.toArray()[0];
     mastery.enable();
     component.rankAdd(mastery);
     expect(mastery.getRank()).toBe(5);
@@ -47,7 +47,7 @@ describe('MasteryTierComponent', () => {
   it('should trigger category rankAdd event', () => {
     spyOn(component.rankAdded, 'emit');
     expect(component.rankAdded.emit).not.toHaveBeenCalled();
-    let mastery = component.children.toArray()[0];
+    const mastery = component.children.toArray()[0];
     component.rankAdd(mastery);
     expect(component.rankAdded.emit).toHaveBeenCalled();
   });
@@ -55,7 +55,7 @@ describe('MasteryTierComponent', () => {
   it('should trigger category rankRemoved event', () => {
     spyOn(component.rankRemoved, 'emit');
     expect(component.rankRemoved.emit).not.toHaveBeenCalled();
-    let mastery = component.children.toArray()[0];
+    const mastery = component.children.toArray()[0];
     component.rankRemove(mastery);
     expect(component.rankRemoved.emit).toHaveBeenCalled();
   });

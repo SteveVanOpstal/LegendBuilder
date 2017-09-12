@@ -27,10 +27,10 @@ export class MasteryComponent implements OnChanges {
   name: string;
   description: string;
 
-  rank: number = 0;
+  rank = 0;
 
-  active: boolean = false;
-  private locked: boolean = false;
+  active = false;
+  private locked = false;
 
   ngOnChanges() {
     this.update();
@@ -145,10 +145,10 @@ export class MasteryComponent implements OnChanges {
   }
 
   private createBurns(descriptions: Array<string>): string {
-    let chops = this.chopAll(descriptions);
+    const chops = this.chopAll(descriptions);
     let result = '';
-    for (let index in chops[0]) {
-      let mergedChops = this.mergeChops(chops, parseInt(index, 10));
+    for (const index of Object.keys(chops[0])) {
+      const mergedChops = this.mergeChops(chops, parseInt(index, 10));
       if (this.AllEqual(mergedChops)) {
         result += chops[0][index];
       } else {
@@ -159,16 +159,16 @@ export class MasteryComponent implements OnChanges {
   }
 
   private mergeChops(chops: Array<Array<string>>, index: number): Array<string> {
-    let result = Array<string>();
-    for (let c of chops) {
+    const result = Array<string>();
+    for (const c of chops) {
       result.push(c[index]);
     }
     return result;
   }
 
   private AllEqual(array: Array<string>): boolean {
-    let ref = array[0];
-    for (let str of array) {
+    const ref = array[0];
+    for (const str of array) {
       if (ref.indexOf(str) < 0) {
         return false;
       }
@@ -181,19 +181,19 @@ export class MasteryComponent implements OnChanges {
   }
 
   private chopAll(descriptions: Array<string>): Array<Array<string>> {
-    let result = [];
-    for (let description of descriptions) {
+    const result = [];
+    for (const description of descriptions) {
       result.push(this.chop(description));
     }
     return result;
   }
 
   private chop(description: string): Array<string> {
-    let result = Array<string>();
+    const result = Array<string>();
     let start = 0;
     let numericSequence = this.isNumeric(description, 0);
     for (let index = 0; index < description.length; index++) {
-      let numeric = this.isNumeric(description, index);
+      const numeric = this.isNumeric(description, index);
       if ((numericSequence && !numeric) || (!numericSequence && numeric)) {
         result.push(description.substr(start, index - start));
         start = index;
@@ -205,7 +205,7 @@ export class MasteryComponent implements OnChanges {
   }
 
   private isNumeric(str: string, index: number): boolean {
-    let char = str[index];
+    const char = str[index];
     if (char === ' ') {
       return false;
     }

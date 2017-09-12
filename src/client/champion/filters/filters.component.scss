@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+}
+
+label {
+  display: inline-block;
+  margin: 8px;
+  text-align: initial;
+}
+
+.center {
+  max-width: 250px;
+  width: 25%;
+}
+
+.center input[type='text'] {
+  width: 100%;
+}
+
+.center label {
+  margin: 20px 0 0 0;
+  text-align: center;
+  width: 5em;
+}
+
+@media (max-width: 850px) {
+  .center {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .center {
+    width: 100% !important;
+  }
+
+  .center div {
+    width: 100% !important;
+  }
+}

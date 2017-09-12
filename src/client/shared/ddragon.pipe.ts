@@ -3,14 +3,13 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 import {LolApiService} from '../services';
 
-export let defaultImage: string =
-    'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
+export let defaultImage: string = 'data:image/svg+xml,' +
+    encodeURIComponent(require('!raw-loader!svgo-loader!../assets/images/hourglass.svg'));
 
 @Pipe({name: 'lbDDragon', pure: false})
 export class DDragonPipe implements PipeTransform {
   resolvedImage: SafeUrl = '';
-  image: string = '';
-
+  currentImage = '';
 
   constructor(private lolApi: LolApiService, private sanitizer: DomSanitizer) {}
 
@@ -18,13 +17,13 @@ export class DDragonPipe implements PipeTransform {
     if (!this.resolvedImage && addDefault) {
       this.resolvedImage = this.sanitizer.bypassSecurityTrustUrl(defaultImage);
     }
-    if (this.image === image) {
+    if (this.currentImage === image) {
       return this.resolvedImage;
     }
-    this.image = image;
+    this.currentImage = image;
 
     this.lolApi.getRealm().subscribe((realm: any) => {
-      this.resolvedImage = this.buildImage(this.image, realm);
+      this.resolvedImage = this.buildImage(this.currentImage, realm);
     });
 
     return this.resolvedImage;
@@ -35,7 +34,7 @@ export class DDragonPipe implements PipeTransform {
       return this.resolvedImage;
     }
 
-    let type = image.substr(0, image.lastIndexOf('/'));
+    const type = image.substr(0, image.lastIndexOf('/'));
     return realm.cdn + this.getVersion(realm, type) + '/img/' + image;
   }
 
@@ -48,7 +47,7 @@ export class DDragonPipe implements PipeTransform {
       return '';
     }
 
-    for (let obj in realm.n) {
+    for (const obj in realm.n) {
       if (obj === type) {
         return '/' + realm.n[obj];
       }

@@ -2,12 +2,13 @@ import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 
 import {LolApiService} from '../../services';
 
-import {MasteryCategoryComponent} from './mastery-category.component';
-import {MasteryTierComponent} from './mastery-tier.component';
-import {MasteryComponent} from './mastery.component';
+import {MasteryCategoryComponent} from './mastery-category/mastery-category.component';
+import {MasteryTierComponent} from './mastery-tier/mastery-tier.component';
+import {MasteryComponent} from './mastery/mastery.component';
 
 @Component({
   selector: 'lb-masteries',
+  styleUrls: ['./masteries.component.scss'],
   template: `
     <lb-loading [observable]="lolApi.getMasteries()">
       <lb-mastery-category [class]="category.name + ' noselect'"
@@ -46,9 +47,9 @@ export class MasteriesComponent implements OnInit {
   }
 
   public rankAdd(event: {tier: MasteryTierComponent, mastery: MasteryComponent}) {
-    let tier = event.tier;
-    let mastery = event.mastery;
-    let deviation = this.getTotalRankExceeded();
+    const tier = event.tier;
+    const mastery = event.mastery;
+    const deviation = this.getTotalRankExceeded();
     if (deviation) {
       if (tier.getRank() > mastery.getRank()) {
         tier.setOtherRank(mastery, tier.getRank() - deviation - mastery.getRank());
@@ -69,16 +70,16 @@ export class MasteriesComponent implements OnInit {
   }
 
   private transformData(newMasteries: any) {
-    let transformedMasteries: Array<any> = [];
+    const transformedMasteries: Array<any> = [];
 
-    for (let categoryName in newMasteries.tree) {
-      let category = newMasteries.tree[categoryName];
-      let tiers: Array<any> = [];
-      for (let masteryTreeItemName in category) {
-        let masteryTreeItem = category[masteryTreeItemName];
-        let item: Array<any> = [];
-        for (let masteryName in masteryTreeItem.masteryTreeItems) {
-          let mastery = masteryTreeItem.masteryTreeItems[masteryName];
+    for (const categoryName of Object.keys(newMasteries.tree)) {
+      const category = newMasteries.tree[categoryName];
+      const tiers: Array<any> = [];
+      for (const masteryTreeItemName of Object.keys(category)) {
+        const masteryTreeItem = category[masteryTreeItemName];
+        const item: Array<any> = [];
+        for (const masteryName of Object.keys(masteryTreeItem.masteryTreeItems)) {
+          const mastery = masteryTreeItem.masteryTreeItems[masteryName];
           if (mastery !== null) {
             item.push(newMasteries.data[mastery.masteryId]);
           } else {
@@ -94,7 +95,7 @@ export class MasteriesComponent implements OnInit {
   }
 
   private getTotalRankExceeded() {
-    let deviation = this.getRank() - 30;
+    const deviation = this.getRank() - 30;
     return deviation > 0 ? deviation : 0;
   }
 }

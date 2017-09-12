@@ -1,0 +1,30 @@
+@mixin generate-colors($color) {
+  @for $count from 1 through 24 {
+    &:nth-of-type(#{$count}) button {
+      background-color: desaturate(adjust-hue($color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%);
+    }
+  }
+}
+
+ul {
+  margin: 10px;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  @include generate-colors(hsl(0, 75%, 40%));
+
+  button {
+    display: block;
+    width: 100%;
+
+    &:not(.enabled) {
+      background-color: transparent !important;
+
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+}

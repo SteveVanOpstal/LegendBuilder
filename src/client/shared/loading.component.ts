@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'lb-loading',
@@ -10,10 +10,10 @@ import {Observable} from 'rxjs';
 })
 
 export class LoadingComponent implements OnInit {
-  loading: boolean = true;
-  error: boolean = false;
+  loading = true;
+  error = false;
   @Input() loadMessage: string;
-  @Input() errorMessage: string = 'Something went wrong.. ';
+  @Input() errorMessage = 'Something went wrong.. ';
   @Input() observable = new Observable<any>();
 
   ngOnInit() {

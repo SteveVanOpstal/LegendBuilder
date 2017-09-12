@@ -9,8 +9,9 @@ import {ItemSlotComponent} from './item-slot.component';
 
 @Component({
   selector: 'lb-items',
+  styleUrls: ['./items.component.scss'],
   template: `
-    <ng-template ngFor let-i [ngForOf]="[0,1,2,3,4,5]">
+    <ng-template ngFor [ngForOf]="[0,1,2,3,4,5]">
       <lb-item-slot [ngClass]="{dragging: dragging}"
                     (itemSelected)="itemSelected.emit($event)"
                     (itemRemoved)="removeItem($event)"
@@ -79,15 +80,15 @@ export class ItemsComponent implements OnInit {
   }
 
   private updateBundles(items: Array<Item>): Array<Item> {
-    for (let item of items) {
+    for (const item of items) {
       if (!item.bundle) {
         item.bundle = 1;
       }
     }
 
     for (let index = 0; index < items.length - 1; index++) {
-      let itemCurrent = items[index];
-      let itemNext = items[index + 1];
+      const itemCurrent = items[index];
+      const itemNext = items[index + 1];
       if (itemCurrent.id === itemNext.id && itemCurrent.bundle < itemCurrent.stacks) {
         itemCurrent.bundle++;
         items.splice(index + 1, 1);
@@ -99,19 +100,19 @@ export class ItemsComponent implements OnInit {
 
   private updateDiscounts(items: Array<Item>): Array<Item> {
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-      let item = items[itemIndex];
+      const item = items[itemIndex];
       item.discount = 0;
       item.contains = [];
       item.contained = false;
       for (let searchItemIndex = 0; searchItemIndex < itemIndex; searchItemIndex++) {
-        let searchItem = items[searchItemIndex];
+        const searchItem = items[searchItemIndex];
         if (!item.from || !searchItem || searchItem.contained) {
           continue;
         }
-        let itemFromIds = this.getItemsFrom(item).filter((itemFrom: string) => {
+        const itemFromIds = this.getItemsFrom(item).filter((itemFrom: string) => {
           return itemFrom.toString() === searchItem.id.toString();
         });
-        let itemContainsIds = item.contains.filter((itemContains) => {
+        const itemContainsIds = item.contains.filter((itemContains) => {
           return itemContains.id === searchItem.id;
         });
         if (itemFromIds.length > itemContainsIds.length) {
@@ -129,8 +130,8 @@ export class ItemsComponent implements OnInit {
       return;
     }
     let goldOffset = 0;
-    for (let item of items) {
-      let itemGold = (item.gold.total * item.bundle) - item.discount;
+    for (const item of items) {
+      const itemGold = (item.gold.total * item.bundle) - item.discount;
       item.time = this.getTime(
           this.samples.gold, goldOffset + itemGold, settings.gameTime, settings.match.sampleSize);
       goldOffset += itemGold;
@@ -139,8 +140,11 @@ export class ItemsComponent implements OnInit {
   }
 
   private updateOriginalItems(items: Array<Item>) {
-    for (let index in items) {
-      let i = parseInt(index, 10);
+    if (!items) {
+      return;
+    }
+    for (const index of Object.keys(items)) {
+      const i = parseInt(index, 10);
       for (let index2 = 0; index2 < items[i].bundle; index2 += 1) {
         this.items[i + index2].time = items[i].time;
       }
@@ -154,8 +158,8 @@ export class ItemsComponent implements OnInit {
     this.children.forEach((slot: ItemSlotComponent) => {
       slot.items = [];
     });
-    for (let item of items) {
-      let slot = this.findSlot(item);
+    for (const item of items) {
+      const slot = this.findSlot(item);
       if (slot) {
         slot.items.push(item);
       }
@@ -168,8 +172,8 @@ export class ItemsComponent implements OnInit {
 
 
   private clone(items: Array<Item>): Array<Item> {
-    let result: Array<Item> = [];
-    for (let item of items) {
+    const result: Array<Item> = [];
+    for (const item of items) {
       result.push({...item});
     }
     return result;
@@ -183,7 +187,7 @@ export class ItemsComponent implements OnInit {
       return this.allItems[id];
     });
     let arr = Array<string>();
-    for (let item of items) {
+    for (const item of items) {
       arr = arr.concat(item.id, this.getItemsFrom(item));
     }
     return arr;
@@ -191,19 +195,19 @@ export class ItemsComponent implements OnInit {
 
   private getTime(frames: Array<number>, value: number, totalTime: number, sampleSize: number):
       number {
-    let index = this.getUpperIndex(frames, value);
+    const index = this.getUpperIndex(frames, value);
     if (index <= -1) {
       return -1;
     }
 
-    let lowerFrame = frames[index];
-    let upperFrame = frames[index + 1];
+    const lowerFrame = frames[index];
+    const upperFrame = frames[index + 1];
 
-    let ratio = (value - lowerFrame) / (upperFrame - lowerFrame);
+    const ratio = (value - lowerFrame) / (upperFrame - lowerFrame);
 
-    let sampleTime = totalTime / sampleSize;
-    let lowerTime = index * sampleTime;
-    let upperTime = (index + 1) * sampleTime;
+    const sampleTime = totalTime / sampleSize;
+    const lowerTime = index * sampleTime;
+    const upperTime = (index + 1) * sampleTime;
 
     let time = lowerTime + ((upperTime - lowerTime) * ratio);
     time = isFinite(time) ? time : lowerTime;
@@ -226,18 +230,18 @@ export class ItemsComponent implements OnInit {
   }
 
   private compatible(slot: ItemSlotComponent): boolean {
-    let lastItem = slot.lastItem();
+    const lastItem = slot.lastItem();
     if (!lastItem.contained) {
       return false;
     }
-    let childSlot = this.children.toArray().find((child: ItemSlotComponent) => {
+    const childSlot = this.children.toArray().find((child: ItemSlotComponent) => {
       return this.lastItemEquals(child, lastItem);
     });
     return childSlot !== undefined;
   }
 
   private lastItemEquals(slot: ItemSlotComponent, item: Item): boolean {
-    let lastSlotItem = slot.lastItem();
+    const lastSlotItem = slot.lastItem();
     if (!lastSlotItem || !lastSlotItem.contains.length) {
       return false;
     }

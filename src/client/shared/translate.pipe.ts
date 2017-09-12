@@ -39,8 +39,8 @@ export class TranslatePipe implements PipeTransform {
   }
 
   private indexToLowerCase(subject: Object): Object {
-    let result = {};
-    for (let index in subject) {
+    const result = {};
+    for (const index of Object.keys(subject)) {
       result[index.toLowerCase()] = subject[index];
     }
     return result;

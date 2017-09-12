@@ -17,9 +17,9 @@ describe('StatsService', () => {
     });
   });
 
-  let samples: Samples = {xp: [17000], gold: []};
+  const samples: Samples = {xp: [17000], gold: []};
 
-  let champion = {
+  const champion = {
     stats: {
       attackrange: 125,
       attackdamage: 61.1116,
@@ -29,7 +29,7 @@ describe('StatsService', () => {
     }
   };
 
-  let championStatsResults = {
+  const championStatsResults = {
     'Attack Range': [{time: 0, value: 125}, {time: 3600000, value: 125}],
     'Attack Damage': [
       {time: 0, value: 64.73}, {time: 59294, value: 68.35}, {time: 139765, value: 71.97},
@@ -44,7 +44,7 @@ describe('StatsService', () => {
     'armor': [{time: 0, value: 24.38}, {time: 3600000, value: 24.38}]
   };
 
-  let items: Array<Item> = [
+  const items: Array<Item> = [
     {id: '1', gold: {total: 0}, time: 0, stats: {rFlatMPModPerLevel: 4.1667}},
     {id: '1', gold: {total: 0}, time: 10, stats: {rFlatMagicDamageMod: 15, FlatMPPool: 250}},
     {id: '2', gold: {total: 0}, time: 673412, stats: {PercentMovementSpeedPerLevel: 0.002167}},
@@ -53,7 +53,7 @@ describe('StatsService', () => {
     {id: '5', gold: {total: 0}, time: 2420000, stats: {FlatMovementSpeedMod: 100}}
   ];
 
-  let itemStatsResults = {
+  const itemStatsResults = {
     'MP': [
       {time: 0, value: 4.17},        {time: 10, value: 254.17},     {time: 59294, value: 258.33},
       {time: 139765, value: 262.5},  {time: 241412, value: 266.67}, {time: 364235, value: 270.83},
@@ -75,7 +75,7 @@ describe('StatsService', () => {
     ]
   };
 
-  let levelTimeMarks = [
+  const levelTimeMarks = [
     0, 59294, 139765, 241412, 364235, 508235, 673412, 859765, 1067294, 1296000, 1545882, 1816941,
     2109176, 2422588, 2757176, 3112941, 3489882, 3888000
   ];
@@ -84,6 +84,7 @@ describe('StatsService', () => {
       async(inject([MockBackend, StatsService], (backend, service) => {
         spyOn(service.stats, 'next');
         backend.success(samples);
+        backend.run();
         expect(service.stats.next).toHaveBeenCalled();
         expect(service.levelTimeMarks).toHaveEqualContent(levelTimeMarks);
       })));
@@ -114,8 +115,9 @@ describe('StatsService', () => {
 
   xit('should process champion stats',
       async(inject([MockBackend, StatsService], (backend, service) => {
-        backend.success(samples);
-        backend.success(champion);
+        backend.success('', samples);
+        backend.success('', champion);
+        backend.run();
         service.stats.subscribe((stats) => {
           expect(stats).toHaveEqualContent(championStatsResults);
         });

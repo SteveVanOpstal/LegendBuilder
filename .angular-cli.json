@@ -20,7 +20,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "lb",
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -55,6 +55,6 @@
     }
   },
   "defaults": {
-    "styleExt": "css"
+    "styleExt": "scss"
   }
 }

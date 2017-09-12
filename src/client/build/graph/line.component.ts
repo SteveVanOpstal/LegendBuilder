@@ -1,13 +1,9 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {bisector} from 'd3-array';
 import {curveLinear, line} from 'd3-shape';
 
 import {DataScale, TimeScale} from './scales';
 
-
-
-// export let defaultImage: string =
-//     'data:image/svg+xml,' + encodeURIComponent(require('../assets/images/hourglass.svg'));
 export interface Line {
   enabled: boolean;
   preview: boolean;
@@ -19,6 +15,7 @@ export interface Line {
 
 @Component({
   selector: 'g[lb-line]',
+  styleUrls: ['./line.component.scss'],
   template: `
     <svg:path [attr.d]="d"
           class="line {{line?.name}}"
@@ -26,18 +23,17 @@ export interface Line {
           shape-rendering="geometricPrecision">
     </svg:path>
     <svg:g class="focus"
-           [ngClass]="{enabled: line?.enabled && focus.visible}"
+           [ngClass]="{enabled: line?.enabled}"
            [attr.transform]="'translate(' + focus.position.x + ',' + focus.position.y + ')'">
-      <circle r="4"></circle>
-      <text x="9" dy=".35em">{{ focus.text }}</text>
+      <circle r="3"></circle>
     </svg:g>
   `
 })
-export class LineComponent implements OnChanges {
+export class LineComponent implements OnChanges, OnInit {
   @Input() line: Line;
   d: string;
 
-  focus = {position: {x: 0, y: 0}, text: '', visible: false};
+  focus = {position: {x: 0, y: 0}};
 
   private xScale = new TimeScale([0, 1420]);
   private yScale = new DataScale([380, 0], [0, 4000]);
@@ -57,7 +53,7 @@ export class LineComponent implements OnChanges {
       return;
     }
 
-    let path: Array<{time: number, value: number}> = changes['line'].currentValue.path;
+    const path: Array<{time: number, value: number}> = changes['line'].currentValue.path;
 
     if (path && (!changes['line'].previousValue || path !== changes['line'].previousValue.path)) {
       this.update();
@@ -66,54 +62,58 @@ export class LineComponent implements OnChanges {
     return false;
   }
 
-  mousemove(offsetX: number, offsetXScaled: number) {
+  ngOnInit() {
+    this.move(1420, this.xScale.get().invert(1420));
+  }
+
+  move(offsetX: number, offsetXScaled: number) {
     if (!this.line.enabled) {
       return;
     }
-    let left = this.bisectTime(this.line.path, offsetXScaled, 1);
-    let dLeft = this.line.path[left - 1];
-    let dRight = this.line.path[left];
+    const left = this.bisectTime(this.line.path, offsetXScaled, 1);
+    const dLeft = this.line.path[left - 1];
+    const dRight = this.line.path[left];
     let value = dLeft.value;
 
     // add linear intermediate offset
     if (this.line.curve === curveLinear && dRight) {
-      let timeInterval = dRight.time - dLeft.time;
-      let timeOffset = offsetXScaled - dLeft.time;
-      let valueInterval = dRight.value - dLeft.value;
-      let valueOffset = valueInterval * (timeOffset / timeInterval);
+      const timeInterval = dRight.time - dLeft.time;
+      const timeOffset = offsetXScaled - dLeft.time;
+      const valueInterval = dRight.value - dLeft.value;
+      const valueOffset = valueInterval * (timeOffset / timeInterval);
       value += valueOffset;
     }
 
     this.focus.position.x = offsetX;
     this.focus.position.y = this.yScale.get()(value);
-    this.focus.text = value.toString();
+    this.line.currentValue = Math.round(value);
   }
 
-  mouseover() {
-    this.focus.visible = true;
-  }
+  // mouseover() {
+  //   this.focus.visible = true;
+  // }
 
-  mouseout() {
-    this.focus.visible = false;
-  }
+  // mouseout() {
+  //   this.focus.visible = false;
+  // }
 
   update() {
     this.yScale.update(this.findDomain(this.line.path));
 
-    let l = line()
-                .x((d) => {
-                  return this.xScale.get()(d['time']);
-                })
-                .y((d) => {
-                  return this.yScale.get()(d['value']);
-                })
-                .curve(this.line.curve);
+    const l = line()
+                  .x((d) => {
+                    return this.xScale.get()(d['time']);
+                  })
+                  .y((d) => {
+                    return this.yScale.get()(d['value']);
+                  })
+                  .curve(this.line.curve);
 
     this.d = l(<any>this.line.path);
   }
 
   private findDomain(path: Array<{time: number, value: number}>): [number, number] {
-    let last = path[path.length - 1].value;
+    const last = path[path.length - 1].value;
     return this.domains.find(domain => {
       return last < domain[1];
     });

@@ -7,13 +7,13 @@ describe('PreviewComponent', () => {
     TestBed.configureTestingModule({providers: [PreviewComponent]});
   });
 
-  let item1 = {id: 1, from: ['2', '3']};
-  let item2 = {id: 2, from: ['4'], into: ['1']};
-  let item3 = {id: 3, from: ['4', '5'], into: ['1']};
-  let item4 = {id: 4, into: ['2', '3']};
-  let item5 = {id: 5, into: ['3']};
+  const item1 = {id: 1, from: ['2', '3']};
+  const item2 = {id: 2, from: ['4'], into: ['1']};
+  const item3 = {id: 3, from: ['4', '5'], into: ['1']};
+  const item4 = {id: 4, into: ['2', '3']};
+  const item5 = {id: 5, into: ['3']};
 
-  let items = [item1, item2, item3, item4, item5];
+  const items = [item1, item2, item3, item4, item5];
 
   beforeEach(inject([PreviewComponent], (component) => {
     component.items = items;
@@ -55,7 +55,7 @@ describe('PreviewComponent', () => {
      }));
 
   it('should get from-items', inject([PreviewComponent], (component) => {
-       let result = component.getItemsFrom(item1);
+       const result = component.getItemsFrom(item1);
        expect(result).toHaveEqualContent([
          {item: item2, children: [{item: item4, children: undefined}]}, {
            item: item3,
@@ -65,7 +65,7 @@ describe('PreviewComponent', () => {
      }));
 
   it('should get into-items', inject([PreviewComponent], (component) => {
-       let result = component.getItemsInto(item4);
+       const result = component.getItemsInto(item4);
        expect(result).toHaveEqualContent([item2, item3]);
      }));
 
@@ -73,14 +73,14 @@ describe('PreviewComponent', () => {
      inject([PreviewComponent], (component) => {
        spyOn(component.itemPicked, 'emit');
        expect(component.itemPicked.emit).not.toHaveBeenCalled();
-       let result = component.pickItem(item4);
+       const result = component.pickItem(item4);
        expect(result).toBeFalsy();
        expect(component.itemPicked.emit).toHaveBeenCalled();
      }));
 
   it('should not get items when there are no items', inject([PreviewComponent], (component) => {
        component.items = undefined;
-       let result = component.getItems([1]);
+       const result = component.getItems([1]);
        expect(result).not.toBeDefined();
      }));
 });

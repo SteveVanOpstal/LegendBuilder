@@ -1,0 +1,116 @@
+:host {
+  /* height: 750px; */
+  display: flex;
+  min-width: 100%;
+}
+
+.left {
+  display: inline-block;
+  min-width: 14%;
+  padding: 5px;
+  top: 0;
+}
+
+.left button {
+  width: 100%;
+}
+
+.left input[type='checkbox'] {
+  float: right;
+}
+
+.left label {
+  background-color: #f3f3f3;
+  font-size: 1em;
+  margin: 2px;
+}
+
+.left input[type='checkbox']:checked + span,
+.left label:hover {
+  background-color: #5f9ea0;
+  display: block;
+}
+
+.right-container {
+  display: flex;
+  min-width: 85%;
+}
+
+.middle {
+  min-width: 70%;
+}
+
+.right {
+  min-width: 30%;
+}
+
+.category p {
+  font-size: 1.5em;
+  margin: 10px 3px 0 3px;
+}
+
+.category hr {
+  margin: 0 0 10px 0;
+}
+
+.search input[type='text'] {
+  width: 100%;
+}
+
+.search {
+  display: flex;
+  height: 30px;
+  padding: 5px 0;
+  top: 0;
+}
+
+.search button {
+  margin: 0 5px;
+  padding: 2px;
+  width: 30px;
+}
+
+.items {
+  align-content: flex-start;
+  background-color: #5f9ea0;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5px 5px 5px 0;
+  min-height: 1000px;
+  padding: 5px 0;
+}
+
+/* media */
+
+@media (max-width: 1650px) {
+  :host {
+    .left {
+      min-width: 19%;
+    }
+
+    .right-container {
+      display: flex;
+      min-width: 80%;
+    }
+  }
+}
+
+@media (max-width: 950px) {
+  :host {
+    .middle {
+      min-width: 60%;
+    }
+
+    .right {
+      min-width: 40%;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  :host .left {
+    display: none;
+  }
+}

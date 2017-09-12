@@ -9,7 +9,7 @@ import {Samples} from '../samples';
 import {AbilitiesComponent} from './abilities.component';
 
 xdescribe('AbilitiesComponent', () => {
-  let samples: Samples = {xp: [17000], gold: []};
+  const samples: Samples = {xp: [17000], gold: []};
 
   let component;
   beforeEach(() => {
@@ -19,12 +19,12 @@ xdescribe('AbilitiesComponent', () => {
       imports: [TestModule]
     });
 
-    let fixture = TestBed.createComponent(AbilitiesComponent);
+    const fixture = TestBed.createComponent(AbilitiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  let champion = {
+  const champion = {
     stats: {attackrange: 175, mpperlevel: 47, mp: 334},
     spells: [
       {
