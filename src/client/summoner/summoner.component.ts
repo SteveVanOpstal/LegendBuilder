@@ -5,10 +5,11 @@ import {LolApiService} from '../services';
 import {tim} from '../shared/tim';
 
 const errors = {
-  short: 'Summoner name \'{{ name }}\' is too short.',
-  long: 'Summoner name \'{{ name }}\'.. is too long.',
-  invalid: 'Summoner name \'{{ name }}\' is invalid.',
-  unkown: 'Summoner name \'{{ name }}\' unknown.'
+  empty: 'Empty summoner name.',
+  short: 'Summoner name [{{ name }}] is too short.',
+  long: 'Summoner name [{{ name }}].. is too long.',
+  invalid: 'Summoner name [{{ name }}] is invalid.',
+  unkown: 'Summoner name [{{ name }}] unknown.'
 };
 
 @Component({
@@ -16,20 +17,20 @@ const errors = {
   styleUrls: ['./summoner.component.scss'],
   template: `
     <div class="align-center">
-      <p>
-        Enter your summoner name:
+      <label class="align-center">
+        <span>Enter your summoner name:</span>
         <input type="text" name="name" #name (keyup.enter)="getAccountId(name.value)">
         <button (click)="getAccountId(name.value)">Go</button>
-      </p>
+      </label>
       <lb-error [error]="error" [message]="message"></lb-error>
       <lb-icon-load *ngIf="loading"></lb-icon-load>
     </div>`
 })
 
 export class SummonerComponent {
-  error: boolean = false;
+  error = false;
   message: string;
-  loading: boolean = false;
+  loading = false;
 
   constructor(
       private route: ActivatedRoute, private router: Router, private lolApi: LolApiService) {}
@@ -37,6 +38,10 @@ export class SummonerComponent {
   getAccountId(name: string) {
     this.error = false;
     this.loading = true;
+    if (name.length <= 0) {
+      this.setError(errors.empty, name);
+      return;
+    }
     if (name.length < 3) {
       this.setError(errors.short, name);
       return;
