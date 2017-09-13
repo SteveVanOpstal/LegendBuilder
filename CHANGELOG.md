@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-alpha.16"></a>
+# [1.0.0-alpha.16](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.15...1.0.0-alpha.16) (2017-09-13)
+
+
+### Bug Fixes
+
+* **css:** content background color inconsistent ([de55b9d](https://github.com/SteveVanOpstal/LegendBuilder/commit/de55b9d))
+* **line:** missing CurveFactory ([22a0abf](https://github.com/SteveVanOpstal/LegendBuilder/commit/22a0abf))
+* add missing directory ([45119e8](https://github.com/SteveVanOpstal/LegendBuilder/commit/45119e8))
+* manifest makes lighthouse tests fail ([e396611](https://github.com/SteveVanOpstal/LegendBuilder/commit/e396611))
+* query.at is not a function ([18290c8](https://github.com/SteveVanOpstal/LegendBuilder/commit/18290c8))
+* **lint:** errors occur ([ad6f702](https://github.com/SteveVanOpstal/LegendBuilder/commit/ad6f702))
+* **loading:** add missing oninit ([4f4535a](https://github.com/SteveVanOpstal/LegendBuilder/commit/4f4535a))
+* **manifest:** file not found ([8c69c74](https://github.com/SteveVanOpstal/LegendBuilder/commit/8c69c74))
+* **picked-items:** ignore/remove empty query parameter ([63fd977](https://github.com/SteveVanOpstal/LegendBuilder/commit/63fd977))
+* **server:** championKey replacement sometimes fails ([412b89d](https://github.com/SteveVanOpstal/LegendBuilder/commit/412b89d))
+* **server:** header contains new line ([c8afe54](https://github.com/SteveVanOpstal/LegendBuilder/commit/c8afe54))
+* **version:** small device styling incorrect ([374f11e](https://github.com/SteveVanOpstal/LegendBuilder/commit/374f11e))
+
+
+### Features
+
+* **angular-cli:** add service worker ([9757ee4](https://github.com/SteveVanOpstal/LegendBuilder/commit/9757ee4))
+* **client:** sass ([7b0527d](https://github.com/SteveVanOpstal/LegendBuilder/commit/7b0527d))
+* **jasmine:** replace deprecated jasmine-matchers with add-matchers ([b864b9e](https://github.com/SteveVanOpstal/LegendBuilder/commit/b864b9e))
+* **lolapi:** advanced retries ([3f96f56](https://github.com/SteveVanOpstal/LegendBuilder/commit/3f96f56))
+* **lolapi:** http retry mechanism ([4f0479d](https://github.com/SteveVanOpstal/LegendBuilder/commit/4f0479d))
+* **lolapi:** implement v3 ([51e5373](https://github.com/SteveVanOpstal/LegendBuilder/commit/51e5373))
+* **server:** automatic reload on security file changes ([21b3703](https://github.com/SteveVanOpstal/LegendBuilder/commit/21b3703))
+* **server:** move apikey from query to headers ([4041e11](https://github.com/SteveVanOpstal/LegendBuilder/commit/4041e11))
+* **server:** move apiKey to headers ([d457935](https://github.com/SteveVanOpstal/LegendBuilder/commit/d457935))
+* **server:** set gzip encoding ([84115ef](https://github.com/SteveVanOpstal/LegendBuilder/commit/84115ef))
+* **summoner:** add loading icon ([2722c13](https://github.com/SteveVanOpstal/LegendBuilder/commit/2722c13))
+* improve accessibility (lighthouse) ([d8ca16c](https://github.com/SteveVanOpstal/LegendBuilder/commit/d8ca16c))
+* reimplement error component ([c87e9bf](https://github.com/SteveVanOpstal/LegendBuilder/commit/c87e9bf))
+* unify header and input style ([b6a3311](https://github.com/SteveVanOpstal/LegendBuilder/commit/b6a3311))
+* **summoner:** check summoner name on enter ([4d40957](https://github.com/SteveVanOpstal/LegendBuilder/commit/4d40957))
+* **summoner:** extensive summoner name checking ([e62a53b](https://github.com/SteveVanOpstal/LegendBuilder/commit/e62a53b))
+* **summoner:** improve error output ([fe062c6](https://github.com/SteveVanOpstal/LegendBuilder/commit/fe062c6))
+
+
+
 <a name="1.0.0-alpha.15"></a>
 # [1.0.0-alpha.15](https://github.com/SteveVanOpstal/LegendBuilder/compare/1.0.0-alpha.14...v1.0.0-alpha.15) (2017-06-19)
 
