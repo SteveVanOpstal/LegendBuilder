@@ -28,6 +28,7 @@ import {PreviewComponent} from './preview/preview.component';
           <input type="text"
                  name="item name"
                  placeholder="Item name"
+                 aria-label="search for item"
                  (keyup)="name=$event.target.value">
           <button type="button" name="show-disabled" title="Display hidden items">
             <lb-icon-eye></lb-icon-eye>
