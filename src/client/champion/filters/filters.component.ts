@@ -7,10 +7,11 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
     <lb-tags-filter [(tags)]="tags"></lb-tags-filter>
     <div class="center align-center">
       <div>
-        <h2>Pick your champion</h2>
+        <h2 id="sub-title">Pick your champion</h2>
         <input type="text"
                name="name"
                placeholder="Name"
+               aria-labelledby="sub-title"
                (keyup.enter)="enterHit.next()"
                (input)="nameChange.next($event.target.value)" autofocus/>
       </div>
