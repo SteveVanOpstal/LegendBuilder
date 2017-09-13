@@ -19,6 +19,7 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "lb",
+      "serviceWorker": true,
       "styles": [
         "styles.scss"
       ],

@@ -92,6 +92,7 @@
     "@angular/cli": "^1.4.1",
     "@angular/compiler-cli": "^4.2.4",
     "@angular/language-service": "^4.2.4",
+    "@angular/service-worker": "^1.0.0-beta.16",
     "@types/async": "2.0.40",
     "@types/d3-array": "1.2.0",
     "@types/d3-axis": "1.0.8",
@@ -130,7 +131,6 @@
     "s3": "^4.4.0",
     "sauce-connect-launcher": "^1.2.2",
     "standard-version": "^4.2.0",
-    "svgo-loader": "^1.2.1",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3"
