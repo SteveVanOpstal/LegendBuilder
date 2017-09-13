@@ -52,7 +52,7 @@ export class Server {
   constructor(private port: number, cacheSettings?: any, private preRun?: () => void) {
     const argv = minimist(process.argv.slice(2));
 
-    this.apiKey = Helpers.readFile(argv['api']);
+    this.apiKey = Helpers.readFile(argv['api']).replace(/^\s+|\s+$/g, '');
     Helpers.watchFile(argv['api'], file => this.apiKey = file.replace(/^\s+|\s+$/g, ''));
 
     this.ssl.cert = Helpers.readFile(argv['cert']);
