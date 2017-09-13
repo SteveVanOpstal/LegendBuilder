@@ -33,9 +33,9 @@ export class LevelAxisText implements Axis {
   }
 
   update(samples: Samples): void {
-    let lastXpMark = samples.xp[samples.xp.length - 1];
+    const lastXpMark = samples.xp[samples.xp.length - 1];
 
-    let values: Array<number> = [];
+    const values: Array<number> = [];
     config.levelXp.forEach((v: number, i: number, a: Array<number>) => {
       values[i] = v + (((a[i + 1] ? a[i + 1] : lastXpMark) - v) / 2);
     });

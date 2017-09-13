@@ -13,10 +13,10 @@ xdescribe('ShopComponent', () => {
   });
 
   // let pickedItem1 = {id: 1, group: 'PinkWards'};
-  let pickedItem2 = {id: 2, group: 'PinkWards'};
+  const pickedItem2 = {id: 2, group: 'PinkWards'};
   // let pickedItem3 = {};
   // let pickedItem4 = {id: 4, group: 'DoransItems'};
-  let items = {
+  const items = {
     groups: [{MaxGroupOwnable: 2, key: 'PinkWards'}, {MaxGroupOwnable: -1, key: 'DoransItems'}]
   };
 

@@ -21,7 +21,7 @@ describe('LevelScale', () => {
   });
 
   it('should update', () => {
-    let samples: Samples = {xp: [0, 1, 2], gold: [0, 1, 2]};
+    const samples: Samples = {xp: [0, 1, 2], gold: [0, 1, 2]};
     component.create();
     component.update(samples);
     expect(component.scale.domain()).toHaveEqualContent([0, 2]);

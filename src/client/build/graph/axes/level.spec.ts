@@ -41,7 +41,7 @@ describe('LevelAxisText', () => {
   });
 
   it('should update', () => {
-    let samples: Samples = {xp: [0, 1, 2], gold: [0, 1, 2]};
+    const samples: Samples = {xp: [0, 1, 2], gold: [0, 1, 2]};
     component.create(new LevelScale([0, 380]));
     component.update(samples);
     expect(component.axis.tickValues()).toBeDefined();

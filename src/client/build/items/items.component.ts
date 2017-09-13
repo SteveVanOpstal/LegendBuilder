@@ -183,7 +183,7 @@ export class ItemsComponent implements OnInit {
     if (!baseItem.from || !baseItem.from.length || !this.allItems) {
       return [];
     }
-    let items: Array<Item> = baseItem.from.map((id: string) => {
+    const items: Array<Item> = baseItem.from.map((id: string) => {
       return this.allItems[id];
     });
     let arr = Array<string>();

@@ -17,7 +17,7 @@ export class LevelScale implements Scale {
   }
 
   update(samples: Samples) {
-    let lastXpMark = samples.xp[samples.xp.length - 1];
+    const lastXpMark = samples.xp[samples.xp.length - 1];
     this.scale.domain([0, lastXpMark]);
   }
 }

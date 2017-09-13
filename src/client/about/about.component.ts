@@ -86,7 +86,7 @@ import {Http} from '@angular/http';
 })
 
 export class AboutComponent {
-  ready: boolean = false;
+  ready = false;
   contributors: any;
 
   constructor(private http: Http) {

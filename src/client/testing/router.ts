@@ -1,9 +1,9 @@
 import {UrlSegment} from '@angular/router';
-import {Observable, Observer} from 'rxjs';
+import {Observable, Observer} from 'rxjs/Rx';
 
 export class MockRouter {
   routerState: any = {};
-  region: string = 'euw';
+  region = 'euw';
 
   constructor() {
     this.routerState = this.routerState_();

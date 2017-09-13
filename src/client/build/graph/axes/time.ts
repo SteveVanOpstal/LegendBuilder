@@ -19,8 +19,8 @@ export class TimeAxis implements Axis {
   }
 
   createTimeMarks() {
-    let timeMarks: Array<number> = [];
-    let i: number = 0;
+    const timeMarks: Array<number> = [];
+    let i = 0;
     while (i <= settings.gameTime) {
       timeMarks.push(i);
       i += config.timeInterval;
