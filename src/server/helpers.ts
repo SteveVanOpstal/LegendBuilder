@@ -19,6 +19,7 @@ export class Helpers {
   static watchFile(filename: string, listener: FunctionStringCallback): void {
     console.log('watching: ' + filename);
     fs.watch(filename, () => {
+      console.log('file change detected: ' + filename);
       const result = this.readFile(filename);
       if (result) {
         listener(result);
