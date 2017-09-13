@@ -1,6 +1,6 @@
 :host {
   align-self: flex-end;
-  margin: -62px -15px 0 0;
+  margin: -64px -15px 0 0;
   transform: rotate(12deg);
 }
 
@@ -20,4 +20,14 @@
 
 :host a:hover {
   text-decoration: none;
+}
+
+@media (max-width: 1200px) {
+  :host {
+    margin: -52px -13px 0 0;
+  }
+
+  :host a {
+    font-size: .7em;
+  }
 }
