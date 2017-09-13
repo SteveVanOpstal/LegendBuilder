@@ -1,12 +1,10 @@
-@mixin generate-colors($color) {
-  @for $count from 1 through 24 {
-    :host:nth-of-type(#{$count}) .line {
-      stroke: desaturate(adjust-hue($color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%) !important;
-    }
+$base-color: hsl(0, 75%, 40%);
+
+@for $count from 1 through 24 {
+  :host:nth-of-type(#{$count}) .line {
+    stroke: desaturate(adjust-hue($base-color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%) !important;
   }
 }
-
-@include generate-colors(hsl(0, 75%, 40%));
 
 .line {
   fill: none;

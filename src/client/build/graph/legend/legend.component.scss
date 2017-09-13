@@ -1,28 +1,57 @@
-@mixin generate-colors($color) {
-  @for $count from 1 through 24 {
-    &:nth-of-type(#{$count}) button {
-      background-color: desaturate(adjust-hue($color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%);
-    }
-  }
-}
-
 ul {
   margin: 10px;
   padding: 0;
 }
 
+$base-color: hsl(0, 75%, 40%);
+
 li {
   display: inline-block;
-  @include generate-colors(hsl(0, 75%, 40%));
+  @for $count from 1 through 24 {
+    &:nth-of-type(#{$count}) button {
+      $color: desaturate(adjust-hue($base-color, $count * 45% + (($count / 8) * 22.5)), ($count / 8) * 25%);
+      background-color: $color;
+
+      &:not(.enabled):hover {
+        border-color: $color;
+        color: $color;
+      }
+
+      &.enabled:hover {
+        border-color: $color;
+      }
+    }
+  }
 
   button {
-    display: block;
+    border: 1px solid #fff;
+    color: #fff;
+    display: inline;
     width: 100%;
+    margin-top: 4px;
+
+    &:focus {
+      outline: none;
+    }
+    
+    &:hover {
+      border-width: 3px;
+      padding: 7px 5px;
+      margin-top: 0px;
+    }
+
+    &.enabled:hover {
+      margin-top: 0px;
+    }
 
     &:not(.enabled) {
       background-color: transparent !important;
+      border-color: #000;
+      border-width: 1px;
+      color: #000;
 
       &:hover {
+        border-width: 3px;
         color: #000;
       }
     }
