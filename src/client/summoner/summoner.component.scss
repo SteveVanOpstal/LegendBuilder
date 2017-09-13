@@ -5,15 +5,18 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
-    width: 300px;
+    width: 400px;
   }
 }
 
-input[type='text'] {
-  margin-top: 10px;
-  padding: 5px 8px;
+label {
+  width: 340px;
 }
 
-label {
+label > div {
   width: 230px;
+}
+
+h2 {
+  margin-top: 0;
 }

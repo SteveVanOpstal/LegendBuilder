@@ -6,7 +6,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   template: `
     <lb-tags-filter [(tags)]="tags"></lb-tags-filter>
     <div class="center align-center">
-      <div>
+      <label>
         <h2 id="sub-title">Pick your champion</h2>
         <input type="text"
                name="name"
@@ -14,7 +14,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
                aria-labelledby="sub-title"
                (keyup.enter)="enterHit.next()"
                (input)="nameChange.next($event.target.value)" autofocus/>
-      </div>
+      </label>
     </div>
     <lb-sort-filter [sort]="sort" (sortChange)="sortChange.next($event)"></lb-sort-filter>`
 })

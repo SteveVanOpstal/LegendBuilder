@@ -18,9 +18,11 @@ const errors = {
   template: `
     <div class="align-center">
       <label class="align-center">
-        <span>Enter your summoner name:</span>
-        <input type="text" name="name" #name (keyup.enter)="getAccountId(name.value)">
-        <button (click)="getAccountId(name.value)">Go</button>
+        <h2>Enter your summoner name</h2>
+        <div class="align-center">
+          <input type="text" name="name" #name (keyup.enter)="getAccountId(name.value)">
+          <button (click)="getAccountId(name.value)">Go</button>
+        </div>
       </label>
       <lb-error [error]="error" [message]="message"></lb-error>
       <lb-icon-load *ngIf="loading"></lb-icon-load>

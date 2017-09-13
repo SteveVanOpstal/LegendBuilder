@@ -2,6 +2,10 @@
   display: flex;
 }
 
+h2 {
+  margin-top: 10px;
+}
+
 label {
   display: inline-block;
   margin: 8px;
@@ -9,18 +13,17 @@ label {
 }
 
 .center {
-  max-width: 250px;
+  max-width: 266px;
   width: 25%;
 }
 
 .center input[type='text'] {
-  width: 100%;
+  width: 90%;
 }
 
 .center label {
-  margin: 20px 0 0 0;
   text-align: center;
-  width: 5em;
+  width: 250px;
 }
 
 @media (max-width: 850px) {
