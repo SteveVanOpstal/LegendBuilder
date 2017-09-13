@@ -16,16 +16,18 @@ const errors = {
   selector: 'lb-summoner',
   styleUrls: ['./summoner.component.scss'],
   template: `
-    <div class="align-center">
-      <label class="align-center">
-        <h2>Enter your summoner name</h2>
-        <div class="align-center">
-          <input type="text" name="name" #name (keyup.enter)="getAccountId(name.value)">
-          <button (click)="getAccountId(name.value)">Go</button>
-        </div>
-      </label>
-      <lb-error [error]="error" [message]="message"></lb-error>
-      <lb-icon-load *ngIf="loading"></lb-icon-load>
+    <div class="content">
+      <div class="align-center">
+        <label class="align-center">
+          <h2>Enter your summoner name</h2>
+          <div class="align-center">
+            <input type="text" name="name" #name (keyup.enter)="getAccountId(name.value)" autofocus>
+            <button (click)="getAccountId(name.value)">Go</button>
+          </div>
+        </label>
+        <lb-error [error]="error" [message]="message"></lb-error>
+        <lb-icon-load *ngIf="loading"></lb-icon-load>
+      </div>
     </div>`
 })
 

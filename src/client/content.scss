@@ -1,0 +1,11 @@
+.content {
+  border-radius: 10px;
+  margin: 0 10%;
+  padding: 10px;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    margin: 0;
+  }
+}

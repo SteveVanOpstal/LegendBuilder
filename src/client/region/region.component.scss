@@ -1,4 +1,6 @@
-:host > div {
+@import '../content.scss';
+
+:host > div > div {
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;

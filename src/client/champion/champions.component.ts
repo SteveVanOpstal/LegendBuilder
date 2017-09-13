@@ -9,17 +9,19 @@ import {ChampionComponent} from './champion.component';
   selector: 'lb-champions',
   styleUrls: ['./champions.component.scss'],
   template: `
-    <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
-    </lb-filters>
-    <lb-loading [observable]="lolApi.getChampions()">
-      <lb-champion *ngFor="let champion of champions
-                          | toArray
-                          | fuzzyBy:'name':name
-                          | lbSort:sort
-                          | lbTags:tags"
-                  [champion]="champion">
-      </lb-champion>
-    </lb-loading>`
+    <div class="content">
+      <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
+      </lb-filters>
+      <lb-loading [observable]="lolApi.getChampions()">
+        <lb-champion *ngFor="let champion of champions
+                            | toArray
+                            | fuzzyBy:'name':name
+                            | lbSort:sort
+                            | lbTags:tags"
+                    [champion]="champion">
+        </lb-champion>
+      </lb-loading>
+    </div>`
 })
 
 export class ChampionsComponent implements OnInit {

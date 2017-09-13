@@ -1,8 +1,16 @@
-div {
-  display: flex;
-  padding: 15px;
+@import '../content.scss';
+
+:host > div > div {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 200px;
 }
 
-.content {
-  background-color: #fff;
+:host > div > div > div {
+  width: 100px;
+}
+
+h2 {
+  margin-top: 0;
 }
