@@ -25,3 +25,15 @@ Legend Builder is currently in **Alpha**.
 Enter [Issues](https://github.com/SteveVanOpstal/LegendBuilder/pulls) or [Pull requests](https://github.com/SteveVanOpstal/LegendBuilder/pulls) at their respective pages. Take a look at the [contributing guidelines](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/CONTRIBUTING.md) for more information.
 
 A detailed guide on how to setup the project is available at [DEVELOPER.md](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/DEVELOPER.md).
+
+#### Technical aspects
+
+*frontend*: [Angular](https://angular.io/) app using [Angular CLI](https://github.com/angular/angular-cli), [Sass](http://sass-lang.com/), [d3](https://d3js.org/), [RxJS](https://github.com/ReactiveX/rxjs) etc.
+The project keeps up to date with the latest production version of Angular (no alpha/rc versions).
+
+*backend*: [Node.js](https://nodejs.org/en/) servers connecting to the [Riot Games API](https://developer.riotgames.com/).
+
+*testing*: Unit tests are run on every code change, on 7 browsers and 21 browser versions (See [latest build](https://travis-ci.org/SteveVanOpstal/LegendBuilder)) using: [Jasmine](https://jasmine.github.io/), [Karma](https://karma-runner.github.io), [Travis CI](https://travis-ci.org) and [SauceLabs](https://saucelabs.com/). The results of the latest tests are on the top of this readme.
+
+*extra*: A release is made using one command (`npm run release`). The script will bump the version, create a [changelog](https://github.com/SteveVanOpstal/LegendBuilder/blob/master/CHANGELOG.md), push the [release to GitHub](https://github.com/SteveVanOpstal/LegendBuilder/releases) and [post the release on Reddit](https://www.reddit.com/r/LegendBuilder/).
+
