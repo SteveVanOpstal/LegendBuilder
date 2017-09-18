@@ -1,24 +1,16 @@
 import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
-import {AboutComponent} from './about/about.component';
-import {BuildComponent} from './build/build.component';
-import {ChampionsComponent} from './champion/champions.component';
-// import {LoginComponent} from './login/login.component';
 import {MainComponent} from './main/main.component';
-import {RegionComponent} from './region/region.component';
-// import {SignupComponent} from './signup/signup.component';
-import {SummonerComponent} from './summoner/summoner.component';
+
+const routes: Routes = [
+  {path: '', component: MainComponent},
+  {path: 'about', loadChildren: 'client/about/about.module#AboutModule'},
+  {path: 'build', loadChildren: 'client/builder.module#BuilderModule'}
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot([
-    {path: '', component: MainComponent}, {path: 'about', component: AboutComponent},
-    // {path: 'login', component: LoginComponent}, {path: 'signup', component: SignupComponent},
-    {path: 'build', component: RegionComponent},
-    {path: 'build/:region', component: SummonerComponent},
-    {path: 'build/:region/:summoner', component: ChampionsComponent},
-    {path: 'build/:region/:summoner/:champion', component: BuildComponent}
-  ])],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

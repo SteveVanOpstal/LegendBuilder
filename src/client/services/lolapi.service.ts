@@ -65,18 +65,16 @@ export class LolApiService {
   }
 
   public getCurrentRegion(): Observable<string> {
-    return this.getParam(1).mergeMap((region) => this.checkRegion(region));
+    return this.checkRegion(this.getParam(1));
   }
 
   public getCurrentChampion(): Observable<any> {
-    return this.getParam(3).mergeMap((championKey) => this.getChampion(championKey));
+    return this.getChampion(this.getParam(3));
   }
 
   public getCurrentMatchData(): Observable<any> {
-    return this.getParam(2).mergeMap(
-        (summonerName) => this.getParam(3).mergeMap(
-            (championKey) => this.getMatchData(
-                summonerName, championKey, settings.gameTime, settings.match.sampleSize)));
+    return this.getMatchData(
+        this.getParam(2), this.getParam(3), settings.gameTime, settings.match.sampleSize);
   }
 
 
@@ -138,14 +136,8 @@ export class LolApiService {
     }
   }
 
-  private getParam(index: number): Observable<string> {
-    return this.router.routerState.root.children[0].url.map((url) => {
-      if (index < url.length) {
-        return url[index].path;
-      } else {
-        throw Error('Incorrect parameter');
-      }
-    });
+  private getParam(index: number): string {
+    return this.router.url.split('/')[index + 1];
   }
 
   private checkRegion(region: string): Observable<string> {
