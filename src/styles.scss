@@ -13,6 +13,10 @@ h1 {
   min-width: 300px;
 }
 
+a:visited h1 {
+  color: black;
+}
+
 h2 {
   font-family: 'Segoe UI', Arial, serif;
   font-size: 1.5em;
