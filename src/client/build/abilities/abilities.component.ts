@@ -1,3 +1,5 @@
+import 'rxjs/add/operator/takeuntil';
+
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 

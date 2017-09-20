@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'lb-about',

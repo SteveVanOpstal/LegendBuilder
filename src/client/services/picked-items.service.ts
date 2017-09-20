@@ -1,7 +1,7 @@
 import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {DefaultUrlSerializer, UrlTree} from '@angular/router';
-import {Subject} from 'rxjs/Rx';
+import {Subject} from 'rxjs/Subject';
 
 import {Item} from '../build/item';
 

@@ -1,5 +1,9 @@
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/switchmap';
+
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
 
 import {tim} from '../shared/tim';
 
