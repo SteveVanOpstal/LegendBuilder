@@ -9,5 +9,4 @@ import {MockActivatedRoute, MockRouter} from './';
     {provide: Router, useValue: new MockRouter()}
   ]
 })
-export class RouterModule {
-}
+export class RouterModule {}

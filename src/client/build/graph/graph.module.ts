@@ -12,5 +12,4 @@ import {LineComponent} from './line.component';
   imports: [CommonModule, SharedModule, LegendModule],
   exports: [GraphComponent]
 })
-export class GraphModule {
-}
+export class GraphModule {}

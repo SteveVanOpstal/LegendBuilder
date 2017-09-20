@@ -11,5 +11,4 @@ import {TagsPipe} from './tags.pipe';
   declarations: [ChampionPipe, HidePipe, MapPipe, NamePipe, SortPipe, TagsPipe],
   exports: [ChampionPipe, HidePipe, MapPipe, NamePipe, SortPipe, TagsPipe]
 })
-export class PipesModule {
-}
+export class PipesModule {}

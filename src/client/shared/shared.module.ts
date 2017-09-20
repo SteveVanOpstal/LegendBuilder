@@ -14,5 +14,4 @@ import {TranslatePipe} from './translate.pipe';
   imports: [CommonModule, AssetsModule],
   exports: [CapitalizePipe, DDragonPipe, ErrorComponent, LoadingComponent, TranslatePipe]
 })
-export class SharedModule {
-}
+export class SharedModule {}

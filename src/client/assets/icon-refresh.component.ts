@@ -10,5 +10,4 @@ import {Component} from '@angular/core';
     </svg>`
 })
 
-export class IconRefreshComponent {
-}
+export class IconRefreshComponent {}

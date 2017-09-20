@@ -10,5 +10,4 @@ import {TagsFilterComponent} from './tags-filter/tags-filter.component';
   imports: [CommonModule],
   exports: [FiltersComponent, SortFilterComponent, TagsFilterComponent]
 })
-export class FiltersModule {
-}
+export class FiltersModule {}

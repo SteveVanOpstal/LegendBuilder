@@ -12,5 +12,4 @@ import {PreviewComponent} from './preview.component';
   imports: [CommonModule, SharedModule],
   exports: [PreviewComponent]
 })
-export class PreviewModule {
-}
+export class PreviewModule {}

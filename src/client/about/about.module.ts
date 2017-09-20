@@ -5,5 +5,4 @@ import {AboutComponent} from './about.component';
 import {AboutRoutingModule} from './about.routing';
 
 @NgModule({declarations: [AboutComponent], imports: [AboutRoutingModule, CommonModule]})
-export class AboutModule {
-}
+export class AboutModule {}

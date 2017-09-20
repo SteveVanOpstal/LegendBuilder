@@ -10,5 +10,4 @@ import {Component} from '@angular/core';
     </svg>`
 })
 
-export class IconEyeComponent {
-}
+export class IconEyeComponent {}

@@ -15,5 +15,4 @@ import {ShopComponent} from './shop.component';
   imports: [CommonModule, NgPipesModule, AssetsModule, SharedModule, PreviewModule, PipesModule],
   exports: [ShopComponent]
 })
-export class ShopModule {
-}
+export class ShopModule {}

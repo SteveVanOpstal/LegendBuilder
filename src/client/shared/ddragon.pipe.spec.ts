@@ -9,8 +9,7 @@ import {CoreModule, HttpModule, MockActivatedRoute, MockRouter} from '../testing
 import {DDragonPipe, defaultImage} from './ddragon.pipe';
 
 @Component({template: `<img [attr.src]="'test.png' | lbDDragon">`})
-class TestComponent {
-}
+class TestComponent {}
 
 const realm = {
   'v': '[realm-version]',

@@ -12,5 +12,4 @@ import {ItemsComponent} from './items.component';
   imports: [CommonModule, SharedModule],
   exports: [ItemsComponent]
 })
-export class ItemsModule {
-}
+export class ItemsModule {}

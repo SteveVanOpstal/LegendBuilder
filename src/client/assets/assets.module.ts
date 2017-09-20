@@ -11,5 +11,4 @@ import {IconRefreshComponent} from './icon-refresh.component';
   imports: [CommonModule],
   exports: [IconErrorComponent, IconEyeComponent, IconLoadComponent, IconRefreshComponent]
 })
-export class AssetsModule {
-}
+export class AssetsModule {}

@@ -18,5 +18,4 @@ import {RankComponent} from './mastery/rank.component';
   imports: [CommonModule, AssetsModule, SharedModule],
   exports: [MasteriesComponent]
 })
-export class MasteriesModule {
-}
+export class MasteriesModule {}

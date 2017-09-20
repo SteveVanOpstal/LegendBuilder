@@ -10,6 +10,4 @@ import pkg from '../../package';
     </a>`
 })
 
-export class VersionComponent {
-  pkg = pkg;
-}
+export class VersionComponent { pkg = pkg; }

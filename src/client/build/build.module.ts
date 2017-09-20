@@ -18,5 +18,4 @@ import {ShopModule} from './shop/shop.module';
   imports: [CommonModule, SharedModule, GraphModule, ItemsModule, MasteriesModule, ShopModule],
   exports: [BuildComponent]
 })
-export class BuildModule {
-}
+export class BuildModule {}

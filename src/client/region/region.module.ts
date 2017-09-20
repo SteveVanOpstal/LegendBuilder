@@ -14,5 +14,4 @@ import {RegionsSandbox} from './regions.sandbox';
   imports: [CommonModule, NgPipesModule, RouterModule, SharedModule],
   exports: [RegionComponent]
 })
-export class RegionModule {
-}
+export class RegionModule {}

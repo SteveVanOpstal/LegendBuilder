@@ -14,5 +14,4 @@ import {SummonerSandbox} from './summoner.sandbox';
   imports: [CommonModule, AssetsModule, SharedModule],
   exports: [SummonerComponent]
 })
-export class SummonerModule {
-}
+export class SummonerModule {}

@@ -9,5 +9,4 @@ import {Component} from '@angular/core';
     </svg>`
 })
 
-export class IconErrorComponent {
-}
+export class IconErrorComponent {}

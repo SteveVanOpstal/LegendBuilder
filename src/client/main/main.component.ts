@@ -14,5 +14,4 @@ import {Component} from '@angular/core';
   </div>`
 })
 
-export class MainComponent {
-}
+export class MainComponent {}

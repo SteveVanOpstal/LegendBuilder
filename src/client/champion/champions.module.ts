@@ -20,5 +20,4 @@ import {PipesModule} from './pipes/pipes.module';
   ],
   exports: [ChampionsComponent]
 })
-export class ChampionsModule {
-}
+export class ChampionsModule {}

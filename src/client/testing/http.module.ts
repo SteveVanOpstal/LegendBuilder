@@ -17,5 +17,4 @@ import {MockMockBackend} from './';
     }
   ]
 })
-export class HttpModule {
-}
+export class HttpModule {}

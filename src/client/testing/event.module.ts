@@ -8,5 +8,4 @@ import {MockEvent, MockKeyboardEvent} from './';
     {provide: KeyboardEvent, useValue: new MockKeyboardEvent()}
   ]
 })
-export class EventModule {
-}
+export class EventModule {}

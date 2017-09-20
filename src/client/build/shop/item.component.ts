@@ -16,6 +16,4 @@ import {Component, Input} from '@angular/core';
     </div>`
 })
 
-export class ItemComponent {
-  @Input() item;
-}
+export class ItemComponent { @Input() item; }
