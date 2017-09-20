@@ -1,9 +1,8 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {LolApiService} from '../services';
-
 import {ChampionComponent} from './champion.component';
+import {ChampionsSandbox} from './champions.sandbox';
 
 @Component({
   selector: 'lb-champions',
@@ -12,9 +11,9 @@ import {ChampionComponent} from './champion.component';
     <div class="content">
       <lb-filters [(tags)]="tags" [(name)]="name" [(sort)]="sort" (enterHit)="enterHit()">
       </lb-filters>
-      <lb-loading [observable]="lolApi.getChampions()">
-        <lb-champion *ngFor="let champion of champions
-                            | toArray
+      <lb-loading [observable]="sb.champions$">
+        <lb-champion *ngFor="let champion of sb.champions$
+                            | async
                             | fuzzyBy:'name':name
                             | lbSort:sort
                             | lbTags:tags"
@@ -24,21 +23,14 @@ import {ChampionComponent} from './champion.component';
     </div>`
 })
 
-export class ChampionsComponent implements OnInit {
-  champions: Array<any> = [];
-
+export class ChampionsComponent {
   tags: Array<string> = [];
   name: string;
   sort = '';
 
   @ViewChildren(ChampionComponent) activeChampions: QueryList<ChampionComponent>;
 
-  constructor(private route: ActivatedRoute, private router: Router, public lolApi: LolApiService) {
-  }
-
-  ngOnInit() {
-    this.lolApi.getChampions().subscribe(champions => this.champions = champions.data);
-  }
+  constructor(private route: ActivatedRoute, private router: Router, public sb: ChampionsSandbox) {}
 
   enterHit() {
     if (this.activeChampions && this.activeChampions.length === 1) {

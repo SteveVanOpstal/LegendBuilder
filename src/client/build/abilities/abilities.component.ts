@@ -1,8 +1,9 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
-import {LolApiService} from '../../services';
+import {ReactiveComponent} from '../../shared/reactive.component';
 import {tim} from '../../shared/tim';
+import {BuildSandbox} from '../build.sandbox';
 import {LevelAxisLine, LevelAxisText} from '../graph/axes';
 import {LevelScale} from '../graph/scales';
 import {Samples} from '../samples';
@@ -33,7 +34,7 @@ import {Samples} from '../samples';
     </svg>`
 })
 
-export class AbilitiesComponent implements OnInit {
+export class AbilitiesComponent extends ReactiveComponent implements OnInit {
   champion: any;
 
   private svg: any;
@@ -42,15 +43,19 @@ export class AbilitiesComponent implements OnInit {
   private xAxisLevelLine = new LevelAxisLine(200);
   private xAxisLevelText = new LevelAxisText(200);
 
-  constructor(@Inject(ElementRef) private elementRef: ElementRef, private lolApi: LolApiService) {}
+  constructor(@Inject(ElementRef) private elementRef: ElementRef, private sb: BuildSandbox) {
+    super();
+  }
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
-    this.lolApi.getCurrentChampion().subscribe((champion) => {
+    this.sb.champion$.takeUntil(this.takeUntilDestroyed$).subscribe((champion) => {
       this.champion = champion;
       this.update();
     });
-    this.lolApi.getCurrentMatchData().subscribe(samples => this.createLevelScale(samples));
+
+    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)
+        .subscribe(samples => this.createLevelScale(samples));
   }
 
   private update(): void {

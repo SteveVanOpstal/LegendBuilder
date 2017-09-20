@@ -1,54 +1,59 @@
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
-import {LolApiService, PickedItemsService, StatsService} from '../../services';
+import {PickedItemsService, StatsService} from '../../services';
+import {ReactiveComponent} from '../../shared/reactive.component';
+import {BuildSandbox} from '../build.sandbox';
 import {Item} from '../item';
 import {Samples} from '../samples';
 
-import {ItemSlotComponent} from './item-slot.component';
+import {ItemSlotComponent} from './item-slot/item-slot.component';
 
 @Component({
   selector: 'lb-items',
   styleUrls: ['./items.component.scss'],
   template: `
-    <ng-template ngFor [ngForOf]="[0,1,2,3,4,5]">
-      <lb-item-slot [ngClass]="{dragging: dragging}"
-                    (itemSelected)="itemSelected.emit($event)"
-                    (itemRemoved)="removeItem($event)"
-                    (itemDragStart)="itemDragStart($event)"
-                    (itemDragEnd)="itemDragEnd()"
-                    (itemDrop)="itemDrop($event)">
-      </lb-item-slot>
-    </ng-template>`
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="100%"
+         height="100%"
+         viewBox="0 0 1500 400">
+      <ng-template ngFor [ngForOf]="[0,1,2,3,4,5]">
+        <g lbItemSlot [ngClass]="{dragging: dragging}"
+                      (itemSelected)="itemSelected.emit($event)"
+                      (itemRemoved)="removeItem($event)"
+                      (itemDragStart)="itemDragStart($event)"
+                      (itemDragEnd)="itemDragEnd()"
+                      (itemDrop)="itemDrop($event)">
+        </g>
+      </ng-template>
+    </svg>`
 })
 
-export class ItemsComponent implements OnInit {
+export class ItemsComponent extends ReactiveComponent implements OnInit {
   @Output() itemSelected: EventEmitter<Item> = new EventEmitter<Item>();
   @ViewChildren(ItemSlotComponent) children: QueryList<ItemSlotComponent>;
-  items = Array<Item>();
 
   dragging = false;
   dragged: Item;
 
+  private items = Array<Item>();
   private samples: Samples;
   private allItems: any;
 
   constructor(
-      private stats: StatsService, private lolApi: LolApiService,
+      private stats: StatsService, private sb: BuildSandbox,
       private pickedItems: PickedItemsService) {
-    pickedItems.items.subscribe(items => {
-      this.items = items;
-      this.update();
-    });
+    super();
   }
 
   ngOnInit() {
-    this.lolApi.getItems().subscribe(res => {
-      this.allItems = res.data;
+    this.pickedItems.items.takeUntil(this.takeUntilDestroyed$).subscribe(items => {
+      this.items = items;
+      this.update();
     });
-    this.lolApi.getCurrentMatchData().subscribe(samples => {
-      this.samples = samples;
-    });
+    this.sb.items$.takeUntil(this.takeUntilDestroyed$).subscribe(res => this.allItems = res);
+    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)
+        .subscribe(samples => this.samples = samples);
   }
 
   removeItem(item: Item) {

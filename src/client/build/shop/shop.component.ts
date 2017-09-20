@@ -1,6 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 
-import {LolApiService, PickedItemsService} from '../../services';
+import {PickedItemsService} from '../../services';
+import {BuildSandbox} from '../build.sandbox';
 import {Item} from '../item';
 
 import {PreviewComponent} from './preview/preview.component';
@@ -11,7 +12,7 @@ import {PreviewComponent} from './preview/preview.component';
   template: `
     <div class="left">
       <button type="button" name="all-items">All Items</button>
-      <div class="category" *ngFor="let category of tree | toArray">
+      <div class="category" *ngFor="let category of sb.itemsTree$ | async">
         <p class="noselect">{{ category.header | lbTranslate | lbCapitalize }}</p>
         <hr>
         <label *ngFor="let tag of category.tags">
@@ -35,10 +36,10 @@ import {PreviewComponent} from './preview/preview.component';
           </button>
         </div>
         <div class="items">
-          <ng-template ngFor let-item [ngForOf]="items
-                                              | toArray
+          <ng-template ngFor let-item [ngForOf]="sb.items$
+                                              | async
                                               | lbMap:11
-                                              | lbChampion:123
+                                              | lbChampion:sb.id$
                                               | lbHide
                                               | lbTags:tags
                                               | lbName:name
@@ -51,37 +52,25 @@ import {PreviewComponent} from './preview/preview.component';
                   (dblclick)="pickItem(item);preview.selectItem(item)">
             </lb-item>
           </ng-template>
-          <lb-loading [observable]="lolApi.getItems()"></lb-loading>
+          <lb-loading [observable]="sb.items$"></lb-loading>
         </div>
       </div>
       <div class="right">
         <lb-preview #preview
-                    [items]="items | toArray | lbMap:11 | lbChampion:123"
+                    [items]="sb.items$ | async | lbMap:11 | lbChampion:sb.id$"
                     (itemPicked)="pickItem($event)">
         </lb-preview>
       </div>
     </div>`
 })
 
-export class ShopComponent implements OnInit {
+export class ShopComponent {
   @ViewChild(PreviewComponent) preview: PreviewComponent;
 
   tags: Array<string> = [];
   name: string;
 
-  items: Array<Item> = [];
-  tree: Array<Item> = [];
-  private originalItems: Array<Item> = [];
-
-  constructor(public lolApi: LolApiService, private pickedItems: PickedItemsService) {}
-
-  ngOnInit() {
-    this.lolApi.getItems().subscribe(res => {
-      this.items = res.data;
-      this.tree = res.tree;
-      this.originalItems = this.items;
-    });
-  }
+  constructor(public sb: BuildSandbox, private pickedItems: PickedItemsService) {}
 
   tagChanged(event: Event) {
     if (!event || !event.target) {

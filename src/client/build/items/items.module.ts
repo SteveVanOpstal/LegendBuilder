@@ -3,8 +3,8 @@ import {NgModule} from '@angular/core';
 
 import {SharedModule} from '../../shared/shared.module';
 
-import {ItemSlotComponent} from './item-slot.component';
-import {ItemComponent} from './item.component';
+import {ItemSlotComponent} from './item-slot/item-slot.component';
+import {ItemComponent} from './item/item.component';
 import {ItemsComponent} from './items.component';
 
 @NgModule({

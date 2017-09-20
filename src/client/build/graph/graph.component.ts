@@ -3,7 +3,9 @@ import {select} from 'd3-selection';
 import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
-import {LolApiService, StatsService} from '../../services';
+import {StatsService} from '../../services';
+import {ReactiveComponent} from '../../shared/reactive.component';
+import {BuildSandbox} from '../build.sandbox';
 import {Samples} from '../samples';
 
 import {TimeAxis} from './axes';
@@ -14,7 +16,7 @@ import {TimeScale} from './scales';
   selector: 'lb-graph',
   styleUrls: ['./graph.component.scss'],
   template: `
-    <lb-loading [observable]="lolApi.getCurrentMatchData()">
+    <lb-loading [observable]="sb.matchdata$">
       <lb-legend [lines]="lines"></lb-legend>
     </lb-loading>
     <svg xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +38,7 @@ import {TimeScale} from './scales';
     </svg>`
 })
 
-export class GraphComponent implements OnInit {
+export class GraphComponent extends ReactiveComponent implements OnInit {
   dragging = false;
   lines = new Array<Line>();
   @ViewChildren(LineComponent) lineComponents: QueryList<LineComponent>;
@@ -51,8 +53,10 @@ export class GraphComponent implements OnInit {
   private mouseOffsetX: number;
 
   constructor(
-      @Inject(ElementRef) private elementRef: ElementRef, public lolApi: LolApiService,
-      private stats: StatsService) {}
+      @Inject(ElementRef) private elementRef: ElementRef, public sb: BuildSandbox,
+      private stats: StatsService) {
+    super();
+  }
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
@@ -60,11 +64,11 @@ export class GraphComponent implements OnInit {
     this.overlay = this.svg.select('.overlay');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
-    this.stats.stats.subscribe((stats) => {
+    this.stats.stats.takeUntil(this.takeUntilDestroyed$).subscribe((stats) => {
       this.updateLines(stats, curveStepAfter);
     });
 
-    this.lolApi.getCurrentMatchData().subscribe((samples: Samples) => {
+    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$).subscribe((samples: Samples) => {
       this.updateSamples(samples);
     });
   }
@@ -91,18 +95,6 @@ export class GraphComponent implements OnInit {
       line.move(event.offsetX - 60, offsetX);
     });
   }
-
-  // mouseover() {
-  //   this.lineComponents.forEach(line => {
-  //     line.mouseover();
-  //   });
-  // }
-
-  // mouseout() {
-  //   this.lineComponents.forEach(line => {
-  //     line.mouseout();
-  //   });
-  // }
 
   // @HostListener('window:resize')
   // onResize() {

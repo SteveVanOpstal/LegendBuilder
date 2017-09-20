@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+
+import {ReactiveComponent} from './reactive.component';
 
 @Component({
   selector: 'lb-loading',
@@ -9,21 +10,26 @@ import {Observable} from 'rxjs/Rx';
     <lb-error [error]="error" [message]="errorMessage"></lb-error>`
 })
 
-export class LoadingComponent implements OnInit {
+export class LoadingComponent extends ReactiveComponent implements OnInit {
   loading = true;
   error = false;
   @Input() loadMessage: string;
   @Input() errorMessage = 'Something went wrong.. ';
-  @Input() observable = new Observable<any>();
+  @Input() observable;
+
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
-    this.observable.subscribe(
-        () => {
-          this.loading = false;
-        },
-        () => {
-          this.loading = false;
-          this.error = true;
-        });
+    this.observable.takeUntil(this.takeUntilDestroyed$)
+        .subscribe(
+            () => {
+              this.loading = false;
+            },
+            () => {
+              this.loading = false;
+              this.error = true;
+            });
   }
 }

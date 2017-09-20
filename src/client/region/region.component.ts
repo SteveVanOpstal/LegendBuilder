@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {LolApiService} from '../services';
+import {RegionsSandbox} from './regions.sandbox';
 
 @Component({
   selector: 'lb-region',
@@ -9,8 +9,8 @@ import {LolApiService} from '../services';
   <div class="content">
     <div class="align-center">
       <h2>Select your region</h2>
-      <lb-loading [observable]="lolApi.getRegions()">
-        <button *ngFor="let region of lolApi.getRegions() | async">
+      <lb-loading [observable]="sb.regions$">
+        <button *ngFor="let region of sb.regions$ | async">
           <a [routerLink]="[region?.slug]">
             <span>{{ region?.slug | uppercase }}</span>
             <span>{{ region?.name }}</span>
@@ -22,5 +22,5 @@ import {LolApiService} from '../services';
 })
 
 export class RegionComponent {
-  constructor(public lolApi: LolApiService) {}
+  constructor(public sb: RegionsSandbox) {}
 }

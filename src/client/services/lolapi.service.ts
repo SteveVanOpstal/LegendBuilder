@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
+import {Http} from '@angular/http';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Rx';
 
@@ -13,15 +13,15 @@ export enum Endpoint {
 
 @Injectable()
 export class LolApiService {
-  private cachedObservables: Array<Observable<any>> = new Array<Observable<any>>();
+  private cachedObservables = new Array<Observable<any>>();
 
   constructor(private http: Http, private router: Router) {}
 
-  public getRegions(): Observable<any> {
+  getRegions(): Observable<any> {
     return this.cache(this.getEndpoint(Endpoint.static) + 'all/status/shard-data');
   }
 
-  public getRealm(): Observable<any> {
+  getRealm(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/realms').map(res => {
       // both http and https are supported but realm data will return http as cdn
       if (res.cdn) {
@@ -31,55 +31,57 @@ export class LolApiService {
     });
   }
 
-  public getLanguageStrings(): Observable<any> {
+  getLanguageStrings(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/language-strings');
   }
 
-  public getChampions(): Observable<any> {
+  getChampions(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/champions?tags=image&tags=info&tags=tags');
   }
 
-  public getChampion(championKey: string): Observable<any> {
+  getChampion(championKey: string): Observable<any> {
     return this.get(
-        Endpoint.static, 'static-data/champions/' + championKey +
+        Endpoint.static,
+        'static-data/champions/' + championKey +
             '?tags=allytips&tags=image&tags=passive&tags=spells&tags=stats&tags=tags');
   }
 
-  public getItems(): Observable<any> {
+  getItems(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/items?tags=all');
   }
 
-  public getMasteries(): Observable<any> {
+  getMasteries(): Observable<any> {
     return this.get(Endpoint.static, 'static-data/mastery?masteryListData=all');
   }
 
-  public getAccountId(summonerName: string): Observable<any> {
+  getAccountId(summonerName: string): Observable<any> {
     return this.get(Endpoint.match, 'summoner/' + summonerName);
   }
 
-  public getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
+  getMatchData(summonerName: string, championKey: string, gameTime: number, samples: number):
       Observable<any> {
     return this.get(
-        Endpoint.match, 'match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
+        Endpoint.match,
+        'match/' + summonerName + '/' + championKey + '?gameTime=' + gameTime +
             '&samples=' + samples);
   }
 
-  public getCurrentRegion(): Observable<string> {
+  getCurrentRegion(): Observable<string> {
     return this.checkRegion(this.getParam(1));
   }
 
-  public getCurrentChampion(): Observable<any> {
+  getCurrentChampion(): Observable<any> {
     return this.getChampion(this.getParam(3));
   }
 
-  public getCurrentMatchData(): Observable<any> {
+  getCurrentMatchData(): Observable<any> {
     return this.getMatchData(
         this.getParam(2), this.getParam(3), settings.gameTime, settings.match.sampleSize);
   }
 
 
   private get(endpoint: Endpoint, url: string): Observable<any> {
-    return this.getUrl(endpoint, url).mergeMap((urlResolved) => this.cache(urlResolved));
+    return this.getUrl(endpoint, url).mergeMap(urlResolved => this.cache(urlResolved));
   }
 
   private cache(url: string): Observable<any> {
