@@ -26,7 +26,7 @@ import {SummonerSandbox} from './summoner.sandbox';
         </label>
         <lb-error [error]="nameForm.controls.name.errors?.minlength" [message]="'Summoner name is too short.'"></lb-error>
         <lb-error [error]="nameForm.controls.name.errors?.pattern"
-                  [message]="'Invalid character ' + getInvalidCharacters(nameForm.value['name']) + '.'">
+                  [message]="'Invalid character(s) \\'' + getInvalidCharacters(nameForm.value['name']) + '\\'.'">
         </lb-error>
         <lb-error [error]="unknown" [message]="'Summoner name is unknown.'"></lb-error>
         <lb-icon-load *ngIf="loading"></lb-icon-load>
@@ -41,7 +41,7 @@ export class SummonerComponent extends ReactiveComponent {
   submit$ = new Subject<any>();
 
   private pattern =
-      '[ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]*';
+      '[ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]';
 
   constructor(
       private route: ActivatedRoute, private router: Router, private sb: SummonerSandbox,
@@ -51,7 +51,7 @@ export class SummonerComponent extends ReactiveComponent {
       name: [
         '',
         [
-          Validators.pattern(this.pattern),
+          Validators.pattern(this.pattern + '*'),
           Validators.minLength(3),
           Validators.maxLength(16),
         ]
@@ -85,8 +85,7 @@ export class SummonerComponent extends ReactiveComponent {
   }
 
   getInvalidCharacters() {
-    const regex =
-        /((?![ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]).)/g;
+    const regex = RegExp('((?!' + this.pattern + ').)', 'g');
     const matches = this.nameForm.controls.name.value.match(regex);
     return Array.from(new Set(matches)).join('');
   }
