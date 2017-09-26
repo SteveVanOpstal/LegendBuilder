@@ -1,21 +1,15 @@
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/switchmap';
+import 'rxjs/add/operator/do';
 
 import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 
-import {tim} from '../shared/tim';
+import {ReactiveComponent} from '../shared/reactive.component';
 
 import {SummonerSandbox} from './summoner.sandbox';
-
-const errors = {
-  empty: 'Empty summoner name.',
-  short: 'Summoner name [{{ name }}] is too short.',
-  long: 'Summoner name [{{ name }}].. is too long.',
-  invalid: 'Summoner name [{{ name }}] is invalid.',
-  unkown: 'Summoner name is unknown.'
-};
 
 @Component({
   selector: 'lb-summoner',
@@ -25,87 +19,75 @@ const errors = {
       <div class="align-center">
         <label class="align-center">
           <h2>Enter your summoner name</h2>
-          <div class="align-center">
-            <input type="text" name="name" #name (keyup.enter)="name$.next(name.value)" autofocus>
-            <button (click)="name$.next(name.value)">Go</button>
-          </div>
+          <form class="align-center" [formGroup]="nameForm" (ngSubmit)="submit$.next(nameForm.value['name'])">
+            <input type="text" name="name" formControlName="name" maxLength="16" autofocus>
+            <button type="submit">Go</button>
+          </form>
         </label>
-        <lb-error [error]="error" [message]="message"></lb-error>
+        <lb-error [error]="nameForm.controls.name.errors?.minlength" [message]="'Summoner name is too short.'"></lb-error>
+        <lb-error [error]="nameForm.controls.name.errors?.pattern"
+                  [message]="'Invalid character ' + getInvalidCharacters(nameForm.value['name']) + '.'">
+        </lb-error>
+        <lb-error [error]="unknown" [message]="'Summoner name is unknown.'"></lb-error>
         <lb-icon-load *ngIf="loading"></lb-icon-load>
       </div>
     </div>`
 })
 
-export class SummonerComponent {
-  error = false;
-  message: string;
+export class SummonerComponent extends ReactiveComponent {
+  nameForm: FormGroup;
+  unknown = false;
   loading = false;
+  submit$ = new Subject<any>();
 
-  name$ = new Subject<string>();
+  private pattern =
+      '[ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]*';
 
-  constructor(private route: ActivatedRoute, private router: Router, private sb: SummonerSandbox) {
-    this.name$
-        .filter(name => {
-          if (name.length <= 0) {
-            this.setError(errors.empty, name);
-            return false;
-          }
-          return true;
-        })
-        .filter(name => {
-          if (name.length < 3) {
-            this.setError(errors.short, name);
-            return false;
-          }
-          return true;
-        })
-        .filter(name => {
-          if (name.length > 16) {
-            this.setError(errors.long, name);
-            return false;
-          }
-          return true;
-        })
-        .filter(name => {
-          if (!this.checkValid(name)) {
-            this.setError(errors.invalid, name);
-            return false;
-          }
-          return true;
+  constructor(
+      private route: ActivatedRoute, private router: Router, private sb: SummonerSandbox,
+      private fb: FormBuilder) {
+    super();
+    this.nameForm = this.fb.group({
+      name: [
+        '',
+        [
+          Validators.pattern(this.pattern),
+          Validators.minLength(3),
+          Validators.maxLength(16),
+        ]
+      ]
+    });
+
+    this.submit$
+        .do(() => {
+          this.unknown = false;
+          this.loading = true;
         })
         .switchMap(
             name => this.sb.getAccountId(name),
             (inner, outer) => {
               return {name: inner, accountId: outer};
             })
-        .subscribe(
-            result => {
-              if (!isNaN(result.accountId)) {
-                this.router.navigate([result.name], {relativeTo: this.route}).catch(() => {
-                  this.setError(errors.unkown, result.name);
-                });
-              } else {
-                this.setError(errors.unkown, result.name);
-              }
-            },
-            () => {
-              this.setError(errors.unkown);
-            });
+        .takeUntil(this.takeUntilDestroyed$)
+        .subscribe(result => {
+          if (!isNaN(result.accountId)) {
+            this.router.navigate([result.name], {relativeTo: this.route})
+                .catch(() => this.handleError());
+          } else {
+            this.handleError();
+          }
+        }, () => this.handleError());
   }
 
-  setError(error: string, name?: string) {
-    this.error = true;
+  handleError() {
+    this.unknown = true;
     this.loading = false;
-    if (name) {
-      this.message = tim(error, {name: name.substr(0, 16)});
-    } else {
-      this.message = error;
-    }
   }
 
-  checkValid(name: string): boolean {
-    return RegExp(
-               /[ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]/g)
-        .test(name);
+  getInvalidCharacters() {
+    const regex =
+        /((?![ 0-9A-Za-zªµºÀ-ÖØ-öø-ÿĂ-ćĘęĞğİıŁ-ńŐ-œŚśŞ-ţŰűŸ-žƒȘ-țˆˇˉΑ-ΡΣ-Ωά-ία-ωό-ώЁА-яёﬁﬂ]).)/g;
+    const matches = this.nameForm.controls.name.value.match(regex);
+    return Array.from(new Set(matches)).join('');
   }
 }
