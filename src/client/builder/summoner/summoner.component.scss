@@ -1,0 +1,25 @@
+@import '../../content.scss';
+
+:host > div {
+  display: flex;
+
+   > div {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+  }
+}
+
+label {
+  margin-bottom: 10px;
+  width: 305px;
+}
+
+label > form {
+  width: 220px;
+}
+
+h2 {
+  margin-top: 0;
+}

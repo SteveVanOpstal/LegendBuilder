@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 
 import {settings} from '../../../config/settings';
-import {config} from '../build/graph/config';
+import {config} from '../builder/build/graph/config';
 import {Item} from '../data/item';
 import {Samples} from '../data/samples';
 import {TranslatePipe} from '../shared/translate.pipe';
