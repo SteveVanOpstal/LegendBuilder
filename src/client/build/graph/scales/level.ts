@@ -1,6 +1,6 @@
 import * as d3 from 'd3-scale';
 
-import {Samples} from '../../samples';
+import {Samples} from '../../../data/samples';
 import {Scale} from './scale';
 
 export class LevelScale implements Scale {

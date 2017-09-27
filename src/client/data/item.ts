@@ -17,4 +17,5 @@ export interface Item {
   discount?: number;
   contained?: boolean;
   contains?: Array<Item>;
+  slotId?: number;
 }

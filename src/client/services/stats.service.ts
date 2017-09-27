@@ -3,8 +3,8 @@ import {Subject} from 'rxjs/Subject';
 
 import {settings} from '../../../config/settings';
 import {config} from '../build/graph/config';
-import {Item} from '../build/item';
-import {Samples} from '../build/samples';
+import {Item} from '../data/item';
+import {Samples} from '../data/samples';
 import {TranslatePipe} from '../shared/translate.pipe';
 
 import {LolApiService} from './lolapi.service';

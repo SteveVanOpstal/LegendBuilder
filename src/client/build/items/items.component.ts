@@ -1,11 +1,15 @@
+import 'rxjs/add/operator/takeuntil';
+import 'rxjs/add/operator/do';
+
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../config/settings';
-import {PickedItemsService, StatsService} from '../../services';
+import {Item} from '../../data/item';
+import {Samples} from '../../data/samples';
+import {StatsService} from '../../services';
 import {ReactiveComponent} from '../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
-import {Item} from '../item';
-import {Samples} from '../samples';
+import {TimeScale} from '../graph/scales';
 
 import {ItemSlotComponent} from './item-slot/item-slot.component';
 
@@ -36,28 +40,35 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
   dragging = false;
   dragged: Item;
 
-  private items = Array<Item>();
+  start = {x: 0, y: 0};
+  end = {x: 0, y: 0};
+
+  items = Array<Item>();
   private samples: Samples;
   private allItems: any;
+  private xScaleTime = new TimeScale([0, 1420]);
 
-  constructor(
-      private stats: StatsService, private sb: BuildSandbox,
-      private pickedItems: PickedItemsService) {
+  constructor(private stats: StatsService, private sb: BuildSandbox) {
     super();
   }
 
   ngOnInit() {
-    this.pickedItems.items.takeUntil(this.takeUntilDestroyed$).subscribe(items => {
+    this.sb.pickedItems$.takeUntil(this.takeUntilDestroyed$).subscribe(items => {
       this.items = items;
       this.update();
     });
-    this.sb.items$.takeUntil(this.takeUntilDestroyed$).subscribe(res => this.allItems = res);
-    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)
-        .subscribe(samples => this.samples = samples);
+    this.sb.items$.takeUntil(this.takeUntilDestroyed$).subscribe(res => {
+      this.allItems = res;
+      this.update();
+    });
+    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$).subscribe(samples => {
+      this.samples = samples;
+      this.update();
+    });
   }
 
   removeItem(item: Item) {
-    this.pickedItems.remove(item);
+    this.sb.removeItem(item);
   }
 
   itemDragStart(item: Item) {
@@ -71,14 +82,15 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
 
   itemDrop(item: Item) {
     this.dragging = false;
-    this.pickedItems.move(this.dragged, item);
+    this.sb.move(this.dragged, item);
   }
 
   private update() {
-    let result = this.clone(this.items);
+    let result = this.items;
     result = this.updateBundles(result);
     result = this.updateDiscounts(result);
     result = this.updateTimes(result);
+    result = this.updateOffsets(result);
     this.updateOriginalItems(result);
     this.updateSlots(result);
     this.updatePickedItems(result);
@@ -123,7 +135,7 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
         if (itemFromIds.length > itemContainsIds.length) {
           item.discount += searchItem.gold.total;
           searchItem.contained = true;
-          item.contains.push({...searchItem});
+          item.contains.push(searchItem);
         }
       }
     }
@@ -132,7 +144,7 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
 
   private updateTimes(items: Array<Item>): Array<Item> {
     if (!this.samples) {
-      return;
+      return items;
     }
     let goldOffset = 0;
     for (const item of items) {
@@ -144,7 +156,14 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
     return items;
   }
 
-  private updateOriginalItems(items: Array<Item>) {
+  private updateOffsets(items: Array<Item>): Array<Item> {
+    for (const item of items) {
+      item.offset = this.xScaleTime.get()(item.time);
+    }
+    return items;
+  }
+
+  private updateOriginalItems(items: Array<Item>): void {
     if (!items) {
       return;
     }
@@ -157,16 +176,22 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
   }
 
   private updateSlots(items: Array<Item>): void {
-    if (!items) {
+    if (!this.children) {
       return;
     }
     this.children.forEach((slot: ItemSlotComponent) => {
       slot.items = [];
     });
+    if (!items || !items.length) {
+      return;
+    }
     for (const item of items) {
       const slot = this.findSlot(item);
       if (slot) {
         slot.items.push(item);
+      } else {
+        console.log('unable to find slot');
+        this.sb.removeItem(item);
       }
     }
   }
@@ -175,27 +200,22 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
     this.stats.pickedItems.next(items);
   }
 
-
-  private clone(items: Array<Item>): Array<Item> {
-    const result: Array<Item> = [];
-    for (const item of items) {
-      result.push({...item});
-    }
-    return result;
-  }
-
   private getItemsFrom(baseItem: Item): Array<string> {
-    if (!baseItem.from || !baseItem.from.length || !this.allItems) {
+    if (!baseItem.from || !baseItem.from.length || !this.allItems || !this.allItems.length) {
       return [];
     }
     const items: Array<Item> = baseItem.from.map((id: string) => {
-      return this.allItems[id];
+      return this.getItem(id);
     });
     let arr = Array<string>();
     for (const item of items) {
       arr = arr.concat(item.id, this.getItemsFrom(item));
     }
     return arr;
+  }
+
+  private getItem(id: string): Item {
+    return this.allItems.find((item) => item.id.toString() === id);
   }
 
   private getTime(frames: Array<number>, value: number, totalTime: number, sampleSize: number):
@@ -229,8 +249,12 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
   }
 
   private findSlot(item: Item): ItemSlotComponent|undefined {
-    return this.children.toArray().find((slot: ItemSlotComponent) => {
-      return slot.compatible(item) || this.compatible(slot);
+    return this.children.toArray().find((slot: ItemSlotComponent, index: number) => {
+      if (slot.compatible(item) || this.compatible(slot)) {
+        item.slotId = index;
+        return true;
+      }
+      return false;
     });
   }
 
@@ -240,16 +264,26 @@ export class ItemsComponent extends ReactiveComponent implements OnInit {
       return false;
     }
     const childSlot = this.children.toArray().find((child: ItemSlotComponent) => {
-      return this.lastItemEquals(child, lastItem);
+      return this.contains(child.lastItem(), lastItem);
     });
     return childSlot !== undefined;
   }
 
-  private lastItemEquals(slot: ItemSlotComponent, item: Item): boolean {
-    const lastSlotItem = slot.lastItem();
-    if (!lastSlotItem || !lastSlotItem.contains.length) {
+  private contains(container: Item, item: Item): boolean {
+    if (!container || !container.contains.length) {
       return false;
     }
-    return this.pickedItems.contains(lastSlotItem, item);
+    return container.contains.find((containedItem: Item) => {
+      if (containedItem === item) {
+        return true;
+      } else if (containedItem.contains.length) {
+        if (this.contains(containedItem, item)) {
+          return true;
+        }
+        return false;
+      } else {
+        return false;
+      }
+    }) !== undefined;
   }
 }

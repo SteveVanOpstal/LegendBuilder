@@ -3,12 +3,12 @@ import 'rxjs/add/operator/takeuntil';
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
+import {Samples} from '../../data/samples';
 import {ReactiveComponent} from '../../shared/reactive.component';
 import {tim} from '../../shared/tim';
 import {BuildSandbox} from '../build.sandbox';
 import {LevelAxisLine, LevelAxisText} from '../graph/axes';
 import {LevelScale} from '../graph/scales';
-import {Samples} from '../samples';
 
 @Component({
   selector: 'lb-abilities',

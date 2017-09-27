@@ -6,7 +6,7 @@ import {settings} from '../../../../config/settings';
 import {StatsService} from '../../services';
 import {ReactiveComponent} from '../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
-import {Samples} from '../samples';
+import {Samples} from '../../data/samples';
 
 import {TimeAxis} from './axes';
 import {Line, LineComponent} from './line.component';
@@ -64,13 +64,11 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
     this.overlay = this.svg.select('.overlay');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
-    this.stats.stats.takeUntil(this.takeUntilDestroyed$).subscribe((stats) => {
-      this.updateLines(stats, curveStepAfter);
-    });
+    this.stats.stats.takeUntil(this.takeUntilDestroyed$)
+        .subscribe(stats => this.updateLines(stats, curveStepAfter));
 
-    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$).subscribe((samples: Samples) => {
-      this.updateSamples(samples);
-    });
+    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)
+        .subscribe(samples => this.updateSamples(samples));
   }
 
   mousedown(event: MouseEvent) {

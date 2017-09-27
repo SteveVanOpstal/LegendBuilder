@@ -1,15 +1,14 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toarray';
 
-
 import {Injectable} from '@angular/core';
-// import {Observable} from 'rxjs/Observable';
+import {Store} from '@ngrx/store';
+
+import {Item} from '../data/item';
 
 import {LolApiService} from '../services';
-
-// Observable.prototype.toArray = function() {
-//   return this.map(input => Object.keys(input).map((value) => input[value]));
-// };
+import {AppState} from '../store/app.state';
+import {AddItem, MoveItem, RemoveItem} from '../store/items/items.actions';
 
 @Injectable()
 export class BuildSandbox {
@@ -19,9 +18,22 @@ export class BuildSandbox {
   items$ = this.lolApi.getItems().map(res => res.data).map(res => this.toArray(res)).startWith([]);
   itemsTree$ =
       this.lolApi.getItems().map(res => res.tree).map(res => this.toArray(res)).startWith([]);
+  pickedItems$ = this.store.select(state => state.items);
   masteries$ = this.lolApi.getMasteries().map(res => this.transformMasteries(res));
 
-  constructor(private lolApi: LolApiService) {}
+  constructor(private lolApi: LolApiService, private store: Store<AppState>) {}
+
+  addItem(item: Item) {
+    this.store.dispatch(new AddItem(item));
+  }
+
+  removeItem(item: Item) {
+    this.store.dispatch(new RemoveItem(item));
+  }
+
+  move(source: Item, target: Item) {
+    this.store.dispatch(new MoveItem(source, target));
+  }
 
   private toArray(arr: Object): Array<any> {
     return Object.keys(arr).map((value) => arr[value]);

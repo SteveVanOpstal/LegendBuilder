@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {Item} from '../../item';
+import {Item} from '../../../data/item';
 
 @Component({
   selector: 'lb-item',

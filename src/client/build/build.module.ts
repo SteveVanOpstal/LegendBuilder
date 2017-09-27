@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {PickedItemsService, StatsService} from '../services';
 import {SharedModule} from '../shared/shared.module';
+import {ItemsStoreModule} from '../store/items/items-store.module';
 
 import {AbilitiesComponent} from './abilities/abilities.component';
 import {BuildComponent} from './build.component';
@@ -15,7 +16,10 @@ import {ShopModule} from './shop/shop.module';
 @NgModule({
   providers: [StatsService, PickedItemsService, BuildSandbox],
   declarations: [BuildComponent, AbilitiesComponent],
-  imports: [CommonModule, SharedModule, GraphModule, ItemsModule, MasteriesModule, ShopModule],
+  imports: [
+    CommonModule, SharedModule, ItemsStoreModule, GraphModule, ItemsModule, MasteriesModule,
+    ShopModule
+  ],
   exports: [BuildComponent]
 })
 export class BuildModule {}

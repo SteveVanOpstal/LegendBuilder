@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {DefaultUrlSerializer, UrlTree} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 
-import {Item} from '../build/item';
+import {Item} from '../data/item';
 
 import {LolApiService} from './lolapi.service';
 
@@ -23,35 +23,6 @@ export class PickedItemsService {
       this.itemIds = this.decodeItems(urlTree.queryParams['q']);
       this.update();
     });
-  }
-
-  add(item: Item) {
-    this.itemIds.push(item);
-    this.update();
-  }
-
-  remove(item: Item) {
-    const index = this.getItemIndex(item.id, item.time);
-    if (index !== undefined) {
-      this.itemIds.splice(index, 1);
-      this.update();
-    }
-  }
-
-  move(source: Item, target: Item) {
-    const indexSource = this.getItemIndex(source.id, source.time);
-    const indexTarget = this.getItemIndex(target.id, target.time);
-    if (indexSource && indexSource !== indexTarget) {
-      this.itemIds.splice(indexSource, 1);
-      this.itemIds.splice(indexSource < indexTarget ? indexTarget - 1 : indexTarget, 0, source);
-    }
-  }
-
-  contains(container: Item, item: Item): boolean {
-    return container.contains.find((containedItem: Item) => {
-      return this.getItemIndex(containedItem.id, containedItem.time) ===
-          this.getItemIndex(item.id, item.time);
-    }) !== undefined;
   }
 
   private update() {
@@ -131,14 +102,5 @@ export class PickedItemsService {
       }
     }
     return result;
-  }
-
-  private getItemIndex(id: string, time: number): number|undefined {
-    for (const index of Object.keys(this.itemIds)) {
-      const item = this.itemIds[index];
-      if (id === item.id && (time === item.time || time === -1)) {
-        return parseInt(index, 10);
-      }
-    }
   }
 }

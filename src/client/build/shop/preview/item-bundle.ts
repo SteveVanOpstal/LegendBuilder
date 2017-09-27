@@ -1,4 +1,4 @@
-import {Item} from '../../item';
+import {Item} from '../../../data/item';
 
 export interface ItemBundle {
   item: Item;

@@ -1,8 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {PickedItemsService} from '../../services';
+import {Item} from '../../data/item';
 import {BuildSandbox} from '../build.sandbox';
-import {Item} from '../item';
 
 import {PreviewComponent} from './preview/preview.component';
 
@@ -70,7 +69,7 @@ export class ShopComponent {
   tags: Array<string> = [];
   name: string;
 
-  constructor(public sb: BuildSandbox, private pickedItems: PickedItemsService) {}
+  constructor(public sb: BuildSandbox) {}
 
   tagChanged(event: Event) {
     if (!event || !event.target) {
@@ -88,7 +87,7 @@ export class ShopComponent {
   }
 
   pickItem(item: Item) {
-    this.pickedItems.add(item);
+    this.sb.addItem(item);
     return false;  // stop context menu from appearing
   }
 
