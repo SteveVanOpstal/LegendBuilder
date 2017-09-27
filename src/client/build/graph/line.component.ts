@@ -14,19 +14,19 @@ export interface Line {
 }
 
 @Component({
-  selector: 'g[lb-line]',
+  selector: 'g[lbLine]',
   styleUrls: ['./line.component.scss'],
   template: `
     <svg:path [attr.d]="d"
           class="line {{line?.name}}"
           [ngClass]="{enabled: line?.enabled, preview: line?.preview}"
           shape-rendering="geometricPrecision">
-    </svg:path>
+    </path>
     <svg:g class="focus"
            [ngClass]="{enabled: line?.enabled}"
            [attr.transform]="'translate(' + focus.position.x + ',' + focus.position.y + ')'">
       <circle r="3"></circle>
-    </svg:g>
+    </g>
   `
 })
 export class LineComponent implements OnChanges, OnInit {

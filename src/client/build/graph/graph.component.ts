@@ -3,10 +3,10 @@ import {select} from 'd3-selection';
 import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../config/settings';
+import {Samples} from '../../data/samples';
 import {StatsService} from '../../services';
 import {ReactiveComponent} from '../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
-import {Samples} from '../../data/samples';
 
 import {TimeAxis} from './axes';
 import {Line, LineComponent} from './line.component';
@@ -29,7 +29,7 @@ import {TimeScale} from './scales';
         (mousemove)="mousemove($event)">
       <g transform="translate(60,20)">
         <g class="lines">
-          <g lb-line [line]="line" *ngFor="let line of lines"></g>
+          <g lbLine [line]="line" *ngFor="let line of lines"></g>
         </g>
         <g class="axes">
           <g class="x axis time" transform="translate(0,380)"></g>
