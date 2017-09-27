@@ -236,3 +236,34 @@ svg text::selection {
 .gold {
   color: #7d6400;
 }
+
+/* TODO: https://github.com/angular/angular/issues/19445 */
+$base-color: hsl(90, 60, 40);
+
+@for $count from 1 through 33 {
+  $color: adjust-hue($base-color, $count * 90 + ($count / 8) * 12.5);
+
+  g[lbItemCurve]:not(.child):nth-of-type(#{$count}) {
+     > g[lbCurve] > path {
+      stroke: $color;
+    }
+
+     > g.child {
+       > g[lbCurve] > path {
+        stroke: lighten($color, 15);
+      }
+
+       > g.child {
+         > g[lbCurve] > path {
+          stroke: lighten($color, 30);
+        }
+
+         > g.child {
+           > g[lbCurve] > path {
+            stroke: lighten($color, 45);
+          }
+        }
+      }
+    }
+  }
+}

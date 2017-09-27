@@ -6,7 +6,7 @@ export class SortPipe implements PipeTransform {
   private prevSort: string;
 
   transform(champions: Array<Object>, sort) {
-    if (this.prevSort === sort) {
+    if (!champions || this.prevSort === sort) {
       return champions;
     }
 

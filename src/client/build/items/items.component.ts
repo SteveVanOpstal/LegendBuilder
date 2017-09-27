@@ -15,14 +15,16 @@ import {ItemSlotComponent} from './item-slot/item-slot.component';
 
 @Component({
   selector: 'lb-items',
-  styleUrls: ['./items.component.scss'],
   template: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-         width="100%"
-         height="100%"
-         viewBox="0 0 1500 400">
-      <ng-template ngFor [ngForOf]="[0,1,2,3,4,5]">
-        <g lbItemSlot [ngClass]="{dragging: dragging}"
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1500 300">
+      <ng-template ngFor let-item [ngForOf]="items">
+        <ng-template [ngIf]="!item.contained">
+          <g lbItemCurve [item]="item"></g>
+        </ng-template>
+      </ng-template>
+      <ng-template ngFor [ngForOf]="[0,1,2,3,4,5]" let-i="index">
+        <g lbItemSlot [attr.transform]="'translate(0,' + (i*50) + ')'"
+                      [ngClass]="{dragging: dragging}"
                       (itemSelected)="itemSelected.emit($event)"
                       (itemRemoved)="removeItem($event)"
                       (itemDragStart)="itemDragStart($event)"
