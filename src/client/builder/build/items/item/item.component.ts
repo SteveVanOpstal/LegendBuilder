@@ -11,16 +11,6 @@ import {Item} from '../../../../data/item';
           <rect width="48" height="48" rx="6"/>
       </clipPath>
     </svg:defs>
-    <!--<svg:defs>
-      <clipPath id="clip">
-          <rect [attr.x]="item.image.x" [attr.y]="item.image.y" width="48" height="48" rx="6"/>
-      </clipPath>
-    </svg:defs>
-    <svg:image width="480" height="480" clip-path="url(#clip)"
-         [attr.alt]="item.name"
-         [attr.href]="'sprite/'+item.image.sprite | lbDDragon">
-      <svg:g *ngIf="item.bundle> 1" class="bundle">x{{ item.bundle }}</g>
-    </svg:image>-->
     <svg:image width="48" height="48" clip-path="url(#clip)"
             [attr.alt]="item.name" [attr.href]="'item/'+item.image.full | lbDDragon">
       <svg:g *ngIf="item.bundle> 1" class="bundle">x{{ item.bundle }}</g>
