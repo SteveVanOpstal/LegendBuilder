@@ -20,6 +20,7 @@ import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {load} from 'webfontloader';
 
+import './vendor';
 import {AppModule} from './client/app.module';
 import {environment} from './environments/environment';
 

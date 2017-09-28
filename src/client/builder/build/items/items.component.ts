@@ -1,6 +1,3 @@
-import 'rxjs/add/operator/takeuntil';
-import 'rxjs/add/operator/do';
-
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../../config/settings';

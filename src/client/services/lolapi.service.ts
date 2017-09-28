@@ -1,15 +1,3 @@
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergemap';
-import 'rxjs/add/operator/publishReplay';
-import 'rxjs/add/operator/retrywhen';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/zip';
-import 'rxjs/add/observable/defer';
-import 'rxjs/add/observable/range';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/throw';
-
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';

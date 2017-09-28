@@ -1,7 +1,3 @@
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/switchmap';
-import 'rxjs/add/operator/do';
-
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
