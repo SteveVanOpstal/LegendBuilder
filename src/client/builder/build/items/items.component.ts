@@ -28,8 +28,7 @@ import {ItemSlotComponent} from './item-slot/item-slot.component';
                       (itemSelected)="itemSelected.emit($event)"
                       (itemRemoved)="removeItem($event)"
                       (itemDragStart)="itemDragStart($event)"
-                      (itemDragEnd)="itemDragEnd()"
-                      (itemDrop)="itemDrop($event)">
+                      (itemDragEnd)="itemDragEnd()">
         </g>
       </ng-template>
     </svg>`

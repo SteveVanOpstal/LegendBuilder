@@ -26,7 +26,7 @@ import {SummonerSandbox} from './summoner.sandbox';
         </label>
         <lb-error [error]="nameForm.controls.name.errors?.minlength" [message]="'Summoner name is too short.'"></lb-error>
         <lb-error [error]="nameForm.controls.name.errors?.pattern"
-                  [message]="'Invalid character(s) \\'' + getInvalidCharacters(nameForm.value['name']) + '\\'.'">
+                  [message]="'Invalid character(s) \\'' + getInvalidCharacters() + '\\'.'">
         </lb-error>
         <lb-error [error]="unknown" [message]="'Summoner name is unknown.'"></lb-error>
         <lb-icon-load *ngIf="loading"></lb-icon-load>

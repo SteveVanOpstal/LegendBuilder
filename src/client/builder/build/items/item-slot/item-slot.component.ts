@@ -30,7 +30,6 @@ export class ItemSlotComponent extends ReactiveComponent implements OnInit {
   @Output() itemRemoved: EventEmitter<Item> = new EventEmitter<Item>();
   @Output() itemDragStart: EventEmitter<Item> = new EventEmitter<Item>();
   @Output() itemDragEnd: EventEmitter<any> = new EventEmitter<any>();
-  @Output() itemDrop: EventEmitter<Item> = new EventEmitter<Item>();
   items = Array<Item>();
 
   draghover = false;
