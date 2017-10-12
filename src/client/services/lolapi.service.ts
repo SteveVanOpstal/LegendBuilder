@@ -139,7 +139,7 @@ export class LolApiService {
   }
 
   private getParam(index: number): string {
-    return this.router.url.split('/')[index + 1];
+    return this.router.parseUrl(this.router.url).root.children.primary.segments[index].toString();
   }
 
   private checkRegion(region: string): Observable<string> {
