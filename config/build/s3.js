@@ -1,6 +1,5 @@
 let s3 = require('s3');
 let glob = require('glob');
-let helpers = require('../helpers');
 
 function error(done, message) {
   return (err) => {
@@ -39,7 +38,7 @@ function uploadFile(client, file, remoteFile, done) {
   uploader = client.uploadFile({
     localFile: file,
     deleteRemoved: true,
-    s3Params: helpers.merge({Bucket: process.env.ARTIFACTS_BUCKET, Key: remoteFile})
+    s3Params: {Bucket: process.env.ARTIFACTS_BUCKET, Key: remoteFile}
   });
 
   uploader.on('error', error(done, 'unable to sync (' + file + ')'));
