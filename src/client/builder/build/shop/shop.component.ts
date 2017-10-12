@@ -38,7 +38,7 @@ import {PreviewComponent} from './preview/preview.component';
           <ng-template ngFor let-item [ngForOf]="sb.items$
                                               | async
                                               | lbMap:11
-                                              | lbChampion:sb.id$
+                                              | lbChampion:sb.championId$
                                               | lbHide
                                               | lbTags:tags
                                               | lbName:name
@@ -56,7 +56,7 @@ import {PreviewComponent} from './preview/preview.component';
       </div>
       <div class="right">
         <lb-preview #preview
-                    [items]="sb.items$ | async | lbMap:11 | lbChampion:sb.id$"
+                    [items]="sb.items$ | async | lbMap:11 | lbChampion:sb.championId$"
                     (itemPicked)="pickItem($event)">
         </lb-preview>
       </div>

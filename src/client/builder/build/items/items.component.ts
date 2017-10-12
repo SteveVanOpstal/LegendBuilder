@@ -1,6 +1,3 @@
-import 'rxjs/add/operator/takeuntil';
-import 'rxjs/add/operator/do';
-
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 
 import {settings} from '../../../../../config/settings';
@@ -28,8 +25,7 @@ import {ItemSlotComponent} from './item-slot/item-slot.component';
                       (itemSelected)="itemSelected.emit($event)"
                       (itemRemoved)="removeItem($event)"
                       (itemDragStart)="itemDragStart($event)"
-                      (itemDragEnd)="itemDragEnd()"
-                      (itemDrop)="itemDrop($event)">
+                      (itemDragEnd)="itemDragEnd()">
         </g>
       </ng-template>
     </svg>`

@@ -1,6 +1,3 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toarray';
-
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 
@@ -13,6 +10,7 @@ import {AddItem, MoveItem, RemoveItem} from '../../store/items/items.actions';
 @Injectable()
 export class BuildSandbox {
   champion$ = this.lolApi.getCurrentChampion();
+  championId$ = this.lolApi.getCurrentChampion().map(res => res.id);
   championName$ = this.lolApi.getCurrentChampion().map(res => res.name);
   matchdata$ = this.lolApi.getCurrentMatchData();
   items$ = this.lolApi.getItems().map(res => res.data).map(res => this.toArray(res)).startWith([]);

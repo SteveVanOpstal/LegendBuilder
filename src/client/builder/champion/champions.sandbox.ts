@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/startWith';
-
 import {Injectable} from '@angular/core';
 
 import {LolApiService} from '../../services';

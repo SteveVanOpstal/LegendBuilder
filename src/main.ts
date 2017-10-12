@@ -23,6 +23,8 @@ import {load} from 'webfontloader';
 import {AppModule} from './client/app.module';
 import {environment} from './environments/environment';
 
+import './vendor';
+
 load({google: {families: ['Roboto:400'], text: 'LegndBuildr'}});
 
 if (environment.production) {
