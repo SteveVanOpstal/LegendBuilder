@@ -1,34 +1,59 @@
-import {IncomingMessage, ServerResponse} from 'http';
+import {ServerResponse} from 'http';
+import * as lru from 'lru-cache';
 
 import {settings} from '../../../config/settings';
+import {ColorConsole, Source} from '../console';
 import {Helpers} from '../helpers';
 import {HostResponse, Server} from '../server';
 
 export class Summoner {
-  constructor(private server: Server) {}
+  private cache;
 
-  public get(region: string, name: string, request: IncomingMessage, response: ServerResponse) {
-    this.getData(region, name, (res) => {
+  constructor(private server: Server) {
+    this.cache = lru({max: 67108864, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 24 * 10});
+  }
+
+  get(region: string, name: string, response: ServerResponse) {
+    this.getData(region, name, (res, accountId) => {
       response.writeHead(res.status, Server.headers);
-      if (res.success) {
-        if (res.json && res.json.accountId) {
-          const accountId = res.json.accountId.toString();
-          const gzip = Helpers.jsonGzip(accountId);
-          response.write(gzip);
-          this.server.setCache(request.url, gzip);
-        } else {
-          response.write(Helpers.jsonGzip(res.data.toString()));
-        }
+      if (accountId) {
+        response.write(Helpers.jsonGzip(accountId));
       } else {
-        response.write(Helpers.jsonGzip(res.data.toString()));
+        response.write(Helpers.jsonGzip(res.data));
       }
       response.end();
     });
   }
 
-  public getData(region: string, name: string, callback: (response: HostResponse) => void) {
+  getData(
+      region: string, name: string, callback: (response: HostResponse, accountId: number) => void) {
     const path = Server.getBaseUrl(region) + 'summoner/' + settings.api.versions.summoner +
         '/summoners/by-name/' + name;
-    this.server.sendRequest(path, region, callback);
+
+    const cacheResult = this.cache.get(name);
+    if (cacheResult) {
+      const result = {accountId: cacheResult};
+      callback(
+          {json: result, data: Helpers.jsonStringify(result), status: 200, success: true},
+          cacheResult);
+      const console = new ColorConsole();
+      console.logHttpCached(Source.client, path, 200, this.cache);
+      return;
+    }
+
+    this.server.sendRequest(path, region, (res) => {
+      callback(res, this.parseAccountId(name, res));
+    });
+  }
+
+  parseAccountId(name: string, res: HostResponse) {
+    if (res.success) {
+      if (res.json && res.json.accountId) {
+        const accountId = res.json.accountId;
+        this.cache.set(name, accountId);
+        return accountId;
+      }
+    }
+    return undefined;
   }
 }

@@ -22,7 +22,7 @@ server.run((request: IncomingMessage, response: ServerResponse) => {
 
   switch (type) {
     case 'summoner':
-      summoner.get(region, pathname[3], request, response);
+      summoner.get(region, pathname[3], response);
       break;
     case 'match':
       match.get(region, pathname[3], pathname[4], query.gameTime, query.samples, request, response);

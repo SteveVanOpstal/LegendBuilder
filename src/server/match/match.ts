@@ -77,9 +77,9 @@ export class Match {
     waterfall(
         [
           (cb) => {
-            this.summoner.getData(region, summonerName, (res: HostResponse) => {
-              if (res.success) {
-                cb(undefined, res.json.accountId);
+            this.summoner.getData(region, summonerName, (res: HostResponse, accountId: number) => {
+              if (accountId) {
+                cb(undefined, accountId.toString());
               } else {
                 callback(res);
               }
@@ -192,7 +192,7 @@ export class Match {
 
         let participantId = -1;
         result.match.participantIdentities.forEach((participant) => {
-          if (participant.player.currentAccountId === accountId) {
+          if (participant.player.currentAccountId.toString() === accountId) {
             participantId = participant.participantId;
           }
         });
