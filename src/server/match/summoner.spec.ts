@@ -1,43 +1,41 @@
+import * as zlib from 'zlib';
+
 import {MockHostResponseFailure, MockHostResponseSuccess} from '../testing';
 import {MockServer, MockServerResponse} from '../testing';
 
 import {Summoner} from './summoner';
 
+process.argv = [
+  'param', 'param', '--api=./secure/api.key', '--cert=./secure/cert.crt', '--key=./secure/cert.key'
+];
+
 describe('Summoner', () => {
-  let server: MockServer;
+  const server = new MockServer();
   let summoner: Summoner;
 
   beforeEach(() => {
-    server = new MockServer();
     summoner = new Summoner(server);
-    server.headers = {test: 'test'};
   });
 
   it('should get the summoner id', () => {
     server.responses = [
       {url: 'summoners', message: new MockHostResponseSuccess(JSON.stringify({'accountId': 123}))}
     ];
-    const incomingMessage: any = {url: 'test'};
     const serverResponse: any = new MockServerResponse();
 
-    summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
+    summoner.get('euw', 'DinosHaveNoLife', serverResponse);
 
-    expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe('123');
-    expect(server.mockCache.url).toBe(incomingMessage.url);
-    expect(server.mockCache.data).toBe('123');
+    expect(serverResponse.getHeader('Content-Encoding')).toBe('gzip');
+    expect(zlib.gunzipSync(serverResponse.buffer).toString()).toBe('123');
   });
 
   it('should not get the summoner id', () => {
     server.responses = [{url: 'summoners', message: new MockHostResponseFailure()}];
-    const incomingMessage: any = {url: 'test'};
     const serverResponse: any = new MockServerResponse();
 
-    summoner.get('euw', 'DinosHaveNoLife', incomingMessage, serverResponse);
+    summoner.get('euw', 'DinosHaveNoLife', serverResponse);
 
-    expect(serverResponse.getHeader('test')).toBe('test');
-    expect(serverResponse.buffer).toBe('');
-    expect(server.mockCache.url).toBe('');
-    expect(server.mockCache.data).toBe('');
+    expect(serverResponse.getHeader('Content-Encoding')).toBe('gzip');
+    expect(zlib.gunzipSync(serverResponse.buffer).toString()).toBe('""');
   });
 });

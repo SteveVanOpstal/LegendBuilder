@@ -25,8 +25,6 @@ export class MockHostResponseFailure extends MockHostResponse {
 }
 
 export class MockServer extends Server {
-  headers;
-
   responses: Array<{url: string, message: MockHostResponse}>;
   mockCache: {url: string, data: any} = {url: '', data: ''};
 
@@ -40,18 +38,9 @@ export class MockServer extends Server {
     callback(this.getResponse(url));
   }
 
-  setCache(url: string, data: any) {
+  setCache(url: string, data: any): void {
     this.mockCache.url = url;
     this.mockCache.data = data;
-  }
-
-  getResponse(url: string): MockHostResponse {
-    for (const response of this.responses) {
-      if (url.indexOf(response.url) >= 0) {
-        return response.message;
-      }
-    }
-    throw Error('Error in MockServer');
   }
 
   readFile(_filename: string): string {
@@ -59,4 +48,13 @@ export class MockServer extends Server {
   }
 
   watchFile(_filename: string, _listener: FunctionStringCallback): void {}
+
+  private getResponse(url: string): MockHostResponse {
+    for (const response of this.responses) {
+      if (url.indexOf(response.url) >= 0) {
+        return response.message;
+      }
+    }
+    throw Error('Error in MockServer');
+  }
 }
