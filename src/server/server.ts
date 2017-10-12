@@ -88,13 +88,18 @@ export class Server {
     this.start(callback);
   }
 
+  stop(cb?: () => void) {
+    try {
+      this.server.close(cb ? cb() : () => {});
+      this.server = undefined;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   restart() {
     if (this.server) {
-      try {
-        this.server.close(() => this.start(this.callb));
-      } catch (e) {
-        console.log(e);
-      }
+      this.stop(() => this.start(this.callb));
     } else {
       this.start(this.callb);
     }
@@ -110,7 +115,8 @@ export class Server {
   }
 
   setCache(url: string, data: any): void {
-    this.cache.set(url, data);
+    const path = nodeurl.parse(url).path;
+    this.cache.set(path, data);
   }
 
   private getCache(url: string): any {
@@ -168,8 +174,9 @@ export class Server {
   private handleResponseSuccess(
       console: ColorConsole, options: https.RequestOptions, res: IncomingMessage, data: any,
       callback: (response: HostResponse) => void) {
-    if (res.statusCode !== 200) {
-      const error: HttpError = {status: res.statusCode, message: res.statusMessage};
+    const status = res.statusCode;
+    if (status !== 200) {
+      const error: HttpError = {status: status, message: res.statusMessage};
       this.handleResponseError(console, options, error, callback);
       return;
     }
@@ -181,17 +188,15 @@ export class Server {
       return;
     }
 
-    const response: HostResponse =
-        {data: data, json: json, status: res.statusCode, success: res.statusCode === 200};
-    console.logHttp(options.method, options.path, res.statusCode);
-    callback(response);
+    console.logHttp(Source.api, options.method, options.path, status);
+    callback({data: data, json: json, status: status, success: status === 200});
   }
 
   private handleResponseError(
       console: ColorConsole, options: https.RequestOptions, e: HttpError,
       callback: (response: HostResponse) => void) {
     const response: HostResponse = {data: e.message, status: e.status, success: false};
-    console.logHttp(options.method, options.path, e.status, e.message);
+    console.logHttp(Source.api, options.method, options.path, e.status, e.message);
     callback(response);
   }
 
@@ -204,13 +209,11 @@ export class Server {
       response.writeHead(200, Server.headers);
       response.write(cachedResponseData);
       response.end();
-      console.logHttp(
-          'CACHED', request.url, 200,
-          this.cache.length / 1000000 + 'MB/' + this.cache.max / 1000000 + 'MB');
+      console.logHttpCached(Source.client, request.url, 200, this.cache);
       return;
     }
 
-    console.logHttp(request.method, request.url, response.statusCode);
+    console.logHttp(Source.client, request.method, request.url, response.statusCode);
     callback(request, response);
   }
 
