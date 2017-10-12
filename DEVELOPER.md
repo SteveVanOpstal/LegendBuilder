@@ -7,7 +7,7 @@ All commands mentioned should be ran from the project root.
 ## <a name="prerequisites"></a> Prerequisite Software
 
 * [Git](http://git-scm.com) (a **GitHub app** exists for [Mac or Windows](http://desktop.github.com), but use whatever you prefer).
-* [Node.js](http://nodejs.org) >= v8.4.0. It should include [npm](https://www.npmjs.com/) (node package manager).
+* [Node.js](http://nodejs.org) >= v8.6.0. It should include [npm](https://www.npmjs.com/) (node package manager).
 * (optional) [Yarn](https://yarnpkg.com), can be used instead of npm
 
 ## <a name="start"></a> Getting started
