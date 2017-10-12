@@ -7,7 +7,7 @@ const lru = require('lru-cache');
 import {retry} from 'async';
 import * as minimist from 'minimist';
 
-import {ColorConsole} from './console';
+import {ColorConsole, Source} from './console';
 import {settings} from '../../config/settings';
 import {Helpers} from './helpers';
 
@@ -67,8 +67,8 @@ export class Server {
       this.restart();
     });
 
-    this.cache = lru(this.merge(
-        cacheSettings, {max: 1048576, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 2}));
+    this.cache = lru(Object.assign(
+        {}, {max: 67108864, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 2}, cacheSettings));
   }
 
   static getBaseUrl(region: string) {
@@ -214,16 +214,6 @@ export class Server {
     callback(request, response);
   }
 
-  private merge(src: Object, target: Object): Object {
-    if (!src) {
-      return;
-    }
-    for (const prop of Object.keys(src)) {
-      target[prop] = src[prop];
-    }
-    return target;
-  }
-
   private getChampionsByRegion() {
     for (const region of settings.api.regions) {
       this.champions[region] = [];
@@ -314,7 +304,7 @@ export class Server {
   }
 
   private getOptions(region: string, options?: https.RequestOptions): https.RequestOptions {
-    return this.merge(
+    return Object.assign(
         {
           hostname: Server.getHostname(region),
           method: 'GET',

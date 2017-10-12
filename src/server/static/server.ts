@@ -1,6 +1,5 @@
 import {retry} from 'async';
 import {IncomingMessage, ServerResponse} from 'http';
-import * as stream from 'stream';
 import * as url from 'url';
 
 import {settings} from '../../../config/settings';

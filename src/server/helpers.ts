@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import {ServerResponse} from 'https';
 import * as zlib from 'zlib';
 
 import {ColorConsole} from './console';
