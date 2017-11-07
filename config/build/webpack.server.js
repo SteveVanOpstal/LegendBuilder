@@ -23,11 +23,8 @@ module.exports = (options) => {
 
     module: {
       rules: [
-        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
-          test: /\.ts$/,
-          loader: 'ts-loader',
-          exclude: [/\.(spec|e2e)\.ts$/]
-        }
+        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'},
+        {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}
       ]
     },
 
