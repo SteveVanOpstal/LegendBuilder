@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 
-import {settings} from '../../../config/settings';
-import {config} from '../builder/build/graph/config';
-import {Item} from '../data/item';
-import {Samples} from '../data/samples';
-import {TranslatePipe} from '../shared/translate.pipe';
-
-import {LolApiService} from './lolapi.service';
+import {settings} from '../../../../../config/settings';
+import {config} from '../../../builder/build/graph/config';
+import {Item} from '../../../data/item';
+import {Samples} from '../../../data/samples';
+import {LolApiService} from '../../../services/lolapi.service';
+import {TranslatePipe} from '../../../shared/translate.pipe';
+import {BuildSandbox} from '../build.sandbox';
 
 interface Stat {
   name: string;
@@ -24,8 +24,7 @@ export type Items = Array<Item>;
 
 @Injectable()
 export class StatsService {
-  stats = new Subject<Stats>();
-  pickedItems = new Subject<Items>();
+  stats$ = new Subject<Stats>();
 
   private levelTimeMarks: Array<number>;
 
@@ -34,16 +33,16 @@ export class StatsService {
 
   private translator: TranslatePipe;
 
-  constructor(private lolApi: LolApiService) {
-    this.lolApi.getCurrentMatchData().subscribe(samples => {
+  constructor(private sb: BuildSandbox, lolApi: LolApiService) {
+    this.sb.matchdata$.subscribe(samples => {
       this.createLevelTimeMarks(samples);
       this.process();
     });
-    this.lolApi.getCurrentChampion().subscribe(champion => {
+    this.sb.champion$.subscribe(champion => {
       this.champion = champion;
       this.process();
     });
-    this.pickedItems.subscribe((items) => {
+    this.sb.pickedItems$.subscribe((items) => {
       this.items = items;
       this.process();
     });
@@ -62,7 +61,7 @@ export class StatsService {
 
     stats = this.calculate(stats);
 
-    this.stats.next(this.makeIterable(stats));
+    this.stats$.next(this.makeIterable(stats));
   }
 
   private translateItemStats(stats: StatArray): StatArray {

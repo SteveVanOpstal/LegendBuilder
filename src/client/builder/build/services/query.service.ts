@@ -1,33 +1,38 @@
 import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {DefaultUrlSerializer, UrlTree} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
 
-import {Item} from '../data/item';
-
-import {LolApiService} from './lolapi.service';
+import {Item} from '../../../data/item';
+import {ReactiveComponent} from '../../../shared/reactive.component';
+import {BuildSandbox} from '../build.sandbox';
 
 const availableChars: String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-';
 
 @Injectable()
-export class PickedItemsService {
-  items = new Subject<Array<Item>>();
+export class QueryService extends ReactiveComponent {
   private originalItems = new Array<Item>();
-  private itemIds = new Array<Item>();
   private serializer = new DefaultUrlSerializer();
 
-  constructor(lolapi: LolApiService, private location: Location) {
-    lolapi.getItems().subscribe((items) => {
-      this.originalItems = items.data;
+  constructor(sb: BuildSandbox, private location: Location) {
+    super();
+    sb.items$.takeUntil(this.takeUntilDestroyed$).subscribe((items) => {
+      if (!items || !items.length) {
+        return;
+      }
+      this.originalItems = items;
       const urlTree = this.getUrlTree();
-      this.itemIds = this.decodeItems(urlTree.queryParams['q']);
-      this.update();
+      let decodedItems = this.decodeItems(urlTree.queryParams['q']);
+      decodedItems = this.initialiseItems(decodedItems);
+      this.updateQuery(decodedItems);
+      sb.setPickedItems(decodedItems);
     });
-  }
 
-  private update() {
-    this.updateQuery(this.itemIds);
-    this.items.next(this.itemIds);
+    sb.pickedItems$.takeUntil(this.takeUntilDestroyed$).subscribe((pickedItems) => {
+      if (!pickedItems || !pickedItems.length) {
+        return;
+      }
+      this.updateQuery(pickedItems);
+    });
   }
 
   private updateQuery(items: Array<Item>) {
@@ -47,12 +52,12 @@ export class PickedItemsService {
   }
 
   private encodeItems(items: Array<Item>): string {
-    return this.encodeItemIds(this.itemsToIds(items));
+    return this.encodeitems(this.itemsToIds(items));
   }
 
-  private encodeItemIds(itemIds: Array<number>): string {
+  private encodeitems(items: Array<number>): string {
     let encode = '';
-    for (const id of itemIds) {
+    for (const id of items) {
       encode += this.encodeItem(id);
     }
     return encode;
@@ -67,10 +72,10 @@ export class PickedItemsService {
   }
 
   private decodeItems(query: string): Array<Item> {
-    return this.idsToItems(this.decodeItemIds(query));
+    return this.idsToItems(this.decodeitems(query));
   }
 
-  private decodeItemIds(query: string): Array<number> {
+  private decodeitems(query: string): Array<number> {
     const result = new Array<number>();
     if (!query) {
       return result;
@@ -89,17 +94,30 @@ export class PickedItemsService {
 
   private itemsToIds(items: Array<Item>): Array<number> {
     return items.map((item) => {
-      return parseInt(item.id, 10);
+      return item.id;
     });
   }
 
   private idsToItems(itemIds: Array<number>): Array<Item> {
     const result = new Array<Item>();
     for (const id of itemIds) {
-      const resultItem = this.originalItems[id];
+      const resultItem = this.originalItems.find((originalItem) => {
+        return originalItem.id === id;
+      });
       if (resultItem) {
         result.push(resultItem);
       }
+    }
+    return result;
+  }
+
+  private initialiseItems(items: Array<Item>) {
+    const result = [];
+    for (const index of Object.keys(items)) {
+      const item = items[index];
+      result.push(Object.assign(
+          {time: 0, bundle: 0, offset: 0, discount: 0, contained: false, contains: [], slotId: 0},
+          item));
     }
     return result;
   }

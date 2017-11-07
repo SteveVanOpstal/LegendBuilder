@@ -16,14 +16,14 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import './vendor';
+
 import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {load} from 'webfontloader';
 
 import {AppModule} from './client/app.module';
 import {environment} from './environments/environment';
-
-import './vendor';
 
 load({google: {families: ['Roboto:400'], text: 'LegndBuildr'}});
 

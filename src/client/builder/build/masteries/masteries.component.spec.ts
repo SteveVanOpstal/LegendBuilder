@@ -4,7 +4,7 @@ import {MockBackend} from '@angular/http/testing';
 import {IconErrorComponent} from '../../../assets/icon-error.component';
 import {IconLoadComponent} from '../../../assets/icon-load.component';
 import {IconRefreshComponent} from '../../../assets/icon-refresh.component';
-import {LolApiService} from '../../../services';
+import {LolApiService} from '../../../services/lolapi.service';
 import {DDragonPipe} from '../../../shared/ddragon.pipe';
 import {ErrorComponent} from '../../../shared/error.component';
 import {LoadingComponent} from '../../../shared/loading.component';

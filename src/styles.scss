@@ -238,7 +238,7 @@ svg text::selection {
 }
 
 /* TODO: https://github.com/angular/angular/issues/19445 */
-$base-color: hsl(90, 60, 40);
+$base-color: hsl(90, 60, 20);
 
 @for $count from 1 through 33 {
   $color: adjust-hue($base-color, $count * 90 + ($count / 8) * 12.5);
@@ -250,17 +250,17 @@ $base-color: hsl(90, 60, 40);
 
      > g.child {
        > g[lbCurve] > path {
-        stroke: lighten($color, 15);
+        stroke: lighten($color, 20);
       }
 
        > g.child {
          > g[lbCurve] > path {
-          stroke: lighten($color, 30);
+          stroke: lighten($color, 40);
         }
 
          > g.child {
            > g[lbCurve] > path {
-            stroke: lighten($color, 45);
+            stroke: lighten($color, 60);
           }
         }
       }

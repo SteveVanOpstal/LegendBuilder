@@ -2,8 +2,30 @@ import {Actions, ActionTypes} from './items.actions';
 
 export function itemsReducer(state = [], action: Actions) {
   switch (action.type) {
+    case ActionTypes.SET_ITEMS:
+      let changed = false;
+      if (!action.payload) {
+        return state;
+      }
+      for (const index of Object.keys(action.payload)) {
+        if (JSON.stringify(action.payload[index]) !== JSON.stringify(state[index])) {
+          changed = true;
+          break;
+        }
+      }
+      if (changed) {
+        return [...state, ...action.payload];
+      } else {
+        return state;
+      }
+
     case ActionTypes.ADD_ITEM:
-      return [...state, Object.assign({}, action.payload)];
+      return [
+        ...state,
+        Object.assign(
+            {time: 0, bundle: 0, offset: 0, discount: 0, contained: false, contains: [], slotId: 0},
+            action.payload)
+      ];
 
     case ActionTypes.REMOVE_ITEM:
       const index = state.indexOf(action.payload);

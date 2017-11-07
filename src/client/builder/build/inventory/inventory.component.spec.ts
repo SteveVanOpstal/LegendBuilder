@@ -5,15 +5,15 @@ import {LolApiService} from '../../../services/lolapi.service';
 import {TestModule} from '../../../testing';
 import {StatsService} from '../services/stats.service';
 
-import {ItemsComponent} from './items.component';
+import {InventoryComponent} from './inventory.component';
 
-describe('ItemsComponent', () => {
+describe('InventoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
-        {providers: [ItemsComponent, LolApiService, StatsService], imports: [TestModule]});
+        {providers: [InventoryComponent, LolApiService, StatsService], imports: [TestModule]});
   });
 
-  beforeEach(inject([ItemsComponent], (component) => {
+  beforeEach(inject([InventoryComponent], (component) => {
     component.samples = {gold: [100, 200, 300], gameTime: 200, sampleSize: 20};
     component.itemSlotComponents = [
       {'id': 3341, 'gold': {'total': 0}}, {'id': 2003, 'gold': {'total': 50}},
@@ -24,7 +24,7 @@ describe('ItemsComponent', () => {
   let item1;
   let item2;
 
-  beforeEach(inject([ItemsComponent], (component) => {
+  beforeEach(inject([InventoryComponent], (component) => {
     item1 = {item: {id: 3341, gold: {total: 0}}, slotId: 0};
     item2 = {item: {id: 2003, gold: {total: 50}}, slotId: 0};
 
@@ -32,7 +32,7 @@ describe('ItemsComponent', () => {
     component.slotItems = [item1, item2, item2, item2];
   }));
 
-  // it('should add item', inject([ItemsComponent], (component) => {
+  // it('should add item', inject([InventoryComponent], (component) => {
   //   spyOn(component, 'addTime');
   //   spyOn(component, 'addBundle');
   //   expect(component.addTime).not.toHaveBeenCalled();
@@ -42,7 +42,7 @@ describe('ItemsComponent', () => {
   //   expect(component.addBundle).toHaveBeenCalled();
   // }));
 
-  xit('should add an item', inject([ItemsComponent], (component) => {
+  xit('should add an item', inject([InventoryComponent], (component) => {
         spyOn(component, 'addTime');
         spyOn(component, 'addBundle');
         expect(component.addTime).not.toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe('ItemsComponent', () => {
         expect(component.items[4]).toHaveEqualContent(item1);
       }));
 
-  xit('should calculate time', inject([ItemsComponent], (component) => {
+  xit('should calculate time', inject([InventoryComponent], (component) => {
         component.addTime(item1);
         expect(item1.time).toBe(0);
         component.addTime(item2);
@@ -63,7 +63,7 @@ describe('ItemsComponent', () => {
                 item2.gold.total);
       }));
 
-  xit('should bundle', inject([ItemsComponent], (component) => {
+  xit('should bundle', inject([InventoryComponent], (component) => {
         component.addTime(item2);
         component.addBundle(item2);
         expect(component.items.length).toBe(2);

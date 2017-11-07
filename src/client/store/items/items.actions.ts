@@ -4,6 +4,7 @@ import {Item} from '../../data/item';
 import {type} from '../../store/util';
 
 export const ActionTypes = {
+  SET_ITEMS: type<'SET_ITEMS'>('SET_ITEMS'),
   ADD_ITEM: type<'ADD_ITEM'>('ADD_ITEM'),
   REMOVE_ITEM: type<'REMOVE_ITEM'>('REMOVE_ITEM'),
   MOVE_ITEM: type<'MOVE_ITEM'>('MOVE_ITEM')
@@ -13,6 +14,15 @@ class ItemAction {
   payload: Item;
 
   constructor(data: Item) {
+    this.payload = data;
+  }
+}
+
+export class SetItems implements Action {
+  type = ActionTypes.SET_ITEMS;
+  payload: Item[];
+
+  constructor(data: Item[]) {
     this.payload = data;
   }
 }
@@ -30,4 +40,4 @@ export class MoveItem implements Action {
   }
 }
 
-export type Actions = AddItem|RemoveItem|MoveItem;
+export type Actions = SetItems|AddItem|RemoveItem|MoveItem;

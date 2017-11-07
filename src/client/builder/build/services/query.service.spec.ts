@@ -1,7 +1,8 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 
-import {LolApiService, PickedItemsService} from '../services';
-import {TestModule} from '../testing';
+import {LolApiService} from '../../../services/lolapi.service';
+import {TestModule} from '../../../testing';
+import {PickedItemsService} from '../services/picked-items.service';
 
 xdescribe('PickedItemsService', () => {
   beforeEach(() => {

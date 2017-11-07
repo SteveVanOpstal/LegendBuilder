@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {LolApiService} from '../../../../services';
+import {LolApiService} from '../../../../services/lolapi.service';
 import {DDragonPipe} from '../../../../shared/ddragon.pipe';
 import {TestModule} from '../../../../testing';
 

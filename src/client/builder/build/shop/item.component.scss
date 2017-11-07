@@ -23,6 +23,7 @@
   cursor: pointer;
   display: flex;
   margin: 2.5px;
+  min-width: 48px;
   -webkit-user-select: none;/* Chrome/Safari */
      -moz-user-select: none;/* Firefox */
       -ms-user-select: none;/* IE10+ */
@@ -31,6 +32,7 @@
 
   img {
     display: inline-block;
+    min-width: 48px;
     object-fit: none;
   }
 
@@ -38,7 +40,6 @@
   & > img {
     border-radius: 5px;
     height: 48px;
-    min-width: 48px;
   }
 
   .name {

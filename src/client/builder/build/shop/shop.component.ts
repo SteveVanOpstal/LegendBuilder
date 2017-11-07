@@ -87,7 +87,7 @@ export class ShopComponent {
   }
 
   pickItem(item: Item) {
-    this.sb.addItem(item);
+    this.sb.addPickedItem(item);
     return false;  // stop context menu from appearing
   }
 

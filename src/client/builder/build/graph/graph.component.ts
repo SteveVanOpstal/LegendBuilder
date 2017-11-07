@@ -4,9 +4,9 @@ import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../../config/settings';
 import {Samples} from '../../../data/samples';
-import {StatsService} from '../services/stats.service';
 import {ReactiveComponent} from '../../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
+import {StatsService} from '../services/stats.service';
 
 import {TimeAxis} from './axes';
 import {Line, LineComponent} from './line.component';
@@ -64,7 +64,7 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
     this.overlay = this.svg.select('.overlay');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
-    this.stats.stats.takeUntil(this.takeUntilDestroyed$)
+    this.stats.stats$.takeUntil(this.takeUntilDestroyed$)
         .subscribe(stats => this.updateLines(stats, curveStepAfter));
 
     this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)

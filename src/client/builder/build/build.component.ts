@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 
 import {BuildSandbox} from './build.sandbox';
-
-import {ItemsComponent} from './items/items.component';
+import {InventoryComponent} from './inventory/inventory.component';
+import {PickedItemsService} from './services/picked-items.service';
+import {QueryService} from './services/query.service';
 import {ShopComponent} from './shop/shop.component';
 
 @Component({
@@ -19,15 +20,16 @@ import {ShopComponent} from './shop/shop.component';
         <lb-graph></lb-graph>
         <!--<lb-abilities></lb-abilities>
         <lb-masteries></lb-masteries>-->
-        <lb-items (itemSelected)="shop.selectItem($event)" #items></lb-items>
+        <lb-inventory (itemSelected)="shop.selectItem($event)" #items></lb-inventory>
         <lb-shop #shop></lb-shop>
       </lb-loading>
     </div>`
 })
 
 export class BuildComponent {
-  items: ItemsComponent;
+  items: InventoryComponent;
   shop: ShopComponent;
 
-  constructor(public sb: BuildSandbox) {}
+  constructor(
+      public sb: BuildSandbox, public query: QueryService, public pickedItem: PickedItemsService) {}
 }

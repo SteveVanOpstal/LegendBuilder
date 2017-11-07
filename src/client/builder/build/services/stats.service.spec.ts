@@ -2,14 +2,14 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 
-import {Item} from '../data/item';
-import {Samples} from '../data/samples';
-import {LolApiService} from '../services';
-import {MockRouter, TestModule} from '../testing';
+import {Item} from '../../../data/item';
+import {Samples} from '../../../data/samples';
+import {LolApiService} from '../../../services/lolapi.service';
+import {MockRouter, TestModule} from '../../../testing';
 
 import {StatsService} from './stats.service';
 
-xdescribe('StatsService', () => {
+describe('StatsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{provide: Router, useValue: new MockRouter()}, StatsService, LolApiService],
@@ -45,29 +45,29 @@ xdescribe('StatsService', () => {
   };
 
   const items: Array<Item> = [
-    {id: '1', name: '', gold: {total: 0}, time: 0, stats: {rFlatMPModPerLevel: 4.1667}}, {
-      id: '1',
+    {id: 1, name: '', gold: {total: 0}, time: 0, stats: {rFlatMPModPerLevel: 4.1667}}, {
+      id: 1,
       name: '',
       gold: {total: 0},
       time: 10,
       stats: {rFlatMagicDamageMod: 15, FlatMPPool: 250}
     },
     {
-      id: '2',
+      id: 2,
       name: '',
       gold: {total: 0},
       time: 673412,
       stats: {PercentMovementSpeedPerLevel: 0.002167}
     },
     {
-      id: '3',
+      id: 3,
       name: '',
       gold: {total: 0},
       time: 1296000,
       stats: {PercentMPPool: 0.2, FlatMagicDamage: 5}
     },
-    {id: '4', name: '', gold: {total: 0}, time: 2750000, stats: {FlatMovementSpeedMod: 100}},
-    {id: '5', name: '', gold: {total: 0}, time: 2420000, stats: {FlatMovementSpeedMod: 100}}
+    {id: 4, name: '', gold: {total: 0}, time: 2750000, stats: {FlatMovementSpeedMod: 100}},
+    {id: 5, name: '', gold: {total: 0}, time: 2420000, stats: {FlatMovementSpeedMod: 100}}
   ];
 
   const itemStatsResults = {

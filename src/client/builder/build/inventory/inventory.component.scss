@@ -1,0 +1,21 @@
+lb-icon-tree,
+lb-icon-list {
+  height: 32px;
+}
+
+button {
+  border-bottom-right-radius: initial;
+  border-right: none;
+  border-top-right-radius: initial;
+  margin-left: -57px;
+  position: absolute;
+}
+
+@media (max-width: 1200px) {
+  button {
+    border-bottom-right-radius: 5px;
+    border-right: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    margin: -50px 0 0 -6px;
+  }
+}

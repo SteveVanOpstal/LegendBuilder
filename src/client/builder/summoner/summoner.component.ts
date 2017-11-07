@@ -15,14 +15,14 @@ import {SummonerSandbox} from './summoner.sandbox';
       <div class="align-center">
         <label class="align-center">
           <h2>Enter your summoner name</h2>
-          <form class="align-center" [formGroup]="nameForm" (ngSubmit)="submit$.next(nameForm.value['name'])">
+          <form class="align-center" [formGroup]="form" (ngSubmit)="submit$.next(form.value['name'])">
             <input type="text" name="name" formControlName="name" maxLength="16" autofocus>
             <button type="submit">Go</button>
           </form>
         </label>
-        <lb-error [error]="nameForm.controls.name.errors?.minlength" [message]="'Summoner name is too short.'"></lb-error>
-        <lb-error [error]="nameForm.controls.name.errors?.pattern"
-                  [message]="'Invalid character(s) \\'' + getInvalidCharacters() + '\\'.'">
+        <lb-error [error]="form.controls.name.errors?.minlength" [message]="'Summoner name is too short.'"></lb-error>
+        <lb-error [error]="form.controls.name.errors?.pattern"
+                  [message]="'Invalid character(s) \\'' + getInvalidCharacters(form.value['name']) + '\\'.'">
         </lb-error>
         <lb-error [error]="unknown" [message]="'Summoner name is unknown.'"></lb-error>
         <lb-icon-load *ngIf="loading"></lb-icon-load>
@@ -31,7 +31,7 @@ import {SummonerSandbox} from './summoner.sandbox';
 })
 
 export class SummonerComponent extends ReactiveComponent {
-  nameForm: FormGroup;
+  form: FormGroup;
   unknown = false;
   loading = false;
   submit$ = new Subject<any>();
@@ -43,7 +43,7 @@ export class SummonerComponent extends ReactiveComponent {
       private route: ActivatedRoute, private router: Router, private sb: SummonerSandbox,
       private fb: FormBuilder) {
     super();
-    this.nameForm = this.fb.group({
+    this.form = this.fb.group({
       name: [
         '',
         [
@@ -82,7 +82,7 @@ export class SummonerComponent extends ReactiveComponent {
 
   getInvalidCharacters() {
     const regex = RegExp('((?!' + this.pattern + ').)', 'g');
-    const matches = this.nameForm.controls.name.value.match(regex);
+    const matches = this.form.controls.name.value.match(regex);
     return Array.from(new Set(matches)).join('');
   }
 }

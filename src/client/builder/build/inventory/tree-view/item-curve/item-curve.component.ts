@@ -1,14 +1,14 @@
 import {Component, Input} from '@angular/core';
 
-import {Item} from '../../../../data/item';
+import {Item} from '../../../../../data/item';
 
 @Component({
   selector: 'g[lbItemCurve]',
   template: `
     <ng-template [ngIf]="item.contains.length">
       <ng-template ngFor let-child [ngForOf]="item.contains">
-        <svg:g lbCurve [start]="{x: child.offset + 28, y: (24 + (child.slotId * 50))}"
-                  [end]="{x: item.offset + 20, y:(24 + (item.slotId * 50))}">
+        <svg:g lbCurve [start]="{x: child.offset + 28, y: 24 + (child.slotId * 50)}"
+                  [end]="{x: item.offset + 20, y: 24 + (item.slotId * 50)}">
         </svg:g>
       </ng-template>
       <ng-template ngFor let-child [ngForOf]="item.contains">
@@ -21,12 +21,4 @@ export class ItemCurveComponent {
   @Input() item: Item;
 
   constructor() {}
-
-  half(offset1: number, offset2: number): number {
-    return offset1 + (Math.abs(offset1 - offset2) / 2);
-  }
-
-  quarter(offset1: number, offset2: number): number {
-    return offset1 + (Math.abs(offset1 - offset2) / 4);
-  }
 }

@@ -5,7 +5,7 @@ import {Item} from '../../data/item';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {AppState} from '../../store/app.state';
-import {AddItem, MoveItem, RemoveItem} from '../../store/items/items.actions';
+import {AddItem, MoveItem, RemoveItem, SetItems} from '../../store/items/items.actions';
 
 @Injectable()
 export class BuildSandbox {
@@ -16,20 +16,24 @@ export class BuildSandbox {
   items$ = this.lolApi.getItems().map(res => res.data).map(res => this.toArray(res)).startWith([]);
   itemsTree$ =
       this.lolApi.getItems().map(res => res.tree).map(res => this.toArray(res)).startWith([]);
-  pickedItems$ = this.store.select(state => state.items);
+  pickedItems$ = this.store.select(state => state.items).startWith(undefined);
   masteries$ = this.lolApi.getMasteries().map(res => this.transformMasteries(res));
 
   constructor(private lolApi: LolApiService, private store: Store<AppState>) {}
 
-  addItem(item: Item) {
+  setPickedItems(items: Item[]) {
+    this.store.dispatch(new SetItems(items));
+  }
+
+  addPickedItem(item: Item) {
     this.store.dispatch(new AddItem(item));
   }
 
-  removeItem(item: Item) {
+  removePickedItem(item: Item) {
     this.store.dispatch(new RemoveItem(item));
   }
 
-  move(source: Item, target: Item) {
+  movePickedItem(source: Item, target: Item) {
     this.store.dispatch(new MoveItem(source, target));
   }
 
