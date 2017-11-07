@@ -13,7 +13,7 @@ export class ColorConsole {
   logHttp(source: Source, method: string, path: string, statusCode: number, extra?: any) {
     const src = this.getSourceString(source);
     const type = method.padEnd(3);
-    const time = (this.totalTime() + 'ms').padEnd(10);
+    const time = this.totalTime().padStart(10);
     if (path.length > 78) {
       path = path.replace('https://', '..');
       path = path.replace('.api.riotgames.com', '..');
@@ -77,7 +77,7 @@ export class ColorConsole {
     const timestamp = test.getHours().toString().padStart(2, '0') + ':' +
         test.getMinutes().toString().padStart(2, '0') + ':' +
         test.getSeconds().toString().padStart(2, '0') + '.' +
-        (Math.round(test.getMilliseconds() / 10)).toString().padStart(2, '0');
+        (Math.floor(test.getMilliseconds() / 10)).toString().padStart(2, '0');
     return tim(
         '{{timestamp}} {{type}}:{{message}}', {timestamp: timestamp, type: type, message: message});
   }
@@ -85,7 +85,9 @@ export class ColorConsole {
   private totalTime() {
     const diff = process.hrtime(this.timeStart);
     const diffMs = (diff[0] * 1e9 + diff[1]) / 1e6;
-    return Math.round(diffMs * 100) / 100;
+    const milliseconds = Math.floor(diffMs);
+    const tenthNanoSeconds = Math.floor((diffMs - milliseconds) * 100);
+    return milliseconds + '.' + tenthNanoSeconds.toString().padEnd(2, '0') + 'ms';
   }
 
   private getSourceString(source: Source) {
