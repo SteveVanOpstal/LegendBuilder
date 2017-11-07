@@ -3,7 +3,7 @@ Description=Certificate auto renewal service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'letsencrypt renew --agree-tos'
+ExecStart=/bin/sh -c 'certbot renew'
 WorkingDirectory=/
 StandardOutput=syslog               # Output to syslog
 StandardError=syslog                # Output to syslog
