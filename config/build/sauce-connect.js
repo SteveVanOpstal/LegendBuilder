@@ -7,7 +7,7 @@ create_dir('build/log');
 
 function logger(data) {
   data = data.toString();
-  if (/you may start your tests/.test(data)) {
+  if (/Sauce Connect is up, you may start your tests./.test(data)) {
     write_pid('build/log/' + process.env.BUILD + '.pid');
   }
   console.log(data);
