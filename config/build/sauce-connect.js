@@ -1,44 +1,30 @@
-let sauceConnectLauncher = require('sauce-connect-launcher');
+var sauceConnect = require('node-sauce-connect');
+var childProcess = require('child_process');
 let fs = require('fs');
 
 create_dir('build');
 create_dir('build/log');
 
-retry_counter = 0;
+function logger(data) {
+  data = data.toString();
+  if (/you may start your tests/.test(data)) {
+    write_pid('build/log/' + process.env.BUILD + '.pid');
+  }
+  console.log(data);
+}
+
+var args = [];
 
 module.exports = {
   sauce_connect: () => {
-    sauceConnectLauncher(
-        {
-          tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
-          logfile: 'build/log/' + process.env.BUILD + '.log',
-          verbose: true,
-          noSslBumpDomains: 'all'  // android runs into certificate errors due to SSL bumping,
-                                   // this argument disables SSL bumping on all domains
-        },
-        (err, sauce_process) => {
-          if (sauce_process) {
-            sauce_process.on('exit', (status) => {
-              console.log('SauceLabs: stopped (' + status + ')');
-              process.exit(status);
-            });
-          }
+    sauceConnect.start(args);
+    console.log('starting');
 
-          if (err) {
-            if (retry_counter <= 10) {
-              retry_counter++;
-              setTimeout(module.exports.sauce_connect, 6000);
-              return;
-            }
-            console.log('SauceLabs: start failed, \'' + err.message + '\'');
-            process.exit(1);
-          } else {
-            write_pid('build/log/' + process.env.BUILD + '.pid');
-            console.log('SauceLabs: running');
-          }
-        });
+    sauceConnect.defaultInstance.stdout.on('data', logger);
+    sauceConnect.defaultInstance.on('data', logger);
   }
 };
+
 
 function create_dir(path) {
   try {
