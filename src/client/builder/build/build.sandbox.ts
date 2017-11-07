@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 
 import {Item} from '../../data/item';
 
-import {LolApiService} from '../../services';
+import {LolApiService} from '../../services/lolapi.service';
 import {AppState} from '../../store/app.state';
 import {AddItem, MoveItem, RemoveItem} from '../../store/items/items.actions';
 

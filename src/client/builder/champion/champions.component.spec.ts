@@ -1,7 +1,7 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {LolApiService} from '../../services';
+import {LolApiService} from '../../services/lolapi.service';
 import {TestModule} from '../../testing';
 
 import {ChampionsComponent} from './champions.component';

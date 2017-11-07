@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
-import {LolApiService} from '../services';
+import {LolApiService} from '../services/lolapi.service';
 
 export let defaultImage: string = 'data:image/svg+xml,' + encodeURIComponent(`
   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-hourglass" width="24" height="24" viewBox="0 0 24 24">

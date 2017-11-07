@@ -4,8 +4,9 @@ import {BaseRequestOptions, ConnectionBackend, Http, RequestOptions} from '@angu
 import {Response, ResponseOptions} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
-import {LolApiService, PickedItemsService} from '../../../services';
+import {LolApiService} from '../../../services/lolapi.service';
 import {TestModule} from '../../../testing';
+import {PickedItemsService} from '../services/picked-items.service';
 
 import {ShopComponent} from './shop.component';
 

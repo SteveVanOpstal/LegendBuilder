@@ -4,7 +4,7 @@ import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../../config/settings';
 import {Samples} from '../../../data/samples';
-import {StatsService} from '../../../services';
+import {StatsService} from '../services/stats.service';
 import {ReactiveComponent} from '../../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
 

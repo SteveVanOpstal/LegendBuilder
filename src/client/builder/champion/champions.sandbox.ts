@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {LolApiService} from '../../services';
+import {LolApiService} from '../../services/lolapi.service';
 
 @Injectable()
 export class ChampionsSandbox {
