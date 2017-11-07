@@ -1,34 +1,15 @@
-import {UrlSegment} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
-
 export class MockRouter {
-  routerState: any = {};
   region = 'euw';
-
-  constructor() {
-    this.routerState = this.routerState_();
-  }
 
   setRegion(region: string) {
     this.region = region;
-    this.routerState = this.routerState_();
   }
 
   navigate(_commands: any[], _extras?: any): any {}
 
-  private routerState_(): any {
+  parseUrl() {
     return {
-      root: {
-        children: [{
-          url: Observable.create((observer: Observer<UrlSegment[]>) => {
-            observer.next([
-              new UrlSegment('build', {}), new UrlSegment(this.region, {}),
-              new UrlSegment('DinosHaveNoLife', {}), new UrlSegment('Velkoz', {})
-            ]);
-          })
-        }]
-      }
+      root: {children: {primary: {segments: ['build', this.region, 'DinosHaveNoLife', 'VelKoz']}}}
     };
   }
 }

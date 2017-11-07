@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 
-import {LolApiService} from '../../../services';
-import {DDragonPipe} from '../../../shared/ddragon.pipe';
-import {TestModule} from '../../../testing';
+import {LolApiService} from '../../../../services';
+import {DDragonPipe} from '../../../../shared/ddragon.pipe';
+import {TestModule} from '../../../../testing';
 import {MasteryComponent} from '../mastery/mastery.component';
 import {RankComponent} from '../mastery/rank.component';
 

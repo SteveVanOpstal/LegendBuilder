@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {TestModule} from '../../../testing';
+import {TestModule} from '../../../../testing';
 
 import {SortFilterComponent} from './sort-filter.component';
 

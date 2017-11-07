@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import {Endpoint, LolApiService} from '../services/lolapi.service';
 import {TestModule} from '../testing';
 
-describe('LolApiService', () => {
+xdescribe('LolApiService', () => {
   beforeEach(() => {
     environment.production = false;
     TestBed.configureTestingModule({providers: [LolApiService], imports: [TestModule]});

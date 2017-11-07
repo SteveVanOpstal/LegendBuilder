@@ -23,9 +23,8 @@ module.exports = (options) => {
       rules: [
         {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
           test: /\.ts$/,
-          loader: '@ngtools/webpack',
-          exclude: [/\.e2e\.ts$/],
-          options: {tsConfigPath: './tsconfig.json'}
+          loader: 'ts-loader',
+          exclude: [/\.e2e\.ts$/]
         },
         {
           test: /\.(js|ts)$/,
