@@ -80,7 +80,6 @@ function open_sauce_connect(complete, error) {
       if (error) {
         error();
       }
-      child.unref();
       child.kill();
     }
 
