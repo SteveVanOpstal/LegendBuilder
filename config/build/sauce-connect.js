@@ -33,7 +33,7 @@ server.on('request', (req, res) => {
   });
 });
 
-sauce.start(['--tunnel-identifier', process.env.TUNNEL_IDENTIFIER]);
+sauce.start(['--tunnel-identifier', process.env.TUNNEL_IDENTIFIER, '--no-ssl-bump-domains', 'all']);
 console.log('Starting..');
 
 function data(data) {
