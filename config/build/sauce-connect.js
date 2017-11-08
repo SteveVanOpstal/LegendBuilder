@@ -33,7 +33,7 @@ server.on('request', (req, res) => {
   });
 });
 
-sauce.start([]);
+sauce.start(['--tunnel-identifier', process.env.TUNNEL_IDENTIFIER]);
 console.log('Starting..');
 
 function data(data) {
