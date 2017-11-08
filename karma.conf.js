@@ -36,13 +36,12 @@ module.exports = function(config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
     concurrency: 1,
     customLaunchers: browserProvidersConfig.customLaunchers,
-    singleRun: true,
-    logLevel: config.LOG_DEBUG,
+    singleRun: process.env.TRAVIS
   });
 
   if (process.env.TRAVIS) {
