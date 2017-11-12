@@ -1,76 +1,128 @@
-let spawn = require('child_process').spawn;
-let fs = require('fs');
+let http = require('http');
 
-module.exports = {
-  open: () => {
-    console.log('SauceLabs: starting ' + process.env.BUILD + '..');
+const PORT = process.env.SAUCE_CONNECT_PORT || 3500;
+const TIMEOUT_S = process.env.SAUCE_CONNECT_TIMEOUT || 60;
+const RETRIES = process.env.SAUCE_CONNECT_RETRIES || 5;
 
-    let command = 'npm';
-    if (/^win/.test(process.platform)) {
-      command += '.cmd';
-    }
+function open_sauce_connect(complete, error) {
+  let spawn = require('child_process').spawn;
 
-    let child = spawn(command, ['run', 'sauce-connect'], {detached: true, stdio: 'ignore'});
-
-    child.on('exit', (status) => {
-      process.stdout.write('\n');
-      console.log('SauceLabs: stopped (' + status + ')');
-      process.exit(status);
-    });
-
-    child.unref();
-
-    wait_for_file(
-        'build/log/' + process.env.BUILD + '.pid',
-        () => {
-          console.log('SauceLabs: running');
-        },
-        () => {
-          console.log('SauceLabs: start failed');
-          process.exit(1);
-        });
-  },
-  close: () => {
-    console.log('SauceLabs: stopping..');
-    let pid = read_pid('build/log/' + process.env.BUILD + '.pid');
-    process.kill(pid);
+  let command = 'npm';
+  if (/^win/.test(process.platform)) {
+    command += '.cmd';
   }
-};
 
-function wait_for_file(path, done, error) {
-  console.log(path + ': waiting..');
-  pol_file(path, () => {
-    console.log(path + ': ready');
-  }, error);
-}
+  let child = spawn(command, ['run', 'sauce-connect'], {detached: true, stdio: 'ignore'});
 
-let repeats = 0;
-function pol_file(path, done, error) {
-  let retry = 1000;
-  let timeout = 180;
-  fs.access(path, fs.constants.F_OK, (err) => {
-    if (err) {
-      repeats++;
-      if (repeats <= timeout) {
-        process.stdout.write('.');
-        setTimeout(pol_file, retry, path, done, error);
-      } else {
-        process.stdout.write('\n');
+  let active = true;
+  function close() {
+    active = false;
+  }
+
+  child.on('exit', () => {
+    close();
+  });
+
+  attempts = 0;
+  function running() {
+    if (attempts >= TIMEOUT_S) {
+      console.log('');
+      console.log('Unable to connect after [' + TIMEOUT_S + '] seconds.');
+      return false;
+    }
+    if (!active) {
+      console.log('');
+      console.log('Sauce connect process stopped running.');
+      return false;
+    }
+    return true;
+  }
+
+  function finish() {
+    console.log('Start testing');
+    child.unref();
+    if (complete) {
+      complete();
+    }
+  }
+
+  function sendRequest(cb) {
+    const req = http.request(
+        {hostname: 'localhost', port: PORT, method: 'POST', connection: 'close', agent: false},
+        (res) => {
+          let rawData = '';
+          res.on('data', (chunk) => {
+            rawData += chunk;
+          });
+          res.on('end', () => {
+            if (rawData === 'yes') {
+              console.log('!');
+              finish();
+            } else {
+              cb();
+            }
+          });
+        });
+    req.on('error', (e) => {
+      cb();
+    });
+    req.write('running?');
+    req.end();
+  }
+
+  function ping() {
+    process.stdout.write('.');
+    if (running()) {
+      setTimeout(function() {
+        sendRequest(ping);
+      }, 1000);
+    } else {
+      if (error) {
         error();
       }
-    } else {
-      process.stdout.write('\n');
-      done();
+      child.kill();
     }
-  });
+
+    attempts += 1;
+  }
+
+  ping();
 }
 
+module.exports = {
+  open: (complete, error) => {
+    let attempts = 1;
+    function sauce_connect_error() {
+      attempts += 1;
+      if (attempts <= RETRIES) {
+        console.log('Attempt [' + attempts + '/' + RETRIES + ']');
+        open_sauce_connect(complete, sauce_connect_error);
+        if (error) {
+          error();
+        }
+      }
+    }
 
-
-function read_pid(path) {
-  let data = fs.readFileSync(path);
-  return parseInt(data, 10);
-}
+    open_sauce_connect(complete, sauce_connect_error);
+  },
+  close: () => {
+    const req = http.request(
+        {hostname: 'localhost', port: PORT, method: 'GET', connection: 'close', agent: false},
+        (res) => {
+          let rawData = '';
+          res.on('data', (chunk) => {
+            rawData += chunk;
+          });
+          res.on('end', () => {
+            console.log('Response: ' + rawData);
+          });
+        });
+    req.on('error', (e) => {
+      console.log(e);
+    });
+    req.end();
+  }
+};
 
 if (require.main === module) {
   if (process.argv[2] == '--close') {
