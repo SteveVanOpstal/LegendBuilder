@@ -22,7 +22,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "coverage": "npm run coveralls < ./coverage/lcov/lcov.info",
-    "prebuild": "mkdir dist || true",
+    "mkdir:dist": "mkdir dist || cd .",
     "build": "npm run build:client && npm run build:server",
     "build:client": "ng build",
     "build:client:prod": "ng build --prod",

@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "../out-tsc/server",
+    "baseUrl": "./",
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "**/testing/**.ts",
+    "client/**"
+  ]
+}

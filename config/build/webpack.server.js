@@ -16,15 +16,21 @@ module.exports = (options) => {
 
     entry: {
       'static-server': helpers.root('src/server/static/server.ts'),
-      'match-server': helpers.root('src/server/match/server.ts'),
+      'match-server': helpers.root('src/server/match/server.ts')
     },
 
     output: {path: helpers.root('dist/server'), filename: '[name].js'},
 
     module: {
       rules: [
-        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'},
-        {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]}
+        {test: /\.js$/, enforce: 'pre', loader: 'source-map-loader'}, {
+          test: /\.ts$/,
+          use: {
+            loader: 'awesome-typescript-loader',
+            options: {configFileName: 'src/tsconfig.server.json'}
+          },
+          exclude: [/\.(spec|e2e)\.ts$/]
+        }
       ]
     },
 
