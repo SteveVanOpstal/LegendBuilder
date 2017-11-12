@@ -6,7 +6,7 @@ import {ColorConsole} from './console';
 export class Helpers {
   static readFile(filename: string): string {
     try {
-      return fs.readFileSync(filename).toString();
+      return fs.readFileSync(filename).toString().replace(/^\s+|\s+$/g, '');
     } catch (e) {
       const console = new ColorConsole();
       console.error('`' + filename + '` missing or inaccesible');
@@ -17,13 +17,18 @@ export class Helpers {
 
   static watchFile(filename: string, listener: FunctionStringCallback): void {
     console.log('watching: ' + filename);
-    fs.watch(filename, () => {
-      console.log('file change detected: ' + filename);
-      const result = this.readFile(filename);
-      if (result) {
-        listener(result);
-      }
-    });
+    try {
+      fs.watch(filename, () => {
+        console.log('file change detected: ' + filename);
+        const result = this.readFile(filename);
+        if (result) {
+          listener(result);
+        }
+      });
+    } catch (e) {
+      const console = new ColorConsole();
+      console.error('`' + filename + '` missing or inaccesible, unable to watch');
+    }
   }
 
   static jsonParse(data: string): any {
