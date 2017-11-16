@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {select} from 'd3-selection';
 
-import {Samples} from '../../../data/samples';
+import {Samples} from '../../../models/samples';
 import {ReactiveComponent} from '../../../shared/reactive.component';
 import {tim} from '../../../shared/tim';
 import {BuildSandbox} from '../build.sandbox';

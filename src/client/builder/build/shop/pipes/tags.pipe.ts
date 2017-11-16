@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Item} from '../../../../data/item';
+import {Item} from '../../../../models/item';
 
 @Pipe({name: 'lbTags', pure: false})
 

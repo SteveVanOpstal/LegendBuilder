@@ -2,7 +2,7 @@ import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {DefaultUrlSerializer, UrlTree} from '@angular/router';
 
-import {Item} from '../../../data/item';
+import {Item} from '../../../models/item';
 import {ReactiveComponent} from '../../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
 

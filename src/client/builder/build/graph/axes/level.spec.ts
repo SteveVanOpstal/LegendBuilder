@@ -1,4 +1,4 @@
-import {Samples} from '../../../../data/samples';
+import {Samples} from '../../../../models/samples';
 import {LevelScale} from '../scales/level';
 
 import {LevelAxisLine, LevelAxisText} from './level';

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {settings} from '../../../../../config/settings';
-import {Item} from '../../../data/item';
-import {Samples} from '../../../data/samples';
+import {Samples} from '../../../models/samples';
+import {Item} from '../../../models/item';
 import {BuildSandbox} from '../build.sandbox';
 import {TimeScale} from '../graph/scales';
 

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {Item} from '../../../data/item';
+import {Item} from '../../../models/item';
 
 export enum ViewType {
   tree,

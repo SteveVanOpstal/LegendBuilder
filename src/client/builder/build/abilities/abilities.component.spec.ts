@@ -1,7 +1,7 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {MockBackend} from '@angular/http/testing';
 
-import {Samples} from '../../../data/samples';
+import {Samples} from '../../../models/samples';
 import {LolApiService} from '../../../services/lolapi.service';
 import {DDragonPipe} from '../../../shared/ddragon.pipe';
 import {TestModule} from '../../../testing';

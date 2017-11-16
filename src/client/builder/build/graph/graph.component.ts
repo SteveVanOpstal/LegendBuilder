@@ -3,7 +3,7 @@ import {select} from 'd3-selection';
 import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
 
 import {settings} from '../../../../../config/settings';
-import {Samples} from '../../../data/samples';
+import {Samples} from '../../../models/samples';
 import {ReactiveComponent} from '../../../shared/reactive.component';
 import {BuildSandbox} from '../build.sandbox';
 import {StatsService} from '../services/stats.service';
@@ -44,8 +44,6 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
   @ViewChildren(LineComponent) lineComponents: QueryList<LineComponent>;
 
   private svg: any;
-  private focus: any;
-  private overlay: any;
 
   private xScaleTime = new TimeScale([0, 1420]);
   private xAxisTime = new TimeAxis(380, this.xScaleTime);
@@ -60,8 +58,6 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
-    this.focus = this.svg.select('.focus');
-    this.overlay = this.svg.select('.overlay');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
 
     this.stats.stats$.takeUntil(this.takeUntilDestroyed$)

@@ -1,6 +1,6 @@
 import * as d3 from 'd3-axis';
 
-import {Samples} from '../../../../data/samples';
+import {Samples} from '../../../../models/samples';
 import {config} from '../config';
 import {LevelScale} from '../scales/level';
 import {Axis} from './axis';

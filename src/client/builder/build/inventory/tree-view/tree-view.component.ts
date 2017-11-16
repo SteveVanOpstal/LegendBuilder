@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import {Item} from '../../../../data/item';
+import {Item} from '../../../../models/item';
 import {ReactiveComponent} from '../../../../shared/reactive.component';
 import {BuildSandbox} from '../../build.sandbox';
 

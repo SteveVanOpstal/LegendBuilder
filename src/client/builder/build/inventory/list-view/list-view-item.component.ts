@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {Item} from '../../../../data/item';
+import {Item} from '../../../../models/item';
 import {BuildSandbox} from '../../build.sandbox';
 
 @Component({

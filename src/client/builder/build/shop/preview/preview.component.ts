@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
-import {Item} from '../../../../data/item';
+import {Item} from '../../../../models/item';
 import {ItemBundle} from './item-bundle';
 
 @Component({

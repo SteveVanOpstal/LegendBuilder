@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import {Item} from '../../data/item';
+import {Item} from '../../models/item';
 
 import {LolApiService} from '../../services/lolapi.service';
 import {AppState} from '../../store/app.state';

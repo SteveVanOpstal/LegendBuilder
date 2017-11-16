@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {QueryList, ViewChildren} from '@angular/core';
 
-import {Item} from '../../../../../data/item';
+import {Item} from '../../../../../models/item';
 import {ItemComponent} from '../../shared/item/item.component';
 
 @Component({

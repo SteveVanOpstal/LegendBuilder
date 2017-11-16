@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 
-import {Item} from '../../data/item';
-import {type} from '../../store/util';
+import {Item} from '../../models/item';
+import {type} from '../util';
 
 export const ActionTypes = {
   SET_ITEMS: type<'SET_ITEMS'>('SET_ITEMS'),

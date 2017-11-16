@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {Item} from '../../../data/item';
+import {Item} from '../../../models/item';
 import {BuildSandbox} from '../build.sandbox';
 
 import {PreviewComponent} from './preview/preview.component';

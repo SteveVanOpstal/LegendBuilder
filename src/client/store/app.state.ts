@@ -1,4 +1,4 @@
-import {Item} from '../data/item';
+import {Item} from '../models/item';
 
 export interface AppState { items: Array<Item>; }
 

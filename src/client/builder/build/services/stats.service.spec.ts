@@ -3,8 +3,8 @@ import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 
-import {Item} from '../../../data/item';
-import {Samples} from '../../../data/samples';
+import {Item} from '../../../models/item';
+import {Samples} from '../../../models/samples';
 import {LolApiService} from '../../../services/lolapi.service';
 import {MockRouter, TestModule} from '../../../testing';
 import {BuildSandbox} from '../build.sandbox';

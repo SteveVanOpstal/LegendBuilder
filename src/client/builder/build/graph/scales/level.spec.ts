@@ -1,4 +1,4 @@
-import {Samples} from '../../../../data/samples';
+import {Samples} from '../../../../models/samples';
 
 import {LevelScale} from './level';
 
