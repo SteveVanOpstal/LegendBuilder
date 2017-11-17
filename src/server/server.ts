@@ -48,8 +48,9 @@ export class Server {
 
   private ssl = {cert: '', key: ''};
   private apiKey = '';
+  private port = 8080;
 
-  constructor(private port: number, cacheSettings?: any, private preRun?: () => void) {
+  constructor(cacheSettings?: any, private preRun?: () => void) {
     const argv = minimist(process.argv.slice(2));
 
     this.apiKey = Helpers.readFile(argv['api']);
@@ -66,6 +67,8 @@ export class Server {
       this.ssl.key = file;
       this.restart();
     });
+
+    this.port = argv['port'];
 
     this.cache = lru(Object.assign(
         {}, {max: 67108864, length: n => n.length * 2, maxAge: 1000 * 60 * 60 * 2}, cacheSettings));

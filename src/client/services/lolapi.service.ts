@@ -128,13 +128,9 @@ export class LolApiService {
   private getEndpoint(endpoint: Endpoint): string {
     switch (endpoint) {
       case Endpoint.static:
-        return environment.production ?
-            'https://' + settings.domain + '/staticapi/' :
-            'https://' + settings.host + ':' + settings.static.port + '/';
+        return 'https://' + settings.domain + '/staticapi/';
       default:
-        return environment.production ?
-            'https://' + settings.domain + '/matchapi/' :
-            'https://' + settings.host + ':' + settings.match.port + '/';
+        return 'https://' + settings.domain + '/matchapi/';
     }
   }
 

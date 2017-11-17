@@ -232,7 +232,7 @@ export class StatsService {
         return a.time > b.time ? 1 : -1;
       });
       const last = arr[arr.length - 1];
-      arr.push({time: settings.gameTime, value: last.value});
+      arr.push({time: settings.match.gameTime, value: last.value});
       result[name] = arr;
     }
     return result;
@@ -245,7 +245,7 @@ export class StatsService {
     }
     this.levelTimeMarks = [];
     for (const xpMark of config.levelXp) {
-      this.levelTimeMarks.push(Math.round(xpMark / lastXpMark * settings.gameTime));
+      this.levelTimeMarks.push(Math.round(xpMark / lastXpMark * settings.match.gameTime));
     }
   }
 }

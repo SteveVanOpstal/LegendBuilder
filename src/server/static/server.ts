@@ -6,7 +6,7 @@ import {settings} from '../../../config/settings';
 import {Helpers} from '../helpers';
 import {HostResponse, Server} from '../server';
 
-const server = new Server(settings.static.port, undefined, () => {
+const server = new Server(undefined, () => {
   getShardDataByRegion();
 });
 

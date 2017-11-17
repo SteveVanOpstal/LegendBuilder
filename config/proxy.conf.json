@@ -1,0 +1,16 @@
+{
+  "/staticapi": {
+    "target": "https://localhost:8080",
+    "secure": true,
+    "pathRewrite": {
+      "^/staticapi": ""
+    }
+  },
+  "/matchapi": {
+    "target": "https://localhost:8081",
+    "secure": true,
+    "pathRewrite": {
+      "^/matchapi": ""
+    }
+  }
+}

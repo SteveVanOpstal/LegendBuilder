@@ -13,15 +13,15 @@ export class TimeAxis implements Axis {
                     .tickSize(tickSize)
                     .tickValues(this.createTimeMarks())
                     .tickFormat((d: number) => {
-                      return Math.floor(d / settings.gameTime) + ':' +
-                          ('00' + Math.floor((d % settings.gameTime) / 60000)).slice(-2);
+                      return Math.floor(d / settings.match.gameTime) + ':' +
+                          ('00' + Math.floor((d % settings.match.gameTime) / 60000)).slice(-2);
                     });
   }
 
   createTimeMarks() {
     const timeMarks: Array<number> = [];
     let i = 0;
-    while (i <= settings.gameTime) {
+    while (i <= settings.match.gameTime) {
       timeMarks.push(i);
       i += config.timeInterval;
     }

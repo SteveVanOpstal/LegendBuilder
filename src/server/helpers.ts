@@ -11,7 +11,7 @@ export class Helpers {
       const console = new ColorConsole();
       console.error('`' + filename + '` missing or inaccesible');
       console.error(e);
-      return undefined;
+      return 'API key missing';
     }
   }
 

@@ -2,7 +2,7 @@
 Description=Node.js Static server
 
 [Service]
-ExecStart=/usr/bin/node /srv/static-server.js --api=/srv/api.key --cert=/etc/letsencrypt/live/legendbuilder.io/fullchain.pem --key=/etc/letsencrypt/live/legendbuilder.io/privkey.pem
+ExecStart=/usr/bin/node /srv/static-server.js --api=/srv/api.key --cert=/etc/letsencrypt/live/legendbuilder.io/fullchain.pem --key=/etc/letsencrypt/live/legendbuilder.io/privkey.pem --port=8081
 WorkingDirectory=/
 Restart=always
 RestartSec=5                        # Restart service after 5 seconds if node service crashes

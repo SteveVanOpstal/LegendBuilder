@@ -137,32 +137,6 @@ xdescribe('LolApiService', () => {
            });
      })));
 
-  it('should get the correct resolved link to the static-server',
-     inject([LolApiService], (service) => {
-       expect(service.getEndpoint(Endpoint.static))
-           .toBe('https://' + settings.domain + ':' + settings.static.port + '/');
-     }));
-
-  it('should get the correct resolved link to the match-server',
-     inject([LolApiService], (service) => {
-       expect(service.getEndpoint(Endpoint.match))
-           .toBe('https://' + settings.domain + ':' + settings.match.port + '/');
-     }));
-
-  it('should get the correct resolved link to the static-server --prod',
-     inject([LolApiService], (service) => {
-       environment.production = true;
-       expect(service.getEndpoint(Endpoint.static))
-           .toBe('https://' + settings.domain + '/staticapi/');
-     }));
-
-  it('should get the correct resolved link to the match-server --prod',
-     inject([LolApiService], (service) => {
-       environment.production = true;
-       expect(service.getEndpoint(Endpoint.match))
-           .toBe('https://' + settings.domain + '/matchapi/');
-     }));
-
   it('should not get incorrect params', inject([LolApiService], (service) => {
        service.getParam(5).subscribe(
            () => {

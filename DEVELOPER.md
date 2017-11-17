@@ -23,50 +23,12 @@ npm install
 ### <a name="config"></a> 2. Configuration (optional)
 
 A few servers are set up for this project and the settings for them are available in the `src/server/settings.json` file.
-These are the default values that can be altered via an override:
-
-```json
-{
-    "host": "legendbuilder.io",
-    "port": null,
-    "static": {
-        "port": 8081
-    },
-    "match": {
-        "port": 8082,
-        "sampleSize": 32
-    },
-    "api": {
-        "regions": [
-            "ru",
-            "kr",
-            "pbe1",
-            "br1",
-            "oc1",
-            "jp1",
-            "na1",
-            "eun1",
-            "euw1",
-            "tr1",
-            "la1"
-        ],
-        "versions": {
-            "summoner": "v3",
-            "match": "v3",
-            "static-data": "v3",
-            "status": "v3"
-        }
-    },
-    "gameTime": 2700000
-}
-```
-
 The following setup is probably useful:
 
 ```json
 {
   "host": "localhost",
-  "port": 8080
+  "port": 4200
 }
 ```
 

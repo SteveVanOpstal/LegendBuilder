@@ -76,7 +76,7 @@ describe('Match', () => {
     const serverResponse: any = new MockServerResponse();
 
     match.get(
-        'euw', 'DinosHaveNoLife', '123', settings.gameTime, settings.match.sampleSize,
+        'euw', 'DinosHaveNoLife', '123', settings.match.gameTime, settings.match.sampleSize,
         incomingMessage, serverResponse);
 
     expect(serverResponse.getHeader('Content-Encoding')).toBe('gzip');

@@ -91,7 +91,7 @@ export class PickedItemsService {
     for (const item of items) {
       const itemGold = (item.gold.total * item.bundle) - item.discount;
       item.time = this.getTime(
-          samples.gold, goldOffset + itemGold, settings.gameTime, settings.match.sampleSize);
+          samples.gold, goldOffset + itemGold, settings.match.gameTime, settings.match.sampleSize);
       goldOffset += itemGold;
     }
     return items;

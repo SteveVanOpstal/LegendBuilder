@@ -101,7 +101,7 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
       paths[name] = [];
       for (const i of Object.keys(samples[name])) {
         const index = parseInt(i, 10);
-        const time = index * (settings.gameTime / (settings.match.sampleSize - 1));
+        const time = index * (settings.match.gameTime / (settings.match.sampleSize - 1));
         const value = samples[name][index];
         paths[name].push({time: time, value: value});
       }
