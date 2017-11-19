@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# pre-commit git hook
+#  - check `npm run format` output
+#  - check `npm run lint` output
+
+git diff --cached --name-only --diff-filter=ACMRT | grep "\.[js|ts]$"
+
+git diff --cached --name-only --diff-filter=ACMRT | grep "\.[js|ts]$" | xargs -n1 npm run clang-format -- -style=file -output-replacements-xml | grep "<replacement " | wc -l
+if [ $? -ne 0 ]
+then
+    echo "Commit did not match clang-format"
+    echo "Run 'npm run format' before committing or check 'DEVELOPER.md' for a formatter tool"
+    exit 1;
+fi
+
+git diff --cached --name-only --diff-filter=ACMRT | grep "\.[js|ts]$" | xargs -n1 npm run lint
+if [ $? -ne "True" ]
+then
+    echo "Tslint failed"
+    echo "Fix the issues by checking the output of 'npm run lint'"
+    exit 1;
+fi
