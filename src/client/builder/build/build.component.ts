@@ -17,7 +17,7 @@ import {ShopComponent} from './shop/shop.component';
         <h2>{{ c.name }}</h2>
       </div>
       <lb-loading [observable]="sb.champion$">
-        <lb-graph></lb-graph>
+        <lb-graph-container></lb-graph-container>
         <!--<lb-abilities></lb-abilities>
         <lb-masteries></lb-masteries>-->
         <lb-inventory (itemSelected)="shop.selectItem($event)" #items></lb-inventory>

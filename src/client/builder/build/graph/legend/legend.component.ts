@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
-import {Line} from '../line.component';
+import {Line} from '../line/line.component';
 
 @Component({
   selector: 'lb-legend',

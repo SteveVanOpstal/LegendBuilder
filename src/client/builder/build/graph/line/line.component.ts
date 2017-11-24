@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {bisector} from 'd3-array';
 import {CurveFactory, curveLinear, line} from 'd3-shape';
 
-import {DataScale, TimeScale} from './scales';
+import {DataScale, TimeScale} from '../scales';
 
 export interface Line {
   enabled: boolean;
@@ -24,7 +24,7 @@ export interface Line {
     </path>
     <svg:g class="focus"
            [ngClass]="{enabled: line?.enabled}"
-           [attr.transform]="'translate(' + focus.position.x + ',' + focus.position.y + ')'">
+           [attr.transform]="'translate(' + focusPosition.x + ',' + focusPosition.y + ')'">
       <circle r="3"></circle>
     </g>
   `
@@ -33,7 +33,7 @@ export class LineComponent implements OnChanges, OnInit {
   @Input() line: Line;
   d: string;
 
-  focus = {position: {x: 0, y: 0}};
+  focusPosition = {x: 0, y: 0};
 
   private xScale = new TimeScale([0, 1420]);
   private yScale = new DataScale([380, 0], [0, 4000]);
@@ -84,8 +84,8 @@ export class LineComponent implements OnChanges, OnInit {
       value += valueOffset;
     }
 
-    this.focus.position.x = offsetX;
-    this.focus.position.y = this.yScale.get()(value);
+    this.focusPosition.x = offsetX;
+    this.focusPosition.y = this.yScale.get()(value);
     this.line.currentValue = Math.round(value);
   }
 

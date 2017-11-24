@@ -1,24 +1,14 @@
-import {Component, ElementRef, Inject, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, Input, ElementRef, Inject, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {select} from 'd3-selection';
-import {CurveFactory, curveLinear, curveStepAfter} from 'd3-shape';
-
-import {settings} from '../../../../../config/settings';
-import {Samples} from '../../../models/samples';
-import {ReactiveComponent} from '../../../shared/reactive.component';
-import {BuildSandbox} from '../build.sandbox';
-import {StatsService} from '../services/stats.service';
 
 import {TimeAxis} from './axes';
-import {Line, LineComponent} from './line.component';
+import {Line, LineComponent} from './line/line.component';
 import {TimeScale} from './scales';
 
 @Component({
   selector: 'lb-graph',
   styleUrls: ['./graph.component.scss'],
   template: `
-    <lb-loading [observable]="sb.matchdata$">
-      <lb-legend [lines]="lines"></lb-legend>
-    </lb-loading>
     <svg xmlns="http://www.w3.org/2000/svg"
         width="100%"
         height="100%"
@@ -38,9 +28,9 @@ import {TimeScale} from './scales';
     </svg>`
 })
 
-export class GraphComponent extends ReactiveComponent implements OnInit {
+export class GraphComponent implements OnInit {
+  @Input() lines = new Array<Line>();
   dragging = false;
-  lines = new Array<Line>();
   @ViewChildren(LineComponent) lineComponents: QueryList<LineComponent>;
 
   private svg: any;
@@ -50,21 +40,12 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
 
   private mouseOffsetX: number;
 
-  constructor(
-      @Inject(ElementRef) private elementRef: ElementRef, public sb: BuildSandbox,
-      private stats: StatsService) {
-    super();
+  constructor(@Inject(ElementRef) private elementRef: ElementRef) {
   }
 
   ngOnInit() {
     this.svg = select(this.elementRef.nativeElement).select('svg');
     this.svg.select('.x.axis.time').call(this.xAxisTime.get());
-
-    this.stats.stats$.takeUntil(this.takeUntilDestroyed$)
-        .subscribe(stats => this.updateLines(stats, curveStepAfter));
-
-    this.sb.matchdata$.takeUntil(this.takeUntilDestroyed$)
-        .subscribe(samples => this.updateSamples(samples));
   }
 
   mousedown(event: MouseEvent) {
@@ -87,63 +68,6 @@ export class GraphComponent extends ReactiveComponent implements OnInit {
     const offsetX = this.xScaleTime.get().invert(event.offsetX - 60);
     this.lineComponents.forEach(line => {
       line.move(event.offsetX - 60, offsetX);
-    });
-  }
-
-  // @HostListener('window:resize')
-  // onResize() {
-  //   this.xScaleTime.update([0, this.svg.node().getBBox().width]);
-  // }
-
-  private updateSamples(samples: Samples) {
-    const paths = {};
-    for (const name of Object.keys(samples)) {
-      paths[name] = [];
-      for (const i of Object.keys(samples[name])) {
-        const index = parseInt(i, 10);
-        const time = index * (settings.match.gameTime / (settings.match.sampleSize - 1));
-        const value = samples[name][index];
-        paths[name].push({time: time, value: value});
-      }
-    }
-    this.updateLines(paths, curveLinear);
-  }
-
-  private updateLines(
-      paths: {[name: string]: Array<{time: number, value: number}>}, curve: CurveFactory) {
-    for (const name of Object.keys(paths)) {
-      this.updateLine(paths[name], curve, name);
-    }
-
-    for (let index = 0; index < this.lines.length; index++) {
-      if (this.lines[index].curve !== curve) {
-        continue;
-      }
-      const deleteLine = Object.keys(paths).findIndex((name) => {
-        return name === this.lines[index].name;
-      }) < 0;
-      if (deleteLine) {
-        this.lines.splice(index, 1);
-        index--;
-      }
-    }
-  }
-
-  private updateLine(
-      path: Array<{time: number, value: number}>, curve: CurveFactory, name: string) {
-    const lineIndex = this.findLine(name);
-    if (lineIndex >= 0 && this.lines[lineIndex].path !== path) {
-      const line = {...this.lines[lineIndex]};
-      line.path = path;
-      this.lines[lineIndex] = line;
-    } else {
-      this.lines.push(
-          {preview: false, enabled: true, name: name, path: path, curve: curve, currentValue: 0});
-    }
-  }
-  private findLine(name: string): number {
-    return this.lines.findIndex((path) => {
-      return path.name === name;
     });
   }
 }
